@@ -54,6 +54,7 @@ function parseArticle(raw: string, path: string): Article {
 		difficulty: asStr(data.difficulty, 'grundlagen') as Difficulty,
 		area: asArr(data.area) as Area[],
 		related: asArr(data.related),
+		rechner: asArr(data.rechner),
 		norm: asArr(data.norm),
 		updated: asStr(data.updated),
 		lang: asStr(data.lang, 'de'),

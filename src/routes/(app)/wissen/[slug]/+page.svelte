@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { areaLabels, difficultyLabels, difficultyColors } from '$lib/wissen/types';
+	import { rechnerMap } from '$lib/rechner';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -7,6 +8,9 @@
 	const article = $derived(data.article);
 	const html = $derived(data.html);
 	const related = $derived(data.related);
+	const tools = $derived(
+		(article.rechner ?? []).map((slug) => rechnerMap[slug]).filter(Boolean)
+	);
 </script>
 
 <svelte:head>
@@ -56,6 +60,30 @@
 	<div class="prose">
 		{@html html}
 	</div>
+
+	{#if tools.length}
+		<aside class="tools-section">
+			<h2>Rechner &amp; Tools</h2>
+			<div class="tools-list">
+				{#each tools as t}
+					<a href="/rechner/{t.slug}" class="tool-card">
+						<span class="tool-icon" style="background:{t.color}20; color:{t.color}">
+							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z" />
+							</svg>
+						</span>
+						<div class="tool-body">
+							<span class="tool-name">{t.name}</span>
+							<span class="tool-short">{t.short}</span>
+						</div>
+						<svg class="tool-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M9 18l6-6-6-6" />
+						</svg>
+					</a>
+				{/each}
+			</div>
+		</aside>
+	{/if}
 
 	{#if related.length}
 		<aside class="related">
@@ -370,5 +398,81 @@
 		font-size: 0.7rem;
 		color: var(--muted);
 		text-transform: capitalize;
+	}
+
+	/* ── Rechner & Tools ──────────────────────────── */
+	.tools-section {
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--border);
+	}
+
+	.tools-section h2 {
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		color: var(--muted);
+		margin: 0 0 0.75rem;
+	}
+
+	.tools-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.tool-card {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.75rem 1rem;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 0.625rem;
+		text-decoration: none;
+		transition: border-color 0.15s, box-shadow 0.15s;
+	}
+
+	.tool-card:hover {
+		border-color: var(--color-primary);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 12%, transparent);
+	}
+
+	.tool-icon {
+		width: 2rem;
+		height: 2rem;
+		border-radius: 0.375rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.tool-body {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.1rem;
+	}
+
+	.tool-name {
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--text);
+	}
+
+	.tool-short {
+		font-size: 0.75rem;
+		color: var(--muted);
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.tool-arrow {
+		color: var(--muted);
+		flex-shrink: 0;
 	}
 </style>

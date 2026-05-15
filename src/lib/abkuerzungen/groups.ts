@@ -19,7 +19,6 @@ export const conceptGroups: string[][] = [
 	['FBH', 'UFH'],
 	['TWW', 'DHW'],
 	['USV', 'UPS'],
-	['DDC', 'PLC'],
 	['EnEV', 'GEG']
 ];
 
@@ -36,8 +35,11 @@ export const langMap: Record<string, AbbrLang> = {
 	ASHRAE: 'en', LEED: 'en', DGNB: 'en', BREEAM: 'en',
 	UFH: 'en', DHW: 'en', MCB: 'en', MEP: 'en', UPS: 'en',
 	PLC: 'en', LWP: 'de',
+	DDC: 'en', 'EC-Motor': 'en',
+	IDA: 'en', ODA: 'en', SUP: 'en', ETA: 'en', EHA: 'en',
 
 	// International (Normen, Protokolle, technische Begriffe ohne Sprachzuordnung)
+	ΔT: 'intl',
 	'OPC UA': 'intl', GWP: 'intl', ODP: 'intl',
 	BACnet: 'intl', Modbus: 'intl', 'M-Bus': 'intl', 'wM-Bus': 'intl',
 	MQTT: 'intl', KNX: 'intl', EIB: 'intl', DALI: 'intl', 'DALI-2': 'intl', LON: 'intl',

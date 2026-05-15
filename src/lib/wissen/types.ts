@@ -10,6 +10,7 @@ export interface ArticleMeta {
 	difficulty: Difficulty;
 	area: Area[];
 	related: string[];
+	rechner: string[];
 	norm: string[];
 	updated: string;
 	lang: string;

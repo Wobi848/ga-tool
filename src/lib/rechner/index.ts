@@ -56,6 +56,13 @@ export const rechner: RechnerMeta[] = [
 		short: 'h-x Diagramm: alle Zustandsgrössen feuchte Luft',
 		icon: 'thermometer',
 		color: '#16a34a'
+	},
+	{
+		slug: 'pid-simulator',
+		name: 'PID-Simulator',
+		short: 'PT1 + Totzeit · Anti-Windup · HVAC-Presets · Echtzeit-Simulation',
+		icon: 'cpu',
+		color: '#7c3aed'
 	}
 ];
 
