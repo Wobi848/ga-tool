@@ -1,5 +1,11 @@
 import { ibnHeizung } from './data/ibn-heizung';
 import { ibnRLT } from './data/ibn-rlt';
+import { ibnKaelte } from './data/ibn-kaelte';
+import { ibnSanitaer } from './data/ibn-sanitaer';
+import { daliIbn } from './data/dali-ibn';
+import { netzwerkGA } from './data/netzwerk-ga';
+import { dplReview } from './data/dpl-review';
+import { funktionstest } from './data/funktionstest';
 import { gltUebergabe } from './data/glt-uebergabe';
 import { knxIbn } from './data/knx-ibn';
 import type { ChecklistTemplate } from './types';
@@ -7,6 +13,12 @@ import type { ChecklistTemplate } from './types';
 export const checklists: ChecklistTemplate[] = [
 	ibnHeizung,
 	ibnRLT,
+	ibnKaelte,
+	ibnSanitaer,
+	daliIbn,
+	netzwerkGA,
+	dplReview,
+	funktionstest,
 	knxIbn,
 	gltUebergabe
 ].sort((a, b) => a.title.localeCompare(b.title, 'de'));

@@ -333,4 +333,22 @@
 	.btn-secondary:hover { border-color: var(--muted); color: var(--text); }
 
 	.info { font-size: 0.7rem; color: var(--muted); margin-top: 0.75rem; opacity: 0.75; }
+
+	@media print {
+		:global(.sidebar), :global(.top-bar), :global(.bottom-nav) { display: none !important; }
+		:global(.main-wrapper) { margin-left: 0 !important; }
+		:global(.main-content) { padding: 0 !important; }
+
+		.action-bar, .btn-primary, .btn-secondary, .back-link { display: none !important; }
+		.item-note { display: none; }
+		.item-hint { display: block !important; }
+		.context-box, .progress-bar-wrap { border: 1px solid #ccc; }
+		.item.done .item-title { color: #555; }
+		.item.done .item-title::after { content: ' ✓'; color: #16a34a; }
+		.page { max-width: 100%; }
+		.section { page-break-inside: avoid; }
+		.section-header { background: #f5f5f5 !important; color: #000 !important; -webkit-print-color-adjust: exact; }
+		.critical-badge { background: #fee2e2 !important; color: #b91c1c !important; -webkit-print-color-adjust: exact; }
+		a[href]::after { content: ''; }
+	}
 </style>

@@ -3,11 +3,16 @@
 
 	let isOnline = $state(true);
 	let showOfflineReady = $state(false);
+	let isStandalone = $state(false);
 	let installPromptEvent: (Event & { prompt: () => Promise<void> }) | null = $state(null);
 	let installDismissed = $state(false);
 
 	onMount(() => {
 		let unsubOffline: (() => void) | undefined;
+
+		isStandalone =
+			window.matchMedia('(display-mode: standalone)').matches ||
+			('standalone' in navigator && (navigator as Navigator & { standalone: boolean }).standalone);
 
 		// Dynamic import keeps navigator/SW calls out of SSR
 		import('virtual:pwa-register/svelte').then(({ useRegisterSW }) => {
@@ -52,7 +57,7 @@
 	}
 </script>
 
-{#if !isOnline}
+{#if !isOnline && isStandalone}
 	<div class="offline-banner" role="status" aria-live="polite">
 		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
 			<line x1="1" y1="1" x2="23" y2="23" />

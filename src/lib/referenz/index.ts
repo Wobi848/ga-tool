@@ -7,6 +7,13 @@ import { motorIE } from './data/motor-ie';
 import { kaeltemittel } from './data/kaeltemittel';
 import { materialEigenschaften } from './data/material-eigenschaften';
 import { normaussentemp } from './data/normaussentemp';
+import { modbusCodes } from './data/modbus-codes';
+import { bacnetObjekte } from './data/bacnet-objekte';
+import { daliGeraetetypen } from './data/dali-geraetetypen';
+import { steuerkabel } from './data/steuerkabel';
+import { siaRaumtemperaturen } from './data/sia-raumtemperaturen';
+import { alarmRichtwerte } from './data/alarm-richtwerte';
+import { temperaturspreizungen } from './data/temperaturspreizungen';
 import type { ReferenceTable } from './types';
 
 export const referenceTables: ReferenceTable[] = [
@@ -18,7 +25,14 @@ export const referenceTables: ReferenceTable[] = [
 	motorIE,
 	kaeltemittel,
 	materialEigenschaften,
-	normaussentemp
+	normaussentemp,
+	modbusCodes,
+	bacnetObjekte,
+	daliGeraetetypen,
+	steuerkabel,
+	siaRaumtemperaturen,
+	alarmRichtwerte,
+	temperaturspreizungen
 ].sort((a, b) => a.title.localeCompare(b.title, 'de'));
 
 export const referenceMap: Record<string, ReferenceTable> = Object.fromEntries(

@@ -9,7 +9,7 @@ export default defineConfig({
 		sveltekit(),
 		VitePWA({
 			registerType: 'autoUpdate',
-			devOptions: { enabled: true },
+			devOptions: { enabled: false },
 			manifest: {
 				name: 'GA Tool',
 				short_name: 'GA Tool',

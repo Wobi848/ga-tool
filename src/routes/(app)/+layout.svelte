@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
+	import { browser } from '$app/environment';
 	import { converterMap } from '$lib/converters';
 	import { rechnerMap } from '$lib/rechner';
 	import { articleMap } from '$lib/wissen/articles';
@@ -15,6 +17,20 @@
 	let { children, data } = $props();
 
 	let searchOpen = $state(false);
+
+	const CURRENT_VERSION = '0.6.0';
+	const STORAGE_KEY = 'ga-tool-seen-version';
+	let showUpdateBanner = $state(false);
+
+	onMount(() => {
+		const seen = localStorage.getItem(STORAGE_KEY);
+		if (seen !== CURRENT_VERSION) showUpdateBanner = true;
+	});
+
+	function dismissBanner() {
+		localStorage.setItem(STORAGE_KEY, CURRENT_VERSION);
+		showUpdateBanner = false;
+	}
 
 	function handleGlobalKey(e: KeyboardEvent) {
 		if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
@@ -31,11 +47,32 @@
 				searchOpen = true;
 			}
 		}
+		// 1-7 navigate to nav items
+		const num = parseInt(e.key);
+		if (num >= 1 && num <= 7 && !e.ctrlKey && !e.metaKey && !e.altKey && !searchOpen) {
+			const target = e.target as HTMLElement | null;
+			const tag = target?.tagName;
+			if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT' && !target?.isContentEditable) {
+				e.preventDefault();
+				goto(navItems[num - 1].href);
+			}
+		}
 	}
 
 	onMount(() => {
 		window.addEventListener('keydown', handleGlobalKey);
 		return () => window.removeEventListener('keydown', handleGlobalKey);
+	});
+
+	// Analytics — fire-and-forget on every navigation
+	$effect(() => {
+		const pathname = $page.url.pathname;
+		fetch('/api/track', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ path: pathname }),
+			keepalive: true
+		}).catch(() => {});
 	});
 
 	// Central recent-items tracking — runs after each navigation
@@ -135,6 +172,9 @@
 				{@render Icon({ name: 'log-out', size: 18 })}
 				<span>{$_('auth.logout')}</span>
 			</button>
+			<a href="/changelog" class="version-link" class:active={isActive('/changelog')}>
+				v0.6.0
+			</a>
 		</div>
 	</aside>
 
@@ -158,6 +198,18 @@
 				<a href="/profil" class="user-badge">{data.user.email}</a>
 			</div>
 		</header>
+
+		{#if showUpdateBanner}
+			<div class="update-banner" role="status">
+				<span class="update-icon">✦</span>
+				<span class="update-text">
+					<strong>Neu in v{CURRENT_VERSION}:</strong>
+					PID-Simulator, 16 neue Wissensartikel, RS-485/CAN/PROFIBUS/Matter, Changelog, Tastaturkürzel
+				</span>
+				<a href="/changelog" class="update-link" onclick={dismissBanner}>Changelog</a>
+				<button type="button" class="update-close" onclick={dismissBanner} aria-label="Schliessen">×</button>
+			</div>
+		{/if}
 
 		<main class="main-content">
 			{@render children()}
@@ -346,6 +398,25 @@
 		color: var(--muted);
 	}
 
+	.version-link {
+		display: block;
+		text-align: center;
+		font-size: 0.6875rem;
+		color: var(--muted);
+		text-decoration: none;
+		padding: 0.375rem 0.75rem;
+		border-radius: 0.375rem;
+		letter-spacing: 0.03em;
+		transition: color 0.15s, background 0.15s;
+		margin-top: 2px;
+	}
+
+	.version-link:hover,
+	.version-link.active {
+		color: var(--color-primary);
+		background: color-mix(in srgb, var(--color-primary) 8%, transparent);
+	}
+
 	/* ── Main ── */
 	.main-wrapper {
 		margin-left: 220px;
@@ -482,5 +553,70 @@
 
 	.bottom-nav-item.active {
 		color: var(--color-primary);
+	}
+
+	/* ── Update Banner ── */
+	.update-banner {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		padding: 0.6rem 1.5rem;
+		background: color-mix(in srgb, var(--color-primary) 10%, var(--surface));
+		border-bottom: 1px solid color-mix(in srgb, var(--color-primary) 25%, transparent);
+		font-size: 0.8125rem;
+		color: var(--text);
+		flex-shrink: 0;
+	}
+
+	.update-icon {
+		color: var(--color-primary);
+		font-size: 0.875rem;
+		flex-shrink: 0;
+	}
+
+	.update-text {
+		flex: 1;
+		line-height: 1.4;
+	}
+
+	.update-text strong {
+		color: var(--color-primary);
+	}
+
+	.update-link {
+		color: var(--color-primary);
+		text-decoration: none;
+		font-weight: 500;
+		white-space: nowrap;
+		padding: 0.2rem 0.5rem;
+		border-radius: 0.25rem;
+		border: 1px solid color-mix(in srgb, var(--color-primary) 40%, transparent);
+		transition: background 0.15s;
+	}
+
+	.update-link:hover {
+		background: color-mix(in srgb, var(--color-primary) 12%, transparent);
+	}
+
+	.update-close {
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: var(--muted);
+		font-size: 1.25rem;
+		line-height: 1;
+		padding: 0 0.25rem;
+		flex-shrink: 0;
+		transition: color 0.15s;
+	}
+
+	.update-close:hover {
+		color: var(--text);
+	}
+
+	@media (max-width: 540px) {
+		.update-text {
+			font-size: 0.75rem;
+		}
 	}
 </style>

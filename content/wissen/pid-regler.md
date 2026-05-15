@@ -7,6 +7,7 @@ tags: [pid, p-regler, i-regler, d-regler, regelkreis, tuning, sprungantwort, zie
 difficulty: grundlagen
 area: [hlk, ga]
 related: [regelkreise, heizkurve, kv-wert]
+rechner: [pid-simulator]
 norm: []
 updated: 2026-05-14
 lang: de

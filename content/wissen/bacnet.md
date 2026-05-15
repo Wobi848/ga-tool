@@ -6,7 +6,7 @@ subcategory: gebäudeautomation
 tags: [bacnet, bacnet-ip, mstp, who-is, i-am, cov, bbmd, objekobjekte, properties, device, analog-input, binary-output, schedule, trend, priority-array]
 difficulty: fortgeschritten
 area: [ga, it]
-related: [modbus, knx, opc-ua]
+related: [modbus, knx, opc-ua, iec61850]
 norm: [ASHRAE 135, ISO 16484-5, EN ISO 16484-5]
 updated: 2026-05-14
 lang: de

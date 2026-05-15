@@ -6,7 +6,7 @@ subcategory: erzeuger
 tags: [wärmepumpe, cop, scop, kältemittel, verdichter, verdampfer, verflüssiger, expansionsventil, sole-wasser, luft-wasser, wasser-wasser, inverter, heizstab, sperrzeiten, sg-ready]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [heizkurve, druckverlust, hydraulischer-abgleich]
+related: [heizkurve, druckverlust, hydraulischer-abgleich, sg-ready, pv-integration, ems-lastmanagement]
 norm: [EN 14511, EN 14825, VDI 4645]
 updated: 2026-05-14
 lang: de

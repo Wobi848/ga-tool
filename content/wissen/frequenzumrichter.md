@@ -6,7 +6,7 @@ subcategory: antriebe
 tags: [frequenzumrichter, fu, vfd, umrichter, drehzahlregelung, u-f-kennlinie, pid, motordrehzahl, pumpe, ventilator, emv, modbus, bacnet, anlaufstrom, energiesparen]
 difficulty: fortgeschritten
 area: [hlk, elektro, ga]
-related: [pid-regler, modbus, bacnet]
+related: [pid-regler, modbus, bacnet, profibus, can-bus]
 norm: [IEC 61800, EN 55011, EN 61000, VDE 0160]
 updated: 2026-05-14
 lang: de
