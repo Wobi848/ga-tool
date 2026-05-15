@@ -88,7 +88,10 @@
 			</svg>
 			Alle Rechner
 		</a>
-		<h1 class="calc-title">Psychrometrie h-x</h1>
+		<div class="calc-title-row">
+			<h1 class="calc-title">Psychrometrie h-x</h1>
+			<FavButton type="rechner" slug="psychrometrie" title="Psychrometrie h-x" size={20} />
+		</div>
 	</header>
 
 	<div class="calc-section">

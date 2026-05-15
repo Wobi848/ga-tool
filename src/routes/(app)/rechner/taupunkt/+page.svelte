@@ -20,7 +20,10 @@
 			</svg>
 			Alle Rechner
 		</a>
-		<h1 class="calc-title">Taupunkt</h1>
+		<div class="calc-title-row">
+			<h1 class="calc-title">Taupunkt</h1>
+			<FavButton type="rechner" slug="taupunkt" title="Taupunkt" size={20} />
+		</div>
 	</header>
 
 	<div class="calc-section">

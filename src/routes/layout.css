@@ -189,11 +189,18 @@
 	color: var(--color-primary);
 }
 
+.calc-title-row {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
 .calc-title {
 	font-size: 1.5rem;
 	font-weight: 700;
 	color: var(--text);
 	margin: 0;
+	flex: 1;
 }
 
 .calc-section {

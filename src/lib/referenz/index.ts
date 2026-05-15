@@ -14,6 +14,7 @@ import { steuerkabel } from './data/steuerkabel';
 import { siaRaumtemperaturen } from './data/sia-raumtemperaturen';
 import { alarmRichtwerte } from './data/alarm-richtwerte';
 import { temperaturspreizungen } from './data/temperaturspreizungen';
+import { knxDpt } from './data/knx-dpt';
 import type { ReferenceTable } from './types';
 
 export const referenceTables: ReferenceTable[] = [
@@ -32,7 +33,8 @@ export const referenceTables: ReferenceTable[] = [
 	steuerkabel,
 	siaRaumtemperaturen,
 	alarmRichtwerte,
-	temperaturspreizungen
+	temperaturspreizungen,
+	knxDpt
 ].sort((a, b) => a.title.localeCompare(b.title, 'de'));
 
 export const referenceMap: Record<string, ReferenceTable> = Object.fromEntries(

@@ -1,0 +1,146 @@
+Gebäudeautomation: Themen und Termine
+
+Die wichtigsten Videos haben ein * vor dem Namen. Diese bitte vor dem jeweiligen Termin ansehen. Es gibt nicht zu allen Themen Videos.
+
+8. April 2025
+	
+
+Überblick. Anforderungen
+* Gebäudeautomation; Überblick 12:49
+* Gebäudeautomation; Definition, Struktur 15:02
+* Gebäudeautomation wozu und wie 6:10
+* Energieeinsparung durch Gebäudeautomation 24:41
+* Gebäudeenergiegesetz (GEG), Stand April 2022 27:53
+* Gebäudeautomation, was braucht der Mensch 8:32
+* Temperatur und Behaglichkeit 26:49
+* Luftfeuchtigkeit 9:51
+* CO2 und andere Schadstoffe in der Luft 14:17
+* CO2 in Raumluft ohne und mit Lüften; Beispielrechnung 8:30
+Der respiratorische Quotient; Atmung, Sauerstoff und Kohlendioxid 10:20
+Schall durch Lüftung 3:44
+Weitere Themen: Graue Energie und Nachhaltigkeit; EU-Gebäudeeffizienzrichtlinie (EPBD) 2024; Gebäudeenergiegesetz (GEG) 2023
+
+15. April 2025
+	
+
+Heizlast
+* Heizlastberechnung 20:33
+Heizlast und Aufheizleistung 33:16
+* Heizlast, Beispielrechnung 13:54
+* Heizlast; Außenfläche im Verhältnis zum Volumen 3:53
+* Warmwasserbedarf 4:11
+* Thermische Simulation mit RC-Netzen 15:29
+* Gradtage und Gradtagzahlen 35:26
+Weitere Themen: Energiebedarfsberechnung, Ausnutzungsgrad der Wärmequellen
+
+22. April 2025
+	
+
+Heizung
+* einfacher Heizkreis 3:33
+* Brennwertkessel 9:19
+* Wärmepumpen 16:46
+* Heizflächen, Heizkörper 7:15
+10E.8 logarithmische Übertemperatur; Differentialgleichung für Heizkörper 28:27
+* Heizkurve 22:33
+* Pumpenkennlinie, Anlagenkennlinie der Heizung 15:10
+* Heizleistung und Pumpenleistung 12:25
+* Regelung der Pumpen-Warmwasserheizung 10:12
+* Umwälzpumpe regeln 7:57
+* bis 10:16 Wärmeleitungsgleichung; Schichtenspeicher 53:01
+Weiteres Thema: saisonale thermische Speicher
+
+29. April 2025
+	
+
+Ventile und Hydraulik
+* Stellventil, Durchflussfaktor, Hub 14:15
+* Hydraulik, Stellventil und Heizkörper, Teil 1 6:58
+* Hydraulik, Stellventil und Heizkörper, Teil 2 28:28
+* Ventilautorität 21:19
+* Hydraulische Grundschaltungen 19:06
+Weiteres Thema: hydraulische Weiche
+
+6. Mai 2025
+	
+
+Raumlufttechnik: Grundlagen und Komponenten
+* Raumlufttechnik; Begriffe; Größenordnungen 17:33
+* Feuchte Luft; h,x-Diagramm 39:25
+Feuchtegehalt und relative Luftfeuchtigkeit im h,x-Diagramm 28:28
+* Taupunkt- und Feuchtkugeltemperatur 9:51
+* Geräte der Raumlufttechnik im h,x-Diagramm 17:11
+Heizleistung und Luftfeuchtigkeit beim Erwärmen 15:36
+Enthalpieänderung durch Dampfbefeuchtung 25:12
+Kühlung mit Entfeuchtung 20:56
+Weiteres Thema: Blätter und Motoren von Ventilatoren
+
+13. Mai 2025
+	
+
+Raumlufttechnik: Systeme
+* Regelstrategie der Klimaanlage 7:05
+* Grundaufbau der Klimaanlage 9:42
+* Wärmerückgewinnung 41:41
+* Kühlen mittels Verdunstung statt Kältemaschine 16:33
+Weiteres Thems: Kennzahlen der Wärme-/Feuchterückgewinnung
+
+20. Mai 2025
+	
+
+Klassische Regelung
+* Diagramme in der Gebäudeautomation 8:15
+* Grundzüge der Regelung einer Klimaanlage 19:59
+* P- und PI-Regler; Einstellung nach Ziegler-Nichols 25:40
+* P-Regler, Kennlinien noch einmal im Detail 17:58
+* P-Regler, PI-Regler, Windup 34:43
+* Kaskadenregelung; Stellregler; Dreipunktregler 21:29
+* Regelung für Teilklimaanlage mit Wärmerückgewinnung 16:48
+* Regelung einer Solaranlage mit Pufferspeicher 12:07
+* Regelung einer Low-Flow-Solaranlage 10:42
+Weitere Themen: Taupunktregelung, direkte Feuchteregelung; Legionellen; Frischwasserstation
+
+27. Mai 2025
+	
+
+"Intelligente" Regelung
+* Model Predictive Control (MPC) in der Gebäudeautomation 42:22
+* Reinforcement Learning in der Gebäudeautomation 27:51
+
+3. Juni 2025
+	
+
+Building Information Model
+Planungs- und Managementsoftware, Standards; digitaler Zwilling
+
+10. Juni 2025
+	
+
+IT in der Gebäudeautomation
+* Begriff Bus in der Gebäudeautomation 6:41
+* KNX 6:30
+* BACnet 2:05
+* Grundlagen der SPS (speicherprogrammierbare Steuerung) 23:23
+Weitere Themen: andere Busse; Funkvernetzung; Controller; Sicherheit; Technisches Monitoring
+
+17. Juni 2025
+	
+
+Raum- und Heimautomation
+* Raumautomation 12:14
+* Assistenzfunktionen von Gebäuden; AAL 4:46
+* Smart Home 1:59
+* Heimautomation 8:52
+Weiteres Thema: Beispiele für Smart-Home-Software
+
+24. Juni 2025
+	
+
+Wiederholung
+
+1. Juli 2025
+	
+
+Forschungsthemen
+* Mensch-Maschine-Schnittstellen in der Gebäudeautomation 11:42
+Weitere Themen: natürliche Lüftung, Gebäude ohne Elektronik; Wasserstoff; Klimawandel, Resilienz; Aktuelles aus der Fachliteratur

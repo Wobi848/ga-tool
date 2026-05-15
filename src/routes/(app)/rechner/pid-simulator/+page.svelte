@@ -2,6 +2,7 @@
   import { onDestroy } from 'svelte';
   import { PIDSim, fmt } from '$lib/pid/simulation.svelte.js';
   import Chart from '$lib/pid/Chart.svelte';
+  import FavButton from '$lib/components/FavButton.svelte';
 
   const sim = new PIDSim();
 
@@ -58,6 +59,7 @@
         <span class="dot"></span>
         {sim.running ? 'RUN' : 'HOLD'} · {sim.display.status}
       </div>
+      <FavButton type="rechner" slug="pid-simulator" title="PID-Simulator" size={20} />
     </div>
     <p class="subtitle">PT1 + Totzeit Streckenmodell · Anti-Windup · HVAC-Presets</p>
   </header>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { areaLabels } from '$lib/wissen/types';
+	import FavButton from '$lib/components/FavButton.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -73,7 +74,10 @@
 			</svg>
 			Alle Tabellen
 		</a>
-		<h1>{table.title}</h1>
+		<div class="title-row">
+			<h1>{table.title}</h1>
+			<FavButton type="referenz" slug={table.slug} title={table.title} size={20} />
+		</div>
 		{#if table.subtitle}
 			<p class="subtitle">{table.subtitle}</p>
 		{/if}
@@ -216,11 +220,19 @@
 		color: var(--color-primary);
 	}
 
+	.title-row {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		margin-bottom: 0.25rem;
+	}
+
 	h1 {
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: var(--text);
-		margin: 0 0 0.25rem;
+		margin: 0;
+		flex: 1;
 	}
 
 	.subtitle {

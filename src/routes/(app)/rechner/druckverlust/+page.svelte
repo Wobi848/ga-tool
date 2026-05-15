@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import FavButton from '$lib/components/FavButton.svelte';
 
 	// Inputs
 	let flow = $state(1.0); // m³/h
@@ -58,7 +59,10 @@
 			</svg>
 			Alle Rechner
 		</a>
-		<h1 class="calc-title">Druckverlust Rohrnetz</h1>
+		<div class="calc-title-row">
+			<h1 class="calc-title">Druckverlust Rohrnetz</h1>
+			<FavButton type="rechner" slug="druckverlust" title="Druckverlust Rohrnetz" size={20} />
+		</div>
 	</header>
 
 	<div class="calc-section">

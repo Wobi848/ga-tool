@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import FavButton from '$lib/components/FavButton.svelte';
 
 	// Inputs
 	let vA = $state(500); // Anlageninhalt [l]
@@ -61,7 +62,10 @@
 			</svg>
 			Alle Rechner
 		</a>
-		<h1 class="calc-title">Ausdehnungsgefäss</h1>
+		<div class="calc-title-row">
+			<h1 class="calc-title">Ausdehnungsgefäss</h1>
+			<FavButton type="rechner" slug="ausdehnungsgefaess" title="Ausdehnungsgefäss" size={20} />
+		</div>
 	</header>
 
 	<div class="calc-section">

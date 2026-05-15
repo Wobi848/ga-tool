@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import FavButton from '$lib/components/FavButton.svelte';
 
 	// EN 16798-1 Kategorien (Aussenluftvolumenstrom pro Person + pro m² Boden)
 	type Cat = 'I' | 'II' | 'III' | 'IV';
@@ -52,7 +53,10 @@
 			</svg>
 			Alle Rechner
 		</a>
-		<h1 class="calc-title">Luftbedarf</h1>
+		<div class="calc-title-row">
+			<h1 class="calc-title">Luftbedarf</h1>
+			<FavButton type="rechner" slug="luftbedarf" title="Luftbedarf" size={20} />
+		</div>
 	</header>
 
 	<div class="calc-section">

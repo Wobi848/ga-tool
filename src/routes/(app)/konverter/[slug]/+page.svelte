@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { onMount, untrack } from 'svelte';
+	import FavButton from '$lib/components/FavButton.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -123,7 +124,10 @@
 			</svg>
 			Alle Konverter
 		</a>
-		<h1>{converter.name}</h1>
+		<div class="title-row">
+			<h1>{converter.name}</h1>
+			<FavButton type="konverter" slug={converter.slug} title={converter.name} size={20} />
+		</div>
 	</header>
 
 	{#if converter.contextInput}
@@ -226,11 +230,18 @@
 		color: var(--color-primary);
 	}
 
+	.title-row {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
 	h1 {
 		font-size: 1.5rem;
 		font-weight: 700;
 		color: var(--text);
 		margin: 0;
+		flex: 1;
 	}
 
 	/* Context input (temperature for humidity) */

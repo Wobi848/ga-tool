@@ -3,6 +3,7 @@
 	import { loadChecklistState, saveChecklistState, resetChecklistState } from '$lib/checklisten/stores';
 	import { countItems, countCritical } from '$lib/checklisten';
 	import { areaLabels } from '$lib/wissen/types';
+	import FavButton from '$lib/components/FavButton.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -134,7 +135,10 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" /></svg>
 			Alle Checklisten
 		</a>
-		<h1>{template.title}</h1>
+		<div class="title-row">
+			<h1>{template.title}</h1>
+			<FavButton type="checkliste" slug={template.slug} title={template.title} size={20} />
+		</div>
 		{#if template.subtitle}<p class="subtitle">{template.subtitle}</p>{/if}
 
 		<div class="meta-chips">
@@ -266,7 +270,8 @@
 	.page-header { margin-bottom: 1rem; }
 	.back-link { display: inline-flex; align-items: center; gap: 0.25rem; font-size: 0.8125rem; color: var(--muted); text-decoration: none; margin-bottom: 0.5rem; }
 	.back-link:hover { color: var(--color-primary); }
-	h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0 0 0.25rem; }
+	.title-row { display: flex; align-items: flex-start; gap: 0.5rem; margin-bottom: 0.25rem; }
+	h1 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0; flex: 1; }
 	.subtitle { color: var(--muted); font-size: 0.875rem; margin: 0 0 0.5rem; }
 	.meta-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.5rem 0; }
 	.cat-chip, .area-chip, .norm-chip { font-size: 0.7rem; font-weight: 600; padding: 0.18rem 0.55rem; border-radius: 0.3rem; }

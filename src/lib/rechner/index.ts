@@ -63,6 +63,55 @@ export const rechner: RechnerMeta[] = [
 		short: 'PT1 + Totzeit · Anti-Windup · HVAC-Presets · Echtzeit-Simulation',
 		icon: 'cpu',
 		color: '#7c3aed'
+	},
+	{
+		slug: 'leitungslaenge',
+		name: 'Leitungslänge & Spannungsfall',
+		short: 'ΔU = 2×L×ρ×I/A — Max. Länge, Querschnitt, 24V Geräte-Presets',
+		icon: 'git-commit',
+		color: '#0891b2'
+	},
+	{
+		slug: 'elektro',
+		name: 'Elektro-Grundrechner',
+		short: 'Ohm · P=U×I · AC Wirk-/Blind-/Scheinleistung · Strom aus Leistung',
+		icon: 'zap',
+		color: '#eab308'
+	},
+	{
+		slug: 'dip-switch',
+		name: 'DIP-Switch Adressrechner',
+		short: 'BACnet MSTP · Modbus RTU · KNX — Adresse ↔ DIP-Switch-Stellung',
+		icon: 'toggle-right',
+		color: '#0891b2'
+	},
+	{
+		slug: 'co2-regelung',
+		name: 'CO₂-Regelung',
+		short: 'Volumenstrom-Auslegung + Raumzeitkonstante für DDC-Parametrierung',
+		icon: 'wind',
+		color: '#16a34a'
+	},
+	{
+		slug: 'u-wert',
+		name: 'U-Wert',
+		short: 'Wärmedurchgangskoeffizient aus Schichtaufbau — SIA 380/1 · Minergie',
+		icon: 'layers',
+		color: '#0891b2'
+	},
+	{
+		slug: 'ventilautoritaet',
+		name: 'Ventilautorität',
+		short: 'α = ΔpV / (ΔpV + ΔpSystem) + Kvs-Auswahl nach EN 60534',
+		icon: 'sliders',
+		color: '#7c3aed'
+	},
+	{
+		slug: 'waermerueckgewinnung',
+		name: 'Wärmerückgewinnung',
+		short: 'WRG-Wirkungsgrad, Zulufttemperatur, Energieersparnis nach EN 308',
+		icon: 'refresh-cw',
+		color: '#0d9488'
 	}
 ];
 

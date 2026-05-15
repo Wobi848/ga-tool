@@ -5,6 +5,7 @@
 	import { articles } from '$lib/wissen/articles';
 	import { abbreviations } from '$lib/abkuerzungen/data';
 	import { referenceTables } from '$lib/referenz';
+	import { favorites, favTypeLabel, favTypeColor, favTypeHref } from '$lib/stores/favorites';
 
 	const modules = [
 		{
@@ -61,6 +62,33 @@
 		<h1>Dashboard</h1>
 		<p>Die GA-Referenz für den Alltag</p>
 	</div>
+
+	{#if $favorites.length > 0}
+	<section>
+		<h2 class="section-title">
+			<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="color:#eab308;vertical-align:-2px">
+				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+			</svg>
+			Favoriten
+		</h2>
+		<div class="fav-grid">
+			{#each $favorites.slice().reverse() as fav}
+			<a href="{favTypeHref[fav.type]}/{fav.slug}" class="fav-card">
+				<span class="fav-card-type" style="color:{favTypeColor[fav.type]};background:{favTypeColor[fav.type]}18">
+					{favTypeLabel[fav.type]}
+				</span>
+				<span class="fav-card-title">{fav.title}</span>
+				<button
+					type="button"
+					class="fav-card-remove"
+					onclick={(e) => { e.preventDefault(); e.stopPropagation(); favorites.remove(fav.type, fav.slug); }}
+					aria-label="Aus Favoriten entfernen"
+				>×</button>
+			</a>
+			{/each}
+		</div>
+	</section>
+	{/if}
 
 	<section>
 		<h2 class="section-title">Schnellzugriff</h2>
@@ -189,4 +217,64 @@
 		color: var(--muted);
 		flex-shrink: 0;
 	}
+
+	.fav-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 0.5rem;
+	}
+
+	.fav-card {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.6rem 0.75rem;
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 0.625rem;
+		text-decoration: none;
+		color: var(--text);
+		font-size: 0.875rem;
+		transition: border-color 0.15s, background 0.15s;
+		overflow: hidden;
+	}
+
+	.fav-card:hover {
+		border-color: #eab308;
+		background: color-mix(in srgb, #eab308 5%, var(--surface));
+	}
+
+	.fav-card-type {
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		padding: 0.15rem 0.4rem;
+		border-radius: 0.25rem;
+		flex-shrink: 0;
+	}
+
+	.fav-card-title {
+		flex: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 0.8125rem;
+	}
+
+	.fav-card-remove {
+		background: none;
+		border: none;
+		color: var(--muted);
+		cursor: pointer;
+		font-size: 1rem;
+		line-height: 1;
+		padding: 0 0.1rem;
+		flex-shrink: 0;
+		opacity: 0;
+		transition: opacity 0.15s, color 0.15s;
+	}
+
+	.fav-card:hover .fav-card-remove { opacity: 1; }
+	.fav-card-remove:hover { color: #dc2626; }
 </style>

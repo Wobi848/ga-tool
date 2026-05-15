@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { areaLabels, difficultyLabels, difficultyColors } from '$lib/wissen/types';
 	import { rechnerMap } from '$lib/rechner';
+	import FavButton from '$lib/components/FavButton.svelte';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -33,7 +34,10 @@
 			</span>
 		</div>
 
-		<h1>{article.title}</h1>
+		<div class="title-row">
+			<h1>{article.title}</h1>
+			<FavButton type="artikel" slug={article.slug} title={article.title} size={20} />
+		</div>
 
 		<div class="badges">
 			{#each article.area as a}
@@ -149,12 +153,20 @@
 		letter-spacing: 0.04em;
 	}
 
+	.title-row {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.5rem;
+		margin-bottom: 0.5rem;
+	}
+
 	h1 {
 		font-size: 1.75rem;
 		font-weight: 700;
 		color: var(--text);
-		margin: 0 0 0.5rem;
+		margin: 0;
 		line-height: 1.2;
+		flex: 1;
 	}
 
 	.badges {

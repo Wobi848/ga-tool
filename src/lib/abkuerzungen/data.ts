@@ -358,7 +358,21 @@ export const abbreviations: Abbreviation[] = [
 		long: 'Raumlufttechnik (Anlage)',
 		description: 'Lüftungs-/Klimaanlage zur Konditionierung der Raumluft.',
 		areas: ['hlk'],
-		related: ['AHU', 'WRG']
+		related: ['AHU', 'WRG', 'KWL']
+	},
+	{
+		short: 'KWL',
+		long: 'Kontrollierte Wohnraumlüftung',
+		description: 'Dezentrale Lüftungsanlage mit WRG für Wohngebäude — typisch mit Gegen- oder Kreuzstromtauscher.',
+		areas: ['hlk'],
+		related: ['RLT', 'WRG', 'ERV']
+	},
+	{
+		short: 'ULK',
+		long: 'Umluftkühlgeräte',
+		description: 'Gerätetyp zur Raumkühlung via Umluftprinzip — Luft wird über einen Kaltwasserregister oder DX-Verdampfer umgewälzt.',
+		areas: ['hlk'],
+		related: ['FCU', 'VRF']
 	},
 	{
 		short: 'AHU',

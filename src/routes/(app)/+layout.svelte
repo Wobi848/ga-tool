@@ -10,6 +10,7 @@
 	import { referenceMap } from '$lib/referenz';
 	import { checklistMap } from '$lib/checklisten';
 	import { trackRecent } from '$lib/stores/recent';
+	import { favorites, favTypeHref } from '$lib/stores/favorites';
 	import SearchModal from '$lib/components/SearchModal.svelte';
 	import PwaStatus from '$lib/components/PwaStatus.svelte';
 	import { onMount } from 'svelte';
@@ -17,6 +18,7 @@
 	let { children, data } = $props();
 
 	let searchOpen = $state(false);
+	let favsOpen = $state(false);
 
 	const CURRENT_VERSION = '0.6.0';
 	const STORAGE_KEY = 'ga-tool-seen-version';
@@ -25,6 +27,7 @@
 	onMount(() => {
 		const seen = localStorage.getItem(STORAGE_KEY);
 		if (seen !== CURRENT_VERSION) showUpdateBanner = true;
+		favorites.syncFromServer();
 	});
 
 	function dismissBanner() {
@@ -151,6 +154,37 @@
 				</a>
 			{/each}
 		</nav>
+
+		<!-- ── Favoriten Dropdown ── -->
+		{#if $favorites.length > 0}
+		<div class="fav-section">
+			<button type="button" class="fav-toggle" onclick={() => favsOpen = !favsOpen}>
+				<svg width="14" height="14" viewBox="0 0 24 24" fill={favsOpen ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+				</svg>
+				<span>Favoriten</span>
+				<span class="fav-count">{$favorites.length}</span>
+				<svg class="fav-chevron" class:fav-chevron--open={favsOpen} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M6 9l6 6 6-6"/>
+				</svg>
+			</button>
+			{#if favsOpen}
+			<div class="fav-list">
+				{#each $favorites.slice().reverse() as fav}
+				<a
+					href="{favTypeHref[fav.type]}/{fav.slug}"
+					class="fav-item"
+					class:active={isActive(`${favTypeHref[fav.type]}/${fav.slug}`)}
+					title={fav.title}
+				>
+					<span class="fav-type-dot" data-type={fav.type}></span>
+					<span class="fav-item-title">{fav.title}</span>
+				</a>
+				{/each}
+			</div>
+			{/if}
+		</div>
+		{/if}
 
 		<div class="sidebar-footer">
 			<a href="/profil" class="nav-item" class:active={isActive('/profil')}>
@@ -416,6 +450,92 @@
 		color: var(--color-primary);
 		background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 	}
+
+	/* ── Favoriten Sidebar ── */
+	.fav-section {
+		border-top: 1px solid var(--border);
+		padding: 0.5rem 0.75rem 0.25rem;
+	}
+
+	.fav-toggle {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		width: 100%;
+		background: none;
+		border: none;
+		cursor: pointer;
+		color: #eab308;
+		font-size: 0.8125rem;
+		font-weight: 600;
+		padding: 0.3rem 0;
+		font-family: inherit;
+	}
+
+	.fav-toggle:hover { color: #ca8a04; }
+
+	.fav-count {
+		background: color-mix(in srgb, #eab308 20%, transparent);
+		color: #eab308;
+		border-radius: 999px;
+		font-size: 0.65rem;
+		font-weight: 700;
+		padding: 0 0.35rem;
+		line-height: 1.6;
+	}
+
+	.fav-chevron {
+		margin-left: auto;
+		color: var(--muted);
+		transition: transform 0.2s;
+	}
+
+	.fav-chevron--open { transform: rotate(180deg); }
+
+	.fav-list {
+		display: flex;
+		flex-direction: column;
+		gap: 1px;
+		margin-top: 0.25rem;
+		padding-bottom: 0.25rem;
+	}
+
+	.fav-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.3rem 0.4rem;
+		border-radius: 0.375rem;
+		text-decoration: none;
+		color: var(--muted);
+		font-size: 0.8rem;
+		transition: background 0.15s, color 0.15s;
+		overflow: hidden;
+	}
+
+	.fav-item:hover, .fav-item.active {
+		background: var(--surface-hover);
+		color: var(--text);
+	}
+
+	.fav-item-title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.fav-type-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.fav-type-dot[data-type='artikel']    { background: #2563eb; }
+	.fav-type-dot[data-type='rechner']    { background: #0d9488; }
+	.fav-type-dot[data-type='konverter']  { background: #ea580c; }
+	.fav-type-dot[data-type='referenz']   { background: #0891b2; }
+	.fav-type-dot[data-type='checkliste'] { background: #7c3aed; }
 
 	/* ── Main ── */
 	.main-wrapper {
