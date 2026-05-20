@@ -1,5 +1,6 @@
 ---
 title: Backup-Strategien für GA-Systeme — 3-2-1 Regel
+title_en: Backup Strategies for BA Systems — 3-2-1 Rule
 slug: backup-ga
 category: it
 subcategory: betrieb
@@ -199,3 +200,193 @@ Protokoll:
 
 - **ISO 27001** — Informationssicherheits-Managementsystem (ISMS), Backup-Anforderungen
 - **IEC 62443** — OT-Cybersecurity, Datensicherung als Schutzmaßnahme
+
+<!-- EN -->
+
+# Backup Strategies for BA Systems — 3-2-1 Rule
+
+A BA system failure without a backup means: days of downtime, lost configuration, costly reprogramming. Backups are often neglected in BA — until it is too late.
+
+## The 3-2-1 Rule
+
+```
+3 copies of the data (1 original + 2 backups)
+2 different storage media (e.g. SSD + NAS)
+1 copy off-site (remote / cloud)
+
+Why:
+  1 copy: file deleted → gone
+  2 copies on same medium: fire/theft → both lost
+  3-2-1: even in a disaster, one copy is safe
+```
+
+---
+
+## What Must Be Backed Up in BA
+
+### Critical (back up daily)
+
+```
+1. DDC programmes:
+   - Source code backup per controller
+   - Parameter lists (setpoints, time programs)
+   - Configuration files
+
+2. BMS database:
+   - System configuration (data points, alarms, visualisation)
+   - User management
+   - Trends / history (compressed, older data less frequent)
+
+3. Network configuration:
+   - Switch configs (exported)
+   - Firewall rules
+   - IP plans
+
+4. Passwords (encrypted!):
+   KeePass database or equivalent
+```
+
+### Important (weekly / on change)
+
+```
+5. As-built documentation (DPL, drawings)
+6. Server configurations (OS level, Docker Compose)
+7. Certificates (TLS, VPN)
+```
+
+---
+
+## Backup Types
+
+| Type | Description | Storage | Recovery |
+|------|-------------|---------|---------|
+| Full backup | Everything complete | High | Simple |
+| Incremental | Changes since last backup | Low | More complex |
+| Differential | Changes since last full backup | Medium | Medium |
+| Snapshot | State frozen (VM, container) | High | Very fast |
+
+**Recommendation for BA:**
+```
+Daily:   Incremental backup (fast, little space)
+Weekly:  Full backup (basis for incrementals)
+Monthly: Full backup → off-site
+```
+
+---
+
+## Backup Tools and Solutions
+
+### Proxmox Backup Server (PBS)
+
+```
+For Proxmox-based BA servers:
+  - Deduplication (identical blocks stored only once)
+  - Encryption (end-to-end)
+  - Incremental backups after first full backup
+  - Retention policy (keep 7 daily, 4 weekly, 6 monthly)
+
+Setup:
+  1. PBS on separate hardware/VM
+  2. Proxmox host → PBS as backup storage
+  3. Automated backup schedule (e.g. daily at 02:00)
+```
+
+### Rsync (Linux, simple)
+
+```bash
+# Daily backup of DDC programmes → NAS
+rsync -avz --delete \
+  /opt/ga-configs/ \
+  user@nas.local:/backup/ga-configs/
+
+# With date stamp
+rsync -avz \
+  /opt/glt-data/ \
+  /mnt/backup/glt-$(date +%Y%m%d)/
+```
+
+### Borg Backup (Linux, compressed)
+
+```bash
+# Initialise repository
+borg init --encryption=repokey /mnt/backup/ga-repo
+
+# Create backup
+borg create \
+  --compression lz4 \
+  /mnt/backup/ga-repo::ga-{now:%Y-%m-%d} \
+  /opt/glt /opt/ddc-backups /etc/network
+
+# Retention
+borg prune \
+  --keep-daily=7 \
+  --keep-weekly=4 \
+  --keep-monthly=6 \
+  /mnt/backup/ga-repo
+```
+
+---
+
+## Disaster Recovery Plan (DRP)
+
+```
+Document before an incident occurs:
+
+RTO (Recovery Time Objective):
+  Maximum acceptable downtime?
+  BA system: typically 4–24 hours (depending on criticality)
+
+RPO (Recovery Point Objective):
+  Acceptable data loss?
+  BA config: 0–24 hours (daily backup acceptable)
+  History: up to 7 days (weekly acceptable)
+
+Recovery procedure (documented!):
+  1. Hardware failure? → source replacement hardware / restart VM
+  2. Restore Proxmox VM from backup (30–60 min)
+  3. Verify network configuration
+  4. Test DDC communication
+  5. Alarms active again?
+  6. Notify operator
+```
+
+---
+
+## Regular Backup Tests
+
+```
+A backup is worthless if restore does not work!
+
+Quarterly:
+  - Test restore in sandbox environment
+  - Can BMS be started from backup?
+  - Are all DDC programmes complete?
+
+Annually:
+  - Full DR test (restore everything from backup)
+  - Measure duration → document in DRP
+
+Record:
+  Date, tester, result, deviations → stored in documentation
+```
+
+---
+
+## Backup Checklist
+
+- [ ] What is being backed up? (complete list)
+- [ ] How often? (daily / weekly per data category)
+- [ ] Where stored? (local + off-site)
+- [ ] Encrypted? (backup media can be stolen)
+- [ ] Retention policy defined?
+- [ ] Automated and monitored? (backup failure → alarm!)
+- [ ] Restore tested?
+- [ ] DR plan documented?
+- [ ] Backup access credentials secured?
+
+---
+
+## Standards
+
+- **ISO 27001** — Information Security Management System (ISMS), backup requirements
+- **IEC 62443** — OT cybersecurity, data backup as a protective measure

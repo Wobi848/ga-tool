@@ -1,5 +1,6 @@
 ---
 title: SPS — Speicherprogrammierbare Steuerung
+title_en: PLC — Programmable Logic Controller
 slug: sps-grundlagen
 category: systeme
 subcategory: steuerung
@@ -133,3 +134,125 @@ Normale SPS sind **nicht sicherheitsgerichtet**. Für Sicherheitsfunktionen (SIL
 | Funktionsbaustein (FB) | Wiederverwendbarer Codeblock mit eigenem Speicher |
 | Watchdog | Überwacht Zykluszeit, STOP bei Überschreitung |
 | Retain | Variablen bleiben bei Spannungsausfall erhalten |
+
+<!-- EN -->
+
+The Programmable Logic Controller (PLC), German **SPS** (Speicherprogrammierbare Steuerung), is the backbone of industrial and building automation. It replaces hard-wired relay circuits with software-based logic — the function is defined in the program, not in the hardware.
+
+## Basic Principle
+
+A PLC operates in a **cycle**:
+
+```
+┌─────────────────────────────────────────────┐
+│  1. Read inputs (digital + analogue I)       │
+│  2. Execute program (logic / control)        │
+│  3. Write outputs (digital + analogue O)     │
+│  4. Communication (fieldbus, HMI, SCADA)    │
+└─────────────────────────────────────────────┘
+         Cycle time: 1 – 50 ms typical
+```
+
+All input values are read at the start of the cycle and remain constant for the entire cycle — the program always works with a consistent process image.
+
+## Hardware Structure
+
+| Module | Function | BA Example |
+|--------|---------|-----------|
+| CPU | Program execution, communication | — |
+| DI (Digital Input) | Read 24 V signals | Switch position, fault message |
+| DO (Digital Output) | Switch relay/transistor | Pump ON/OFF, valve |
+| AI (Analogue Input) | Measure 0–10 V / 4–20 mA | Temperature sensor, pressure transmitter |
+| AO (Analogue Output) | Output 0–10 V / 4–20 mA | Valve position, variable speed drive |
+| Communication module | Fieldbus interface | BACnet, Modbus, Profibus |
+
+## Programming Languages per IEC 61131-3
+
+The standard defines 5 languages, all executable on the same PLC:
+
+### Ladder Diagram (LD)
+Graphical representation like a circuit diagram. Good for simple contactor/interlock logic, preferred by electricians.
+
+```
+|---[ ]---[ ]---( )|
+| S1     S2     P  |   → Pump P runs when switch S1 AND S2 are closed
+```
+
+### Function Block Diagram (FBD)
+Graphical connection of blocks. Ideal for control loops and signal processing.
+
+```
+[AI_Temp]──→[PID]──→[AO_Valve]
+[SP_Temp]──→
+```
+
+### Structured Text (ST)
+Pascal-like high-level language. Most powerful for complex calculations.
+
+```pascal
+IF tRoom > tSetpoint + 0.5 THEN
+    controlSignal := controlSignal - 5.0;
+ELSIF tRoom < tSetpoint - 0.5 THEN
+    controlSignal := controlSignal + 5.0;
+END_IF;
+controlSignal := LIMIT(0.0, controlSignal, 100.0);
+```
+
+### Instruction List (IL)
+Assembler-like, deprecated, rarely used in new projects.
+
+### Sequential Function Chart (SFC)
+State machine for sequential processes (start-up sequences, commissioning).
+
+## PLC vs. DDC in Building Automation
+
+| Feature | PLC | DDC |
+|---------|-----|-----|
+| Cycle time | 1–50 ms | 100–500 ms |
+| Primary use | Machines, processes | Buildings, HVAC |
+| Standards | IEC 61131 | BACnet, LON, KNX |
+| Scalability | Medium | Good (network) |
+| Programming | IEC 61131-3 | Vendor-specific |
+| HVAC function blocks | Add-on | Built-in |
+
+In practice the boundary is blurring: modern DDC controllers are based on PLC hardware and support IEC 61131-3; conversely, PLCs communicate via BACnet into BA networks.
+
+## Typical Applications in BA
+
+**Air handling unit (AHU):**
+- Start-up sequence: open damper → start fan → enable control
+- Protective interlocks: frost protection, filter monitor, fire damper
+- Control: airflow, temperature, humidity
+
+**Refrigeration plant:**
+- Compressor management: stage on/off according to demand
+- Safety interlocks: high-pressure switch, oil switch
+
+**Heating plant:**
+- Boiler cascade: demand-based stage switching
+- Heating curve: weather-compensated flow temperature
+
+## Common Fault Sources
+
+| Problem | Cause | Remedy |
+|---------|-------|--------|
+| Program runs but no response | Wrong I/O mapping | Check process image |
+| Output switches briefly then drops | Interlock condition not met | Debug logic with force function |
+| Analogue signal jumps | Ground potential / shielding | Earth shield at one end only |
+| PLC goes to STOP | Program error (division by zero, etc.) | Read diagnostic buffer |
+| Cycle time too long | Too much communication in cycle | Decouple communication asynchronously |
+
+## Safety Technology
+
+Standard PLCs are **not safety-rated**. For safety functions (SIL, PLe) special failsafe PLCs (e.g. Siemens S7-F, Pilz) are used, certified to IEC 62061 / ISO 13849. In BA this applies to fire dampers, smoke extraction, and lifts.
+
+## Key Terms
+
+| Term | Meaning |
+|------|---------|
+| Process image (PAI/PAO) | Copy of all I/O at cycle start |
+| Flag / marker | Internal boolean variable, no I/O |
+| Data block (DB) | Structured data store |
+| Function block (FB) | Reusable code block with own memory |
+| Watchdog | Monitors cycle time, STOP if exceeded |
+| Retain | Variables preserved on power loss |

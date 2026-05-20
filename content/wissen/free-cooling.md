@@ -1,5 +1,6 @@
 ---
 title: Free Cooling — Direkte und indirekte freie Kühlung
+title_en: Free Cooling — Direct and Indirect Free Cooling
 slug: free-cooling
 category: klima
 subcategory: freie-kuehlung
@@ -169,3 +170,161 @@ Mit Free Cooling (70 % FC-Anteil):
 - **EN 15232** — Free Cooling als GA-Klasse-A-Funktion
 - **SIA 382.1** — Energieoptimierte Lüftungs-/Klimaanlagen
 - **VDI 2067** — Wirtschaftlichkeitsberechnungen für Gebäudetechnik
+
+<!-- EN -->
+
+Free cooling uses cold outdoor air or geothermal energy to cool a building without a mechanical chiller. Depending on outdoor temperature, 30–80 % of cooling energy can be saved.
+
+## Basic Principle
+
+```
+Chiller (active): electricity → COP 3 → 1 kWh electricity = 3 kWh cooling
+Free cooling (passive): nature → COP >50 → only pumps/fans
+```
+
+**Activation condition:** T_outdoor < T_chilled_water_return − safety margin.
+
+---
+
+## Types
+
+### 1. Direct Free Cooling (Air Economiser)
+
+Outdoor air is used directly for room cooling:
+
+```
+Summer night / shoulder season:
+  T_outdoor = 18 °C
+  T_room_setpoint = 22 °C
+  
+  → 100 % outdoor air (bypass around heat recovery)
+  → Chiller OFF
+  → Ventilation fan cools building
+```
+
+Control logic:
+```
+If T_outdoor < T_room − 2 K:
+  → Outdoor air damper: 100 %
+  → Recirculation damper: 0 %
+  → Open HR bypass (heat recovery not needed)
+  → Chiller: enable locked
+```
+
+Enthalpy check required (humid nights):
+```
+If h_outdoor < h_room − 3 kJ/kg:
+  → Free cooling active
+```
+
+### 2. Indirect Free Cooling (Fluid Economiser)
+
+Chilled water / glycol is cooled by outdoor air via a dry cooler:
+
+```
+Chilled water return 14 °C
+    → Dry cooler (like cooling tower but water-air HX)
+    → T_outdoor = 10 °C → chilled water supply = 8 °C
+    → Chiller bypassed (free cooling via HX)
+```
+
+Advantage: building air is not directly connected to outdoor air (hygiene, filtration).
+
+**Circuit variants:**
+
+```
+Variant A: Chiller in parallel with HX (common):
+  Free cooling:  HX → cooler → return
+  Combined:      HX + chiller in parallel (shoulder season)
+  Full load:     Chiller only (peak summer)
+  
+Variant B: Chiller in series:
+  HX pre-cools → chiller post-cools → less compressor power
+```
+
+### 3. Geothermal Free Cooling (Passive Cooling)
+
+Ground source heat pump system (boreholes, groundwater) supplies cold water without heat pump:
+
+```
+Summer: ground at 12–14 °C (cooler than outdoor 30 °C)
+    → Heat from building → borehole → ground
+    → Only pump energy: COP 50–100
+    
+Condition: cooling temperature > 16 °C (otherwise condensation in ceilings)
+```
+
+---
+
+## Operating Hours Analysis — Switzerland
+
+```
+Annual cooling hours needed (office, CH midlands):
+  Total: ~1200 h/year
+  
+  Free cooling possible (T_outdoor < 15 °C):  ~900 h = 75 %
+  Chiller only (T_outdoor > 20 °C):           ~200 h = 17 %
+  Mixed operation:                             ~100 h =  8 %
+  
+→ Free cooling can save 60–75 % of cooling energy costs
+```
+
+---
+
+## Control Logic in DDC
+
+```
+Staged free cooling logic:
+
+Stage 1 — Full free cooling:
+  T_outdoor < T_chilled_water_supply − 2 K
+  → Dry cooler 100 %, chiller OFF
+
+Stage 2 — Mixed operation:
+  T_chilled_water_supply − 2 K < T_outdoor < T_chilled_water_supply + 3 K
+  → Dry cooler + chiller proportionally
+  → Dry cooler handles base load, chiller handles peak
+
+Stage 3 — Chiller only:
+  T_outdoor > T_chilled_water_supply + 3 K
+  → Dry cooler supports condenser cooling only
+```
+
+---
+
+## BA Data Points — Free Cooling
+
+| Data point | Type | Unit | Description |
+|-----------|------|------|------------|
+| T_outdoor | AI | °C | Enable condition |
+| T_chilled water supply actual | AI | °C | Chilled water supply |
+| Free cooling operation | DI | — | Dry cooler active |
+| Chiller enable | DO | — | Chiller locked during FC |
+| Dry cooler fan | AO | % | Speed 0–100 % |
+| FC/chiller changeover valve | DO | — | Damper free cooling path |
+| Free cooling energy | AI | kWh | Savings monitoring |
+
+---
+
+## Economic Viability
+
+```
+Example: 1000 m² office, 100 kW cooling demand
+
+Without free cooling:
+  1200 h × 100 kW / 3.5 COP = 34,300 kWh electricity
+  
+With free cooling (70 % FC share):
+  Chiller only:  300 h × 100 kW / 3.5 = 8,600 kWh
+  FC pumps:      900 h × 5 kW         = 4,500 kWh
+  Total: 13,100 kWh (−62 % electricity)
+```
+
+---
+
+## Standards
+
+- **EN 14511** — Chillers, heat pumps (test conditions, efficiency)
+- **EN 15232** — Free cooling as BA class A function
+- **SIA 382.1** — Energy-optimised ventilation/air-conditioning systems
+- **VDI 2067** — Economic efficiency calculations for building services

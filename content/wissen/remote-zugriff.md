@@ -1,5 +1,6 @@
 ---
 title: Remote-Zugriff — VPN und sichere Fernwartung in der GA
+title_en: Remote Access — VPN and Secure Remote Maintenance in BA
 slug: remote-zugriff
 category: it
 subcategory: fernwartung
@@ -185,3 +186,179 @@ Log-Eintrag:
 - **IEC 62443-2-4** — Sicherheitsanforderungen für IACS-Dienstleister
 - **NIST SP 800-46** — Guide to Enterprise Telework, Remote Access and BYOD
 - **BSI TR-02102** — Cryptographic Mechanisms (VPN-Algorithmen)
+
+<!-- EN -->
+
+## Remote Access — VPN and Secure Remote Maintenance in BA
+
+Remote access to BA systems is standard practice today — fault resolution on the go, configuration without site visits, monitoring from the home office. At the same time, insecure remote access is the most common attack vector.
+
+## Remote Access Risks
+
+| Risk | Frequency | Damage |
+|------|-----------|--------|
+| Weak/default password | Very high | Full access to system |
+| Directly reachable ports (RDP, BACnet) | High | Scan → exploit |
+| No MFA | Very high | Brute-force attack possible |
+| Unencrypted connection | Medium | Man-in-the-middle |
+| Shared credentials | High | Cannot trace who was logged in |
+
+**Reality:** Many BA systems have Teamviewer or RDP directly on the internet — with the factory password. These are regularly exploited.
+
+---
+
+## Principle of Secure Remote Maintenance
+
+```
+Technician (home/office)
+    ↓ VPN client
+Internet
+    ↓ VPN tunnel (encrypted, authenticated)
+Firewall / VPN gateway at site
+    ↓ Access to defined IPs/ports only
+Jump server (optional)
+    ↓ RDP / SSH
+BMS server / DDC
+```
+
+**No direct connection from the internet to OT devices!** Always via VPN + jump server.
+
+---
+
+## VPN Protocols Compared
+
+### WireGuard (recommended for new projects)
+
+- Modern, very performant, simple configuration
+- Small codebase (4000 lines) → reduced attack surface
+- Kernel integration in Linux (since 5.6)
+- **No dynamic IPs for clients** — each peer has a fixed public key + IP
+
+```
+Server (site):
+  [Interface]
+  Address = 10.100.0.1/24
+  PrivateKey = <server-key>
+  
+  [Peer] # Technician 1
+  PublicKey = <tech1-pubkey>
+  AllowedIPs = 10.100.0.2/32
+
+Client (technician):
+  [Interface]
+  Address = 10.100.0.2/24
+  PrivateKey = <tech1-privkey>
+  
+  [Peer] # Server
+  PublicKey = <server-pubkey>
+  Endpoint = mysite.dyndns.org:51820
+  AllowedIPs = 10.10.0.0/24 (OT network)
+```
+
+### OpenVPN
+
+- Very widespread, large community
+- Based on TLS/SSL (well understood, well tested)
+- Slower than WireGuard, more complex to configure
+- PKI infrastructure required (certificates)
+
+### IPsec / IKEv2
+
+- Standard in enterprise environments
+- Hardware VPN devices (Cisco, Fortinet, Palo Alto) use IPsec
+- More complex but very robust
+
+---
+
+## Multi-Factor Authentication (MFA)
+
+**MFA is mandatory for all remote access!** Password alone is insufficient.
+
+### TOTP (Time-based One-Time Password)
+
+- Authenticator app (Google Authenticator, Authy, etc.)
+- Generates a new 6-digit code every 30 seconds
+- Easy to implement, no hardware token required
+
+### Implementation with WireGuard
+
+WireGuard has no built-in MFA — workarounds:
+
+```
+Option 1: VPN portal in front (e.g. Pritunl, Netbird) with MFA support
+Option 2: MFA at jump server (SSH + MFA, Remote Desktop + MFA)
+Option 3: Client certificates as second factor
+```
+
+---
+
+## Jump Server (Bastion Host)
+
+A **jump server** is a dedicated server that serves as the only entry point into the OT network:
+
+```
+VPN → Jump server → OT devices (only reachable from jump server)
+```
+
+**Advantages:**
+- Everything passes through one point → complete logging
+- OT devices have no internet access
+- Compromised technician laptop ≠ direct OT access
+
+**Variant with RDP gateway** (Windows Server):
+- Technician connects RDP to gateway
+- Gateway only allows defined onward connections
+- All sessions logged
+
+---
+
+## Remote Maintenance Tools — Risk Assessment
+
+| Tool | Security | Recommendation |
+|------|---------|---------------|
+| **WireGuard VPN** | Very high | Recommended |
+| **OpenVPN** | High | Good |
+| **Cisco AnyConnect** | High | For enterprise |
+| **Teamviewer** | Medium | Only with MFA, own passwords |
+| **AnyDesk** | Medium | As Teamviewer |
+| **RDP direct** | Low | Never directly on internet |
+| **VNC direct** | Very low | Never without VPN |
+| **Telnet / HTTP** | None | Absolutely not |
+
+---
+
+## Logging and Auditability
+
+**Every remote access session must be logged:**
+
+```
+Log entry:
+  Date/time: 2026-05-14 14:32
+  User: max.meier@company.com
+  From IP: 85.12.x.x (anonymised in log)
+  Connected to: BMS server 10.10.1.50
+  Session duration: 45 min
+  Activities: configured heating circuit 3, acknowledged alarm
+  Logout: 15:17
+```
+
+**Retention:** Minimum 3 months, recommended 1 year (for incident response).
+
+---
+
+## Checklist Secure Remote Maintenance
+
+- [ ] VPN with MFA as the only access path
+- [ ] No BA ports directly reachable from the internet
+- [ ] Individual credentials per person (no shared passwords)
+- [ ] Minimum access rights (only what is needed)
+- [ ] Sessions time-limited (automatic logout)
+- [ ] Complete logging of all sessions
+- [ ] Regular review of active access (persons who have left!)
+- [ ] Emergency shutdown procedure (if remote access is compromised)
+
+## Standards
+
+- **IEC 62443-2-4** — Security requirements for IACS service providers
+- **NIST SP 800-46** — Guide to Enterprise Telework, Remote Access and BYOD
+- **BSI TR-02102** — Cryptographic mechanisms (VPN algorithms)

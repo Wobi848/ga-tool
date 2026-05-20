@@ -1,5 +1,6 @@
 ---
 title: COP und EER — Effizienz von Wärmepumpen und Kältemaschinen
+title_en: COP and EER — Efficiency of Heat Pumps and Chillers
 slug: cop-eer
 category: klima
 subcategory: effizienz
@@ -173,3 +174,165 @@ DDC berechnet laufend Real-COP/-EER:
 - **EN 14511** — Kältemaschinen, Wärmepumpen: Prüfbedingungen und Leistungsabnahme
 - **EN 14825** — Teillastbedingungen für Klimatisierung, Heizen (SCOP/SEER)
 - **Ökodesign-Richtlinie 2016/2281** — Mindest-SCOP für Heizwärmepumpen (EU-Markt)
+
+<!-- EN -->
+
+COP and EER are the most important efficiency metrics for heat pumps and chillers. They describe the ratio of useful energy delivered to drive energy consumed.
+
+## Definitions
+
+### COP — Coefficient of Performance (Heat Pump)
+
+```
+COP = Q_heat / P_el   [dimensionless]
+
+Q_heat: heat output [kW]
+P_el:   electrical power input [kW]
+
+Example:
+  Air-to-water heat pump at A7W35:
+  COP = 12 kW / 3 kW = 4.0
+  
+  Interpretation: 1 kWh electricity → 4 kWh heat
+  (1 kWh from grid + 3 kWh from the environment)
+```
+
+### EER — Energy Efficiency Ratio (Chiller)
+
+```
+EER = Q_cold / P_el   [dimensionless]
+
+Q_cold: cooling capacity [kW]
+P_el:   electrical power input [kW]
+
+Example:
+  Chiller at W7W27 (chilled water 7/12 °C, condenser 27/32 °C):
+  EER = 100 kW / 30 kW = 3.33
+```
+
+**Relationship between COP and EER (reversible heat pump):**
+```
+COP_heating = EER_cooling + 1
+Physics: heat = cooling + drive energy
+```
+
+---
+
+## Carnot Limit
+
+Theoretically maximum efficiency — never achievable, but a useful benchmark:
+
+```
+COP_Carnot = T_high / (T_high − T_low)   [Kelvin!]
+
+Example A7W35 (air-to-water heat pump):
+  T_high = 35 + 273 = 308 K
+  T_low  = 7 + 273  = 280 K
+  COP_Carnot = 308 / (308 − 280) = 11.0
+  
+  Actual COP = 4.0 → efficiency ratio = 4.0 / 11.0 = 36%
+  (Typical: 35–55% depending on machine quality)
+```
+
+**Key insight:** The smaller the temperature differential (T_high − T_low), the higher the efficiency.
+→ Lower flow temperature (underfloor heating at 35 °C vs. radiators at 70 °C) significantly improves COP.
+
+---
+
+## Standard Test Conditions (EN 14511)
+
+Comparability requires defined test conditions:
+
+| System type | Designation | Source temperature | Sink temperature |
+|-------------|------------|-------------------|-----------------|
+| Air-to-water heat pump | A7W35 | 7 °C outdoor air | 35 °C flow |
+| Air-to-water heat pump | A-7W35 | −7 °C outdoor air | 35 °C flow |
+| Brine-to-water heat pump | B0W35 | 0 °C brine | 35 °C flow |
+| Water-to-water heat pump | W10W35 | 10 °C groundwater | 35 °C flow |
+| Chiller | W7W27 | 7/12 °C chilled water | 27/32 °C |
+
+---
+
+## Seasonal Metrics
+
+Point values (COP/EER) have limited meaning — seasonal metrics are more informative:
+
+### SCOP — Seasonal COP (Heat Pump, Heating Mode)
+
+```
+SCOP = Q_heat_total [kWh/year] / E_el_total [kWh/year]
+
+Typical values, air-to-water heat pump in CH:
+  SCOP = 2.8–4.5 depending on location and flow temperature
+  
+Colder location → lower SCOP (more operation at −A7)
+Higher flow temperature → lower SCOP
+```
+
+### SEER — Seasonal EER (Chiller / Heat Pump, Cooling Mode)
+
+```
+SEER = Q_cold_total / E_el_total
+
+Modern chillers:
+  SEER = 5–8 (part-load operation often better than full-load EER!)
+```
+
+### JAZ — Annual Performance Factor (German/Swiss term)
+
+JAZ = SCOP in the German/Swiss context for heat pumps.
+
+---
+
+## Part-Load Performance (ESEER / IPLV)
+
+Chillers rarely run at full load. Part-load efficiency is decisive:
+
+```
+ESEER (European Seasonal Energy Efficiency Ratio):
+  Weighted average of 4 operating points:
+  
+  100% load: weighting  3% (rare)
+   75% load: weighting 33%
+   50% load: weighting 41%  ← most common operating point!
+   25% load: weighting 23%
+
+Modern VRF systems: ESEER 5.0–7.0
+```
+
+---
+
+## Practical Factors Affecting COP/EER
+
+| Factor | Effect on COP/EER |
+|--------|------------------|
+| Higher flow temperature | COP ↓ (approx. 2% per K) |
+| Lower source temperature (air-to-water heat pump) | COP ↓ |
+| Fouled condenser | EER ↓ (up to −30%!) |
+| Part-load with VFD | EER often ↑ |
+| Refrigerant undercharge | COP/EER ↓ significantly |
+| Incorrect superheat / subcooling | EER ↓ |
+
+---
+
+## Monitoring in BA
+
+```
+DDC continuously calculates real-time COP/EER:
+
+  Q_HP = V_heating × 1.163 × ΔT_supply-return   [kWh]
+  P_el = from energy meter                        [kWh]
+  
+  COP_current = Q_HP / P_el
+  
+  Trend: daily average COP → degradation analysis
+  Alarm: COP < 2.5 (heat pump faulty / fouled)
+```
+
+---
+
+## Standards
+
+- **EN 14511** — Chillers and heat pumps: test conditions and capacity testing
+- **EN 14825** — Part-load conditions for air conditioning and heating (SCOP/SEER)
+- **Ecodesign Regulation 2016/2281** — Minimum SCOP for heating heat pumps (EU market)

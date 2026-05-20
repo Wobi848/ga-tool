@@ -18,7 +18,9 @@ export interface SearchItem {
 	type: SearchType;
 	slug: string;
 	title: string;
+	title_en?: string;
 	subtitle?: string;
+	subtitle_en?: string;
 	keywords?: string[];
 	url: string;
 }
@@ -28,6 +30,7 @@ const items: SearchItem[] = [
 		type: 'konverter' as const,
 		slug: c.slug,
 		title: c.name,
+		title_en: c.name_en,
 		subtitle: c.units.map((u) => u.symbol).join(' · '),
 		keywords: c.units.map((u) => u.label),
 		url: `/konverter/${c.slug}`
@@ -36,20 +39,21 @@ const items: SearchItem[] = [
 		type: 'rechner' as const,
 		slug: r.slug,
 		title: r.name,
+		title_en: r.name_en,
 		subtitle: r.short,
+		subtitle_en: r.short_en,
 		url: `/rechner/${r.slug}`
 	})),
 	...articles.map((a) => ({
 		type: 'wissen' as const,
 		slug: a.slug,
 		title: a.title,
+		title_en: a.title_en,
 		subtitle: `${a.category}${a.subcategory ? ' · ' + a.subcategory : ''}`,
 		keywords: a.tags,
 		url: `/wissen/${a.slug}`
 	})),
 	...abbreviations.map((a) => {
-		// Enrich keywords with equivalents (both short forms and long forms)
-		// so searching for "BMS" also finds the GLT entry
 		const eqShorts = equivalentShorts(a.short);
 		const eqLongs = eqShorts.map((s) => abbrLongByShort[s]).filter(Boolean);
 		return {
@@ -57,6 +61,7 @@ const items: SearchItem[] = [
 			slug: a.short.toLowerCase(),
 			title: `${a.short} — ${a.long}`,
 			subtitle: a.description,
+			subtitle_en: a.descriptionEn,
 			keywords: [a.short, a.long, ...(a.related ?? []), ...eqShorts, ...eqLongs],
 			url: a.wissenSlug ? `/wissen/${a.wissenSlug}` : `/abkuerzungen?q=${encodeURIComponent(a.short)}`
 		};
@@ -65,7 +70,9 @@ const items: SearchItem[] = [
 		type: 'referenz' as const,
 		slug: t.slug,
 		title: t.title,
+		title_en: t.title_en,
 		subtitle: t.subtitle ?? t.category,
+		subtitle_en: t.subtitle_en,
 		keywords: [t.category, ...(t.norm ?? [])],
 		url: `/referenz/${t.slug}`
 	})),
@@ -73,7 +80,9 @@ const items: SearchItem[] = [
 		type: 'checkliste' as const,
 		slug: c.slug,
 		title: c.title,
+		title_en: c.title_en,
 		subtitle: c.subtitle ?? c.category,
+		subtitle_en: c.subtitle_en,
 		keywords: [c.category, ...(c.norm ?? [])],
 		url: `/checklisten/${c.slug}`
 	}))

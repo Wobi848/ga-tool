@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	type Protocol = 'bacnet-mstp' | 'modbus-rtu' | 'knx' | 'custom';
 
@@ -15,14 +16,24 @@
 		info: string;
 	}
 
-	const presets: Record<Protocol, ProtocolPreset> = {
+	interface ProtocolPresetBase {
+		label: string;
+		switches: number;
+		min: number;
+		max: number;
+		addressLabel: string;
+		addressLabelKey?: string;
+		infoKey: string;
+	}
+
+	const presetsBase: Record<Protocol, ProtocolPresetBase> = {
 		'bacnet-mstp': {
 			label: 'BACnet MSTP',
 			switches: 7,
 			min: 0,
 			max: 127,
 			addressLabel: 'MAC Address',
-			info: 'BACnet MS/TP verwendet MAC-Adressen von 0–127 (7 Bit). Jedes Gerät am Bus braucht eine eindeutige Adresse. Adressen 0–127 für Geräte, 128+ reserviert für Router/Broadcasts.'
+			infoKey: 'rechner.dipSwitchUi.infoBacnetMstp'
 		},
 		'modbus-rtu': {
 			label: 'Modbus RTU',
@@ -30,25 +41,37 @@
 			min: 1,
 			max: 247,
 			addressLabel: 'Slave ID',
-			info: 'Modbus RTU verwendet Slave-IDs von 1–247 (0 = Broadcast, 248–255 reserviert). 8 DIP-Switches decken den gesamten Bereich ab. Adresse 0 ist für Broadcast-Befehle reserviert und darf keinem Gerät zugewiesen werden.'
+			infoKey: 'rechner.dipSwitchUi.infoModbusRtu'
 		},
 		knx: {
 			label: 'KNX',
 			switches: 8,
 			min: 0,
 			max: 255,
-			addressLabel: 'Physikalische Adresse (Linie)',
-			info: 'KNX DIP-Switches kodieren typischerweise die Linienzahl oder Geräteadresse innerhalb einer Linie (0–255, 8 Bit). Die vollständige physikalische Adresse (Bereich.Linie.Gerät) wird via ETS vergeben.'
+			addressLabel: 'Physical address (line)',
+			addressLabelKey: 'rechner.dipSwitchUi.addressLabelKnx',
+			infoKey: 'rechner.dipSwitchUi.infoKnx'
 		},
 		custom: {
-			label: 'Benutzerdefiniert',
+			label: 'Custom',
 			switches: 8,
 			min: 0,
 			max: 255,
-			addressLabel: 'Adresse',
-			info: 'Benutzerdefinierte Konfiguration. Switch-Anzahl und Adressbereich frei wählbar.'
+			addressLabel: 'Address',
+			addressLabelKey: 'rechner.dipSwitchUi.addressLabelCustom',
+			infoKey: 'rechner.dipSwitchUi.infoCustom'
 		}
 	};
+	const presets = $derived(
+		Object.fromEntries(
+			Object.entries(presetsBase).map(([k, v]) => [k, {
+				...v,
+				label: k === 'custom' ? $_('rechner.dipSwitchUi.custom') : v.label,
+				addressLabel: v.addressLabelKey ? $_(v.addressLabelKey) : v.addressLabel,
+				info: $_(v.infoKey)
+			}])
+		) as Record<Protocol, ProtocolPreset>
+	);
 
 	function loadPrefs() {
 		if (!browser) return {};
@@ -120,13 +143,13 @@
 		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 			<path d="M15 18l-6-6 6-6" />
 		</svg>
-		Alle Rechner
+		{$_('common.allCalculators')}
 	</a>
 	<div class="calc-title-row">
-		<h1 class="page-title">DIP-Switch Adressrechner</h1>
-		<FavButton type="rechner" slug="dip-switch" title="DIP-Switch Adressrechner" size={20} />
+		<h1 class="page-title">{$_('rechner.dipSwitch.name')}</h1>
+		<FavButton type="rechner" slug="dip-switch" title={$_('rechner.dipSwitch.name')} size={20} />
 	</div>
-	<p class="page-sub">Adressierung für BACnet MSTP, Modbus RTU, KNX und benutzerdefinierte Protokolle</p>
+	<p class="page-sub">{$_('rechner.dipSwitchUi.subtitle')}</p>
 
 	<div class="layout">
 		<!-- ── Left: Config ── -->
@@ -134,7 +157,7 @@
 
 			<!-- Protocol -->
 			<div class="card">
-				<div class="card-label">Protokoll</div>
+				<div class="card-label">{$_('rechner.dipSwitchUi.protocol')}</div>
 				<div class="seg-group">
 					{#each Object.entries(presets) as [key, p]}
 						<button
@@ -150,10 +173,10 @@
 			<!-- Custom range (only for custom) -->
 			{#if protocol === 'custom'}
 				<div class="card">
-					<div class="card-label">Benutzerdefiniert</div>
+					<div class="card-label">{$_('rechner.dipSwitchUi.custom')}</div>
 					<div class="custom-grid">
 						<div class="field">
-							<label class="field-label" for="inp-sw-count">Switch-Anzahl</label>
+							<label class="field-label" for="inp-sw-count">{$_('rechner.dipSwitchUi.switchCount')}</label>
 							<input id="inp-sw-count" type="number" class="input" min="4" max="10" bind:value={customSwitches}
 								onchange={() => setAddress(customMin)} />
 						</div>
@@ -171,10 +194,10 @@
 
 			<!-- Options -->
 			<div class="card">
-				<div class="card-label">Optionen</div>
+				<div class="card-label">{$_('rechner.dipSwitchUi.options')}</div>
 
 				<div class="option-row">
-					<span class="option-label">Nummerierung</span>
+					<span class="option-label">{$_('rechner.dipSwitchUi.numbering')}</span>
 					<div class="seg-group seg-group--sm">
 						<button type="button" class="seg-btn" class:active={msbLeft}
 							onclick={() => msbLeft = true}>MSB links (1 → {switchCount})</button>
@@ -184,23 +207,23 @@
 				</div>
 
 				<div class="option-row">
-					<span class="option-label">Invertierte Logik</span>
+					<span class="option-label">{$_('rechner.dipSwitchUi.invertedLogic')}</span>
 					<label class="toggle">
 						<input type="checkbox" bind:checked={invertedLogic} />
 						<span class="toggle-track"></span>
 					</label>
-					<span class="option-hint">OFF = 1 / ON = 0</span>
+					<span class="option-hint">{$_('rechner.dipSwitchUi.invertedDesc')}</span>
 				</div>
 			</div>
 
 			<!-- Info -->
 			<div class="info-box">
-				<div class="info-title">Protokoll-Info</div>
+				<div class="info-title">{$_('rechner.dipSwitchUi.protocolInfo')}</div>
 				<p class="info-text">{preset.info}</p>
 				<div class="info-meta">
 					<span>Switches: {switchCount}</span>
-					<span>Bereich: {rangeMin}–{rangeMax}</span>
-					<span>Bit-Auflösung: {switchCount} Bit</span>
+					<span>{$_('rechner.dipSwitchUi.range')}: {rangeMin}–{rangeMax}</span>
+					<span>{$_('rechner.dipSwitchUi.bitResolution')}: {switchCount} Bit</span>
 				</div>
 			</div>
 		</div>
@@ -209,7 +232,7 @@
 		<div class="dip-panel">
 			<div class="dip-card">
 				<div class="dip-header">
-					<span class="dip-title">DIP Switch Positionen</span>
+					<span class="dip-title">{$_('rechner.dipSwitchUi.dipSwitchPositions')}</span>
 					<span class="dip-range-badge">{rangeMin}–{rangeMax}</span>
 					<div class="dip-stepper">
 						<button type="button" class="step-btn step-btn--minus"
@@ -285,13 +308,13 @@
 				</div>
 
 				{#if !addressInRange}
-					<div class="range-warning">⚠ Adresse ausserhalb des gültigen Bereichs ({rangeMin}–{rangeMax})</div>
+					<div class="range-warning">⚠ {$_('rechner.dipSwitchUi.warnOutOfRange', { values: { min: rangeMin, max: rangeMax } })}</div>
 				{/if}
 			</div>
 
 			<!-- Quick reference -->
 			<div class="quick-ref">
-				<div class="qr-title">Bit-Gewichtung</div>
+				<div class="qr-title">{$_('rechner.dipSwitchUi.bitWeight')}</div>
 				<div class="qr-grid">
 					{#each Array(switchCount) as _, i}
 						<div class="qr-item" class:qr-active={switches[i]}>

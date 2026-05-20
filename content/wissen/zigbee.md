@@ -1,5 +1,6 @@
 ---
 title: Zigbee — Mesh-Funknetzwerk für GA
+title_en: Zigbee — Mesh Radio Network for BA
 slug: zigbee
 category: protokolle
 subcategory: funk
@@ -165,3 +166,157 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 - **IEEE 802.15.4** — Physikalische Schicht und MAC
 - **Zigbee Alliance / CSA** (Connectivity Standards Alliance) — zigbee.org
 - **Matter** — Nachfolgestandard für Smart Home (csa-iot.org)
+
+<!-- EN -->
+
+**Zigbee** is a low-power radio network standard based on IEEE 802.15.4. Unlike EnOcean (battery-free, unidirectional), Zigbee is bidirectional, self-healing and network-capable. Increasingly used in BA for sensors, actuators and lighting control.
+
+## Network Topology
+
+Zigbee uses a **mesh network** — devices can act as routers and forward messages:
+
+```
+Coordinator (1×)
+    ├── Router A ──── End-Device (sensor)
+    │       └───────── End-Device (push-button)
+    ├── Router B ──── End-Device (lamp)
+    │       └── Router C ──── End-Device (socket)
+    └── End-Device (direct, no router needed)
+```
+
+### Device Roles
+
+| Role | Function | Power requirement |
+|------|---------|-----------------|
+| **Coordinator** | One-off network creator, routing table | Continuous power |
+| **Router** | Forwards messages, extends range | Continuous power |
+| **End-Device** | Sensor/actuator, sleeps between measurements | Battery possible |
+
+**Self-healing:** If a router fails, the network automatically finds another path.
+
+---
+
+## Technical Parameters
+
+| Parameter | Value |
+|---------|------|
+| Frequency | 2.4 GHz (global), 868/915 MHz (regional) |
+| Channels | 16 (2.4 GHz), numbered 11–26 |
+| Data rate | 250 kbps |
+| Range | 10–30 m (indoors), 75–100 m (open field) |
+| Max. devices | 65,000 per network (theoretical) |
+| Encryption | AES-128 |
+| Latency | 15–30 ms |
+
+**Interference issue:** 2.4 GHz shares the frequency band with Wi-Fi (2.4 GHz), Bluetooth and microwave ovens. Wi-Fi channels 1, 6, 11 overlap with Zigbee channels. Important: choose **Zigbee channel 15, 20, 25 or 26** to avoid Wi-Fi collisions.
+
+---
+
+## Pairing (Association Process)
+
+Unlike EnOcean (no pairing required), Zigbee devices must know the coordinator:
+
+1. Put coordinator into **join mode** (open time window)
+2. Put device into **pairing mode** (reset button or power cycle)
+3. Device finds network → sends join request
+4. Coordinator confirms → device is a member
+5. Device sends IEEE address (64 bit) and receives short network address (16 bit)
+
+**Note:** In Zigbee2MQTT the pairing window can be time-limited (security).
+
+---
+
+## Zigbee2MQTT — Integration into BA Software
+
+**Zigbee2MQTT** is the most popular open-source bridge:
+
+```
+Zigbee devices → Zigbee USB stick (coordinator) → Zigbee2MQTT → MQTT broker → Home Assistant / BMS
+```
+
+### Advantages of Zigbee2MQTT
+
+- Manufacturer-independent (1,000+ supported devices from 300+ brands)
+- Full control (no cloud)
+- Integration into Home Assistant, Node-RED, any MQTT-compatible system
+- Device database: zigbee2mqtt.io/devices/
+
+### Typical Configuration (zigbee2mqtt)
+
+```yaml
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://localhost:1883
+serial:
+  port: /dev/ttyUSB0
+permit_join: false  # close after commissioning!
+```
+
+MQTT output for sensor:
+```
+zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "linkquality": 255}
+```
+
+---
+
+## Zigbee in BA Practice
+
+### Strengths
+
+| Strength | Why |
+|---------|-----|
+| Large device selection | Mass market: IKEA, Philips Hue, Aqara |
+| Inexpensive hardware | Prices from CHF 5–20 per device |
+| Mesh self-healing | More robust than single-hop radio |
+| Bidirectional | Confirmations, feedback |
+| AES-128 encryption | Secure |
+
+### Limitations
+
+| Limitation | Why |
+|-----------|-----|
+| 2.4 GHz interference | Wi-Fi, Bluetooth, microwave ovens |
+| Coordinator dependency | Coordinator is a single point of failure |
+| No BA standardisation | No BACnet, no IEC standard |
+| No energy harvesting | Batteries needed (except mains-powered devices) |
+| Only one coordinator | Network split with multiple coordinators |
+
+### Typical BA Applications with Zigbee
+
+- **Lighting control:** IKEA TRÅDFRI, Philips Hue (low cost, wide choice)
+- **Push-buttons and switches:** No cabling needed, retrofit
+- **Temperature/humidity sensors:** Aqara, Sonoff (low cost)
+- **Thermostats:** Radiator valves (WISER, Devolo)
+- **Doors/windows:** Aqara door sensors
+- **Motion detectors:** Aqara, IKEA
+
+---
+
+## Comparison Zigbee vs. EnOcean
+
+| Feature | Zigbee | EnOcean |
+|---------|--------|---------|
+| Battery | Required (except routers/mains) | Battery-free (energy harvesting) |
+| Bidirectional | ✅ Yes | Limited (1BS/4BS unidirectional) |
+| Range | 10–30 m (mesh extends) | 30 m (repeater up to 2 hops) |
+| Device selection | Very large (mass market) | Medium (BA-specific) |
+| Standards | IEEE 802.15.4 | ISO/IEC 14543-3-1X |
+| BA integration | Via Zigbee2MQTT/MQTT | More direct (KNX/BACnet gateway) |
+| Cost | Very low | Medium to high |
+| Maintenance | Battery replacement needed | Maintenance-free |
+
+---
+
+## Matter and Thread (Successor Protocol)
+
+**Matter** (formerly CHIP, 2022) is the new smart home standard (Google, Apple, Amazon, Zigbee Alliance):
+- Unified protocol over IP
+- Runs over **Thread** (also IEEE 802.15.4 mesh) or Wi-Fi/Ethernet
+- Zigbee devices are **not** compatible with Matter
+- Transition period: Zigbee still relevant for years (huge installed base)
+
+## Standards
+
+- **IEEE 802.15.4** — Physical layer and MAC
+- **Zigbee Alliance / CSA** (Connectivity Standards Alliance) — zigbee.org
+- **Matter** — successor standard for smart home (csa-iot.org)

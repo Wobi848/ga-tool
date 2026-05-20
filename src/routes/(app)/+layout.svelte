@@ -14,20 +14,21 @@
 	import SearchModal from '$lib/components/SearchModal.svelte';
 	import PwaStatus from '$lib/components/PwaStatus.svelte';
 	import { onMount } from 'svelte';
+	import { APP_VERSION } from '$lib/version';
 
 	let { children, data } = $props();
 
 	let searchOpen = $state(false);
 	let favsOpen = $state(false);
 
-	const CURRENT_VERSION = '0.6.0';
+	const CURRENT_VERSION = APP_VERSION;
 	const STORAGE_KEY = 'ga-tool-seen-version';
 	let showUpdateBanner = $state(false);
 
 	onMount(() => {
 		const seen = localStorage.getItem(STORAGE_KEY);
 		if (seen !== CURRENT_VERSION) showUpdateBanner = true;
-		favorites.syncFromServer();
+		if (data.user) favorites.syncFromServer();
 	});
 
 	function dismissBanner() {
@@ -162,7 +163,7 @@
 				<svg width="14" height="14" viewBox="0 0 24 24" fill={favsOpen ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
 				</svg>
-				<span>Favoriten</span>
+				<span>{$_('dashboard.favorites')}</span>
 				<span class="fav-count">{$favorites.length}</span>
 				<svg class="fav-chevron" class:fav-chevron--open={favsOpen} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M6 9l6 6 6-6"/>
@@ -187,27 +188,42 @@
 		{/if}
 
 		<div class="sidebar-footer">
-			<a href="/profil" class="nav-item" class:active={isActive('/profil')}>
-				{@render Icon({ name: 'user', size: 18 })}
-				<span>Profil</span>
-			</a>
+			{#if data.user}
+				<a href="/profil" class="nav-item" class:active={isActive('/profil')}>
+					{@render Icon({ name: 'user', size: 18 })}
+					<span>{$_('nav.profile')}</span>
+				</a>
+			{:else}
+				<a href="/login" class="nav-item nav-item--login">
+					{@render Icon({ name: 'log-in', size: 18 })}
+					<span>{$_('auth.login')}</span>
+				</a>
+			{/if}
 			<a href="/settings" class="nav-item" class:active={isActive('/settings')}>
 				{@render Icon({ name: 'settings', size: 18 })}
 				<span>{$_('nav.settings')}</span>
 			</a>
-			<button
-				type="button"
-				class="nav-item nav-item--btn"
-				onclick={async () => {
-					await fetch('/api/auth/sign-out', { method: 'POST' });
-					window.location.href = '/login';
-				}}
-			>
-				{@render Icon({ name: 'log-out', size: 18 })}
-				<span>{$_('auth.logout')}</span>
-			</button>
+			{#if data.user?.role === 'admin'}
+				<a href="/admin" class="nav-item nav-item--admin" class:active={isActive('/admin')}>
+					{@render Icon({ name: 'shield', size: 18 })}
+					<span>Admin</span>
+				</a>
+			{/if}
+			{#if data.user}
+				<button
+					type="button"
+					class="nav-item nav-item--btn"
+					onclick={async () => {
+						await fetch('/api/auth/sign-out', { method: 'POST' });
+						window.location.href = '/login';
+					}}
+				>
+					{@render Icon({ name: 'log-out', size: 18 })}
+					<span>{$_('auth.logout')}</span>
+				</button>
+			{/if}
 			<a href="/changelog" class="version-link" class:active={isActive('/changelog')}>
-				v0.6.0
+				v{APP_VERSION}
 			</a>
 		</div>
 	</aside>
@@ -221,15 +237,19 @@
 				</span>
 			</div>
 			<div class="top-bar-right">
-				<button class="search-trigger" onclick={() => (searchOpen = true)} aria-label="Suche öffnen">
+				<button class="search-trigger" onclick={() => (searchOpen = true)} aria-label={$_('nav.searchOpen')}>
 					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
 						<circle cx="11" cy="11" r="8" />
 						<line x1="21" y1="21" x2="16.65" y2="16.65" />
 					</svg>
-					<span class="search-trigger-text">Suchen</span>
+					<span class="search-trigger-text">{$_('nav.search')}</span>
 					<kbd class="search-kbd">⌘K</kbd>
 				</button>
-				<a href="/profil" class="user-badge">{data.user.email}</a>
+				{#if data.user}
+					<a href="/profil" class="user-badge">{data.user.email}</a>
+				{:else}
+					<a href="/login" class="user-badge user-badge--guest">{$_('auth.login')}</a>
+				{/if}
 			</div>
 		</header>
 
@@ -237,11 +257,11 @@
 			<div class="update-banner" role="status">
 				<span class="update-icon">✦</span>
 				<span class="update-text">
-					<strong>Neu in v{CURRENT_VERSION}:</strong>
-					PID-Simulator, 16 neue Wissensartikel, RS-485/CAN/PROFIBUS/Matter, Changelog, Tastaturkürzel
+					<strong>{$_('nav.updateNew', { values: { version: CURRENT_VERSION } })}</strong>
+					{$_('nav.updateText')}
 				</span>
-				<a href="/changelog" class="update-link" onclick={dismissBanner}>Changelog</a>
-				<button type="button" class="update-close" onclick={dismissBanner} aria-label="Schliessen">×</button>
+				<a href="/changelog" class="update-link" onclick={dismissBanner}>{$_('nav.changelog')}</a>
+				<button type="button" class="update-close" onclick={dismissBanner} aria-label={$_('nav.close')}>×</button>
 			</div>
 		{/if}
 
@@ -324,6 +344,12 @@
 		{:else if name === 'user'}
 			<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
 			<circle cx="12" cy="7" r="4" />
+		{:else if name === 'log-in'}
+			<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+			<polyline points="10 17 15 12 10 7" />
+			<line x1="15" y1="12" x2="3" y2="12" />
+		{:else if name === 'shield'}
+			<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
 		{/if}
 	</svg>
 {/snippet}
@@ -579,6 +605,23 @@
 		color: var(--text);
 	}
 
+	.user-badge--guest {
+		color: var(--color-primary);
+		font-weight: 500;
+	}
+
+	.nav-item--login {
+		color: var(--color-primary);
+	}
+
+	.nav-item--admin {
+		color: #7c3aed;
+	}
+	.nav-item--admin:hover, .nav-item--admin.active {
+		background: color-mix(in srgb, #7c3aed 12%, transparent);
+		color: #7c3aed;
+	}
+
 	.top-bar-right {
 		display: flex;
 		align-items: center;
@@ -625,6 +668,10 @@
 	.main-content {
 		flex: 1;
 		padding: 1.5rem;
+	}
+
+	@media (max-width: 480px) {
+		.main-content { padding: 0.875rem 0.75rem; }
 	}
 
 	/* ── Bottom Nav (Mobile) ── */
@@ -738,5 +785,18 @@
 		.update-text {
 			font-size: 0.75rem;
 		}
+	}
+
+	@media print {
+		.sidebar,
+		.top-bar,
+		.bottom-nav,
+		.update-banner { display: none !important; }
+
+		.app-shell,
+		.main-wrapper { min-height: 0 !important; height: auto !important; }
+
+		.main-wrapper { margin-left: 0 !important; padding-bottom: 0 !important; }
+		.main-content { padding: 0 !important; }
 	}
 </style>

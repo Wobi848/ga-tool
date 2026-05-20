@@ -1,5 +1,6 @@
 ---
 title: Feuchtesensoren — Messung der Luftfeuchte in der GA
+title_en: Humidity Sensors — Measuring Air Humidity in BA
 slug: feuchtesensoren
 category: sensoren
 subcategory: feuchte
@@ -146,3 +147,137 @@ Wenn T_Vorlauf_Kühlung < T_Taupunkt + 1 K:
 
 **Kalibrierung im Feld:** Gesättigte Salzlösungen erzeugen definierte Feuchte:
 - LiCl: 11% rH | MgCl₂: 33% rH | NaCl: 75% rH | K₂SO₄: 97% rH
+
+<!-- EN -->
+
+Air humidity influences thermal comfort, mould risk, material protection, and process conditions. In BA, humidity sensors are used for humidifier control, dehumidification, condensation protection, and comfort monitoring.
+
+---
+
+## Measurement Types: Relative vs. Absolute Humidity
+
+| Type | Definition | Unit | BA application |
+|------|-----------|------|---------------|
+| **Relative humidity** (RH) | Ratio of water vapour partial pressure to saturation pressure at the same temperature | % RH | Standard: comfort, mould protection |
+| **Absolute humidity** | Water vapour mass per volume of air | g/m³ | Calculated from RH + T |
+| **Moisture content** | Water vapour mass per mass of dry air | g/kg | Psychrometrics, humidifier sizing |
+| **Dew point** | Temperature at which condensation begins | °C | Condensation protection, cooling |
+
+---
+
+## Measurement Principles
+
+### Capacitive Sensor (dominant in BA)
+
+A polymer hygristor changes its electrical capacitance in proportion to water uptake:
+
+```
+Polymer layer absorbs water vapour
+→ Dielectric constant ε changes
+→ Capacitance change ∝ relative humidity
+```
+
+**Properties:**
+- Measuring range: 0–100% RH
+- Accuracy: ±2–3% RH (standard), ±1% RH (precision)
+- Response time: 10–30 s
+- Temperature-dependent → integrated temperature sensor required for compensation
+- Drift: approx. 1% RH/year — annual calibration recommended
+
+**Common sensor families:** Sensirion SHT3x/SHT4x, Honeywell HIH-6000, Vaisala INTERCAP/HUMICAP
+
+### Chilled Mirror (Dew Point Mirror)
+
+High-precision laboratory instrument for dew point measurement:
+1. Optically polished mirror is cooled
+2. When mirror temperature = dew point: condensation appears (reflection changes)
+3. Control keeps mirror exactly at dew point → direct dew point measurement
+
+- Accuracy: ±0.1 °C dew point
+- Primary method, used for calibrating other sensors
+- Expensive, maintenance-intensive — laboratory use or reference only
+
+### Psychrometer (Wet/Dry Bulb Thermometer)
+
+Two thermometers: one dry, one wrapped in a wet wick.
+Evaporative cooling lowers the temperature of the wet bulb:
+```
+RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
+```
+
+- Simple, robust, no drift
+- Requires clean distilled water for the wick
+- Rarely used in BA systems today (historical, weather stations)
+
+---
+
+## Sensor Form Factors for BA
+
+| Form factor | Installation | Application |
+|-------------|------------|------------|
+| **Wall-mounted** (room device) | Indoors, 1.5 m height | Comfort monitoring, control |
+| **Duct probe** (ventilation) | In supply/return air duct | Humidifier, heat recovery |
+| **Outdoor air sensor** | Protected outdoors | Weather compensation, enthalpy exchange |
+| **Wall penetration probe** | Basement exterior wall | Condensation/mould protection |
+| **Combination T + RH** | Anywhere | Standard in BA room devices |
+
+---
+
+## Comfort and Limit Values
+
+| Range | Relative humidity | Note |
+|-------|-----------------|------|
+| **Comfort** | 40–60% RH | ASHRAE 55, EN ISO 7726 |
+| Dry air | < 30% RH | Irritation of mucous membranes, static charge |
+| Too humid | > 65% RH | Mould risk at cold surfaces |
+| Mould threshold | > 80% RH at surface | Fungal growth after 72 h |
+| Condensation | 100% RH | Dew point reached |
+
+**Duct air:** 10–95% RH possible depending on outdoor conditions — no comfort values apply.
+
+---
+
+## Humidifier Control (Supply Air)
+
+```
+Sensor in supply air duct:
+  x_actual (g/kg) = f(T_supply, RH_supply)
+
+Setpoint: x_setpoint = 8 g/kg (≈ 50% RH at 20 °C room temp)
+
+If x_actual < x_setpoint → humidifier ON (steam or evaporation)
+If x_actual > x_setpoint + hysteresis → humidifier OFF
+```
+
+**Hysteresis is essential** (e.g. ±0.5 g/kg) — otherwise continuous cycling.
+
+---
+
+## Condensation Protection for Cooling
+
+With chilled ceilings and thermal mass activation: risk of condensation when surface temperature < dew point of room air.
+
+```
+T_surface < T_dew_point_room?
+    → Close cooling or raise flow temperature
+```
+
+**DDC logic:**
+```
+T_dew_point = calculated from T_room + RH_room
+If T_flow_cooling < T_dew_point + 1 K:
+    → Alarm + raise flow temperature to T_dew_point + 2 K
+```
+
+---
+
+## Calibration and Maintenance
+
+| Interval | Action |
+|----------|--------|
+| Annual | Visual inspection, comparison with reference instrument |
+| Every 2 years | Calibration against certified reference instrument (VDI 6022) |
+| When suspected | Compare two sensors in the same room |
+
+**Field calibration:** Saturated salt solutions generate defined humidity levels:
+- LiCl: 11% RH | MgCl₂: 33% RH | NaCl: 75% RH | K₂SO₄: 97% RH

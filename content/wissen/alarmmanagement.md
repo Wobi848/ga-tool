@@ -1,5 +1,6 @@
 ---
 title: Alarmmanagement in der GA
+title_en: Alarm Management in BA
 slug: alarmmanagement
 category: regelung
 subcategory: betrieb
@@ -180,3 +181,174 @@ Für professionelles Alarmmanagement KPIs monatlich auswerten:
 - **IEC 62682** — Management of Alarm Systems (internationale Norm, basiert auf ISA-18.2)
 - **VDI 3814-4** — Gebäudeautomation, Alarmmanagement
 - **ISO 11064** — Ergonomische Gestaltung von Leitsystemen (Operatoren-Perspektive)
+
+<!-- EN -->
+
+## Alarm Management in BA
+
+Well-configured alarm management is the difference between a usable BMS and an alarm chaos that nobody takes seriously anymore. The golden rule: **1 alarm = 1 clear action instruction for the operator.**
+
+## Basic Principles
+
+### What is an Alarm?
+
+An alarm signals an **abnormal condition that requires a response**. What is not an alarm:
+- An event that only needs to be documented → **event/log**
+- Information with no action required → **notification**
+- A routine maintenance reminder → **maintenance message**
+
+> If an alarm is not followed by a concrete action, it is not an alarm — it is noise.
+
+### EEMUA 191 Target Values (industry standard)
+
+| KPI | Target | Critical |
+|-----|--------|---------|
+| Alarms per hour (average) | ≤ 1 / 10 min | > 1 / min |
+| Standing alarms | < 10 | > 50 |
+| Chattering alarms | 0 | > 5 % of all alarms |
+| Flooding alarm events/month | 0 | > 1 |
+| Suppressed alarms (shelved) | < 5 % | > 10 % |
+
+**Alarm flood:** > 10 alarms in 10 minutes — the operator can no longer respond meaningfully.
+
+## Priority Levels
+
+Four levels have proven effective in BA:
+
+| Priority | Name | Colour | Response time | Examples |
+|---------|------|--------|--------------|---------|
+| 1 | Critical | Red | Immediate | Frost protection triggered, fire damper, leakage |
+| 2 | High | Orange | < 15 min | Pump fault, heating failed |
+| 3 | Medium | Yellow | < 4 h | Filter dirty, communication error |
+| 4 | Low | Blue | Next maintenance | Operating hours reached, sensor drift |
+
+> Many systems are configured with too many critical alarms. If everything is critical, nothing is critical. **Maximum 5 % of all alarms should be priority 1.**
+
+## Typical BA Alarm Limits
+
+### Temperatures
+
+| Measurement point | Warning | Alarm | Delay |
+|-----------------|---------|-------|-------|
+| Room temperature too cold | < 19 °C | < 17 °C | 30 min |
+| Room temperature too warm | > 25 °C | > 28 °C | 30 min |
+| Frost protection heating coil | — | < 5 °C | 0 s (immediate!) |
+| Frost protection cold water | < 5 °C | < 3 °C | 0 s |
+| Flow too low | > setpoint − 5 K | > setpoint − 10 K | 15 min |
+
+### Pressures & Flow
+
+| Measurement point | Alarm | Delay |
+|-----------------|-------|-------|
+| Differential pressure filter G4 | > 200 Pa | 0 s |
+| Differential pressure filter F7 | > 300 Pa | 0 s |
+| Differential pressure filter F9 | > 400 Pa | 0 s |
+| System pressure heating low | < 1.0 bar | 60 s |
+| System pressure heating high | > 4.0 bar | 10 s |
+| Flow without demand | > 0.1 m³/h | 30 s (leak suspected) |
+
+### Communication
+
+| Connection | Alarm timeout | Note |
+|-----------|-------------|------|
+| BACnet/IP device | 60–120 s | Allow for reboot time |
+| Modbus RTU device | 30–60 s | |
+| KNX gateway | 120 s | |
+| Network (ping) | 30 s | |
+
+### Indoor Air
+
+| Parameter | Warning | Alarm | Standard |
+|-----------|---------|-------|---------|
+| CO₂ | > 1000 ppm | > 1500 ppm | EN 16798 IDA 2/3 |
+| VOC | Device-dependent | | |
+| Relative humidity high | > 65 % | > 70 % | Mould risk |
+| Relative humidity low | < 30 % | < 25 % | Comfort + health |
+
+## Chattering & Nuisance Alarms
+
+**Chattering:** an alarm that goes in and out multiple times within a short period.
+
+**Causes:**
+- Hysteresis too small (measured value fluctuates around the limit)
+- Dead time too short
+- Sensor noise
+- Mechanical chatter (floats, limit switches)
+
+**Solutions:**
+
+```
+Poor configuration:
+  Limit: 22 °C, hysteresis: 0 K, dead time: 0 s
+  → Alarm trips ON/OFF/ON/OFF with every small fluctuation
+
+Good configuration:
+  Limit: 22 °C, hysteresis: 1 K, dead time: 5 min
+  → Alarm trips ON when > 22 °C (stays active at least 5 min)
+  → Alarm clears only when < 21 °C (1 K hysteresis)
+```
+
+**Hysteresis rule of thumb:** 2–5 % of the measuring range or at least three times the sensor noise.
+
+**Dead time (delay):** alarm only triggers when condition has been stable for X seconds. Prevents alarms on brief transients (start-up, defrost, cold start).
+
+## Alarm Suppression
+
+### Shelving (temporary suppression)
+
+- Operator suppresses an alarm for a defined period (e.g. 8 hours)
+- Used for: known construction work, maintenance, known temporary condition
+- **Mandatory:** document expiry date and reason
+- Suppressed alarms must remain visible (separate display symbol)
+
+### Process Condition Suppression
+
+- Alarm automatically suppressed when plant state requires it
+- Example: frost alarm ventilation suppressed when plant is switched off
+- Example: filter differential pressure alarm suppressed when fan is off
+
+> **Only suppress when logically correct!** Automatic suppression can hide faults. Always document which conditions suppress which alarms.
+
+## Acknowledgement (ACK)
+
+**Acknowledging ≠ fixing:**
+- **ACK:** operator confirms "I have seen this alarm" — alarm remains active if cause still exists
+- **Normal state:** alarm disappears when measured value returns to normal range
+- **Reset:** some alarms remain active after normalising until manually acknowledged (latch)
+
+**Latching alarms:** Safety-relevant alarms (frost protection, fire protection) should be latched — the operator must consciously reset, not just let the condition return.
+
+## Escalation
+
+If alarm is not acknowledged → escalation:
+
+```
+t=0:     Alarm appears in BMS
+t=5 min: Alarm not yet acknowledged → email to facility manager
+t=15 min: Alarm still active → SMS to on-call technician
+t=30 min: Critical alarm → call emergency number
+```
+
+Configuration in BMS or separate alerting system (e.g. PagerDuty, SIGNL4, own SMS gateway).
+
+## Alarm KPIs
+
+For professional alarm management, evaluate KPIs monthly:
+
+| KPI | Calculation |
+|-----|------------|
+| Alarms/hour | Number of alarm events / operating hours |
+| Standing alarms | Alarms active for > 24 h |
+| Chattering rate | Alarms with > 10 state changes/day (%) |
+| Acknowledgement rate | Acknowledged alarms / total alarms (%) |
+| Top 10 most frequent alarms | Pareto analysis → optimisation targets |
+
+**Pareto principle:** 20 % of alarm points cause 80 % of alarm events. Analyse and fix the top 10 → large impact.
+
+## Standards
+
+- **EEMUA 191** — Alarm Systems: A Guide to Design, Management and Procurement (industry standard)
+- **ISA-18.2** — Management of Alarm Systems for the Process Industries
+- **IEC 62682** — Management of Alarm Systems (international standard, based on ISA-18.2)
+- **VDI 3814-4** — Building automation, alarm management
+- **ISO 11064** — Ergonomic design of control centres (operator perspective)

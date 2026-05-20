@@ -1,5 +1,6 @@
 ---
 title: Demand Response — Flexible Lasten im Stromnetz
+title_en: Demand Response — Flexible Loads in the Power Grid
 slug: demand-response
 category: energie
 subcategory: smart-grid
@@ -121,3 +122,112 @@ EMS überwacht 15-min-Mittelwert am HAK:
 | EU | Clean Energy Package (EU 2019/944), ACER Guidelines |
 
 In der Schweiz: DR-Teilnahme für Gebäude über Aggregatoren wie **Alpiq**, **BKW Energie**, **EDF Flexibilis** möglich — ab ca. 50 kW steuerbare Leistung wirtschaftlich.
+
+<!-- EN -->
+
+**Demand Response (DR)** is the deliberate, time-based adjustment of electricity consumption by end users in response to grid signals, price signals, or requests from the grid operator. Buildings with controllable loads (air conditioning, ventilation, heating, battery storage, charging infrastructure) can be deployed as flexible grid resources.
+
+---
+
+## Motivations for Demand Response
+
+| Actor | Motivation |
+|-------|-----------|
+| **Grid operator** | Frequency stability, congestion management, peak load reduction |
+| **Power exchange** | Balancing supply and demand (renewable energy volatility) |
+| **Building operator** | Reduction of demand charges (peak tariff), revenue from flexibility marketing |
+| **Aggregators** | Bundling small flexibilities into tradeable units |
+
+---
+
+## DR Types
+
+### Price-Based DR
+Consumers respond to variable electricity prices:
+- **Time-of-Use (ToU)**: Fixed high-/low-tariff periods
+- **Real-Time Pricing (RTP)**: Hourly spot market price (EPEX SPOT)
+- **Critical Peak Pricing (CPP)**: Strongly elevated price during a few critical hours
+
+### Incentive-Based DR
+Grid operators pay for provided flexibility:
+- **FCR** (Frequency Containment Reserve): Second-by-second reserve ±0.1 Hz, response time < 30 s
+- **aFRR** (automatic Frequency Restoration Reserve): Minute reserve, automatically activated
+- **mFRR** (manual FRR): Manual activation, response time < 12.5 min
+- **Redispatch 2.0 (DE)**: Grid operator can directly control consumers/generators
+
+---
+
+## Flexibility Potential in Buildings
+
+| System | Flexibility Duration | Response Time | Notes |
+|--------|---------------------|--------------|-------|
+| Air conditioning / cooling | 30–120 min | < 5 min | Thermal mass = buffer |
+| Ventilation system | 15–60 min | < 2 min | Observe CO₂ limits |
+| Heating (heat pump) | 60–240 min | < 10 min | Buffer tank required |
+| Domestic hot water (heating element) | 30–120 min | < 1 min | Simplest flexibility |
+| Battery storage | 15 min–4 h | < 1 s | Ideal for FCR/aFRR |
+| EV charging infrastructure | 30–480 min | < 1 min | OCPP smart charging |
+| Cold storage | 60–360 min | < 5 min | Commercial |
+
+---
+
+## Architecture: Aggregator Model
+
+```
+Building A (100 kW flex.)
+Building B  (50 kW flex.)  ────► Aggregator ────► Balancing energy market
+Building C  (80 kW flex.)                         (ENTSO-E / Swissgrid)
+         │
+    BA / EMS ◄──── DR signal (activation, quantity, duration)
+         │
+   Flexible loads
+```
+
+The **aggregator** bundles small flexibilities into tradeable packages (minimum size for FCR: 1 MW). It communicates with the EMS via proprietary APIs or standardised protocols (CIM, USEF).
+
+---
+
+## USEF Framework
+
+**Universal Smart Energy Framework** — European model for marketing building flexibility:
+
+| Role | Function |
+|------|---------|
+| AGR (Aggregator) | Markets flexibility on the exchange |
+| DSO (Distribution System Operator) | Buys flexibility for grid relief |
+| BRP (Balance Responsible Party) | Portfolio balancing |
+| Prosumer | Building provides flexibility |
+
+---
+
+## DR in BA — Practical Implementation
+
+### Simple Price-Based DR
+```
+EMS checks EPEX spot price hourly (via API):
+  If price < 5 ct/kWh:
+    → Charge battery, increase heat pump output (SG-Ready state 4)
+  If price > 25 ct/kWh:
+    → Discharge battery, reduce HVAC (within comfort limits)
+```
+
+### Peak Shaving (Demand Charge Optimisation)
+```
+EMS monitors 15-min average at the meter:
+  If P_15min > P_peak_limit:
+    → Discharge battery storage
+    → Reduce EV charging to minimum current
+    → Raise air conditioning setpoint by +2 K (temporarily)
+```
+
+---
+
+## Regulatory Framework (CH/DE)
+
+| Country | Regulation |
+|---------|-----------|
+| Germany | Redispatch 2.0 (§ 13a EnWG), balancing energy market (BNetzA) |
+| Switzerland | Balancing energy market Swissgrid, Ancillary Services |
+| EU | Clean Energy Package (EU 2019/944), ACER Guidelines |
+
+In Switzerland: DR participation for buildings is available via aggregators such as **Alpiq**, **BKW Energie**, **EDF Flexibilis** — economically viable from approx. 50 kW of controllable load.

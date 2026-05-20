@@ -1,5 +1,6 @@
 ---
 title: Raumautomation — RAUM-DDC und Raumregler
+title_en: Room Automation — Room DDC and Room Controllers
 slug: raumautomation
 category: ga
 subcategory: raumregelung
@@ -190,3 +191,184 @@ Spart 30–50 % Beleuchtungsenergie in gut beleuchteten Räumen.
 - **VDI 3813** — Raumautomationsfunktionen, Datenpunkte, Prozessbilder
 - **EN 15232** — Einsparpotenziale durch GA (Raumebene = grösste Wirkung)
 - **EN ISO 7730** — Ergonomie der thermischen Umgebung (Komfortparameter)
+
+<!-- EN -->
+
+# Room Automation — Room DDC and Room Controllers
+
+Room automation is the lowest level of building automation — directly at the user. Here, temperature, ventilation, lighting and shading are controlled in each individual room. Good room automation is invisible: the user is comfortable and notices nothing.
+
+## Room Automation Concept
+
+```
+Room functions:
+  ├── Heating/cooling (fan-coil, UFH, chilled ceiling)
+  ├── Ventilation (VAV box, volume flow)
+  ├── Lighting (DALI, 0–10V, switching)
+  ├── Shading (blind, louvre shutter)
+  └── Access control / presence
+
+All controlled by:
+  Room DDC (room controller)
+```
+
+---
+
+## Fan-Coil Unit (FCU)
+
+A **fan-coil** is a decentralised heating/cooling device with its own fan:
+
+```
+Chilled water (6/12 °C) or heating water (45/40 °C)
+    ↓
+[Heat exchanger coil]
+    ← Fan →
+    ↓
+Room air
+```
+
+### Control
+
+| Stage | Description |
+|-------|-------------|
+| **Temperature controller** | Measures room temp, controls via valve |
+| **Fan** | 3 speeds (Low/Mid/High) or variable via VFD |
+| **Valve** | 2-way or 3-way (heating / cooling) |
+| **Heating/cooling switchover** | DDC selects based on season / demand |
+
+### Typical DDC Data Points — FCU
+
+| Data Point | Type | Description |
+|------------|------|-------------|
+| Room temperature actual | AI | PT1000 |
+| Room temperature setpoint | AV | User or BMS setting |
+| Fan speed | AO | 0–10 V for variable control |
+| Cooling valve | AO | 0–10 V control signal |
+| Heating valve | AO | 0–10 V control signal |
+| Operating mode | AV | Comfort / Night / Absent |
+| Presence | DI | PIR or key card (hotel) |
+
+---
+
+## VAV Box in the Room
+
+Supplements or replaces the fan-coil when ventilation is handled centrally:
+
+```
+Supply air duct (central AHU)
+    ↓
+VAV box (volume flow controller)
+    ↓ Supply air into room
+    Measurement: differential pressure (→ volume flow)
+    Controlled variable: damper
+
+Room controller manages:
+  - VAV box volume flow (based on CO₂, presence, T)
+  - Reheat coil (electric or hot water)
+  - Cooling via supply air temperature (central or local)
+```
+
+---
+
+## Operating Modes / Room Profiles
+
+Good room automation knows multiple profiles:
+
+| Profile | Temperature | Ventilation | Lighting | Shading |
+|---------|-------------|-------------|----------|---------|
+| **Comfort** | 21 °C | Normal | Presence | Automatic |
+| **Pre-comfort** | 19 °C | Reduced | Off | Automatic |
+| **Night** | 16 °C | Minimum | Off | Closed (summer: open) |
+| **Absent** | 16 °C | Minimum | Off | Off |
+| **Meeting** | 21 °C | 100 % | 100 % | Shaded |
+| **Presentation** | 21 °C | Normal | 30 % | Shaded |
+
+Transitions between profiles are triggered by time programs, presence sensors or manual input.
+
+---
+
+## Presence Detection
+
+Presence detection is central to energy efficiency:
+
+```
+Presence detected → comfort mode
+No presence (5–15 min) → standby
+    ├── Lighting: off immediately
+    ├── Ventilation: reduce to minimum
+    └── Heating/cooling: shift setpoint by 2 K
+```
+
+**Sensor types:** PIR (motion), radar (millimetre wave, also detects stationary occupants), key card (hotel), button press, BMS occupancy schedule
+
+---
+
+## Room Bus Systems
+
+Room controllers communicate with the overarching DDC or directly with the BMS:
+
+| System | Protocol | Special feature |
+|--------|----------|-----------------|
+| **KNX** | KNX TP | Widespread, panel buttons integratable |
+| **BACnet MS/TP** | RS-485 | Industry standard, common in BA |
+| **LON** | LON-Works | Older installations, still in the field |
+| **Modbus RTU** | RS-485 | Simple, cost-effective |
+| **Proprietary** | Manufacturer-specific | Siemens PPS2, Sauter EY-modulo |
+
+---
+
+## Hotel Room Automation
+
+Hotels have special requirements:
+
+### Key Card Integration
+
+```
+Guest inserts card:
+  → DI "room occupied" = ON
+  → Temperature: comfort (21 °C)
+  → Ventilation: normal
+  → Lighting: available (manual control)
+
+Guest removes card:
+  → DI "room occupied" = OFF (after 1 min)
+  → Temperature: absent (18 °C summer, 16 °C winter)
+  → Ventilation: minimum
+  → Lighting: off
+```
+
+### DND / MUR (Do Not Disturb / Make Up Room)
+
+```
+DND button pressed:
+  → DO "DND lamp outside" = ON
+  → BMS signal: no housekeeping access
+
+MUR button pressed:
+  → DO "MUR lamp outside" = ON
+  → BMS signal: cleaning requested
+```
+
+---
+
+## Constant Light Control (DALI + Room Controller)
+
+```
+Brightness sensor in room (lux)
+    ↓
+Room controller compares with target brightness (e.g. 500 lux at desk)
+    ↓
+Adjust DALI dim level
+    ↓ More daylight → less artificial light
+```
+
+Saves 30–50 % lighting energy in well-daylit rooms.
+
+---
+
+## Standards
+
+- **EN ISO 52120** (formerly EN 15232) — BA efficiency classes, room automation Class A
+- **VDI 3813** — Room automation functions, data points, process diagrams
+- **EN 15232** — Savings potential through BA (room level = greatest impact)
+- **EN ISO 7730** — Ergonomics of the thermal environment (comfort parameters)

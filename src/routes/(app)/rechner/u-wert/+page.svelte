@@ -1,39 +1,41 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	// Schicht-Aufbau
 	type Layer = { label: string; lambda: number; thickness: number };
 
-	const materialPresets: { label: string; lambda: number }[] = [
-		{ label: 'Beton (dicht)', lambda: 2.1 },
-		{ label: 'Vollziegel', lambda: 0.68 },
-		{ label: 'Leichtbeton', lambda: 0.56 },
-		{ label: 'Kalksandstein', lambda: 0.99 },
-		{ label: 'Porenbeton (0.4)', lambda: 0.16 },
-		{ label: 'Mineralwolle', lambda: 0.035 },
-		{ label: 'EPS (Styropor)', lambda: 0.04 },
-		{ label: 'XPS (Styrodur)', lambda: 0.035 },
-		{ label: 'Holz (Fichte)', lambda: 0.13 },
-		{ label: 'Holzfaserplatte', lambda: 0.05 },
-		{ label: 'Gipskarton', lambda: 0.25 },
-		{ label: 'Estrich / Zement', lambda: 1.4 },
-		{ label: 'Parkett / Holzboden', lambda: 0.14 },
-		{ label: 'Keramik / Fliesen', lambda: 1.3 },
-		{ label: 'Glaswolle', lambda: 0.04 },
-		{ label: 'PUR-Schaum', lambda: 0.025 },
-		{ label: 'Luftspalt (ruhend)', lambda: 0.13 },
+	const materialPresetsData: { labelKey: string; lambda: number }[] = [
+		{ labelKey: 'rechner.uWertUi.matConcrete',       lambda: 2.1 },
+		{ labelKey: 'rechner.uWertUi.matBrick',           lambda: 0.68 },
+		{ labelKey: 'rechner.uWertUi.matLightConcrete',   lambda: 0.56 },
+		{ labelKey: 'rechner.uWertUi.matCalcSandstone',   lambda: 0.99 },
+		{ labelKey: 'rechner.uWertUi.matAeratedConcrete', lambda: 0.16 },
+		{ labelKey: 'rechner.uWertUi.matMineralWool',     lambda: 0.035 },
+		{ labelKey: 'rechner.uWertUi.matEPS',             lambda: 0.04 },
+		{ labelKey: 'rechner.uWertUi.matXPS',             lambda: 0.035 },
+		{ labelKey: 'rechner.uWertUi.matTimber',          lambda: 0.13 },
+		{ labelKey: 'rechner.uWertUi.matFibreBoard',      lambda: 0.05 },
+		{ labelKey: 'rechner.uWertUi.matGypsum',          lambda: 0.25 },
+		{ labelKey: 'rechner.uWertUi.matScreed',          lambda: 1.4 },
+		{ labelKey: 'rechner.uWertUi.matParquet',         lambda: 0.14 },
+		{ labelKey: 'rechner.uWertUi.matCeramic',         lambda: 1.3 },
+		{ labelKey: 'rechner.uWertUi.matGlassWool',       lambda: 0.04 },
+		{ labelKey: 'rechner.uWertUi.matPUR',             lambda: 0.025 },
+		{ labelKey: 'rechner.uWertUi.matAirGap',          lambda: 0.13 },
 	];
+	const materialPresets = $derived(materialPresetsData.map(m => ({ label: $_(m.labelKey), lambda: m.lambda })));
 
 	// Rsi / Rse Presets
-	type Surface = { label: string; rsi: number; rse: number };
+	type Surface = { labelKey: string; rsi: number; rse: number };
 	const surfacePresets: Record<string, Surface> = {
-		'wand-aussen':    { label: 'Aussenwand',        rsi: 0.13, rse: 0.04 },
-		'wand-innen':     { label: 'Innenwand',          rsi: 0.13, rse: 0.13 },
-		'dach-aussen':    { label: 'Dach (aussen)',      rsi: 0.10, rse: 0.04 },
-		'boden-erdreich': { label: 'Boden gg. Erdreich', rsi: 0.17, rse: 0.00 },
-		'boden-aussen':   { label: 'Boden gg. Aussenluft', rsi: 0.17, rse: 0.04 },
-		'custom':         { label: 'Benutzerdefiniert',  rsi: 0.13, rse: 0.04 },
+		'wand-aussen':    { labelKey: 'rechner.uWertUi.outerWall',   rsi: 0.13, rse: 0.04 },
+		'wand-innen':     { labelKey: 'rechner.uWertUi.innerWall',   rsi: 0.13, rse: 0.13 },
+		'dach-aussen':    { labelKey: 'rechner.uWertUi.roofOutside', rsi: 0.10, rse: 0.04 },
+		'boden-erdreich': { labelKey: 'rechner.uWertUi.floorGround', rsi: 0.17, rse: 0.00 },
+		'boden-aussen':   { labelKey: 'rechner.uWertUi.floorOutside', rsi: 0.17, rse: 0.04 },
+		'custom':         { labelKey: 'rechner.uWertUi.custom',      rsi: 0.13, rse: 0.04 },
 	};
 
 	let surfaceKey = $state('wand-aussen');
@@ -91,37 +93,37 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">U-Wert</h1>
-			<FavButton type="rechner" slug="u-wert" title="U-Wert" size={20} />
+			<h1 class="calc-title">{$_('rechner.uWert.name')}</h1>
+			<FavButton type="rechner" slug="u-wert" title={$_('rechner.uWert.name')} size={20} />
 		</div>
 	</header>
 
 	<!-- Bauteiltyp -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Bauteiltyp (Wärmeübergangswiderstände)</h2>
+		<h2 class="calc-section-title">{$_('rechner.uWertUi.surfaceType')}</h2>
 		<div class="surface-grid">
 			{#each Object.entries(surfacePresets) as [k, v]}
 				<button
 					class="surface-btn"
 					class:active={surfaceKey === k}
 					onclick={() => surfaceKey = k}
-				>{v.label}</button>
+				>{$_(v.labelKey)}</button>
 			{/each}
 		</div>
 		{#if surfaceKey === 'custom'}
 		<div class="rsi-row">
 			<div class="calc-field" style="border: none; padding: 0">
-				<label class="calc-field-label" for="rsi-in">Rsi (innen)</label>
+				<label class="calc-field-label" for="rsi-in">{$_('rechner.uWertUi.rsiLabel')}</label>
 				<div class="calc-input-wrap">
 					<input id="rsi-in" type="number" step="0.01" min="0" bind:value={rsi} class="calc-input" />
 					<span class="calc-input-unit">m²K/W</span>
 				</div>
 			</div>
 			<div class="calc-field" style="border: none; padding: 0">
-				<label class="calc-field-label" for="rse-in">Rse (aussen)</label>
+				<label class="calc-field-label" for="rse-in">{$_('rechner.uWertUi.rseLabel')}</label>
 				<div class="calc-input-wrap">
 					<input id="rse-in" type="number" step="0.01" min="0" bind:value={rse} class="calc-input" />
 					<span class="calc-input-unit">m²K/W</span>
@@ -135,7 +137,7 @@
 
 	<!-- Schichten -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Schichtaufbau (von innen nach aussen)</h2>
+		<h2 class="calc-section-title">{$_('rechner.uWertUi.layers')}</h2>
 		{#each layers as layer, i}
 		<div class="layer-row">
 			<div class="layer-index">{i + 1}</div>
@@ -144,13 +146,13 @@
 					type="text"
 					bind:value={layer.label}
 					class="layer-name"
-					placeholder="Bezeichnung"
+					placeholder={$_('rechner.uWertUi.layerName')}
 				/>
 				<div class="layer-nums">
 					<div class="layer-num-group">
 						<span class="layer-num-label">λ</span>
 						<select class="layer-lambda-sel" onchange={(e) => setMaterial(i, parseFloat((e.target as HTMLSelectElement).value))}>
-							<option value="">Preset…</option>
+							<option value="">{$_('rechner.uWertUi.presetPlaceholder')}</option>
 							{#each materialPresets as m}
 								<option value={m.lambda}>{m.label}</option>
 							{/each}
@@ -166,34 +168,34 @@
 					<span class="layer-r">R = {fmt((layer.thickness / 1000) / layer.lambda, 3)}</span>
 				</div>
 			</div>
-			<button class="layer-remove" onclick={() => removeLayer(i)} title="Schicht entfernen" aria-label="Entfernen">×</button>
+			<button class="layer-remove" onclick={() => removeLayer(i)} title={$_('rechner.uWertUi.removeLayer')} aria-label={$_('rechner.uWertUi.removeLayer')}>×</button>
 		</div>
 		{/each}
-		<button class="add-layer-btn" onclick={addLayer}>+ Schicht hinzufügen</button>
+		<button class="add-layer-btn" onclick={addLayer}>{$_('rechner.uWertUi.addLayer')}</button>
 	</div>
 
 	<!-- Ergebnis -->
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">U-Wert</span>
+			<span class="calc-result-label">{$_('rechner.uWertUi.uValue')}</span>
 			<span class="calc-result-value primary"
 				style="color: {result.u < 0.20 ? '#16a34a' : result.u < 0.40 ? '#ca8a04' : '#dc2626'}">
 				{fmt(result.u, 3)}<span class="calc-result-unit">W/(m²K)</span>
 			</span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Gesamtwiderstand R<sub>T</sub></span>
+			<span class="calc-result-label">{$_('rechner.uWertUi.totalR')}</span>
 			<span class="calc-result-value">{fmt(result.r_total, 3)}<span class="calc-result-unit">m²K/W</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Wandaufbau (ohne Putz)</span>
+			<span class="calc-result-label">{$_('rechner.uWertUi.wallBuild')}</span>
 			<span class="calc-result-value">{result.d_total}<span class="calc-result-unit">mm</span></span>
 		</div>
 	</div>
 
 	<!-- Vergleich SIA 380/1 -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Vergleich Grenzwerte (SIA 380/1 · Minergie)</h2>
+		<h2 class="calc-section-title">{$_('rechner.uWertUi.comparison')}</h2>
 		{#each limits as lim}
 		<div class="limit-row">
 			<span class="limit-label">{lim.label}</span>
@@ -205,10 +207,7 @@
 		{/each}
 	</div>
 
-	<p class="calc-info">
-		U = 1 / (Rsi + Σ(d/λ) + Rse) nach SIA 180 / EN ISO 6946.
-		Wärmebrücken und Befestigungen sind nicht berücksichtigt.
-	</p>
+	<p class="calc-info">{$_('rechner.uWertUi.formulaNoteWarnBridges')}</p>
 </div>
 
 <style>
@@ -424,4 +423,9 @@
 
 	.limit-badge.ok  { background: #16a34a20; color: #16a34a; }
 	.limit-badge.nok { background: #dc262620; color: #dc2626; }
+
+	@media (max-width: 480px) {
+		.surface-grid { grid-template-columns: 1fr 1fr; }
+		.rsi-row      { grid-template-columns: 1fr; }
+	}
 </style>

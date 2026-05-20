@@ -1,5 +1,6 @@
 ---
 title: Kaskadenregelung und Führungsregelung
+title_en: Cascade Control and Feedforward Control
 slug: kaskadenregelung
 category: regelung
 subcategory: regler
@@ -139,3 +140,130 @@ Wenn Master zu aggressiv parametriert ist → Wechselwirkung → System schwingt
 
 - **VDI 3540** — Regelungstechnik für Heizungs-, Lüftungs- und Klimaanlagen
 - **DIN IEC 60050-351** — Internationales Elektrotechnisches Wörterbuch
+
+<!-- EN -->
+
+Many processes in BA cannot be controlled optimally with simple single-loop controllers. Cascade control connects two controllers in series to regulate complex plant quickly and precisely.
+
+## Cascade Control — Principle
+
+**Cascade:** An outer controller (master) provides the setpoint for an inner controller (slave).
+
+```
+Reference (setpoint) → [Master controller] → Setpoint for slave
+                                               ↓
+                        [Slave controller] → Control output → Plant
+                                   ↑
+                         Actual value (inner loop)
+                                   
+Actual value (outer) → [Master controller] ←
+```
+
+**Advantage:** The inner loop (slave) responds quickly to disturbances in the inner plant. The outer loop (master) controls the overall objective more slowly.
+
+---
+
+## Typical Example: Room Temperature Cascade Control
+
+### Without Cascade (Direct Control)
+
+```
+Room temperature setpoint → Controller → Mixing valve position
+```
+
+Problem: Room temperature responds very slowly (thermal mass of the room). Controller overshoots, oscillates.
+
+### With Cascade
+
+```
+Room temp setpoint → [Room controller (master)]
+                             ↓ Flow temp setpoint
+                      [Flow controller (slave)] → Mixing valve
+                             ↑ Actual flow temp (fast!)
+                      ↑ Actual room temp (slow)
+```
+
+**Master** (room controller): Compares actual room temperature with setpoint → calculates required flow temperature.
+**Slave** (flow controller): Maintains the flow temperature commanded by the master quickly and precisely.
+
+**Why better:** Flow temperature changes fast (mixing valve) — room temperature changes slowly (thermal inertia). The slave controller can correct flow temperature in seconds, while the master adjusts the setpoint every few minutes.
+
+---
+
+## Weather-Compensated Control (Feedforward)
+
+A related technique is **disturbance feedforward**: a measurable disturbance (outdoor temperature) is fed directly to the setpoint — before the controller has to wait for the room to cool down.
+
+### Heating Curve as Reference Variable
+
+```
+Outdoor temperature (reference variable)
+        ↓
+[Heating curve: calculate flow setpoint from outdoor temp]
+        ↓ Flow setpoint
+[Flow controller] → Mixing valve
+        ↑ Actual flow
+```
+
+**No room sensor required!** The heating curve anticipates the required heat output. Suitable for simple installations.
+
+**Combined with room feedback:**
+
+```
+Outdoor temperature → [Heating curve] → Flow setpoint (base)
+                                               +
+Room temperature → [Room controller] → Correction to flow setpoint
+                                               ↓
+                                    [Flow controller] → Mixing valve
+```
+
+The heating curve provides the base value; the room controller makes fine adjustments.
+
+---
+
+## Further Cascades in BA
+
+### Pressure Cascade (Ventilation)
+
+```
+Room pressure setpoint → [Room pressure controller] → VAV target airflow
+                                                              ↓
+                                                 [Airflow controller] → VAV damper
+                                                              ↑ Actual airflow (fast)
+                             ↑ Actual room pressure (slow)
+```
+
+### Air Conditioning Cascade
+
+```
+Room temp setpoint → [Room temp controller] → Supply air temp setpoint
+                                                      ↓
+                                           [Supply air temp controller] → Heating/cooling
+                                                      ↑ Actual supply air temp (fast)
+                         ↑ Actual room temp (slow)
+```
+
+---
+
+## Tuning Cascades
+
+**Key rule:** The inner loop (slave) must be tuned **faster** than the outer loop (master):
+
+```
+Slave: short integral time (Ti small), more aggressive response
+Master: longer integral time (Ti large), smoother response
+```
+
+**Procedure:**
+1. Tune slave first (put master in manual)
+2. Test and optimise slave
+3. Enable master and optimise
+
+If master is tuned too aggressively → interaction → system oscillates.
+
+---
+
+## Standards
+
+- **VDI 3540** — Control engineering for heating, ventilation, and air conditioning systems
+- **DIN IEC 60050-351** — International electrotechnical vocabulary

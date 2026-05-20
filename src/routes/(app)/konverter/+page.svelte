@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { converters } from '$lib/converters';
+	import { _ } from 'svelte-i18n';
 
 	const iconPaths: Record<string, string> = {
 		gauge: 'M12 2a10 10 0 1 0 0 20A10 10 0 0 0 12 2zm0 3a7 7 0 0 1 7 7 7 7 0 0 1-7 7 7 7 0 0 1-7-7 7 7 0 0 1 7-7zm0 2a1 1 0 0 0-1 1v4l-2.5 2.5a1 1 0 1 0 1.414 1.414L12.5 13.4V8a1 1 0 0 0-1-1z',
@@ -14,8 +15,8 @@
 
 <div class="page">
 	<header class="page-header">
-		<h1>Konverter</h1>
-		<p class="subtitle">Einheitenumrechnung für die Gebäudeautomation</p>
+		<h1>{$_('konverter.title')}</h1>
+		<p class="subtitle">{$_('konverter.subtitle')}</p>
 	</header>
 
 	<div class="grid">
@@ -27,7 +28,7 @@
 					</svg>
 				</div>
 				<div class="card-body">
-					<h2 class="card-title">{c.name}</h2>
+					<h2 class="card-title">{$_('konverter.' + c.slug + '.name', { default: c.name })}</h2>
 					<p class="card-units">{c.units.map(u => u.symbol).join(' · ')}</p>
 				</div>
 				<svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

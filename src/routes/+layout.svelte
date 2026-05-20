@@ -1,14 +1,12 @@
 <script lang="ts">
 	import './layout.css';
-	import { onMount } from 'svelte';
 	import { theme } from '$lib/stores/theme';
-	import { setupI18n } from '$lib/i18n';
+	import { locale } from '$lib/i18n';
 
-	let { children } = $props();
+	let { children, data } = $props();
 
-	onMount(() => {
-		setupI18n();
-	});
+	// Set locale from cookie (server-readable) before first render — prevents flash
+	locale.set(data.lang);
 
 	// Apply theme to <html> whenever it changes
 	$effect(() => {

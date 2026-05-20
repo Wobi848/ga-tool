@@ -1,5 +1,6 @@
 ---
 title: EMS und Lastmanagement — Energiemanagement in der GA
+title_en: EMS and Load Management — Energy Management in BA
 slug: ems-lastmanagement
 category: energie
 subcategory: management
@@ -177,4 +178,173 @@ Struktur der Norm:
 - **ISO 50001** — Energiemanagementsysteme
 - **EN 50160** — Merkmale der Spannung in öffentlichen Netzen
 - **IEC 61851** — Elektrische Ausrüstung von Elektrofahrzeugen (Laden)
+- **OCPP 1.6 / 2.0.1** — Open Charge Point Protocol
+
+<!-- EN -->
+
+## EMS and Load Management — Energy Management in BA
+
+An **energy management system (EMS)** monitors and optimises the energy consumption of a building or campus. Combined with PV systems, storage and controllable loads, the EMS becomes the hub of energy efficiency.
+
+## EMS vs. BMS
+
+| Function | BMS | EMS |
+|----------|-----|-----|
+| HVAC control | Core task | No |
+| Alarm management | Yes | Energy alarms only |
+| Energy metering | Optional | Core task |
+| Schedule optimisation | Manual | Automatic |
+| PV integration | No | Yes |
+| Load management | Optional | Core task |
+| Reporting / ISO 50001 | Not foreseen | Yes |
+
+In modern systems BMS and EMS converge — or the EMS is a module of the BMS.
+
+---
+
+## Load Management
+
+### Peak Load Management
+
+Goal: reduce the power peak (kW) to lower network tariff charges.
+
+**Why important:** Many network tariffs bill the **annual power peak** separately. A single 15-minute spike can cost several thousand francs/euros per year.
+
+```
+Measurement period: 15 minutes (energy meters measure in 15-min intervals)
+
+When power threatens to exceed limit:
+  Priority 1 switch off: EV charging stations (car doesn't need to leave)
+  Priority 2 reduce: air conditioning (slight comfort reduction)
+  Priority 3 defer: domestic hot water heating (storage available)
+  Priority 4 reduce: lighting in unoccupied rooms
+```
+
+### Setting Switching Priorities
+
+| Priority | Load | Switch off | Note |
+|---------|------|-----------|------|
+| 1 | EV charging station | Immediately | Acceptable to users |
+| 2 | Air conditioning (cooling) | Up to 15 min | Thermal mass helps |
+| 3 | DHW boiler | Up to 60 min | Storage holds temperature |
+| 4 | Lighting (unoccupied) | Immediately | No impact |
+| Never | Safety lighting, emergency | — | Legally prohibited |
+
+---
+
+## PV Self-Consumption Optimisation
+
+### Goal
+
+Consume as much self-generated solar power directly as possible — rather than exporting (low feed-in tariff) and re-buying (high purchase price).
+
+```
+PV surplus present:
+  → Heat pump at maximum output
+  → Charge EV
+  → Heat DHW boiler (to 65 °C instead of 55 °C)
+  → Charge battery
+
+PV production falls / surplus gone:
+  → Reduce loads
+  → Discharge battery
+  → Normal operation
+```
+
+### Control via Grid Measurement
+
+```
+P_grid = power at grid connection point (positive = import, negative = export)
+
+EMS control:
+  P_grid near 0 → optimal (neither buying nor exporting)
+  P_grid > 0 → EMS activates controllable loads
+  P_grid < 0 → EMS reduces loads or charges storage
+```
+
+---
+
+## SG-Ready (Smart Grid Ready)
+
+**SG-Ready** is a German quality mark for heat pump systems with 4 operating states:
+
+| State | Signal (2 DI lines) | Meaning |
+|-------|---------------------|---------|
+| **1** | 00 | Lockout (grid overloaded) |
+| **2** | 01 | Normal operation |
+| **3** | 10 | Switch-on recommendation (PV surplus) |
+| **4** | 11 | Switch-on command (wind/PV overproduction) |
+
+The EMS sets state 3 when PV surplus is available → HP runs at maximum output (charge buffer).
+
+---
+
+## Battery Storage in BA
+
+Residential and commercial battery storage complements PV:
+
+### Charging Strategies
+
+| Strategy | Description |
+|---------|-------------|
+| **PV self-consumption** | Charge when PV > consumption, discharge at night |
+| **Peak shaving** | Discharge at load peaks, charge in off-peak |
+| **Night charging** | Charge at favourable night tariff |
+| **Emergency reserve** | SOC never below 20 % (blackout protection) |
+
+**BA integration:** EMS reads SOC (state of charge), controls charge/discharge power via Modbus or manufacturer API.
+
+---
+
+## E-Mobility / Charge Management
+
+### OCPP (Open Charge Point Protocol)
+
+Standard for communication between charging station and operator system:
+
+```
+EV → Charging station (OCPP 1.6 / 2.0.1) → Charge Point Management System (CPMS) → EMS/BMS
+```
+
+### Load Management for EV Charging Points
+
+```
+Maximum building supply: 100 kW
+
+Current building load: 70 kW
+Available for charging: 30 kW
+
+5 charging points: 6 kW each (phase 1 = 26 A)
+One car leaves, 4 cars → 7.5 kW each
+
+EMS distributes dynamically, always within limit
+```
+
+### Phase Balancing
+
+Single-phase charging points can unbalance phases → reactive power, phase imbalance. EMS monitors and distributes charging points across different phases.
+
+---
+
+## ISO 50001 — Energy Management Standard
+
+Standard structure:
+
+| Element | Description |
+|---------|-------------|
+| Energy policy | Management commitment |
+| Energy baseline | Reference value against which improvements are measured |
+| Energy KPIs | Measurable metrics (kWh/m², kWh/product) |
+| Targets | Annual reduction targets |
+| Action plan | Concrete measures, responsibilities, deadlines |
+| Monitoring | EMS measures and reports (M&V) |
+| Audit | External review every 3 years (certification) |
+
+**BA contribution:** EMS automatically supplies the measurement data for ISO 50001 — consumption by energy carrier, area and time period.
+
+## Standards
+
+- **ISO 50001** — Energy management systems
+- **EN 50160** — Voltage characteristics of electricity supplied by public networks
+- **IEC 61851** — Electric vehicle conductive charging systems
 - **OCPP 1.6 / 2.0.1** — Open Charge Point Protocol

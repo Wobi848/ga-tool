@@ -1,5 +1,6 @@
 ---
 title: Z-Wave — Drahtloses Mesh-Netzwerk für Smart Buildings
+title_en: Z-Wave — Wireless Mesh Network for Smart Buildings
 slug: zwave
 category: kommunikation
 subcategory: drahtlos
@@ -150,3 +151,141 @@ Z-Wave LR (2020) adressiert die bisherigen Grenzen:
 - Rückwärtskompatibel mit Z-Wave Plus
 
 Ideal für: Campus-Beleuchtung, Parkflächen, Aussenareale.
+
+<!-- EN -->
+
+Z-Wave is a proprietary wireless mesh protocol for home automation and light building automation. It operates in the **sub-GHz band (868 MHz in Europe)**, thereby avoiding the WLAN/Bluetooth interference in the 2.4 GHz band. Z-Wave is distinguished by high interoperability — all certified devices are compatible with each other.
+
+---
+
+## Technical Specifications
+
+| Parameter | Z-Wave | Z-Wave Plus (Gen 5) | Z-Wave LR |
+|-----------|--------|---------------------|-----------|
+| Frequency CH/DE | 868.42 MHz | 868.42 MHz | 868.4 / 869.85 MHz |
+| Range | 30 m (indoors) | 100 m (outdoors) | up to 1,600 m |
+| Max. network nodes | 232 | 232 | 4,000 |
+| Data rate | 9.6 / 40 kbit/s | 9.6 / 40 / 100 kbit/s | 100 kbit/s |
+| Transmit power | 1 mW | 1 mW | 25 mW |
+| Topology | Mesh | Mesh | Star + mesh |
+
+---
+
+## Mesh Network
+
+Z-Wave devices are networked in a **mesh network**. Mains-powered devices (actuators, dimmers) act as **routers** and relay messages. Battery-powered devices (sensors, remotes) sleep and are not routers.
+
+```
+Z-Wave hub/controller
+      │
+   Socket ──── Dimmer ──── Blind actuator
+   (router)    (router)    (router)
+      │
+   Door sensor
+   (sleeping, not a router)
+```
+
+Routing depth: up to 4 hops (intermediate nodes) from controller to target device.
+
+---
+
+## Security
+
+Z-Wave has offered strong encryption since S2 (2017):
+
+| Security class | Encryption | Application |
+|---------------|-----------|------------|
+| S0 (old) | AES-128 (vulnerable to replay attacks) | Older devices |
+| S2 Access Control | AES-128, ECDH | Door locks, alarm |
+| S2 Authenticated | AES-128, ECDH | Dimmers, thermostats |
+| S2 Unauthenticated | AES-128 | Devices without display |
+| SmartStart | QR code pairing | Simple secure commissioning |
+
+SmartStart enables secure inclusion via QR code — the device is automatically joined to the network after power-up.
+
+---
+
+## Device Types and Classes
+
+### Actuators (mains-powered, router-capable)
+- **Switching actuators** (sockets, flush-mount relays)
+- **Dimmers** (leading/trailing edge)
+- **Blind/roller shutter actuator**
+- **Thermostatic valve actuators** (radiator, underfloor heating)
+- **Light switches** (flush-mount)
+
+### Sensors (battery-powered, no routing)
+- Door/window contact
+- Motion detector (PIR)
+- Temperature sensor
+- Smoke detector, CO detector
+- Flood sensor
+
+### Controllers
+- **Z-Wave hub** (Fibaro Home Center, Vera, Aeotec Z-Stick)
+- **Smart home systems** with Z-Wave (Home Assistant, Homey, SmartThings)
+
+---
+
+## Integration into Building Automation
+
+Z-Wave is primarily designed for **residential building automation** but is also used in smaller commercial buildings:
+
+### Home Assistant + Z-Wave JS
+The most popular open-source integration:
+```
+Building
+  │
+Z-Wave USB stick (Aeotec Z-Stick 7)
+  │
+Home Assistant (Raspberry Pi / mini PC)
+  │  Z-Wave JS add-on
+  ├── MQTT bridge → BMS/SCADA
+  ├── REST API → KNX IP gateway
+  └── Node-RED → BACnet gateway
+```
+
+### Typical BA Applications
+
+| Area | Z-Wave device |
+|------|-------------|
+| Individual offices | Room thermostat, radiator valve |
+| Hotel rooms | Socket, blind, door contact |
+| Residential | Roller shutter, dimmer, smoke detector |
+| Retrofit | Retrofit thermostat (no cable installation) |
+
+---
+
+## Z-Wave vs. Zigbee vs. EnOcean
+
+| Feature | Z-Wave | Zigbee | EnOcean |
+|---------|--------|--------|---------|
+| Frequency | 868 MHz | 2.4 GHz | 868 MHz |
+| Interoperability | High (Z-Wave Alliance certification) | Medium (Matter improves this) | High (EnOcean Alliance) |
+| Battery | Yes | Yes | Battery-free! |
+| Range | 30–100 m | 10–30 m | 30 m |
+| Max. network size | 232 (4,000 with LR) | 65,000 | Broadcast |
+| Protocol | Proprietary (Z-Wave Alliance) | IEEE 802.15.4 + ZigBee | EnOcean protocol |
+| Open source | No (spec available) | Yes | Partly |
+
+---
+
+## Limitations in BA
+
+- **Proprietary protocol:** Controller manufacturer lock-in (no free stack until Z-Wave 700)
+- **No native BACnet/Modbus:** Gateway always required
+- **232 nodes:** Limited for larger buildings (Z-Wave LR: 4,000)
+- **No direct device-to-device communication without controller**
+- **Latency:** Approx. 100–500 ms due to mesh routing (not an issue for lighting/blinds)
+
+---
+
+## Z-Wave Long Range (LR)
+
+Z-Wave LR (2020) addresses the previous limitations:
+- **Up to 1,600 m range** (outdoor, direct connection)
+- **Up to 4,000 nodes** per network
+- **Star topology** (no mesh routing required)
+- Backwards compatible with Z-Wave Plus
+
+Ideal for: campus lighting, car parks, outdoor areas.

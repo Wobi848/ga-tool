@@ -1,5 +1,6 @@
 ---
 title: Matter & Thread — neue Smart-Home-Standards
+title_en: Matter & Thread — New Smart Home Standards
 slug: matter-thread
 category: kommunikation
 subcategory: drahtlos
@@ -171,3 +172,167 @@ Home Assistant
 | Matter 1.3 | 2024 | Wassersteuerung, EV-Charging, Energie-Monitoring |
 | Matter 1.4 | 2024/25 | Enhanced Multi-Admin, Wasserheizer |
 | Matter for Metering | geplant | Smart Meter, BACnet Bridge |
+
+<!-- EN -->
+
+## Matter & Thread — New Smart Home Standards
+
+Matter and Thread are two complementary standards that have been fundamentally reshaping the smart home world since 2022. **Thread** is the wireless network protocol (Layers 1–4), **Matter** is the application protocol (Layer 7). Together they form an open, vendor-neutral alternative to proprietary smart home ecosystems.
+
+---
+
+## The Problem Matter & Thread Solve
+
+Previously: every manufacturer had its own ecosystem. Apple devices only worked with Apple HomeKit, Google devices only with Google Home, Amazon only with Alexa.
+
+With Matter: **one device, all ecosystems.** A Matter thermostat works simultaneously with Apple, Google, Amazon and Samsung — without a bridge, without cloud dependency.
+
+---
+
+## Thread — the Network Protocol
+
+Thread (IEEE 802.15.4) is an **IP-based wireless mesh protocol** for IoT devices:
+
+| Parameter | Value |
+|-----------|-------|
+| Frequency | 2.4 GHz (IEEE 802.15.4) |
+| Data rate | 250 kbit/s |
+| Range | 10–30 m per hop |
+| Topology | Mesh (self-healing) |
+| Addressing | IPv6 (6LoWPAN compression) |
+| Encryption | AES-128 at link level |
+| Max. network size | 250+ devices |
+
+### Thread Roles
+
+| Role | Function |
+|------|----------|
+| **Router** | Forwards packets in the mesh, mains-powered |
+| **End Device (Sleepy)** | Battery-powered, sleeps, no routing |
+| **Border Router** | Connects Thread mesh to IP network (WLAN/Ethernet) |
+| **Commissioner** | Adds new devices to the network (provisionally) |
+| **Leader** | Coordinates router topology (dynamically elected) |
+
+### Thread Border Router
+
+The border router is the bridge between the Thread mesh and the local IP network. Typical devices:
+- Apple HomePod mini / Apple TV 4K
+- Google Nest Hub (2nd gen) / Nest WiFi Pro
+- Amazon Echo (4th gen)
+- Dedicated border routers (Silabs, NXP, Nordic)
+
+---
+
+## Matter — the Application Protocol
+
+Matter (developed by the CSA = Connectivity Standards Alliance, formerly Zigbee Alliance) defines **device types, clusters and attributes** over IP:
+
+### Transport Paths
+
+Matter runs over:
+- **Thread** (wireless, battery-powered)
+- **Wi-Fi** (mains-powered devices)
+- **Ethernet** (stationary devices)
+
+### Device Types (Selection)
+
+| Matter Device Type | Example |
+|-------------------|---------|
+| On/Off Light | LED spotlight |
+| Dimmable Light | Dimmer |
+| Color Temperature Light | Tunable White |
+| Extended Color Light | RGBW |
+| Thermostat | Room thermostat |
+| Door Lock | Door lock |
+| Window Covering | Blind, roller shutter |
+| Occupancy Sensor | Presence detector |
+| Contact Sensor | Door/window contact |
+| Air Quality Sensor | CO₂, VOC |
+| Pump Controller | Pump control |
+| HVAC | Air conditioning (in development) |
+
+### Commissioning with QR Code
+
+Adding a new Matter device:
+1. Scan the QR code on the device (with smartphone)
+2. Device automatically joins the Thread mesh or Wi-Fi
+3. Device is connected to the Matter Fabric (network)
+4. Device appears in Apple Home, Google Home, etc.
+
+---
+
+## Multi-Admin: One Device, Multiple Controllers
+
+Matter allows **Multi-Admin**: a device can be controlled simultaneously by multiple smart home systems — without cloud coupling:
+
+```
+Matter Thermostat
+    │ (Thread)
+    ├── Apple HomeKit ✓
+    ├── Google Home ✓
+    └── Home Assistant ✓ (via Matter integration)
+```
+
+---
+
+## Matter & BA Integration
+
+### Current Limitations
+
+Matter is optimised for **residential buildings**. Professional BA still lacks:
+- **BACnet bridge** (in development, CSA bridge spec)
+- **Complex HVAC objects** (ventilation systems, chillers)
+- **Group addressing** like KNX group telegrams
+- **Normative framework** for commercial use (EN 15232, SIA 386)
+
+### Practical BA Use Today
+
+| Use Case | Recommendation |
+|----------|---------------|
+| Residential | Excellent — Matter is the future |
+| Hotel rooms | Matter + Thread for room automation possible |
+| Small commercial | Matter via Home Assistant as BA bridge |
+| Large buildings | KNX/BACnet remains primary, Matter as supplement |
+
+### Home Assistant as Matter Bridge
+
+```
+KNX / BACnet System
+      │
+Home Assistant
+  ├── KNX integration (native stack)
+  ├── BACnet integration
+  ├── Matter Controller (Thread Border Router)
+  └── MQTT broker
+         │
+    Matter devices (Thread mesh)
+```
+
+---
+
+## Thread vs. Zigbee vs. Z-Wave
+
+| Feature | Thread | Zigbee | Z-Wave |
+|---------|--------|--------|--------|
+| Frequency | 2.4 GHz | 2.4 GHz | 868 MHz |
+| Protocol stack | IPv6/UDP (open standard) | Proprietary (ZigBee) | Proprietary |
+| Application protocol | Matter (open standard) | ZigBee / Matter* | Z-Wave |
+| Interoperability | Very high (Matter) | Medium | High |
+| Battery | Yes (Sleepy ED) | Yes | Yes |
+| IP-native | Yes (IPv6) | No | No |
+| Maturity | Young (2022+) | Mature | Mature |
+
+*Zigbee hardware can be re-flashed for Matter over Thread (Silabs, NXP).
+
+---
+
+## Roadmap and Outlook
+
+| Version | Year | Highlights |
+|---------|------|-----------|
+| Matter 1.0 | 2022 | Lights, switches, locks, thermostats |
+| Matter 1.1 | 2023 | Bug fixes, ICD (Intermittently Connected Device) |
+| Matter 1.2 | 2023 | Refrigerators, air quality, smoke detectors, robots |
+| Matter 1.3 | 2024 | Water control, EV charging, energy monitoring |
+| Matter 1.4 | 2024/25 | Enhanced Multi-Admin, water heaters |
+| Matter for Metering | planned | Smart meters, BACnet bridge |

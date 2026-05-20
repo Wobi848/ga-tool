@@ -12,14 +12,15 @@ const toBase: Record<string, number> = {
 export const energie: ConverterMeta = {
 	slug: 'energie',
 	name: 'Energie',
+	name_en: 'Energy',
 	icon: 'battery-charging',
 	color: '#16a34a',
 	units: [
-		{ id: 'kWh', label: 'Kilowattstunde', symbol: 'kWh', note: 'Standard Energieverbrauch' },
-		{ id: 'MWh', label: 'Megawattstunde', symbol: 'MWh' },
-		{ id: 'GJ', label: 'Gigajoule', symbol: 'GJ', note: 'Fernwärme-Abrechnung CH' },
-		{ id: 'MJ', label: 'Megajoule', symbol: 'MJ' },
-		{ id: 'kJ', label: 'Kilojoule', symbol: 'kJ', note: 'SI-Einheit' }
+		{ id: 'kWh', label: 'Kilowattstunde', labelEn: 'Kilowatt hour', symbol: 'kWh', note: 'Standard Energieverbrauch', noteEn: 'Standard energy consumption' },
+		{ id: 'MWh', label: 'Megawattstunde', labelEn: 'Megawatt hour', symbol: 'MWh' },
+		{ id: 'GJ', label: 'Gigajoule', labelEn: 'Gigajoule', symbol: 'GJ', note: 'Fernwärme-Abrechnung CH', noteEn: 'District heating billing CH' },
+		{ id: 'MJ', label: 'Megajoule', labelEn: 'Megajoule', symbol: 'MJ' },
+		{ id: 'kJ', label: 'Kilojoule', labelEn: 'Kilojoule', symbol: 'kJ', note: 'SI-Einheit', noteEn: 'SI unit' }
 	],
 	toBase: (v, u) => v * toBase[u],
 	fromBase: (v, u) => v / toBase[u]

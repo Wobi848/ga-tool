@@ -10,20 +10,21 @@ function pSat(tC: number): number {
 export const feuchte: ConverterMeta = {
 	slug: 'feuchte',
 	name: 'Feuchte',
+	name_en: 'Humidity',
 	icon: 'droplet',
 	color: '#7c3aed',
 	contextInput: {
 		id: 'temperature',
-		label: 'Lufttemperatur',
+		label: 'Lufttemperatur', labelEn: 'Air temperature',
 		unit: '°C',
 		default: 20,
 		min: -20,
 		max: 60
 	},
 	units: [
-		{ id: '%', label: 'Relative Feuchte', symbol: '%', note: 'Raumklima: 40–60 %' },
-		{ id: 'g/kg', label: 'Absolute Feuchte', symbol: 'g/kg', note: 'Wassergehalt der Luft' },
-		{ id: 'g/m³', label: 'Absolute Feuchte volumetrisch', symbol: 'g/m³' }
+		{ id: '%', label: 'Relative Feuchte', labelEn: 'Relative humidity', symbol: '%', note: 'Raumklima: 40–60 %', noteEn: 'Room climate: 40–60 %' },
+		{ id: 'g/kg', label: 'Absolute Feuchte', labelEn: 'Absolute humidity', symbol: 'g/kg', note: 'Wassergehalt der Luft', noteEn: 'Water content of air' },
+		{ id: 'g/m³', label: 'Absolute Feuchte volumetrisch', labelEn: 'Absolute humidity (volumetric)', symbol: 'g/m³' }
 	],
 	// context.temperature in °C is passed as third arg by the converter UI
 	toBase: (v, u, tC = 20) => {

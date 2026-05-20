@@ -1,11 +1,23 @@
 <script lang="ts">
-	import { areaLabels } from '$lib/wissen/types';
+	
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _, locale } from 'svelte-i18n';
 	import type { PageData } from './$types';
+	import type { Row, Column } from '$lib/referenz/types';
 
 	let { data }: { data: PageData } = $props();
 
 	const table = $derived(data.table);
+
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
+	function getCell(row: Row, col: Column): string {
+		if (isEn) {
+			const enKey = col.key + '_en';
+			if (enKey in row) return String(row[enKey]);
+		}
+		return formatCell(row[col.key], col.type);
+	}
 
 	let query = $state('');
 	let sortKey = $state<string | null>(null);
@@ -72,20 +84,20 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Tabellen
+			{$_('referenz.backLink')}
 		</a>
 		<div class="title-row">
-			<h1>{table.title}</h1>
+			<h1>{t(table.title, table.title_en)}</h1>
 			<FavButton type="referenz" slug={table.slug} title={table.title} size={20} />
 		</div>
 		{#if table.subtitle}
-			<p class="subtitle">{table.subtitle}</p>
+			<p class="subtitle">{t(table.subtitle, table.subtitle_en)}</p>
 		{/if}
 
 		<div class="meta-chips">
 			<span class="cat-chip">{table.category}</span>
 			{#each table.areas as a}
-				<span class="area-chip">{areaLabels[a]}</span>
+				<span class="area-chip">{$_('area.' + a)}</span>
 			{/each}
 			{#each table.norm ?? [] as n}
 				<span class="norm-chip">{n}</span>
@@ -96,7 +108,7 @@
 		</div>
 
 		{#if table.description}
-			<p class="description">{table.description}</p>
+			<p class="description">{t(table.description, table.description_en)}</p>
 		{/if}
 	</header>
 
@@ -107,7 +119,7 @@
 		</svg>
 		<input
 			type="search"
-			placeholder="In Tabelle suchen…"
+			placeholder={$_('referenz.searchInTable')}
 			bind:value={query}
 			class="search-input"
 		/>
@@ -129,7 +141,7 @@
 						>
 							<span class="th-content">
 								<span class="th-label">
-									{col.label}
+									{t(col.label, col.label_en)}
 									{#if col.unit}<span class="th-unit">[{col.unit}]</span>{/if}
 								</span>
 								<span class="sort-indicator" class:active={sortKey === col.key}>
@@ -142,7 +154,7 @@
 							</span>
 						</th>
 					{/each}
-					<th class="action-col" aria-label="Aktionen"></th>
+					<th class="action-col" aria-label={$_('common.actions')}></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -156,16 +168,16 @@
 								class:num={col.type === 'number'}
 								class:highlight={col.highlight}
 								onclick={() => copyValue(val, cellId)}
-								title="Klicken zum Kopieren"
+								title={$_('referenz.clickToCopy')}
 							>
-								<span class="cell-value">{formatCell(val, col.type)}</span>
+								<span class="cell-value">{getCell(row, col)}</span>
 								{#if copiedCell === cellId}
 									<span class="copied-flash">✓</span>
 								{/if}
 							</td>
 						{/each}
 						<td class="action-col">
-							<button class="copy-row-btn" onclick={() => copyRow(row)} title="Ganze Zeile kopieren (TSV)">
+							<button class="copy-row-btn" onclick={() => copyRow(row)} title={$_('referenz.copyRow')}>
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 									<rect x="9" y="9" width="13" height="13" rx="2" />
 									<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
@@ -179,20 +191,17 @@
 	</div>
 
 	{#if filteredRows.length === 0}
-		<p class="empty">Keine Zeile passt zur Suche „{query}".</p>
+		<p class="empty">{$_('referenz.noRowsMatch')}</p>
 	{/if}
 
 	{#if table.notes}
 		<aside class="notes">
-			<strong>Hinweis</strong>
-			<p>{table.notes}</p>
+			<strong>{$_('referenz.noteLabel')}</strong>
+			<p>{t(table.notes, table.notes_en)}</p>
 		</aside>
 	{/if}
 
-	<p class="info">
-		Klick auf eine Zelle kopiert den Wert. Klick auf das Symbol rechts kopiert die Zeile als TSV.
-		Klick auf eine Spalten-Überschrift sortiert auf-/absteigend.
-	</p>
+	<p class="info">{$_('referenz.infoText')}</p>
 </div>
 
 <style>

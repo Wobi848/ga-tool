@@ -1,61 +1,59 @@
 <script lang="ts">
 	import { theme, type Theme } from '$lib/stores/theme';
-	import { setLang, locale } from '$lib/i18n';
+	import { APP_VERSION } from '$lib/version';
+	import { setLang, getSavedLang, type Lang } from '$lib/i18n';
 	import { _ } from 'svelte-i18n';
+	import { onMount } from 'svelte';
 
-	const themes: { value: Theme; label: string }[] = [
-		{ value: 'auto', label: 'Auto (System)' },
-		{ value: 'light', label: 'Hell' },
-		{ value: 'dark', label: 'Dunkel' },
-		{ value: 'oled', label: 'OLED' }
+	const themeValues: Theme[] = ['auto', 'light', 'dark', 'oled'];
+	const langValues: { value: Lang; labelKey: string }[] = [
+		{ value: 'auto', labelKey: 'settings.langAuto' },
+		{ value: 'de',   labelKey: 'settings.langDe' },
+		{ value: 'en',   labelKey: 'settings.langEn' }
 	];
 
-	const languages = [
-		{ value: 'de', label: 'Deutsch' },
-		{ value: 'en', label: 'English' }
-	];
+	let currentLang = $state<Lang>('auto');
+	onMount(() => { currentLang = getSavedLang(); });
 </script>
 
 <svelte:head>
-	<title>Einstellungen — GA Tool</title>
+	<title>{$_('settings.title')} — GA Tool</title>
 </svelte:head>
 
 <div class="settings-page">
-	<h1>Einstellungen</h1>
+	<h1>{$_('settings.title')}</h1>
 
 	<div class="settings-sections">
 		<!-- Theme -->
 		<section class="settings-section card">
-			<h2>Darstellung</h2>
+			<h2>{$_('settings.theme')}</h2>
 
 			<div class="setting-row">
-				<label for="theme-select">Theme</label>
+				<span class="setting-label">{$_('settings.theme')}</span>
 				<div class="theme-options">
-					{#each themes as t}
+					{#each themeValues as tv}
 						<button
 							class="theme-btn"
-							class:active={$theme === t.value}
-							onclick={() => theme.set(t.value)}
+							class:active={$theme === tv}
+							onclick={() => theme.set(tv)}
 						>
-							{t.label}
+							{$_(`settings.theme${tv.charAt(0).toUpperCase() + tv.slice(1)}`)}
 						</button>
 					{/each}
 				</div>
 			</div>
 
 			<div class="setting-row">
-				<label for="lang-select">Sprache</label>
-				<select
-					id="lang-select"
-					class="input-base"
-					style="width: auto"
-					value={$locale}
-					onchange={(e) => setLang(e.currentTarget.value as 'de' | 'en')}
-				>
-					{#each languages as lang}
-						<option value={lang.value}>{lang.label}</option>
+				<span class="setting-label">{$_('settings.language')}</span>
+				<div class="theme-options">
+					{#each langValues as lv}
+						<button
+							class="theme-btn"
+							class:active={currentLang === lv.value}
+							onclick={() => { currentLang = lv.value; setLang(lv.value); }}
+						>{$_(lv.labelKey)}</button>
 					{/each}
-				</select>
+				</div>
 			</div>
 		</section>
 
@@ -64,7 +62,7 @@
 			<h2>Info</h2>
 			<div class="info-row">
 				<span>Version</span>
-				<span class="text-muted">v0.0.1</span>
+				<span class="text-muted">v{APP_VERSION}</span>
 			</div>
 			<div class="info-row">
 				<span>Stack</span>

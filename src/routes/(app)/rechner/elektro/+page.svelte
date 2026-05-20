@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	type OhmMode = 'R' | 'U' | 'I';
 	let ohmMode = $state<OhmMode>('R');
@@ -61,28 +62,28 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">Elektro-Grundrechner</h1>
-			<FavButton type="rechner" slug="elektro" title="Elektro-Grundrechner" size={20} />
+			<h1 class="calc-title">{$_('rechner.elektro.name')}</h1>
+			<FavButton type="rechner" slug="elektro" title={$_('rechner.elektro.name')} size={20} />
 		</div>
 	</header>
 
 	<!-- Ohm -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Ohm'sches Gesetz — U = R × I</h2>
+		<h2 class="calc-section-title">{$_('rechner.elektroUi.ohmsLaw')}</h2>
 		<div class="calc-field" style="border-top:none">
-			<label class="calc-field-label" for="ohm-mode">Gesucht</label>
+			<label class="calc-field-label" for="ohm-mode">{$_('rechner.elektroUi.find')}</label>
 			<select id="ohm-mode" class="calc-select" bind:value={ohmMode}>
-				<option value="R">Widerstand R (Ω)</option>
-				<option value="U">Spannung U (V)</option>
-				<option value="I">Strom I (A)</option>
+				<option value="R">{$_('rechner.elektroUi.resistance')}</option>
+				<option value="U">{$_('rechner.elektroUi.voltage')}</option>
+				<option value="I">{$_('rechner.elektroUi.current')}</option>
 			</select>
 		</div>
 		{#if ohmMode !== 'U'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="ohm-u">Spannung U</label>
+			<label class="calc-field-label" for="ohm-u">{$_('rechner.elektroUi.voltageU')}</label>
 			<div class="calc-input-wrap">
 				<input id="ohm-u" type="number" class="calc-input" bind:value={ohmU} min="0" step="0.1" />
 				<span class="calc-input-unit">V</span>
@@ -91,7 +92,7 @@
 		{/if}
 		{#if ohmMode !== 'I'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="ohm-i">Strom I</label>
+			<label class="calc-field-label" for="ohm-i">{$_('rechner.elektroUi.currentI')}</label>
 			<div class="calc-input-wrap">
 				<input id="ohm-i" type="number" class="calc-input" bind:value={ohmI} min="0.001" step="0.01" />
 				<span class="calc-input-unit">A</span>
@@ -100,7 +101,7 @@
 		{/if}
 		{#if ohmMode !== 'R'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="ohm-r">Widerstand R</label>
+			<label class="calc-field-label" for="ohm-r">{$_('rechner.elektroUi.resistanceR')}</label>
 			<div class="calc-input-wrap">
 				<input id="ohm-r" type="number" class="calc-input" bind:value={ohmR} min="0.001" step="1" />
 				<span class="calc-input-unit">Ω</span>
@@ -111,33 +112,33 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Widerstand R</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.resistanceR')}</span>
 			<span class="calc-result-value" class:primary={ohmMode === 'R'}>{fmt(ohm.R, 3)}<span class="calc-result-unit">Ω</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Spannung U</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.voltageU')}</span>
 			<span class="calc-result-value" class:primary={ohmMode === 'U'}>{fmt(ohm.U, 3)}<span class="calc-result-unit">V</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Strom I</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.currentI')}</span>
 			<span class="calc-result-value" class:primary={ohmMode === 'I'}>{fmt(ohm.I, 3)}<span class="calc-result-unit">A</span></span>
 		</div>
 	</div>
 
 	<!-- Leistung DC -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Leistung DC — P = U × I</h2>
+		<h2 class="calc-section-title">{$_('rechner.elektroUi.powerDC')}</h2>
 		<div class="calc-field" style="border-top:none">
-			<label class="calc-field-label" for="p-mode">Gesucht</label>
+			<label class="calc-field-label" for="p-mode">{$_('rechner.elektroUi.find')}</label>
 			<select id="p-mode" class="calc-select" bind:value={pMode}>
-				<option value="P">Leistung P (W)</option>
-				<option value="U">Spannung U (V)</option>
-				<option value="I">Strom I (A)</option>
+				<option value="P">{$_('rechner.elektroUi.powerP')}</option>
+				<option value="U">{$_('rechner.elektroUi.voltage')}</option>
+				<option value="I">{$_('rechner.elektroUi.current')}</option>
 			</select>
 		</div>
 		{#if pMode !== 'U'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="p-u">Spannung U</label>
+			<label class="calc-field-label" for="p-u">{$_('rechner.elektroUi.voltageU')}</label>
 			<div class="calc-input-wrap">
 				<input id="p-u" type="number" class="calc-input" bind:value={pU} min="0" step="0.1" />
 				<span class="calc-input-unit">V</span>
@@ -146,7 +147,7 @@
 		{/if}
 		{#if pMode !== 'I'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="p-i">Strom I</label>
+			<label class="calc-field-label" for="p-i">{$_('rechner.elektroUi.currentI')}</label>
 			<div class="calc-input-wrap">
 				<input id="p-i" type="number" class="calc-input" bind:value={pI} min="0" step="0.1" />
 				<span class="calc-input-unit">A</span>
@@ -155,7 +156,7 @@
 		{/if}
 		{#if pMode !== 'P'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="p-p">Leistung P</label>
+			<label class="calc-field-label" for="p-p">{$_('rechner.elektroUi.powerLabel')}</label>
 			<div class="calc-input-wrap">
 				<input id="p-p" type="number" class="calc-input" bind:value={pP} min="0" step="1" />
 				<span class="calc-input-unit">W</span>
@@ -166,38 +167,38 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Leistung P</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.powerLabel')}</span>
 			<span class="calc-result-value" class:primary={pMode === 'P'}>{fmt(power.P, 3)}<span class="calc-result-unit">W</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Spannung U</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.voltageU')}</span>
 			<span class="calc-result-value" class:primary={pMode === 'U'}>{fmt(power.U, 3)}<span class="calc-result-unit">V</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Strom I</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.currentI')}</span>
 			<span class="calc-result-value" class:primary={pMode === 'I'}>{fmt(power.I, 3)}<span class="calc-result-unit">A</span></span>
 		</div>
 	</div>
 
-	<!-- Leistung AC -->
+	<!-- AC Power -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Leistung AC — Wirk / Blind / Schein</h2>
+		<h2 class="calc-section-title">{$_('rechner.elektroUi.powerAC')}</h2>
 		<div class="calc-field" style="border-top:none">
-			<label class="calc-field-label" for="ac-u">Spannung U</label>
+			<label class="calc-field-label" for="ac-u">{$_('rechner.elektroUi.voltageU')}</label>
 			<div class="calc-input-wrap">
 				<input id="ac-u" type="number" class="calc-input" bind:value={acU} min="0" step="1" />
 				<span class="calc-input-unit">V</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="ac-i">Strom I</label>
+			<label class="calc-field-label" for="ac-i">{$_('rechner.elektroUi.currentI')}</label>
 			<div class="calc-input-wrap">
 				<input id="ac-i" type="number" class="calc-input" bind:value={acI} min="0" step="0.1" />
 				<span class="calc-input-unit">A</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="ac-cos">Leistungsfaktor cos φ</label>
+			<label class="calc-field-label" for="ac-cos">{$_('rechner.elektroUi.powerFactor')}</label>
 			<div class="calc-input-wrap">
 				<input id="ac-cos" type="number" class="calc-input" bind:value={acCos} min="0.1" max="1" step="0.01" />
 				<span class="calc-input-unit">—</span>
@@ -207,39 +208,39 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Wirkleistung P</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.activePower')}</span>
 			<span class="calc-result-value primary">{fmt(ac.P, 3)}<span class="calc-result-unit">W</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Blindleistung Q</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.reactivePower')}</span>
 			<span class="calc-result-value">{fmt(ac.Q, 3)}<span class="calc-result-unit">var</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Scheinleistung S</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.apparentPower')}</span>
 			<span class="calc-result-value">{fmt(ac.S, 3)}<span class="calc-result-unit">VA</span></span>
 		</div>
 	</div>
 
-	<!-- Strom aus Leistung -->
+	<!-- Current from Power -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Strom aus Leistung + Absicherung</h2>
+		<h2 class="calc-section-title">{$_('rechner.elektroUi.currentFromPower')}</h2>
 		<div class="calc-field" style="border-top:none">
-			<label class="calc-field-label" for="i-mode">Schaltung</label>
+			<label class="calc-field-label" for="i-mode">{$_('rechner.elektroUi.circuit')}</label>
 			<select id="i-mode" class="calc-select" bind:value={iMode}>
 				<option value="dc">DC — I = P / U</option>
-				<option value="ac1">AC 1-phasig — I = P / (U × cos φ)</option>
-				<option value="ac3">AC 3-phasig — I = P / (√3 × U × cos φ)</option>
+				<option value="ac1">AC 1-phase — I = P / (U × cos φ)</option>
+				<option value="ac3">AC 3-phase — I = P / (√3 × U × cos φ)</option>
 			</select>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="i-p">Leistung P</label>
+			<label class="calc-field-label" for="i-p">{$_('rechner.elektroUi.powerLabel')}</label>
 			<div class="calc-input-wrap">
 				<input id="i-p" type="number" class="calc-input" bind:value={iP} min="0" step="10" />
 				<span class="calc-input-unit">W</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="i-u">Spannung U</label>
+			<label class="calc-field-label" for="i-u">{$_('rechner.elektroUi.voltageU')}</label>
 			<div class="calc-input-wrap">
 				<input id="i-u" type="number" class="calc-input" bind:value={iU} min="1" step="1" />
 				<span class="calc-input-unit">V</span>
@@ -247,7 +248,7 @@
 		</div>
 		{#if iMode !== 'dc'}
 		<div class="calc-field">
-			<label class="calc-field-label" for="i-cos">Leistungsfaktor cos φ</label>
+			<label class="calc-field-label" for="i-cos">{$_('rechner.elektroUi.powerFactor')}</label>
 			<div class="calc-input-wrap">
 				<input id="i-cos" type="number" class="calc-input" bind:value={iCos} min="0.1" max="1" step="0.01" />
 				<span class="calc-input-unit">—</span>
@@ -258,13 +259,13 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Strom I</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.currentI')}</span>
 			<span class="calc-result-value primary">{fmt(currentFromPower, 3)}<span class="calc-result-unit">A</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Empfohlene Absicherung</span>
+			<span class="calc-result-label">{$_('rechner.elektroUi.recommendedFuse')}</span>
 			<span class="calc-result-value">{recommendedFuse ?? '> 32'}<span class="calc-result-unit">A</span></span>
 		</div>
 	</div>
-	<p class="calc-info">Absicherung = nächst höherer Normwert (6–32 A) bei I × 1.25 (80%-Regel nach NIN/VDE)</p>
+	<p class="calc-info">{$_('rechner.elektroUi.fuseNote')}</p>
 </div>

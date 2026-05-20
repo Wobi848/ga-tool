@@ -1,5 +1,6 @@
 ---
 title: Trending und Historisierung — Datenaufzeichnung in der GA
+title_en: Trending and Historisation — Data Recording in BA
 slug: trending-historisierung
 category: ga
 subcategory: betrieb
@@ -170,3 +171,162 @@ Aktuell: Vorlauftemperatur nur 38 °C bei TA=-5 °C
 
 - **ASHRAE 135 (BACnet)** — TrendLog, Event-Log Objektdefinitionen
 - **VDI 3814** — Dokumentationsanforderungen GA
+
+<!-- EN -->
+
+Without data storage, fault analysis is blind. Trends show whether control loops are functioning, consuming energy, alarms are chattering, or plant is degrading. Good trending is the most important diagnostic tool in BA.
+
+## Recording Methods
+
+### Polling (Cyclic)
+
+BMS reads a data point every X seconds/minutes and stores the value:
+
+```
+t=0:00   → T_SUP = 45.2 °C → store
+t=0:01   → T_SUP = 45.3 °C → store
+t=0:02   → T_SUP = 45.3 °C → store (no change, still stored)
+...
+```
+
+| Advantage | Disadvantage |
+|----------|------------|
+| Simple, uniform | Much storage (even unchanged values) |
+| Good for time series | Short transients may be missed |
+
+### COV — Change of Value
+
+BACnet standard: DDC sends value only when it has changed by ≥ COV increment:
+
+```
+t=0:00   → T_SUP = 45.2 °C → send (first message)
+t=0:01   → T_SUP = 45.3 °C → no send (< 0.5 K change)
+t=0:10   → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
+```
+
+| Advantage | Disadvantage |
+|----------|------------|
+| Low network load | Irregular time series |
+| Low storage | Wrong COV increment → data gaps |
+| Relevant changes only | Harder to visualise |
+
+**Best practice:** Polling for display + COV for archiving, or polling at lower resolution for archive.
+
+---
+
+## Resolution and Archiving Duration
+
+### Resolution Recommendations
+
+| Data point type | Real-time resolution | Archive resolution | Retention |
+|---------------|--------------------|--------------------|---------|
+| Room temperature | 1–5 min | 15 min | 2 years |
+| Heating circuit supply temp. | 30 s | 5 min | 2 years |
+| Energy meter | 15 min | 15 min | 5+ years |
+| Alarm events | second (event) | second (event) | 5+ years |
+| Valve position | 1 min | 15 min | 1 year |
+| Fault signals | second (event) | second (event) | 5+ years |
+
+**Roughly:** For control optimisation you need 1-min resolution. For energy reports, 15 min is sufficient.
+
+---
+
+## BACnet TrendLog Object
+
+BACnet defines a standardised **TrendLog** object (object type 20):
+
+```
+TrendLog object in DDC:
+  LogObjectProperty: AI 1 / Present_Value
+  LogInterval: 300 s (5 min)
+  MaxBuffer: 10080 (7 days × 24h × 2/h)
+  Enable: TRUE
+  COV_Resubscription_Interval: 300 s
+```
+
+BMS reads TrendLog via BACnet ReadRange → timestamp + value pairs.
+
+**Important:** TrendLog is stored in DDC RAM/Flash — on restart/power failure: data loss if BMS does not read out regularly!
+
+---
+
+## Modern Time-Series Databases
+
+For professional trending and analytics:
+
+### InfluxDB
+
+- Time-series database (open source / enterprise)
+- High-performance for many data points
+- Scalable, compresses efficiently
+- Tags for metadata (building, system, point)
+
+```
+Data point in InfluxDB:
+  measurement: "temperature"
+  tags: building="A", system="HTG", point="SUP_HC1"
+  fields: value=45.3
+  timestamp: 2026-05-14T09:00:00Z
+```
+
+### Grafana
+
+- Time-series visualisation (open source)
+- Connects to InfluxDB, PostgreSQL, etc.
+- Dashboards for energy, temperature curves, alarm history
+- Alerting rules directly in Grafana
+
+```
+Typical BA stack:
+  BMS data → InfluxDB → Grafana dashboard
+  MQTT broker → Telegraf → InfluxDB
+  M-Bus meters → Node-RED → InfluxDB
+```
+
+---
+
+## What Should Be Trended?
+
+### Mandatory Trends (every installation)
+
+- All temperatures (supply, return, room, outdoor)
+- System pressure
+- Alarms and faults (event log)
+- Operating hours and switching cycles
+
+### Recommended
+
+- Valve and damper positions (assess control quality)
+- VSD speeds (fan, pump)
+- Energy meters (15-min values for peak analysis)
+- CO₂, humidity in rooms (comfort monitoring)
+
+### Fault-Finding
+
+When control loop "behaves oddly" → analyse 1-min trend:
+
+```
+Example: Supply temperature chattering
+  → Trend graph shows: mixing valve oscillates ±5 %
+  → Cause: PID controller too aggressive (Kp too high)
+  → Solution: reduce Kp, increase Ti
+```
+
+---
+
+## Anomaly Detection
+
+With historical data, anomalies can be detected automatically:
+
+```
+Reference: supply temperature always 42 °C at T_outdoor = −5 °C
+Current:   supply temperature only 38 °C at T_outdoor = −5 °C
+→ Alarm: setpoint not reached → mixing valve faulty?
+```
+
+**Statistically:** If current value > 3 × standard deviation from seasonal mean → alarm.
+
+## Standards
+
+- **ASHRAE 135 (BACnet)** — TrendLog, Event-Log object definitions
+- **VDI 3814** — Documentation requirements for BA

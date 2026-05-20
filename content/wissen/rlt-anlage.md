@@ -1,5 +1,6 @@
 ---
 title: RLT-Anlage — Aufbau und Komponenten
+title_en: AHU — Construction and Components
 slug: rlt-anlage
 category: lueftung
 subcategory: grundlagen
@@ -180,3 +181,174 @@ Statt fixer Zulufttemperatur: Sollwert abhängig von Aussentemperatur oder Raumt
 - **SIA 382.1** — Lüftungs- und Klimaanlagen, Allgemeine Grundlagen
 - **EN 13053** — Lüftung von Gebäuden, Zentrale Raumlufttechnische Anlagen
 - **EN ISO 16890** — Luftfilter für die allgemeine Raumlufttechnik
+
+<!-- EN -->
+
+## AHU — Construction and Components
+
+An **air handling unit (AHU)** conditions air for buildings: temperature, humidity, quality and volume flow are controlled. In BA the AHU is one of the most complex control systems — many actuators, mutual dependencies and safety-critical functions.
+
+## Airflow Principle
+
+```
+Outdoor air (ODA)
+      ↓
+[Filter] → [HRC] → [Heater] → [Cooler/Humidifier] → [Fan] → Supply air (SUP)
+                ↑
+        Heat recovery
+                ↑
+[Filter] ← [HRC] ← Extract air (ETA) ← Rooms
+      ↓
+Exhaust air (EHA)
+```
+
+### Air Designations (EN 13779 / EN 16798)
+
+| Code | English | Source/destination |
+|------|---------|-------------------|
+| **ODA** | Outdoor Air | Comes from outside |
+| **SUP** | Supply Air | Goes into the room |
+| **ETA** | Extract Air | Comes from the room |
+| **EHA** | Exhaust Air | Goes to outside |
+| **RCA** | Recirculation Air | Internal recirculation |
+
+---
+
+## Components in Detail
+
+### 1. Outdoor Air Damper (ODA damper)
+
+- Motorised damper at the outdoor air inlet
+- **Safety function:** closes when plant is off → prevents freezing of the coil
+- Fail-safe: CLOSED (spring return) — on power loss damper stays closed
+- Feedback: limit switches (DI) OPEN / CLOSED
+
+### 2. Filters
+
+| Filter class | Standard | New pressure drop | Change pressure | Application |
+|-------------|---------|-----------------|----------------|------------|
+| Coarse (G) | EN ISO 16890 | 20–50 Pa | 150–200 Pa | Pre-filter, coarse dust |
+| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa | 200–250 Pa | Outdoor air filter |
+| ePM2.5 (F7) | EN ISO 16890 | 80–150 Pa | 250–300 Pa | Supply air filter office |
+| ePM1 (F9) | EN ISO 16890 | 100–200 Pa | 300–400 Pa | Cleanroom pre-stage, hospital |
+
+**Filter monitor:** differential pressure sensor across the filter → alarm when dirty limit reached.
+
+### 3. Heat Recovery Unit (HRC)
+
+Uses the heat from extract air to pre-heat outdoor air (winter) or pre-cool it (summer).
+
+| Type | Efficiency | Humidification | Special feature |
+|------|-----------|---------------|----------------|
+| **Rotary heat exchanger** | 70–85 % | Yes (moisture transfer) | Check hygiene requirements! |
+| **Plate heat exchanger** | 60–75 % | No | No cross-contamination, hygienic |
+| **Run-around coil** | 45–60 % | No | Source and load far apart |
+| **Heat pipe** | 55–65 % | No | No moving parts, low maintenance |
+
+**HRC frost protection:** in low outdoor temperatures the HRC can freeze → bypass damper or pre-heating required.
+
+### 4. Pre-heater / Post-heater
+
+- **Heating medium:** hot water (from heating circuit) or electric
+- Hot water coil: 2-way valve (modulating, 0–10 V)
+- **Frost protection:** temperature sensor behind the coil → below 5 °C immediately: valve 100 % OPEN, damper CLOSED, alarm!
+- Post-heater: fine adjustment of supply air temperature after HRC and cooler
+
+### 5. Cooler
+
+- **Cooling medium:** chilled water (chiller) or direct expansion (split/rooftop)
+- Chilled water cooler: 2-way valve modulating, 0–10 V
+- Cooling coil may condense moisture → condensate tray with drain
+- **Hygiene aspect:** keep condensate tray dry (VDI 6022), clean regularly
+
+### 6. Humidifier
+
+Types:
+
+| Type | Hygiene | Energy | Humidification level | Application |
+|------|---------|--------|---------------------|------------|
+| **Steam humidifier (electric)** | Very good | High | High | Office, hospital |
+| **Steam from steam network** | Good | Medium | High | Industry |
+| **Recirculating evaporation** | Problematic | Low | Medium | Simple systems |
+| **High-pressure water** | Good (filtration) | Low | Medium | Comfort systems |
+
+> Air humidifiers are a Legionella risk if not operated correctly! Regularly check temperature and disinfection (VDI 6022).
+
+### 7. Fan
+
+- **Supply fan** + **extract fan** (separate drives)
+- Variable frequency drive for variable speed (→ VAV)
+- **Measurement:** pressure sensor before/after fan → calculate pressure rise
+- **Volume flow:** from pressure and VFD speed or separate measurement device (measuring orifice)
+- **Operating monitoring:** run status (DI), fault (DI), motor protection switch
+
+---
+
+## Supply Air Temperature Cascade
+
+In practice heater and cooler are controlled **in cascade**:
+
+```
+Supply air setpoint (e.g. 22 °C)
+    ↓
+Supply air controller (PI)
+    ├── > setpoint: open cooler
+    └── < setpoint: open heater
+    
+Dead band between heating and cooling (e.g. ±1 K)
+→ Prevents simultaneous heating + cooling (energy waste!)
+```
+
+**Important:** Never activate heater and cooler simultaneously! Interlock required in DDC.
+
+### Sliding Supply Air Temperature
+
+Instead of fixed supply air temperature: setpoint depending on outdoor or room temperature:
+
+| Outdoor temperature | Supply air setpoint |
+|---------------------|---------------------|
+| −10 °C | 22 °C (max. heating) |
+| 0 °C | 20 °C |
+| 15 °C | 18 °C (neutral zone) |
+| 30 °C | 16 °C (cooling) |
+
+---
+
+## Operating Modes
+
+| Mode | Volume flow | Temperature | Typical when |
+|------|------------|-------------|-------------|
+| **Comfort** | 100 % | Normal | Building occupied |
+| **Night / Unoccupied** | 30–50 % | Setback | Building empty |
+| **Night cooling** | 100 % | Cooling (summer) | Free cooling |
+| **Frost protection** | 0 % | HW valve open | Outdoor temp < 2 °C, plant off |
+| **Fault** | 0 % | Damper closed | Safety shutdown |
+
+---
+
+## Typical BA Data Points AHU
+
+| Data point | Type | Unit | Description |
+|-----------|------|------|-------------|
+| Supply air temp actual | AI | °C | Sensor after last component |
+| Supply air temp setpoint | AV | °C | Set by BMS |
+| Outdoor air temperature | AI | °C | For sliding setpoint |
+| Heating coil valve | AO | % | 0–10 V control signal |
+| Cooling coil valve | AO | % | 0–10 V control signal |
+| Humidifier on/off | DO | — | Steam humidifier |
+| Supply fan VFD speed setpoint | AO | % | Variable frequency drive supply |
+| Extract fan VFD speed setpoint | AO | % | Variable frequency drive extract |
+| Outdoor air damper | AO/DO | % / ON | Damper control signal |
+| Filter differential pressure | AI | Pa | Filter monitor |
+| Frost protection alarm | DI | — | < 5 °C supply air → critical alarm |
+| Fan run status | DI | — | Operating feedback |
+| Fan fault | DI | — | Motor protection tripped |
+| HRC bypass | AO | % | Damper to bypass HRC |
+
+## Standards
+
+- **EN 16798-3** — Energy performance of buildings, ventilation of non-residential buildings
+- **VDI 6022** — Ventilation and air conditioning, hygiene requirements
+- **SIA 382.1** — Ventilation and air conditioning systems, general principles
+- **EN 13053** — Ventilation for buildings, central air handling units
+- **EN ISO 16890** — Air filters for general ventilation

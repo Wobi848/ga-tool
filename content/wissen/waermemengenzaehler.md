@@ -1,5 +1,6 @@
 ---
 title: Wärmemengenzähler — Funktion, Einbau und Auslesung
+title_en: Heat Meters — Function, Installation and Readout
 slug: waermemengenzaehler
 category: energie
 subcategory: zaehler
@@ -162,3 +163,154 @@ Zähler-Datenpunkte (EN 13757):
 - **MID 2014/32/EU** — Messgeräterichtlinie (Abrechnungspflicht)
 - **EN 13757** — M-Bus Kommunikationsprotokoll für Zähler
 - **WELMEC 7.2** — Leitfaden zur Anwendung der MID für Wärmezähler
+
+<!-- EN -->
+
+A **heat meter (HM)** measures the heat energy or cooling energy transferred in a hydraulic circuit. It is indispensable for energy billing, efficiency monitoring, and load management.
+
+## Measurement Principle
+
+```
+Basic physical formula:
+
+Q [kWh] = V̇ [m³/h] × ρ [kg/m³] × cp [kJ/(kg·K)] × ΔT [K] × t [h] / 3600
+```
+
+Simplified for water (ρ × cp ≈ 4.18 kJ/(kg·K) → 1.163 kWh/(m³·K)):
+
+```
+Q [kWh] ≈ V̇ [m³/h] × 1.163 × ΔT [K] × time
+```
+
+**Three components** in the heat meter:
+
+```
+Supply →──[Flow meter]──────────────►
+              ↑                          
+          Volume V̇         [Calculator: integrates Q]
+              ↑                          
+         [Temp. sensor supply]  [Temp. sensor return]
+                                    ↑
+                    Return ←────────────
+```
+
+---
+
+## Flow Measurement Principles
+
+| Principle | Description | Accuracy | Application |
+|----------|------------|---------|------------|
+| **Ultrasonic** | Transit time difference | ±1–3 % | Standard, maintenance-free |
+| **Impeller** | Mechanical, rotating | ±2–5 % | Simple, low cost |
+| **Electromagnetic (MID)** | Inductive | ±0.5–1 % | High accuracy |
+| **Differential pressure** | Orifice / Venturi | ±1–2 % | Large DN |
+
+**Ultrasonic** is today's standard — no moving parts, therefore low-maintenance and long-lasting.
+
+---
+
+## Accuracy Classes (EN 1434)
+
+| Class | Accuracy | Application |
+|-------|---------|------------|
+| **1** | ±5 % | Simple systems |
+| **2** | ±3–5 % | Standard residential billing |
+| **3** | ±2 % | More precise applications |
+| **MI-004** | MID-compliant | Billing-relevant (mandatory CH/EU) |
+
+**MID** (Measuring Instruments Directive, 2014/32/EU): For billing purposes, the heat meter must be MID-compliant and may only be replaced by a verified meter.
+
+---
+
+## Installation Requirements
+
+### Installation Location
+
+```
+Supply pipe:  preferred → higher accuracy (fewer gas bubbles)
+Return pipe:  alternative (often more accessible)
+
+Straight pipe lengths (ultrasonic):
+  Upstream (inlet): at least 5× DN straight pipe
+  Downstream:       at least 3× DN straight pipe
+  
+Not immediately after:
+  Pump, T-piece, valve → flow disturbance → measurement error
+```
+
+### Ball Valves for Maintenance
+
+```
+Supply → [Ball valve] → [HM] → [Ball valve] → onward
+                              ↑
+                         Bypass (optional, for maintenance without shutdown)
+```
+
+### Temperature Pairs
+
+Both temperature sensors (supply and return) must be a **matched pair** (same calibration → minimal differential errors).
+
+---
+
+## Readout and Interfaces
+
+| Interface | Description | BA application |
+|----------|------------|--------------|
+| **M-Bus** | Primary protocol for meters (EN 13757) | Standard in CH/DE/EU |
+| **wM-Bus** | Wireless M-Bus (868 MHz) | Retrofit, remote reading |
+| **Modbus RTU** | Alternative in newer devices | BA integration |
+| **Pulse output** | S0 interface, 1 pulse = x kWh | Simple counting |
+| **Optical output** | IR readout (reading window) | Manual readout |
+| **Display** | Local indication | On-site check |
+
+### M-Bus Readout
+
+```
+BMS / M-Bus master → [M-Bus level converter] → M-Bus line → HM (slave)
+
+Meter data points (EN 13757):
+  - Heat energy cumulative [kWh]
+  - Volume flow [m³/h]
+  - Supply temperature [°C]
+  - Return temperature [°C]
+  - Power [kW]
+  - Operating hours [h]
+  - Date/time stamp
+```
+
+---
+
+## Calibration and Verification
+
+**Calibration:** Manufacturer calibrates during production; certificate included.
+**Legal verification:** Statutory verification for billing meters (mandatory for tenant billing):
+
+| Country | Verification period | Authority |
+|---------|-------------------|----------|
+| DE | 5 years | Weights and Measures Office |
+| CH | 5 years (ultrasonic) / 2 years (impeller) | Metas / Cantonal W&M Office |
+| AT | 5 years | BEV |
+
+---
+
+## Typical BA Data Points — Heat Meter
+
+| Data point | Unit | Description |
+|-----------|------|------------|
+| Heat energy cumulative | kWh | Energy meter reading |
+| Volume cumulative | m³ | Volume meter reading |
+| Current power | kW | Instantaneous power |
+| Current volume flow | m³/h | Instantaneous flow |
+| Supply temperature | °C | |
+| Return temperature | °C | |
+| Temperature differential ΔT | K | Calculated (supply − return) |
+| Error code | — | Meter status byte |
+
+---
+
+## Standards
+
+- **EN 1434** — Heat meters: requirements, testing, marking
+- **MID 2014/32/EU** — Measuring Instruments Directive (billing obligation)
+- **EN 13757** — M-Bus communication protocol for meters
+- **WELMEC 7.2** — Guide to MID application for heat meters

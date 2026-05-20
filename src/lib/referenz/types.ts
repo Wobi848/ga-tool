@@ -5,11 +5,13 @@ export type CellType = 'number' | 'text';
 export interface Column {
 	key: string;
 	label: string;
+	label_en?: string;
 	unit?: string;
 	type?: CellType;
-	hint?: string;        // tooltip text
-	mono?: boolean;       // monospace rendering (e.g. for codes)
-	highlight?: boolean;  // visual emphasis
+	hint?: string;
+	hint_en?: string;
+	mono?: boolean;
+	highlight?: boolean;
 }
 
 export type Row = Record<string, string | number>;
@@ -17,15 +19,19 @@ export type Row = Record<string, string | number>;
 export interface ReferenceTable {
 	slug: string;
 	title: string;
+	title_en?: string;
 	subtitle?: string;
-	category: string;    // z.B. 'Rohre', 'Filter', 'Material'
+	subtitle_en?: string;
+	category: string;
 	icon?: string;
 	color?: string;
 	description?: string;
+	description_en?: string;
 	areas: Area[];
 	columns: Column[];
 	rows: Row[];
-	norm?: string[];     // 'EN 10220', 'ISO 16890'
+	norm?: string[];
 	updated?: string;
-	notes?: string;      // additional info shown under the table
+	notes?: string;
+	notes_en?: string;
 }

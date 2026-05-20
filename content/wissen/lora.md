@@ -1,5 +1,6 @@
 ---
 title: LoRa / LoRaWAN — Long Range IoT für GA
+title_en: LoRa / LoRaWAN — Long Range IoT for BA
 slug: lora
 category: protokolle
 subcategory: funk
@@ -170,3 +171,162 @@ End-Devices → LoRa-Gateway → ChirpStack Network Server → ChirpStack Applic
 - **LoRaWAN Specification 1.0.x / 1.1** — LoRa Alliance (lora-alliance.org)
 - **ITU-R SM.1538** — Technische Anforderungen Kurzstreckenfunk
 - **ETSI EN 300 220** — Technische Anforderungen 868 MHz in Europa
+
+<!-- EN -->
+
+**LoRa** (Long Range) is a radio technology for very long range at very low energy consumption. **LoRaWAN** is the protocol and network architecture on top. Suitable in BA for remote meter reading, outdoor climate sensors and campus-wide monitoring.
+
+## LoRa vs. LoRaWAN
+
+| Term | Description |
+|------|------------|
+| **LoRa** | Physical radio layer (modulation: Chirp Spread Spectrum) |
+| **LoRaWAN** | Network protocol (MAC layer) over LoRa |
+| **TTN** | The Things Network — free LoRaWAN community infrastructure |
+
+---
+
+## Technical Parameters
+
+| Parameter | Value |
+|---------|------|
+| Frequency (EU) | 868 MHz (EU863-870) |
+| Frequency (US) | 915 MHz |
+| Range (urban) | 1–5 km |
+| Range (open) | 10–15 km (up to 40 km with antenna height) |
+| Data rate | 0.3–50 kbps (depending on spreading factor) |
+| Spreading factor | SF7 (fast, short) to SF12 (slow, long range) |
+| Transmit power | max. 25 mW (EU) |
+| Battery life | Months to years |
+| Packet size | max. 242 bytes (SF7), ~51 bytes (SF12) |
+
+### Spreading Factor (SF)
+
+| SF | Range | Data rate | Airtime | Application |
+|----|-------|---------|--------|------------|
+| SF7 | Short | 5.5 kbps | ~61 ms | Dense urban |
+| SF9 | Medium | 1.76 kbps | ~186 ms | Standard |
+| SF12 | Long | 0.3 kbps | ~2.8 s | Basement, extreme range |
+
+> LoRa automatically adjusts SF (ADR = Adaptive Data Rate) when the network permits.
+
+### Duty Cycle (Transmission Restriction)
+
+In Europe a 1 % duty cycle applies (EU regulation):
+- At 1 % duty cycle on 868 MHz: max. 36 seconds per hour of transmission
+- Limits packet frequency → **not suitable for frequent updates!**
+- Typical: message every 5–60 minutes
+
+---
+
+## LoRaWAN Network Architecture
+
+```
+End device (sensor/actuator)
+    ↓ LoRa (868 MHz)
+Gateway (receives all packets in radio range)
+    ↓ IP (Ethernet/LTE)
+LoRaWAN Network Server (LNS)
+    ↓ MQTT / REST API
+Application (BMS, dashboard, database)
+```
+
+### End-Device Classes
+
+| Class | Downlink (server → device) | Application |
+|-------|--------------------------|------------|
+| **A** | Only after uplink (sleeping!) | Sensors, meters (very low power) |
+| **B** | Scheduled receive windows | When occasional control needed |
+| **C** | Continuous receive | Actuators, switches (mains-powered) |
+
+**Class A** is by far the most common — device transmits rarely and sleeps otherwise.
+
+---
+
+## Activation Methods
+
+### OTAA (Over-the-Air Activation)
+
+- Device and server share a common **AppKey** (128 bit)
+- On first join: device sends join request → server confirms → session keys generated
+- **Recommended** — dynamic keys, more secure
+
+### ABP (Activation by Personalisation)
+
+- Keys hard-coded in device (no join required)
+- Simpler, but **lower security** (key in device, frame counter reset issue)
+- Still used in some products
+
+---
+
+## LoRaWAN in BA — Typical Applications
+
+### Remote Meter Reading
+
+```
+Heat/cooling/water meter with LoRa module
+    ↓ Send reading daily
+LoRaWAN gateway (on roof)
+    ↓
+BMS evaluation (consumption analysis, billing)
+```
+
+LoRa replaces physical reading or expensive M-Bus cabling over long distances.
+
+### Outdoor Climate Monitoring (Campus)
+
+- Multiple temperature/humidity sensors in car parks, buildings, on facades
+- 1 gateway covers entire campus (< 1 km)
+- Data in BMS for weather-compensated control
+
+### Level, Soil Moisture, Energy
+
+- Level sensors (oil heating tank, cistern)
+- Soil moisture (irrigation control)
+- Energy meter modules on meters without bus interface
+
+---
+
+## Comparison LoRa vs. Other Protocols
+
+| Feature | LoRaWAN | Zigbee | M-Bus (wireless) | NB-IoT |
+|---------|---------|--------|-----------------|--------|
+| Range | 1–15 km | 30 m (mesh) | 30 m | 10 km |
+| Battery (years) | 2–10 | 0.5–2 | 2–5 | 1–3 |
+| Data rate | 0.3–50 kbps | 250 kbps | 32 kbps | 200 kbps |
+| Update rate | min.–hours | seconds | min. | min.–hours |
+| Infrastructure | Gateway needed | Coordinator | Meter | Mobile network |
+| Operating cost | Low (TTN free) | Low | Low | Ongoing costs |
+
+### When LoRa, when Zigbee?
+
+- **LoRa:** Long distances, infrequent intervals, meters, outdoor monitoring
+- **Zigbee:** Short distances, frequent updates, control, indoor sensors/actuators
+
+---
+
+## Own LoRaWAN Network vs. Public
+
+### The Things Network (TTN)
+
+- Free community infrastructure
+- Wherever community gateways exist (major cities well covered)
+- Restrictions: fair use policy (10 downlinks/day, 30 s airtime/day)
+- Good for prototypes and small projects
+
+### Private LoRaWAN
+
+- Own gateway (e.g. TTIG from TTI) + own network server (ChirpStack, open source)
+- Full control, no fair use restrictions
+- Recommended for professional BA projects
+
+**ChirpStack** (open source, on-premise):
+```
+End devices → LoRa gateway → ChirpStack Network Server → ChirpStack Application Server → MQTT → BMS
+```
+
+## Standards
+
+- **LoRaWAN Specification 1.0.x / 1.1** — LoRa Alliance (lora-alliance.org)
+- **ITU-R SM.1538** — Technical requirements for short-range radio
+- **ETSI EN 300 220** — Technical requirements 868 MHz in Europe

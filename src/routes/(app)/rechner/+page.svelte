@@ -1,5 +1,17 @@
 <script lang="ts">
 	import { rechner } from '$lib/rechner';
+	import { _ } from 'svelte-i18n';
+
+	const slugKey: Record<string, string> = {
+		'heizkurve': 'heizkurve', 'kv-wert': 'kvWert', 'ausdehnungsgefaess': 'ausdehnungsgefaess',
+		'druckverlust': 'druckverlust', 'luftbedarf': 'luftbedarf', 'taupunkt': 'taupunkt',
+		'waermeleistung': 'waermeleistung', 'psychrometrie': 'psychrometrie',
+		'pid-simulator': 'pidSimulator', 'leitungslaenge': 'leitungslaenge',
+		'elektro': 'elektro', 'dip-switch': 'dipSwitch', 'co2-regelung': 'co2Regelung',
+		'u-wert': 'uWert', 'ventilautoritaet': 'ventilautoritaet',
+		'waermerueckgewinnung': 'waermerueckgewinnung', 'pumpenkennlinie': 'pumpenkennlinie',
+		'heizlast': 'heizlast', 'bus-ibn': 'busIbn'
+	};
 
 	const iconPaths: Record<string, string> = {
 		'trending-up': 'M23 6l-9.5 9.5-5-5L1 18M17 6h6v6',
@@ -16,8 +28,8 @@
 
 <div class="page">
 	<header class="page-header">
-		<h1>Rechner</h1>
-		<p class="subtitle">Ingenieurstechnische Berechnungen für die Gebäudeautomation</p>
+		<h1>{$_('rechner.title')}</h1>
+		<p class="subtitle">{$_('rechner.subtitle')}</p>
 	</header>
 
 	<div class="grid">
@@ -29,8 +41,8 @@
 					</svg>
 				</div>
 				<div class="card-body">
-					<h2 class="card-title">{r.name}</h2>
-					<p class="card-short">{r.short}</p>
+					<h2 class="card-title">{$_(`rechner.${slugKey[r.slug]}.name`, { default: r.name })}</h2>
+					<p class="card-short">{$_(`rechner.${slugKey[r.slug]}.short`, { default: r.short })}</p>
 				</div>
 				<svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<path d="M9 18l6-6-6-6" />

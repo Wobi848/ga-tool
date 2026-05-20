@@ -1,5 +1,6 @@
 ---
 title: SG-Ready — Smart-Grid-Schnittstelle für steuerbare Verbraucher
+title_en: SG-Ready — Smart Grid Interface for Controllable Loads
 slug: sg-ready
 category: energie
 subcategory: smart-grid
@@ -108,4 +109,101 @@ EMS-Logik:
   if P_überschuss > 4.0:   → Zustand 4 (Pflichtbetrieb)
   elif P_überschuss > 1.5: → Zustand 3 (Empfehlung)
   else:                    → Zustand 2 (Normal)
+```
+
+<!-- EN -->
+
+**SG-Ready** (Smart Grid Ready) is a simple, hardware-based interface that allows the grid operator or a local EMS to set controllable loads (primarily heat pumps) into 4 operating states. Defined by the **German Heat Pump Association (BWP)**.
+
+---
+
+## The 4 Operating States
+
+The SG-Ready interface consists of **2 volt-free contacts** (inputs on the device):
+
+| Contact 1 | Contact 2 | State | Description |
+|-----------|-----------|-------|-------------|
+| open | open | **1 — Grid lock** | Forced shutdown by grid operator (off-peak lock, max. 2h/day) |
+| closed | open | **2 — Normal operation** | Standard — device's own control active |
+| open | closed | **3 — Switch-on recommendation** | PV surplus / cheap tariff: increase output, raise DHW setpoint |
+| closed | closed | **4 — Switch-on command** | Must run (surplus power, balancing energy): force maximum output |
+
+**Default state without EMS:** Both contacts open (state 1) or contact 1 closed (state 2), depending on manufacturer default.
+
+---
+
+## Application Example: PV Surplus + Heat Pump
+
+```
+PV system
+    │
+    EMS (e.g. Home Assistant)
+    │
+    ├── If P_PV_surplus > 2 kW → set SG-Ready state 3
+    │     → Heat pump raises DHW setpoint to 55°C (instead of 45°C)
+    │
+    └── If P_PV_surplus > 4 kW → set SG-Ready state 4
+          → Heat pump runs at full capacity
+```
+
+The heat pump uses cheap solar power and generates thermal energy stored in the buffer tank. In the evening the heat pump runs less or not at all.
+
+---
+
+## Hardware Implementation in the Control Panel
+
+```
+EMS controller / relay output
+     │
+     ├── Relay K1 → SG input contact 1 of heat pump
+     └── Relay K2 → SG input contact 2 of heat pump
+```
+
+- **Relay:** Standard 230V relay with volt-free changeover contact, or direct switching output from DDC
+- **Wiring:** Control cable 2×0.75 mm² is sufficient
+- **Maximum voltage at SG input:** typically SELV (≤ 24V DC) — check manufacturer specs!
+
+---
+
+## Device Support
+
+| Manufacturer | Products |
+|-------------|---------|
+| Vaillant | aroTHERM plus, flexoTHERM |
+| Stiebel Eltron | WPL, WPF, WWK |
+| Viessmann | Vitocal 200-S/250-A |
+| Daikin | Altherma 3 |
+| Bosch | Compress 7000i, 3000i |
+| Nibe | F2040, S2125 |
+
+SG-Ready certified devices carry the corresponding logo on the nameplate.
+
+---
+
+## SG-Ready vs. Modbus / Heat Pump API
+
+| Feature | SG-Ready | Heat Pump Modbus |
+|---------|----------|-----------------|
+| Effort | Very low (2 wires) | Medium (interface, protocol) |
+| Control granularity | 4 states | Full parameter access |
+| Feedback | None | Actual values, operating mode, faults |
+| Reliability | Very high (hardware) | Depends on software implementation |
+| Use case | Retrofit, simple control | BMS integration, monitoring |
+
+---
+
+## SG-Ready in EMS Context
+
+SG-Ready is a **pragmatic mass-market solution**: no cloud, no configuration, minimal installation effort. For professional BA applications, SG-Ready is frequently supplemented or replaced by a full Modbus integration of the heat pump.
+
+**Typical EMS implementation:**
+```
+EMS logic:
+  P_solar    = inverter.read('P_AC')
+  P_load     = meter.read('P_grid_import')
+  P_surplus  = P_solar - P_load
+
+  if P_surplus > 4.0:   → State 4 (mandatory operation)
+  elif P_surplus > 1.5: → State 3 (recommendation)
+  else:                 → State 2 (normal)
 ```

@@ -3,7 +3,9 @@ import type { ReferenceTable } from '../types';
 export const dnRohre: ReferenceTable = {
 	slug: 'dn-rohre',
 	title: 'DN — Standardrohre Stahl',
+	title_en: 'DN — Standard Steel Pipes',
 	subtitle: 'Innendurchmesser und Wandstärken nach EN 10220',
+	subtitle_en: 'Inner diameters and wall thicknesses per EN 10220',
 	category: 'Rohre',
 	icon: 'pipe',
 	color: '#0891b2',
@@ -11,12 +13,13 @@ export const dnRohre: ReferenceTable = {
 	norm: ['EN 10220', 'DIN 2448'],
 	updated: '2026-05-14',
 	description: 'Nahtlose Stahlrohre für Heizung, Sanitär und industrielle Anwendungen. Werte für Standard-Wandstärke (Serie 1).',
+	description_en: 'Seamless steel pipes for heating, plumbing and industrial applications. Values for standard wall thickness (Series 1).',
 	columns: [
 		{ key: 'dn', label: 'DN', mono: true, highlight: true },
-		{ key: 'od', label: 'Aussen-Ø', unit: 'mm', type: 'number' },
-		{ key: 's', label: 'Wandstärke', unit: 'mm', type: 'number' },
-		{ key: 'id', label: 'Innen-Ø', unit: 'mm', type: 'number', highlight: true },
-		{ key: 'mass', label: 'Gewicht', unit: 'kg/m', type: 'number', hint: 'inkl. Stahlrohr ohne Inhalt' }
+		{ key: 'od', label: 'Aussen-Ø', label_en: 'Outer Ø', unit: 'mm', type: 'number' },
+		{ key: 's', label: 'Wandstärke', label_en: 'Wall thickness', unit: 'mm', type: 'number' },
+		{ key: 'id', label: 'Innen-Ø', label_en: 'Inner Ø', unit: 'mm', type: 'number', highlight: true },
+		{ key: 'mass', label: 'Gewicht', label_en: 'Weight', unit: 'kg/m', type: 'number', hint: 'inkl. Stahlrohr ohne Inhalt', hint_en: 'steel pipe without contents' }
 	],
 	rows: [
 		{ dn: 'DN 8',   od: 13.5,  s: 2.0, id: 9.5,   mass: 0.567 },
@@ -36,5 +39,6 @@ export const dnRohre: ReferenceTable = {
 		{ dn: 'DN 250', od: 273.0, s: 6.3, id: 260.4, mass: 41.4 },
 		{ dn: 'DN 300', od: 323.9, s: 7.1, id: 309.7, mass: 55.5 }
 	],
-	notes: 'Für Kupferrohre (CU) sowie nichtrostende Stahlrohre gelten andere Wandstärken — siehe separate Tabellen.'
+	notes: 'Für Kupferrohre (CU) sowie nichtrostende Stahlrohre gelten andere Wandstärken — siehe separate Tabellen.',
+	notes_en: 'Copper pipes (CU) and stainless steel pipes have different wall thicknesses — see separate tables.'
 };

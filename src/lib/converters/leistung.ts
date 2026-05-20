@@ -12,14 +12,15 @@ const toBase: Record<string, number> = {
 export const leistung: ConverterMeta = {
 	slug: 'leistung',
 	name: 'Leistung',
+	name_en: 'Power',
 	icon: 'zap',
 	color: '#ca8a04',
 	units: [
-		{ id: 'kW', label: 'Kilowatt', symbol: 'kW', note: 'Standard Heizleistung' },
-		{ id: 'W', label: 'Watt', symbol: 'W', note: 'SI-Einheit' },
-		{ id: 'kcal/h', label: 'Kilokalorien pro Stunde', symbol: 'kcal/h', note: 'Ältere Norm' },
-		{ id: 'BTU/h', label: 'British Thermal Unit pro Stunde', symbol: 'BTU/h', note: 'US/UK' },
-		{ id: 'kJ/h', label: 'Kilojoule pro Stunde', symbol: 'kJ/h' }
+		{ id: 'kW', label: 'Kilowatt', labelEn: 'Kilowatt', symbol: 'kW', note: 'Standard Heizleistung', noteEn: 'Standard heating power' },
+		{ id: 'W', label: 'Watt', labelEn: 'Watt', symbol: 'W', note: 'SI-Einheit', noteEn: 'SI unit' },
+		{ id: 'kcal/h', label: 'Kilokalorien pro Stunde', labelEn: 'Kilocalories per hour', symbol: 'kcal/h', note: 'Ältere Norm', noteEn: 'Older standard' },
+		{ id: 'BTU/h', label: 'British Thermal Unit pro Stunde', labelEn: 'British Thermal Units per hour', symbol: 'BTU/h', note: 'US/UK', noteEn: 'US/UK' },
+		{ id: 'kJ/h', label: 'Kilojoule pro Stunde', labelEn: 'Kilojoules per hour', symbol: 'kJ/h' }
 	],
 	toBase: (v, u) => v * toBase[u],
 	fromBase: (v, u) => v / toBase[u]

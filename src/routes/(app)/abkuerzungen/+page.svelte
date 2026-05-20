@@ -1,15 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { _, locale } from 'svelte-i18n';
 	import { abbreviations, byLetter, letters } from '$lib/abkuerzungen/data';
 	import { getEquivalents, langOf, equivalentShorts } from '$lib/abkuerzungen/groups';
-	import { langLabels } from '$lib/abkuerzungen/types';
-	import { areaLabels, type Area } from '$lib/wissen/types';
+	import { langLabels, type AbbrLang } from '$lib/abkuerzungen/types';
+	import { type Area } from '$lib/wissen/types';
 	import { untrack } from 'svelte';
 
 	const initialQuery = untrack(() => $page.url.searchParams.get('q') ?? '');
 
 	let query = $state(initialQuery);
 	let selectedAreas: Area[] = $state([]);
+	let selectedLangs: AbbrLang[] = $state([]);
 
 	function slugifyShort(s: string): string {
 		return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -52,7 +54,7 @@
 			map[a.short] = [
 				a.short,
 				a.long,
-				a.description ?? '',
+				($locale === 'en' && a.descriptionEn ? a.descriptionEn : a.description) ?? '',
 				...eqShorts,
 				...eqLongs
 			].join(' ').toLowerCase();
@@ -64,6 +66,7 @@
 		const q = query.trim().toLowerCase();
 		return abbreviations.filter((a) => {
 			if (selectedAreas.length && !a.areas.some((x) => selectedAreas.includes(x))) return false;
+			if (selectedLangs.length && !selectedLangs.includes(langOf(a.short))) return false;
 			if (!q) return true;
 			return haystackByShort[a.short]?.includes(q) ?? false;
 		});
@@ -88,9 +91,9 @@
 
 <div class="page">
 	<header class="page-header">
-		<h1>Abkürzungen</h1>
+		<h1>{$_('abkuerzungen.title')}</h1>
 		<p class="subtitle">
-			{abbreviations.length} Kürzel aus Gebäudeautomation, HLK, IT und Normen.
+			{abbreviations.length} {$_('abkuerzungen.subtitle')}
 		</p>
 	</header>
 
@@ -101,12 +104,12 @@
 		</svg>
 		<input
 			type="search"
-			placeholder="Kürzel, Langform oder Beschreibung…"
+			placeholder={$_('abkuerzungen.searchPlaceholder')}
 			bind:value={query}
 			class="search-input"
 		/>
-		{#if query || selectedAreas.length}
-			<button class="btn-clear" onclick={() => { query = ''; selectedAreas = []; }} title="Zurücksetzen">
+		{#if query || selectedAreas.length || selectedLangs.length}
+			<button class="btn-clear" onclick={() => { query = ''; selectedAreas = []; selectedLangs = []; }} title={$_('abkuerzungen.reset')}>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<line x1="18" y1="6" x2="6" y2="18" />
 					<line x1="6" y1="6" x2="18" y2="18" />
@@ -121,12 +124,20 @@
 				class="chip"
 				class:active={selectedAreas.includes(a)}
 				onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-			>{areaLabels[a]}</button>
+			>{$_('area.' + a)}</button>
+		{/each}
+		<span class="filter-sep">|</span>
+		{#each (['de', 'en', 'intl'] as AbbrLang[]) as lg}
+			<button
+				class="chip chip-lang"
+				class:active={selectedLangs.includes(lg)}
+				onclick={() => (selectedLangs = toggle(selectedLangs, lg))}
+			>{langLabels[lg].flag} {langLabels[lg].short}</button>
 		{/each}
 	</div>
 
 	<!-- A-Z quick nav -->
-	<nav class="az-nav" aria-label="Schnellnavigation A-Z">
+	<nav class="az-nav" aria-label={$_('abkuerzungen.navAZ')}>
 		{#each letters as l}
 			<button
 				class="az-btn"
@@ -139,9 +150,9 @@
 
 	<section class="results">
 		{#if filtered.length === 0}
-			<p class="empty">Keine Treffer.</p>
+			<p class="empty">{$_('abkuerzungen.noResults')}</p>
 		{:else}
-			<p class="count">{filtered.length} Treffer</p>
+			<p class="count">{filtered.length} {$_('abkuerzungen.results')}</p>
 			{#each visibleLetters as letter}
 				<div class="letter-group" id="letter-{letter}">
 					<h2 class="letter-heading">{letter}</h2>
@@ -158,12 +169,12 @@
 							>
 								<div class="abbr-head">
 									<span class="abbr-short">{a.short}</span>
-									<span class="lang-pill" title={lang === 'intl' ? 'International' : lang === 'en' ? 'Englisch' : 'Deutsch'}>
+									<span class="lang-pill" title={lang === 'intl' ? $_('abkuerzungen.langIntl') : lang === 'en' ? $_('abkuerzungen.langEn') : $_('abkuerzungen.langDe')}>
 										{langLabels[lang].flag} {langLabels[lang].short}
 									</span>
 									<span class="abbr-long">{a.long}</span>
 									{#if a.wissenSlug}
-										<span class="abbr-link-hint" title="Hat einen Wissensartikel">
+										<span class="abbr-link-hint" title={$_('abkuerzungen.hasArticle')}>
 											<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 												<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
 												<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -174,7 +185,7 @@
 
 								{#if equivalents.length}
 									<div class="equivalents">
-										<span class="equivalents-label">Auch:</span>
+										<span class="equivalents-label">{$_('abkuerzungen.also')}</span>
 										{#each equivalents as eq}
 											{@const eqLang = langOf(eq.short)}
 											<button
@@ -191,22 +202,22 @@
 									</div>
 								{/if}
 
-								{#if a.description}
-									<p class="abbr-desc">{a.description}</p>
+								{#if a.description || a.descriptionEn}
+									<p class="abbr-desc">{$locale === 'en' && a.descriptionEn ? a.descriptionEn : a.description}</p>
 								{/if}
 								<div class="abbr-foot">
 									<div class="abbr-areas">
 										{#each a.areas as ar}
-											<span class="area-chip">{areaLabels[ar]}</span>
+											<span class="area-chip">{$_('area.' + ar)}</span>
 										{/each}
 									</div>
 									{#if a.related && a.related.length}
 										<span class="abbr-related">
-											verwandt: {a.related.join(' · ')}
+											{$_('abkuerzungen.related')} {a.related.join(' · ')}
 										</span>
 									{/if}
 									{#if a.wissenSlug}
-										<span class="abbr-link">→ Wissensartikel</span>
+										<span class="abbr-link">{$_('abkuerzungen.wissensartikel')}</span>
 									{/if}
 								</div>
 							</svelte:element>
@@ -300,6 +311,14 @@
 		flex-wrap: wrap;
 		gap: 0.3rem;
 		margin-bottom: 1rem;
+		align-items: center;
+	}
+
+	.filter-sep {
+		color: var(--border);
+		font-size: 0.875rem;
+		padding: 0 0.15rem;
+		user-select: none;
 	}
 
 	.chip {

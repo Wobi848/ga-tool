@@ -1,5 +1,6 @@
 ---
 title: MQTT — Messaging für IoT und GA
+title_en: MQTT — Messaging for IoT and BA
 slug: mqtt
 category: protokolle
 subcategory: iot
@@ -201,6 +202,202 @@ Für neue Projekte **MQTT 5.0 empfohlen** wenn Broker und Clients unterstützen.
 | **Grafana + InfluxDB** | Dashboard + Zeitreihen-Datenbank via MQTT   |
 
 ## Normen
+
+- **ISO/IEC 20922** — MQTT v3.1.1
+- **OASIS MQTT 5.0** — Standard
+- **Sparkplug B** — Eclipse Foundation (GitHub: eclipse/tahu)
+
+<!-- EN -->
+
+# MQTT — Messaging for IoT and BA
+
+**MQTT** (Message Queuing Telemetry Transport, ISO/IEC 20922) is a lightweight publish-subscribe protocol originally developed for satellite telemetry. Today it is the de-facto standard for IoT communication and is increasingly used in BA — as a bridge between field and cloud, for Node-RED automations and as an alternative to classic BMS protocols.
+
+## Publish-Subscribe Principle
+
+Unlike Modbus or BACnet (client-server), MQTT uses the **pub/sub pattern**:
+
+```
+Sensor/DDC            MQTT Broker           BMS/Dashboard
+(Publisher)            (Server)             (Subscriber)
+    │                      │                      │
+    ├── Publish ──────────►│                      │
+    │   Topic: "Plant1/    │──── Push ───────────►│
+    │   FL/Temperature"    │  (when subscribed)   │
+    │   Value: 45.3        │                      │
+```
+
+- **Publisher:** sends messages to a topic
+- **Broker:** receives, stores and distributes messages
+- **Subscriber:** registers interest in topics, receives push messages
+
+**Decoupling:** Publishers and subscribers do not need to know each other. New clients can connect at any time. The broker is the central exchange point.
+
+## Topics
+
+Topics are **hierarchically structured strings** with `/` as separator:
+
+```
+ba-tool/plant1/heating/flow/temperature
+ba-tool/plant1/heating/flow/setpoint
+ba-tool/plant1/heating/pump1/status
+ba-tool/plant1/ventilation/supply/volumeflow
+ba-tool/plant2/cooling/chiller1/eer
+```
+
+### Wildcards
+
+| Wildcard | Description | Example |
+|----------|-------------|---------|
+| `+` | Single level | `ba-tool/+/heating/flow/temperature` |
+| `#` | All levels from here (always at end) | `ba-tool/plant1/#` |
+
+`ba-tool/#` subscribes to everything under this prefix.
+
+## QoS — Quality of Service
+
+| Level | Name | Guarantee | Use case |
+|-------|------|-----------|---------|
+| **0** | At most once | None — fire and forget | Telemetry, frequent updates |
+| **1** | At least once | Delivered at least once (duplicates possible) | Alarm messages, commands |
+| **2** | Exactly once | Exactly once (with handshake) | Billing data, critical commands |
+
+> For BA alarms and control commands, use at least **QoS 1**. QoS 0 can simply be lost during connection problems.
+
+## Retained Messages
+
+A publisher can mark a message as `retained`. The broker stores the last retained message per topic:
+
+```
+Publisher: Temperature 23.5 °C (retained=true)
+→ New subscriber connects 10 min later
+→ Broker immediately sends: 23.5 °C (even without a new update)
+```
+
+**Important for:** setpoints, configuration, status bits — so new clients immediately know the current state.
+
+## Last Will and Testament (LWT)
+
+If a client **unexpectedly** loses its connection, the broker automatically sends a pre-configured message:
+
+```
+Client configures LWT:
+  Topic: "ba-tool/plant1/connection/status"
+  Payload: "offline"
+
+When client disconnects normally: sends "online: false" itself
+When connection is interrupted: broker sends LWT "offline" automatically
+```
+
+Essential for **connection monitoring**.
+
+## Brokers
+
+The broker is the centrepiece. Popular implementations:
+
+| Broker | Description | Use case |
+|--------|-------------|---------|
+| **Mosquitto** | Open source, lightweight, de-facto standard | Raspberry Pi, own server |
+| **EMQX** | Enterprise, high scalability, web UI | Larger installations |
+| **HiveMQ** | Enterprise, cluster-capable, Java | Cloud, enterprise |
+| **VerneMQ** | High availability, Erlang-based | Cloud |
+| **AWS IoT Core / Azure IoT Hub** | Cloud broker with MQTT API | Cloud integration |
+
+**Mosquitto on Raspberry Pi / Linux:** Standard for BA projects. Install: `apt install mosquitto mosquitto-clients`
+
+## Security
+
+MQTT is by default **unencrypted and without authentication**. For production:
+
+- **TLS (port 8883):** encrypt the connection
+- **Username/password:** basic authentication
+- **Client certificates (mTLS):** strong mutual authentication
+- **ACL (Access Control List):** which client may read/write which topics
+- **VPN:** alternatively broker on private network, access only via VPN
+
+```
+# Mosquitto configuration (mosquitto.conf)
+listener 8883
+cafile /etc/mosquitto/ca.crt
+certfile /etc/mosquitto/server.crt
+keyfile /etc/mosquitto/server.key
+require_certificate true
+allow_anonymous false
+password_file /etc/mosquitto/passwords
+```
+
+## MQTT in BA — Typical Use Cases
+
+### Node-RED as MQTT Bridge
+
+**Node-RED** (open source, from IBM, runs on Node.js) is the most widely used tool for connecting MQTT with BA protocols:
+
+```
+Modbus device → Node-RED → MQTT broker → Dashboard / cloud
+BACnet DDC    → Node-RED → MQTT broker → Database (InfluxDB)
+KNX bus       → Node-RED → MQTT broker → Home Assistant
+```
+
+Node-RED provides graphical flow programming — ideal for BA integrations without programming knowledge.
+
+### Sparkplug B
+
+**Sparkplug B** (Eclipse Foundation) is a standardised payload specification on top of MQTT:
+- Defined topic schema (`spBv1.0/...`)
+- Protobuf payload (efficient, typed)
+- Birth/death messages (similar to LWT)
+- Increasingly used in Industry 4.0 and BA
+
+### Typical MQTT Topic Schema for BA
+
+```
+{client}/{site}/{plant}/{system}/{device}/{datapoint}
+acme/main-building/heating/circuit1/pump1/status
+acme/main-building/heating/circuit1/flow/temperature-actual
+acme/main-building/heating/circuit1/flow/temperature-setpoint
+acme/main-building/ventilation/ahu1/supply/volumeflow
+acme/main-building/ventilation/ahu1/filter/differentialpressure
+```
+
+## MQTT 5.0 vs. 3.1.1
+
+MQTT 5.0 (2019) brings important improvements:
+
+| Feature | 3.1.1 | 5.0 |
+|---------|-------|-----|
+| Reason codes | Minimal | Detailed |
+| Request/response pattern | ❌ | ✅ (ReplyTo topic) |
+| Message expiry | ❌ | ✅ (TTL) |
+| Shared subscriptions | Proprietary | ✅ Standard |
+| Topic aliases | ❌ | ✅ (save bandwidth) |
+| User properties | ❌ | ✅ (key-value metadata) |
+
+**MQTT 5.0 recommended** for new projects when broker and clients support it.
+
+## Comparison MQTT vs. BACnet COV
+
+| Feature | MQTT | BACnet COV |
+|---------|------|-----------|
+| Standardisation | ISO/IEC 20922 | ASHRAE 135 / ISO 16484-5 |
+| Data model | Free topics/payloads | Standardised objects/properties |
+| Semantics | None (bytes/string only) | Typed (AI, AO, BI, BO, …) |
+| Interoperability | Manufacturer-specific | BTL-certified |
+| BA adoption | Growing | Established |
+| IoT/cloud | ✅ Native | ❌ Gateway required |
+
+**Rule of thumb:** BACnet for BMS-to-BMS/DDC, MQTT for cloud/IoT/data pipelines.
+
+## Tools
+
+| Tool | Description |
+|------|-------------|
+| **MQTT Explorer** | Desktop client, tree view of all topics |
+| **MQTTX** | Cross-platform client, great for testing |
+| **mosquitto_pub/sub** | CLI tools, ideal for scripting |
+| **Node-RED** | Flow-based integration |
+| **Grafana + InfluxDB** | Dashboard + time-series database via MQTT |
+
+## Standards
 
 - **ISO/IEC 20922** — MQTT v3.1.1
 - **OASIS MQTT 5.0** — Standard

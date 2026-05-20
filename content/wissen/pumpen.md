@@ -1,5 +1,6 @@
 ---
 title: Pumpen — Kennlinie, Regelung und EC-Pumpen
+title_en: Pumps — Characteristic Curve, Control and EC Pumps
 slug: pumpen
 category: hydraulik
 subcategory: pumpen
@@ -166,3 +167,158 @@ Moderne Heizungsumwälzpumpen sind fast ausschliesslich **EC-Pumpen** (Electroni
 - **EN ISO 9906** — Kreiselpumpen, hydraulische Leistungsprüfungen
 - **ErP 2012/622/EU** — Ecodesign-Anforderungen Nassläufer-Umwälzpumpen
 - **EN 16297** — Pumpen, Umwälzpumpen, Energieeffizienzindex
+
+<!-- EN -->
+
+Pumps are the "hearts" of heating, cooling and sanitary systems. Understanding the pump characteristic curve and the correct control strategy is the basis for efficient and reliable installations.
+
+## Pump Characteristic Curve and System Curve
+
+### Pump Characteristic Curve
+
+Shows the **head H** (or differential pressure Δp) as a function of **volume flow Q**:
+
+```
+H [m]
+│\
+│ \  Pump curve
+│  \
+│   \___
+│       \___
+│           \___
+└──────────────── Q [m³/h]
+```
+
+At Q = 0 (shut-off): maximum head (shut-off head)
+At H = 0 (free delivery): maximum volume flow
+
+### System Curve
+
+The piping system has a resistance that increases with Q²:
+
+```
+H [m]
+│         /  System curve (∝ Q²)
+│        /
+│       /
+│      /
+│_____/  (zero point = static head)
+└──────────────── Q [m³/h]
+```
+
+### Operating Point
+
+The **operating point** is the intersection of the pump and system curves:
+
+```
+H [m]
+│
+│  Pump       ●  Operating point
+│     ↘      ↗
+│       ↘  ↗  System
+│         ●
+└──────────────── Q [m³/h]
+             OP (Q_0, H_0)
+```
+
+---
+
+## Control Strategies
+
+### Constant pressure
+
+Differential pressure is maintained at a constant value regardless of volume flow:
+
+```
+Q = 100 % → Δp = setpoint
+Q = 50 %  → Δp = setpoint (speed reduced!)
+```
+
+**Application:** Domestic cold water, service water, when all consumers require equal pressure.
+
+### Proportional pressure (recommended for heating/cooling)
+
+Differential pressure setpoint decreases proportionally with volume flow:
+
+```
+Q = 100 % → Δp = Δp_max (e.g. 400 mbar)
+Q = 50 %  → Δp = Δp_min + 50% × (Δp_max − Δp_min)
+Q = 0 %   → Δp = Δp_min (e.g. 200 mbar)
+```
+
+**Advantage:** Thermostatic valves operate at lower Δp → less noise, better controllability.
+
+**Why proportional and not constant?** With constant pressure and low volume flow: very high differential pressure → thermostatic valves barely open → poor control quality + noise.
+
+### Curve control based on temperature
+
+Some EC pumps regulate their speed directly based on system temperature (colder = lower heat extraction = lower speed). Simplified variant for simple systems.
+
+---
+
+## EC Pumps (High-Efficiency Wet-Rotor Pumps)
+
+Modern heating circulation pumps are almost exclusively **EC pumps** (Electronically Commutated):
+
+| Parameter | Old AC pump | EC pump |
+|---------|-----------|--------|
+| Efficiency (nominal) | 40–60 % | 70–90 % |
+| Current draw (20 % load) | 80 % of rated | 15–25 % of rated |
+| Annual consumption (typical) | 500–1500 kWh/a | 50–200 kWh/a |
+| ErP 2015 mandatory | ❌ | ✅ |
+| Integrated control | ❌ | ✅ |
+
+**ErP 2015:** In the EU/CH, new wet-rotor circulation pumps (1–200 kW) must be EC pumps (energy efficiency index EEI ≤ 0.23).
+
+### EC Pump Interfaces for BA
+
+| Signal | Description |
+|-------|------------|
+| 0–10 V (input) | Speed / Δp setpoint from DDC |
+| 0–10 V (output) | Actual value feedback |
+| Modbus RTU | Full parameterisation + diagnostics |
+| Analogue fault signal | DI on fault contact |
+
+---
+
+## Pump Types Overview
+
+| Type | Description | BA application |
+|------|------------|--------------|
+| **Wet-rotor** | Motor runs in water (permanent lubrication) | Heating, cooling (standard) |
+| **Dry-rotor** | Motor separated from fluid | Large systems, industry |
+| **Inline pump** | Integrated in pipe (flanged) | Heating, cooling |
+| **Block pump** | Pump + motor as one unit | Large systems |
+| **Submersible pump** | Immersed in medium | Drainage, pressure maintenance |
+
+---
+
+## Pump Monitoring in BA
+
+| Data point | Type | Description |
+|-----------|------|------------|
+| Pump ON/OFF | DO | Switch command |
+| Run feedback | DI | Confirmation running (flow switch) |
+| Fault signal | DI | Motor protection tripped |
+| Differential pressure | AI | Across pump (optional) |
+| Speed / Δp actual | AI | From EC pump (0–10 V or Modbus) |
+| Speed setpoint | AO | Command to EC pump (0–10 V) |
+| Operating hours | AV | Counted from run feedback |
+
+---
+
+## Typical Errors
+
+| Error | Symptom | Cause / solution |
+|-------|---------|----------------|
+| Pump runs, no flow | ΔT = 0, system cold | Air pocket, check valve stuck |
+| Pump noise | Whistling/hissing | Cavitation, differential pressure too high |
+| Pump vibrates | Mechanical oscillation | Operating point too far right of curve |
+| Motor protection trips | Pump shuts off | Overload, winding hot |
+| Excessive energy consumption | Operating hours × kW = high | Speed too high, Δp setpoint too high |
+
+## Standards
+
+- **EN ISO 9906** — Rotodynamic pumps, hydraulic performance tests
+- **ErP 2012/622/EU** — Ecodesign requirements for wet-rotor circulation pumps
+- **EN 16297** — Pumps, circulation pumps, energy efficiency index

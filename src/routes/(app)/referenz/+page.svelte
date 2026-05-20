@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { referenceTables } from '$lib/referenz';
-	import { areaLabels, type Area } from '$lib/wissen/types';
+	import { type Area } from '$lib/wissen/types';
+	import { _, locale } from 'svelte-i18n';
+
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
 
 	let query = $state('');
 	let selectedAreas: Area[] = $state([]);
@@ -15,16 +19,14 @@
 
 	const filtered = $derived.by(() => {
 		const q = query.trim().toLowerCase();
-		return referenceTables.filter((t) => {
-			if (selectedCategory && t.category !== selectedCategory) return false;
-			if (selectedAreas.length && !t.areas.some((x) => selectedAreas.includes(x))) return false;
+		return referenceTables.filter((tbl) => {
+			if (selectedCategory && tbl.category !== selectedCategory) return false;
+			if (selectedAreas.length && !tbl.areas.some((x) => selectedAreas.includes(x))) return false;
 			if (!q) return true;
-			return (
-				t.title.toLowerCase().includes(q) ||
-				(t.subtitle?.toLowerCase().includes(q) ?? false) ||
-				(t.description?.toLowerCase().includes(q) ?? false) ||
-				t.category.toLowerCase().includes(q)
-			);
+			const title = t(tbl.title, tbl.title_en).toLowerCase();
+			const subtitle = t(tbl.subtitle ?? '', tbl.subtitle_en).toLowerCase();
+			const desc = t(tbl.description ?? '', tbl.description_en).toLowerCase();
+			return title.includes(q) || subtitle.includes(q) || desc.includes(q) || tbl.category.toLowerCase().includes(q);
 		});
 	});
 
@@ -42,9 +44,9 @@
 
 <div class="page">
 	<header class="page-header">
-		<h1>Referenz</h1>
+		<h1>{$_('referenz.title')}</h1>
 		<p class="subtitle">
-			{referenceTables.length} Tabellen — Stoffwerte, Normen, Filterklassen.
+			{referenceTables.length} {$_('referenz.subtitle')}
 		</p>
 	</header>
 
@@ -55,7 +57,7 @@
 		</svg>
 		<input
 			type="search"
-			placeholder="Tabellen-Titel, Kategorie, Beschreibung…"
+			placeholder={$_('referenz.searchPlaceholder')}
 			bind:value={query}
 			class="search-input"
 		/>
@@ -63,7 +65,7 @@
 
 	<div class="filter-row">
 		<select bind:value={selectedCategory} class="cat-select">
-			<option value="">Alle Kategorien</option>
+			<option value="">{$_('referenz.allCategories')}</option>
 			{#each categories as c}
 				<option value={c}>{c}</option>
 			{/each}
@@ -74,32 +76,32 @@
 					class="chip"
 					class:active={selectedAreas.includes(a)}
 					onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-				>{areaLabels[a]}</button>
+				>{$_('area.' + a)}</button>
 			{/each}
 		</div>
 	</div>
 
 	<section class="grid">
 		{#if filtered.length === 0}
-			<p class="empty">Keine Tabellen gefunden.</p>
+			<p class="empty">{$_('referenz.noTables')}</p>
 		{:else}
-			{#each filtered as t}
-				<a href="/referenz/{t.slug}" class="card">
-					<div class="card-icon" style="background: {t.color}20; color: {t.color}">
+			{#each filtered as tbl}
+				<a href="/referenz/{tbl.slug}" class="card">
+					<div class="card-icon" style="background: {tbl.color}20; color: {tbl.color}">
 						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-							<path d={iconPaths[t.icon ?? ''] ?? 'M3 3h18v18H3z'} />
+							<path d={iconPaths[tbl.icon ?? ''] ?? 'M3 3h18v18H3z'} />
 						</svg>
 					</div>
 					<div class="card-body">
-						<h2 class="card-title">{t.title}</h2>
-						{#if t.subtitle}
-							<p class="card-subtitle">{t.subtitle}</p>
+						<h2 class="card-title">{t(tbl.title, tbl.title_en)}</h2>
+						{#if tbl.subtitle}
+							<p class="card-subtitle">{t(tbl.subtitle, tbl.subtitle_en)}</p>
 						{/if}
 						<div class="card-meta">
-							<span class="cat-chip">{t.category}</span>
-							<span class="row-count">{t.rows.length} Zeilen</span>
-							{#if t.norm && t.norm.length}
-								<span class="norm-chip">{t.norm[0]}{#if t.norm.length > 1} +{t.norm.length - 1}{/if}</span>
+							<span class="cat-chip">{$_('cat.' + tbl.category.toLowerCase(), { default: tbl.category })}</span>
+							<span class="row-count">{tbl.rows.length} {$_('referenz.rows')}</span>
+							{#if tbl.norm && tbl.norm.length}
+								<span class="norm-chip">{tbl.norm[0]}{#if tbl.norm.length > 1} +{tbl.norm.length - 1}{/if}</span>
 							{/if}
 						</div>
 					</div>

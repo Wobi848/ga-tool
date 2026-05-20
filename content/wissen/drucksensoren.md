@@ -1,5 +1,6 @@
 ---
 title: Drucksensoren in der GA — Messprinzipien und Anwendungen
+title_en: Pressure Sensors in BA — Measurement Principles and Applications
 slug: drucksensoren
 category: sensoren
 subcategory: druck
@@ -145,3 +146,136 @@ Pumpe läuft ohne Förderung (Trockenlauf):
 | Falsche Messung | Kondensat in Messschlauch | Messschlauch mit Gefälle verlegen |
 | Sensor ausserhalb Bereich | Druckstoss beim Start | Sensor mit Dämpfungsblock oder Snubber schützen |
 | Signalrauschen | Turbulenz nah am Ventilator | Messort 5× Kanaldurchmesser vom Ventilator entfernt |
+
+<!-- EN -->
+
+Pressure measurement is ubiquitous in BA: filter monitoring, fan control, room pressure control, pump monitoring, leak detection. This article explains measurement principles, measurement types, and typical BA applications.
+
+---
+
+## Measurement Types
+
+### Absolute Pressure
+Measurement referenced to absolute vacuum (0 Pa):
+- Reference: vacuum
+- Unit: Pa (abs), bar (abs)
+- BA application: meteorological stations, altitude measurement, rarely in HVAC
+
+### Gauge Pressure (Relative / Manometric Pressure)
+Measurement referenced to **current atmospheric pressure**:
+- Reference: atmosphere (varies with altitude and weather)
+- Unit: Pa (rel), bar (rel), mbar
+- BA application: heating system pressure (expansion vessel monitoring), water supply pressure
+
+### Differential Pressure
+Measurement of the **pressure difference between two measurement points**:
+- Reference: none (two variable measurement points)
+- Unit: Pa, mbar
+- BA application: **most common measurement type in HVAC** — filters, fans, duct pressure, flow
+
+---
+
+## Measurement Principles
+
+### Piezoresistive (Strain Gauge)
+A silicon chip changes its electrical resistance under pressure (piezoresistive effect):
+- Very high accuracy (0.1–0.5% FS)
+- Compact, low cost
+- Typical: differential pressure sensors 0–500 Pa for ventilation
+
+### Capacitive
+Diaphragm deflects under pressure, changing the plate spacing of a capacitor:
+- Very sensitive for small differential pressures (0–10 Pa possible)
+- Good temperature characteristics
+- Typical: ultra-fine differential pressure sensors for clean rooms
+
+### Piezoelectric
+Quartz crystal generates electrical charge under pressure — only for **dynamic** pressure measurements (vibration, shock):
+- Not suitable for static pressure (no DC signal)
+- BA: rarely used (industrial measurement, engines)
+
+---
+
+## Output Signals
+
+| Signal | Range | Advantage | Application |
+|--------|-------|-----------|------------|
+| 4–20 mA | 4–20 mA | Wire-independent, cable break detection | Standard DDC |
+| 0–10 V | 0–10 V | Simple, low cost | Short cable runs |
+| 0–5 V | 0–5 V | Compact sensors | Room devices |
+| Modbus RTU | RS-485 | Digital accuracy, diagnostics | BMS integration |
+| IO-Link | IO-Link | Parameterisation, diagnostics | Industry |
+
+---
+
+## Typical BA Applications
+
+### Filter Monitoring — Ventilation System
+```
+ΔP_filter = P_before_filter − P_after_filter
+
+New filter: ΔP < 50 Pa
+Contamination alarm: ΔP > 200 Pa (filter class dependent)
+Emergency shutdown: ΔP > 350 Pa (filter breakthrough protection)
+```
+Sensor: Differential pressure transmitter 0–500 Pa, 4–20 mA
+
+### Duct Pressure Control (VAV)
+```
+P_duct_setpoint = 200 Pa
+Measurement: 0–500 Pa differential pressure transmitter
+Control: PID → fan speed (VSD)
+```
+
+### Room Pressure Control (Clean Room, Operating Theatre)
+```
+ΔP_room = P_inside − P_corridor
+
+Clean room class ISO 7: +10 to +15 Pa
+Operating theatre: +5 to +10 Pa
+Isolation room (infection control): −10 to −15 Pa
+```
+Sensor: High-accuracy differential pressure transmitter 0–50 Pa (±0.5% FS)
+
+### System Pressure — Heating/Cooling
+```
+P_system_setpoint = static pressure + 0.2 bar (reserve)
+Pressure drop alarm: P < P_min (leakage)
+Overpressure alarm: P > P_max (safety valve check)
+```
+Sensor: Gauge pressure transmitter 0–4 bar, 4–20 mA
+
+### Pump Monitoring (Differential Head)
+```
+ΔP_pump = P_discharge − P_suction
+
+No flow with pump running:
+  → ΔP very high → alarm (closed isolation valve)
+
+Pump running dry:
+  → ΔP very low → alarm
+```
+
+---
+
+## Selection and Installation
+
+| Parameter | Recommendation |
+|-----------|---------------|
+| Measuring range | approx. 2× expected maximum |
+| Accuracy | ≤ 2% FS for control, ≤ 0.5% for clean rooms |
+| Media compatibility | Air: no requirements; water: stainless steel; glycol: stainless steel |
+| Mounting position | Vertical preferred (no condensate in pressure tube) |
+| Pressure connection (ventilation) | Tapping hole ⌀ 6 mm, plastic tube, no slope towards sensor |
+| Cable routing | 4–20 mA: up to 500 m without shielding possible |
+
+---
+
+## Common Faults
+
+| Problem | Cause | Remedy |
+|---------|-------|--------|
+| Zero-point drift | Temperature, ageing | Regular calibration (1×/year) |
+| Incorrect reading | Condensate in measuring tube | Route measuring tube with slope |
+| Sensor out of range | Pressure surge on start | Protect sensor with snubber or damping block |
+| Signal noise | Turbulence near fan | Measure at least 5× duct diameter from fan |

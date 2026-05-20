@@ -1,5 +1,6 @@
 ---
 title: Hand-0-Auto — Betriebsarten in der GA
+title_en: Hand-0-Auto — Operating Modes in BA
 slug: hand-0-auto
 category: regelung
 subcategory: betrieb
@@ -149,3 +150,140 @@ Zur H-0-A-Infrastruktur gehören immer:
 - **VDI 3814-2:** Fordert definiertes Verhalten bei Ausfall und Inbetriebnahme-Unterstützung
 - **EN ISO 13849:** Sicherheit von Maschinensteuerungen — Performance Level (für sicherheitsrelevante Abschaltungen)
 - **IEC 61131-3:** Standardprogrammierung DDC, Funktionsblöcke für H-0-A üblich (z.B. Siemens HVAC Library)
+
+<!-- EN -->
+
+Every controllable plant in BA must support at least three operating modes: **Hand (manual), 0 (off), and Auto (automatic)**. This H-0-A structure is fundamental to safe operation, commissioning, and fault rectification.
+
+---
+
+## The Three Operating Modes
+
+| State | Symbol | Description |
+|-------|--------|------------|
+| **Hand** | H | Manual override — plant runs independently of DDC/BMS |
+| **0** | 0 | Forced shutdown — plant off, independent of DDC/BMS |
+| **Auto** | A | DDC/BMS controls automatically per schedule and regulation |
+
+---
+
+## Hardware Level: Contactor Control
+
+The classic H-0-A switch in the control panel:
+
+```
+L1 ─────────────────────────────────────┐
+                                        │
+    H-0-A switch (3-position):          │
+    ┌─── H (top)    → Bypasses DDC     │
+    │─── 0 (centre) → Interrupts all   │
+    └─── A (bottom) → DDC output active│
+                                        │
+DDC output (contactor K1) ──────────────► Motor
+```
+
+**H-0-A switches are installed in the control panel for every consumer:**
+- Pumps (heating, cooling)
+- Fans (supply/extract air)
+- Dampers (motorised actuators)
+- Compressors
+
+---
+
+## Software Level: DDC Operating Modes
+
+In addition to the hardware switch, the DDC program defines software operating modes:
+
+| DDC mode | Function |
+|---------|---------|
+| **Automatic** | Normal operation per schedule/control |
+| **Hand** (software) | Operator sets fixed setpoint/output via BMS |
+| **Off** (software) | Forced shutdown via BMS, alarm acknowledgement required |
+| **Maintenance** | Disables alarms, allows manual testing |
+| **Emergency** | Predefined safe state on communication failure |
+
+### Priority Hierarchy (important!)
+
+```
+Priority (high → low):
+1. Hardware H-0-A switch    (physical, local)
+2. Safety interlocks        (frost protection, fire protection)
+3. BMS manual override      (operator)
+4. Automatic program (DDC)  (schedule, control)
+5. Default/failsafe         (on communication loss)
+```
+
+---
+
+## Failsafe — Behaviour on Failure
+
+**The most critical question for any BA plant:** What does the plant do when the DDC fails or communication is interrupted?
+
+### Typical Failsafe Strategies
+
+| Plant | Failsafe behaviour | Reason |
+|-------|-------------------|--------|
+| Heating valve | Open (spring-return) | Frost protection in winter |
+| Cooling valve | Closed | No cooling safer than overcooling |
+| Ventilation system | Continue on last position | No lack of air |
+| Fire dampers | Closed (spring-return) | Safety |
+| Pump | Continues running (contactor energised) | Frost protection |
+| Smoke extract dampers | Closed | No spurious activation |
+
+**Rule of thumb:** Failsafe direction always to the "safer" state, not the "more economical" one.
+
+---
+
+## Override at the BMS
+
+The building management system allows the operator to intervene in automatic mode:
+
+```
+BMS display: Pump P1
+  [Auto] [Manual: ON] [Manual: OFF]
+  Current: Auto (running: YES)
+  
+  Operator clicks "Manual: ON"
+  → DDC forces pump ON
+  → Alarm "Manual override P1" is generated
+  → Timestamp + user is logged
+```
+
+**Best practice:**
+- Every override is alarmed and logged
+- Maximum override duration configurable (e.g. 4 h, then automatic return to Auto)
+- Return to Auto: explicitly by operator or automatically after timeout
+
+---
+
+## Commissioning and H-0-A
+
+During commissioning, H-0-A is indispensable:
+1. H position: check plant mechanically (correct rotation, no vibration)
+2. A position: check DDC wiring (feedback received, controller responds)
+3. 0 position: check safety shutdown (frost protection triggered?)
+
+---
+
+## Feedback and Operating Hours
+
+The H-0-A infrastructure always includes:
+
+| Signal | Type | Description |
+|--------|------|------------|
+| Run feedback | DI | Motor protection relay or auxiliary contactor confirms "running" |
+| Fault signal | DI | Motor protection tripped (overload, short circuit) |
+| Hand feedback | DI | H-0-A switch in hand position (optional) |
+| Operating hours | Counter | DDC counts run time → maintenance interval |
+
+**Plausibility check:** DDC verifies:
+- Command = ON but run feedback = OFF → fault alarm after delay (e.g. 5 s)
+- H-0-A switch in Hand → generate "manual override" alarm
+
+---
+
+## Normative Context
+
+- **VDI 3814-2:** Requires defined behaviour on failure and commissioning support
+- **EN ISO 13849:** Safety of machine controls — Performance Level (for safety-relevant shutdowns)
+- **IEC 61131-3:** Standard DDC programming; H-0-A function blocks common (e.g. Siemens HVAC Library)

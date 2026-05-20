@@ -1,21 +1,30 @@
 <script lang="ts">
-	import { areaLabels, difficultyLabels, difficultyColors } from '$lib/wissen/types';
+	import { difficultyColors } from '$lib/wissen/types';
 	import { rechnerMap } from '$lib/rechner';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _, locale } from 'svelte-i18n';
+	import { marked } from 'marked';
 	import type { PageData } from './$types';
+
+	marked.setOptions({ gfm: true, breaks: false });
 
 	let { data }: { data: PageData } = $props();
 
 	const article = $derived(data.article);
-	const html = $derived(data.html);
 	const related = $derived(data.related);
 	const tools = $derived(
 		(article.rechner ?? []).map((slug) => rechnerMap[slug]).filter(Boolean)
 	);
+
+	const isEn = $derived($locale === 'en');
+	const fallback = $derived(isEn && !article.hasEnBody);
+	const title = $derived(isEn && article.title_en ? article.title_en : article.title);
+	const body = $derived(isEn && article.bodyEn ? article.bodyEn : article.bodyDe);
+	const html = $derived(marked.parse(body) as string);
 </script>
 
 <svelte:head>
-	<title>{article.title} · Wissensbasis</title>
+	<title>{title} · {$_('wissen.title')}</title>
 </svelte:head>
 
 <article class="page">
@@ -24,24 +33,28 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Wissensbasis
+			{$_('wissen.backLink')}
 		</a>
 
 		<div class="meta-row">
 			<span class="cat">{article.category}{#if article.subcategory} · {article.subcategory}{/if}</span>
 			<span class="diff-badge" style:background={difficultyColors[article.difficulty] + '20'} style:color={difficultyColors[article.difficulty]}>
-				{difficultyLabels[article.difficulty]}
+				{$_('difficulty.' + article.difficulty)}
 			</span>
 		</div>
 
+		{#if fallback}
+			<div class="lang-notice">{$_('wissen.onlyGerman')}</div>
+		{/if}
+
 		<div class="title-row">
-			<h1>{article.title}</h1>
+			<h1>{title}</h1>
 			<FavButton type="artikel" slug={article.slug} title={article.title} size={20} />
 		</div>
 
 		<div class="badges">
 			{#each article.area as a}
-				<span class="area-chip">{areaLabels[a]}</span>
+				<span class="area-chip">{$_('area.' + a)}</span>
 			{/each}
 			{#each article.norm as n}
 				<span class="norm-chip">{n}</span>
@@ -57,7 +70,7 @@
 		{/if}
 
 		{#if article.updated}
-			<p class="updated">Aktualisiert: {article.updated}</p>
+			<p class="updated">{$_('wissen.updatedAt')} {article.updated}</p>
 		{/if}
 	</header>
 
@@ -67,7 +80,7 @@
 
 	{#if tools.length}
 		<aside class="tools-section">
-			<h2>Rechner &amp; Tools</h2>
+			<h2>{$_('wissen.relatedTools')}</h2>
 			<div class="tools-list">
 				{#each tools as t}
 					<a href="/rechner/{t.slug}" class="tool-card">
@@ -77,8 +90,8 @@
 							</svg>
 						</span>
 						<div class="tool-body">
-							<span class="tool-name">{t.name}</span>
-							<span class="tool-short">{t.short}</span>
+							<span class="tool-name">{isEn && t.name_en ? t.name_en : t.name}</span>
+							<span class="tool-short">{isEn && t.short_en ? t.short_en : t.short}</span>
 						</div>
 						<svg class="tool-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 							<path d="M9 18l6-6-6-6" />
@@ -91,11 +104,11 @@
 
 	{#if related.length}
 		<aside class="related">
-			<h2>Verwandte Artikel</h2>
+			<h2>{$_('wissen.relatedArticles')}</h2>
 			<div class="related-list">
 				{#each related as r}
 					<a href="/wissen/{r.slug}" class="related-card">
-						<span class="related-title">{r.title}</span>
+						<span class="related-title">{isEn && r.title_en ? r.title_en : r.title}</span>
 						<span class="related-cat">{r.category}</span>
 					</a>
 				{/each}
@@ -115,6 +128,25 @@
 		margin-bottom: 1.5rem;
 		padding-bottom: 1rem;
 		border-bottom: 1px solid var(--border);
+	}
+
+	.lang-notice {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.75rem;
+		color: #92400e;
+		background: #fef3c7;
+		border: 1px solid #fcd34d;
+		border-radius: 0.375rem;
+		padding: 0.3rem 0.65rem;
+		margin-bottom: 0.75rem;
+	}
+
+	:global(.dark) .lang-notice {
+		color: #fcd34d;
+		background: #451a03;
+		border-color: #92400e;
 	}
 
 	.back-link {

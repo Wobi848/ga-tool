@@ -1,5 +1,6 @@
 ---
 title: Signaltypen in der GA — AI, AO, DI, DO
+title_en: Signal Types in BA — AI, AO, DI, DO
 slug: signaltypen
 category: signale
 subcategory: grundlagen
@@ -166,3 +167,158 @@ DDC +24V ──── Kontakt ──── DDC DI-Eingang
 - **IEC 61131-2** — Signalpegel für SPS/DDC-Ein/Ausgänge
 - **IEC 60947-5-6** — NAMUR-Sensoren
 - **IEC 62053-31** — S0-Schnittstelle für Energiezähler
+
+<!-- EN -->
+
+In building automation, sensors, actuators and DDCs communicate via **standardised signals**. Understanding these signal types is a fundamental prerequisite for planning, wiring and commissioning.
+
+## Overview of the 4 Basic Types
+
+| Abbrev. | Name | Direction | Examples |
+|---------|------|---------|---------|
+| **AI** | Analogue Input | Sensor → DDC | Temperature sensor, pressure sensor, humidity |
+| **AO** | Analogue Output | DDC → actuator | Valve actuator, VSD speed setpoint |
+| **DI** | Digital Input | Sensor → DDC | Fault signal, run feedback, limit switch |
+| **DO** | Digital Output | DDC → actuator | Pump on/off, damper open/close, relay |
+
+---
+
+## Analogue Input (AI)
+
+### 0–10 V
+
+- Voltage signal, 2-wire or 3-wire
+- **Advantage:** Simple, widely used
+- **Disadvantage:** Sensitive to cable resistance and EMC interference (voltage drop)
+- **Cable length:** max. ~100 m (depending on sensor source impedance)
+- **Cable break:** not detectable (0 V = lower range or cable break → ambiguous!)
+- Typical: temperature sensors with transmitter, humidity/CO₂ transmitters, illuminance
+
+### 4–20 mA
+
+- Current signal, 2-wire (two-wire transmitter) or 4-wire
+- **Advantage:** Cable resistance irrelevant (current flows independently), interference-resistant
+- **Cable break detectable:** 0 mA = cable break / sensor fault → alarm possible!
+- **Cable length:** up to several hundred metres
+- **Recommendation:** always when cable break detection or long cable runs are needed
+- Typical: pressure sensors, differential pressure sensors, high-quality transmitters
+
+> 💡 **Rule of thumb:** 4–20 mA is the more professional signal. 0 mA = fault (clearly identifiable). 0 V with 0–10 V can be a fault or a genuine zero value — ambiguous.
+
+### Resistance signals (PT100 / PT1000 / NTC)
+
+Not a current/voltage signal — direct resistance connection to DDC input:
+
+| Type | Resistance at 0 °C | Typical use |
+|------|------------------|------------|
+| PT100 | 100 Ω | Industry, laboratory (more accurate) |
+| PT1000 | 1000 Ω | **BA standard** (room, duct, outdoor) |
+| NTC | typically 10 kΩ | Simple room sensors, low cost |
+
+- **PT1000 has 10× more resistance change** than PT100 → less sensitive to cable resistance → better for BA field wiring
+- **4-wire connection** (Kelvin) for highest accuracy (eliminates cable resistance)
+- **2-wire** is standard in BA (error < 0.1 K at typical cable lengths with PT1000)
+
+---
+
+## Analogue Output (AO)
+
+### 0–10 V output
+
+- DDC outputs voltage, actuator/VSD receives setpoint
+- Valve actuator: 0 V = fully closed, 10 V = fully open (or reversed — check manual!)
+- VSD: 0 V = 0 Hz, 10 V = 50 Hz (scalable)
+- Short-circuit protected on most DDC outputs
+
+### 4–20 mA output (less common)
+
+- For long cable runs or when the actuator requires 4–20 mA
+- Often requires an active current output at the DDC (not all DDCs support this!)
+
+> ⚠️ **Fail-safe position:** What does the actuator do when the signal is lost (power failure, cable break)? Actuators have a configurable fail-safe position (e.g. valve closed on signal loss). Always specify and test!
+
+---
+
+## Digital Input (DI)
+
+### Volt-free contact (dry contact)
+
+- Simplest DI: relay contact, limit switch, float switch
+- DDC supplies an auxiliary voltage (typically 24 VDC), reads back whether contact is closed (1) or open (0)
+- **No external voltage** — connect only the volt-free contact!
+
+```
+DDC +24 V ──── Contact ──── DDC DI input
+```
+
+### 24 VAC/DC signal
+
+- Some devices output an active 24 V signal (e.g. motor protection switch reports "fault" as a 24 V signal)
+- DDC input must be suitable for active signals (sink input)
+- Caution: AC or DC? Polarity-dependent?
+
+### NAMUR sensor (IEC 60947-5-6)
+
+- Inductive proximity switches for hazardous areas
+- Current change: 1.2 mA (inactive) / 2.1 mA (active)
+- Requires NAMUR evaluation unit at the DDC
+
+### Pulse / counter
+
+- Heat meters, water meters, wind generators — output pulses
+- DDC counts pulses → calculates volume, energy from pulse value
+- Typical: S0 interface (IEC 62053-31), 1 pulse = x kWh or x litres
+
+---
+
+## Digital Output (DO)
+
+### Relay output (volt-free)
+
+- DDC switches internal relay → volt-free contact
+- Application: pump on/off, motor contactor control, lighting
+- Observe max. switching current (typically 5–10 A at 250 VAC)
+- For motors: always use a motor contactor in between (do not connect motor directly to DDC relay!)
+
+### 24 V transistor output (PNP/NPN)
+
+- For smaller loads, fast switching
+- PNP: switches +24 V through; NPN: switches to GND
+- Typical for valve solenoids (24 VAC/DC), signal lamps
+
+### Three-position output (3-point)
+
+- Two outputs for open + close (e.g. damper actuator or 3-way valve)
+- Never activate both simultaneously → DDC interlock required
+
+---
+
+## Signal Comparison at a Glance
+
+| Property | 0–10 V | 4–20 mA | PT1000 | Volt-free |
+|---------|--------|---------|--------|----------|
+| Cable break detection | ❌ | ✅ | ❌ | ❌ |
+| EMC immunity | Medium | **High** | Medium | Medium |
+| Cable length | ~100 m | >500 m | ~100 m | >500 m |
+| Wiring effort | Low | Medium | Medium | Low |
+| Sensor cost | Low | Medium | Low | Low |
+
+---
+
+## Typical Wiring Errors
+
+| Error | Symptom | Cause |
+|-------|---------|-------|
+| 0–10 V configured instead of 4–20 mA | Value always 0 or wrong scaling | Wrong input type at DDC |
+| Contact connected to 230 V instead of DDC auxiliary voltage | DDC input destroyed | External voltage on DI |
+| PT100 installed instead of PT1000 | Temperature massively wrong (factor ~10) | Wrong sensor type |
+| Shield earthed at both ends | Hum loop, measured value fluctuates | Earth shield at one end only! |
+| VSD connected directly to DDC relay | Relay burns out (inrush current!) | Insert motor contactor |
+| Fail-safe not configured | Valve stays open on power failure | Set fail-safe position in actuator |
+
+## Standards
+
+- **IEC 60381** — Analogue signals for process control
+- **IEC 61131-2** — Signal levels for PLC/DDC inputs and outputs
+- **IEC 60947-5-6** — NAMUR sensors
+- **IEC 62053-31** — S0 interface for energy meters

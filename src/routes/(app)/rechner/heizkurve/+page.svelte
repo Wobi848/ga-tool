@@ -10,6 +10,7 @@
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { untrack } from 'svelte';
+	import { _ } from 'svelte-i18n';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -33,7 +34,7 @@
 	let manufacturer: Manufacturer = $state(initialMfr);
 	let systemType: 'radiator' | 'floor' = $state('radiator');
 	let roomTemp = $state(20);
-	let normOutdoor = $state(-8);
+	let normOutdoor = $state(untrack(() => data.defaultTemp) ?? -8);
 	let slope = $state(1.4);
 	let level = $state(0);
 	let heatLimit = $state(18);
@@ -52,12 +53,6 @@
 	// Current outdoor for "live" readout
 	let currentTA = $state(0);
 
-	// Swiss city quick-pick — defaults to profile city if set
-	let selectedCity = $state(untrack(() => data.defaultCity) ?? 'Zürich');
-	$effect(() => {
-		const c = swissNormOutdoor.find((s) => s.ort === selectedCity);
-		if (c) normOutdoor = c.t;
-	});
 
 	const params = $derived<CurveParams>({
 		manufacturer,
@@ -118,19 +113,20 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">Heizkurve</h1>
-			<FavButton type="rechner" slug="heizkurve" title="Heizkurve" size={20} />
+			<h1 class="calc-title">{$_('rechner.heizkurve.name')}</h1>
+			<a href="/wissen/heizkurve" class="wiki-link">Wissensbasis →</a>
+			<FavButton type="rechner" slug="heizkurve" title={$_('rechner.heizkurve.name')} size={20} />
 		</div>
 	</header>
 
 	<div class="calc-section">
-		<h2 class="calc-section-title">Hersteller / System</h2>
+		<h2 class="calc-section-title">{$_('rechner.heizkurveUi.manufacturerSystem')}</h2>
 		<div class="calc-field" style="border-top: none">
 			<label class="calc-field-label" for="man-sel">
-				Hersteller
+				{$_('rechner.ui.manufacturer')}
 				<span class="calc-field-hint">{info.family}</span>
 			</label>
 			<select id="man-sel" bind:value={manufacturer} class="calc-select">
@@ -140,10 +136,10 @@
 			</select>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="sys-sel">Wärmeübergabe</label>
+			<label class="calc-field-label" for="sys-sel">{$_('rechner.heizkurveUi.heatEmitter')}</label>
 			<select id="sys-sel" bind:value={systemType} class="calc-select">
-				<option value="radiator">Radiator (n ≈ 1.3)</option>
-				<option value="floor">Fussboden (n ≈ 1.1)</option>
+				<option value="radiator">{$_('rechner.heizkurveUi.radiator')}</option>
+				<option value="floor">{$_('rechner.heizkurveUi.floor')}</option>
 			</select>
 		</div>
 	</div>
@@ -166,7 +162,7 @@
 			<line x1={padL} y1={padT + plotH} x2={padL + plotW} y2={padT + plotH} class="axis" />
 
 			<!-- axis labels -->
-			<text x={padL + plotW / 2} y={H - 2} class="axis-label" text-anchor="middle">Aussentemperatur [°C]</text>
+			<text x={padL + plotW / 2} y={H - 2} class="axis-label" text-anchor="middle">{$_('rechner.heizkurveUi.outdoorTempAxis')}</text>
 			<text x={padL - 28} y={padT - 2} class="axis-label">TV [°C]</text>
 
 			<!-- Heizgrenze marker -->
@@ -187,55 +183,55 @@
 			{/if}
 		</svg>
 		<div class="plot-legend">
-			<span><span class="dot curve-dot"></span> Kennlinie</span>
-			<span><span class="dot norm-dot"></span> Norm-Aussentemp</span>
-			<span><span class="dot limit-dot"></span> Heizgrenze</span>
-			<span><span class="dot current-dot-l"></span> aktuell</span>
+			<span><span class="dot curve-dot"></span> {$_('rechner.heizkurveUi.curve')}</span>
+			<span><span class="dot norm-dot"></span> {$_('rechner.heizkurveUi.normOutdoorLegend')}</span>
+			<span><span class="dot limit-dot"></span> {$_('rechner.heizkurveUi.heatLimit')}</span>
+			<span><span class="dot current-dot-l"></span> {$_('rechner.heizkurveUi.currentLegend')}</span>
 		</div>
 	</div>
 
 	<!-- Live readout -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Live-Abfrage</h2>
+		<h2 class="calc-section-title">{$_('rechner.heizkurveUi.liveQuery')}</h2>
 		<div class="calc-field" style="border-top: none">
-			<label class="calc-field-label" for="cta-in">Aktuelle Aussentemperatur</label>
+			<label class="calc-field-label" for="cta-in">{$_('rechner.heizkurveUi.currentOutdoor')}</label>
 			<div class="calc-input-wrap">
 				<input id="cta-in" type="number" step="0.5" bind:value={currentTA} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<span class="calc-field-label">→ Vorlauf-Sollwert</span>
+			<span class="calc-field-label">{$_('rechner.heizkurveUi.flowSetpoint')}</span>
 			<span class="calc-result-value primary">{fmt(currentTV, 1)}<span class="calc-result-unit">°C</span></span>
 		</div>
 	</div>
 
 	{#if manufacturer === 'honeywell'}
 		<div class="calc-section">
-			<h2 class="calc-section-title">Honeywell — 2-Punkte</h2>
+			<h2 class="calc-section-title">{$_('rechner.heizkurveUi.honeywellSection')}</h2>
 			<div class="calc-field">
-				<label class="calc-field-label" for="ta1-in">Punkt 1: Aussentemp TA₁</label>
+				<label class="calc-field-label" for="ta1-in">{$_('rechner.heizkurveUi.honeywellPoint1OutdoorTemp')}</label>
 				<div class="calc-input-wrap">
 					<input id="ta1-in" type="number" step="1" bind:value={ta1} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="tv1-in">Punkt 1: Vorlauf TV₁</label>
+				<label class="calc-field-label" for="tv1-in">{$_('rechner.heizkurveUi.honeywellPoint1Flow')}</label>
 				<div class="calc-input-wrap">
 					<input id="tv1-in" type="number" step="1" bind:value={tv1} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="ta2-in">Punkt 2: Aussentemp TA₂</label>
+				<label class="calc-field-label" for="ta2-in">{$_('rechner.heizkurveUi.honeywellPoint2OutdoorTemp')}</label>
 				<div class="calc-input-wrap">
 					<input id="ta2-in" type="number" step="1" bind:value={ta2} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="tv2-in">Punkt 2: Vorlauf TV₂</label>
+				<label class="calc-field-label" for="tv2-in">{$_('rechner.heizkurveUi.honeywellPoint2Flow')}</label>
 				<div class="calc-input-wrap">
 					<input id="tv2-in" type="number" step="1" bind:value={tv2} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
@@ -244,11 +240,11 @@
 		</div>
 	{:else if manufacturer === 'sauter'}
 		<div class="calc-section">
-			<h2 class="calc-section-title">Sauter — Parameter</h2>
+			<h2 class="calc-section-title">{$_('rechner.heizkurveUi.sauterSection')}</h2>
 			<div class="calc-field">
 				<label class="calc-field-label" for="fp-in">
-					Fusspunkt
-					<span class="calc-field-hint">TV bei Heizgrenze</span>
+					{$_('rechner.heizkurveUi.footpoint')}
+					<span class="calc-field-hint">{$_('rechner.heizkurveUi.footpointHint')}</span>
 				</label>
 				<div class="calc-input-wrap">
 					<input id="fp-in" type="number" step="1" bind:value={footpoint} class="calc-input" />
@@ -256,7 +252,7 @@
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="sl-sauter">Neigung</label>
+				<label class="calc-field-label" for="sl-sauter">{$_('rechner.heizkurveUi.slope')}</label>
 				<div class="calc-input-wrap">
 					<input id="sl-sauter" type="number" step="0.1" min="0.1" max="5" bind:value={slope} class="calc-input" />
 					<span class="calc-input-unit">—</span>
@@ -265,11 +261,11 @@
 		</div>
 	{:else}
 		<div class="calc-section">
-			<h2 class="calc-section-title">Kurven-Parameter</h2>
+			<h2 class="calc-section-title">{$_('rechner.heizkurveUi.curveParams')}</h2>
 			<div class="calc-field" style="border-top: none">
 				<label class="calc-field-label" for="sl-in">
-					{manufacturer === 'buderus' ? 'Steilheit' : 'Neigung'}
-					<span class="calc-field-hint">Bereich {info.slopeRange[0]}–{info.slopeRange[1]}</span>
+					{manufacturer === 'buderus' ? $_('rechner.heizkurveUi.curveSteepness') : $_('rechner.heizkurveUi.slope')}
+					<span class="calc-field-hint">{$_('rechner.heizkurveUi.slopeRangeHint', { values: { min: info.slopeRange[0], max: info.slopeRange[1] } })}</span>
 				</label>
 				<div class="calc-input-wrap">
 					<input
@@ -286,8 +282,8 @@
 			</div>
 			<div class="calc-field">
 				<label class="calc-field-label" for="lvl-in">
-					Niveau
-					<span class="calc-field-hint">Parallelverschiebung ± K</span>
+					{$_('rechner.heizkurveUi.level')}
+					<span class="calc-field-hint">{$_('rechner.heizkurveUi.levelHint')}</span>
 				</label>
 				<div class="calc-input-wrap">
 					<input id="lvl-in" type="number" step="0.5" min="-15" max="15" bind:value={level} class="calc-input" />
@@ -298,24 +294,16 @@
 	{/if}
 
 	<div class="calc-section">
-		<h2 class="calc-section-title">Standort + Anlage</h2>
+		<h2 class="calc-section-title">{$_('rechner.heizkurveUi.siteAndPlant')}</h2>
 		<div class="calc-field" style="border-top: none">
-			<label class="calc-field-label" for="city-sel">Ort (CH)</label>
-			<select id="city-sel" bind:value={selectedCity} class="calc-select">
-				{#each swissNormOutdoor as c}
-					<option value={c.ort}>{c.ort} ({c.t} °C)</option>
-				{/each}
-			</select>
-		</div>
-		<div class="calc-field">
-			<label class="calc-field-label" for="no-in">Normaussentemp</label>
+			<label class="calc-field-label" for="no-in">{$_('rechner.heizkurveUi.normOutdoor')}</label>
 			<div class="calc-input-wrap">
 				<input id="no-in" type="number" step="1" bind:value={normOutdoor} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="rt-in">Soll-Raumtemperatur</label>
+			<label class="calc-field-label" for="rt-in">{$_('rechner.heizkurveUi.roomSetpoint')}</label>
 			<div class="calc-input-wrap">
 				<input id="rt-in" type="number" step="0.5" bind:value={roomTemp} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
@@ -323,8 +311,8 @@
 		</div>
 		<div class="calc-field">
 			<label class="calc-field-label" for="hl-in">
-				Heizgrenze
-				<span class="calc-field-hint">oberhalb keine Heizung</span>
+				{$_('rechner.heizkurveUi.heatLimit')}
+				<span class="calc-field-hint">{$_('rechner.heizkurveUi.heatLimitHint')}</span>
 			</label>
 			<div class="calc-input-wrap">
 				<input id="hl-in" type="number" step="0.5" bind:value={heatLimit} class="calc-input" />
@@ -332,14 +320,14 @@
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="min-in">Min. Vorlauf</label>
+			<label class="calc-field-label" for="min-in">{$_('rechner.heizkurveUi.minFlow')}</label>
 			<div class="calc-input-wrap">
 				<input id="min-in" type="number" step="1" bind:value={minFlow} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="max-in">Max. Vorlauf</label>
+			<label class="calc-field-label" for="max-in">{$_('rechner.heizkurveUi.maxFlow')}</label>
 			<div class="calc-input-wrap">
 				<input id="max-in" type="number" step="1" bind:value={maxFlow} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
@@ -349,7 +337,7 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Auslegungs-Vorlauf bei {normOutdoor} °C</span>
+			<span class="calc-result-label">{$_('rechner.heizkurveUi.designFlow', { values: { t: normOutdoor } })}</span>
 			<span class="calc-result-value primary">{fmt(tvDesign, 1)}<span class="calc-result-unit">°C</span></span>
 		</div>
 		<div class="calc-result">
@@ -372,15 +360,11 @@
 
 	{#if tvDesign > maxFlow}
 		<div class="calc-warning">
-			⚠ Auslegungstemperatur {fmt(tvDesign, 1)} °C wird durch max. Vorlauf {maxFlow} °C begrenzt. Höhere Neigung oder Niveau ist wirkungslos. Heizfläche evtl. zu klein.
+			{$_('rechner.heizkurveUi.maxFlowWarning', { values: { tv: fmt(tvDesign, 1), max: maxFlow } })}
 		</div>
 	{/if}
 
-	<p class="calc-info">
-		Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen.
-		Bei Fussbodenheizung Exponent n ≈ 1.1, Radiatoren n ≈ 1.3. <br />
-		Quellen: SIA 384/2, Herstellerunterlagen.
-	</p>
+	<p class="calc-info">{$_('rechner.heizkurveUi.formulaNote')}</p>
 </div>
 
 <style>

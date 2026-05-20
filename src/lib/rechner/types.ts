@@ -1,7 +1,9 @@
 export interface RechnerMeta {
 	slug: string;
 	name: string;
-	short: string; // short description for card
+	name_en?: string;
+	short: string;
+	short_en?: string;
 	icon: string;
 	color: string;
 }

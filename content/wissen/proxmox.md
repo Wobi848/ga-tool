@@ -1,5 +1,6 @@
 ---
 title: Proxmox — Virtualisierung für GA-Server
+title_en: Proxmox — Virtualisation for BA Servers
 slug: proxmox
 category: it
 subcategory: infrastruktur
@@ -159,3 +160,151 @@ Proxmox Netzwerk-Setup GA:
 | IoT-Gateway        | Node-RED                   | 1 vCPU, 1 GB   |
 | VPN                | WireGuard                  | 1 vCPU, 256 MB |
 | DNS / DHCP         | Pi-hole + dnsmasq          | 1 vCPU, 512 MB |
+
+<!-- EN -->
+
+Proxmox VE (Virtual Environment) is an open-source virtualisation platform for BA servers. It allows multiple virtual machines (VMs) and containers (LXC) to run on a single piece of hardware.
+
+## Why Proxmox in BA?
+
+```
+Traditional approach:
+  BMS server     → dedicated hardware
+  OPC UA server  → dedicated hardware
+  Historian      → dedicated hardware
+  MQTT broker    → dedicated hardware
+  = 4 physical servers, 4× power, maintenance, failure risks
+
+With Proxmox:
+  1 physical server → 4 VMs / containers
+  → Less hardware, lower maintenance cost
+  → Snapshots and backups are straightforward
+  → Test environments without separate hardware
+```
+
+---
+
+## Architecture
+
+```
+Proxmox host (bare metal)
+  ├── VM 1: BMS server (Windows Server 2022 / Desigo CC)
+  ├── VM 2: Historian (Linux / InfluxDB + Grafana)
+  ├── LXC 3: MQTT broker (Mosquitto)
+  ├── LXC 4: Node-RED (IoT flows)
+  └── LXC 5: WireGuard VPN (remote access)
+```
+
+### VMs vs. LXC Containers
+
+| Feature | VM (KVM) | LXC container |
+|---------|---------|--------------|
+| Operating system | Full (Windows/Linux) | Linux only |
+| Isolation | Very strong | Medium |
+| Performance | ~5–10 % overhead | Minimal (near-native) |
+| Resources | More RAM/CPU needed | Low overhead |
+| Application | Windows applications | Linux services |
+
+---
+
+## Key Proxmox Features for BA
+
+### Snapshots
+
+```
+Before system updates / software changes:
+  1. Create snapshot (30 seconds)
+  2. Perform update
+  3. On failure: roll back snapshot (5 minutes)
+  
+CLI:
+  qm snapshot <VMID> <snapname> --description "before update 2026-05"
+  qm rollback <VMID> <snapname>
+```
+
+### Backups (PBS = Proxmox Backup Server)
+
+```
+Backup strategy (3-2-1 rule):
+  Daily: incremental backup of all VMs → PBS (local)
+  Weekly: PBS → offsite (NAS, cloud)
+  
+  Backup command (CLI):
+  vzdump <VMID> --storage PBS --compress zstd --mode snapshot
+  
+  Retention:
+    Daily: 7 copies
+    Weekly: 4 copies
+    Monthly: 6 copies
+```
+
+### High Availability (HA Cluster)
+
+For critical BMS servers (hospitals, data centres):
+
+```
+Proxmox cluster (3 nodes):
+  Node 1: VM running here
+  Node 2: warm standby
+  Node 3: quorum (tie-breaker)
+  
+  On Node 1 failure:
+    → VM is automatically started on Node 2
+    → Downtime: 30–120 seconds
+```
+
+---
+
+## Hardware Recommendations — BA Server
+
+```
+Small installation (< 5,000 data points):
+  CPU: Intel i5/i7 or AMD Ryzen (6–8 cores)
+  RAM: 32 GB ECC
+  SSD: 500 GB NVMe (system + VMs)
+  HDD: 2 TB SATA RAID1 (data / backups)
+  
+Medium installation (5,000–50,000 data points):
+  CPU: Xeon E-2300 or AMD EPYC
+  RAM: 64–128 GB ECC
+  SSD: 2 × 1 TB NVMe (RAID1 for VMs)
+  HDD: 4 × 4 TB RAID5 (historian data)
+  
+Operating environment:
+  Ventilation: min. 20 dB(A) quiet (server room)
+  UPS: at least 30 min runtime
+  Temperature: 15–25 °C, no condensation
+```
+
+---
+
+## Network Configuration
+
+```
+Proxmox network setup — BA:
+
+  eth0 (bonded with eth1): management network (IT, admin)
+  Bond0:                   VM bridge
+
+  vmbr0: VLAN 10 (IT network, BMS web interface)
+  vmbr1: VLAN 20 (OT network, DDC communication BACnet)
+  vmbr2: VLAN 30 (management, Proxmox GUI)
+  
+  Proxmox firewall:
+    BMS VM may only access VLAN 20 (OT) and VLAN 10 (IT with restrictions)
+    No direct internet access from VLAN 20 (OT)
+```
+
+---
+
+## Typical BA Services on Proxmox
+
+| Container / VM | Software | Resources |
+|--------------|---------|---------|
+| BMS server | Desigo CC / Niagara / EBI | 4 vCPU, 16 GB |
+| Historian | InfluxDB 2.x | 2 vCPU, 8 GB |
+| Dashboard | Grafana | 1 vCPU, 2 GB |
+| MQTT broker | Mosquitto | 1 vCPU, 512 MB |
+| IoT gateway | Node-RED | 1 vCPU, 1 GB |
+| VPN | WireGuard | 1 vCPU, 256 MB |
+| DNS / DHCP | Pi-hole + dnsmasq | 1 vCPU, 512 MB |

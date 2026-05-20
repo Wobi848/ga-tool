@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { untrack } from 'svelte';
-	import { areaLabels, difficultyLabels, difficultyColors, type Area, type Difficulty } from '$lib/wissen/types';
+	import { _, locale } from 'svelte-i18n';
+	import { difficultyColors, type Area, type Difficulty } from '$lib/wissen/types';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -60,9 +61,9 @@
 
 <div class="page">
 	<header class="page-header">
-		<h1>Wissensbasis</h1>
+		<h1>{$_('wissen.title')}</h1>
 		<p class="subtitle">
-			{data.articles.length} Artikel zu Regelung, Heizung, Lüftung, Protokollen und mehr.
+			{data.articles.length} {$_('wissen.subtitle')}
 		</p>
 	</header>
 
@@ -73,12 +74,12 @@
 		</svg>
 		<input
 			type="search"
-			placeholder="Titel, Tags, Kategorie…"
+			placeholder={$_('wissen.searchPlaceholder')}
 			bind:value={query}
 			class="search-input"
 		/>
 		{#if query || selectedAreas.length || selectedDifficulties.length}
-			<button class="btn-clear" onclick={clearFilters} title="Filter zurücksetzen">
+			<button class="btn-clear" onclick={clearFilters} title={$_('wissen.resetFilter')}>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<line x1="18" y1="6" x2="6" y2="18" />
 					<line x1="6" y1="6" x2="18" y2="18" />
@@ -89,19 +90,19 @@
 
 	<section class="filters">
 		<div class="filter-group">
-			<span class="filter-label">Fachbereich</span>
+			<span class="filter-label">{$_('wissen.fachbereich')}</span>
 			<div class="chips">
 				{#each allAreas as a}
 					<button
 						class="chip"
 						class:active={selectedAreas.includes(a)}
 						onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-					>{areaLabels[a]}</button>
+					>{$_('area.' + a)}</button>
 				{/each}
 			</div>
 		</div>
 		<div class="filter-group">
-			<span class="filter-label">Schwierigkeit</span>
+			<span class="filter-label">{$_('wissen.schwierigkeit')}</span>
 			<div class="chips">
 				{#each allDifficulties as d}
 					<button
@@ -109,13 +110,13 @@
 						class:active={selectedDifficulties.includes(d)}
 						style:--chip-active={difficultyColors[d]}
 						onclick={() => (selectedDifficulties = toggle(selectedDifficulties, d))}
-					>{difficultyLabels[d]}</button>
+					>{$_('difficulty.' + d)}</button>
 				{/each}
 			</div>
 		</div>
 		{#if preselectedAreas.length}
 			<p class="filter-hint">
-				Fachbereiche aus deinem Profil vorausgewählt — in <a href="/profil">Profil</a> anpassen.
+				{$_('wissen.profileHint')} <a href="/profil">{$_('nav.profile')}</a>.
 			</p>
 		{/if}
 	</section>
@@ -123,27 +124,30 @@
 	<section class="results">
 		{#if filtered.length === 0}
 			<div class="empty">
-				<p>Keine Artikel gefunden.</p>
-				<button class="btn-clear-text" onclick={clearFilters}>Alle Filter entfernen</button>
+				<p>{$_('wissen.noArticles')}</p>
+				<button class="btn-clear-text" onclick={clearFilters}>{$_('wissen.clearFilters')}</button>
 			</div>
 		{:else}
-			<p class="count">{filtered.length} Ergebnis{filtered.length === 1 ? '' : 'se'}</p>
+			<p class="count">{filtered.length} {filtered.length === 1 ? $_('common.results') : $_('common.resultsPlural')}</p>
 			<div class="list">
 				{#each filtered as a}
 					<a href="/wissen/{a.slug}" class="article-card">
 						<div class="card-main">
 							<div class="card-header">
-								<h2 class="card-title">{a.title}</h2>
+								<h2 class="card-title">{$locale === 'en' && a.title_en ? a.title_en : a.title}</h2>
 								<span class="diff-badge" style:background={difficultyColors[a.difficulty] + '20'} style:color={difficultyColors[a.difficulty]}>
-									{difficultyLabels[a.difficulty]}
+									{$_('difficulty.' + a.difficulty)}
 								</span>
+								{#if $locale === 'en' && !a.hasEnBody}
+									<span class="de-badge">{$_('wissen.deOnly')}</span>
+								{/if}
 							</div>
 							<p class="card-meta">
-								{a.category}{#if a.subcategory} · {a.subcategory}{/if}
+								{$_('cat.' + a.category, { default: a.category })}{#if a.subcategory} · {$_('cat.' + a.subcategory, { default: a.subcategory })}{/if}
 							</p>
 							<div class="card-chips">
 								{#each a.area as ar}
-									<span class="area-chip">{areaLabels[ar]}</span>
+									<span class="area-chip">{$_('area.' + ar)}</span>
 								{/each}
 								{#each a.tags.slice(0, 3) as t}
 									<span class="tag-chip">#{t}</span>
@@ -370,6 +374,19 @@
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
 		flex-shrink: 0;
+	}
+
+	.de-badge {
+		font-size: 0.6rem;
+		padding: 0.12rem 0.4rem;
+		border-radius: 1rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		flex-shrink: 0;
+		color: #92400e;
+		background: #fef3c7;
+		border: 1px solid #fcd34d;
 	}
 
 	.card-meta {

@@ -1,13 +1,17 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
+	import { _, locale } from 'svelte-i18n';
 	import { checklists, countItems, countCritical } from '$lib/checklisten';
 	import { loadChecklistState } from '$lib/checklisten/stores';
-	import { areaLabels, type Area } from '$lib/wissen/types';
+	import { type Area } from '$lib/wissen/types';
 
 	let query = $state('');
 	let selectedCategory = $state<string>('');
 	let selectedAreas: Area[] = $state([]);
+
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
 
 	const categories = [...new Set(checklists.map((c) => c.category))].sort();
 	const allAreas: Area[] = ['hlk', 'sanitaer', 'elektro', 'ga', 'it', 'normen'];
@@ -36,11 +40,9 @@
 			if (selectedCategory && c.category !== selectedCategory) return false;
 			if (selectedAreas.length && !c.areas.some((x) => selectedAreas.includes(x))) return false;
 			if (!q) return true;
-			return (
-				c.title.toLowerCase().includes(q) ||
-				(c.subtitle?.toLowerCase().includes(q) ?? false) ||
-				c.category.toLowerCase().includes(q)
-			);
+			const title = t(c.title, c.title_en).toLowerCase();
+			const subtitle = t(c.subtitle ?? '', c.subtitle_en).toLowerCase();
+			return title.includes(q) || subtitle.includes(q) || c.category.toLowerCase().includes(q);
 		});
 	});
 
@@ -52,12 +54,12 @@
 	};
 </script>
 
-<svelte:head><title>Checklisten · GA Tool</title></svelte:head>
+<svelte:head><title>{$_('checklisten.title')} · GA Tool</title></svelte:head>
 
 <div class="page">
 	<header class="page-header">
-		<h1>Checklisten</h1>
-		<p class="subtitle">{checklists.length} interaktive Checklisten — Fortschritt wird automatisch gespeichert.</p>
+		<h1>{$_('checklisten.title')}</h1>
+		<p class="subtitle">{checklists.length} {$_('checklisten.subtitle')}</p>
 	</header>
 
 	<div class="search-row">
@@ -65,26 +67,26 @@
 			<circle cx="11" cy="11" r="8" />
 			<line x1="21" y1="21" x2="16.65" y2="16.65" />
 		</svg>
-		<input type="search" placeholder="Titel, Kategorie…" bind:value={query} class="search-input" />
+		<input type="search" placeholder={$_('checklisten.searchPlaceholder')} bind:value={query} class="search-input" />
 	</div>
 
 	<div class="filter-row">
 		<select bind:value={selectedCategory} class="cat-select">
-			<option value="">Alle Kategorien</option>
+			<option value="">{$_('checklisten.allCategories')}</option>
 			{#each categories as c}
 				<option value={c}>{c}</option>
 			{/each}
 		</select>
 		<div class="chips">
 			{#each allAreas as a}
-				<button class="chip" class:active={selectedAreas.includes(a)} onclick={() => (selectedAreas = toggle(selectedAreas, a))}>{areaLabels[a]}</button>
+				<button class="chip" class:active={selectedAreas.includes(a)} onclick={() => (selectedAreas = toggle(selectedAreas, a))}>{$_('area.' + a)}</button>
 			{/each}
 		</div>
 	</div>
 
 	<section class="grid">
 		{#if filtered.length === 0}
-			<p class="empty">Keine Checklisten gefunden.</p>
+			<p class="empty">{$_('checklisten.noChecklists')}</p>
 		{:else}
 			{#each filtered as c}
 				{@const total = countItems(c)}
@@ -98,19 +100,19 @@
 					</div>
 					<div class="card-body">
 						<div class="card-title-row">
-							<h2 class="card-title">{c.title}</h2>
-							<span class="cat-chip" style:background={c.color + '20'} style:color={c.color}>{c.category}</span>
+							<h2 class="card-title">{t(c.title, c.title_en)}</h2>
+							<span class="cat-chip" style:background={c.color + '20'} style:color={c.color}>{$_('cat.' + c.category.toLowerCase(), { default: c.category })}</span>
 						</div>
 						{#if c.subtitle}
-							<p class="card-subtitle">{c.subtitle}</p>
+							<p class="card-subtitle">{t(c.subtitle, c.subtitle_en)}</p>
 						{/if}
 						<div class="card-meta">
-							<span class="count">{total} Punkte</span>
+							<span class="count">{total} {$_('checklisten.points')}</span>
 							{#if critical > 0}
-								<span class="critical">{critical} kritisch</span>
+								<span class="critical">{critical} {$_('checklisten.critical')}</span>
 							{/if}
 							{#if c.sections.length}
-								<span class="sections">{c.sections.length} Sektionen</span>
+								<span class="sections">{c.sections.length} {$_('checklisten.sections')}</span>
 							{/if}
 						</div>
 						{#if progress > 0}

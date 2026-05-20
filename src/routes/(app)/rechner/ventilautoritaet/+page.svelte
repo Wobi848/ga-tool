@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	// Betriebsart
 	type Mode = 'authority' | 'kvs-select';
@@ -62,30 +63,30 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">Ventilautorität</h1>
-			<FavButton type="rechner" slug="ventilautoritaet" title="Ventilautorität" size={20} />
+			<h1 class="calc-title">{$_('rechner.ventilautoritaet.name')}</h1>
+			<FavButton type="rechner" slug="ventilautoritaet" title={$_('rechner.ventilautoritaet.name')} size={20} />
 		</div>
 	</header>
 
 	<div class="mode-tabs">
 		<button class="mode-tab" class:active={mode === 'authority'} onclick={() => mode = 'authority'}>
-			Ventilautorität α
+			{$_('rechner.ventilautoritaetUi.tabAuthority')}
 		</button>
 		<button class="mode-tab" class:active={mode === 'kvs-select'} onclick={() => mode = 'kvs-select'}>
-			Kvs-Auswahl
+			{$_('rechner.ventilautoritaetUi.tabKvs')}
 		</button>
 	</div>
 
 	{#if mode === 'authority'}
 	<div class="calc-section">
-		<h2 class="calc-section-title">Druckverhältnisse</h2>
+		<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.pressures')}</h2>
 		<div class="calc-field">
 			<label class="calc-field-label" for="dpv-in">
-				Δp Ventil bei 100% Hub (ΔpV,100)
-				<span class="calc-field-hint">Druckverlust vollgeöffnetes Ventil</span>
+				{$_('rechner.ventilautoritaetUi.dpValve100')}
+				<span class="calc-field-hint">{$_('rechner.ventilautoritaetUi.dpValve100Hint')}</span>
 			</label>
 			<div class="calc-input-wrap">
 				<input id="dpv-in" type="number" step="100" min="100" bind:value={dpv100} class="calc-input" />
@@ -94,8 +95,8 @@
 		</div>
 		<div class="calc-field">
 			<label class="calc-field-label" for="dps-in">
-				Δp restlicher Kreis (ΔpSystem)
-				<span class="calc-field-hint">Wärmetauscher + Rohrnetz ohne Ventil</span>
+				{$_('rechner.ventilautoritaetUi.dpSystem')}
+				<span class="calc-field-hint">{$_('rechner.ventilautoritaetUi.dpSystemHint')}</span>
 			</label>
 			<div class="calc-input-wrap">
 				<input id="dps-in" type="number" step="100" min="0" bind:value={dpSystem} class="calc-input" />
@@ -106,24 +107,24 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Ventilautorität α</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.authority')}</span>
 			<span class="calc-result-value primary" style="color: {result.ratingColor}">
 				{fmt(result.alpha, 2)}<span class="calc-result-unit"></span>
 			</span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Bewertung</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.rating')}</span>
 			<span class="calc-result-value" style="font-size: 0.9rem; color: {result.ratingColor}">{result.rating}</span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Gesamtdruckverlust Kreis</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.totalDp')}</span>
 			<span class="calc-result-value">{fmt(result.dpTotal / 1000, 2)}<span class="calc-result-unit">kPa</span></span>
 		</div>
 	</div>
 
 	<!-- Kennlinie -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Effektive Kennlinie (Linearventil, α = {fmt(result.alpha, 2)})</h2>
+		<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.effectiveCurve')} (Linearventil, α = {fmt(result.alpha, 2)})</h2>
 		<div class="curve-grid">
 			<div class="curve-axis-y">q/q<sub>max</sub></div>
 			<div class="curve-chart">
@@ -141,20 +142,17 @@
 				{/each}
 			</div>
 		</div>
-		<p class="curve-note">Grau = Ideallinie (α = 1). Je kleiner α, desto mehr weicht die effektive Kurve ab.</p>
+		<p class="curve-note">{$_('rechner.ventilautoritaetUi.curveNote')}</p>
 	</div>
 
-	<p class="calc-info">
-		α = ΔpV,100 / (ΔpV,100 + ΔpSystem) — Empfehlung: α ≥ 0.5 (min. 0.3).
-		Tiefes α → Ventil verliert Regeleinfluss → überproportionaler Durchflussanstieg bei kleinen Hüben.
-	</p>
+	<p class="calc-info">{$_('rechner.ventilautoritaetUi.authorityFormulaNote')}</p>
 	{/if}
 
 	{#if mode === 'kvs-select'}
 	<div class="calc-section">
-		<h2 class="calc-section-title">Auslegungsdaten</h2>
+		<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.designData')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="flow-in">Auslegungsdurchfluss</label>
+			<label class="calc-field-label" for="flow-in">{$_('rechner.ventilautoritaetUi.designFlow')}</label>
 			<div class="calc-input-wrap">
 				<input id="flow-in" type="number" step="0.1" min="0.01" bind:value={flow} class="calc-input" />
 				<span class="calc-input-unit">m³/h</span>
@@ -162,8 +160,8 @@
 		</div>
 		<div class="calc-field">
 			<label class="calc-field-label" for="dp100-in">
-				Δp Ventil bei Auslegungsdurchfluss
-				<span class="calc-field-hint">Eingestellter Differenzdruck am Ventil</span>
+				{$_('rechner.ventilautoritaetUi.dpAtDesign')}
+				<span class="calc-field-hint">{$_('rechner.ventilautoritaetUi.dpAtDesignHint')}</span>
 			</label>
 			<div class="calc-input-wrap">
 				<input id="dp100-in" type="number" step="0.05" min="0.01" bind:value={dp100} class="calc-input" />
@@ -174,21 +172,21 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Berechneter Kv</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.calcKv')}</span>
 			<span class="calc-result-value">{fmt(kvResult.kv, 2)}<span class="calc-result-unit">m³/h</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Empfohlenes Kvs (× 1.3 Sicherheit)</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.recommendedKvs')}</span>
 			<span class="calc-result-value primary">{kvResult.kvs}<span class="calc-result-unit">m³/h</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Kvs / Kv</span>
+			<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.kvsOverKv')}</span>
 			<span class="calc-result-value">{fmt(kvResult.kvsFactor, 2)}</span>
 		</div>
 	</div>
 
 	<div class="calc-section">
-		<h2 class="calc-section-title">Standardreihe Kvs</h2>
+		<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.kvsStandard')}</h2>
 		<div class="kvs-grid">
 			{#each kvsOptions as v}
 			<div class="kvs-chip" class:kvs-selected={v === kvResult.kvs} class:kvs-too-small={v < kvResult.kv * 1.3}>
@@ -198,10 +196,7 @@
 		</div>
 	</div>
 
-	<p class="calc-info">
-		Kv = Q / √(ΔpV) bei ΔpV in bar, Q in m³/h — nach EN 60534.
-		Kvs nächste Normgrösse ≥ Kv × 1.3 wählen (Regelbereich + Reserve).
-	</p>
+	<p class="calc-info">{$_('rechner.ventilautoritaetUi.formulaNote')}</p>
 	{/if}
 </div>
 

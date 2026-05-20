@@ -1,5 +1,6 @@
 ---
 title: Trinkwasser-Erwärmung — Speicher, Durchfluss, Hygiene
+title_en: Domestic Hot Water Heating — Storage, Instantaneous and Hygiene
 slug: trinkwasser-erwaermung
 category: sanitaer
 subcategory: warmwasser
@@ -172,3 +173,166 @@ ACHTUNG: Zirkulation muss trotzdem ≥ 55 °C haben
 - **EN 806** — Trinkwasser-Installationen in Gebäuden
 - **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweizer Norm)
 - **ÖNORM B 5019** — Hygienisch einwandfreie Trinkwasser-Erwärmungsanlagen
+
+<!-- EN -->
+
+## Domestic Hot Water Heating — Storage, Instantaneous and Hygiene
+
+Domestic hot water (DHW) combines comfort requirements with strict hygiene regulations. Temperatures below 60 °C in the storage tank or below 55 °C in the circulation system create a Legionella risk.
+
+## System Types
+
+### Central Storage System
+
+```
+Heat source (boiler / HP / district heat)
+    ↓ Primary circuit
+Heat exchanger (storage loading system)
+    ↓
+DHW storage tank (60 °C, top)
+    ↓
+Circulation pipe (> 55 °C)
+    ↓
+Draw-off points
+```
+
+- Suitable for multi-family dwellings, hotels, hospitals
+- Storage volume: 30–80 l per person (residential)
+- Large systems: sized to DVGW W551
+
+### Instantaneous Water Heater (decentralised)
+
+```
+Cold water → heat exchanger → hot water immediately
+(no storage, no hygiene problem)
+```
+
+- No Legionella risk (no standing hot water)
+- Requires high connected load (electric: 18–30 kW for 1 draw-off point)
+- Gas instantaneous heaters: more efficient, but CO risk (only in kitchen/bathroom with supply air)
+
+---
+
+## Temperatures and Hygiene
+
+```
+Critical temperature ranges:
+  < 20 °C: Legionella die off (too cold to grow)
+  20–45 °C: Optimal Legionella growth range!
+  45–60 °C: Legionella grow slowly
+  > 60 °C: Legionella die within minutes
+  > 70 °C: Instantaneous kill
+  
+DVGW W551 requirements:
+  Storage:             ≥ 60 °C (measured at top)
+  Circulation:         ≥ 55 °C (everywhere)
+  Draw-off temp.:      ≥ 55 °C after max. 60 s flow time
+  Cold water:          ≤ 25 °C (permanent), ≤ 20 °C (recommended)
+```
+
+---
+
+## Circulation System
+
+```
+DHW storage 60 °C
+    ↓ Flow (60 °C)
+    → Risers → Floor distribution → Draw-off points
+    ← Return (> 55 °C)
+    ↑ Circulation pump
+    
+Circulation temperature drops:
+  OK: return temp. > 55 °C
+  Not OK: return temp. < 55 °C → Legionella risk!
+  → Cause: heat loss through poorly insulated pipes
+```
+
+**Circulation pump control:**
+
+```
+Time control:
+  Operation: 06:00–23:00 (occupancy hours)
+  Shutdown: 23:00–06:00 (if pipes insulated and short)
+  
+  CAUTION: Long pipes → at risk overnight too
+  → Thermal operation: pump runs when T_return < 55 °C
+
+Better: temperature control
+  When T_return < 56 °C → pump ON
+  When T_return > 58 °C → pump OFF (hysteresis)
+```
+
+---
+
+## Thermal Disinfection
+
+Periodic heating to kill all Legionella:
+
+```
+DVGW W551:
+  Large systems (> 400 l storage or > 3 l per pipe section):
+    → Weekly thermal disinfection
+    → T_storage ≥ 70 °C
+    → All draw-off points flushed 3 min at ≥ 70 °C
+    
+Small systems:
+  Continuous operation at 60 °C (no periodic disinfection required)
+```
+
+**BA programme for thermal disinfection:**
+
+```
+Weekly (e.g. Monday 02:00):
+  Storage setpoint: 70 °C
+  Load until T_storage_top ≥ 70 °C
+  Circulation: 100 % (maximum flow)
+  Duration: hold at ≥ 70 °C for 30–60 min
+  
+  After completion:
+    Return to normal setpoint 60 °C
+    Log: date, time, temperature profile → compliance
+```
+
+---
+
+## Scald Protection
+
+Hot water > 60 °C at draw-off points is a scalding hazard:
+
+```
+Solution: thermostatic mixing valve at draw-off point
+  3-way mixing valve: DHW 60 °C + CW → mixed 45 °C
+  
+Or: central mixing valve after storage
+  Storage 60 °C → mixing valve → distribution 45 °C
+  
+CAUTION: Circulation must still maintain ≥ 55 °C
+  → Mixing valve only at end of distribution, after circulation return connection
+```
+
+---
+
+## BA Data Points DHW
+
+| Data point | Type | Unit | Description |
+|------------|------|------|-------------|
+| DHW storage temp top | AI | °C | Hygiene monitoring |
+| DHW storage temp mid | AI | °C | Charge state |
+| DHW storage temp bot | AI | °C | Cold zone |
+| DHW setpoint | AV | °C | Normal 60 °C / Disinfection 70 °C |
+| Circulation return temp | AI | °C | Hygiene monitoring |
+| Circulation pump | DO | — | ON/OFF |
+| Loading pump | DO | — | ON/OFF |
+| Loading valve | AO | % | 0–100 % |
+| Disinfection active | DV | — | Weekly programme status |
+| DHW draw-off volume | AI | l | Consumption measurement |
+
+---
+
+## Standards
+
+- **DVGW W551** — Domestic hot water heating and piping systems (Legionella prevention)
+- **DIN 1988** — Technical rules for drinking water installations
+- **EN 806** — Specifications for installations inside buildings conveying water for human consumption
+- **SIA 385/1** — Domestic hot water installations (Swiss standard)
+- **ÖNORM B 5019** — Hygienic domestic hot water heating systems

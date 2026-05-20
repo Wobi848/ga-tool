@@ -1,5 +1,6 @@
 ---
 title: Ventilautorität — Einfluss auf Regelqualität
+title_en: Valve Authority — Impact on Control Quality
 slug: ventilautoritaet
 category: hydraulik
 subcategory: ventile
@@ -82,3 +83,73 @@ Der ΔpSystem hängt stark vom hydraulischen Abgleich ab. Bei einem abgeglichene
 ## Zusammenfassung
 
 > Eine gute Ventilautorität (α ≥ 0.5) ist die Voraussetzung für eine stabile, genaue Regelung. Sie wird durch richtiges Kvs (nicht zu gross) und einen angemessenen System-Δp sichergestellt. Druckunabhängige Ventile (PICV) lösen das Problem elegant auf Kosten höherer Investition.
+
+<!-- EN -->
+
+The **valve authority** α (alpha) describes what fraction of the total pressure drop in a heating circuit the valve takes up at fully open position. It decisively determines whether a valve can effectively regulate its circuit.
+
+## Definition
+
+```
+α = ΔpV,100 / (ΔpV,100 + ΔpSystem)
+```
+
+| Variable | Meaning |
+|----------|---------|
+| **ΔpV,100** | Pressure drop across the valve at 100% stroke (fully open) |
+| **ΔpSystem** | Pressure drop of the rest of the circuit (HX, pipes, fittings) |
+| **α** | Valve authority [−], 0 to 1 |
+
+## Effect on the Characteristic Curve
+
+The valve itself has a geometrically defined characteristic (linear or equal-percentage). The valve authority distorts this **inherent characteristic** into the **installed characteristic**:
+
+| α | Effect with linear valve |
+|---|--------------------------|
+| α = 1.0 | Ideal — installed = inherent characteristic |
+| α = 0.5 | Good — slight distortion, acceptable |
+| α = 0.3 | Borderline — characteristic noticeably convex |
+| α = 0.1 | Poor — valve opens 0–80% stroke with negligible flow effect; last 20% do all the work |
+
+**Practical problem with low valve authority:** The controller operates "blind" for a long time (no flow influence) and then jumps rapidly to saturation → poor control quality, tendency to oscillate.
+
+## Recommendations
+
+| Application | Recommended α |
+|-------------|---------------|
+| Heating circuit, HVAC general | ≥ 0.5 |
+| Cooling, tight temperature spread | ≥ 0.4 |
+| District heating substation | ≥ 0.3 (minimum) |
+| Absolute minimum | 0.2 |
+
+## Kvs Selection for Good Valve Authority
+
+A **Kvs that is too large** reduces ΔpV,100 and therefore α. The most common cause of poor valve authority is an oversized valve.
+
+```
+Kv = Q / √(ΔpV)   [m³/h at ΔpV in bar]
+Kvs ≥ Kv × 1.3    [next standard size up]
+```
+
+**Standard Kvs series**: 0.16 · 0.25 · 0.4 · 0.63 · 1.0 · 1.6 · 2.5 · 4.0 · 6.3 · 10 · 16 · 25 · 40 · 63 · 100
+
+**Common mistake:** A DN40 valve is fitted because the pipe is DN40 — but the required Kv calls for Kvs = 4.0 (DN20 valve). The oversized valve creates almost no Δp → α → 0.
+
+## Equal-Percentage vs. Linear Characteristic
+
+| Characteristic | Suitable for | Advantage |
+|----------------|--------------|-----------|
+| **Linear** | α ≥ 0.5 | Simple, works well at high authority |
+| **Equal-percentage** | α 0.3–0.5 | Partially compensates low authority |
+
+An equal-percentage valve delivers little flow at low stroke and increases it exponentially — compensating for characteristic distortion under poor valve authority. It is not a substitute for proper sizing.
+
+## Hydraulic Balancing and Pressure Drop
+
+ΔpSystem depends heavily on hydraulic balancing. In a balanced network, pressure drops are defined and valve authority is calculable. In an unbalanced network, pressure conditions are unknown → valve authority uncontrolled.
+
+**Pressure-independent control valves (PICV):** Combine control valve + differential pressure regulator in one body. α is always ≈ 1 since the regulator keeps the differential pressure constant. Ideal for larger systems.
+
+## Summary
+
+> Good valve authority (α ≥ 0.5) is a prerequisite for stable, accurate control. It is achieved through correct Kvs sizing (not too large) and adequate system Δp. Pressure-independent valves (PICV) solve the problem elegantly at the cost of higher investment.

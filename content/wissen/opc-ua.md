@@ -1,5 +1,6 @@
 ---
 title: OPC UA — Unified Architecture
+title_en: OPC UA — Unified Architecture
 slug: opc-ua
 category: protokolle
 subcategory: industrie
@@ -207,3 +208,201 @@ Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
 - **IEC 62541** (Teile 1–14) — vollständige OPC UA Spezifikation
 - **OPC 10000-x** — OPC Foundation Spezifikationen
 - **IEC 62443** — Industrial Cyber Security (OPC UA als Transportlayer)
+
+<!-- EN -->
+
+# OPC UA — Unified Architecture
+
+**OPC UA** (IEC 62541) is the platform-independent communication standard for industrial automation and building technology. It connects field devices, PLCs, SCADA, MES and ERP — from sensor level to cloud.
+
+## OPC UA vs. Classic OPC (DA/HDA)
+
+| Feature | OPC Classic (DA/HDA) | OPC UA |
+|---------|---------------------|--------|
+| Operating system | Windows only (COM/DCOM) | Platform-independent |
+| Security | Windows authentication | TLS, certificates, roles |
+| Topology | Client-server | Client-server + pub/sub |
+| Transport | DCOM | TCP, HTTPS, WebSocket, MQTT |
+| Data model | Flat tags | Object-oriented info model |
+| Standardisation | OPC Foundation | IEC 62541 (international) |
+
+## Architecture & Concepts
+
+### Information Model (Address Space)
+
+The heart of OPC UA is the **address space** — an object-oriented, hierarchical data model:
+
+```
+Root
+  └── Objects
+        ├── Server (server information)
+        ├── Plant_1
+        │     ├── FlowTemperature (Variable, Float, °C)
+        │     ├── Pump_1
+        │     │     ├── Speed (Variable, Float, %)
+        │     │     └── Status (Variable, Boolean)
+        │     └── Alarms
+        └── Plant_2
+```
+
+### Node ID
+
+Every node in the address space has a unique **Node ID**:
+
+| Format | Example | Description |
+|--------|---------|-------------|
+| Numeric | `ns=2;i=1003` | Namespace 2, integer 1003 |
+| String | `ns=2;s=FlowTemperature` | Namespace 2, string key |
+| GUID | `ns=2;g=550e8400-...` | UUID |
+
+- `ns=0`: OPC UA standard namespace (server, types, …)
+- `ns=1+`: application-specific (device manufacturer, BMS vendor)
+
+### Attributes
+
+Every node has attributes:
+
+| Attribute | Description |
+|-----------|-------------|
+| `NodeId` | Unique ID |
+| `BrowseName` | Human-readable name |
+| `DisplayName` | Localised display name |
+| `Value` | **Current value** (variables only) |
+| `DataType` | Boolean, Int32, Float, String, … |
+| `AccessLevel` | Read, Write, HistoryRead, … |
+| `StatusCode` | Good, Bad, Uncertain + substatus |
+
+## Services (Communication)
+
+OPC UA services are request/response pairs:
+
+### Data Access
+
+| Service | Description |
+|---------|-------------|
+| `Read` | Read single or multiple attributes |
+| `Write` | Write values |
+| `Browse` | Explore address space (list nodes) |
+| `TranslateBrowsePathsToNodeIds` | Resolve path → NodeId |
+
+### Subscriptions & MonitoredItems
+
+The most efficient pattern for BMS connections:
+
+```
+Client creates subscription (e.g. every 500 ms)
+  └── MonitoredItem: FlowTemperature (deadband 0.5 °C)
+  └── MonitoredItem: Pump_Status
+  └── MonitoredItem: Alarm_List
+
+Server sends notifications on change or at interval
+```
+
+- **Publishing interval:** how often the server sends notifications
+- **Sampling interval:** how often the server samples the value
+- **Deadband:** minimum change to trigger notification (saves traffic)
+
+### Events & Alarms
+
+OPC UA has a complete alarm and event model:
+- `ConditionType`, `AlarmConditionType`, `LimitAlarmType`
+- States: Active, Acknowledged, Confirmed
+- Historical events via `HistoryRead`
+
+### Historical Access (HDA)
+
+- `HistoryRead` for time-series data
+- Trend queries without an external database (when the server supports HistoryRead)
+
+## Security
+
+OPC UA has security as a core component (not added as an afterthought):
+
+### Security Modes
+
+| Mode | Encryption | Signature | Use case |
+|------|-----------|-----------|---------|
+| None | No | No | Testing only! |
+| Sign | No | Yes | Integrity without privacy |
+| SignAndEncrypt | **Yes** | Yes | **Production** |
+
+### Security Policies
+
+| Policy | Algorithm |
+|--------|-----------|
+| Basic256Sha256 | AES-256, SHA-256 (recommended) |
+| Aes128_Sha256_RsaOaep | AES-128 (more modern) |
+| Aes256_Sha256_RsaPss | AES-256, PSS (latest) |
+
+### Certificates
+
+- Every OPC UA client and server has an **X.509 certificate**
+- Mutual authentication (similar to mTLS)
+- Certificates must be **explicitly accepted** in the server's trust store
+
+> ⚠️ **Common commissioning problem:** Client connects but receives `BadCertificateUntrusted`. Solution: open server trust store and manually accept client certificate — or use `SecurityMode: None` temporarily for testing.
+
+## Transports
+
+| Transport | Port | Description |
+|-----------|------|-------------|
+| **OPC UA TCP** | 4840 | Standard, binary protocol, efficient |
+| **HTTPS** | 443 | For firewall traversal, JSON/XML |
+| **WebSocket** | variable | Browser access |
+
+URL scheme: `opc.tcp://192.168.1.100:4840/UA/Server`
+
+## OPC UA Pub/Sub (New)
+
+Newer addition to client-server: **Publisher** sends data to a broker (MQTT, AMQP) or via UDP multicast; **Subscriber** receives.
+
+```
+OPC UA Publisher (field) → MQTT Broker → OPC UA Subscriber (BMS/cloud)
+```
+
+Good for: IoT integration, many devices, unidirectional data streams.
+
+## OPC UA in BA
+
+OPC UA increasingly replaces proprietary manufacturer protocols as the **vertical integration layer**:
+
+```
+Field level:       BACnet / Modbus / KNX / M-Bus
+                          ↓
+Automation level:  DDC with OPC UA server
+                          ↓
+BMS:               OPC UA client (reads all DDCs)
+                          ↓
+Cloud/ERP:         OPC UA client or pub/sub → MQTT
+```
+
+**Companion specifications:** standardised address space models for device types:
+- `OPC UA for Building Automation` (in development)
+- `OPC UA for HVAC` (Honeywell, Siemens actively involved)
+- `OPC UA for Energy` (energy management)
+
+## Tools
+
+| Tool | Description |
+|------|-------------|
+| **UaExpert** (Unified Automation) | Free browser/client — standard for commissioning |
+| **Prosys OPC UA Browser** | Free, Java-based |
+| **node-opcua** | Open-source Node.js library |
+| **open62541** | Open-source C library (server + client) |
+| **python-opcua / asyncua** | Python library |
+| **Wireshark** | OPC UA dissector built in |
+
+## Typical Commissioning Steps
+
+1. Determine OPC UA server URL (`opc.tcp://IP:4840/...`)
+2. Connect with UaExpert (use `None` security first for testing)
+3. Browse address space, note relevant NodeIDs
+4. Accept security certificate, switch to `SignAndEncrypt`
+5. Create subscriptions for relevant nodes (configure BMS driver)
+6. Set up connection monitoring (watchdog / keep-alive)
+
+## Standards
+
+- **IEC 62541** (parts 1–14) — complete OPC UA specification
+- **OPC 10000-x** — OPC Foundation specifications
+- **IEC 62443** — Industrial cybersecurity (OPC UA as transport layer)

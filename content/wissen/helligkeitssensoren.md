@@ -1,5 +1,6 @@
 ---
 title: Helligkeitssensoren — Tageslichtmessung und Beleuchtungssteuerung
+title_en: Light Sensors — Daylight Measurement and Lighting Control
 slug: helligkeitssensoren
 category: sensoren
 subcategory: licht
@@ -138,3 +139,129 @@ Aussenlichtsensor misst globale Strahlung:
 - Messbereich einstellen (z.B. 0–1000 lx)
 - Hysterese konfigurieren (vermeidet Flackern bei Wolkendurchzug)
 - Deadband: Änderungen < ±5% lösen keine Regelaktion aus
+
+<!-- EN -->
+
+Light sensors measure **illuminance** (lux) and form the basis for constant illuminance control, daylight-responsive shading, and twilight switches. Correctly implemented, they reduce lighting energy consumption by 20–50%.
+
+---
+
+## Measurand: Illuminance (Lux)
+
+| Quantity | Unit | Definition |
+|----------|------|-----------|
+| **Illuminance E** | Lux (lx) | Luminous flux per area: E = Φ / A |
+| Luminance L | cd/m² | Perceived brightness of a surface |
+| Luminous flux Φ | Lumen (lm) | Total luminous flux emitted by a lamp |
+| Luminous intensity I | Candela (cd) | Luminous flux per solid angle |
+
+**Relevant in BA:** Illuminance E in lux — directly measurable, standardised.
+
+---
+
+## Typical Illuminance Values
+
+| Situation | Illuminance |
+|-----------|------------|
+| Moonlight | 0.1 lx |
+| Street lighting | 5–30 lx |
+| Staircase, corridor (standard) | 100 lx |
+| Office desk (EN 12464-1) | 500 lx |
+| Technical drawing | 750 lx |
+| Operating theatre | 10,000 lx |
+| Overcast sky outdoors | 5,000–20,000 lx |
+| Direct sunlight | 50,000–100,000 lx |
+
+---
+
+## Measurement Principles
+
+### Photodiode (Semiconductor Photosensor)
+Standard in BA sensors:
+- Silicon photodiode generates a current proportional to light intensity
+- Spectral sensitivity: 400–1,100 nm (visible + near IR)
+- **Light correction filter (V(λ) correction):** Matches the spectral curve to the human eye — important for accurate lux measurement
+- Low cost, fast response, linear
+
+### Photoresistor (LDR, Light Dependent Resistor)
+- Cadmium sulphide (CdS) changes resistance with light
+- Slow response (seconds)
+- Today used only in simple twilight switches
+- **Not suitable for control** (non-linear, slow)
+
+### Spectral Sensor
+Multi-channel sensor with individual photodiodes + colour filters:
+- Measures colour temperature, colour rendering, blue content (melatonin)
+- Future BA: Human Centric Lighting (HCL)
+- Still rare in building automation
+
+---
+
+## Sensor Types and Output Signals
+
+| Type | Application | Output |
+|------|------------|--------|
+| **Ceiling combination unit** (presence + lux) | Office, meeting room | DALI-2, 0–10 V, Modbus |
+| **Wall sensor** | Room climate device, combined | 0–10 V, Modbus |
+| **Outdoor light sensor** | Facade, shading | 0–10 V (0 = dark, 10 V = max) |
+| **Duct sensor** | Rare (light pipes) | 0–10 V |
+| **Lux meter** | Mobile, commissioning | Digital (Bluetooth, USB) |
+
+**Output signals:**
+- **0–10 V:** e.g. 0 V = 0 lx, 10 V = 2,000 lx (range depends on manufacturer)
+- **DALI-2 Part 301 (Light Sensor):** Digital lux value via DALI bus, configurable
+- **Modbus RTU:** Direct lux value as integer (BA integration)
+
+---
+
+## Constant Illuminance Control (Daylight Harvesting)
+
+Goal: maintain illuminance at the workstation constant (e.g. 500 lx) by having artificial light supplement daylight:
+
+```
+E_setpoint = 500 lx
+E_actual = sensor (at desk or ceiling)
+
+If daylight provides 300 lx:
+    → DALI dims artificial light to ~50% (~200 lx supplement)
+If daylight provides 600 lx:
+    → DALI dims artificial light to 0% (off)
+```
+
+**PID control:** Constant illuminance control is a closed control loop. Fast cloud movements require an I-component to avoid continuous hunting.
+
+---
+
+## Shading Control
+
+Outdoor light sensor (peak direct solar irradiance):
+
+```
+Outdoor light sensor measures global irradiance:
+    < 40,000 lx → blinds up (open, no glare protection needed)
+    > 50,000 lx → blinds down (glare protection active)
+    Wind monitor exceeded → blinds up (protection position)
+```
+
+**Solar tracking control:** The BMS calculates the sun position (azimuth, elevation) from the time of day, date, and building location, and opens/closes the slats accordingly — independent of the sensor but combined with it.
+
+---
+
+## Installation and Commissioning
+
+### Outdoor Light Sensor
+- **Mounting location:** Unobstructed view south/south-west, level (sensor plane horizontal)
+- **No shading** from building parts or trees
+- **Protection class:** IP65 or higher
+- Calibration: compare with reference lux meter on a clear day
+
+### Room Sensor (Constant Illuminance)
+- **Measurement plane:** Sensor measures horizontal illuminance at working height or at an angle towards the workstation
+- **No direct sunlight** on the sensor (causes incorrect control)
+- **Calibration mode:** Calibrate sensor to setpoint under full artificial lighting without daylight
+
+### DALI Part 301 Configuration
+- Assign sensor address
+- Set measurement range (e.g. 0–1,000 lx)
+- Configure hysteresis (avoids flickering during cloud passage)
+- Deadband: changes < ±5% do not trigger a control action

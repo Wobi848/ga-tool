@@ -1,5 +1,6 @@
 ---
 title: Entrauchung und RWA — Rauchabzugsanlagen
+title_en: Smoke Extraction and SHEV — Smoke and Heat Exhaust Systems
 slug: entrauchung-rwa
 category: lueftung
 subcategory: brandschutz
@@ -163,3 +164,155 @@ Treppenhaus-Überdruckanlage:
 - **Halbjährlich**: Sichtprüfung aller mechanischen Teile
 - **IBN-Protokoll**: Auslösung jeder Zone, Messung Abluftmengen, Druckdifferenzen
 - **Dokumentation**: Alle Prüfungen protokollieren (Grundlage Versicherung, Behörden)
+
+<!-- EN -->
+
+Smoke and heat exhaust systems (SHEV) are safety-critical systems. Their failure can cost lives. Control logic and interlocking with the ventilation system must be implemented correctly.
+
+## Basic Principle and Types
+
+### Natural SHEV (NSHEV)
+
+```
+Heat → smoke rises → buoyancy force
+    ↓
+Smoke vents in roof / upper wall areas open
+    ↓
+Smoke exits → fresh air enters from below
+```
+
+- No electrical power required for smoke extraction (important on power failure)
+- Smoke vents: pneumatically (CO₂ cartridge) or electrically triggered
+- Make-up air supply: doors, windows, air supply inlets below
+
+### Mechanical SHEV (MSHEV)
+
+```
+Fan extracts smoke → exhaust to outside
+Simultaneously: fresh air via separate system or openings
+```
+
+- For underground car parks, tunnels, large spaces without roof lights
+- High-capacity fans (high-temperature fans 300 °C / 1 h or 400 °C / 2 h)
+- Differential pressure control for stairwells
+
+---
+
+## Components
+
+| Component | Function |
+|----------|---------|
+| Smoke vents (SV) | Open for smoke extraction (NC = Normally Closed) |
+| Make-up air inlets | Underfloor supply openings |
+| Fire dampers (FD) | Prevent smoke spread in duct (NC) |
+| SHEV control panel | Triggering, monitoring, reporting to BMS |
+| High-temperature fan | MSHEV only: extracts smoke/hot gas |
+| Manual release button (MRB) | Manual activation at each zone |
+
+---
+
+## Triggering and Control Logic
+
+```
+Fire alarm panel (FAP) → SHEV control panel
+    ↓ Detector group activates
+    ↓
+SHEV control panel:
+  1. OPEN smoke vents in fire compartment
+  2. CLOSE fire dampers in compartment
+  3. SWITCH OFF ventilation (or switch to smoke extraction mode)
+  4. Report to BMS (fault / operating mode "fire")
+  5. Report to FAP (for fire brigade panel)
+```
+
+**Priority:** SHEV control panel has **absolute precedence** over BA/BMS. The ventilation controller must not override the SHEV signal.
+
+### Interlocking with Ventilation System
+
+```
+Normal ventilation operation:
+  AHU runs normally, FDs open
+
+Fire activation:
+  SHEV signal → DDC receives DI "Fire active"
+    → Close supply air dampers
+    → Disable recirculation (no smoke recirculation)
+    → VSD to 0 (shutdown)
+    → Start smoke extraction fan (if present)
+    
+  EXCEPTION: Stairwell pressurisation systems
+    → Supply fan CONTINUES RUNNING (maintains positive pressure)
+```
+
+---
+
+## Zone Concept
+
+Large buildings are divided into **smoke compartments (zones)**:
+
+```
+Zone 1: Ground floor west
+Zone 2: Ground floor east
+Zone 3: First floor west
+Zone 4: Car park
+
+Activation: Only affected zone is smoke-extracted
+Other zones: remain in normal operation (prevent smoke spread)
+```
+
+**Manual release button per zone** — fire brigade can activate zones selectively.
+
+---
+
+## BA Data Points — SHEV / Smoke Extraction
+
+| Data point | Type | Unit | Description |
+|-----------|------|------|------------|
+| Fire alarm zone 1 | DI | — | FAP / SHEV panel activation |
+| Smoke extraction active zone 1 | DI | — | SHEV running feedback |
+| Ventilation operating mode | AV | — | Normal / fire / off |
+| SHEV panel fault | DI | — | Panel defective / power failure |
+| Smoke vent SV-01 status | DI | — | Open / closed feedback |
+| Smoke extraction fan | DO | — | On/off |
+| Smoke extraction fan run | DI | — | Motor protection feedback |
+
+> ⚠️ SHEV data points must be configured in the BMS **in the "Critical" alarm channel**. No suppression, no time delay.
+
+---
+
+## Stairwell Pressurisation
+
+Escape routes (stairwells) are maintained at **positive pressure** to prevent smoke ingress:
+
+```
+Stairwell pressurisation system:
+  Setpoint: 50 Pa positive pressure relative to fire compartment
+  Fan: fresh air from outside → stairwell
+  Control: differential pressure sensor stairwell / corridor
+  
+  Door opening: pressure drops briefly → control increases volume flow
+  Max. pressure: 80 Pa (otherwise door cannot be opened → max. 100 N opening force)
+```
+
+---
+
+## Standards and Requirements
+
+| Standard | Content |
+|---------|---------|
+| **EN 12101-1** | Hose assemblies, SHEV requirements |
+| **EN 12101-2** | NSHEV — natural smoke vents |
+| **EN 12101-3** | MSHEV — mechanical smoke extraction fans |
+| **EN 12101-6** | Differential pressure systems (stairwell pressurisation) |
+| **VDI 6019** | Mechanical smoke extraction — planning and operation |
+| **MBO § 35** (DE) | Required stairwells (smoke protection) |
+| **VKF** (CH) | Swiss fire protection guidelines — smoke extraction |
+
+---
+
+## Inspection Obligations
+
+- **Annually:** Functional test of all smoke vents and MRBs
+- **Semi-annually:** Visual inspection of all mechanical parts
+- **Commissioning record:** Activation of each zone, measurement of exhaust volumes, pressure differentials
+- **Documentation:** Record all inspections (basis for insurance, authorities)

@@ -1,17 +1,23 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	// Typ WRG-System
 	type WrgType = 'kreuzgegenstrom' | 'rotations' | 'platte' | 'laufrad';
 	let wrgType: WrgType = $state('kreuzgegenstrom');
 
-	const wrgInfo: Record<WrgType, { label: string; etaH: [number, number]; etaF: [number, number]; note: string }> = {
-		kreuzgegenstrom: { label: 'Kreuzgegenstrom (Enthalpie-Tauscher)', etaH: [0.7, 0.90], etaF: [0.5, 0.80], note: 'Feuchteübertragung möglich (Membran). Sehr hohe Effizienz, kein Leckage-Problem.' },
-		rotations:       { label: 'Rotationssorptions-WRG',               etaH: [0.7, 0.85], etaF: [0.6, 0.85], note: 'Hohe Feuchterückgewinnung. Achtung: geringe Überströmung Abluft→Zuluft (1–5%).' },
-		platte:          { label: 'Plattenwärmetauscher (nur Wärme)',      etaH: [0.5, 0.80], etaF: [0.0, 0.0],  note: 'Keine Feuchteübertragung. Einfach, robust, kein Leckage-Risiko. Vereisungsschutz nötig.' },
-		laufrad:         { label: 'Umluftsystem / Wärmelaufrad',           etaH: [0.4, 0.65], etaF: [0.0, 0.0],  note: 'Nur Wärme, mittlere Effizienz. Einsatz bei getrennten Zu/Abluft-Leitungen.' },
+	const wrgInfoBase: Record<WrgType, { labelKey: string; etaH: [number, number]; etaF: [number, number]; noteKey: string }> = {
+		kreuzgegenstrom: { labelKey: 'rechner.waermerueckgewinnungUi.enthalpyExchanger', etaH: [0.7, 0.90], etaF: [0.5, 0.80], noteKey: 'rechner.waermerueckgewinnungUi.noteEnthalpyExchanger' },
+		rotations:       { labelKey: 'rechner.waermerueckgewinnungUi.rotarySorption',    etaH: [0.7, 0.85], etaF: [0.6, 0.85], noteKey: 'rechner.waermerueckgewinnungUi.noteRotarySorption' },
+		platte:          { labelKey: 'rechner.waermerueckgewinnungUi.plateHeatEx',       etaH: [0.5, 0.80], etaF: [0.0, 0.0],  noteKey: 'rechner.waermerueckgewinnungUi.notePlateHeatEx' },
+		laufrad:         { labelKey: 'rechner.waermerueckgewinnungUi.recirculationSystem', etaH: [0.4, 0.65], etaF: [0.0, 0.0], noteKey: 'rechner.waermerueckgewinnungUi.noteRecirculation' },
 	};
+	const wrgInfo = $derived(
+		Object.fromEntries(
+			Object.entries(wrgInfoBase).map(([k, v]) => [k, { ...v, label: $_(v.labelKey), note: $_(v.noteKey) }])
+		) as Record<WrgType, { label: string; note: string; etaH: [number, number]; etaF: [number, number] }>
+	);
 
 	// Eingaben
 	let q = $state(3000);        // m³/h Volumenstrom
@@ -66,17 +72,17 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">Wärmerückgewinnung</h1>
-			<FavButton type="rechner" slug="waermerueckgewinnung" title="Wärmerückgewinnung" size={20} />
+			<h1 class="calc-title">{$_('rechner.waermerueckgewinnung.name')}</h1>
+			<FavButton type="rechner" slug="waermerueckgewinnung" title={$_('rechner.waermerueckgewinnung.name')} size={20} />
 		</div>
 	</header>
 
 	<!-- WRG-Typ -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">WRG-Typ</h2>
+		<h2 class="calc-section-title">{$_('rechner.waermerueckgewinnungUi.wrgType')}</h2>
 		<div class="type-grid">
 			{#each Object.entries(wrgInfo) as [k, v]}
 				<button
@@ -88,41 +94,41 @@
 		</div>
 		<p class="type-note">{sys.note}</p>
 		<div class="eta-range-row">
-			<span>Typischer η<sub>T</sub>: {sys.etaH[0]*100}–{sys.etaH[1]*100}%</span>
+			<span>{$_('rechner.waermerueckgewinnungUi.typicalEta')} {sys.etaH[0]*100}–{sys.etaH[1]*100}%</span>
 			{#if sys.etaF[1] > 0}
 			<span>η<sub>F</sub>: {sys.etaF[0]*100}–{sys.etaF[1]*100}%</span>
 			{:else}
-			<span class="no-moisture">Keine Feuchteübertragung</span>
+			<span class="no-moisture">{$_('rechner.waermerueckgewinnungUi.noMoistureTransfer')}</span>
 			{/if}
 		</div>
 	</div>
 
 	<!-- Eingaben -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Betriebsbedingungen</h2>
+		<h2 class="calc-section-title">{$_('rechner.waermerueckgewinnungUi.operatingConditions')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="q-in">Volumenstrom</label>
+			<label class="calc-field-label" for="q-in">{$_('rechner.waermerueckgewinnungUi.volumeFlow')}</label>
 			<div class="calc-input-wrap">
 				<input id="q-in" type="number" step="100" min="100" bind:value={q} class="calc-input" />
 				<span class="calc-input-unit">m³/h</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="ta-in">Abluft-Temperatur (innen)</label>
+			<label class="calc-field-label" for="ta-in">{$_('rechner.waermerueckgewinnungUi.exhaustAirTemp')}</label>
 			<div class="calc-input-wrap">
 				<input id="ta-in" type="number" step="1" bind:value={tAbluft} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="tau-in">Aussenluft-Temperatur</label>
+			<label class="calc-field-label" for="tau-in">{$_('rechner.waermerueckgewinnungUi.outsideAirTemp')}</label>
 			<div class="calc-input-wrap">
 				<input id="tau-in" type="number" step="1" bind:value={tAussenluft} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="rha-in">Abluft rel. Feuchte</label>
+			<label class="calc-field-label" for="rha-in">{$_('rechner.waermerueckgewinnungUi.exhaustAirHumidity')}</label>
 			<div class="calc-input-wrap">
 				<input id="rha-in" type="number" step="5" min="10" max="90" bind:value={rhAbluft} class="calc-input" />
 				<span class="calc-input-unit">%</span>
@@ -132,11 +138,11 @@
 
 	<!-- Wirkungsgrade -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Wirkungsgrade</h2>
+		<h2 class="calc-section-title">{$_('rechner.waermerueckgewinnungUi.efficiencies')}</h2>
 		<div class="calc-field">
 			<label class="calc-field-label" for="etat-in">
-				Temperaturrückgewinnungsgrad η<sub>T</sub>
-				<span class="calc-field-hint">Typisch {sys.etaH[0]*100}–{sys.etaH[1]*100}% für {sys.label.split(' ')[0]}</span>
+				{$_('rechner.waermerueckgewinnungUi.tempEfficiency')}
+				<span class="calc-field-hint">{$_('rechner.waermerueckgewinnungUi.typicalEtaHint', { values: { min: sys.etaH[0]*100, max: sys.etaH[1]*100, type: sys.label.split(' ')[0] } })}</span>
 			</label>
 			<div class="calc-input-wrap">
 				<input id="etat-in" type="number" step="0.01" min="0.1" max="0.99" bind:value={etaT} class="calc-input" />
@@ -146,7 +152,7 @@
 		{#if sys.etaF[1] > 0}
 		<div class="calc-field">
 			<label class="calc-field-label" for="etaf-in">
-				Feuchterückgewinnungsgrad η<sub>F</sub>
+				{$_('rechner.waermerueckgewinnungUi.humidityEfficiency')}
 			</label>
 			<div class="calc-input-wrap">
 				<input id="etaf-in" type="number" step="0.01" min="0" max="0.95" bind:value={etaF} class="calc-input" />
@@ -159,32 +165,32 @@
 	<!-- Ergebnisse -->
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Zulufttemperatur nach WRG</span>
+			<span class="calc-result-label">{$_('rechner.waermerueckgewinnungUi.supplyAirTemp')}</span>
 			<span class="calc-result-value primary">{fmt(result.tZuluft, 1)}<span class="calc-result-unit">°C</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Rückgewonnene Heizleistung</span>
+			<span class="calc-result-label">{$_('rechner.waermerueckgewinnungUi.recoveredPower')}</span>
 			<span class="calc-result-value">{fmt(result.qRecovered / 1000, 1)}<span class="calc-result-unit">kW</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Energieeinsparung vs. ohne WRG</span>
+			<span class="calc-result-label">{$_('rechner.waermerueckgewinnungUi.energySaving')}</span>
 			<span class="calc-result-value">{fmt(result.savingsPercent, 0)}<span class="calc-result-unit">%</span></span>
 		</div>
 		{#if sys.etaF[1] > 0}
 		<div class="calc-result">
-			<span class="calc-result-label">Feuchtegehalt Zuluft nach WRG</span>
+			<span class="calc-result-label">{$_('rechner.waermerueckgewinnungUi.supplyHumidity')}</span>
 			<span class="calc-result-value">{fmt(result.xZuluft * 1000, 1)}<span class="calc-result-unit">g/kg</span></span>
 		</div>
 		{/if}
 		<div class="calc-result">
-			<span class="calc-result-label">Energieersparnis/Jahr (2000h, 0.12 CHF/kWh)</span>
+			<span class="calc-result-label">{$_('rechner.waermerueckgewinnungUi.annualSaving')}</span>
 			<span class="calc-result-value">{fmt(result.annualChf, 0)}<span class="calc-result-unit">CHF/a</span></span>
 		</div>
 	</div>
 
 	<p class="calc-info">
-		η<sub>T</sub> = (T<sub>Zuluft</sub> − T<sub>Aussenluft</sub>) / (T<sub>Abluft</sub> − T<sub>Aussenluft</sub>) nach EN 308.
-		Jahreskostenersparnis: Annahme 2000 Heizstunden, Strom-/Wärmepreis 0.12 CHF/kWh.
+		η<sub>T</sub> = (T<sub>Zuluft</sub> − T<sub>Aussenluft</sub>) / (T<sub>Abluft</sub> − T<sub>Aussenluft</sub>) per EN 308.
+		{$_('rechner.waermerueckgewinnungUi.annualSavingNote')}
 	</p>
 </div>
 

@@ -1,5 +1,6 @@
 ---
 title: As-Built Dokumentation — Was gehört rein, Formate
+title_en: As-Built Documentation — Contents and Formats
 slug: as-built
 category: dokumentation
 subcategory: ibn
@@ -175,3 +176,169 @@ GA_Dokumentation_Projekt-XY/
 - **VDI 3814** — Gebäudeautomation, Anforderungen Dokumentation
 - **SIA 386.110** — GA Schweiz, Abnahme und Dokumentation
 - **SIA 118** — Allgemeine Bedingungen für Bauarbeiten (Dokumentationspflichten)
+
+<!-- EN -->
+
+## As-Built Documentation — Contents and Formats
+
+As-built documentation is the complete record of the installation after commissioning. It documents what was actually built — not what was planned.
+
+## Principle: Plan vs. As-Built
+
+```
+Planning phase:
+  → Drawings prepared, tendering, execution
+  → Documents reflect the design
+
+During commissioning:
+  → Deviations arise (different components, address changes)
+  → Documents are updated
+
+As-built:
+  → Documentation shows what is ACTUALLY installed
+  → Basis for operation and maintenance
+```
+
+---
+
+## Contents of BA As-Built Documentation
+
+### 1. Data Point List As-Built (DPL)
+
+The most important document:
+
+```
+Contains:
+  - All realised data points (not planned, unrealised ones)
+  - Actual addresses (BACnet Object-ID, Modbus register, etc.)
+  - Actual terminal and cable designations
+  - Final scaling and value ranges
+  - Commissioning status: verified ✓
+  
+Format: Excel or CSV (machine-readable)
+Required fields: DPL-ID, description, type, address, unit, min, max, status
+```
+
+### 2. Schematics (P&ID / Flow Diagrams)
+
+```
+Revision drawings:
+  - Hydraulic diagram (heating, cooling, plumbing)
+  - Ventilation diagram (AHU with all components)
+  - Electrical diagram (control panel layout)
+  - Instrumentation diagram (all sensors and actuators shown)
+  
+Format: PDF (finalised) + CAD source file (DWG / DXF)
+Revision index: current status with date
+```
+
+### 3. DDC Programme Backup
+
+```
+Contains:
+  - Complete programme backup per DDC/controller
+  - Controller software version (hardware + firmware)
+  - Compiled programme (binary) + source code
+  - Parameter lists (controller setpoints, time programmes)
+  
+Format: manufacturer-specific (Siemens PXCT, Sauter SAUTERnet, etc.)
+Storage: physical media handed over + cloud backup
+```
+
+### 4. BMS Configuration Backup
+
+```
+  - Full BMS configuration export
+  - User management (without plain-text passwords!)
+  - Alarm configuration
+  - Trend configuration
+  - Visualisation graphics
+  - Interface configuration (BACnet, Modbus, OPC)
+```
+
+### 5. Password Document
+
+```
+Contains (encrypted / separate document):
+  - DDC passwords (service, admin)
+  - BMS login (admin, service, operator)
+  - Network passwords (switches, router)
+  - Remote access credentials (VPN)
+
+SECURITY: Never send in plain text by email!
+Recommendation: password manager export, hand over in person
+```
+
+### 6. Operating Manuals
+
+```
+Per component:
+  - Operating manual for controller / DDC
+  - BMS software user guide
+  - Technical data sheets for all sensors, actuators
+  - Maintenance manuals (manufacturer service manual)
+  
+Format: PDF, filed by trade
+```
+
+### 7. Network Documentation
+
+```
+  - IP address plan (all devices, VLANs)
+  - Switch configuration (backup)
+  - Network plan (topology)
+  - Wi-Fi credentials (if applicable)
+```
+
+---
+
+## Handover Folder Structure
+
+```
+BA_Documentation_Project-XY/
+├── 01_Planning/
+│   ├── FunctionalDescription_v1.2.pdf
+│   ├── DPL_Planning.xlsx
+│   └── Drawings_Planning/
+├── 02_AsBuilt/
+│   ├── DPL_AsBuilt_2026-05-14.xlsx     ← most important file
+│   ├── Drawings_AsBuilt/
+│   │   ├── HZG_AsBuilt_Rev3.pdf
+│   │   ├── AHU_AsBuilt_Rev2.pdf
+│   │   └── Instrumentation_Rev3.pdf
+│   ├── DDC_Backup/
+│   │   ├── DDC-01_v2.4_20260514.bkp
+│   │   └── DDC-02_v2.4_20260514.bkp
+│   └── BMS_Backup/
+│       └── DesigoDB_20260514.bak
+├── 03_Protocols/
+│   ├── TAB-Protocol_2026-05-14.pdf
+│   └── PunchList.xlsx
+├── 04_Manuals/
+│   ├── BMS-OperatorGuide.pdf
+│   └── MaintenancePlan.pdf
+└── 05_Passwords/         ← stored separately, encrypted
+    └── Credentials.kdbx  (KeePass file)
+```
+
+---
+
+## As-Built Handover Checklist
+
+- [ ] DPL as-built complete, all points verified
+- [ ] All drawings at current revision
+- [ ] DDC backups from all controllers created and handed over
+- [ ] BMS configuration saved and handed over
+- [ ] Password document handed over (in person or encrypted)
+- [ ] BMS operator manual available
+- [ ] Maintenance plan created
+- [ ] Operator training carried out and documented
+- [ ] Warranty start date documented
+
+---
+
+## Standards
+
+- **VDI 3814** — Building automation, documentation requirements
+- **SIA 386.110** — BA Switzerland, acceptance and documentation
+- **SIA 118** — General conditions for construction work (documentation obligations)

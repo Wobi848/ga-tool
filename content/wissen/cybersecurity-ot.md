@@ -1,5 +1,6 @@
 ---
 title: Cybersecurity OT — Sicherheit in der Gebäudeautomation
+title_en: OT Cybersecurity — Security in Building Automation
 slug: cybersecurity-ot
 category: it
 subcategory: sicherheit
@@ -150,3 +151,142 @@ Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht e
 - **NIST SP 800-82** — Guide to Industrial Control Systems Security
 - **BSI IT-Grundschutz** (DE) — OT-Spezifisches Grundschutz-Kompendium
 - **VDI/VDE 2182** — IT-Sicherheit für Fertigungs- und Prozessanlagen
+
+<!-- EN -->
+
+OT security (Operational Technology) is no longer optional — BA systems are real attack targets. Compromised heating, ventilation, or access systems cause operational disruptions, personal injury, and enormous costs.
+
+## Threat Landscape
+
+### Why BA Systems Are Attacked
+
+- **Ransomware:** Disrupt building operations → extort ransom (hotels, hospitals)
+- **Sabotage:** Shut down heating in winter, lock out access control
+- **Espionage:** Occupancy data, people flow
+- **Pivot attack:** OT as a stepping stone into the IT network (and vice versa)
+- **Physical damage:** Equipment overheating, frost damage
+
+### Real Incidents (anonymised)
+
+- Hospital: BMS compromised → heating failed → emergency department had to be relocated
+- Hotel: Access system hacked → all room cards invalid
+- Data centre: Air conditioning manipulated → overtemperature → server failure
+- Water utility (USA, Oldsmar): SCADA system directly manipulated via remote access
+
+---
+
+## Attack Vectors in BA
+
+| Attack vector | Example | Frequency |
+|-------------|---------|----------|
+| **Remote access without MFA** | VPN without 2FA, TeamViewer with weak password | Very high |
+| **Default passwords** | DDC factory password "admin/admin", never changed | Very high |
+| **Lack of segmentation** | OT directly on the same network as IT | High |
+| **Unpatched software** | Windows XP BMS server with EternalBlue vulnerability | High |
+| **USB sticks** | Technician brings infected USB | Medium |
+| **Supply chain** | Compromised firmware from manufacturer | Low |
+| **Social engineering** | Technician is manipulated | Medium |
+
+---
+
+## Protection Concept per IEC 62443 (Zones and Conduits)
+
+**IEC 62443** defines security zones and their connections (conduits):
+
+```
+Zone 1: Enterprise IT (VLAN 1)
+    │ Conduit: Firewall + IDS
+Zone 2: BMS / management level (VLAN 10)
+    │ Conduit: Firewall with strict rules
+Zone 3: Automation level DDC (VLAN 20)
+    │ Conduit: dedicated maintenance PC only
+Zone 4: Field level (physical) — no IP
+```
+
+Rule: **Every zone boundary requires explicitly permitted connections.** What is not permitted is forbidden.
+
+---
+
+## Technical Protection Measures
+
+### 1. Passwords and Authentication
+
+- **Change default passwords immediately** — for every device, every system
+- Strong passwords: min. 12 characters, special characters
+- **Different passwords** per device (no universal BA password)
+- **Multi-factor authentication (MFA)** for all remote access
+- Use a password manager and document passwords (securely!)
+
+### 2. Network Segmentation
+
+- Separate OT network from IT network (VLAN + firewall)
+- Least privilege: every connection only as far as necessary
+- Document and regularly review firewall rules
+
+### 3. Remote Access
+
+- Only via **VPN** (IPsec or WireGuard), never direct
+- VPN with MFA (authenticator app)
+- Log sessions (who was connected when)
+- Disconnect inactive sessions after 15 min
+- **No split tunnelling** — all traffic via VPN, no direct internet bypass
+
+### 4. Patches and Updates
+
+| Situation | Procedure |
+|-----------|----------|
+| IT systems (BMS server) | Regular Windows/Linux updates |
+| DDC firmware | Apply manufacturer updates after test phase |
+| Legacy devices (end of life) | Compensate: strengthen segmentation |
+| Test before production | Always apply updates to test environment first |
+
+> ⚠️ Many BMS servers still run on Windows Server 2008/2012 — end of life, no more security updates. Immediate action: strengthen segmentation, plan migration.
+
+### 5. Monitoring and Logging
+
+- Monitor network traffic (anomalous data volumes → alarm)
+- Log login attempts
+- Log changes to DDC configurations
+- SIEM (Security Information and Event Management) for larger installations
+
+### 6. Physical Security
+
+- Lock control panels
+- Network switches in secured server room
+- Disable USB ports (BIOS level or physical covers)
+- No uncontrolled service connections (plugging in a laptop = access)
+
+---
+
+## Incident Response — What to Do in an Attack
+
+```
+1. DETECT: Anomaly (unusual connections, alarms, failure)
+2. ISOLATE: Immediately disconnect affected system from network
+3. NOTIFY: IT security + management + depending on severity: authorities
+4. ANALYSE: What happened? How far has it spread?
+5. RESTORE: From clean backup, not infected system
+6. ADJUST: How did they get in? Close the gap.
+```
+
+**Backup importance:** Offline backups of DDC configurations and BMS database. Ransomware also encrypts connected network drives!
+
+---
+
+## Vulnerability Overview in Typical BA
+
+| Vulnerability | Priority | Remediation effort |
+|-------------|---------|-------------------|
+| Default passwords | CRITICAL | Very low (change immediately!) |
+| No VPN/MFA for remote access | CRITICAL | Medium |
+| OT = IT on same network | HIGH | Medium (VLAN) |
+| Unpatched Windows server | HIGH | Medium |
+| No logs / monitoring | MEDIUM | Medium |
+| Physical access uncontrolled | MEDIUM | Low |
+
+## Standards
+
+- **IEC 62443** — Industrial Automation and Control Systems Security (series standard)
+- **NIST SP 800-82** — Guide to Industrial Control Systems Security
+- **BSI IT-Grundschutz** (DE) — OT-specific IT baseline protection compendium
+- **VDI/VDE 2182** — IT security for manufacturing and process plants

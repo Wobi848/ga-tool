@@ -1,5 +1,6 @@
 ---
 title: DALI / DALI-2 — Lichtsteuerung in der GA
+title_en: DALI / DALI-2 — Lighting Control in BA
 slug: dali
 category: protokolle
 subcategory: licht
@@ -177,3 +178,171 @@ DALI-Notlicht-EVGs (DT1) sind komplex — vollständige Selbsttests:
 - **EN 62386** — Europäische Fassung
 - **DiiA** (Digital Illumination Interface Alliance) — Zertifizierung, Produktliste
 - **EN 62034** — Automatische Prüfsysteme für Notbeleuchtung (DALI-kompatibel)
+
+<!-- EN -->
+
+## DALI / DALI-2 — Lighting Control in BA
+
+**DALI** (Digital Addressable Lighting Interface, IEC 62386) is the standard for digital lighting control. In modern buildings DALI displaces analogue 0–10 V dimming signals and allows individual addressing, feedback and diagnostics for every single luminaire.
+
+## DALI vs. 0–10 V Dimming
+
+| Feature | 0–10 V (analogue) | DALI (digital) |
+|---------|-------------------|----------------|
+| Addressing | Not possible (all respond) | Individual (64 addresses) |
+| Feedback | No | Yes (status, fault, lamp failure) |
+| Scene memory | External required | In device (up to 16 scenes) |
+| Wiring | Polarity-sensitive | Polarity-independent |
+| Diagnostics | None | Lamp failure, driver fault reportable |
+| Effort | Low | Medium (addressing required) |
+
+## DALI Topology
+
+```
+DALI controller (master) ───── DALI bus (2-wire)
+                                  ├── Ballast 1 (address 0)
+                                  ├── Ballast 2 (address 1)
+                                  ├── Ballast 3 (address 2)
+                                  └── ... up to 64 devices
+```
+
+| Parameter | Value |
+|-----------|-------|
+| Bus voltage | 16 V (open circuit), current modulated |
+| Baud rate | 1200 baud |
+| Max. devices | **64 per bus segment** |
+| Cable length | max. 300 m (total segment length) |
+| Wiring | Polarity-independent, no shielding required |
+| Can share SELV cable | Yes (no special cable type needed) |
+
+> DALI bus can share existing SELV control cables — but not on the same conductors as 230 V or other bus systems!
+
+## Addressing
+
+### Short Address (0–63)
+
+- Each device receives a unique address 0–63
+- Assigned either randomly (random addressing) or manually
+- Must be performed by commissioning tool (DALI software)
+
+### Group Address (0–15)
+
+- Up to **16 groups** per bus
+- A device can belong to multiple groups
+- Broadcast to group: all group devices respond simultaneously
+- Typical: group 0 = office north, group 1 = office south, group 2 = corridor
+
+### Broadcast
+
+- All 64 devices respond → for switching entire areas on/off
+
+## Scenes
+
+Each DALI device stores up to **16 scenes (0–15)** internally:
+- Scene = stored dim level (0–254) + fade time
+- Recall: `Recall Scene X` → all addressed group devices set their stored value
+- Typical: scene 0 = presence (100 %), scene 1 = constant light (60 %), scene 2 = evening (30 %), scene 15 = off
+
+## Dim Levels
+
+DALI uses a **logarithmic scale** (ARC level):
+
+| ARC Level | Brightness | Note |
+|-----------|-----------|------|
+| 0 | Off | |
+| 1 | ~0.1 % | Minimum value |
+| 128 | ~10 % | Logarithmic |
+| 200 | ~40 % | Logarithmic |
+| 254 | 100 % | Maximum value |
+| 255 | Last stored value | Special case |
+
+> The logarithmic scale matches human perception (Fechner's law) — even brightness change during dimming.
+
+**Fade:** DALI supports fade time (0.7 s to 90 s) and fade rate (steps/s) — smooth dimming without hard jumps.
+
+## Feedback
+
+DALI returns information to the master — this makes it superior to 0–10 V:
+
+| Query | Response |
+|-------|---------|
+| Query Status | Lamp failure, driver fault, emergency light active, dimmer fault |
+| Query Actual Level | Current dim level |
+| Query Power On Level | Switch-on brightness |
+| Query Groups | Which groups does the device belong to? |
+| Query Scene | Stored scene level |
+
+## Device Types (DT)
+
+DALI defines various device types for different applications:
+
+| DT | Device type | Application |
+|----|------------|-------------|
+| DT0 | Fluorescent ballast | Classic ballast, T8/T5 |
+| DT1 | Emergency light ballast | Safety lighting |
+| DT4 | Low-voltage halogen dimmer | Halogen transformer |
+| DT5 | Converter (0–10 V output) | Retrofit for 0–10 V devices |
+| **DT6** | LED driver (dimming) | **Standard for modern LED** |
+| **DT8** | Colour / colour temperature | **Tunable White, RGB, RGBW** |
+
+## DALI-2 — What's New?
+
+**DALI-2** (IEC 62386 edition 2) primarily adds:
+
+- **Interoperability:** Devices from different manufacturers must be compatible (certification)
+- **Input devices:** Pushbuttons, sensors (PIR, lux) directly on the DALI bus (not just output devices)
+- **Instances:** One device can have multiple instances (e.g. pushbutton with 2 buttons = 2 instances)
+- **Extended diagnostics:** More status information
+- **DT8 colour:** Standardised (XY, RGB, RGBW, colour temperature)
+
+## DALI in BA Integration
+
+The BMS communicates via a **DALI gateway**:
+
+```
+BMS (BACnet/Modbus/KNX) ← DALI gateway → DALI bus → ballasts
+```
+
+Common gateways (e.g. Lunatone, Osram DALI gateway, Schneider):
+- Map DALI groups/scenes/devices to BACnet objects or Modbus registers
+- Enable load management, energy measurement, fault diagnostics in the BMS
+
+**Typical BA data points:**
+
+| Data point | Type | Description |
+|-----------|------|-------------|
+| Group X dim level | Setpoint | 0–100 % → gateway sets DALI ARC |
+| Group X scene | Setpoint | Recall scene 0–15 |
+| Group X on/off | Setpoint | Broadcast on or off |
+| Device Y status | Actual | Lamp failure, driver fault |
+| Device Y actual level | Actual | Current brightness |
+| Lamp fault count | Actual | Maintenance alarm |
+
+## Emergency Lighting (DT1)
+
+DALI emergency lighting ballasts (DT1) are complex — full self-testing:
+
+- **Function test** (daily): short test pulse, battery OK?
+- **Duration test** (annual): 3 h full load, check capacity
+- Test results stored in the ballast and can be read out
+- **DALI-2 emergency lighting:** Result log retrievable for inspection record
+
+> Emergency lighting ballasts need a separate DALI control circuit (separate from normal lighting) or DALI-2 with clear separation.
+
+## Typical Commissioning Steps
+
+1. Wire DALI bus (2 conductors, any polarity)
+2. Power up all ballasts (brief flickering = normal behaviour)
+3. Perform **random addressing** with commissioning tool (all devices receive random short address)
+4. Define groups and scenes and flash to devices
+5. Configure DALI gateway (map DALI groups → BACnet/Modbus)
+6. Functional test: each group individually on/off, verify scenes
+7. Simulate lamp fault (remove one lamp → fault feedback?)
+8. Create test record
+
+## Standards
+
+- **IEC 62386** (all parts) — DALI specification, device types
+- **EN 62386** — European version
+- **DiiA** (Digital Illumination Interface Alliance) — certification, product list
+- **EN 62034** — Automatic test systems for emergency lighting (DALI-compatible)

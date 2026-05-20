@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { _ } from 'svelte-i18n';
 
 	let isOnline = $state(true);
 	let showOfflineReady = $state(false);
@@ -68,7 +69,7 @@
 			<path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
 			<line x1="12" y1="20" x2="12.01" y2="20" stroke-width="3" />
 		</svg>
-		Offline — gecachte Daten werden verwendet
+		{$_('pwa.offline')}
 	</div>
 {/if}
 
@@ -78,8 +79,8 @@
 			<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
 			<polyline points="22 4 12 14.01 9 11.01" />
 		</svg>
-		Offline-Nutzung bereit
-		<button class="toast-close" onclick={() => (showOfflineReady = false)} aria-label="Schliessen">×</button>
+		{$_('pwa.offlineReady')}
+		<button class="toast-close" onclick={() => (showOfflineReady = false)} aria-label={$_('nav.close')}>×</button>
 	</div>
 {/if}
 
@@ -90,9 +91,9 @@
 			<polyline points="7 10 12 15 17 10" />
 			<line x1="12" y1="15" x2="12" y2="3" />
 		</svg>
-		<span>GA Tool installieren</span>
-		<button class="toast-action" onclick={installApp}>Installieren</button>
-		<button class="toast-close" onclick={dismissInstall} aria-label="Schliessen">×</button>
+		<span>{$_('pwa.install')}</span>
+		<button class="toast-action" onclick={installApp}>{$_('pwa.installBtn')}</button>
+		<button class="toast-close" onclick={dismissInstall} aria-label={$_('nav.close')}>×</button>
 	</div>
 {/if}
 

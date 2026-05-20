@@ -5,7 +5,8 @@ export type AbbrLang = 'de' | 'en' | 'intl';
 export interface Abbreviation {
 	short: string;              // z.B. "PID"
 	long: string;               // "Proportional-Integral-Differenzial"
-	description?: string;       // optionale Erklärung
+	description?: string;       // optionale Erklärung (DE)
+	descriptionEn?: string;     // English description
 	areas: Area[];              // Fachbereiche
 	related?: string[];         // Verwandte Kürzel (lose Beziehung)
 	wissenSlug?: string;        // Optional: Link zu Wissensartikel

@@ -1,5 +1,6 @@
 ---
 title: VAV vs. CAV — Variable und konstante Luftmengen
+title_en: VAV vs. CAV — Variable and Constant Air Volume
 slug: vav-cav
 category: lueftung
 subcategory: regelung
@@ -192,3 +193,184 @@ Bei 50 % Volumenstrom: Leistung = 0,5³ = **12,5 %** der Nennleistung!
 - **EN 15232** — GA-Effizienzklassen (VAV = Klasse A/B, CAV = Klasse C/D)
 - **SIA 382.1** — Lüftungs- und Klimaanlagen — Allgemeine Grundlagen
 - **EN 13779** — Lüftung von Nichtwohngebäuden (Bemessungsvolumenströme)
+
+<!-- EN -->
+
+# VAV vs. CAV — Variable and Constant Air Volume
+
+Whether a ventilation system operates at constant or variable air volume fundamentally determines energy consumption, comfort and controllability. The difference lies at the core of the ventilation architecture.
+
+## CAV — Constant Air Volume
+
+### Principle
+
+The fan runs at constant speed. Air volume flow remains the same at all times — regardless of occupancy, outdoor temperature or usage profile.
+
+```
+AHU (fixed speed)
+    ↓ Constant volume flow
+Room 1 (fully occupied)   — receives 100 % air
+Room 2 (empty)            — also receives 100 % air
+```
+
+### Control with CAV
+
+Since volume flow is fixed, only **temperature** can be controlled:
+- Heating coil on/off or modulating
+- Cooling coil modulating
+- Mixing damper: blend indoor/outdoor air
+
+**No demand-based control possible** — empty rooms are ventilated at full rate.
+
+### When Is CAV Appropriate?
+
+| Application | Reason |
+|-------------|--------|
+| Simple residential ventilation | Uniform occupancy |
+| Production rooms with constant demand | Process air, no variability |
+| Small systems (< 2,000 m³/h) | VAV technology too expensive |
+| Cleanrooms | Constant pressure and air changes mandatory |
+
+---
+
+## VAV — Variable Air Volume
+
+### Principle
+
+Volume flow is controlled **on demand**. Each zone has a **VAV controller** (volume flow regulator + damper) that adjusts airflow to the current need.
+
+```
+AHU (variable speed)
+    ↓ Variable total volume flow
+VAV box zone 1 (occupied) → 80 % target flow
+VAV box zone 2 (empty)    → 30 % minimum flow
+VAV box zone 3 (meeting)  → 100 % target flow
+    ↓
+Overarching pressure control → VFD adjusts fan speed
+```
+
+### VAV Box Construction
+
+```
+Supply duct → [Measurement orifice] → [Control damper] → Room
+                     ↑                       ↑
+              Differential pressure      Actuator
+              (volume flow)                  ↑
+                                       DDC controller
+                                       (setpoint: CO₂, T, presence)
+```
+
+**Measurement:** Differential pressure across orifice → volume flow calculation (Bernoulli)  
+**Control:** Damper opens/closes → adjusts flow to setpoint
+
+### Demand Controlled Ventilation (DCV)
+
+The VAV controller can use different control variables:
+
+| Control variable | Sensor | Typical application |
+|-----------------|--------|---------------------|
+| **CO₂** | NDIR sensor | Office, classroom, conference room |
+| **Presence** | PIR / radar | Meeting rooms, toilets |
+| **Occupancy schedule** | BMS data | Hotel, pre-programmed occupancy |
+| **Temperature** | PT1000 | When cooling via ventilation (mixed air) |
+| **VOC** | VOC sensor | Kitchens, sanitary rooms, laboratories |
+
+### Minimum Volume Flow
+
+**Important:** VAV boxes do not control down to zero — there is a configured minimum:
+- Hygienic fresh air (CO₂ removal)
+- Minimum thermal requirement (heating/cooling)
+- Positive/negative pressure maintenance
+
+Typical: **minimum 30–40 % of maximum volume flow**.
+
+---
+
+## Pressure Control in VAV Systems
+
+### The Problem
+
+When VAV boxes close → duct pressure rises → risks:
+- Air noise (flow turbulence)
+- Fan operating inefficiently
+- VAV boxes unable to maintain their setpoint
+
+### Solution: Static Pressure Control
+
+```
+Pressure sensor in main duct (approx. 2/3 of duct length)
+    ↓
+PID controller in BMS or VFD
+    ↓
+Variable frequency drive → adjust fan speed
+    ↓ Target: static pressure = setpoint (e.g. 100 Pa)
+```
+
+**Setpoint optimisation:** Instead of a fixed setpoint (e.g. 100 Pa), pressure can be lowered dynamically to the **lowest value** at which all VAV boxes still achieve their target flow (→ saves a further 20–30 % energy).
+
+### Bypass Damper (Simple Alternative)
+
+For simple systems without a variable frequency drive:
+
+```
+Fan (constant) → Main duct → VAV boxes
+                      ↓
+                 Bypass damper
+                      ↓
+                 Exhaust / room air
+```
+
+Bypass opens when pressure rises → excess air short-circuited. Energetically inefficient (air energy is wasted).
+
+---
+
+## Energy Comparison CAV vs. VAV
+
+Fan systems follow the **affinity laws**:
+- Volume flow ~ speed
+- Pressure ~ speed²
+- **Power ~ speed³**
+
+At 50 % volume flow: power = 0.5³ = **12.5 %** of rated power!
+
+| Operating point | CAV power | VAV power | Saving |
+|----------------|-----------|-----------|--------|
+| 100 % volume flow | 100 % | 100 % | — |
+| 75 % | 100 % | ~42 % | ~58 % |
+| 50 % | 100 % | ~12 % | ~88 % |
+| Annual average | — | Typically 40–60 % less | — |
+
+> **Rule of thumb:** In office buildings, a CAV system runs 80 % of the time at more than double the energy demand of a VAV system. The additional investment pays back in 3–7 years.
+
+---
+
+## VAV System in the BMS
+
+### Typical Data Points per VAV Box
+
+| Data Point | Type | Unit | Description |
+|------------|------|------|-------------|
+| Volume flow actual | AI | m³/h | Calculated from differential pressure |
+| Volume flow setpoint | AO | m³/h | Set by DDC |
+| Damper position | AI | % | Feedback |
+| Room temperature | AI | °C | Control variable for heating/cooling |
+| CO₂ | AI | ppm | Control variable for ventilation demand |
+| Presence | DI | — | Occupied / empty |
+| Heating/cooling coil | AO | % | Reheat/recool |
+| Operating mode | AV | — | Comfort / Night / Absent |
+
+### Overarching BMS Points
+
+| Data Point | Description |
+|------------|-------------|
+| Total volume flow | Sum of all active VAV boxes |
+| Static duct pressure | Actual and setpoint for VFD control |
+| VFD speed | Fan actual value |
+| Operating program | Time schedule for comfort/night/absent |
+
+## Standards
+
+- **EN 16798-3** — Energy performance of buildings, ventilation for non-residential buildings
+- **EN 15232** — BA efficiency classes (VAV = Class A/B, CAV = Class C/D)
+- **SIA 382.1** — Ventilation and air-conditioning systems — General principles
+- **EN 13779** — Ventilation for non-residential buildings (design volume flows)

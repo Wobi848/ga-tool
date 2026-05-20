@@ -238,9 +238,9 @@ export class PIDSim {
     const s = this.sim;
     const e = s.spEff - s.y;
     const sat = s.u <= 0.05 || s.u >= 99.95;
-    let status = 'Regelabweichung';
-    if (Math.abs(e) < 0.3 && Math.abs(s.pTerm + s.dTerm) < 1.0) status = 'Ausgeregelt';
-    if (sat) status = 'Stellgrösse begrenzt';
+    let status = 'deviation';
+    if (Math.abs(e) < 0.3 && Math.abs(s.pTerm + s.dTerm) < 1.0) status = 'settled';
+    if (sat) status = 'saturated';
     this.display = {
       pv: s.y, y: s.u, e,
       p: s.pTerm, i: s.iTerm, d: s.dTerm,

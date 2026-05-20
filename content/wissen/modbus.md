@@ -1,5 +1,6 @@
 ---
 title: Modbus RTU / TCP
+title_en: Modbus RTU / TCP
 slug: modbus
 category: protokolle
 subcategory: feldbus
@@ -100,3 +101,92 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 - BACnet (Gebäudeautomations-Standard)
 - M-Bus (Zähler-Bus)
 - KNX (Gebäudesystemtechnik)
+
+<!-- EN -->
+
+**Modbus** is one of the oldest and most widely used industrial protocols. Simple, robust, widely available — and found everywhere in building automation (heat meters, variable speed drives, power analyzers, small controllers).
+
+## Variants
+
+| Variant | Transport | Usage in BA |
+|---------|-----------|-------------|
+| **Modbus RTU** | RS-485 (serial) | Field devices, meters, VFDs — most common |
+| **Modbus TCP** | Ethernet (port 502) | Energy metering, PLC couplings, gateways |
+| Modbus ASCII | RS-232/485 (plaintext) | Rare, legacy |
+
+Both use the same data model. TCP is just a different "envelope".
+
+## Data Model — 4 Memory Areas
+
+| Area | Designation | Read | Write | Type |
+|------|-------------|------|-------|------|
+| Coils (0xxxx) | Discrete Output | yes | yes | Bit |
+| Discrete Inputs (1xxxx) | Discrete Input | yes | no | Bit |
+| Input Registers (3xxxx) | Read-only Reg. | yes | no | 16 bit |
+| Holding Registers (4xxxx) | Read/Write Reg. | yes | yes | 16 bit |
+
+> ⚠️ **Pitfall:** Address offsets. Some manufacturers document `40001` (1-based), others `0` (register offset). Always verify!
+
+## Important Function Codes
+
+| FC | Function |
+|----|----------|
+| 0x01 | Read Coils |
+| 0x02 | Read Discrete Inputs |
+| 0x03 | Read Holding Registers (most common!) |
+| 0x04 | Read Input Registers |
+| 0x05 | Write Single Coil |
+| 0x06 | Write Single Register |
+| 0x0F | Write Multiple Coils |
+| 0x10 | Write Multiple Registers |
+
+## RTU Wiring (RS-485)
+
+- **2-wire (common):** A+ and B− (differential data)
+- **3-wire (better):** additional GND (protection against ground loops)
+- **Topology:** Line (bus), max. 32 devices without repeater / 256 with repeater
+- **Termination:** 120 Ω at both ends of the bus
+- **Bias resistors:** between A/B and +5 V / GND on the master side — prevents undefined signal level
+- **Cable:** shielded twisted pair (e.g. KNX/EIB cable or dedicated RS-485 cable)
+- **Shield:** connect to PE at **one end only** (otherwise ground loop hum)
+
+## Typical Baud Rates
+
+| Baud | Application |
+|------|-------------|
+| 9600 | Standard for most heat meters |
+| 19200 | VFDs, power analyzers |
+| 38400 | Power analyzers, fast updates |
+| 57600 | Rare |
+| 115200 | Point-to-point mainly |
+
+**Note:** All devices on the bus must use the same baud rate, parity (E/O/N) and stop bits.
+
+## Common Problems
+
+1. **Devices not responding** → Correct address? Same Slave ID configured?
+2. **Sporadic timeouts** → A/B swapped? Termination missing? Cable too long?
+3. **Wrong values** → Check byte order (Big/Little-Endian)! Float = 2 registers, order varies
+4. **Master finds only one device** → Duplicate Slave IDs on the bus!
+5. **Values too small/large** → Scaling factor? Many devices return integers (e.g. 235 = 23.5 °C)
+
+## Modbus TCP — Specifics
+
+- Default port: **502**
+- Multiple masters possible (parallel TCP sessions)
+- Slave ID is called "Unit Identifier", usually 1
+- No CRC (TCP handles error checking)
+- ADU = MBAP header (7 bytes) + Function Code + Data
+
+## Commissioning Tools
+
+- **Modbus Poll / Modbus Slave** (Windows) — the classic
+- **QModMaster** (free, cross-platform)
+- **mbpoll** (CLI Linux)
+- USB ↔ RS-485 adapter with FTDI chip (reliable)
+
+## See also
+
+- BACnet (building automation standard)
+- M-Bus (meter bus)
+- KNX (building systems technology)

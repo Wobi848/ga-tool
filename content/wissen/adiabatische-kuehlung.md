@@ -1,5 +1,6 @@
 ---
 title: Adiabatische Kühlung — Prinzip und Einsatzgrenzen
+title_en: Adiabatic Cooling — Principle and Application Limits
 slug: adiabatische-kuehlung
 category: klima
 subcategory: freie-kuehlung
@@ -167,3 +168,159 @@ Abschalten wenn:
 - **EN 13053** — Zentrale RLT-Anlagen (Befeuchtung / indirekte Evaporativkühlung)
 - **VDI 3803** — Raumlufttechnik, Energieverbrauch, adiabatische Kühlung
 - **SIA 382.1** — Lüftungs- und Klimaanlagen (freie Kühlungsstrategien)
+
+<!-- EN -->
+
+Adiabatic cooling uses the **evaporation energy of water** to cool air — without a mechanical chiller. It is energy-efficient, but only effective when outdoor air is dry.
+
+## Physical Principle
+
+```
+Water evaporates → extracts energy from the air (latent heat of evaporation)
+→ Air cools down, moisture content rises
+
+Latent heat of evaporation of water: approx. 2,500 kJ/kg (at 20 °C)
+
+Example:
+  State A: 32 °C, 20% RH, h = 50 kJ/kg
+  Water evaporates adiabatically (no heat exchange with surroundings)
+  State B: 22 °C, 60% RH, h = 50 kJ/kg (enthalpy unchanged!)
+  
+  → 10 K cooling, but 40% higher humidity
+```
+
+**Wet-bulb temperature (Tw):** The minimum achievable temperature:
+```
+Tw = T − (T − Td) × (1 − RH/100)
+Approx: Tw ≈ T × (0.62 × RH/100)^0.52   [Magnus approximation]
+```
+
+---
+
+## Types of Adiabatic Cooling
+
+### 1. Direct Evaporative Cooling
+
+Water is evaporated directly into the supply air:
+
+```
+Supply air 32 °C, 20% RH
+    → Water spray nozzles or evaporative pads
+    → Supply air 22 °C, 60% RH
+```
+
+- Simple, low cost
+- Air becomes more humid → suitable only for dry climates or AHUs with post-cooling
+- Hygiene concerns (like humidifiers → VDI 6022)
+
+### 2. Indirect Evaporative Cooling
+
+Adiabatic cooling applied to the **exhaust air side** of a heat exchanger:
+
+```
+Exhaust air (25 °C, 55% RH)
+    → adiabatically humidified → 18 °C, 100% RH
+    → cools supply air via plate heat exchanger without direct humidification
+    
+Supply air remains dry → no humidity increase on the supply side
+```
+
+- Better for applications where dry supply air is desired
+- Effectiveness 40–70%
+
+### 3. Cooler Pre-Cooling (Recooler)
+
+Adiabatic cooling of the recooling water for the chiller:
+
+```
+Recooling water 30 °C (condenser side)
+    → spray mist cooling at the recooler
+    → Recooling water 24 °C
+    → Chiller COP improves significantly
+    
+Application: peak load days when air is dry and hot
+```
+
+---
+
+## Efficiency Comparison
+
+| Method | COP / Savings Potential | Limitation |
+|--------|------------------------|-----------|
+| Mechanical chiller | COP 2.5–4.5 | Reference, always possible |
+| Direct evaporative cooling | COP 20–50 | Only dry < 40% RH |
+| Indirect evaporative cooling | COP 10–30 | Dry < 50% RH |
+| Recooler pre-cooling | +20–40% chiller COP | Peak load days, dry conditions |
+| Night cooling | COP > 100 (fan energy only) | Night only, thermal mass required |
+
+---
+
+## Application Limits
+
+```
+Wet-bulb temperature analysis for Zurich:
+  Summer design day: 32 °C, 35% RH → Tw = 21.5 °C
+  
+  Direct cooling achievable down to: ~22 °C supply air
+  For office cooling (supply air 16–18 °C) → insufficient
+  
+  → Adiabatic cooling as partial cooling; remaining load = chiller
+  → Or: pre-cooling reduces chiller capacity demand by 30–50%
+```
+
+**Critical climate zones:**
+
+| Climate | Adiabatic Cooling | Reason |
+|---------|------------------|--------|
+| Hot and dry | Very suitable | Large Δ(T − Tw) |
+| Central European | Conditionally suitable | 40–60% RH in summer |
+| Humid / tropical | Not suitable | Tw ≈ T, no cooling effect |
+
+---
+
+## Hygiene and Operation
+
+Adiabatic cooling with water introduction carries **hygiene risks (Legionella)**:
+
+```
+Protective measures:
+  1. Process water: drinking water quality or reverse osmosis
+  2. Temperature: water storage temperature not > 20 °C
+  3. Stagnation: daily flushing, no standing water pockets
+  4. Disinfection: UV system or periodic dosing
+  5. Regular sampling (Legionella < 100 CFU/100 ml)
+```
+
+---
+
+## BA Integration
+
+```
+Enable conditions for adiabatic cooling:
+  T_outdoor > 27 °C
+  AND RH_outdoor < 50%
+  AND chiller running / cooling load active
+  
+Disable when:
+  T_outdoor < 25 °C (unnecessary)
+  OR RH_outdoor > 65% (ineffective and hygiene risk)
+  OR frost (risk of blockage)
+```
+
+**BA data points:**
+
+| Data point | Type | Unit | Description |
+|------------|------|------|-------------|
+| Adiabatic enable | DO | — | Pump / spray system ON |
+| Water temperature (tank) | AI | °C | Hygiene monitoring |
+| Water consumption | AI | l/h | Monitoring |
+| T_outdoor | AI | °C | Enable condition |
+| RH_outdoor | AI | % | Enable condition |
+
+---
+
+## Standards
+
+- **EN 13053** — Central AHU systems (humidification / indirect evaporative cooling)
+- **VDI 3803** — HVAC systems, energy consumption, adiabatic cooling
+- **SIA 382.1** — Ventilation and air conditioning systems (free cooling strategies)

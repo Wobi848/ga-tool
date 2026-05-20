@@ -1,5 +1,6 @@
 ---
 title: PID-Regler
+title_en: PID Controller
 slug: pid-regler
 category: regelung
 subcategory: regler
@@ -90,3 +91,81 @@ Klassisches Verfahren — bewährt aber konservativ:
 - Regelkreise (allgemein)
 - Heizkurve (überlagerte Vorsteuerung)
 - Frequenzumrichter
+
+<!-- EN -->
+
+The **PID controller** is the most important standard controller in building automation. It combines three components to precisely bring a controlled variable to its setpoint.
+
+## The three components
+
+### P — Proportional
+
+Responds **immediately** to the control deviation. High gain = aggressive response, but with a persistent steady-state offset.
+
+```
+u_P = K_p × e(t)
+```
+
+- **Effect:** Output proportional to the error
+- **Problem:** Persistent offset (steady-state error)
+- **Application:** Rarely used alone — usually part of PI/PID
+
+### I — Integral
+
+**Eliminates the steady-state error.** Integrates the deviation over time.
+
+```
+u_I = K_i × ∫ e(t) dt
+```
+
+- **Effect:** Corrects until setpoint = actual value
+- **Problem:** Slows response, can cause oscillation (wind-up)
+- **Tuning:** Reset time T_n in seconds
+
+### D — Derivative
+
+**Responds to the rate of change.** Dampens rapid setpoint steps.
+
+```
+u_D = K_d × de(t)/dt
+```
+
+- **Effect:** Reduces overshoot
+- **Problem:** Amplifies noise — often omitted with noisy sensors (PI instead of PID)
+- **In HVAC:** Mainly useful for slow processes
+
+## Tuning by Ziegler-Nichols
+
+Classic method — proven but conservative:
+
+1. **Disable I and D** (T_n = ∞, T_v = 0)
+2. **Increase K_p** until the controlled variable begins to oscillate
+3. **Note the critical gain K_p_crit** and **oscillation period T_crit**
+4. Apply the values:
+
+| Controller type | K_p           | T_n           | T_v            |
+|-----------------|---------------|---------------|----------------|
+| P               | 0.5 × K_crit  | —             | —              |
+| PI              | 0.45 × K_crit | 0.85 × T_crit | —              |
+| PID             | 0.6 × K_crit  | 0.5 × T_crit  | 0.125 × T_crit |
+
+## Practical tips
+
+- **Room temperature:** PI usually sufficient — slow process, no D needed
+- **Flow temperature control:** PID can be useful when rapid load changes occur
+- **Duct pressure control:** P or PI — fast response required
+- **VFDs / pumps:** PI with short T_n
+- **When oscillating:** first halve K_p, then double T_n
+
+## Common mistakes
+
+1. **D gain too high** with noisy sensor → actuator chatters
+2. **T_n too small** → oscillation buildup
+3. **Anti-wind-up forgotten** → integral runs away during prolonged output saturation
+4. **Setpoint/actual value swapped** → controller drives in the wrong direction
+
+## See also
+
+- Control loops (general)
+- Heating curve (feedforward overlay)
+- Variable speed drive

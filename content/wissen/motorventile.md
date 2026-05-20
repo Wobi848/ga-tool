@@ -1,5 +1,6 @@
 ---
 title: Motorventile — 2-Wege, 3-Wege, Kv-Wert
+title_en: Motorised Valves — 2-Way, 3-Way, Kv Value
 slug: motorventile
 category: hydraulik
 subcategory: armaturen
@@ -220,3 +221,214 @@ Bei Signalausfall (Kabelbruch, Stromausfall) nimmt der Antrieb eine definierte P
 - **EN 60534** — Industriearmaturen, Regelventile
 - **VDI/VDE 2173** — Strömungstechnische Kennwerte von Regelventilen
 - **AGFW FW 401** — Rohrweitenbemessung für Nahwärme (enthält Kvs-Auslegung)
+
+<!-- EN -->
+
+# Motorised Valves — 2-Way, 3-Way, Kv Value
+
+Motorised valves are the actuators of hydraulic systems — they convert the controller's setpoint into a flow rate. Incorrectly sized valves are a frequent cause of poor control quality, noise and excessive energy consumption.
+
+## Valve Types
+
+### 2-Way Valve (Shut-off / Control Valve)
+
+```
+Inlet → [Valve] → Outlet
+            ↑
+        Actuator
+```
+
+- **Function:** Opens or closes flow
+- **Applications:** heat exchanger connection, radiators, fan-coils, underfloor heating circuits
+- **Hydraulic effect:** valve closes → pressure in branch rises → other valves operate at higher differential pressure
+
+**2-way valve in radiator circuit:**
+```
+Flow → 2-way valve → Radiator → Return
+```
+
+### 3-Way Valve: Mixing Valve
+
+```
+Flow (warm)   ─────┐
+                   [Mixing valve] → to consumer
+Return (cold) ─────┘
+```
+
+- **Function:** Mixes flow + return in an adjustable ratio → variable outlet temperature
+- **Applications:** set heating circuit flow temperature, weather-compensated control
+- **Hydraulics:** total volume flow through generator remains constant (no pressure problem for generator)
+
+### 3-Way Valve: Diverting Valve
+
+```
+                   ─── to consumer 1
+Inlet → [Diverting valve]
+                   ─── to consumer 2
+```
+
+- **Function:** Diverts volume flow between two paths
+- **Applications:** heating/cooling switchover (reversible system), priority circuit
+- **Note:** Do not confuse with mixing valve — same body but different configuration!
+
+### Quick Overview
+
+| Type | Connections | Function | Typical application |
+|------|------------|----------|---------------------|
+| 2-way | 2 (A, AB) | Open / close | Individual consumer, variable system |
+| 3-way mixing | 3 (A, B, AB) | Mix | Heating circuit flow temp, HP integration |
+| 3-way diverting | 3 (A, B, AB) | Divert | Heating/cooling switchover |
+
+---
+
+## Kv Value — Valve Capacity
+
+The **Kv value** describes flow at a defined pressure drop:
+
+**Definition:** Volume flow in m³/h at 1 bar pressure drop (water, 20 °C)
+
+### Formula
+
+```
+Kv = Q × √(1 / Δp)
+```
+
+Rearranged for flow:
+```
+Q = Kv × √Δp
+```
+
+And for pressure drop:
+```
+Δp = (Q / Kv)²
+```
+
+**Units:** Q in m³/h, Δp in bar
+
+**Example:**
+- Valve Kv = 2.5 m³/h
+- Differential pressure = 0.4 bar
+- Flow Q = 2.5 × √0.4 = 2.5 × 0.632 = **1.58 m³/h**
+
+### Kvs Value
+
+The **Kvs** is the Kv value at fully open valve — the manufacturer's catalogue characteristic.
+
+---
+
+## Valve Sizing (Kv Calculation)
+
+### Step 1: Calculate Required Flow
+
+```
+Q [m³/h] = Heating power [kW] / (1.163 × temperature spread [K])
+```
+
+Example: 10 kW, spread 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
+
+### Step 2: Determine Available Differential Pressure
+
+- System differential pressure (pump) minus pressure drops in pipes and other fittings
+- For good controllability: valve should consume **30–50 % of system pressure** (valve authority)
+
+**Valve authority:**
+```
+α = Δpv / (Δpv + ΔpSystem)
+```
+α > 0.5 = good; α < 0.3 = poor controllability (valve has little influence)
+
+### Step 3: Calculate Kv
+
+```
+Kv = Q / √Δp
+```
+
+Example: Q = 0.86 m³/h, Δp = 0.3 bar → Kv = 0.86 / √0.3 = 0.86 / 0.548 = **1.57**
+
+→ Select next standard size from catalogue (e.g. Kvs = 1.6 or 2.0)
+
+> Better **slightly undersized** than too large: an oversized valve opens only minimally and loses control authority.
+
+---
+
+## Valve Characteristics
+
+The characteristic (curve) determines how Kv changes with stroke:
+
+### Equal Percentage Characteristic
+
+```
+Stroke 10% → Kv 2%
+Stroke 50% → Kv 10%
+Stroke 90% → Kv 50%
+Stroke 100% → Kv 100%
+```
+
+- Logarithmic characteristic
+- **Recommended** for heat exchanger connections: compensates for the non-linear heat transfer characteristic
+- Small stroke = sensitive control at low loads
+
+### Linear Characteristic
+
+```
+Stroke 10% → Kv 10%
+Stroke 50% → Kv 50%
+Stroke 100% → Kv 100%
+```
+
+- Proportional
+- For mixing valves and applications with linear heat transfer
+
+**Combination:** Equal percentage valve + linear heat exchanger characteristic = approximately linear control loop (easier to parameterise).
+
+---
+
+## Actuators
+
+### Types
+
+| Type | Control signal | Characteristic |
+|------|---------------|----------------|
+| **2-position** | 24V ON/OFF | Open / close — for simple applications |
+| **3-position** | Open/close signal | Slow integration, no feedback signal |
+| **Continuous 0–10 V** | 0–10 V | Precise control, 0–10 V feedback |
+| **Continuous 4–20 mA** | 4–20 mA | Long cables, cable break detection |
+| **Bus (KNX, Modbus)** | Bus command | Diagnostics, feedback, positioning |
+
+### Stroke Time
+
+- Small valves DN15–DN25: 15–60 seconds (full stroke)
+- Large valves DN40+: 60–240 seconds
+- Actuators too fast → water hammer (pressure surge)
+- Actuators too slow → sluggish control
+
+### Fail-Safe Position
+
+On signal loss (cable break, power failure), the actuator moves to a defined position:
+
+| Fail-safe | When appropriate |
+|-----------|-----------------|
+| **Open** | Frost protection (heating coil must remain open) |
+| **Closed** | Steam valve (scald protection), chilled ceiling |
+| **Hold** | Pneumatic actuators (hold last position) |
+
+> ⚠️ Fail-safe position must **always** be specified and tested! What happens on cable break? Frost damage? Overtemperature? This must be planned in advance.
+
+---
+
+## Typical Field Faults
+
+| Fault | Symptom | Solution |
+|-------|---------|---------|
+| Valve too large (wrong Kvs) | Control valve nearly always closed, noise | Replace valve |
+| Valve authority too low | Control unstable, oscillating | Increase system pressure or reduce valve size |
+| Wrong characteristic | Disproportionate response at small strokes | Check characteristic type |
+| Fail-safe not configured | Valve remains in random position on failure | Parameterise actuator |
+| Mixing instead of diverting valve | Short-circuit in system | Check pipe connection and valve type |
+| Actuator too fast | Water hammer noise | Increase stroke time (parameterisation) |
+
+## Standards
+
+- **EN 60534** — Industrial valves, control valves
+- **VDI/VDE 2173** — Flow characteristics of control valves
+- **AGFW FW 401** — Pipe sizing for district heating (includes Kvs sizing)

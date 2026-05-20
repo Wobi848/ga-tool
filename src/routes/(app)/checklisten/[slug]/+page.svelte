@@ -2,8 +2,13 @@
 	import { onMount, untrack } from 'svelte';
 	import { loadChecklistState, saveChecklistState, resetChecklistState } from '$lib/checklisten/stores';
 	import { countItems, countCritical } from '$lib/checklisten';
-	import { areaLabels } from '$lib/wissen/types';
+	
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _, locale } from 'svelte-i18n';
+	import { get } from 'svelte/store';
+
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
@@ -78,7 +83,7 @@
 	}
 
 	function reset() {
-		if (!confirm('Alle Häkchen und Notizen für diese Checkliste zurücksetzen?')) return;
+		if (!confirm($_('checklisten.confirmReset'))) return;
 		resetChecklistState(template.slug);
 		status = {};
 		notes = {};
@@ -89,20 +94,20 @@
 		const lines: string[] = [];
 		// Header context
 		lines.push(`# ${template.title}`);
-		lines.push(`# Anlage: ${context.anlage || '—'}`);
-		lines.push(`# Ort: ${context.ort || '—'}`);
-		lines.push(`# Techniker: ${context.techniker || '—'}`);
-		lines.push(`# Datum: ${context.datum || '—'}`);
-		lines.push(`# Fortschritt: ${doneCount}/${totalItems} (${progressPct} %)`);
+		lines.push(`# ${get(_)('checklisten.anlage')}: ${context.anlage || '—'}`);
+		lines.push(`# ${get(_)('checklisten.ort')}: ${context.ort || '—'}`);
+		lines.push(`# ${get(_)('checklisten.techniker')}: ${context.techniker || '—'}`);
+		lines.push(`# ${get(_)('checklisten.datum')}: ${context.datum || '—'}`);
+		lines.push(`# ${get(_)('checklisten.csvProgress')}: ${doneCount}/${totalItems} (${progressPct} %)`);
 		lines.push('');
-		lines.push('Sektion;Punkt;Erledigt;Kritisch;Norm;Notiz');
+		lines.push(get(_)('checklisten.csvHeaders'));
 		for (const section of template.sections) {
 			for (const item of section.items) {
 				const cells = [
 					csvCell(section.title),
 					csvCell(item.title),
-					status[item.id] ? 'JA' : 'NEIN',
-					item.critical ? 'JA' : '',
+					status[item.id] ? get(_)('checklisten.csvYes') : get(_)('checklisten.csvNo'),
+					item.critical ? get(_)('checklisten.csvYes') : '',
 					csvCell(item.norm ?? ''),
 					csvCell(notes[item.id] ?? '')
 				];
@@ -133,29 +138,29 @@
 	<header class="page-header">
 		<a href="/checklisten" class="back-link">
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6" /></svg>
-			Alle Checklisten
+			{$_('checklisten.backLink')}
 		</a>
 		<div class="title-row">
-			<h1>{template.title}</h1>
+			<h1>{t(template.title, template.title_en)}</h1>
 			<FavButton type="checkliste" slug={template.slug} title={template.title} size={20} />
 		</div>
-		{#if template.subtitle}<p class="subtitle">{template.subtitle}</p>{/if}
+		{#if template.subtitle}<p class="subtitle">{t(template.subtitle, template.subtitle_en)}</p>{/if}
 
 		<div class="meta-chips">
-			<span class="cat-chip" style:background={template.color + '20'} style:color={template.color}>{template.category}</span>
-			{#each template.areas as a}<span class="area-chip">{areaLabels[a]}</span>{/each}
+			<span class="cat-chip" style:background={template.color + '20'} style:color={template.color}>{$_('cat.' + template.category.toLowerCase(), { default: template.category })}</span>
+			{#each template.areas as a}<span class="area-chip">{$_('area.' + a)}</span>{/each}
 			{#each template.norm ?? [] as n}<span class="norm-chip">{n}</span>{/each}
 		</div>
 
-		{#if template.description}<p class="description">{template.description}</p>{/if}
+		{#if template.description}<p class="description">{t(template.description, template.description_en)}</p>{/if}
 	</header>
 
 	<!-- Context box -->
 	<div class="context-box">
-		<label class="ctx-field"><span>Anlage</span><input type="text" bind:value={context.anlage} placeholder="z.B. EFH Müller, BJ 2024" /></label>
-		<label class="ctx-field"><span>Ort</span><input type="text" bind:value={context.ort} placeholder="z.B. Zug" /></label>
-		<label class="ctx-field"><span>Techniker</span><input type="text" bind:value={context.techniker} placeholder="Name" /></label>
-		<label class="ctx-field"><span>Datum</span><input type="date" bind:value={context.datum} /></label>
+		<label class="ctx-field"><span>{$_('checklisten.anlage')}</span><input type="text" bind:value={context.anlage} placeholder={$_('checklisten.anlagePlaceholder')} /></label>
+		<label class="ctx-field"><span>{$_('checklisten.ort')}</span><input type="text" bind:value={context.ort} placeholder={$_('checklisten.ortPlaceholder')} /></label>
+		<label class="ctx-field"><span>{$_('checklisten.techniker')}</span><input type="text" bind:value={context.techniker} placeholder={$_('checklisten.technicianPlaceholder')} /></label>
+		<label class="ctx-field"><span>{$_('checklisten.datum')}</span><input type="date" bind:value={context.datum} /></label>
 	</div>
 
 	<!-- Progress bar -->
@@ -163,14 +168,14 @@
 		<div class="progress-stats">
 			<span class="progress-pct" style:color={template.color}>{progressPct} %</span>
 			<span class="progress-counts">
-				{doneCount} / {totalItems} erledigt
+				{doneCount} / {totalItems} {$_('checklisten.done')}
 				{#if criticalCount > 0}
 					· <span class:critical-ok={allCriticalDone} class:critical-warn={!allCriticalDone}>
-						{doneCritical} / {criticalCount} kritisch
+						{doneCritical} / {criticalCount} {$_('checklisten.critical')}
 					</span>
 				{/if}
 			</span>
-			{#if saved}<span class="saved-flash">✓ gespeichert</span>{/if}
+			{#if saved}<span class="saved-flash">{$_('checklisten.savedFlash')}</span>{/if}
 		</div>
 		<div class="progress-bar">
 			<div class="progress-fill" style:width="{progressPct}%" style:background={template.color}></div>
@@ -182,7 +187,7 @@
 		{@const sectionDone = section.items.filter((i) => status[i.id]).length}
 		<section class="section">
 			<header class="section-header">
-				<h2>{section.title}</h2>
+				<h2>{t(section.title, section.title_en)}</h2>
 				<span class="section-count">{sectionDone}/{section.items.length}</span>
 			</header>
 			<ul class="items">
@@ -194,8 +199,8 @@
 								checked={status[item.id] ?? false}
 								onchange={() => toggleItem(item.id)}
 							/>
-							<span class="item-title">{item.title}</span>
-							{#if item.critical}<span class="critical-badge" title="Muss-Kriterium">!</span>{/if}
+							<span class="item-title">{t(item.title, item.title_en)}</span>
+							{#if item.critical}<span class="critical-badge" title={$_('checklisten.mustCriteria')}>!</span>{/if}
 							{#if item.norm}<span class="norm-tag">{item.norm}</span>{/if}
 						</label>
 
@@ -205,7 +210,7 @@
 									class="action-btn"
 									class:active={expandedHints[item.id]}
 									onclick={() => toggleHint(item.id)}
-									title="Hinweis anzeigen"
+									title={$_('checklisten.showHint')}
 								>
 									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
 										<circle cx="12" cy="12" r="10" /><line x1="12" y1="16" x2="12" y2="12" /><line x1="12" y1="8" x2="12.01" y2="8" />
@@ -216,7 +221,7 @@
 								class="action-btn"
 								class:active={editingNote === item.id || notes[item.id]}
 								onclick={() => (editingNote = editingNote === item.id ? null : item.id)}
-								title="Notiz"
+								title={$_('checklisten.noteBtn')}
 							>
 								<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
 									<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -226,7 +231,7 @@
 						</div>
 
 						{#if expandedHints[item.id] && item.hint}
-							<p class="item-hint">💡 {item.hint}</p>
+							<p class="item-hint">💡 {t(item.hint, item.hint_en)}</p>
 						{/if}
 
 						{#if editingNote === item.id || notes[item.id]}
@@ -235,7 +240,7 @@
 								rows="2"
 								value={notes[item.id] ?? ''}
 								oninput={(e) => setNote(item.id, (e.target as HTMLTextAreaElement).value)}
-								placeholder="Notiz zu diesem Punkt…"
+								placeholder={$_('checklisten.notePlaceholder')}
 							></textarea>
 						{/if}
 					</li>
@@ -246,22 +251,20 @@
 
 	{#if allDone}
 		<div class="done-banner">
-			<strong>🎉 Alle Punkte erledigt!</strong>
-			<p>Du kannst die Checkliste jetzt als CSV exportieren und ablegen.</p>
+			<strong>🎉 {$_('checklisten.allDoneTitle')}</strong>
+			<p>{$_('checklisten.allDoneText')}</p>
 		</div>
 	{/if}
 
 	<div class="action-bar">
-		<button class="btn-secondary" onclick={reset}>Zurücksetzen</button>
+		<button class="btn-secondary" onclick={reset}>{$_('checklisten.resetBtn')}</button>
 		<button class="btn-primary" onclick={exportCSV}>
 			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3" /></svg>
-			Als CSV exportieren
+			{$_('checklisten.exportCSV')}
 		</button>
 	</div>
 
-	<p class="info">
-		Häkchen + Notizen werden automatisch im Browser gespeichert (pro Checkliste). CSV-Export für Berichte.
-	</p>
+	<p class="info">{$_('checklisten.infoText')}</p>
 </div>
 
 <style>

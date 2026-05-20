@@ -1,5 +1,6 @@
 ---
 title: Vorsteuerung und Störgrössenaufschaltung
+title_en: Feedforward Control and Disturbance Compensation
 slug: vorsteuerung-aufschaltung
 category: regelung
 subcategory: regelstrategien
@@ -140,3 +141,131 @@ Der Vorlaufregler übernimmt die schnelle, witterungsgeführte Grundregelung; ei
 | Rückkopplung | Keine (open loop) | Ja (geschlossener Kreis) |
 | Genauigkeit | Abhängig von Modellgüte | Selbstkorrigierend |
 | Einsatz | Bekannte, messbare Störgrössen | Mehrstufige Strecken |
+
+<!-- EN -->
+
+Pure PID control always reacts **after** a deviation (control error e) has already developed. **Feedforward control** and **disturbance feedforward** extend the control loop with predictive elements that directly compensate for known disturbances or reference variables — before the controlled variable deviates.
+
+---
+
+## Principle: Feedback vs. Feedforward
+
+| Approach | Reaction | Prerequisite |
+|----------|---------|--------------|
+| Feedback (PID) | Reacts to control error | None — universal |
+| Feedforward | Reacts directly to disturbance/reference variable | Measurement of disturbance/reference required |
+
+Both approaches combined give the best result:
+```
+Setpoint w(t)  ─────────────────────────────────► Σ
+                                                   │
+Reference var. → Feedforward block → u_FF(t) ──────►  Plant → y(t)
+                                                   │              │
+                                    PID ◄──────────── e(t) ◄──────┘
+```
+
+---
+
+## Disturbance Feedforward
+
+A known **disturbance** is measured and its influence on the controlled variable is directly compensated — the PID does not need to wait for the disturbance to cause an error first.
+
+### Practical Example: Outdoor Temperature on Room Heating
+
+```
+Outdoor temperature TA (measurement)
+         │
+    Feedforward block: u_FF = f(TA)
+         │
+         ▼
+    PID output u_PID
+         │
+    Σ → Control output → heating valve
+```
+
+**Without feedforward:** TA drops → room cools down → error rises → PID increases valve — delay due to heating surface inertia.
+
+**With feedforward:** TA drops → valve opening increased immediately → room stays stable → PID only needs fine correction.
+
+### Sizing the Feedforward Gain
+The feedforward factor determines how strongly the control output reacts to the disturbance:
+```
+u_FF = K_FF × (TA_design − TA)
+
+K_FF: set empirically (commissioning) or calculated from building model
+TA_design: design outdoor temperature (e.g. −8 °C)
+```
+
+---
+
+## Setpoint Feedforward
+
+With **reference variable changes** (e.g. setpoint step), the control output is immediately pre-positioned:
+
+```
+Setpoint step from 20 °C → 22 °C
+     │
+Feedforward block: u_FF = K_FF × Δw
+     │
+Control output jumps immediately to higher level
+     │
+PID fine-tunes afterwards
+```
+
+Prevents the PID from "lagging behind" during setpoint changes. Particularly relevant for slow plants (underfloor heating, large rooms).
+
+---
+
+## Weather-Compensated Control as Feedforward
+
+The **heating curve** (weather-compensated flow temperature) is the classic BA example of feedforward control:
+
+```
+TA (outdoor temperature)
+     │
+Heating curve characteristic:
+  T_flow_setpoint = f(TA, room temp setpoint, slope)
+     │
+Flow temperature controller (PID, control output: mixing valve)
+```
+
+In many heating systems the room controller is now only a correction controller on top of the heating curve: it shifts the heating curve up/down (±parallel shift), but the basic control is done feedforward via TA.
+
+---
+
+## Combination: Cascade Controller with Feedforward
+
+In professional BA, cascade control and feedforward are combined:
+
+```
+TA → Heating curve → T_flow_setpoint (reference for flow controller)
+                    │
+              Flow controller (master PID)
+                    │
+              T_flow_actual ◄────── Flow temperature measurement
+                    │
+              Valve position → heating circuit
+```
+
+The flow controller handles fast, weather-compensated base control; an outer room controller shifts the setpoint when a persistent room deviation occurs.
+
+---
+
+## Commissioning Notes
+
+1. **Set feedforward gain K_FF to 0 first** — pure PID control as starting point
+2. Once stable PID tuning is found: increase K_FF gradually
+3. Check that control error at disturbance changes is reduced
+4. Too large a feedforward gain causes overshoot (over-compensation)
+5. Check the sign of the feedforward! Wrong direction makes the disturbance worse
+
+---
+
+## Feedforward vs. Cascade Control
+
+| Feature | Feedforward | Cascade control |
+|---------|------------|----------------|
+| Operating principle | Adds compensation to control output | Outer controller sets setpoint for inner controller |
+| Feedback | None (open loop) | Yes (closed loop) |
+| Accuracy | Depends on model quality | Self-correcting |
+| Application | Known, measurable disturbances | Multi-stage plants |

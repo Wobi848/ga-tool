@@ -1,5 +1,6 @@
 ---
 title: PV-Integration in die Gebäudeautomation
+title_en: PV Integration into Building Automation
 slug: pv-integration
 category: energie
 subcategory: erneuerbare
@@ -129,3 +130,120 @@ Netz ─── HAK ─────────────── Zähler (Modbus
 | Eigenverbrauchsquote ohne Speicher | 25–35% | typisches EFH |
 | Eigenverbrauchsquote mit Speicher | 55–80% | je nach Speichergrösse |
 | Wirkungsgrad Wechselrichter | 96–98% | String-WR |
+
+<!-- EN -->
+
+Integrating a photovoltaic system into the building EMS makes it possible to maximise solar self-consumption, cap peak loads, and align controllable loads (battery storage, heat pumps, charging infrastructure) precisely with PV yield.
+
+---
+
+## PV Yield Curve and Self-Consumption
+
+A PV system generates a bell-shaped yield profile during the day, peaking around midday. Without active management, surplus energy is exported to the grid while the morning and evening hours rely on grid import.
+
+**Ways to increase self-consumption:**
+- Shift flexible loads into yield peaks (dishwashers, heat pumps, EVs)
+- Buffer surplus energy in battery storage
+- Domestic hot water heating via immersion heater (simple, minimal control effort)
+
+---
+
+## Inverter Interfaces
+
+| Manufacturer | Protocol | Interface |
+|-------------|---------|-----------|
+| SMA | SunSpec Modbus TCP / SMA Modbus | Ethernet |
+| Fronius | SunSpec Modbus TCP / Solar API | Ethernet |
+| KOSTAL | SunSpec Modbus TCP | Ethernet |
+| Huawei | Modbus TCP (proprietary) | Ethernet |
+| Deye / Solis | Modbus RTU/TCP | RS-485 / Ethernet |
+| Growatt | Modbus RTU | RS-485 |
+
+### SunSpec Alliance
+
+**SunSpec** is an open standard for the interface between inverters and EMS/monitoring. It defines standardised Modbus registers for:
+- Instantaneous power (AC/DC), energy (kWh), frequency, voltage
+- Operating state, error code
+- Power control (active power curtailment, reactive power)
+
+```
+EMS (Modbus TCP client)
+     │
+     ├── Inverter 1: SunSpec Modbus TCP → P_AC = 3.4 kW
+     ├── Inverter 2: SunSpec Modbus TCP → P_AC = 2.1 kW
+     └── Battery: SunSpec Modbus TCP → SOC = 72%
+```
+
+---
+
+## Export Limitation (70% Rule, Zero Export)
+
+### 70% Curtailment (DE, VDE-AR-N 4105)
+Grid-connected systems up to 25 kWp may export a maximum of 70% of rated capacity to the grid. The EMS or inverter limits output accordingly:
+
+```
+P_export = P_PV − P_load
+If P_export > 0.7 × P_peak → curtail inverter output
+```
+
+### Zero Export
+For tenant electricity, self-consumption installations without feed-in tariff: the EMS controls inverter output so that `P_export ≈ 0`. Requires real-time measurement at the grid connection point (4–20 mA or Modbus meter).
+
+---
+
+## Surplus Control
+
+The EMS continuously compares PV yield with consumption and controls flexible loads:
+
+```
+PV surplus (kW)
+       │
+  ┌────▼────────────────────────────────────────┐
+  │ EMS surplus logic                           │
+  │                                             │
+  │ 1. Charge battery storage (priority high)   │
+  │ 2. Charge EV (dynamic, min. 6 A)           │
+  │ 3. Activate heat pump DHW charging          │
+  │ 4. Switch on immersion heater               │
+  └─────────────────────────────────────────────┘
+```
+
+**Important for EV charging:** Observe minimum charge power (single-phase min. ~1.4 kW, three-phase min. ~4.1 kW). Below this threshold PV charging is not viable → hysteresis required.
+
+---
+
+## PV Yield Forecast
+
+For predictive load management (battery charge planning, DHW boosting):
+- **Weather forecast APIs**: Open-Meteo (free), Solcast (commercial, highly accurate)
+- **Irradiance data**: Global Horizontal Irradiance (GHI), Direct Normal Irradiance (DNI)
+- Forecast enables: not fully charging the battery in the morning (leaving room for PV surplus), shifting dishwasher to midday
+
+---
+
+## BA Integration Example
+
+```
+PV system 10 kWp
+     │
+Inverter (SunSpec Modbus TCP) ──── EMS / Home Assistant
+     │                                   │
+Grid ─── Meter ─────────────── Grid meter (Modbus TCP)
+                                         │
+                              ┌──────────┼────────────┐
+                              │          │             │
+                          Battery   EV charger   Heat pump
+                        (SunSpec)  (OCPP)    (SG-Ready / Modbus)
+```
+
+---
+
+## Typical PV System Parameters
+
+| Parameter | Value | Notes |
+|-----------|-------|-------|
+| Annual yield | 900–1,100 kWh/kWp | CH/Central Europe, south-facing |
+| Peak output summer half-year | 80–95% of rated power | Clear day |
+| Self-consumption rate without storage | 25–35% | Typical single-family home |
+| Self-consumption rate with storage | 55–80% | Depending on storage size |
+| Inverter efficiency | 96–98% | String inverter |

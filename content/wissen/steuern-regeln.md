@@ -1,5 +1,6 @@
 ---
 title: Steuern vs. Regeln — der fundamentale Unterschied
+title_en: Control vs. Regulation — the fundamental difference
 slug: steuern-regeln
 category: regelung
 subcategory: grundlagen
@@ -124,3 +125,115 @@ Rückführung → zurück zum Summierpunkt
 
 - **DIN IEC 60050-351** — Internationales Elektrotechnisches Wörterbuch, Leittechnik
 - **VDI 3540** — Regelungstechnik in der Heizungs-, Lüftungs- und Klimatechnik
+
+<!-- EN -->
+
+In practice, "control" (open-loop) and "regulation" (closed-loop) are often confused. The difference is fundamental and determines whether a system operates safely and precisely.
+
+## Control — Open Loop
+
+**Control** means: one input (command) → one output (action), **without feedback**.
+
+```
+Command: "Open valve 50%"
+    ↓
+Valve actuator opens to 50%
+
+(No sensor checks whether the desired temperature was reached)
+```
+
+**Characteristics:**
+- No measurement of the effect
+- No compensation for disturbances
+- Simple, fast, inexpensive
+- Inaccurate under varying conditions
+
+**Control examples:**
+- Time switch: pump runs 7 am–6 pm (regardless of heating demand)
+- Light: press button → light on (no brightness measurement)
+- Blind: press UP → moves up (no position feedback)
+
+---
+
+## Regulation — Closed Loop
+
+**Regulation** means: actual state is measured, compared to the setpoint, and the deviation is corrected.
+
+```
+Setpoint (target temperature: 22 °C)
+    ↓
+[Comparison] ← Actual value (measured temperature: 20 °C)
+    ↓
+Control deviation: 22 − 20 = 2 K
+    ↓
+[Controller] calculates output (e.g. open valve 70%)
+    ↓
+[Actuator] (valve opens)
+    ↓
+Effect on [Process] (room warms up)
+    ↓
+New actual value → back to comparison
+```
+
+**Characteristics:**
+- Feedback (actual value measurement)
+- Compensation for disturbances (e.g. window open → controller detects cooling → corrects)
+- Precise, self-correcting
+- More complex (sensor, controller, commissioning)
+
+**Regulation examples:**
+- Room temperature control (thermostat with feedback)
+- Pressure control (differential pressure sensor → VFD controls speed)
+- CO₂-guided ventilation (CO₂ sensor → air volume)
+
+---
+
+## Control Loop — The Elements
+
+```
+W (Setpoint / Reference)
+    ↓
+[+] Summing point
+[−] ↑ (Feedback)
+    ↓ e (Control deviation = W − X)
+[Controller R] → Y (Control output)
+    ↓
+[Actuator] (valve, VFD, relay)
+    ↓
+[Process S] ← Z (Disturbance, e.g. outdoor temperature)
+    ↓ X (Controlled variable / actual value)
+[Sensor / Measuring element]
+    ↓
+Feedback → back to summing point
+```
+
+| Element | Symbol | Example |
+|---------|--------|---------|
+| Setpoint | W | Target room temperature 22 °C |
+| Control deviation | e | 22 − 20 = 2 K |
+| Control output | Y | Valve position 0–100% |
+| Actual value | X | Measured room temperature 20 °C |
+| Disturbance | Z | Outdoor temperature, window open |
+| Process | S | Room with radiator |
+
+---
+
+## When to Control, When to Regulate?
+
+| Situation | Control | Regulate |
+|-----------|---------|----------|
+| Input and output directly proportional (no disturbances) | ✅ | — |
+| Disturbances must be compensated | — | ✅ |
+| Accuracy is important | — | ✅ |
+| Simple ON/OFF switching without feedback | ✅ | — |
+| Maintaining temperature, pressure, flow | — | ✅ |
+| Time schedule (when, not how much) | ✅ | — |
+
+**In practice** both are combined: the time schedule **controls** the operating mode (comfort/night), while within that mode the PID controller **regulates** the temperature.
+
+---
+
+## Standards
+
+- **DIN IEC 60050-351** — International Electrotechnical Vocabulary, Instrumentation and Control
+- **VDI 3540** — Control engineering in heating, ventilation and air-conditioning technology

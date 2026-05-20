@@ -3,6 +3,7 @@
   import { PIDSim, fmt } from '$lib/pid/simulation.svelte.js';
   import Chart from '$lib/pid/Chart.svelte';
   import FavButton from '$lib/components/FavButton.svelte';
+  import { _ } from 'svelte-i18n';
 
   const sim = new PIDSim();
 
@@ -19,9 +20,15 @@
   let kd     = $derived(sim.tv > 0 ? kp * sim.tv : null);
 
   let statusClass = $derived(
-    sim.display.status === 'Ausgeregelt'          ? 'ok'   :
-    sim.display.status === 'Stellgrösse begrenzt' ? 'warn' : 'bad'
+    sim.display.status === 'settled'   ? 'ok'   :
+    sim.display.status === 'saturated' ? 'warn' : 'bad'
   );
+
+  const STATUS_LABELS: Record<string, string> = $derived({
+    settled:   $_('rechner.pidSimulatorUi.statusSettled'),
+    saturated: $_('rechner.pidSimulatorUi.statusSaturated'),
+    deviation: $_('rechner.pidSimulatorUi.status')
+  });
 
   const UNITS = [
     { label: '°C',  value: '°C'  },
@@ -31,10 +38,10 @@
     { label: 'ppm', value: 'ppm' },
   ];
 
-  const MODES = [
-    { label: 'Heizen (invers)', value: 'heizen'  },
-    { label: 'Kühlen (direkt)', value: 'kuehlen' },
-  ];
+  const MODES = $derived([
+    { label: $_('rechner.pidSimulatorUi.modeHeat'), value: 'heizen'  },
+    { label: $_('rechner.pidSimulatorUi.modeCool'), value: 'kuehlen' },
+  ]);
 
   let xpUnit = $derived(sim.unit === '°C' ? 'K' : sim.unit);
 
@@ -51,17 +58,17 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M15 18l-6-6 6-6" />
       </svg>
-      Alle Rechner
+      {$_('common.allCalculators')}
     </a>
     <div class="header-row">
-      <h1>PID-Regler Simulator</h1>
+      <h1>{$_('rechner.pidSimulator.name')}</h1>
       <div class="status-badge {statusClass}">
         <span class="dot"></span>
-        {sim.running ? 'RUN' : 'HOLD'} · {sim.display.status}
+        {sim.running ? 'RUN' : 'HOLD'} · {STATUS_LABELS[sim.display.status] ?? sim.display.status}
       </div>
-      <FavButton type="rechner" slug="pid-simulator" title="PID-Simulator" size={20} />
+      <FavButton type="rechner" slug="pid-simulator" title={$_('rechner.pidSimulator.name')} size={20} />
     </div>
-    <p class="subtitle">PT1 + Totzeit Streckenmodell · Anti-Windup · HVAC-Presets</p>
+    <p class="subtitle">{$_('rechner.pidSimulatorUi.subtitle')}</p>
   </header>
 
   <div class="pid-layout">
@@ -70,13 +77,13 @@
 
       <!-- REGLER -->
       <div class="section">
-        <h3 class="section-title">Regler · PID</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.controller')}</h3>
 
         <div class="slider-row">
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color: #4ade80">Xp</span>
-              <span class="name">Proportionalbereich</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.proportionalBand')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="1" max="200" step="1"
@@ -100,7 +107,7 @@
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color: #38bdf8">Tn</span>
-              <span class="name">Nachstellzeit</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.integralTime')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="0" max="3600" step="1"
@@ -115,7 +122,7 @@
             class="slider slider-sp" />
           <div class="slider-foot">
             <span>0s</span>
-            <span class="hint">{sim.tn === 0 ? 'I-Anteil AUS' : `≈ ${fmt(sim.tn/60,1)} min`}</span>
+            <span class="hint">{sim.tn === 0 ? $_('rechner.pidSimulatorUi.iTermOff') : `≈ ${fmt(sim.tn/60,1)} min`}</span>
             <span>3600s</span>
           </div>
         </div>
@@ -124,7 +131,7 @@
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color: #fb923c">Tv</span>
-              <span class="name">Vorhaltzeit</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.derivativeTime')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="0" max="600" step="1"
@@ -139,7 +146,7 @@
             class="slider slider-y" />
           <div class="slider-foot">
             <span>0s</span>
-            <span class="hint">{sim.tv === 0 ? 'D-Anteil AUS' : 'D-Anteil aktiv'}</span>
+            <span class="hint">{sim.tv === 0 ? $_('rechner.pidSimulatorUi.dOff') : $_('rechner.pidSimulatorUi.dOn')}</span>
             <span>600s</span>
           </div>
         </div>
@@ -147,7 +154,7 @@
 
       <!-- WIRKRICHTUNG -->
       <div class="section">
-        <h3 class="section-title">Wirkrichtung</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.direction')}</h3>
         <div class="seg">
           {#each MODES as m}
             <button class="seg-btn" class:active={sim.mode === m.value}
@@ -156,19 +163,19 @@
         </div>
         <p class="hint" style="margin-top:6px">
           {sim.mode === 'heizen'
-            ? 'PV über SP → Y schliesst (Ventil zu)'
-            : 'PV über SP → Y öffnet (mehr Kälte)'}
+            ? $_('rechner.pidSimulatorUi.hintHeat')
+            : $_('rechner.pidSimulatorUi.hintCool')}
         </p>
       </div>
 
       <!-- SOLLWERT + EINHEIT -->
       <div class="section">
-        <h3 class="section-title">Sollwert</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.setpoint')}</h3>
         <div class="slider-row">
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color: #38bdf8">W</span>
-              <span class="name">Sollwert</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.setpoint')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="0" max="100" step="0.5"
@@ -192,14 +199,14 @@
 
       <!-- THEORIE-LINKS -->
       <div class="section">
-        <h3 class="section-title">Theorie &amp; Hintergrund</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.theory')}</h3>
         <div class="theory-links">
           {#each [
-            ['pid-regler',          'PID-Regler',             'Grundlagen'],
-            ['regelkreise',         'Regelkreise & Totzeit',  'Grundlagen'],
-            ['steuern-regeln',      'Steuern vs. Regeln',     'Grundlagen'],
-            ['kaskadenregelung',    'Kaskadenregelung',       'Fortgeschritten'],
-            ['druckregelung-lueftung', 'Druckregelung Lüftung', 'Fortgeschritten'],
+            ['pid-regler',          'PID-Regler',             $_('rechner.pidSimulatorUi.theoryBasics')],
+            ['regelkreise',         'Regelkreise & Totzeit',  $_('rechner.pidSimulatorUi.theoryBasics')],
+            ['steuern-regeln',      'Steuern vs. Regeln',     $_('rechner.pidSimulatorUi.theoryBasics')],
+            ['kaskadenregelung',    'Kaskadenregelung',       $_('rechner.pidSimulatorUi.theoryAdvanced')],
+            ['druckregelung-lueftung', 'Druckregelung Lüftung', $_('rechner.pidSimulatorUi.theoryAdvanced')],
           ] as [slug, title, level]}
             <a href="/wissen/{slug}" class="theory-link">
               <span class="theory-title">{title}</span>
@@ -211,15 +218,15 @@
 
       <!-- PRESETS -->
       <div class="section">
-        <h3 class="section-title">HVAC-Presets</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.hvacPresets')}</h3>
         <div class="preset-grid">
           {#each [
-            ['raum-heizung', 'Raum-T Heizung'],
-            ['vorlauf',      'Vorlauf-T'],
-            ['kaelte',       'Fernkälte'],
-            ['druck',        'Druck'],
-            ['feuchte',      'Feuchte'],
-            ['pid-demo',     'PID-Demo'],
+            ['raum-heizung', $_('rechner.pidSimulatorUi.presetRaumHeizung')],
+            ['vorlauf',      $_('rechner.pidSimulatorUi.presetVorlauf')],
+            ['kaelte',       $_('rechner.pidSimulatorUi.presetKaelte')],
+            ['druck',        $_('rechner.pidSimulatorUi.presetDruck')],
+            ['feuchte',      $_('rechner.pidSimulatorUi.presetFeuchte')],
+            ['pid-demo',     $_('rechner.pidSimulatorUi.presetDemo')],
           ] as [key, label]}
             <button class="btn btn-preset" onclick={() => sim.loadPreset(key)}>{label}</button>
           {/each}
@@ -228,12 +235,12 @@
 
       <!-- SIM-STEUERUNG -->
       <div class="section">
-        <h3 class="section-title">Simulation</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.simulation')}</h3>
         <div class="slider-row">
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#38bdf8">v</span>
-              <span class="name">Zeitraffer</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.timeScale')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="1" max="50" step="1"
@@ -251,7 +258,7 @@
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#4ade80">Δt</span>
-              <span class="name">Sichtfenster</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.viewWindow')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="30" max="1800" step="10"
@@ -282,19 +289,19 @@
         <div class="chart-legend">
           <span class="legend-item" style="color:#38bdf8">
             <span class="swatch dashed"></span>
-            Sollwert W &nbsp;<b>{fmt(spEff, 1)} {sim.unit}</b>
+            {$_('rechner.pidSimulatorUi.setpointW')} &nbsp;<b>{fmt(spEff, 1)} {sim.unit}</b>
             {#if sim.spAutoActive}<span class="sp-auto-badge">AUTO</span>{/if}
           </span>
           <span class="legend-item" style="color:#4ade80">
             <span class="swatch"></span>
-            Istwert X &nbsp;<b>{fmt(sim.display.pv, 2)} {sim.unit}</b>
+            {$_('rechner.pidSimulatorUi.actualValueX')} &nbsp;<b>{fmt(sim.display.pv, 2)} {sim.unit}</b>
           </span>
           <span class="legend-item" style="color:#fb923c">
             <span class="swatch"></span>
-            Stellgrösse Y &nbsp;<b>{fmt(sim.display.y, 1)} %</b>
+            {$_('rechner.pidSimulatorUi.outputY')} &nbsp;<b>{fmt(sim.display.y, 1)} %</b>
           </span>
           <span class="legend-meta">
-            Fenster <b>{sim.winSec}s</b> · Auto-Skala
+            {$_('rechner.pidSimulatorUi.windowMeta')} <b>{sim.winSec}s</b> · Auto-scale
           </span>
         </div>
         <div class="canvas-wrap">
@@ -306,7 +313,7 @@
       <div class="readouts">
         <div class="readout">
           <div class="ro-label" style="color:#38bdf8">
-            <span class="ro-swatch" style="background:#38bdf8"></span>Sollwert W
+            <span class="ro-swatch" style="background:#38bdf8"></span>{$_('rechner.pidSimulatorUi.setpointW')}
           </div>
           <div class="ro-value">{fmt(spEff, 1)}<span class="ro-unit">{sim.unit}</span></div>
           {#if sim.spAutoActive}
@@ -318,24 +325,24 @@
         </div>
         <div class="readout">
           <div class="ro-label" style="color:#4ade80">
-            <span class="ro-swatch" style="background:#4ade80"></span>Istwert X
+            <span class="ro-swatch" style="background:#4ade80"></span>{$_('rechner.pidSimulatorUi.actualValueX')}
           </div>
           <div class="ro-value">{fmt(sim.display.pv, 2)}<span class="ro-unit">{sim.unit}</span></div>
         </div>
         <div class="readout">
           <div class="ro-label" style="color:#fb923c">
-            <span class="ro-swatch" style="background:#fb923c"></span>Stellgrösse Y
+            <span class="ro-swatch" style="background:#fb923c"></span>{$_('rechner.pidSimulatorUi.outputY')}
           </div>
           <div class="ro-value">{fmt(sim.display.y, 1)}<span class="ro-unit">%</span></div>
         </div>
         <div class="readout">
           <div class="ro-label" style="color:#f87171">
-            <span class="ro-swatch" style="background:#f87171"></span>Regelabw. e
+            <span class="ro-swatch" style="background:#f87171"></span>{$_('rechner.pidSimulatorUi.controlDeviation')}
           </div>
           <div class="ro-value">{fmt(sim.display.e, 2)}<span class="ro-unit">{sim.unit}</span></div>
         </div>
         <div class="readout">
-          <div class="ro-label">Störgrösse d</div>
+          <div class="ro-label">{$_('rechner.pidSimulatorUi.disturbance')}</div>
           <div class="ro-value" style:color={sim.display.dist === 0 && sim.display.autoDist === 0 ? 'var(--muted)' : 'var(--text)'}>
             {(sim.display.dist + sim.display.autoDist) >= 0 ? '+' : ''}{fmt(sim.display.dist + sim.display.autoDist, 2)}<span class="ro-unit">{sim.unit}</span>
           </div>
@@ -349,11 +356,11 @@
           {/if}
         </div>
         <div class="readout">
-          <div class="ro-label">Status</div>
+          <div class="ro-label">{$_('rechner.pidSimulatorUi.status')}</div>
           <div class="ro-value" style="font-size:13px; padding-top:2px">
             <span class="status-pill {statusClass}">
               <span class="pill-dot"></span>
-              {sim.display.status}
+              {STATUS_LABELS[sim.display.status] ?? sim.display.status}
             </span>
           </div>
         </div>
@@ -361,7 +368,7 @@
 
       <!-- STATUS STRIP -->
       <div class="status-strip">
-        <div class="strip-cell label">Reglerterme</div>
+        <div class="strip-cell label">{$_('rechner.pidSimulatorUi.controllerTerms')}</div>
         <div class="strip-cell grow">
           <span class="term" style="color:#4ade80">P <b>{fmt(sim.display.p, 2)}</b><em>%</em></span>
           <span class="term" style="color:#38bdf8">I <b>{fmt(sim.display.i, 2)}</b><em>%</em></span>
@@ -375,7 +382,7 @@
         </div>
         <div class="strip-cell">
           Sat <b style:color={sim.display.sat ? '#fb923c' : 'var(--muted)'}>
-            {sim.display.sat ? 'JA' : 'NEIN'}
+            {sim.display.sat ? $_('rechner.pidSimulatorUi.yes') : $_('rechner.pidSimulatorUi.no')}
           </b>
         </div>
       </div>
@@ -385,12 +392,12 @@
     <div class="env-panel">
 
       <div class="env-section">
-        <h3 class="section-title">Streckenmodell</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.plantModel')}</h3>
         <div class="slider-row">
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#fb923c">Tt</span>
-              <span class="name">Totzeit</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.deadTime')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="0" max="120" step="0.5"
@@ -407,7 +414,7 @@
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#4ade80">T1</span>
-              <span class="name">Zeitkonstante</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.timeConstant')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="1" max="600" step="1"
@@ -424,7 +431,7 @@
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#38bdf8">Ks</span>
-              <span class="name">Verstärkung</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.gain')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="0.05" max="3" step="0.05"
@@ -445,12 +452,12 @@
       </div>
 
       <div class="env-section">
-        <h3 class="section-title">Störung · Lastsprung</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.disturbanceSection')}</h3>
         <div class="slider-row">
           <div class="slider-head">
             <div class="slider-label">
               <span class="key" style="color:#fb923c">Δd</span>
-              <span class="name">Sprungamplitude</span>
+              <span class="name">{$_('rechner.pidSimulatorUi.jumpAmplitude')}</span>
             </div>
             <div class="numwrap">
               <input type="number" min="-50" max="50" step="1"
@@ -474,18 +481,18 @@
         {#if sim.display.dist !== 0}
           <button class="btn btn-ghost full" style="margin-top:6px"
             onclick={() => sim.clearDisturbance()}>
-            Zurücksetzen (d = {fmt(sim.display.dist, 1)} {sim.unit})
+            {$_('rechner.pidSimulatorUi.resetDist', { values: { val: fmt(sim.display.dist, 1), unit: sim.unit } })}
           </button>
         {/if}
       </div>
 
       <div class="env-section">
-        <h3 class="section-title">Auto-Störgrösse</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.autoDisturbance')}</h3>
         <div class="autodist-header">
           <label class="toggle-wrap">
             <input type="checkbox" class="toggle-cb" bind:checked={sim.autoDistActive} />
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
-            <span class="toggle-label">{sim.autoDistActive ? 'Aktiv' : 'Inaktiv'}</span>
+            <span class="toggle-label">{sim.autoDistActive ? $_('rechner.pidSimulatorUi.active') : $_('rechner.pidSimulatorUi.inactive')}</span>
           </label>
           {#if sim.autoDistActive}
             <span class="autodist-live" style="color:#f87171">
@@ -495,14 +502,14 @@
         </div>
         {#if sim.autoDistActive}
           <div class="seg" style="margin:8px 0 10px">
-            {#each [['sin','∿ Sinus'],['square','⊓ Rechteck'],['noise','≈ Rauschen']] as [v,l]}
+            {#each [['sin',`∿ ${$_('rechner.pidSimulatorUi.sine')}`],['square',`⊓ ${$_('rechner.pidSimulatorUi.square')}`],['noise',`≈ ${$_('rechner.pidSimulatorUi.noise')}`]] as [v,l]}
               <button class="seg-btn" class:active={sim.autoDistType === v}
                 onclick={() => sim.autoDistType = v}>{l}</button>
             {/each}
           </div>
           <div class="slider-row">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#f87171">A</span><span class="name">Amplitude</span></div>
+              <div class="slider-label"><span class="key" style="color:#f87171">A</span><span class="name">{$_('rechner.pidSimulatorUi.amplitude')}</span></div>
               <div class="numwrap">
                 <input type="number" min="0.1" max="50" step="0.5" value={sim.autoDistAmp}
                   oninput={e => sim.autoDistAmp = cl(parseFloat(e.currentTarget.value)||0.1, 0.1, 50)}
@@ -516,7 +523,7 @@
           {#if sim.autoDistType !== 'noise'}
             <div class="slider-row">
               <div class="slider-head">
-                <div class="slider-label"><span class="key" style="color:#f87171">T</span><span class="name">Periode</span></div>
+                <div class="slider-label"><span class="key" style="color:#f87171">T</span><span class="name">{$_('rechner.pidSimulatorUi.period')}</span></div>
                 <div class="numwrap">
                   <input type="number" min="5" max="600" step="5" value={sim.autoDistPeriod}
                     oninput={e => sim.autoDistPeriod = cl(parseFloat(e.currentTarget.value)||5, 5, 600)}
@@ -531,7 +538,7 @@
           {/if}
           <div class="slider-row">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#a78bfa">Tc</span><span class="name">Filter PT1</span></div>
+              <div class="slider-label"><span class="key" style="color:#a78bfa">Tc</span><span class="name">{$_('rechner.pidSimulatorUi.filterPT1')}</span></div>
               <div class="numwrap">
                 <input type="number" min="0" max="120" step="1" value={sim.autoDistTc}
                   oninput={e => sim.autoDistTc = cl(parseFloat(e.currentTarget.value)||0, 0, 120)}
@@ -541,11 +548,11 @@
             <input type="range" min="0" max="120" step="1" value={sim.autoDistTc}
               oninput={e => sim.autoDistTc = parseFloat(e.currentTarget.value)}
               class="slider" style="accent-color:#a78bfa" />
-            <div class="slider-foot"><span>0s</span><span class="hint">{sim.autoDistTc === 0 ? 'kein Filter' : `PT1 ≈ ${fmt(sim.autoDistTc,0)}s`}</span><span>120s</span></div>
+            <div class="slider-foot"><span>0s</span><span class="hint">{sim.autoDistTc === 0 ? $_('rechner.pidSimulatorUi.noFilter') : `PT1 ≈ ${fmt(sim.autoDistTc,0)}s`}</span><span>120s</span></div>
           </div>
           <div class="slider-row">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#a78bfa">B</span><span class="name">Bias (Offset)</span></div>
+              <div class="slider-label"><span class="key" style="color:#a78bfa">B</span><span class="name">{$_('rechner.pidSimulatorUi.bias')}</span></div>
               <div class="numwrap">
                 <input type="number" min="-20" max="20" step="0.5" value={sim.autoDistBias}
                   oninput={e => sim.autoDistBias = cl(parseFloat(e.currentTarget.value)||0, -20, 20)}
@@ -555,18 +562,18 @@
             <input type="range" min="-20" max="20" step="0.5" value={sim.autoDistBias}
               oninput={e => sim.autoDistBias = parseFloat(e.currentTarget.value)}
               class="slider" style="accent-color:#a78bfa" />
-            <div class="slider-foot"><span>−20</span><span class="hint">{sim.autoDistBias === 0 ? 'kein Offset' : `${sim.autoDistBias > 0 ? '+' : ''}${fmt(sim.autoDistBias,1)} ${sim.unit}`}</span><span>+20</span></div>
+            <div class="slider-foot"><span>−20</span><span class="hint">{sim.autoDistBias === 0 ? $_('rechner.pidSimulatorUi.noOffset') : `${sim.autoDistBias > 0 ? '+' : ''}${fmt(sim.autoDistBias,1)} ${sim.unit}`}</span><span>+20</span></div>
           </div>
         {/if}
       </div>
 
       <div class="env-section">
-        <h3 class="section-title">SP-Automatik · Tag/Nacht</h3>
+        <h3 class="section-title">{$_('rechner.pidSimulatorUi.spAutoSection')}</h3>
         <div class="autodist-header">
           <label class="toggle-wrap">
             <input type="checkbox" class="toggle-cb" bind:checked={sim.spAutoActive} />
             <span class="toggle-track"><span class="toggle-thumb"></span></span>
-            <span class="toggle-label">{sim.spAutoActive ? 'Aktiv' : 'Inaktiv'}</span>
+            <span class="toggle-label">{sim.spAutoActive ? $_('rechner.pidSimulatorUi.active') : $_('rechner.pidSimulatorUi.inactive')}</span>
           </label>
           {#if sim.spAutoActive}
             <span class="autodist-live" style="color:#38bdf8">W = {fmt(spEff, 1)} {sim.unit}</span>
@@ -575,7 +582,7 @@
         {#if sim.spAutoActive}
           <div class="slider-row" style="margin-top:8px">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#38bdf8">W↑</span><span class="name">Tagwert</span></div>
+              <div class="slider-label"><span class="key" style="color:#38bdf8">W↑</span><span class="name">{$_('rechner.pidSimulatorUi.dayValue')}</span></div>
               <div class="numwrap">
                 <input type="number" min="0" max="200" step="0.5" value={sim.spAutoHigh}
                   oninput={e => sim.spAutoHigh = cl(parseFloat(e.currentTarget.value)||0, 0, 200)}
@@ -588,7 +595,7 @@
           </div>
           <div class="slider-row">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#7dd3fc">W↓</span><span class="name">Nachtwert</span></div>
+              <div class="slider-label"><span class="key" style="color:#7dd3fc">W↓</span><span class="name">{$_('rechner.pidSimulatorUi.nightValue')}</span></div>
               <div class="numwrap">
                 <input type="number" min="0" max="200" step="0.5" value={sim.spAutoLow}
                   oninput={e => sim.spAutoLow = cl(parseFloat(e.currentTarget.value)||0, 0, 200)}
@@ -602,7 +609,7 @@
           </div>
           <div class="slider-row">
             <div class="slider-head">
-              <div class="slider-label"><span class="key" style="color:#38bdf8">T</span><span class="name">Wechselperiode</span></div>
+              <div class="slider-label"><span class="key" style="color:#38bdf8">T</span><span class="name">{$_('rechner.pidSimulatorUi.switchPeriod')}</span></div>
               <div class="numwrap">
                 <input type="number" min="10" max="1800" step="10" value={sim.spAutoPeriod}
                   oninput={e => sim.spAutoPeriod = cl(parseFloat(e.currentTarget.value)||10, 10, 1800)}

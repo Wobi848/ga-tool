@@ -3,33 +3,38 @@ import { addMessages, init, locale } from 'svelte-i18n';
 import { de } from './de';
 import { en } from './en';
 
-export type Lang = 'de' | 'en';
-const STORAGE_KEY = 'ga-lang';
+export type Lang = 'de' | 'en' | 'auto';
+export const STORAGE_KEY = 'ga-lang';
+const COOKIE_NAME = 'ga-lang';
 
-// Load messages synchronously — works on SSR and client
 addMessages('de', de);
 addMessages('en', en);
 
-const initialLocale: Lang = (() => {
+function detectBrowserLang(): 'de' | 'en' {
+	return navigator.language.startsWith('en') ? 'en' : 'de';
+}
+
+const initialLocale: 'de' | 'en' = (() => {
 	if (!browser) return 'de';
 	const saved = localStorage.getItem(STORAGE_KEY) as Lang | null;
-	if (saved) return saved;
-	return navigator.language.startsWith('en') ? 'en' : 'de';
+	if (saved === 'auto' || !saved) return detectBrowserLang();
+	return saved;
 })();
 
 init({ fallbackLocale: 'de', initialLocale });
 
-export function setupI18n() {
-	// Only needed for client-side locale sync after hydration
+export function setLang(lang: Lang) {
+	const resolved: 'de' | 'en' = lang === 'auto' ? detectBrowserLang() : lang;
+	locale.set(resolved);
 	if (browser) {
-		const saved = localStorage.getItem(STORAGE_KEY) as Lang | null;
-		if (saved) locale.set(saved);
+		localStorage.setItem(STORAGE_KEY, lang);
+		document.cookie = `${COOKIE_NAME}=${resolved}; path=/; max-age=31536000; SameSite=Lax`;
 	}
 }
 
-export function setLang(lang: Lang) {
-	locale.set(lang);
-	if (browser) localStorage.setItem(STORAGE_KEY, lang);
+export function getSavedLang(): Lang {
+	if (!browser) return 'auto';
+	return (localStorage.getItem(STORAGE_KEY) as Lang | null) ?? 'auto';
 }
 
 export { locale };

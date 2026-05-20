@@ -1,5 +1,6 @@
 ---
 title: SELV und PELV — Schutzkleinspannung in der GA
+title_en: SELV and PELV — Protective Extra-Low Voltage in BA
 slug: selv-pelv
 category: elektro
 subcategory: sicherheit
@@ -119,3 +120,111 @@ Auch bei 24 V sind Kurzschlüsse gefährlich (Kabelbrände möglich!):
 - **IEC 60364-4-41** — Elektrische Anlagen von Gebäuden, Schutz gegen elektrischen Schlag
 - **EN 50178** — Elektronische Betriebsmittel (Netzteile für Automatisierung)
 - **VDE 0100-410** (DE) — Errichten elektrischer Anlagen, Schutz gegen elektrischen Schlag
+
+<!-- EN -->
+
+Almost all BA field devices operate at 24 VAC or 24 VDC. This voltage is classified as extra-low voltage — but the precise electrical safety classification depends on whether SELV or PELV applies.
+
+## Safety Classes and Safety Voltages
+
+### SELV — Safety Extra-Low Voltage
+
+**Safety extra-low voltage:**
+- Voltage ≤ 50 VAC / ≤ 120 VDC (peak)
+- **Galvanically isolated** from mains voltage (safety isolating transformer with double winding)
+- **No earthing** of the SELV circuit (earthing would convert it to PELV)
+- Even on contact: no dangerous current possible
+
+**Applications:** Wherever elevated safety is required:
+- Wet rooms (bathroom: SELV < 12 V)
+- Outdoors
+- Medical devices
+- **DDC low-voltage circuits** (when galvanically isolated)
+
+### PELV — Protective Extra-Low Voltage
+
+**Protective extra-low voltage:**
+- Same voltage limits as SELV
+- **May be earthed** (protective conductor connection permitted)
+- Galvanically isolated from mains (like SELV)
+- On contact: leakage currents via PE possible, but controlled
+
+**Applications:** Standard in BA control panels:
+- DDC supply 24 V via power supply unit
+- Sensor and actuator supply
+- Bus voltages (KNX, DALI, M-Bus)
+
+### SELV / PELV at a Glance
+
+| Feature | SELV | PELV |
+|---------|------|------|
+| Voltage limit | ≤ 50 VAC / 120 VDC | ≤ 50 VAC / 120 VDC |
+| Galvanic isolation | ✅ Required | ✅ Required |
+| Earthing permitted | ❌ No | ✅ Yes (protective conductor) |
+| Touch protection | Very high | High |
+| Typical BA use | Wet rooms, medical | **Standard DDC panel** |
+
+---
+
+## 24 VAC vs. 24 VDC in BA
+
+| Parameter | 24 VAC | 24 VDC |
+|-----------|--------|--------|
+| Prevalence | Older systems (actuators) | Modern systems (DDC, bus) |
+| Measurement | AC voltmeter required | DC voltmeter |
+| Polarity sensitivity | No (alternating) | Yes (reverse polarity = damage!) |
+| Supply | Transformer | Power supply unit (rectifier + smoothing) |
+| Bus compatibility | No | Yes (KNX: 29 V DC, DALI: 16 V DC) |
+| Wiring errors | Less critical (only overheating) | Reverse polarity destroys devices |
+
+**Note:** Actuators (Belimo, Siemens) often accept 24 VAC **or** 24 VDC (check the datasheet!). KNX and DALI are 24–29 VDC (observe polarity!).
+
+---
+
+## Power Supply Selection for BA Control Panels
+
+```
+24 VDC power supply unit:
+  Input: 230 VAC (mains)
+  Output: 24 VDC
+  Power: calculate from all loads + 20% reserve
+  
+Output current calculation:
+  DDC: 1.5 A
+  10 × actuator: 10 × 0.1 A = 1.0 A
+  4 × sensor: 4 × 0.05 A = 0.2 A
+  Bus (KNX): 0.3 A
+  ─────────────────────
+  Total: 3.0 A × 1.2 (reserve) = 3.6 A
+
+→ Select 24 VDC / 5 A PSU (next standard size up)
+```
+
+---
+
+## Short-Circuit Protection in Extra-Low Voltage Circuits
+
+Even at 24 V, short circuits are dangerous (cable fires are possible!):
+
+- Use a **power supply with short-circuit protection** (current limiting or shutdown)
+- **Fuses** in the 24 V circuit (0.5–4 A, depending on the circuit)
+- **Adequate conductor cross-section** (0.5 mm² for < 3 A, 1.0 mm² for < 5 A)
+
+---
+
+## Common BA Wiring Mistakes
+
+| Mistake | Consequence | Solution |
+|---------|------------|---------|
+| 24 VDC actuator connected to 230 V | Device destroyed, fire risk | Colour-code voltage levels |
+| 24 VDC and 24 VAC mixed | Devices produce incorrect readings | Strictly separate |
+| No protective conductor on PSU | PELV becomes floating → hazard | Always connect PE |
+| PSU overloaded | PSU overheats, fails | Include reserve capacity |
+| 230 V stray potential on DI | DDC input destroyed | Only extra-low voltage at DI! |
+
+## Standards
+
+- **IEC 61140** — Protection against electric shock (SELV/PELV definition)
+- **IEC 60364-4-41** — Electrical installations of buildings, protection against electric shock
+- **EN 50178** — Electronic equipment for use in power installations (PSUs for automation)
+- **VDE 0100-410** (DE) — Erection of electrical installations, protection against electric shock

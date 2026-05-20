@@ -1,5 +1,6 @@
 ---
 title: Pufferspeicher — Funktion, Einbindung und Schichtung
+title_en: Buffer Storage — Function, Integration and Stratification
 slug: pufferspeicher
 category: heizung
 subcategory: speicher
@@ -171,3 +172,165 @@ Programm:
 - **EN 12977** — Thermische Solaranlagen, Heizkessel, Pufferspeicher
 - **VDI 2035** — Vermeidung von Schäden in Warmwasser-Heizungsanlagen
 - **SIA 384.201** — Heizungsanlagen in Gebäuden (CH)
+
+<!-- EN -->
+
+## Buffer Storage — Function, Integration and Stratification
+
+A **buffer storage tank** decouples heat generation from heat consumption. It is not a simple "water tank" — stratification, integration and control determine whether it does its job or causes problems.
+
+## Why a Buffer Storage Tank?
+
+### Problem 1: Minimum Flow Rate (Heat Pump)
+
+A heat pump requires a **minimum flow rate** through the evaporator/condenser. When all heating circuit thermostatic valves close → flow drops → HP shuts down (safety cutout).
+
+Solution: buffer between HP and heating circuits → HP side always has enough flow.
+
+### Problem 2: Short Cycling (Heat Pump, Boiler)
+
+Without a buffer the heat pump starts very frequently (short cycle times) → wear, poor COP.
+With buffer: HP runs longer, less frequently → better efficiency.
+
+### Problem 3: Solar Surplus
+
+Solar system produces more than currently needed → buffer stores it → consumed later.
+
+### Problem 4: Peak Load Decoupling
+
+Heat generator is weaker than consumer peak → buffer compensates.
+
+---
+
+## Stratification
+
+The buffer tank works as a naturally stratified body:
+
+```
+Top:    Hot (+60–80 °C) ← Generator supply (flow)
+                             Heating circuit take-off (flow)
+─────────────────────────────────────────────────────
+Middle: Medium temperature (~45 °C)
+─────────────────────────────────────────────────────
+Bottom: Cold (+20–40 °C) ← Heating circuit return
+                             Generator return
+```
+
+**Warm water rises, cold water sinks** — natural stratification. A well-stratified buffer can serve generator and consumers at different temperature levels.
+
+### Pipe Connections
+
+```
+Generator flow → [top]
+Consumer flow  ← [top to middle depending on temperature]
+Consumer return → [bottom to middle]
+Generator return ← [bottom]
+```
+
+**Avoid destroying stratification:**
+- Pipe connections at **top** and **bottom** (not centrally on the side)
+- Keep inflow velocity low (< 0.2 m/s inside tank)
+- Inflow against baffle plate or via dip tube
+
+---
+
+## Buffer Tank Sizing
+
+**Rule of thumb for heat pumps:**
+
+```
+V_buffer ≥ 20–50 litres per kW HP output
+```
+
+Example: 10 kW HP → 200–500 litre buffer
+
+**Rule of thumb for solar:**
+
+```
+V_buffer ≥ 50–75 litres per m² collector area
+```
+
+**Too small:** frequent cycling, no decoupling
+**Too large:** long heat-up time, heat losses, Legionella risk (if DHW component)
+
+---
+
+## Temperature Sensors and Control
+
+Typical sensor positions:
+
+```
+Buffer tank (simplified):
+
+[Sensor top T_top]      ←── Generator flow
+                              ←── Heating circuit flow
+─────────────────────────────
+[Sensor mid T_mid]
+─────────────────────────────
+[Sensor bot T_bot]      ←── Generator return
+                              ←── Heating circuit return
+```
+
+### Heat Pump Charging Logic
+
+```
+If T_top < setpoint (e.g. 55 °C):
+  → Start HP, charge until T_top ≥ setpoint + hysteresis (e.g. 57 °C)
+  
+If T_top ≥ setpoint + hysteresis:
+  → Stop HP, buffer maintains stored heat
+```
+
+**Important:** Buffer setpoint temperature must match HP flow temperature (efficiency!). The higher the setpoint, the worse the COP.
+
+### Heating Circuit Take-off
+
+```
+If T_top > heating circuit flow temperature:
+  → Heating circuit supplied directly from buffer (no mixer required)
+  
+If T_top just above or below heating circuit setpoint:
+  → Mixing valve or 3-way valve reduces temperature
+```
+
+---
+
+## Combi-Storage (Buffer + DHW)
+
+Combi-storage contains both — **heating buffer** and **domestic hot water**:
+
+```
+Outside: Heating water (closed circuit)
+Inside:  Stainless steel hygienic store for drinking water (heat exchanger or coil)
+```
+
+**Advantages:** Compact, single unit
+**Disadvantages:** DHW limited by heat exchanger area; Legionella aspects must be observed!
+
+---
+
+## Buffer Tank with Heat Pump: Typical BA Control
+
+```
+DDC Heating/HP:
+  AI: T_Buffer_top (PT1000)
+  AI: T_Buffer_mid (PT1000)
+  AI: T_Buffer_bot (PT1000)
+  AI: T_OutdoorAir
+  DI: HP operating status
+  DI: HP fault
+  DO: HP enable (ON/OFF)
+  AO: Heating circuit mixing valve (0–10 V)
+
+Programme:
+  1. Calculate heating circuit setpoint (heating curve)
+  2. If T_Buffer_top < setpoint − 3 K → enable HP
+  3. HP heats buffer until T_Buffer_top = setpoint + 2 K
+  4. Heating circuit pump and mixing valve control to flow setpoint
+```
+
+## Standards
+
+- **EN 12977** — Thermal solar systems, boilers, buffer storage tanks
+- **VDI 2035** — Prevention of damage in hot water heating systems
+- **SIA 384.201** — Heating systems in buildings (CH)

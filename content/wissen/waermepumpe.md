@@ -1,5 +1,6 @@
 ---
 title: Wärmepumpe — Grundlagen, Regelung & GA
+title_en: Heat Pump — Fundamentals, Control and BA Integration
 slug: waermepumpe
 category: heizung
 subcategory: erzeuger
@@ -156,3 +157,148 @@ Bei Verdampfertemperaturen ≤ 0 °C bildet sich Reif. Die WP erkennt Abtaubedar
 - **EN 14825** — SCOP-Berechnung (saisonale Effizienz)
 - **VDI 4645** — Planung und Dimensionierung von WP-Anlagen
 - **EN 12831** — Heizlastberechnung (Basis für WP-Dimensionierung)
+
+<!-- EN -->
+
+The **heat pump** extracts energy from a heat source (air, ground, water) and raises it to a usable temperature level. In BA, **air/water** and **brine/water heat pumps** are particularly relevant.
+
+## Thermodynamic Principle
+
+```
+Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Evaporator
+  Heat source       (electricity)  Heating circuit    (throttle)
+```
+
+1. **Evaporator:** Refrigerant evaporates at low pressure, absorbs heat from source
+2. **Compressor:** Compresses refrigerant gas → temperature rises
+3. **Condenser:** Refrigerant condenses, transfers heat to heating circuit
+4. **Expansion valve:** Pressure drops, refrigerant becomes cold and liquid
+
+## Source Types
+
+| Type | Heat source | COP (typical) | Notes |
+|------|-----------|-------------|-------|
+| **Air/water** | Outdoor air | 2.5–4.5 | Easy installation; COP drops in cold weather |
+| **Brine/water** | Ground collector / borehole | 3.5–5.0 | More stable source temperature; more complex |
+| **Water/water** | Groundwater / waste water | 4.0–6.0 | Highest efficiency; permit required |
+
+> ⚠️ **Air/water at −10 °C:** COP drops to ~2.0 or below. Often combined with an **electric immersion heater** (direct electric heating) as backup — this has COP 1.0 and should run as infrequently as possible.
+
+## Performance Indicators
+
+### COP (Coefficient of Performance)
+
+**Instantaneous efficiency** at one operating point:
+
+$$\text{COP} = \frac{Q_{heat}}{P_{el}}$$
+
+- `Q_heat` = heat output [kW]
+- `P_el` = electrical power input [kW]
+
+**Standard test point** per EN 14511 typically: A7/W35 (air 7 °C, supply 35 °C)
+
+### SCOP (Seasonal COP)
+
+**Annual efficiency** over the full heating season per EN 14825 — more realistic than COP, as it accounts for:
+- Different outdoor temperatures
+- Part-load operation
+- Defrost cycles (for air/water HPs)
+- Auxiliary energy (pumps, controls)
+
+Typical SCOP values:
+- Air/water HP with low-temperature circuit: **3.0–4.5**
+- Brine/water HP: **4.0–5.5**
+
+## Operating Modes
+
+| Mode | Description |
+|------|------------|
+| **Heating** | Space heating via heating curve (weather-compensated) |
+| **Cooling** | Active (chiller mode) or passive (natural cooling with brine/water) |
+| **DHW heating** | Domestic hot water, typically to 55 °C; to 60 °C for Legionella protection |
+| **Defrost** | Air/water HP: evaporator ices up at outdoor temp ≤ 5 °C; HP briefly reverses cycle |
+| **Standby** | Frost protection, minimal circulation |
+
+## Hydraulic Schematic (Simplified)
+
+```
+HP condenser ── Buffer tank ── Mixer ── Heating circuits
+                    │
+               DHW storage (upper section)
+                    │
+               Circulation pump
+```
+
+- **Buffer tank:** Decouples HP cycling from heating circuit; enables minimum run time
+- **Minimum run time:** 10–20 min to protect the compressor (short-cycling is harmful!)
+- **Hydraulic separator / buffer:** For multiple heating circuits at different temperature levels
+
+> ⚠️ **Short-cycling** (< 3 min) severely damages the compressor. Size the buffer correctly!
+
+## Control and BA Integration
+
+### Control Parameters (BA-Relevant Data Points)
+
+| Data point | Type | Description |
+|-----------|------|------------|
+| Operating mode | Setpoint | Heating / cooling / DHW / off |
+| Supply temperature setpoint | Setpoint | External override (overrides heating curve) |
+| Supply temperature actual | Actual | Current feedback |
+| Return temperature actual | Actual | Difference = spread |
+| Outdoor temperature | Actual | For heating curve |
+| Compressor run signal | Actual | On/off, stage or frequency (inverter) |
+| Immersion heater active | Actual | Backup heating running |
+| Fault signal | Actual | Error code |
+| Buffer tank temperature | Actual | Upper/lower |
+| SG-Ready input (1–4) | Setpoint | Smart grid control |
+
+### SG Ready (Smart Grid)
+
+German interface concept — 4 states via 2 digital inputs:
+
+| State | I1 | I2 | Meaning |
+|-------|----|----|---------|
+| 1 | 0 | 0 | Lockout (utility curtailment) |
+| 2 | 1 | 0 | **Normal operation** (default) |
+| 3 | 0 | 1 | **Switch-on recommendation** (HP runs, charge buffer) |
+| 4 | 1 | 1 | **Start command** (PV surplus, cheap electricity) |
+
+BA can set SG-Ready inputs via digital outputs — e.g. to utilise PV surplus.
+
+### Inverter HP
+
+Modern HPs with a **variable speed drive** on the compressor can modulate output continuously (e.g. 20–100 %). Advantages:
+- No cycling; compressor runs continuously
+- More efficient at part load
+- Quieter
+
+BA perspective: Usually only on/off + setpoint input is possible; internal control manages the VSD.
+
+## Defrost (Air/Water)
+
+At evaporator temperatures ≤ 0 °C, frost forms. The HP detects defrost demand via:
+- Time interval (e.g. every 60 min)
+- Differential pressure at evaporator
+- Temperature difference between ambient air and evaporator
+
+**Defrost cycle:** HP briefly reverses the circuit (~2–10 min); hot refrigerant thaws the evaporator. The buffer tank supplies the heating circuit during this period.
+
+> During defrost, supply temperature drops briefly — the BMS should suppress alarms during this window.
+
+## Common Faults and Diagnosis
+
+| Problem | Possible cause |
+|---------|---------------|
+| HP cycles on/off frequently | Buffer too small; minimum run time not reached |
+| High immersion heater usage | HP undersized; source temperature too low; defrost fault |
+| DHW not warm enough | Reheat temperature set too low (Legionella protection!) |
+| High-pressure fault | Condenser fouled; heating circuit pump failed |
+| Low-pressure fault | Evaporator iced (defrost fault); refrigerant shortage |
+| No cooling in summer | Cooling mode not activated; hydraulics not switched |
+
+## Standards
+
+- **EN 14511** — Test standards, test points for heat pumps
+- **EN 14825** — SCOP calculation (seasonal efficiency)
+- **VDI 4645** — Planning and sizing of heat pump systems
+- **EN 12831** — Heating load calculation (basis for HP sizing)

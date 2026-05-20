@@ -1,5 +1,6 @@
 ---
 title: Beleuchtungssteuerung via GA — Konstantlicht, Präsenz, Tageslichtkurve
+title_en: Lighting Control via BA — Constant Light, Occupancy and Daylight Curve
 slug: beleuchtungssteuerung
 category: gebaeude
 subcategory: beleuchtung
@@ -164,3 +165,156 @@ Beleuchtungssteuerung trägt stark zur GA-Effizienzklasse A (EN 15232) bei:
 - **EN 15232** — Einfluss GA auf Energieeffizienz (Beleuchtungssteuerung als Klasse-A-Funktion)
 - **DIN 5035** — Innenraumbeleuchtung mit künstlichem Licht
 - **SIA 380/4** — Elektrische Energie im Hochbau (Beleuchtungsplanung)
+
+<!-- EN -->
+
+Lighting control through the BA system (BMS / DDC) combines lighting comfort with energy savings. The distinction: DALI is the protocol for luminaires; the BA system coordinates the overall installation (scheduling, scenes, shading, occupancy).
+
+## Control Strategies Overview
+
+| Strategy | Energy saving | Comfort | Typical application |
+|----------|-------------|---------|-------------------|
+| Time scheduling | 20–30 % | ★★☆ | Simplest solution, corridors |
+| Occupancy control | 30–50 % | ★★★ | Private offices, WC, corridors |
+| Constant light control | 40–60 % | ★★★ | Offices, classrooms |
+| Daylight + occupancy | 60–70 % | ★★★ | Best practice office |
+
+---
+
+## Constant Light Control (Daylight Harvesting)
+
+Goal: maintain constant illuminance in the room regardless of daylight:
+
+```
+Illuminance sensor (lux meter) in room:
+  Actual: 420 lux (daylight + artificial)
+  Setpoint: 500 lux (workstation per EN 12464)
+  
+  PID controller → increase DALI dimming signal
+    ↓
+  Luminaire dimming level: 30 % → 55 %
+  (daylight decreases → artificial light supplements)
+```
+
+**Lux setpoints per EN 12464-1:**
+
+| Area | Recommended illuminance |
+|------|------------------------|
+| Office (screen work) | 500 lux |
+| Classroom | 300–500 lux |
+| Reception / lobby | 200–300 lux |
+| Corridor, stairwell | 100 lux |
+| Car park | 75 lux |
+| Storage | 100–200 lux |
+
+---
+
+## Occupancy Control
+
+```
+PIR / radar detector:
+  Movement detected → lights ON
+  No movement for X minutes → dim lights → switch off
+  
+Typical hold-on times:
+  WC: 5–10 min
+  Private office: 15–30 min
+  Meeting room: 30 min
+  Corridor: 5 min
+```
+
+**PIR vs. radar:**
+- PIR (passive infrared): detects heat movement, lower cost, does not detect very slow movements
+- Radar (HF, microwave): detects even minimal movement (e.g. person typing), higher cost, slightly penetrates walls
+
+**Dead zone:** If the occupancy detector switches off after 20 min of inactivity while someone is still seated → user frustration. Solution: radar detector with sensitivity adjustment or manual extension button.
+
+---
+
+## Daylight Curve / Circadian Tuning
+
+Modern concepts (HCL = Human Centric Lighting):
+
+```
+Morning 07:00:  Cool white 5500 K, 300 lux → activation
+Midday 12:00:   Neutral white 4000 K, 500 lux → concentration
+Evening 17:00:  Warm white 3000 K, 200 lux → relaxation
+```
+
+Requires DALI-2 (colour temperature control, Device Type 8) and colour temperature-capable luminaires (TW = Tunable White).
+
+---
+
+## Scene Control
+
+DDC or KNX defines lighting scenes for different uses:
+
+```
+Scene 1 "Presentation":
+  Projector area dark (0 %), wall lighting 30 %
+  
+Scene 2 "Normal office":
+  All luminaires constant light 500 lux
+
+Scene 3 "Cleaning":
+  All luminaires 100 %
+  
+Scene 4 "Night/security":
+  Emergency lighting level 10 lux at defined points
+```
+
+Triggering via:
+- Push-button (KNX group address)
+- Time schedule (BMS)
+- Occupancy detector + scene logic in DDC
+
+---
+
+## Interfaces and Protocols
+
+| Interface | Typical application |
+|----------|-------------------|
+| **DALI** | Individual luminaires, groups, status feedback |
+| **KNX** | Room automation, scenes, push-button integration |
+| **1–10 V** | Simple dimming (no feedback) |
+| **Modbus** | DALI gateway → DDC, multi-zone controller |
+| **EnOcean** | Battery-free push-buttons (wireless wall switches) |
+
+**Distinction DALI ↔ BA:**
+- DALI: controls individual luminaires (dimming, on/off, groups, scenes in the ballast)
+- BA/DDC: coordinates DALI circuits with occupancy, scheduling, shading, HVAC operating modes
+
+---
+
+## BA Data Points — Lighting
+
+| Data point | Type | Unit | Description |
+|-----------|------|------|------------|
+| Illuminance actual | AI | lux | Room illuminance sensor |
+| Illuminance setpoint | AV | lux | Target (e.g. 500 lux) |
+| DALI dimming value | AO | % | 0–100 % dimming signal |
+| Occupancy detected | DI | — | PIR/radar signal |
+| Lighting operating mode | AV | — | Normal / scene / manual |
+| Lighting energy | AI | kWh | Sub-metering counter |
+
+---
+
+## Energy Savings — EN 15232
+
+Lighting control contributes strongly to BA efficiency class A (EN 15232):
+
+| BA class | Lighting function | Saving vs. D |
+|---------|-----------------|-------------|
+| D | Manual on/off | Reference |
+| C | Time scheduling + manual control | 10 % |
+| B | Occupancy + manual correction | 25 % |
+| A | Occupancy + constant light + daylight coupling | 35–50 % |
+
+---
+
+## Standards
+
+- **EN 12464-1** — Lighting of workplaces (lux requirements)
+- **EN 15232** — Influence of BA on energy efficiency (lighting control as class A function)
+- **DIN 5035** — Interior lighting with artificial light
+- **SIA 380/4** — Electrical energy in buildings (lighting design)

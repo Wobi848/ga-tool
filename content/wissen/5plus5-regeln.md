@@ -1,5 +1,6 @@
 ---
 title: 5+5 lebenswichtige Regeln (SUVA)
+title_en: 5+5 Life-Saving Electrical Safety Rules (SUVA)
 slug: 5plus5-regeln
 category: sicherheit
 subcategory: elektrosicherheit
@@ -130,3 +131,122 @@ Der Unterschied: SUVA ergänzt **5 Organisationsregeln** vorne — der DE-Standa
 - **EN 50110-1** — Betrieb von elektrischen Anlagen (europäische Basis)
 - **NIV** — Niederspannungs-Installationsverordnung (CH), SR 734.27
 - **DGUV Information 203-001** — Sicherheit bei der Arbeit an elektrischen Anlagen (DE)
+
+<!-- EN -->
+
+The **"5+5 Life-Saving Rules for Working with Electricity"** (SUVA publication 84042, developed with Electrosuisse) are the binding basis for safe work on electrical installations in Switzerland. They are divided into **5 preparatory organisational rules** and **5 technical safety rules** for working in a de-energised state.
+
+> ⚠️ **These rules are life-saving.** Disregarding them can result in serious injury or death from electric shock.
+
+## The First 5 — Organisational Rules
+
+These rules apply **before starting** any work on an electrical installation.
+
+### 1. Ensure Clear Work Orders
+
+- Written work order with a clear task description
+- Responsibilities defined: who may do what? who gives clearance?
+- For work by third parties (subcontractors): clarify coordination and interfaces
+
+### 2. Use Qualified Personnel
+
+- Only **electrotechnically trained and authorised** personnel may work on electrical installations
+- For live working: additional specialist training required
+- Consider physical fitness (no working under the influence of medication or alcohol)
+
+### 3. Use Safe Tools and Equipment
+
+- **Tools:** VDE-tested, insulated handles (1000 V), no damaged items
+- **Test instruments:** Calibrated, tested, rated for the voltage class
+- **PPE:** Insulating gloves (tested to EN 60903), face shield if required
+- Inspect tools regularly; immediately remove defective equipment from service
+
+### 4. Wear Protective Equipment
+
+- **Insulating gloves** (class 00–4 depending on voltage)
+- **Arc flash protective clothing** where arc flash risk is elevated
+- **Safety footwear** (ESD or insulating as required)
+- **Safety goggles** when working on switchgear and terminals
+
+### 5. Only Commission Tested Installations
+
+- Before commissioning: **acceptance testing** to NIV / EN 61557
+- Documentation available (wiring diagrams, test records)?
+- Protective conductors and equipotential bonding correct?
+- No temporary installations operated permanently
+
+---
+
+## The Second 5 — Safety Rules for De-Energised Work
+
+These 5 steps must be carried out **in this exact order** — no step may be skipped.
+
+### 1. Isolate — Disconnect the Installation from Supply
+
+- Isolate **all** supply sources (mains, UPS, standby power, PV, capacitor banks)
+- Isolate all poles — including neutral in IT systems
+- Isolation point visibly open (galvanic separation visible or locked)
+
+> ⚠️ **Watch for back-feeds:** In BA there are often UPS systems, PV installations and motor regeneration — all must be isolated!
+
+### 2. Secure Against Re-Energisation
+
+- **Lock** at isolation point (Lockout/Tagout — LOTO)
+- Remove fuses and keep them with you
+- **Warning sign:** "Do not switch on — persons in the circuit!"
+- With multiple workers: each person uses their own lock
+
+### 3. Verify Absence of Voltage
+
+- Measure with a **tested voltage tester** (two-pole!) on all conductors
+- **Before and after:** verify the tester is working on a known live source
+- Check all phases (L1, L2, L3) and neutral conductor
+- Measure **at the point of work**, not only at the panel
+
+> ⚠️ **Single-pole testers are not sufficient!** Capacitive voltages can cause single-pole LED testers to glow misleadingly.
+
+### 4. Earth and Short-Circuit
+
+- Mandatory for installations **above 1000 V**
+- Recommended for low-voltage installations with **long cables** or **capacitive loads**
+- Earth first, then short-circuit (observe the sequence!)
+- Apply earthing and short-circuit equipment at the point of work
+
+### 5. Cover or Guard Adjacent Live Parts
+
+- **Cover plates, insulating sheets, protective barriers** for live parts nearby
+- Maintain safety clearances (air gaps per EN 50110)
+- For switchboard work: clearly mark adjacent panels that remain live
+
+---
+
+## After the Work
+
+Before re-energising, reverse the sequence:
+1. Remove earthing and short-circuit equipment
+2. Remove covers and protective barriers
+3. Remove all locks/warning signs (each person removes their own!)
+4. Leave the work zone — all persons accounted for?
+5. Cancel de-energised state (insert fuses, close isolation point)
+6. **Only then:** switch the installation on
+
+## German Equivalent (DGUV)
+
+In Germany the **"5 Safety Rules"** per DGUV Information 203-001 apply, which are technically identical to the second group of 5 SUVA rules:
+
+| No. | SUVA (CH) 2nd group | DGUV (DE) |
+|-----|---------------------|-----------|
+| 1 | Isolate | Isolate |
+| 2 | Secure against re-energisation | Secure against re-energisation |
+| 3 | Verify absence of voltage | Verify absence of voltage |
+| 4 | Earth and short-circuit | Earth and short-circuit |
+| 5 | Cover adjacent live parts | Cover adjacent live parts |
+
+The difference: SUVA adds **5 organisational rules** at the front — the German standard assumes these as prerequisites.
+
+## Standards & References
+
+- **SUVA 84042** — "5+5 Life-Saving Rules for Working with Electricity" (leaflet, free from SUVA)
+- **EN 50110-1** — Operation of electrical installations (European basis)
+- **NIV** — Low-voltage installation ordinance (CH), SR 734.27
+- **DGUV Information 203-001** — Safety when working on electrical installations (DE)

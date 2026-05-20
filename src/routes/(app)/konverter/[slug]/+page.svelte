@@ -3,11 +3,14 @@
 	import { goto } from '$app/navigation';
 	import { onMount, untrack } from 'svelte';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _, locale } from 'svelte-i18n';
 	import type { PageData } from './$types';
 
 	let { data }: { data: PageData } = $props();
 
 	const converter = $derived(data.converter);
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
 
 	// Context value (temperature for feuchte, etc.)
 	let contextValue = $state(untrack(() => data.converter.contextInput?.default ?? 20));
@@ -122,18 +125,18 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Konverter
+			{$_('common.allConverters')}
 		</a>
 		<div class="title-row">
-			<h1>{converter.name}</h1>
-			<FavButton type="konverter" slug={converter.slug} title={converter.name} size={20} />
+			<h1>{$_('konverter.' + converter.slug + '.name', { default: converter.name })}</h1>
+			<FavButton type="konverter" slug={converter.slug} title={$_('konverter.' + converter.slug + '.name', { default: converter.name })} size={20} />
 		</div>
 	</header>
 
 	{#if converter.contextInput}
 		{@const ci = converter.contextInput}
 		<div class="context-row">
-			<label for="ctx-input">{ci.label}</label>
+			<label for="ctx-input">{t(ci.label, ci.labelEn)}</label>
 			<div class="context-input-wrap">
 				<input
 					id="ctx-input"
@@ -153,9 +156,9 @@
 		{#each converter.units as unit}
 			<div class="field">
 				<div class="field-header">
-					<span class="field-label">{unit.label}</span>
+					<span class="field-label">{t(unit.label, unit.labelEn)}</span>
 					{#if unit.note}
-						<span class="field-note">{unit.note}</span>
+						<span class="field-note">{t(unit.note ?? '', unit.noteEn)}</span>
 					{/if}
 				</div>
 				<div class="field-input-row">
@@ -166,15 +169,15 @@
 						value={values[unit.id]}
 						oninput={(e) => updateFrom(unit.id, (e.target as HTMLInputElement).value)}
 						class="field-input"
-						aria-label={unit.label}
+						aria-label={t(unit.label, unit.labelEn)}
 					/>
 					<span class="field-symbol">{unit.symbol}</span>
 					<button
 						class="copy-btn"
 						class:copied={copiedUnit === unit.id}
 						onclick={() => copyValue(unit.id)}
-						title="Kopieren"
-						aria-label="Wert kopieren"
+						title={$_('konverter.copy')}
+						aria-label={$_('konverter.copyValue')}
 						disabled={!values[unit.id]}
 					>
 						{#if copiedUnit === unit.id}
@@ -201,7 +204,7 @@
 			syncToUrl(null, null);
 		}}
 	>
-		Alle zurücksetzen
+		{$_('konverter.resetAll')}
 	</button>
 </div>
 

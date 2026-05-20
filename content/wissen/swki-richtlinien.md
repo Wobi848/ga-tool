@@ -1,5 +1,6 @@
 ---
 title: SWKI-Richtlinien — Überblick für die GA-Praxis
+title_en: SWKI Guidelines — Overview for BA Practice
 slug: swki-richtlinien
 category: normen
 subcategory: schweiz
@@ -147,3 +148,141 @@ SWKI-Publikationen:
 - **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweiz)
 - **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweiz)
 - **SIA 386.110** — Gebäudeautomation (Schweiz)
+
+<!-- EN -->
+
+SWKI (Swiss Society of Building Services Engineers) publishes technical guidelines for Swiss building services engineering. They complement the SIA standards with concrete planning and execution rules.
+
+## What is SWKI?
+
+```
+SWKI = Schweizerischer Verein von Gebäudetechnik-Ingenieuren
+       (Swiss Society of Building Services Engineers)
+Founded: 1929
+Members: Engineers, planners, contractors in the HVAC&R industry
+Publications: Guidelines, technical notes, planning aids
+Languages: German, French (some also in English)
+```
+
+SWKI guidelines are **advisory in character** (not statutory standards), but are regarded as recognised good practice and treated like standards in practice.
+
+---
+
+## Key SWKI Guidelines for BA
+
+### Ventilation / Air Conditioning
+
+| Guideline | Title |
+|-----------|-------|
+| **BT102-01** | Hygiene requirements for AHU systems (→ VDI 6022 equivalent for CH) |
+| **SWKI VA104-01** | Ventilation and air conditioning |
+
+### Heating
+
+| Guideline | Title |
+|-----------|-------|
+| **SWKI BT101-01** | Heat generation, distribution, emission |
+
+### Plumbing/Sanitary
+
+| Guideline | Title |
+|-----------|-------|
+| **SWKI BT103-01** | Domestic hot water heating, Legionella prevention (equivalent to DVGW W551 for CH) |
+
+### Refrigeration
+
+| Guideline | Title |
+|-----------|-------|
+| **SWKI BT105-01** | Refrigeration and heat pump technology |
+
+### Building Automation
+
+| Guideline | Title |
+|-----------|-------|
+| **SWKI GA2006-01** | Building automation (supplement to SIA 386.110) |
+
+---
+
+## Relationship to SIA Standards
+
+```
+Swiss standards hierarchy:
+  
+  Law / Ordinance (binding)
+      ↓
+  SIA standards (planning standard, largely binding)
+      ↓
+  SWKI guidelines (technical recommendations, recognised good practice)
+      ↓
+  Manufacturer recommendations
+  
+SWKI gives concrete detail to SIA standards:
+  SIA 382.1 (ventilation systems) → SWKI BT102-01 (hygiene inspection)
+  SIA 384.201 (heating)           → SWKI BT101-01 (planning rules)
+  SIA 385/1 (hot water)           → SWKI BT103-01 (Legionella)
+```
+
+---
+
+## SWKI BT102-01: AHU Hygiene (Practical)
+
+This guideline is the Swiss equivalent of the German VDI 6022:
+
+```
+Hygiene inspection of AHU systems in Switzerland:
+  Inspection intervals:
+    Class I (hospital, clean room): 1 year
+    Class II (office, hotel): 2 years
+    Class III (simple): 3 years
+    
+  Inspection areas:
+    - Filters (condition, differential pressure)
+    - Humidifier (microbial load, cleanliness)
+    - Heat exchangers (fouling, condensate tray)
+    - Duct condition (deposits, corrosion)
+    
+  Microbiological limits:
+    Total colony count air: ≤ 1,000 CFU/m³
+    Moulds: ≤ 100 CFU/m³
+    Legionella in humidifier: ≤ 100 CFU/100 ml
+```
+
+---
+
+## SWKI in Tenders
+
+SWKI guidelines are frequently referenced directly in Swiss tenders:
+
+```
+Typical tender text:
+  "The ventilation system shall be designed and 
+   inspected in accordance with SIA 382.1 and 
+   SWKI BT102-01."
+   
+  "Domestic hot water heating per SIA 385/1 and 
+   SWKI BT103-01 (Legionella prevention)."
+```
+
+---
+
+## Procurement and Currency
+
+```
+SWKI publications:
+  Order: shop.swki.ch
+  Prices: CHF 30–120 per guideline
+  Language: German (some in French)
+  
+  Important: SWKI guidelines are regularly updated
+  → Always use the current version (check date!)
+  → Superseded guidelines may be withdrawn
+```
+
+---
+
+## Standards
+
+- **SIA 382.1** — Ventilation and air conditioning systems in buildings (Switzerland)
+- **SIA 384.201** — Heating systems in buildings (Switzerland)
+- **SIA 385/1** — Domestic hot water installations (Switzerland)
+- **SIA 386.110** — Building automation (Switzerland)

@@ -3,28 +3,33 @@
 	import { onMount, untrack } from 'svelte';
 	import { theme, type Theme } from '$lib/stores/theme';
 	import { getRecent, clearRecent, type RecentItem } from '$lib/stores/recent';
-	import { swissNormOutdoor } from '$lib/rechner/heizkurve';
+	import { _, locale } from 'svelte-i18n';
+	import { rechnerMap } from '$lib/rechner';
+	import { articleMap } from '$lib/wissen/articles';
+	import { converterMap } from '$lib/converters';
+	import { referenceMap } from '$lib/referenz';
+	import { checklistMap } from '$lib/checklisten';
 	import type { ActionData, PageData } from './$types';
+
+	const isEn = $derived($locale === 'en');
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	const initial = untrack(() => data.profile);
 
 	const disciplines = ['HLK', 'Sanitär', 'Elektro', 'GA', 'IT', 'Normen'];
+	const disciplineLabelEn: Record<string, string> = {
+		'HLK': 'HVAC', 'Sanitär': 'Plumbing', 'Elektro': 'Electrical', 'GA': 'BA', 'IT': 'IT', 'Normen': 'Standards'
+	};
 	const manufacturers = ['Siemens', 'Viessmann', 'Buderus', 'Honeywell', 'Sauter', 'Schneider Electric', 'Saia/Beckhoff', 'WAGO'];
 	const roles = [
-		'Servicetechniker',
-		'Projektleiter',
-		'Inbetriebnehmer',
-		'Planer / Ingenieur',
-		'Lernender',
-		'Andere'
+		{ value: 'Servicetechniker',   label_de: 'Servicetechniker',   label_en: 'Service Technician' },
+		{ value: 'Projektleiter',      label_de: 'Projektleiter',      label_en: 'Project Manager' },
+		{ value: 'Inbetriebnehmer',    label_de: 'Inbetriebnehmer',    label_en: 'Commissioning Engineer' },
+		{ value: 'Planer / Ingenieur', label_de: 'Planer / Ingenieur', label_en: 'Planner / Engineer' },
+		{ value: 'Lernender',          label_de: 'Lernender',          label_en: 'Apprentice' },
+		{ value: 'Andere',             label_de: 'Andere',             label_en: 'Other' }
 	];
-	const themes: Array<{ id: Theme; label: string }> = [
-		{ id: 'auto', label: 'Auto' },
-		{ id: 'light', label: 'Hell' },
-		{ id: 'dark', label: 'Dunkel' },
-		{ id: 'oled', label: 'OLED' }
-	];
+	const themeIds: Theme[] = ['auto', 'light', 'dark', 'oled'];
 
 	// Form state — initialized from server, locally editable
 	let editName = $state(initial.name);
@@ -32,16 +37,29 @@
 	let editCompany = $state(initial.company);
 	let editDisciplines: string[] = $state([...initial.disciplines]);
 	let editMfrPrefs: string[] = $state([...initial.mfrPrefs]);
-	let editDefaultCity = $state(initial.defaultCity);
+	let editDefaultCity = $state(initial.defaultCity ?? '');
+	let editDefaultTemp = $state<string>(initial.defaultTemp !== null ? String(initial.defaultTemp) : '');
 	let editNotes = $state(initial.notes);
 
 	let savedFlash = $state(false);
 	let saving = $state(false);
+	let pwSaving = $state(false);
+	let pwFlash = $state(false);
+	let showPwModal = $state(false);
+	let pwCurrent = $state('');
+	let pwNew = $state('');
+	let pwConfirm = $state('');
 
 	$effect(() => {
 		if (form?.success) {
 			savedFlash = true;
 			setTimeout(() => (savedFlash = false), 2000);
+		}
+		if ((form as { pwSuccess?: boolean } | null)?.pwSuccess) {
+			pwFlash = true;
+			showPwModal = false;
+			pwCurrent = ''; pwNew = ''; pwConfirm = '';
+			setTimeout(() => (pwFlash = false), 2500);
 		}
 	});
 
@@ -57,19 +75,49 @@
 
 	function formatTimeAgo(ts: number): string {
 		const sec = (Date.now() - ts) / 1000;
+		if (isEn) {
+			if (sec < 60) return 'just now';
+			if (sec < 3600) return `${Math.floor(sec / 60)} min ago`;
+			if (sec < 86400) return `${Math.floor(sec / 3600)} h ago`;
+			return `${Math.floor(sec / 86400)} days ago`;
+		}
 		if (sec < 60) return 'gerade eben';
 		if (sec < 3600) return `vor ${Math.floor(sec / 60)} min`;
 		if (sec < 86400) return `vor ${Math.floor(sec / 3600)} h`;
 		return `vor ${Math.floor(sec / 86400)} Tagen`;
 	}
 
-	const typeLabel: Record<RecentItem['type'], string> = {
-		konverter: 'Konverter',
-		rechner: 'Rechner',
-		wissen: 'Artikel',
-		referenz: 'Referenz',
-		checkliste: 'Checkliste'
-	};
+	function resolveRecentTitle(item: RecentItem): string {
+		if (item.type === 'rechner') {
+			const r = rechnerMap[item.slug];
+			return (isEn && r?.name_en ? r.name_en : r?.name) ?? item.name;
+		}
+		if (item.type === 'konverter') {
+			const c = converterMap[item.slug];
+			return (isEn && c?.name_en ? c.name_en : c?.name) ?? item.name;
+		}
+		if (item.type === 'wissen') {
+			const a = articleMap[item.slug];
+			return (isEn && a?.title_en ? a.title_en : a?.title) ?? item.name;
+		}
+		if (item.type === 'referenz') {
+			const t = referenceMap[item.slug];
+			return (isEn && t?.title_en ? t.title_en : t?.title) ?? item.name;
+		}
+		if (item.type === 'checkliste') {
+			const c = checklistMap[item.slug];
+			return (isEn && c?.title_en ? c.title_en : c?.title) ?? item.name;
+		}
+		return item.name;
+	}
+
+	const typeLabel: Record<RecentItem['type'], string> = $derived({
+		konverter: $_('profil.typeKonverter'),
+		rechner: $_('profil.typeRechner'),
+		wissen: $_('profil.typeWissen'),
+		referenz: $_('profil.typeReferenz'),
+		checkliste: $_('profil.typeCheckliste')
+	});
 
 	const typeColor: Record<RecentItem['type'], string> = {
 		konverter: '#2563eb',
@@ -91,8 +139,8 @@
 
 <div class="profile-page">
 	<header class="profile-header">
-		<h1>Profil</h1>
-		<p class="subtitle">Persönliche Daten, Präferenzen und Übersicht</p>
+		<h1>{$_('profil.title')}</h1>
+		<p class="subtitle">{$_('profil.subtitle')}</p>
 	</header>
 
 	<!-- Profile card summary -->
@@ -109,7 +157,7 @@
 				</p>
 			{/if}
 			{#if data.profile.role === 'admin'}
-				<span class="badge badge-admin">Admin</span>
+				<span class="badge badge-admin">{$_('profil.admin')}</span>
 			{/if}
 		</div>
 	</div>
@@ -125,16 +173,33 @@
 		</div>
 	{/if}
 
+	<!-- Passwort ändern -->
+	<div class="section pw-section">
+		<div class="pw-section-inner">
+			<div>
+				<h2 class="section-title">{$_('profil.changePassword')}</h2>
+				{#if pwFlash}
+					<p class="pw-changed-ok">{$_('profil.passwordChanged')}</p>
+				{:else}
+					<p class="pw-hint">{$_('profil.currentPassword')}</p>
+				{/if}
+			</div>
+			<button type="button" class="btn-secondary btn-sm" onclick={() => showPwModal = true}>
+				{$_('profil.changePassword')}
+			</button>
+		</div>
+	</div>
+
 	<!-- Recent items -->
 	<section class="section">
 		<header class="section-header">
-			<h2 class="section-title">Zuletzt verwendet</h2>
+			<h2 class="section-title">{$_('profil.recentlyUsed')}</h2>
 			{#if recents.length}
-				<button class="btn-link" onclick={clearRecents}>Leeren</button>
+				<button class="btn-link" onclick={clearRecents}>{$_('profil.clear')}</button>
 			{/if}
 		</header>
 		{#if recents.length === 0}
-			<p class="empty">Noch nichts geöffnet. Konverter und Rechner erscheinen hier nach dem ersten Aufruf.</p>
+			<p class="empty">{$_('profil.emptyRecent')}</p>
 		{:else}
 			<div class="recent-list">
 				{#each recents as item}
@@ -142,29 +207,12 @@
 						<span class="recent-type" style="background: {typeColor[item.type]}20; color: {typeColor[item.type]}">
 							{typeLabel[item.type]}
 						</span>
-						<span class="recent-name">{item.name}</span>
+						<span class="recent-name">{resolveRecentTitle(item)}</span>
 						<span class="recent-time">{formatTimeAgo(item.at)}</span>
 					</a>
 				{/each}
 			</div>
 		{/if}
-	</section>
-
-	<!-- Quick settings -->
-	<section class="section">
-		<h2 class="section-title">Schnelleinstellungen</h2>
-		<div class="setting-row">
-			<span class="setting-label">Theme</span>
-			<div class="theme-buttons">
-				{#each themes as t}
-					<button
-						class="theme-btn"
-						class:active={$theme === t.id}
-						onclick={() => theme.set(t.id)}
-					>{t.label}</button>
-				{/each}
-			</div>
-		</div>
 	</section>
 
 	<!-- Profile form -->
@@ -176,36 +224,36 @@
 		};
 	}}>
 		<section class="section">
-			<h2 class="section-title">Persönliche Daten</h2>
+			<h2 class="section-title">{$_('profil.personalData')}</h2>
 			<div class="form-grid">
 				<label class="form-field">
-					<span class="form-label">Name</span>
+					<span class="form-label">{$_('profil.nameLabel')}</span>
 					<input name="name" type="text" bind:value={editName} required class="form-input" />
 				</label>
 				<label class="form-field">
-					<span class="form-label">E-Mail</span>
+					<span class="form-label">{$_('profil.emailLabel')}</span>
 					<input type="email" value={data.profile.email} readonly disabled class="form-input" />
-					<span class="form-hint">E-Mail ist via Anmeldung gesetzt</span>
+					<span class="form-hint">{$_('profil.emailHint')}</span>
 				</label>
 				<label class="form-field">
-					<span class="form-label">Berufliche Rolle</span>
+					<span class="form-label">{$_('profil.roleLabel')}</span>
 					<select name="profileRole" bind:value={editProfileRole} class="form-input">
-						<option value="">— wählen —</option>
+						<option value="">{$_('profil.rolePlaceholder')}</option>
 						{#each roles as r}
-							<option value={r}>{r}</option>
+							<option value={r.value}>{isEn ? r.label_en : r.label_de}</option>
 						{/each}
 					</select>
 				</label>
 				<label class="form-field">
-					<span class="form-label">Firma</span>
+					<span class="form-label">{$_('profil.companyLabel')}</span>
 					<input name="company" type="text" bind:value={editCompany} class="form-input" />
 				</label>
 			</div>
 		</section>
 
 		<section class="section">
-			<h2 class="section-title">Fachbereiche</h2>
-			<p class="section-hint">Mehrfachauswahl — beeinflusst Filter in der Wissensbasis</p>
+			<h2 class="section-title">{$_('profil.disciplines')}</h2>
+			<p class="section-hint">{$_('profil.disciplinesHint')}</p>
 			<div class="chips-edit">
 				{#each disciplines as d}
 					<label class="chip-toggle">
@@ -216,15 +264,15 @@
 							checked={editDisciplines.includes(d)}
 							onchange={() => (editDisciplines = toggle(editDisciplines, d))}
 						/>
-						<span>{d}</span>
+						<span>{isEn ? (disciplineLabelEn[d] ?? d) : d}</span>
 					</label>
 				{/each}
 			</div>
 		</section>
 
 		<section class="section">
-			<h2 class="section-title">Bevorzugte Hersteller</h2>
-			<p class="section-hint">Wird als Default im Heizkurven-Rechner verwendet</p>
+			<h2 class="section-title">{$_('profil.mfrPrefs')}</h2>
+			<p class="section-hint">{$_('profil.mfrPrefsHint')}</p>
 			<div class="chips-edit">
 				{#each manufacturers as m}
 					<label class="chip-toggle">
@@ -242,42 +290,85 @@
 		</section>
 
 		<section class="section">
-			<h2 class="section-title">Standard-Standort</h2>
-			<p class="section-hint">Setzt automatisch die Normaussentemperatur im Heizkurven-Rechner</p>
+			<h2 class="section-title">{$_('profil.defaultCity')}</h2>
+			<p class="section-hint">{$_('profil.defaultCityHint')}</p>
 			<div class="form-grid">
 				<label class="form-field">
-					<span class="form-label">Ort (CH)</span>
-					<select name="defaultCity" bind:value={editDefaultCity} class="form-input">
-						<option value="">— kein Default —</option>
-						{#each swissNormOutdoor as c}
-							<option value={c.ort}>{c.ort} ({c.t} °C)</option>
-						{/each}
-					</select>
+					<span class="form-label">{$_('profil.cityLabel')}</span>
+					<input name="defaultCity" type="text" bind:value={editDefaultCity} placeholder="z.B. Rapperswil" class="form-input" />
+				</label>
+				<label class="form-field">
+					<span class="form-label">{$_('profil.normTemp')} (°C)</span>
+					<input name="defaultTemp" type="number" step="0.5" bind:value={editDefaultTemp} placeholder="z.B. -10" class="form-input" />
 				</label>
 			</div>
 		</section>
 
 		<section class="section">
-			<h2 class="section-title">Notizen</h2>
+			<h2 class="section-title">{$_('profil.notesLabel')}</h2>
 			<label class="form-field">
-				<span class="form-hint">Eigene Notizen, Setup-Infos, etc.</span>
+				<span class="form-hint">{$_('profil.notesHint')}</span>
 				<textarea name="notes" bind:value={editNotes} rows="5" class="form-input form-textarea"></textarea>
 			</label>
 		</section>
 
 		<div class="form-actions">
 			{#if form?.error}
-				<span class="form-error">{form.error}</span>
+				<span class="form-error">{$_('profil.errors.' + form.error, { default: form.error })}</span>
 			{/if}
 			{#if savedFlash}
-				<span class="form-success">✓ Gespeichert</span>
+				<span class="form-success">{$_('profil.saved')}</span>
 			{/if}
 			<button type="submit" class="btn-primary" disabled={saving}>
-				{saving ? 'Speichern…' : 'Speichern'}
+				{saving ? $_('profil.saving') : $_('profil.save')}
 			</button>
 		</div>
 	</form>
+
 </div>
+
+<!-- Password Modal -->
+{#if showPwModal}
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+	<div class="modal-backdrop" role="dialog" aria-modal="true" onkeydown={e => e.key === 'Escape' && (showPwModal = false)}>
+		<div class="modal" onclick={e => e.stopPropagation()}>
+			<div class="modal-header">
+				<h3>{$_('profil.changePassword')}</h3>
+				<button class="modal-close" onclick={() => showPwModal = false} aria-label="Schliessen">
+					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+				</button>
+			</div>
+			<form method="post" action="?/changePassword" use:enhance={() => {
+				pwSaving = true;
+				return async ({ update }) => { pwSaving = false; update(); };
+			}}>
+				<div class="modal-body">
+					<div class="form-field">
+						<label class="form-label" for="cp-current">{$_('profil.currentPassword')}</label>
+						<input id="cp-current" name="currentPassword" type="password" autocomplete="current-password" required class="form-input" bind:value={pwCurrent} />
+					</div>
+					<div class="form-field">
+						<label class="form-label" for="cp-new">{$_('profil.newPassword')}</label>
+						<input id="cp-new" name="newPassword" type="password" autocomplete="new-password" minlength="8" required class="form-input" bind:value={pwNew} />
+					</div>
+					<div class="form-field">
+						<label class="form-label" for="cp-confirm">{$_('profil.confirmPassword')}</label>
+						<input id="cp-confirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required class="form-input" bind:value={pwConfirm} />
+					</div>
+					{#if (form as { pwError?: string } | null)?.pwError}
+						<p class="form-error">{$_('profil.errors.' + (form as { pwError: string }).pwError, { default: (form as { pwError: string }).pwError })}</p>
+					{/if}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn-secondary btn-sm" onclick={() => showPwModal = false}>Abbrechen</button>
+					<button type="submit" class="btn-primary btn-sm" disabled={pwSaving || pwNew.length < 8 || pwNew !== pwConfirm}>
+						{pwSaving ? $_('profil.changing') : $_('profil.changePassword')}
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{/if}
 
 <style>
 	.profile-page {
@@ -643,6 +734,29 @@
 		cursor: not-allowed;
 	}
 
+	.btn-secondary {
+		background: transparent;
+		color: var(--text);
+		border: 1px solid var(--border);
+		border-radius: 0.5rem;
+		padding: 0.625rem 1.5rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		cursor: pointer;
+		font-family: inherit;
+		transition: border-color 0.15s, color 0.15s;
+	}
+
+	.btn-secondary:hover {
+		border-color: var(--color-primary);
+		color: var(--color-primary);
+	}
+
+	.btn-secondary:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
 	.form-error {
 		color: #dc2626;
 		font-size: 0.8125rem;
@@ -652,5 +766,94 @@
 		color: #16a34a;
 		font-size: 0.8125rem;
 		font-weight: 500;
+	}
+
+	/* Password section */
+	.pw-section-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.pw-hint {
+		font-size: 0.8125rem;
+		color: var(--muted);
+		margin: 0.25rem 0 0;
+	}
+
+	.pw-changed-ok {
+		font-size: 0.8125rem;
+		color: #16a34a;
+		font-weight: 500;
+		margin: 0.25rem 0 0;
+	}
+
+	.btn-sm {
+		font-size: 0.8125rem;
+		padding: 0.4rem 1rem;
+		white-space: nowrap;
+	}
+
+	/* Modal */
+	.modal-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(0, 0, 0, 0.5);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		padding: 1rem;
+	}
+
+	.modal {
+		background: var(--surface);
+		border: 1px solid var(--border);
+		border-radius: 1rem;
+		width: 100%;
+		max-width: 400px;
+		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+	}
+
+	.modal-header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.25rem 1.25rem 0;
+	}
+
+	.modal-header h3 {
+		font-size: 1rem;
+		font-weight: 600;
+		color: var(--text);
+		margin: 0;
+	}
+
+	.modal-close {
+		background: none;
+		border: none;
+		color: var(--muted);
+		cursor: pointer;
+		padding: 0.25rem;
+		display: flex;
+		border-radius: 0.375rem;
+		transition: color 0.15s;
+	}
+
+	.modal-close:hover { color: var(--text); }
+
+	.modal-body {
+		padding: 1.25rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+	}
+
+	.modal-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 0.5rem;
+		padding: 0 1.25rem 1.25rem;
 	}
 </style>

@@ -1,5 +1,6 @@
 ---
 title: BIM und Digitaler Zwilling in der Gebäudeautomation
+title_en: BIM and the Digital Twin in Building Automation
 slug: bim-digitaler-zwilling
 category: systeme
 subcategory: planung
@@ -132,3 +133,124 @@ Auch ohne vollständiges BIM profitiert man von BIM-Grundsätzen:
 4. **Revit/IFC-Viewer** (kostenlos: BIM Collab Zoom, FZKViewer) nutzen um Pläne zu lesen
 
 In absehbarer Zukunft wird die GA-Datenpunktliste direkt aus dem IFC-Modell befüllt und in BACnet/KNX-Konfigurationstools importiert.
+
+<!-- EN -->
+
+**Building Information Modelling (BIM)** is a methodology in which all building information is captured and managed in an integrated digital model — from design through construction and into operation. For building automation, BIM opens the way to automated data point lists and the **digital twin**.
+
+## What Is BIM?
+
+BIM is more than 3D CAD. It contains:
+- **Geometry**: Rooms, walls, pipe routes, device locations
+- **Attributes**: Material, capacity, manufacturer, serial number
+- **Relationships**: Room → zone → system → building
+- **Timeline**: Design, construction, and operational phases (Level of Development — LOD)
+- **Linked documents**: Data sheets, maintenance manuals, certificates
+
+## BIM Levels and Maturity
+
+| Level | Name | Content |
+|-------|------|---------|
+| LOD 100 | Concept | Volumes, massing |
+| LOD 200 | Schematic | Approximate geometry, system concept |
+| LOD 300 | Design development | Accurate geometry, materials |
+| LOD 350 | Coordination | Assembly details, clash detection |
+| LOD 400 | Fabrication | Manufacturer data, installation details |
+| LOD 500 | As-Built | Actual installed state, for FM |
+
+Relevant for BA operation: **LOD 400–500** — device data, data points, calibration values.
+
+## IFC — Open Exchange Format
+
+**IFC** (Industry Foundation Classes, ISO 16739) is the vendor-neutral exchange format. All BA-relevant systems have IFC entities:
+
+| IFC Class | BA Relevance |
+|-----------|-------------|
+| IfcSpace | Room → zone → BA data point |
+| IfcSensor | Temperature sensor, CO₂ sensor |
+| IfcActuator | Valve, damper, actuator |
+| IfcController | DDC controller |
+| IfcDistributionControlElement | General BA element |
+| IfcSystem | HVAC system (heating circuit, AHU) |
+| IfcZone | Control zone, fire compartment |
+
+**gbXML** (Green Building XML) is another format, specialised for thermal simulation and energy calculation.
+
+## BIM in BA Practice
+
+### Generating Data Point Lists from BIM
+Instead of a manual Excel data point list, it can be exported from the BIM model:
+
+```
+BIM model (IFC)
+    └── IfcSensor [Room_42, Type=Temperature]
+        ├── pset_SensorCommon.Category = Temperature
+        ├── pset_GA.BACnetObjectID = AI:12
+        ├── pset_GA.Unit = °C
+        └── pset_GA.Zone = Zone_HVAC_42
+```
+
+→ Automated population of the data point list, reduced data entry errors.
+
+### Clash Detection
+BIM identifies collisions between ventilation ducts and pipework during the design phase — before construction. Avoids costly on-site rework.
+
+### As-Built Documentation
+After acceptance, the BIM model is updated to the actual installed state → **as-built BIM** as living documentation. Basis for FM systems (CAFM).
+
+## Digital Twin
+
+A **digital twin** goes beyond BIM: it is the BIM model **plus real-time sensor data**. The static model is brought to life with live data from the BA system:
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                     Digital Twin                         │
+│                                                         │
+│  BIM Model            +    BA Data (live)               │
+│  ─────────                 ──────────────               │
+│  Geometry                  Temperatures (1-min)         │
+│  Systems                   Valve positions              │
+│  Attributes                Energy meters               │
+│  Rooms / Zones             Alarms / Events              │
+└─────────────────────────────────────────────────────────┘
+           ↓ Analysis and Simulation
+    Energy optimisation, fault diagnosis, forecasting
+```
+
+### Digital Twin Applications
+
+| Application | Benefit |
+|-------------|---------|
+| Fault Detection & Diagnostics (FDD) | Detect anomalies before they cause failures |
+| Energy simulation | Test measures without intervening in the real building |
+| Condition monitoring | Predict wear on pumps and fans |
+| Commissioning support | Compare simulated with actual behaviour |
+| Emergency planning | Simulate fire spread, optimise evacuation routes |
+
+## Key Standards
+
+| Standard | Content |
+|----------|---------|
+| ISO 19650 | BIM process management, information requirements |
+| EN ISO 16739 | IFC schema |
+| VDI 3805 | Product data for HVAC devices (data exchange) |
+| SWKI BIM 001 | BIM requirements for building services (Switzerland) |
+| COBie | Construction Operations Building Information Exchange — operations handover |
+
+## Practical Challenges
+
+- **Data maintenance**: BIM model must be kept up to date — often neglected
+- **Tool fragmentation**: Revit, ArchiCAD, Allplan, Tekla — interoperability not always guaranteed
+- **BA-BIM gap**: Electrical/BA design lags behind architecture and structural engineering
+- **LOD 500**: As-built is rarely fully implemented — cost and time constraints
+- **Data ownership**: Who owns the model data? A BIM protocol is required
+
+## Getting Started for BA Commissioning Engineers
+
+Even without a complete BIM model, BIM principles bring benefits:
+1. **Link devices with a unique ID** in the data point list
+2. **Maintain a room/zone reference** for every data point
+3. **Record as-built notes** digitally (instead of handwritten)
+4. **Use Revit/IFC viewers** (free: BIM Collab Zoom, FZKViewer) to read drawings
+
+In the foreseeable future, BA data point lists will be populated directly from the IFC model and imported into BACnet/KNX configuration tools.

@@ -1,5 +1,6 @@
 ---
 title: PROFIBUS — Prozessfeldbus in der Gebäudetechnik
+title_en: PROFIBUS — Process Field Bus in Building Technology
 slug: profibus
 category: kommunikation
 subcategory: feldbus
@@ -142,3 +143,133 @@ Neue Anlagen werden heute fast ausschliesslich mit **PROFINET** (Ethernet-basier
 | Geräteaustausch | PROFIBUS-Gerät als Drop-in falls verfügbar |
 
 PROFIBUS → PROFINET Proxy/Gateway: Siemens IE/PB Link PN IO oder Softing Gateway ermöglichen die Integration bestehender PROFIBUS-Geräte in neue PROFINET-Netze.
+
+<!-- EN -->
+
+PROFIBUS (Process Field Bus) is a widely used industrial fieldbus that entered technical building services from the 1990s onwards — particularly in larger installations with Siemens components. While PROFIBUS is increasingly being displaced by **PROFINET** (Ethernet-based) in new installations, it remains very present in existing buildings.
+
+---
+
+## PROFIBUS Variants
+
+### PROFIBUS DP (Decentralised Periphery) — BA-relevant
+Fast exchange of process data between controllers and decentralised I/O modules. In BA used for connecting variable speed drives, motor controllers, and decentralised DDC I/O modules.
+
+### PROFIBUS PA (Process Automation) — rare in BA
+For intrinsically safe areas (Ex zones). Uses MBP transmission technology (Manchester Bus Powered), where field devices are powered via the bus cable. Rarely relevant in BA.
+
+### PROFIBUS FMS (Fieldbus Message Specification)
+Obsolete, no longer relevant today.
+
+---
+
+## Physical Layer — PROFIBUS DP
+
+PROFIBUS DP is based on **RS-485** (EIA-485):
+
+| Parameter | Value |
+|-----------|-------|
+| Cable | 2-wire, twisted pair, shielded |
+| Termination resistors | 220 Ω (active, integrated in connector) |
+| Max. participants | 126 (address 0–125) |
+| Segments | Max. 9 (with 8 repeaters) |
+| Segment length | 100 m (12 Mbit/s) to 1,200 m (9.6 kBaud) |
+
+### Baud Rate vs. Segment Length
+
+| Baud rate | Max. segment length |
+|-----------|-------------------|
+| 9.6 kBaud | 1,200 m |
+| 19.2 kBaud | 1,200 m |
+| 93.75 kBaud | 1,000 m |
+| 187.5 kBaud | 1,000 m |
+| 500 kBaud | 400 m |
+| 1.5 MBaud | 200 m |
+| 3–12 MBaud | 100 m |
+
+---
+
+## Bus Arbitration — Token Passing
+
+PROFIBUS DP uses a **token ring procedure** for master participants and **master-slave communication** for data exchange:
+
+1. All masters form a logical token ring
+2. Only the master holding the token may actively transmit
+3. Each master cyclically polls its slaves
+4. Slaves respond only on request from the master
+
+---
+
+## GSD Files (Device Master Data)
+
+Every PROFIBUS device is described by a **GSD file** (XML format):
+- Available modules and I/O data
+- Supported baud rates
+- Diagnostic information
+- Parameter data
+
+GSD files are supplied by the manufacturer and imported into the engineering tool (e.g. Siemens TIA Portal, Step 7).
+
+---
+
+## PROFIBUS DP in BA — Typical Applications
+
+### Variable Speed Drive Integration
+The most common use case in BA: ventilation and pump drives are connected to the DDC via PROFIBUS DP.
+
+```
+Simatic S7 / PCS 7 (master)
+        │
+   PROFIBUS DP (RS-485, 500 kBaud)
+        ├── Siemens SINAMICS G120 (ventilation drive)
+        ├── Siemens SINAMICS S120 (pump drive)
+        ├── ABB ACS880 (compressor)
+        └── Decentralised ET200 I/O module
+```
+
+### Building Management — Siemens Desigo
+In older Siemens Desigo installations the BMS communicates via PROFIBUS DP with:
+- PXC automation station
+- FLN field level network (PROFIBUS-based)
+- Decentralised MEC actuators
+
+---
+
+## Diagnostics and Troubleshooting
+
+### Bus Diagnostics
+PROFIBUS DP has an integrated diagnostics function — each slave actively reports faults:
+- **Station Status 1–3:** Device state (configuration, parameterisation, communication)
+- **Extended Diagnosis:** Device-specific fault messages (overtemperature, overload)
+- **Module Status:** State of individual I/O modules
+
+### Analysis Tools
+- **Siemens STEP 7 / TIA Portal** — integrated online diagnostics
+- **Softing PROFIBUS Tester 6** — professional analysis tool
+- **ProfiTrace (Procentec)** — portable bus analyser
+- **Multimeter** — voltage check (A−B differential)
+
+### Common Faults
+
+| Fault | Cause | Remedy |
+|-------|-------|--------|
+| Slave unreachable | Wrong address | Check address on device |
+| Sporadic dropouts | Missing termination resistors | Activate active termination in bus connectors |
+| Device reports config error | Wrong GSD version | Renew GSD file |
+| High cycle time | Too many slaves | Increase baud rate, segment network |
+| EMC interference | Incorrect shielding | Ground shield at master end only |
+
+---
+
+## PROFIBUS → PROFINET Migration
+
+New installations today are almost exclusively engineered with **PROFINET** (Ethernet-based, IEC 61158). For existing systems:
+
+| Scenario | Recommendation |
+|----------|---------------|
+| New installation | Choose PROFINET |
+| Extending existing PROFIBUS installation | Keep PROFIBUS (IE/PB Link as bridge) |
+| Legacy system with problems | Evaluate migration to PROFINET |
+| Device replacement | PROFIBUS device as drop-in if available |
+
+PROFIBUS → PROFINET proxy/gateway: Siemens IE/PB Link PN IO or Softing Gateway enable integration of existing PROFIBUS devices into new PROFINET networks.

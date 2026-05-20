@@ -1,5 +1,6 @@
 ---
 title: GLT / DDC — Ebenen der Gebäudeautomation
+title_en: BMS / DDC — Levels of Building Automation
 slug: glt-grundlagen
 category: ga
 subcategory: grundlagen
@@ -202,3 +203,196 @@ Programm:
 - **EN ISO 52120** (früher EN 15232) — GA-Effizienzklassen
 - **SIA 386.110** (CH) — Gebäudeautomation
 - **IEC 61131-3** — Programmiersprachen für SPS/DDC
+
+<!-- EN -->
+
+# BMS / DDC — Levels of Building Automation
+
+Building automation is organised in three levels. Understanding this hierarchy is the first step to correctly planning, parameterising and operating a BA system.
+
+## The Three Levels
+
+```
+┌─────────────────────────────────────────────┐
+│           MANAGEMENT LEVEL (BMS)            │
+│    Visualisation · Alarm management ·       │
+│    Trend recording · Reporting              │
+│    Software: Siemens Desigo CC, Sauter Vision│
+├─────────────────────────────────────────────┤
+│          AUTOMATION LEVEL (DDC)             │
+│    Control · Regulation · Optimisation      │
+│    Hardware: DDC controllers, room automation│
+│    Protocol: BACnet, Modbus, KNX            │
+├─────────────────────────────────────────────┤
+│               FIELD LEVEL                   │
+│    Sensors · Actuators · Fittings           │
+│    PT1000, 4–20 mA, 0–10 V, DI/DO          │
+└─────────────────────────────────────────────┘
+```
+
+### Field Level
+
+The lowest layer — direct connection to the physical plant:
+
+- **Sensors:** temperature sensors, pressure sensors, flow meters, CO₂, humidity
+- **Actuators:** valves, dampers, pumps (via contactor or VFD), lighting
+- **Signal types:** AI (0–10V, 4–20mA, PT1000), DI (contact), AO (0–10V), DO (relay)
+- **Connection to DDC:** cable (up to 500 m), modern systems also wireless (EnOcean, KNX RF)
+
+### Automation Level (DDC)
+
+The heart of control — programmes run here:
+
+- **DDC** (Direct Digital Control): microcomputer that controls the plant
+- Reads sensors, calculates setpoints, drives actuators
+- Runs **autonomously** without BMS connection (local intelligence)
+- Communicates with BMS via BACnet, Modbus or proprietary protocol
+- **Room automation:** small DDC directly in the room (fan-coil, VAV box)
+
+**Typical DDC manufacturers:** Siemens (PXC), Sauter (modu8), Schneider (TAC Vista), Johnson Controls (Metasys), KMC, Distech
+
+### Management Level (BMS)
+
+Overarching visualisation and operation:
+
+- **Visualisation:** graphical representation of plant (flow diagrams, floor plans)
+- **Alarm management:** collect, prioritise and escalate alarms
+- **Trend recording:** historise measured values (polling or COV)
+- **Time programs:** set operating hours centrally
+- **Reporting:** energy consumption, operating hours, alarm statistics
+
+> ⚠️ Important: The BMS **monitors and operates** — actual control runs in the DDC. If the BMS fails, the plant keeps running (locally in the DDC). If the DDC fails, nothing works.
+
+---
+
+## Hand-0-Auto (HOA)
+
+Every actuator in BA has three operating modes:
+
+| Mode | Symbol | Description |
+|------|--------|-------------|
+| **Hand** | H | Direct manual intervention — programme ignored |
+| **0** | 0 | Forced off — actuator off, programme ignored |
+| **Auto** | A | Normal operation — programme controls |
+
+### Physical Hand-0-Auto Switches
+
+On switchboards or distribution panels:
+
+```
+Pump → [H - 0 - A] switch
+H = pump always running (hand)
+0 = pump off (locked)
+A = DDC decides
+```
+
+**Important:** Hand mode means DDC has no influence. At the same time: no frost protection, no overheating protection, no automatic shutdown! → Use only during service under supervision.
+
+### Software Hand-0-Auto in the BMS
+
+In the visualisation, any data point can be overridden:
+
+```
+Data point: Pump1 Auto = ON (from controller)
+  → BMS override: OFF (force off)
+  → Pump1 turns off even though controller says ON
+```
+
+**Logging obligation:** Who overrode what, when and why? Valid until when?
+
+---
+
+## Operating Modes / Operating Programme
+
+In addition to HOA, there are overarching operating modes that affect the entire plant:
+
+| Operating mode | Description |
+|---------------|-------------|
+| **Comfort** | Full operation, normal temperatures |
+| **Pre-comfort** | Warm-up before occupancy (mornings) |
+| **Night/Absent** | Reduced temperatures, reduced ventilation |
+| **Standby** | Minimum heating (frost protection), ventilation off |
+| **Special/Manual** | Special operation, manually triggered |
+| **Fault** | Safety shutdown |
+
+**Automatic transition:**
+
+```
+Monday–Friday:
+  05:00 → Pre-comfort (pre-heating)
+  07:00 → Comfort
+  18:00 → Night
+  22:00 → Standby (frost protection)
+Saturday/Sunday:
+  Standby, unless special mode activated
+```
+
+---
+
+## Setpoint Control
+
+Setpoints can be specified in different ways:
+
+### Fixed Setpoint
+- Room temperature always 22 °C
+- Simple, no interaction required
+
+### Sliding Setpoint (Weather-Compensated)
+- Flow temperature follows outdoor temperature (heating curve)
+- Supply air temperature follows outdoor temperature
+
+### Cascade Setpoint
+- Superior controller provides setpoint to subordinate controller
+- Example: room temperature controller drives flow temperature controller
+
+### Operator Intervention
+- User can adjust setpoint ±2 K (within defined limits)
+- BMS monitors: interventions outside limits → alarm
+
+---
+
+## DDC Programme — Basic Structure
+
+Every DDC programme follows the same cycle:
+
+```
+1. Read inputs (sensors, status feedback)
+2. Check plausibility (sensor break, range exceeded)
+3. Determine operating mode (HOA status, time program)
+4. Calculate control (PID, two-position, logic)
+5. Set outputs (valves, pumps, VFD)
+6. Evaluate alarms (limits, running times)
+7. Send data points to BMS (COV or polling)
+Cycle time: typically 1–5 seconds
+```
+
+---
+
+## Typical DDC Architecture (Heating Circuit)
+
+```
+Heating circuit DDC:
+  AI: flow temperature (PT1000)
+  AI: return temperature (PT1000)
+  AI: outdoor temperature (PT1000)
+  AI: pump operating current (4–20 mA)
+  DI: pump run signal
+  DI: pump fault signal
+  DI: motor protection
+  AO: mixing valve (0–10 V)
+  DO: pump ON/OFF
+
+Programme:
+  - Weather-compensated flow (heating curve)
+  - Frost protection (minimum flow temp)
+  - Night setback (time program)
+  - Pump runtime monitoring
+  - Alarms: pump fault, sensor break, communication
+```
+
+## Standards
+
+- **VDI 3814** — Building automation, instrumentation and control in buildings
+- **EN ISO 52120** (formerly EN 15232) — BA efficiency classes
+- **SIA 386.110** (CH) — Building automation
+- **IEC 61131-3** — Programming languages for PLC/DDC

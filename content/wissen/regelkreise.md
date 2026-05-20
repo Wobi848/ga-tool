@@ -1,5 +1,6 @@
 ---
 title: Regelkreise — Grundlagen und Totzeit
+title_en: Control Loops — Fundamentals and Dead Time
 slug: regelkreise
 category: regelung
 subcategory: grundlagen
@@ -166,3 +167,157 @@ Die einfachste Methode um eine Regelstrecke zu charakterisieren:
 
 - **DIN IEC 60050-351** — Internationales Elektrotechnisches Wörterbuch, Leittechnik
 - **VDI 3540** — Regelungstechnik in der HLK
+
+<!-- EN -->
+
+A control loop is the basis of every automatic control system. Understanding its elements — in particular **dead time** — is critical for correct controller parameterisation in BA.
+
+## Elements of the Control Loop
+
+```
+              ┌─────────────────────────────────────┐
+Setpoint      │   e           Y           X          │
+W ──────────►[+]──►[Controller]──►[Actuator]──►[Process]──► Controlled variable X
+             [−]                               ↑
+              └───────[Measuring element]───────┘
+                                    
+                               Disturbance Z
+                                    ↓
+                             [Process] ←──────
+```
+
+| Element | Function | BA example |
+|---------|---------|-----------|
+| **Setpoint W** | Reference value | Room setpoint 22 °C |
+| **Control error e** | W − X (difference) | 22 − 20 = 2 K |
+| **Controller** | Calculates output from error | PI controller |
+| **Control output Y** | Controller output signal | 0–10 V to valve |
+| **Actuator** | Converts Y to physical effect | Valve actuator |
+| **Process S** | The system being controlled | Room with radiator |
+| **Controlled variable X** | What is measured | Actual room temperature |
+| **Disturbance Z** | Unwanted influence | Window open, solar gain |
+| **Measuring element** | Sensor, converts physical → electrical | PT1000 + transmitter |
+
+---
+
+## Process Characteristics
+
+### P-Process (Proportional process)
+
+Output follows input immediately with a constant ratio:
+
+```
+Input (heating power) doubled → output (room temperature) rises proportionally
+```
+
+Example: electric heating in a well-insulated room (approximately).
+
+### PT1 Process (First-order lag)
+
+Process with delay — the most common type in BA:
+
+```
+Step input at t=0:
+                    
+Output:    │         ___________
+           │       /
+           │      /  Time constant T1
+           │     /
+           │____/
+              t=0       t
+```
+
+**Time constant T1:** Time to reach 63 % of the final value.
+
+BA examples: heating coil (T1 = 1–5 min), room temperature (T1 = 15–60 min).
+
+### Dead Time Process (Tt)
+
+Process with **dead time** — input has no effect on output until after the dead time:
+
+```
+Step input at t=0:
+                    
+Output:    │              ___________
+           │             /
+           │            /
+           │           /
+           │__________/
+              t=0   t=Tt (dead time)
+```
+
+**Dead time** = time between a change in control output and the first measurable effect.
+
+### PTT1 Process (Dead time + lag)
+
+Reality — almost all BA control processes:
+
+```
+Dead time (no effect visible) + lag (slow rise)
+```
+
+Example heating circuit: valve opens → heating water flows through pipe (dead time: water transport time) → room temperature rises slowly (PT1).
+
+---
+
+## Dead Time — The Biggest Problem in BA
+
+### What Causes Dead Time?
+
+| Cause | Dead time magnitude | System |
+|-------|-------------------|--------|
+| Transport of heating water in pipe | 5–60 s | Radiator, UFH |
+| Heat transfer in heat exchanger | 10–120 s | Air heater/cooler |
+| Heat transfer through screed | 30–180 min | Underfloor heating |
+| Thermal inertia of room | 15–60 min | Room temperature |
+| Measurement filtering | 1–30 s | Smoothing filter in DDC |
+
+### Effect on Controllability
+
+**Rule of thumb:**
+```
+The larger the ratio of dead time to time constant, the more difficult the control
+```
+
+| Tt / T1 | Controllability | Recommendation |
+|--------|----------------|---------------|
+| < 0.1 | Very good | Aggressive controller possible |
+| 0.1 – 0.5 | Good | Standard PID |
+| 0.5 – 1.0 | Moderate | Cautious parameterisation |
+| > 1.0 | Difficult | Consider cascade control |
+
+### Underfloor Heating: Extreme Example
+
+```
+Dead time (heating water transport): ~5 min
+Time constant (screed heats up): ~60–120 min
+
+Tt/T1 = 5/90 ≈ 0.06 → actually good!
+
+BUT: When room is added as outer loop:
+Dead time + lag until room temperature rises: ~60–120 min
+Room time constant: ~60–180 min
+
+→ Very sluggish process → PI controller with Ti = 60–120 min needed
+```
+
+---
+
+## Step Response — Testing the Controller
+
+The simplest method to characterise a control process:
+
+1. Switch installation to manual mode
+2. Hold control output at initial value (e.g. 30 %)
+3. Wait until settled
+4. Step to new value (e.g. 60 %)
+5. Record response of controlled variable
+6. Read dead time (Tt) and time constant (T1) from graph
+7. Calculate controller parameters (e.g. using Ziegler-Nichols or CHR method)
+
+---
+
+## Standards
+
+- **DIN IEC 60050-351** — International electrotechnical vocabulary, control technology
+- **VDI 3540** — Control engineering in HVAC

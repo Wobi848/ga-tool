@@ -1,5 +1,6 @@
 ---
 title: Zonenkonzepte — Büro, Hotel, Spital, Wohnen
+title_en: Zone Concepts — Office, Hotel, Hospital, Residential
 slug: zonenkonzepte
 category: ga
 subcategory: planung
@@ -183,3 +184,177 @@ Jedes Projekt benötigt einen Zonenplan:
 - **SIA 380/1** — Thermische Energie im Hochbau (Zonentemperaturen CH)
 - **DIN 1946-4** — Lüftung in Gebäuden des Gesundheitswesens (Raumklassen)
 - **EN 16798-1** — Raumklima-Anforderungen nach Nutzung (Kategorie I–IV)
+
+<!-- EN -->
+
+## Zone Concepts — Office, Hotel, Hospital, Residential
+
+The zone layout defines which rooms are controlled together and what comfort and operating requirements apply. Different building types require fundamentally different zone concepts.
+
+## Principle of Zone Formation
+
+```
+Criteria for a zone (same DDC control loop):
+  - Same occupancy hours
+  - Same temperature requirement
+  - Same occupant density (CO₂ basis)
+  - Same humidity and air quality requirement
+  
+Wrong: office + corridor in one zone
+  (office often empty, corridor always used → different behaviour)
+  
+Right: individual room = own zone (single-room control)
+```
+
+---
+
+## Office Building
+
+### Private Office
+
+```
+Operating hours: 07:00–19:00 weekdays
+Comfort temperature: 21–23 °C (heating), 24–26 °C (cooling)
+Setback/night temperature: 16 °C (heating), 28 °C (cooling)
+CO₂ setpoint: 1000 ppm (DCV ventilation)
+Presence: PIR/radar → temperature and ventilation activated
+Shading: solar protection automatic
+```
+
+### Open-Plan Office
+
+```
+Operating hours: 07:00–20:00 weekdays
+Zoning: sub-zones per ~200 m² (VAV box per zone)
+Presence: separate per zone (radar detectors)
+Ventilation: DCV (demand controlled ventilation) via CO₂
+Meeting rooms: separate zone, higher air change rate
+```
+
+### Meeting Room
+
+```
+Operating mode:
+  Empty: setback (17 °C / min. supply air)
+  Pre-start (30 min): pre-heat/pre-cool
+  Occupied: comfort (22 °C, 500 lux, max. supply air for CO₂)
+  
+Special feature:
+  Booking system → calendar integration → DDC preparation
+  Short meetings: presence → no pre-heating (energy-saving mode)
+```
+
+---
+
+## Hotel
+
+### Room Automation (typical)
+
+```
+Operating states:
+  Room VACANT:        16 °C / 28 °C, min. ventilation, lighting 0 %
+  CHECK-IN expected:  Pre-heat/cool to 22 °C (2 h before arrival)
+  Room OCCUPIED:      Comfort 20–24 °C, normal ventilation
+  Room GUEST IN:      Key card inserted → full operation
+  Key card removed:   15 min delay → setback
+  
+Key card logic:
+  Hotel key card in wall socket → power enabled, ventilation active
+  Card removed → 15 min → power off, setback mode
+```
+
+### Corridors and Public Areas
+
+```
+Corridor: 18 °C constant (guests rarely linger), presence-controlled lighting
+Lobby:    24/7 comfort, reception desk, air conditioning
+Restaurant: time control + CO₂ DCV (full house → maximum ventilation)
+Spa / Pool: constant 28 °C, high humidity (50–65 % RH), 24/7
+```
+
+---
+
+## Hospital
+
+### Special Requirements
+
+```
+Operation: 24/7, no setback in patient rooms!
+Hygiene: VDI 6022 / DIN 1946-4 (strict requirements)
+Room classes:
+  Class I (OR): laminar flow, ISO 5-7, over/under pressure
+  Class Ib (ICU): positive pressure, high air change rate
+  Class II (general ward): normal comfort level
+  Class III (corridor): minimum requirements
+```
+
+### Patient Room
+
+```
+Temperature: 22–26 °C, individually adjustable ±2 K
+Ventilation: min. 2 × air changes/h
+Humidity: 30–60 % RH
+Noise: LAV ≤ 30 dB(A) (no loud fans directly in room)
+Night: no setback (patient always present)
+Alarm: fault → immediate notification to nurses station
+```
+
+### Operating Theatre
+
+```
+Operating modes:
+  Standby: 18 °C, 8 ACH, +10 Pa
+  Preparation (cleaning): 22 °C, 20 ACH
+  OR active: 20–24 °C, ≥ 20 ACH, +15 Pa positive pressure, 500 lux
+  
+LAF ceiling (laminar air flow): 0.24–0.45 m/s vertical
+OR release: surgeon / OR nurse → BMS operating mode signal
+```
+
+---
+
+## Residential
+
+### Apartment
+
+```
+Individual control: no central BA specification
+Room controllers: single-room thermostats (EN ISO 15500 / KNX)
+Operating hours: resident-defined
+Setback: night (22:00–06:00) and absence
+```
+
+### Multi-Family Building with Central HVAC
+
+```
+Central heat source (HP / district heat)
+    ↓
+Apartment interface station (DHW transfer per apartment)
+    ↓
+Single-room control (UFH thermostats)
+
+BA: monitors only interface stations
+Individual rooms: local thermostats (no DDC required)
+```
+
+---
+
+## Zone Plan Documentation
+
+Every project requires a zone plan:
+
+| Zone ID | Name | Use | Heating setpoint | Cooling setpoint | Ventilation |
+|---------|------|-----|-----------------|-----------------|-------------|
+| Z-01 | Office GF West | Private office | 21 °C | 26 °C | DCV CO₂ |
+| Z-02 | Meeting room 101 | Conference | 22 °C | 25 °C | 6 × ACH |
+| Z-03 | Corridor GF | Circulation | 18 °C | 28 °C | 1 × ACH |
+| Z-04 | Server room | IT infrastructure | 18–24 °C | 24 °C | Constant |
+
+---
+
+## Standards
+
+- **EN 15232** — BA efficiency classes by building type (office, residential, hospital)
+- **SIA 380/1** — Thermal energy in buildings (zone temperatures CH)
+- **DIN 1946-4** — Ventilation in healthcare buildings (room classes)
+- **EN 16798-1** — Indoor environment requirements by use (categories I–IV)

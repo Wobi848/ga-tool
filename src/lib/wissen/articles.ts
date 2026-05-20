@@ -42,11 +42,24 @@ const asArr = (v: unknown): string[] =>
 	Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
 const asStr = (v: unknown, def = ''): string => (typeof v === 'string' ? v : def);
 
+const EN_MARKER = '<!-- EN -->';
+
+function splitBody(content: string): { bodyDe: string; bodyEn?: string } {
+	const idx = content.indexOf(EN_MARKER);
+	if (idx === -1) return { bodyDe: content.trim() };
+	return {
+		bodyDe: content.slice(0, idx).trim(),
+		bodyEn: content.slice(idx + EN_MARKER.length).trim() || undefined
+	};
+}
+
 function parseArticle(raw: string, path: string): Article {
 	const { data, content } = parseFrontmatter(raw);
 	const fallbackSlug = path.split('/').pop()?.replace(/\.md$/, '') ?? 'unknown';
+	const { bodyDe, bodyEn } = splitBody(content);
 	return {
 		title: asStr(data.title, fallbackSlug),
+		title_en: asStr(data.title_en) || undefined,
 		slug: asStr(data.slug, fallbackSlug),
 		category: asStr(data.category, 'sonstiges'),
 		subcategory: asStr(data.subcategory) || undefined,
@@ -58,7 +71,10 @@ function parseArticle(raw: string, path: string): Article {
 		norm: asArr(data.norm),
 		updated: asStr(data.updated),
 		lang: asStr(data.lang, 'de'),
-		body: content
+		hasEnBody: !!bodyEn,
+		body: content,
+		bodyDe,
+		bodyEn
 	};
 }
 

@@ -1,5 +1,6 @@
 ---
 title: Hydraulische Schaltungen — Einrohr, Zweirohr, Tichelmann
+title_en: Hydraulic Circuits — Single-Pipe, Two-Pipe and Tichelmann
 slug: hydraulische-schaltungen
 category: hydraulik
 subcategory: schaltungen
@@ -190,3 +191,184 @@ WP ──── Pumpe ──── Verteiler
 - **VDI 2035** — Vermeidung von Schäden in Warmwasser-Heizungsanlagen
 - **EN 14336** — Installation und Abnahme Heizungsanlagen in Gebäuden
 - **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweizer Norm)
+
+<!-- EN -->
+
+# Hydraulic Circuits — Single-Pipe, Two-Pipe and Tichelmann
+
+The hydraulic circuit determines how heat (or cold) travels from the generator to the consumers. Incorrectly designed or built circuits are the most common cause of dissatisfied users, excessive energy consumption and endless commissioning problems.
+
+## Single-Pipe System
+
+### Principle
+
+All radiators are connected **in series** on a single shared pipe:
+
+```
+Flow → R1 → R2 → R3 → R4 → Return
+       ↑      ↑      ↑      ↑
+    Bypass Bypass Bypass Bypass
+    valve  valve  valve  valve
+```
+
+Water flows through each radiator (or bypasses it), cools down, and reaches the next radiator at a lower temperature.
+
+### Characteristics
+
+| Property | Single-Pipe |
+|----------|-------------|
+| Piping effort | Low (one pipe) |
+| Temperature gradient | Each downstream radiator gets cooler water |
+| Controllability | Poor (last radiators hard to control) |
+| Hydraulic balancing | Very complex, bypass setting critical |
+| Use today | Rarely installed new |
+
+### Bypass Function
+
+Without bypass: valve closed → heating circuit interrupted → no flow for downstream radiators.
+With bypass: even with valve closed, water flows past the radiator → circulation is maintained.
+
+**Problem:** The bypass creates a short-circuit. Sizing is critical — too much bypass = minimal flow through radiator; too little = no compensation.
+
+> ⚠️ Single-pipe systems are **not** suitable for large temperature differences between radiators and are rarely current practice. However, still very common in existing older buildings.
+
+---
+
+## Two-Pipe System
+
+### Principle
+
+Flow and return run **in parallel** to all radiators:
+
+```
+Flow ─────────────────────────────────►
+      │          │          │          │
+      R1         R2         R3         R4
+      │          │          │          │
+Return◄─────────────────────────────────
+```
+
+Every radiator receives **the same flow temperature** directly from the generator. Return water mixes in the return manifold.
+
+### Characteristics
+
+| Property | Two-Pipe |
+|----------|----------|
+| Piping effort | Higher (two pipes) |
+| Temperature per radiator | Identical (flow temperature) |
+| Controllability | Good (each radiator independently controllable) |
+| Hydraulic balancing | Necessary (branches of different lengths!) |
+| Use today | Standard for all new installations |
+
+### Hydraulic Problem — Two-Pipe
+
+**Nearby radiators** have significantly less resistance than distant ones → receive disproportionately more flow → overheat, while distant radiators receive too little.
+
+Solution: Hydraulic balancing (pre-setting valves, DDR control).
+
+---
+
+## Tichelmann Circuit
+
+### Principle
+
+Also called **reverse-return circuit**. Key feature: flow reaches the first radiator, return runs *in reverse* from the last radiator back.
+
+```
+Flow ─────────────────────────────────►
+      │          │          │          │
+      R1         R2         R3         R4
+      │          │          │          │
+      ◄─────────────────────────────────
+Return                     ◄── longest return
+```
+
+The idea: the radiator with the shortest flow pipe has the longest return — and vice versa. This means the **total pressure drop is equal for every radiator** (flow + return).
+
+### Characteristics
+
+| Property | Tichelmann |
+|----------|-----------|
+| Piping effort | Higher than two-pipe (longer return) |
+| Self-balancing | Nearly self-balancing (equal pressure drops) |
+| Hydraulic balancing | Reduced effort required |
+| Applications | Underfloor heating, surface heating, large parallel circuits |
+
+### When to Use Tichelmann?
+
+- Many similar parallel consumers (e.g. UFH circuits, solar collector fields, chilled ceiling circuits)
+- When pipe routing makes the return extension cheaper than balancing valves
+- Not suitable when consumers have very different pressure drop characteristics
+
+---
+
+## Bypass Circuits
+
+### Pump Differential Pressure Bypass
+
+```
+Generator → Pump → ──────────── Consumers
+                  │              │
+                  └─── Bypass ───┘
+                  (differential pressure control valve)
+```
+
+Controls differential pressure when consumers close → prevents pressure spikes, protects pump.
+
+### Generator Bypass (Hydraulic Decoupling)
+
+**Flow/return connection with bypass between primary and secondary circuit:**
+
+```
+Generator ─── Primary pump ───► Flow manifold ───► Consumers
+                                │
+                           Short-circuit pipe
+                                │
+                               ◄─── Return collector ◄── Consumers
+Return ◄── Primary pump ────
+```
+
+**Purpose:** Hydraulically decouple primary and secondary circuits → each circuit has its own pump, own control. Critical for heat pumps (ensure minimum flow!).
+
+### Bypass for Heat Pumps
+
+Heat pumps have a **minimum volume flow** requirement (otherwise shutdown via pressure switch or frost protection):
+
+```
+HP ──── Pump ──── Manifold
+             │
+        Bypass valve (thermostatic or motorised)
+             │
+         Return
+```
+
+Opens when all heating circuit valves close → ensures minimum flow through HP.
+
+---
+
+## Quick Comparison
+
+| Circuit | Piping | Balancing | Uniformity | Typical Use |
+|---------|--------|-----------|-----------|-------------|
+| Single-pipe | Simple | Complex | Poor | Existing buildings |
+| Two-pipe | Medium | Required | Good | New build standard |
+| Tichelmann | Complex | Minimal | Very good | UFH, collectors, ceilings |
+| With bypass | +valve | Control valve | — | Min. flow, decoupling |
+
+---
+
+## Typical Field Faults
+
+| Fault | Symptom | Cause |
+|-------|---------|-------|
+| Single-pipe circuit too long | Radiators at end cold | Excessive temperature drop |
+| Bypass too open (single-pipe) | Too little heat output | Short-circuit — water bypasses radiator |
+| Two-pipe without balancing | Near radiators overheat, far radiators cold | Pressure difference not compensated |
+| Tichelmann incorrectly sized | Still uneven | Radiators have different resistances |
+| Missing overflow valve (HP) | HP shuts off when circuits close | No minimum volume flow |
+
+## Standards
+
+- **VDI 2035** — Prevention of damage in hot water heating systems
+- **EN 14336** — Installation and commissioning of heating systems in buildings
+- **SIA 384.201** — Heating systems in buildings (Swiss standard)

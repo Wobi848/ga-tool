@@ -1,5 +1,6 @@
 ---
 title: Energieausweis und Gebäudekennzahlen — GEAK, Minergie, kWh/m²
+title_en: Energy Performance Certificates and Building Metrics — GEAK, Minergie, kWh/m²
 slug: energieausweis-kennzahlen
 category: energie
 subcategory: kennzahlen
@@ -172,3 +173,166 @@ Aufteilung:
 - **Minergie** — Qualitätslabel (Anforderungskatalog, minergie.ch)
 - **GEG** — Gebäudeenergiegesetz (Deutschland, seit 2020)
 - **EPBD 2024** — EU-Gebäudeenergierichtlinie (Nullemissionsgebäude 2030/2050)
+
+<!-- EN -->
+
+## Energy Performance Certificates and Building Metrics — GEAK, Minergie, kWh/m²
+
+Building energy metrics measure a building's energy demand or consumption. They are the basis for optimisation, subsidies and statutory requirements.
+
+## Key Metric: Heating Energy Demand
+
+### Specific Space Heating Demand [kWh/(m²·a)]
+
+```
+Heating energy demand / Energy reference area (ERA) = kWh/m²a
+
+Energy reference area (ERA):
+  = heated gross floor area
+  (NOT net area / living area!)
+  
+Typical values Switzerland (SIA 380/1):
+  Minergie-P:      ≤ 15 kWh/m²a
+  Minergie:        ≤ 38 kWh/m²a  (residential)
+  New build standard: 50–80 kWh/m²a
+  Renovated existing: 80–150 kWh/m²a
+  Unrenovated existing: 150–300 kWh/m²a
+```
+
+### Total Energy Demand (TED)
+
+```
+TED = Heating + DHW + Ventilation + Cooling + Lighting + Auxiliary
+
+Energy carrier weighting (primary energy):
+  Electricity: factor 2.0 (generation losses)
+  District heat (wood): factor 0.5 (renewable)
+  Natural gas: factor 1.0
+  Oil: factor 1.2
+```
+
+---
+
+## GEAK — Cantonal Building Energy Certificate (Switzerland)
+
+```
+GEAK: Swiss energy certificate for residential buildings
+Mandatory: On sale or rental (varies by canton)
+Classes: A (best) to G (worst)
+Two assessments:
+  1. Building envelope (insulation, windows)
+  2. Overall energy efficiency (incl. HVAC system)
+```
+
+### GEAK Classes
+
+| Class | Heating energy demand [kWh/m²a] |
+|-------|----------------------------------|
+| A | ≤ 35 |
+| B | 35–65 |
+| C | 65–95 |
+| D | 95–130 |
+| E | 130–175 |
+| F | 175–235 |
+| G | > 235 |
+
+---
+
+## Minergie (Switzerland)
+
+Minergie is a quality label for buildings with low energy consumption:
+
+| Label | Heat requirement | Special feature |
+|-------|-----------------|-----------------|
+| **Minergie** | ≤ 38 kWh/m²a | Controlled ventilation mandatory |
+| **Minergie-P** | ≤ 15 kWh/m²a | Passive house standard |
+| **Minergie-A** | Plus energy | Produces more energy than consumed |
+| **Minergie-ECO** | + Minergie | Additionally ecology + health |
+
+**BA requirements for Minergie:**
+- EN 15232 BA class B or better
+- Energy monitoring / submetering
+- Controlled residential ventilation with heat recovery
+
+---
+
+## GEG / EnEV (Germany)
+
+```
+GEG (Building Energy Act, since 2020):
+  Replaces EnEV + EEWärmeG
+  
+Primary energy demand [kWh/(m²a)]:
+  New builds: ≤ 75 % of reference building (2023)
+  
+  GEG 2024 (planned tightening):
+  New heating systems: min. 65 % renewable energy
+  
+Energy certificate (DE):
+  Demand certificate: calculated (mandatory for poor buildings)
+  Consumption certificate: measured (3 years consumption data required)
+  Classes A+ to H (letter classes)
+```
+
+---
+
+## Using Energy Metrics in BA
+
+### Monitoring and Benchmarking
+
+```
+BMS / EMS continuously calculates:
+  Monthly heat consumption [kWh]
+    ÷ Energy reference area [m²]
+    ÷ Heating degree days (HDD)
+  = Weather-corrected energy index [kWh/(m²·HDD)]
+  
+Comparison:
+  This month vs. prior year (same period)
+  This building vs. benchmark (building category)
+  
+Alert: consumption > 20 % above prior year → investigation
+```
+
+### Heating Degree Days (HDD)
+
+```
+HDD = Number of heating days × (T_room − T_outdoor_mean)
+
+Heating limit temperature: typically 12 °C (Switzerland SIA 381/1)
+Base temperature: 20 °C
+
+Annual HDD CH:
+  Zurich:  3306 Kd (Kelvin-days)
+  Bern:    3558 Kd
+  Davos:   5380 Kd
+  Lugano:  2062 Kd
+```
+
+---
+
+## Submetering for Metrics
+
+```
+For meaningful metrics:
+  Heat meter heating → kWh/a
+  Heat meter DHW → kWh/a
+  Sub-electricity meter per system → kWh/a
+  Gas meter → m³/a → kWh/a (× calorific value)
+  
+Breakdown:
+  Heating: heat quantity meter
+  Ventilation: sub-electricity meter (VFD fans)
+  Cooling: sub-electricity meter (chiller compressor)
+  Lighting: sub-electricity meter
+```
+
+---
+
+## Standards
+
+- **SIA 380/1** — Thermal energy in buildings (Swiss base standard)
+- **GEAK** — Cantonal building energy certificate (Switzerland)
+- **Minergie** — Quality label (requirements catalogue, minergie.ch)
+- **GEG** — Building Energy Act (Germany, since 2020)
+- **EPBD 2024** — EU Building Energy Performance Directive (zero-emission buildings 2030/2050)

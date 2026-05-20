@@ -1,15 +1,18 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { _, locale } from 'svelte-i18n';
 	let { data }: { data: PageData } = $props();
+	const isEn = $derived($locale === 'en');
+	const html = $derived(isEn && data.htmlEn ? data.htmlEn : data.htmlDe);
 </script>
 
 <div class="page">
 	<div class="header">
-		<h1>Changelog</h1>
-		<p class="sub">Versionshistorie GA Tool</p>
+		<h1>{$_('changelog.title')}</h1>
+		<p class="sub">{$_('changelog.subtitle')}</p>
 	</div>
 	<div class="changelog prose">
-		{@html data.html}
+		{@html html}
 	</div>
 </div>
 

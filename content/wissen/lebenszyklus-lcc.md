@@ -1,5 +1,6 @@
 ---
 title: Lebenszykluskosten LCC — Investition, Betrieb, Unterhalt
+title_en: Life Cycle Costs LCC — Investment, Operation and Maintenance
 slug: lebenszyklus-lcc
 category: wirtschaftlichkeit
 subcategory: investition
@@ -177,3 +178,171 @@ Vereinfachte Methode für GA:
 - **EN 60300-3-3** — Dependability management: LCC-Analyse
 - **VDI 2067** — Wirtschaftlichkeitsberechnungen Gebäudetechnik
 - **SIA 469** — Instandhaltung von Bauwerken (Unterhaltsplanung)
+
+<!-- EN -->
+
+## Life Cycle Costs LCC — Investment, Operation and Maintenance
+
+Life cycle costs (LCC) consider the **total costs over the entire service life** of a system — not just the investment. An expensive, energy-efficient system can be cheaper than a cheap, energy-hungry one.
+
+## Basic Formula
+
+```
+LCC = Capital cost + Present value of all future costs
+
+Present value = Σ (Annual cost_t / (1+r)^t)
+
+r: discount rate (typically 3–4 %)
+t: year (1 to service life n)
+n: service life (BA: 15–25 years, building: 50 years)
+```
+
+---
+
+## Cost Components
+
+### 1. Capital Costs (one-off)
+
+```
+Hardware:
+  DDC controllers, sensors, actuators, control panels
+  Cables, conduit, installation
+  
+Software / engineering:
+  Programming, configuration
+  Commissioning effort
+  
+Documentation:
+  DPL, diagrams, functional descriptions
+```
+
+### 2. Operating Costs (annually recurring)
+
+```
+Energy:
+  Pump energy, fan energy (highly dependent on BA class!)
+  Auxiliary energy DDC, BMS server
+
+Maintenance:
+  BA maintenance contract: 1–3 % of capital cost/year
+  Filters, wear parts
+  Sensor calibration (every 2–5 years)
+
+Operation:
+  Personnel (facility management, operation)
+  Software licences (some BMS systems: annual licence fees!)
+```
+
+### 3. Replacement Costs (periodic)
+
+```
+Typical service lives:
+  DDC controller: 15–20 years
+  Sensors (PT1000): 10–20 years
+  Valves, actuators: 10–15 years
+  BMS server (hardware): 7–10 years
+  BMS software: 10–15 years (end-of-life)
+  
+→ Calculate each replacement investment as a present value
+```
+
+---
+
+## Practical Example: Comparison of Two Control Systems
+
+```
+Option A: Simple system (class C, EN 15232)
+  Investment:              CHF 30,000
+  Energy cost/year:        CHF 22,000
+  Maintenance/year:        CHF 1,000
+  Replacement after 15 y:  CHF 15,000
+  
+Option B: Intelligent system (class A, EN 15232)
+  Investment:              CHF 55,000 (+CHF 25,000)
+  Energy cost/year:        CHF 15,000 (−CHF 7,000/a = −32 %)
+  Maintenance/year:        CHF 1,500
+  Replacement after 15 y:  CHF 20,000
+
+LCC calculation (15 years, 4 % discount rate):
+  Annuity factor 15 y / 4 %: 11.12
+  Present value factor 15 y: 1 / 1.04^15 = 0.555
+  
+Option A:
+  LCC = 30,000 + (22,000 + 1,000) × 11.12 + 15,000 × 0.555
+  LCC = 30,000 + 255,760 + 8,325 = CHF 294,085
+  
+Option B:
+  LCC = 55,000 + (15,000 + 1,500) × 11.12 + 20,000 × 0.555
+  LCC = 55,000 + 183,480 + 11,100 = CHF 249,580
+  
+→ Option B is CHF 44,500 cheaper over 15 years!
+```
+
+---
+
+## Sensitivity Analysis
+
+LCC results depend strongly on assumptions:
+
+```
+Parameter influence on LCC:
+
+Energy price rises 3 %/year:
+  → Option B becomes even more attractive
+  → Every kWh saved is more valuable
+  
+Higher discount rate (e.g. 6 %):
+  → Future savings are worth less
+  → Payback on additional investment takes longer
+  
+Service life only 10 years:
+  → Higher investment amortises less well
+  → Standard system may be better
+  
+Analyse worst-case / best-case → robustness check
+```
+
+---
+
+## LCC in Procurement
+
+In public procurement (tendering law) LCC can be used as an award criterion:
+
+```
+Award criteria:
+  40 % Price (tender price)
+  30 % LCC (calculated to VDI 2067 or EN 60300)
+  20 % Quality / technology
+  10 % Service / references
+  
+LCC calculation by tenderer:
+  Basis: standardised operating hours, energy prices
+  Scoring: lowest LCC → higher score
+```
+
+---
+
+## LCC Software and Tools
+
+```
+Tools for LCC calculation:
+  Excel template (VDI 2067 approach)
+  LEGEP (specialist software for buildings, DE)
+  Tally / OneClick LCA (life cycle assessment + costs)
+  
+Simplified method for BA:
+  Spreadsheets with:
+    - Capital cost rows
+    - Annual costs (energy, maintenance)
+    - Replacement costs with present value factors
+    - Comparison of options → select best LCC
+```
+
+---
+
+## Standards
+
+- **ISO 15686** — Buildings and constructed assets: service life planning
+- **EN 60300-3-3** — Dependability management: LCC analysis
+- **VDI 2067** — Economic efficiency calculations for building services
+- **SIA 469** — Maintenance of structures (maintenance planning)

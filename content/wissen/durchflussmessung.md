@@ -1,5 +1,6 @@
 ---
 title: Durchflussmessung in der GA
+title_en: Flow Measurement in Building Automation
 slug: durchflussmessung
 category: sensoren
 subcategory: durchfluss
@@ -146,3 +147,137 @@ v_mittel = √(2 × ΔP_mittel / ρ_Luft)
 Q_Luft = v_mittel × A_Kanal
 ```
 Standard für GLT-Volumenstromregelung in VAV-Anlagen.
+
+<!-- EN -->
+
+Flow measurement is essential for heat metering, hydraulic optimisation, consumption billing, and operational monitoring. The choice of measurement principle depends on the medium, pipe size, accuracy requirements, and installation conditions.
+
+---
+
+## Overview of Measurement Principles
+
+| Principle | Medium | Accuracy | Installation | Typical DN |
+|-----------|--------|---------|-------------|-----------|
+| Electromagnetic (EMF) | Conductive liquids | 0.2–0.5% | Fixed (in pipe) | DN15–DN2000 |
+| Ultrasonic (clamp-on) | Liquids, gas | 1–3% | External (no pipe penetration) | DN50–DN2000 |
+| Ultrasonic (inline) | Liquids | 0.5–1% | Fixed | DN15–DN300 |
+| Coriolis | Liquids, gas | 0.1% | Fixed | DN6–DN150 |
+| Differential pressure (orifice/Venturi) | All media | 1–2% | Fixed | DN25–DN1000 |
+| Turbine / Woltmann | Water | 2–3% | Fixed | DN15–DN500 |
+| Thermal (mass flow) | Gas, air | 1–2% | Fixed or insertion | DN25–DN1000 |
+| Pitot tube | Air, gas | 2–5% | Insertion | Ducts from 200 mm² |
+
+---
+
+## Electromagnetic Flow Meter (EMF)
+
+Operating principle: A conductive medium flows through a magnetic field. The flowing liquid generates a voltage proportional to velocity (Faraday's law of induction):
+```
+U = k × v × B × D
+U: induced voltage, v: flow velocity, B: magnetic field strength, D: internal diameter
+```
+
+**Requirements:**
+- Medium must be electrically conductive (≥ 5 µS/cm) — deionised water not measurable
+- Completely full pipe (no partial flow)
+- Pipe earthing required (earthing rings for plastic pipes)
+
+**BA applications:**
+- Heat meters (heating/cooling circuits)
+- Flow rate control (pump, valve)
+- Consumption metering (billing purposes = MID class — legal metrology)
+
+---
+
+## Ultrasonic Flow Measurement
+
+### Inline (installed in pipeline)
+- Piezoelectric transducers send acoustic pulses upstream/downstream
+- Transit-time difference ∝ flow velocity
+- Better accuracy than clamp-on
+- Low maintenance (no moving parts, no pressure drop)
+
+### Clamp-On (external, no pipe penetration)
+Sensors are clamped onto the outside of the pipe:
+```
+Pipe
+ │◄── Sensor A (mounted opposite)
+ │
+ │──► Sensor B
+```
+
+**Clamp-on advantages:**
+- No pipe penetration (ideal for retrofit)
+- No sealing issues
+- Usable for different pipe diameters (parameters: pipe ∅, wall thickness, material)
+
+**Clamp-on disadvantages:**
+- Lower accuracy (1–3%) with poor installation conditions
+- Requires long straight runs (10–30× DN straight pipe before sensor)
+- Pipe wall thickness and air bubbles affect measurement
+
+---
+
+## Coriolis Flow Meter
+
+The medium flows through vibrating measuring tubes. The Coriolis force from the vibration–flow interaction is proportional to **mass flow** (not volumetric flow):
+
+- Direct mass flow measurement (independent of density, viscosity)
+- Accuracy: 0.1% — the best available method
+- Simultaneously measures density and temperature
+- High purchase price, large pressure drop
+- **BA use:** Rare (too expensive), mainly in industry for high-value media
+
+---
+
+## Differential Pressure Flow (Orifice, Venturi, Pitot)
+
+Bernoulli principle: flow constriction creates a pressure drop ∝ v²:
+```
+Q = α × A × √(2 × ΔP / ρ)
+Q: volumetric flow, α: discharge coefficient, ΔP: differential pressure, ρ: density
+```
+
+| Type | Pressure loss | Cost | Application |
+|------|-------------|------|------------|
+| Standard orifice | High (30–50% of ΔP measured) | Low | Industry, metrological testing |
+| Venturi | Low (5–15%) | Medium | Ventilation ducts |
+| Pitot tube | Very low | Very low | Air ducts, commissioning measurement |
+
+**Pitot tube in ventilation ducts:** Simple method for initial flow measurement (commissioning), not suitable for continuous control (sensitive to fouling).
+
+---
+
+## Turbine / Woltmann Meter (Heat Meter)
+
+Mechanical flow measurement: flow rotates an impeller; rotations are counted.
+
+| Type | Design | DN | Application |
+|------|--------|----|-----------| 
+| Single-jet | Cross flow | DN15–DN40 | Residential heat meters |
+| Woltmann | Axial flow | DN40–DN500 | Buildings, properties |
+| Compound | Woltmann + turbine in parallel | DN50–DN200 | Variable flow rates |
+
+**BA note:** Mechanical meters require a minimum flow (Q_min) — inaccurate at very low flow rates. Electromagnetic meters better for variable loads.
+
+---
+
+## Air Volume Flow Measurement
+
+### Rotating Vane / Anemometer
+- Electrical anemometer in duct or at outlet
+- Accuracy ±3–5%
+- Use: commissioning, portable testing
+
+### Thermal Mass Flow Sensor
+- Hot-wire principle: heating power ∝ mass flow (cooling effect of air)
+- Use: precise volume flow measurement in VAV boxes, air terminals
+- Advantage: no pressure drop, fast response
+
+### Differential Pressure Measurement Cross (Ventilation)
+Combination of 4–8 Pitot measurement points across the duct cross-section → mean flow velocity:
+```
+v_mean = √(2 × ΔP_mean / ρ_air)
+Q_air = v_mean × A_duct
+```
+Standard for BMS volume flow control in VAV systems.

@@ -1,5 +1,6 @@
 ---
 title: Fernwärme — Übergabestation und GA-Anbindung
+title_en: District Heating — Transfer Station and BA Integration
 slug: fernwaerme
 category: heizung
 subcategory: erzeuger
@@ -136,3 +137,128 @@ Aktuelle Leistung überschreitet Grenze:
 - **AGFW FW 401** (DE) — Rohrweitenbemessung Fernwärme
 - **SIA 384.201** (CH) — Heizungsanlagen in Gebäuden
 - **AGFW FW 301** — Allgemeine Bedingungen für die Versorgung mit Fernwärme
+
+<!-- EN -->
+
+District heating supplies heating and domestic hot water via an urban network. At the **transfer station** (building heat interface unit, HIU) the district heating network and the building installation are separated. The BA task: optimally control the secondary side.
+
+## System Overview
+
+```
+District heating network (primary side)
+  Supply 70–130 °C, return < 55 °C
+        ↓ Transfer station (HIU)
+  ┌────────────────────────────────┐
+  │  Transfer station               │
+  │  ├── Heat meter (primary)      │
+  │  ├── Control valve (primary)   │
+  │  └── Plate heat exchanger      │
+  └────────────────────────────────┘
+        ↓ Secondary side (building installation)
+  Heating circuits, domestic hot water, ventilation
+```
+
+---
+
+## Transfer Station — Components
+
+### Primary Side (District Heating Network)
+
+| Component | Function |
+|-----------|---------|
+| Main shut-off valve | Isolates building from the network |
+| Y-strainer | Protects valves and fittings |
+| Primary flow meter | Billing (calibrated heat meter) |
+| Control valve (primary) | Controls heat transfer via primary flow rate |
+| Return temperature limiter | Limits return temperature (contractual requirement!) |
+
+### Heat Exchanger
+
+Plate heat exchanger separates the primary and secondary network:
+- Primary and secondary are not hydraulically connected (no fluid exchange)
+- Output depends on: primary flow rate, temperature differential, heat exchanger size
+
+### Secondary Side
+
+Everything downstream of the heat exchanger is a conventional building installation:
+- Heating circuit pump, mixing valve, radiators/underfloor heating
+- Domestic hot water storage or instantaneous heater
+- AHU air heater coil
+
+---
+
+## Return Temperature Limitation
+
+**Most important requirement** from the district heating supplier: maximum primary return temperature!
+
+Typical: primary return ≤ 45–55 °C (depending on contract)
+
+**Why:** If primary return is too warm → district heating supplier cannot reject further heat → efficiency loss in the network.
+
+### Control Logic
+
+```
+Primary control valve regulates primary flow rate:
+  → More primary flow = more heat output
+  → But: if primary return too warm → reduce flow
+  
+Cascade:
+  Secondary flow temp controller (heating curve) → primary target flow
+                                                         ↓
+                                              Primary return temp limiter
+                                              (limits when return > max)
+```
+
+---
+
+## BA Data Points — Transfer Station
+
+| Data point | Type | Unit | Description |
+|------------|------|------|-------------|
+| Primary supply temperature | AI | °C | District heating supply |
+| Primary return temperature | AI | °C | District heating return (mandatory!) |
+| Primary flow rate | AI | m³/h | Primary flow |
+| Primary heat energy | AI | kWh | Meter reading (M-Bus) |
+| Primary control valve | AO | % | 0–10 V control signal |
+| Secondary supply temperature | AI | °C | Building supply |
+| Secondary return temperature | AI | °C | Building return |
+| Secondary power | AV | kW | Calculated secondary output |
+| Alarm: return temp exceeded | BI | — | Primary return > limit |
+| Alarm: flow = 0 | BI | — | No heat supply |
+
+---
+
+## Heating Curve Control with District Heating
+
+The secondary side is controlled exactly like a conventional heating system:
+
+```
+Outdoor temperature → heating curve → secondary supply setpoint
+    ↓ PID controller
+    ↓ Control output → primary control valve open/close
+    ↑ Secondary supply actual value (feedback)
+```
+
+**Special feature:** There is no "heating on/off" — the district heating network always supplies heat. Only the control valve determines how much is drawn.
+
+---
+
+## Power Control and Peak Loads
+
+District heating contracts often include a **power limit** (e.g. max. 200 kW):
+
+```
+Current power exceeds limit:
+  → EMS limits power draw
+  → e.g. delay DHW storage charging
+  → Temporarily reduce AHU heater coil output
+```
+
+**Consequence:** Power peak overruns often incur additional charges (demand charge in the district heating tariff).
+
+## Standards
+
+- **EN 14336** — Installation and commissioning of heating systems
+- **AGFW FW 401** (DE) — Pipe sizing for district heating
+- **SIA 384.201** (CH) — Heating systems in buildings
+- **AGFW FW 301** — General conditions for district heating supply

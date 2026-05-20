@@ -1,5 +1,6 @@
 ---
 title: KNX — Grundlagen & Inbetriebnahme
+title_en: KNX — Fundamentals and Commissioning
 slug: knx
 category: protokolle
 subcategory: gebäudebus
@@ -140,3 +141,132 @@ Gängige GLT-Anbindungen:
 - **EN 50090 / ISO/IEC 14543-3** — KNX-Standard
 - **KNX Association** (knx.org) — Schulungen, Produktdatenbank, ETS-Download
 - **KNX Certified** — Pflicht für alle KNX-Geräte
+
+<!-- EN -->
+
+**KNX** is the global standard for building systems technology (lighting, blinds, heating, HVAC). In the BA world, KNX serves as a decentralised fieldbus — the BMS communicates via a **KNXnet/IP gateway** or directly via **KNX/IP**.
+
+## Transmission Media
+
+| Medium | Code | Cable / carrier | Application |
+|--------|------|-----------------|------------|
+| Twisted Pair | TP | 2×0.8 mm bus cable (YCYM) | New construction, standard |
+| Powerline | PL | 230 V mains cable | Retrofit |
+| Radio | RF | 868 MHz | Retrofit, wireless sensors |
+| IP | IP | Ethernet (UDP port 3671) | Backbone, BMS integration, KNXnet/IP |
+
+**Twisted Pair** is by far the most common variant. The bus cable simultaneously supplies 29 V DC to power devices (typically max. 10 mA per device).
+
+## Topology
+
+```
+Area 1
+  ├── Line 1.1
+  │     ├── Device 1.1.1
+  │     ├── Device 1.1.2
+  │     └── ...  (max. 64 bus participants)
+  ├── Line 1.2
+  └── ...  (max. 15 lines per area)
+Area 2
+  └── ...
+(max. 15 areas)
+```
+
+- **Line:** up to 64 devices, max. 1,000 m total cable length, max. 700 m from power supply to device
+- **Line coupler (LC):** connects lines within an area, filters telegrams
+- **Area coupler (AC):** connects areas, also with telegram filter
+- **IP backbone:** areas can be linked via KNXnet/IP routers
+
+> ⚠️ **Important:** The physical address (e.g. `1.2.15`) is only used during commissioning. In operation, devices communicate exclusively via **group addresses**.
+
+## Physical Address vs. Group Address
+
+| Type | Format | Meaning |
+|------|--------|---------|
+| Physical address | `1.2.15` | Area.Line.Device — for ETS programming |
+| Group address | `1/2/50` | Communication object linkage |
+
+**Concept:** A push-button sends on group address `1/2/50`. All actuators that have subscribed to this GA respond. A device can have any number of GAs.
+
+### Recommended GA Structure (3-level)
+
+```
+Main group / Middle group / Sub-group
+1 / 2 / 50
+└─ Function (lighting)
+       └─ Room / zone
+                └─ Channel / switching point
+```
+
+## Telegram Structure (Summary)
+
+A KNX TP telegram consists of:
+- **Control field** (priority, repeat bit)
+- **Source address** (physical address of sender)
+- **Destination address** (group address or physical address)
+- **Data field** (1 bit to 14 bytes — depending on data point type)
+- **CRC** (checksum)
+
+Maximum telegram rate on one line: approx. **50 telegrams/s**.
+
+## Data Point Types (DPT) — the Most Important
+
+| DPT | Length | Data | Example |
+|-----|--------|------|---------|
+| 1.001 | 1 bit | Switch (0/1) | Light on/off |
+| 1.008 | 1 bit | Up/down | Blinds |
+| 5.001 | 1 byte | Percentage 0–100% | Brightness, valve position |
+| 9.001 | 2 bytes | Float −273…+670 °C | Temperature |
+| 9.006 | 2 bytes | Float, Pa | Pressure |
+| 14.x | 4 bytes | IEEE 754 float | Power, energy |
+| 16.001 | 14 B | ASCII string | Display |
+
+> ⚠️ **DPT 9.x (2-byte float):** Not IEEE 754! KNX uses its own format with mantissa + exponent. When reading into BMS/BACnet, ensure correct scaling.
+
+## ETS — Engineering Tool Software
+
+**ETS** (currently ETS6) is the official configuration and programming tool. All device applications are loaded, parameterised, and downloaded to devices here.
+
+### Typical Commissioning Workflow
+
+1. **Create project** → add topology, lines, devices
+2. **Product database** (knxpros.com, manufacturer) → import device data (`.knxprod`)
+3. **Set application parameters** (e.g. button assignments, switching times)
+4. **Create group addresses** (3-level recommended)
+5. **Link communication objects** (CO → GA)
+6. **Download** via USB/TP interface or KNXnet/IP interface
+7. **Functional test** in ETS diagnostics window (telegram monitor)
+
+**Physical programming:** Press learning button on device → ETS sends physical address → device stores it.
+
+## KNXnet/IP — BMS Integration
+
+Via a **KNXnet/IP router** or **IP interface**, the BMS can access the KNX bus:
+
+- **IP interface:** Tunnel access for ETS and SCADA (max. 1–4 simultaneous connections)
+- **IP router:** Connects KNX TP line with IP backbone (for larger installations)
+
+**Protocol:** UDP port **3671**, multicast address `224.0.23.12`
+
+Common BMS integrations:
+- OPC DA/UA server with KNX driver
+- BACnet/IP gateway with KNX–BACnet mapping
+- Direct SDK integration (knxd, KNXIP-Python, Weinzierl SDK)
+
+## Diagnostics and Troubleshooting
+
+| Problem | Cause / remedy |
+|---------|---------------|
+| Device does not respond | Duplicate physical address? Bus supply OK? |
+| Telegrams not received | Check coupler filter — is GA in filter table? |
+| Sporadic failures | Bus overloaded (>50 telegrams/s), missing termination |
+| Device cannot be programmed | Hold programming button? IP interface tunnel limit reached? |
+| Short circuit on line | Bus supply shuts down → isolate segment by segment |
+
+**Telegram monitor in ETS:** Real-time view of all telegrams — essential for diagnostics.
+
+## Standards and Resources
+
+- **EN 50090 / ISO/IEC 14543-3** — KNX standard
+- **KNX Association** (knx.org) — training, product database, ETS download
+- **KNX Certified** — mandatory for all KNX devices

@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { onMount, tick } from 'svelte';
-	import { search, groupByType, typeLabels, typeColors, type SearchItem, type SearchType } from '$lib/search';
+	import { _, locale } from 'svelte-i18n';
+
+	const isEn = $derived($locale === 'en');
+	function t(de: string, en?: string) { return isEn && en ? en : de; }
+	import { search, groupByType, typeColors, type SearchItem, type SearchType } from '$lib/search';
 
 	let { open = $bindable(false) }: { open?: boolean } = $props();
 
@@ -12,6 +16,15 @@
 	const results = $derived(search(query, 20));
 	const grouped = $derived(groupByType(results));
 	const orderedTypes: SearchType[] = ['wissen', 'rechner', 'konverter', 'referenz', 'checkliste', 'abkuerzung'];
+
+	const typeLabels = $derived<Record<SearchType, string>>({
+		wissen:     $_('nav.knowledge'),
+		rechner:    $_('nav.calculator'),
+		konverter:  $_('nav.converter'),
+		referenz:   $_('nav.reference'),
+		checkliste: $_('nav.checklists'),
+		abkuerzung: $_('nav.abbreviations')
+	});
 
 	// Flat list aligned with rendering order (for keyboard navigation)
 	const flatList = $derived.by(() => {
@@ -85,9 +98,9 @@
 		onkeydown={(e) => e.key === 'Escape' && (open = false)}
 		role="button"
 		tabindex="-1"
-		aria-label="Suche schliessen"
+		aria-label={$_('search.ariaOverlay')}
 	></div>
-	<div class="modal" role="dialog" aria-label="Globale Suche">
+	<div class="modal" role="dialog" aria-label={$_('search.ariaModal')}>
 		<div class="search-bar">
 			<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
 				<circle cx="11" cy="11" r="8" />
@@ -97,7 +110,7 @@
 				bind:this={inputEl}
 				bind:value={query}
 				onkeydown={handleKeydown}
-				placeholder="Suchen — Artikel, Rechner, Konverter…"
+				placeholder={$_('search.placeholder')}
 				class="search-input"
 				type="search"
 				autocomplete="off"
@@ -107,7 +120,7 @@
 
 		<div class="results">
 			{#if flatList.length === 0}
-				<p class="empty">Keine Treffer für „{query}"</p>
+				<p class="empty">{$_('search.noResults', { values: { query } })}</p>
 			{:else}
 				{#each orderedTypes as type}
 					{@const items = grouped[type] ?? []}
@@ -128,9 +141,9 @@
 								>
 									<span class="item-bar" style:background={typeColors[type]}></span>
 									<div class="item-body">
-										<div class="item-title">{item.title}</div>
-										{#if item.subtitle}
-											<div class="item-subtitle">{item.subtitle}</div>
+										<div class="item-title">{t(item.title, item.title_en)}</div>
+										{#if item.subtitle || item.subtitle_en}
+											<div class="item-subtitle">{t(item.subtitle ?? '', item.subtitle_en)}</div>
 										{/if}
 									</div>
 									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-arrow">
@@ -145,9 +158,9 @@
 		</div>
 
 		<div class="footer">
-			<span><kbd>↑</kbd><kbd>↓</kbd> Navigation</span>
-			<span><kbd>↵</kbd> Öffnen</span>
-			<span><kbd>ESC</kbd> Schliessen</span>
+			<span><kbd>↑</kbd><kbd>↓</kbd> {$_('search.navigate')}</span>
+			<span><kbd>↵</kbd> {$_('search.openItem')}</span>
+			<span><kbd>ESC</kbd> {$_('nav.close')}</span>
 		</div>
 	</div>
 {/if}

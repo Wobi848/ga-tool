@@ -1,7 +1,7 @@
-import { redirect } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/auth.schema';
+import { parseLocation } from '$lib/server/parseLocation';
 import type { LayoutServerLoad } from './$types';
 
 function parseJsonArray(raw: string | null | undefined): string[] {
@@ -15,7 +15,7 @@ function parseJsonArray(raw: string | null | undefined): string[] {
 }
 
 export const load: LayoutServerLoad = async ({ locals }) => {
-	if (!locals.user) redirect(302, '/login');
+	if (!locals.user) return { user: null, profile: null };
 
 	const row = await db.query.user.findFirst({ where: eq(userTable.id, locals.user.id) });
 
@@ -26,7 +26,8 @@ export const load: LayoutServerLoad = async ({ locals }) => {
 			company: row?.company ?? null,
 			disciplines: parseJsonArray(row?.disciplines),
 			mfrPrefs: parseJsonArray(row?.mfrPrefs),
-			defaultCity: row?.defaultCity ?? null
+			defaultCity: parseLocation(row?.defaultCity).city || null,
+			defaultTemp: parseLocation(row?.defaultCity).temp
 		}
 	};
 };

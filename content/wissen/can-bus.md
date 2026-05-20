@@ -1,5 +1,6 @@
 ---
 title: CAN Bus — Controller Area Network in der GA
+title_en: CAN Bus — Controller Area Network in Building Automation
 slug: can-bus
 category: kommunikation
 subcategory: feldbus
@@ -176,3 +177,167 @@ GLT / BACnet/IP
 ```
 
 Alternativ bieten einige DDC-Systeme direkte CAN-Schnittstellen (z.B. WAGO 750, Phoenix Contact ILC).
+
+<!-- EN -->
+
+CAN (Controller Area Network) was developed by Bosch in 1986 for automotive electronics and has since become established in industrial controls and, increasingly, in building automation. In the BA environment, CAN is found primarily in **fans, actuators, lift controls, and modern HVAC equipment**.
+
+---
+
+## Why CAN in Building Automation?
+
+| Property | Advantage for BA |
+|----------|-----------------|
+| Event-driven | Status messages transmitted immediately on state change |
+| Prioritisation | Alarm messages pre-empt routine data |
+| Multi-master | No central coordinator required |
+| High noise immunity | Differential transmission, CRC checking |
+| Reliable error detection | Automatic retransmission, Bus-Off detection |
+
+Typical BA applications:
+- **Belimo CAN** — damper actuators and valves with CAN interface
+- **Lift controls** — car communication per EN 81-28
+- **EC fans** — e.g. ebm-papst with CANopen interface
+- **Heat pumps and chillers** — internal device communication
+- **Fire suppression systems** — CAN in extinguishing system controls
+
+---
+
+## Physical Layer (ISO 11898-2)
+
+CAN uses a **differential two-wire link** (CAN_H, CAN_L) similar to RS-485, but with different voltage levels:
+
+| Level | CAN_H | CAN_L | Differential |
+|-------|-------|-------|-------------|
+| Recessive (1) | 2.5 V | 2.5 V | 0 V |
+| Dominant (0) | 3.5 V | 1.5 V | 2 V |
+
+**Termination resistors:** 120 Ω at both bus ends (identical to RS-485).
+
+### Cable Length vs. Baud Rate
+
+| Baud Rate | Max. Cable Length |
+|-----------|-----------------|
+| 1 Mbit/s | 25 m |
+| 500 kbit/s | 100 m |
+| 250 kbit/s | 250 m |
+| 125 kbit/s | 500 m |
+| 50 kbit/s | 1,000 m |
+| 10 kbit/s | 5,000 m |
+
+For BA with cable lengths > 100 m: choose 125 kbit/s or 250 kbit/s.
+
+---
+
+## Message Structure (Data Frame)
+
+CAN is **message-based**, not address-based. Every message has an ID — the receiver decides itself whether to process a given message.
+
+```
+┌──────┬──────┬────────┬──────────────────┬─────┬────┐
+│ SOF  │  ID  │  DLC   │   DATA (0–8 byte) │ CRC │ EOF│
+│ 1 bit│11/29b│ 4 bit  │   0–8 bytes       │15 b │    │
+└──────┴──────┴────────┴──────────────────┴─────┴────┘
+```
+
+- **ID (11-bit standard / 29-bit extended):** Identifies the message type and determines priority (lower ID = higher priority)
+- **DLC:** Data Length Code — number of data bytes
+- **CRC:** 15-bit checksum
+
+---
+
+## Bus Arbitration (CSMA/BA)
+
+CAN uses **bitwise arbitration**: when two nodes transmit simultaneously, the one with the lower ID wins (Dominant = 0 overrides Recessive = 1). The loser automatically retransmits. No collision damage as with Ethernet.
+
+---
+
+## CANopen — The BA-Relevant Application Protocol
+
+CANopen (CiA 301) is the most important CAN application protocol in BA:
+
+### Communication Objects
+
+| Object | Abbreviation | Function |
+|--------|-------------|---------|
+| Process Data Object | PDO | Real-time process data (measured values, setpoints) |
+| Service Data Object | SDO | Configuration and parameterisation |
+| Network Management | NMT | Start-up, stop, fault reset |
+| Heartbeat/Guarding | HB/LG | Node monitoring |
+| Emergency | EMCY | Error messages |
+| Sync | SYNC | Time synchronisation |
+
+### Device Profile CiA 417 — Building Automation
+
+CiA 417 defines CANopen device classes specifically for BA:
+- **Room operating units** (thermostat, CO₂ sensor)
+- **Valve actuators** (heating/cooling valves)
+- **Ventilation dampers**
+- **Blind/shutter controls**
+
+---
+
+## CAN vs. RS-485 / Modbus
+
+| Feature | CAN / CANopen | RS-485 / Modbus RTU |
+|---------|--------------|---------------------|
+| Architecture | Multi-master, event-driven | Master-slave, polling |
+| Prioritisation | Yes (by ID) | No |
+| Error detection | CRC + bit stuffing + ACK | CRC only |
+| Latency | Low (event-driven) | Higher (polling cycle time) |
+| Nodes | 127 | 32 (standard) |
+| Prevalence in BA (CH/DE) | Medium (actuators, ventilation) | Very high |
+| Configuration effort | Higher (object dictionary) | Low (direct register access) |
+
+---
+
+## CAN FD — Flexible Data Rate
+
+CAN FD (ISO 11898-1:2015) allows:
+- **Up to 64 bytes** payload (instead of 8)
+- **Up to 8 Mbit/s** in the data phase
+- Backward compatible with classic CAN in the arbitration phase
+
+Still rare in BA, but increasingly found in newer HVAC equipment.
+
+---
+
+## Common Faults and Diagnostics
+
+| Fault | Cause | Measure |
+|-------|-------|---------|
+| Bus-Off | Too many transmission errors | Find root cause (termination, shielding) |
+| Error Passive | Node has counted > 127 errors | Check communication |
+| No communication | Missing termination resistors | 120 Ω at both ends |
+| Sporadic errors | EMC interference | Improve shielding, reduce baud rate |
+| Node not responding | Wrong NMT state | Send NMT Start-Node |
+
+### CAN Diagnostic Tools
+- **PEAK PCAN-USB** — affordable CAN analyser
+- **CANalyzer (Vector)** — professional analysis
+- **Wireshark + SocketCAN** (Linux) — free
+- **Manufacturer tools** (e.g. Belimo Assistant, ebm-papst CAN Tool)
+
+---
+
+## Integration into BMS/DDC
+
+Most BA systems natively speak Modbus RTU or BACnet. CAN devices are typically connected via a **CAN gateway**:
+
+```
+BMS / BACnet/IP
+      │
+   BACnet/IP ↔ Modbus RTU gateway
+      │
+   RS-485 bus
+      │
+   CAN gateway (e.g. WAGO 750-657, Anybus)
+      │
+   CAN bus (CANopen)
+      │
+   ├── Belimo actuator
+   ├── EC fan
+   └── Heat pump
+```
+
+Some DDC systems also offer direct CAN interfaces (e.g. WAGO 750, Phoenix Contact ILC).

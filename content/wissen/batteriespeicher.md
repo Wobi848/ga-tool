@@ -1,5 +1,6 @@
 ---
 title: Batteriespeicher in der GA — BESS-Steuerung und Integration
+title_en: Battery Storage in BA — BESS Control and Integration
 slug: batteriespeicher
 category: energie
 subcategory: speicher
@@ -143,3 +144,134 @@ EMS (Home Assistant / Loxone / Beckhoff)
 - **IEC 62619**: Sicherheitsanforderungen Lithium-Akkumulatoren stationäre Anwendungen
 - **VDE-AR-E 2510-50**: Batteriestationäre Anlagen am Niederspannungsnetz (DE)
 - **IEC 62933**: Grid Integration of Energy Storage Systems
+
+<!-- EN -->
+
+A **Battery Energy Storage System (BESS)** in a building enables temporal energy shifting: store PV surplus during the day, use it in the evening or at night. BESS systems also serve for peak shaving, backup power, and grid services.
+
+---
+
+## Cell Technologies in the Building Sector
+
+| Technology | Cell Chemistry | Advantages | Disadvantages |
+|------------|---------------|------------|---------------|
+| **LFP** (Lithium Iron Phosphate) | LiFePO₄ | Very safe, 4000+ cycles, no thermal runaway | Lower energy density |
+| **NMC** (Nickel Manganese Cobalt) | LiNiMnCoO₂ | Higher energy density | More expensive, more sensitive |
+| **NaS** (Sodium Sulphur) | — | Large capacity (MW range) | Industrial applications only |
+
+**Standard for residential and SME:** LFP — safe, long-lasting, no cobalt.
+
+---
+
+## System Topologies
+
+### AC-Coupled
+Battery inverter is connected independently from the PV inverter at the AC bus:
+```
+PV inverter ──┐
+               ├── AC bus (230/400 V) ── Grid
+Bat. inverter ─┘         │
+                      Loads
+```
+- Advantage: Flexible, inverters can be replaced independently, suitable for retrofit
+- Disadvantage: Double conversion (PV → AC → battery) reduces efficiency slightly
+
+### DC-Coupled
+PV and battery share the same DC link, with a common hybrid inverter:
+```
+PV modules ──── MPPT ──┐
+                         ├── Hybrid inverter ── AC bus ── Grid
+Battery    ─────────────┘
+```
+- Advantage: Higher efficiency, fewer components
+- Disadvantage: PV and battery must be compatible
+
+---
+
+## BMS — Battery Management System
+
+The BMS monitors and protects the battery cells:
+
+| Function | Description |
+|----------|-------------|
+| SoC calculation | State of Charge (0–100%), Coulomb counting + voltage model |
+| SoH assessment | State of Health — capacity loss over lifetime |
+| Cell balancing | Equalisation between over- and under-charged cells |
+| Temperature protection | Shutdown at > 55 °C / < 0 °C |
+| Overvoltage protection | Protection at cell voltage > 3.65 V (LFP) |
+| Short-circuit protection | Immediate shutdown on overcurrent |
+
+### BMS Communication
+
+| Interface | Application |
+|-----------|------------|
+| **CAN Bus** | Industrial BESS, Pylontech, BYD, SMA |
+| **Modbus RTU/TCP** | Victron Lynx, SolarEdge, Fronius |
+| **SunSpec Modbus** | Standardised (Model 802: Storage) |
+| **RS-485** | Older systems |
+
+---
+
+## Control Strategies
+
+### 1. Self-Consumption Optimisation
+PV surplus → charge battery, minimise grid export.
+Evening → discharge battery until SoC-min (typically 10–20%).
+
+### 2. Peak Shaving
+Cap power peaks at the grid connection point:
+```
+If P_grid > P_peak_limit:
+    Discharge battery with (P_grid − P_peak_limit)
+```
+Relevant for commercial customers with a demand charge component in their electricity tariff.
+
+### 3. Arbitrage / Time-of-Use
+Charge battery during cheap electricity periods (night/PV surplus), discharge when rates are high. Requires a time-of-use or spot-price tariff.
+
+### 4. Backup Power
+On grid failure: battery + PV supply defined backup circuits. Requires automatic transfer switch and island-capable inverter.
+
+### 5. Grid Services (FCR, aFRR)
+Frequency response: BESS reacts within seconds to frequency deviations. Only viable with an aggregator and appropriate certification.
+
+---
+
+## Integration into EMS / BA
+
+```
+EMS (Home Assistant / Loxone / Beckhoff)
+     │
+     ├── Inverter (Modbus TCP / SunSpec)
+     │     ├── PV yield [kW]
+     │     ├── Battery SoC [%]
+     │     ├── Charge / discharge power [kW]
+     │     └── Set operating mode
+     │
+     └── Grid meter (Modbus TCP)
+           └── Grid import / export [kW]
+```
+
+**Key Modbus control commands:**
+- Forced charge: charge battery from grid (e.g. during cheap tariff period)
+- Forced discharge: discharge battery independent of grid status
+- Set SoC reserve: minimum SoC for backup power reserve
+
+---
+
+## Sizing Guidelines
+
+| Application | Storage Capacity | Power |
+|-------------|----------------|-------|
+| Single-family home (5 kWp PV) | 5–10 kWh | 3–5 kW |
+| Multi-family / SME | 20–100 kWh | 10–50 kW |
+| Commercial peak shaving | Assumption: 1–2 h peak load | P_peak × 1–2 h |
+| 4-hour backup power | Critical load × 4 h | Same as load |
+
+---
+
+## Key Standards
+
+- **IEC 62619**: Safety requirements for secondary lithium cells and batteries for use in stationary applications
+- **VDE-AR-E 2510-50**: Stationary battery systems at the low-voltage grid (DE)
+- **IEC 62933**: Grid integration of electrical energy storage systems

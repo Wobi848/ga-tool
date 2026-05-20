@@ -1,5 +1,6 @@
 ---
 title: DDC-Programmierung — IEC 61131-3 Grundlagen
+title_en: DDC Programming — IEC 61131-3 Fundamentals
 slug: ddc-programmierung
 category: ga
 subcategory: programmierung
@@ -166,3 +167,158 @@ Viele DDC-Plattformen bieten fertige Heizkurven-FBs mit Steilheit, Parallelversc
 - **IEC 61131-3** — Programmiersprachen für SPS
 - **EN 61131-3** — Europäische Fassung
 - **IEC 61131-1** — Allgemeine Informationen zu SPS
+
+<!-- EN -->
+
+DDC controllers are programmed to **IEC 61131-3** — the international standard for PLC and DDC programming languages. Anyone configuring or programming BA installations encounters these languages daily.
+
+## IEC 61131-3 — Five Programming Languages
+
+| Language | Abbrev. | Type | Strength |
+|---------|---------|------|---------|
+| **Function Block Diagram** | FBD | Graphical (blocks) | Control loops, BA logic |
+| **Ladder Diagram** | LD | Graphical (relay-like) | Switching logic, interlocks |
+| **Structured Text** | ST | Textual (Pascal-like) | Calculations, complex logic |
+| Instruction List | IL | Textual (assembler-like) | Obsolete, rarely used |
+| Sequential Function Chart | SFC | Graphical (state machine) | Sequential processes |
+
+---
+
+## FBD — Function Block Diagram
+
+Most common in BA. Connects pre-built blocks with "wires":
+
+```
+[AI_T_SUP] ──► [PID_Controller]──► [AO_Valve]
+[AV_T_SP]  ──►   Kp=2.5
+               Ti=5min
+               
+[DI_Pump_RUN]──► [TON Timer]──► [DO_Alarm_Pump]
+                   Delay=30s
+```
+
+**Pre-built blocks (FB = Function Block):**
+- `PID` — Proportional-Integral-Derivative controller
+- `TON` — Timer On-Delay
+- `TOF` — Timer Off-Delay
+- `CTU/CTD` — Up/down counter
+- `SR/RS` — Set-Reset latch (interlock logic)
+- `SEL` — Selector (if-then)
+- `LIMIT` — Limiter (min/max)
+
+---
+
+## Structured Text (ST) — Example
+
+Supply temperature calculation (heating curve):
+
+```pascal
+(* Heating curve: supply temperature from outdoor temperature *)
+PROGRAM HeatingCurve
+VAR
+  T_Outdoor  : REAL;   (* Outdoor temperature °C *)
+  T_SUP_SP   : REAL;   (* Calculated supply setpoint *)
+  Slope      : REAL := 1.5;   (* Heating curve slope *)
+  T_Design_A : REAL := -10.0; (* Design outdoor temperature *)
+  T_Room_SP  : REAL := 21.0;  (* Room setpoint *)
+END_VAR
+
+(* Calculation *)
+T_SUP_SP := T_Room_SP + Slope * (T_Room_SP - T_Outdoor);
+
+(* Limit to 20...80 °C *)
+IF T_SUP_SP > 80.0 THEN
+  T_SUP_SP := 80.0;
+ELSIF T_SUP_SP < 20.0 THEN
+  T_SUP_SP := 20.0;
+END_IF;
+```
+
+---
+
+## Ladder Diagram (LD) — Interlock Example
+
+Pump interlock: pump may only run if no frost alarm and operation enabled:
+
+```
+|--[ OperationEnable ]--[ /FrostAlarm ]--[ /PumpFault ]--( Pump_ON )--|
+|                                                                       |
+|--[ Pump_ON ]--------------------------------------------------------------|
+```
+
+- `[ ]` = normally open contact (condition met = 1)
+- `[ / ]` = normally closed contact (inverted, condition not met)
+- `( )` = output coil (sets output)
+
+Translated: pump on when: OperationEnable = 1 AND FrostAlarm = 0 AND PumpFault = 0
+
+---
+
+## Cyclic Program
+
+DDC program runs cyclically:
+
+```
+Cycle 1 (e.g. 1 second):
+  1. Read inputs (AI, DI)
+  2. Execute programs (blocks, logic)
+  3. Set outputs (AO, DO)
+  
+Cycle 2 (1 second later):
+  1. Read inputs (new values)
+  2. Execute programs
+  3. Set outputs (new control commands)
+```
+
+**Cycle time:** Typically 100 ms – 5 seconds for BA applications (fast control loops: 100 ms, slow room temperatures: 5–10 s).
+
+---
+
+## Typical BA Function Blocks
+
+### PID Block
+
+```
+                ┌────────────────┐
+Actual X ──────►│                │
+                │   PID         │───► Control output Y (0–100 %)
+Setpoint W ────►│   Kp: 2.5     │
+                │   Ti: 300 s   │
+Enable ────────►│   Td: 0 s     │
+                └────────────────┘
+```
+
+Parameters:
+- **Kp** (gain): How strongly the controller reacts to deviation
+- **Ti** (reset time): How long the I-component integrates
+- **Td** (derivative time): How far ahead the D-component looks
+
+### Heating Curve Block (Manufacturer FB)
+
+```
+T_Outdoor ──►[ HeatingCurve_FB ]──► T_SUP_SP
+Slope     ──►   Slope=1.5
+T_Room    ──►   T_Room=21°C
+```
+
+Many DDC platforms offer ready-made heating curve FBs with slope, parallel shift, and limit temperature.
+
+---
+
+## Manufacturer Specifics
+
+| Manufacturer | Platform | Language / tool |
+|------------|---------|---------------|
+| Siemens | PXC / Desigo CC | PPCL / CPS (proprietary) |
+| Sauter | modu8 / EY-modulo | EY-modulo Studio (IEC 61131-3) |
+| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3 |
+| Beckhoff | CX / TwinCAT | IEC 61131-3 (ST, FBD, LD) |
+| CODESYS | Many manufacturers | CODESYS (IEC 61131-3 standard) |
+
+**Important:** Programs are usually **not portable** between manufacturers. Even though IEC 61131-3 is the standard, there are manufacturer-specific extensions and libraries.
+
+## Standards
+
+- **IEC 61131-3** — Programming languages for PLCs
+- **EN 61131-3** — European version
+- **IEC 61131-1** — General information on PLCs

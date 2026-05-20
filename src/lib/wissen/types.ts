@@ -3,6 +3,7 @@ export type Area = 'hlk' | 'sanitaer' | 'elektro' | 'ga' | 'it' | 'normen';
 
 export interface ArticleMeta {
 	title: string;
+	title_en?: string;
 	slug: string;
 	category: string;
 	subcategory?: string;
@@ -14,10 +15,13 @@ export interface ArticleMeta {
 	norm: string[];
 	updated: string;
 	lang: string;
+	hasEnBody: boolean;
 }
 
 export interface Article extends ArticleMeta {
-	body: string; // raw markdown content
+	body: string;    // full raw markdown (kept for search compat)
+	bodyDe: string;  // German section
+	bodyEn?: string; // English section (if <!-- EN --> marker present)
 }
 
 export const areaLabels: Record<Area, string> = {

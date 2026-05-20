@@ -1,5 +1,6 @@
 ---
 title: Netzwerk-Grundlagen für die GA — VLANs, OT/IT
+title_en: Network Fundamentals for BA — VLANs, OT/IT
 slug: netzwerk-ga
 category: it
 subcategory: netzwerk
@@ -169,3 +170,161 @@ Internet
 - **IEC 62443** — Industrie-Cybersecurity (OT/ICS)
 - **NIST SP 800-82** — Guide to ICS Security
 - **VDI/VDE 2182** — IT-Sicherheit in der Fabrikautomation (übertragbar auf GA)
+
+<!-- EN -->
+
+BA systems today run almost exclusively on IP networks. Anyone installing BACnet/IP or Modbus TCP must understand network fundamentals — otherwise the installation won't work and will be open to attack.
+
+## OT vs. IT — Two Worlds
+
+| Criterion | IT network | OT network (BA/ICS) |
+|----------|-----------|-------------------|
+| Priority | Confidentiality, integrity | Availability, real-time |
+| Update cycles | Regular, automatic | Rare, tested (system is running!) |
+| Operating time | Maintenance windows possible | 24/7, no failure tolerated |
+| Device lifetime | 3–5 years | 10–25 years |
+| Protocols | TCP/IP, HTTP, TLS | BACnet, Modbus TCP, KNX/IP |
+| Security thinking | CIA model | Availability first |
+
+**Important:** OT and IT **must be separated** — different requirements, different risks.
+
+---
+
+## IP Addressing in BA
+
+### Typical IP Schema for a Building
+
+| Network | Subnet | Devices |
+|---------|--------|--------|
+| BMS / management | 10.10.1.0/24 | BMS server, workstations |
+| Automation level | 10.10.2.0/24 | DDC controllers (BACnet/IP) |
+| Field level (IP) | 10.10.3.0/24 | IP gateways, room controllers |
+| IoT / MQTT | 10.10.4.0/24 | Sensors, MQTT broker |
+
+**Subnet sizes:** /24 = 254 devices; /16 = 65,534 devices. For BA, /24 is usually sufficient.
+
+### Static vs. DHCP Addresses
+
+**Recommendation:** Always assign **static IPs** to BA devices or use DHCP reservation (MAC → IP).
+
+Why? If the DHCP server restarts, the IP might change → BACnet devices no longer found → installation keeps running but BMS loses connection.
+
+---
+
+## VLANs — Virtual Networks
+
+**VLAN** (Virtual LAN) divides a physical network into logically separate segments. Devices in the same VLAN can communicate; cross-VLAN communication only via router/firewall.
+
+### Why VLANs in BA?
+
+```
+Without VLAN:
+  BACnet broadcast flows through the entire network → overloads other devices
+  A compromised device can reach all others
+
+With VLAN:
+  BACnet traffic stays in the OT VLAN
+  BMS can reach DDCs (router, permitted ports)
+  IT devices cannot see the OT network
+```
+
+### VLAN Configuration (Basic Principle)
+
+**Access port:** Device belongs to one VLAN
+
+```
+Switch port → DDC controller → Access VLAN 10 (OT network)
+```
+
+**Trunk port:** Multiple VLANs on one port (switch → router)
+
+```
+Switch uplink → router (trunk): VLAN 10, VLAN 20, VLAN 30 → all carry their tag
+```
+
+---
+
+## BACnet/IP — Network Specifics
+
+### Broadcasts and BBMDs
+
+BACnet/IP uses UDP broadcasts for device discovery (Who-Is / I-Am). Broadcasts are **not** forwarded by routers → devices on different subnets cannot find each other.
+
+**BBMD** (BACnet Broadcast Management Device): device that forwards broadcasts between subnets. Usually integrated in the BMS or DDC.
+
+```
+Subnet 10.10.2.x:  BBMD-A (e.g. BMS server)
+Subnet 10.10.3.x:  BBMD-B (e.g. IP gateway)
+
+BBMD-A and BBMD-B know each other (peer list) → forward broadcasts
+```
+
+### BACnet UDP Port
+
+- Standard: **47808 (0xBAC0)** — must be permitted on firewall
+- Inbound and outbound (bidirectional)
+
+---
+
+## Modbus TCP — Network Requirements
+
+- Port **502/TCP**
+- No broadcast issues (TCP, unicast)
+- Master always requests → slave responds
+- Timeout: 1–5 seconds (then connection error in DDC)
+- Firewall: permit port 502 from DDC to Modbus device
+
+---
+
+## Managed Switch — the Backbone
+
+Always use **managed switches** for BA networks:
+
+| Function | Unmanaged | Managed |
+|---------|---------|--------|
+| VLAN | ❌ | ✅ |
+| Port statistics | ❌ | ✅ |
+| SNMP monitoring | ❌ | ✅ |
+| Port mirroring | ❌ | ✅ |
+| Loop protection (STP) | No | ✅ (important!) |
+| PoE (Power over Ethernet) | No | ✅ optional |
+
+**Recommended manufacturers:** Cisco, HP/Aruba, Hirschmann (industrial), Siemens SCALANCE, Moxa.
+
+---
+
+## Network Segmentation Concept for BA
+
+```
+Internet
+    ↓
+[Firewall]
+    ├── IT network (VLAN 1): offices, PCs, servers
+    │       └── [DMZ]: BMS web interface (accessible from outside)
+    └── OT network (VLAN 10): DDC controllers, fieldbus devices
+            └── BMS↔DDC communication only via explicitly permitted ports
+```
+
+**Firewall rules (example):**
+- BMS → DDC: permit UDP 47808 (BACnet)
+- DDC → BMS: permit UDP 47808 (BACnet responses)
+- IT → OT: BLOCKED (except maintenance PC via VPN)
+- OT → Internet: BLOCKED
+
+---
+
+## Typical BA Network Errors
+
+| Error | Symptom | Solution |
+|-------|---------|---------|
+| No BBMD configured | DDC on other subnet not found | Set up BBMD in BMS and DDC |
+| Wrong subnet mask | No communication | /24 on all devices |
+| Broadcast storm (loop) | Network hangs | Enable STP on switches |
+| IP conflict | Device reachable but wrong | Static IPs or DHCP reservation |
+| OT port directly on internet | Security risk | Firewall, VPN, never direct! |
+
+## Standards
+
+- **IEC 62443** — Industrial cybersecurity (OT/ICS)
+- **NIST SP 800-82** — Guide to ICS security
+- **VDI/VDE 2182** — IT security in factory automation (applicable to BA)

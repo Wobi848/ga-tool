@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
 	import FavButton from '$lib/components/FavButton.svelte';
+	import { _ } from 'svelte-i18n';
 
 	type Mode = 'auslegung' | 'raumverhalten';
 	let mode: Mode = $state('auslegung');
@@ -17,27 +18,25 @@
 	// Mode 2: Raumverhalten
 	let flowRate = $state(300);    // m³/h
 
-	const activityCO2: Record<string, { lph: number; label: string }> = {
-		rest:     { lph: 12, label: 'Ruhend / Schlafen' },
-		office:   { lph: 18, label: 'Büro / leichte Tätigkeit' },
-		physical: { lph: 35, label: 'Körperliche Arbeit' }
+	const activityCO2Base: Record<string, { lph: number; labelKey: string }> = {
+		rest:     { lph: 12, labelKey: 'rechner.co2RegelungUi.actRest' },
+		office:   { lph: 18, labelKey: 'rechner.co2RegelungUi.actOffice' },
+		physical: { lph: 35, labelKey: 'rechner.co2RegelungUi.actPhysical' }
 	};
+	const activityCO2 = $derived(
+		Object.fromEntries(
+			Object.entries(activityCO2Base).map(([k, v]) => [k, { ...v, label: $_(v.labelKey) }])
+		) as Record<string, { lph: number; label: string }>
+	);
 
-	const co2Presets = [
-		{ label: 'Kat. I — sehr gut (EN 16798)', ppm: co2Outside + 350 },
-		{ label: 'Kat. II — gut (EN 16798)',     ppm: co2Outside + 500 },
-		{ label: 'Kat. III — moderat',            ppm: co2Outside + 800 },
-		{ label: 'Pettenkofer-Grenz­wert',        ppm: 1000 },
-		{ label: 'Kritisch (Schläfrigkeit)',       ppm: 2000 }
+	const co2PresetKeys = [
+		{ labelKey: 'rechner.co2RegelungUi.presetCat1',       ppmFn: () => co2Outside + 350 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCat2',       ppmFn: () => co2Outside + 500 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCat3',       ppmFn: () => co2Outside + 800 },
+		{ labelKey: 'rechner.co2RegelungUi.presetPettenkofer', ppmFn: () => 1000 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCritical',   ppmFn: () => 2000 }
 	];
-
-	// Reaktive Zielwert-Presets bei Änderung von co2Outside
-	$effect(() => {
-		// keep presets current (they reference co2Outside)
-		co2Presets[0].ppm = co2Outside + 350;
-		co2Presets[1].ppm = co2Outside + 500;
-		co2Presets[2].ppm = co2Outside + 800;
-	});
+	const co2Presets = $derived(co2PresetKeys.map(p => ({ label: $_(p.labelKey), ppm: p.ppmFn() })));
 
 	const result = $derived.by(() => {
 		const g = activityCO2[activity].lph * persons; // l/h total CO₂ production
@@ -89,43 +88,43 @@
 			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
-			Alle Rechner
+			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
-			<h1 class="calc-title">CO₂-Regelung</h1>
-			<FavButton type="rechner" slug="co2-regelung" title="CO₂-Regelung" size={20} />
+			<h1 class="calc-title">{$_('rechner.co2Regelung.name')}</h1>
+			<FavButton type="rechner" slug="co2-regelung" title={$_('rechner.co2Regelung.name')} size={20} />
 		</div>
 	</header>
 
 	<!-- Mode Switch -->
 	<div class="mode-tabs">
 		<button class="mode-tab" class:active={mode === 'auslegung'} onclick={() => mode = 'auslegung'}>
-			Auslegung
+			{$_('rechner.co2RegelungUi.modeAuslegung')}
 		</button>
 		<button class="mode-tab" class:active={mode === 'raumverhalten'} onclick={() => mode = 'raumverhalten'}>
-			Raumverhalten
+			{$_('rechner.co2RegelungUi.modeRaumverhalten')}
 		</button>
 	</div>
 
 	<!-- Shared: Raum + Personen -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">Raum & Belegung</h2>
+		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.roomOccupancy')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="vol-in">Raumvolumen</label>
+			<label class="calc-field-label" for="vol-in">{$_('rechner.co2RegelungUi.roomVolume')}</label>
 			<div class="calc-input-wrap">
 				<input id="vol-in" type="number" step="5" min="5" bind:value={volume} class="calc-input" />
 				<span class="calc-input-unit">m³</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="pers-in">Personenanzahl</label>
+			<label class="calc-field-label" for="pers-in">{$_('rechner.co2RegelungUi.occupants')}</label>
 			<div class="calc-input-wrap">
 				<input id="pers-in" type="number" step="1" min="0" bind:value={persons} class="calc-input" />
-				<span class="calc-input-unit">Pers.</span>
+				<span class="calc-input-unit">{$_('rechner.co2RegelungUi.persons')}</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="act-sel">Aktivitätsniveau</label>
+			<label class="calc-field-label" for="act-sel">{$_('rechner.co2RegelungUi.activityLevel')}</label>
 			<select id="act-sel" bind:value={activity} class="calc-select">
 				{#each Object.entries(activityCO2) as [k, v]}
 					<option value={k}>{v.label} — {v.lph} l/h·P</option>
@@ -133,7 +132,7 @@
 			</select>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="co2out-in">CO₂ Aussenluft</label>
+			<label class="calc-field-label" for="co2out-in">{$_('rechner.co2RegelungUi.co2Outside')}</label>
 			<div class="calc-input-wrap">
 				<input id="co2out-in" type="number" step="10" min="380" max="600" bind:value={co2Outside} class="calc-input" />
 				<span class="calc-input-unit">ppm</span>
@@ -144,7 +143,7 @@
 	<!-- Mode 1: Auslegung -->
 	{#if mode === 'auslegung'}
 	<div class="calc-section">
-		<h2 class="calc-section-title">CO₂-Zielwert</h2>
+		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2Target')}</h2>
 		<div class="preset-grid">
 			{#each co2Presets as p}
 				<button
@@ -155,7 +154,7 @@
 			{/each}
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="co2t-in">Oder manuell</label>
+			<label class="calc-field-label" for="co2t-in">{$_('rechner.co2RegelungUi.orManual')}</label>
 			<div class="calc-input-wrap">
 				<input id="co2t-in" type="number" step="50" min="450" max="5000" bind:value={co2Target} class="calc-input" />
 				<span class="calc-input-unit">ppm</span>
@@ -166,35 +165,32 @@
 	{#if result}
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Mindest-Volumenstrom</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.minFlow')}</span>
 			<span class="calc-result-value primary">{fmt(result.q, 0)}<span class="calc-result-unit">m³/h</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Luftwechsel</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
 			<span class="calc-result-value">{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Zeitkonstante τ</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
 			<span class="calc-result-value">{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Zeit bis 90 % der Änderung (2.3 × τ)</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
 			<span class="calc-result-value">{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span>
 		</div>
 	</div>
-	<p class="calc-info">
-		q = G / (c<sub>Ziel</sub> − c<sub>Aussen</sub>) · 10⁶ — massgebend für DDC-Auslegung bei Vollbelegung.
-		Zeitkonstante τ = V / q gibt die Trägheit des Raumes an (relevant für PID-Parametrierung).
-	</p>
+	<p class="calc-info">{$_('rechner.co2RegelungUi.infoAuslegung')}</p>
 	{/if}
 	{/if}
 
 	<!-- Mode 2: Raumverhalten -->
 	{#if mode === 'raumverhalten'}
 	<div class="calc-section">
-		<h2 class="calc-section-title">Lüftungsanlage</h2>
+		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.ventilationUnit')}</h2>
 		<div class="calc-field" style="border-top: none">
-			<label class="calc-field-label" for="flow-in">Volumenstrom</label>
+			<label class="calc-field-label" for="flow-in">{$_('rechner.co2RegelungUi.volumeFlow')}</label>
 			<div class="calc-input-wrap">
 				<input id="flow-in" type="number" step="50" min="10" bind:value={flowRate} class="calc-input" />
 				<span class="calc-input-unit">m³/h</span>
@@ -205,28 +201,28 @@
 	{#if result}
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">Steady-State CO₂ (Vollbelegung)</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.steadyStateCO2')}</span>
 			<span class="calc-result-value primary" style="color: {co2Color(result.steadyState)}">
 				{fmt(result.steadyState, 0)}<span class="calc-result-unit">ppm</span>
 			</span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Zeitkonstante τ</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
 			<span class="calc-result-value">{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Zeit bis 90 % der Änderung (2.3 × τ)</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
 			<span class="calc-result-value">{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">Luftwechsel</span>
+			<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
 			<span class="calc-result-value">{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span>
 		</div>
 	</div>
 
 	<!-- CO₂-Verlauf Tabelle -->
 	<div class="calc-section">
-		<h2 class="calc-section-title">CO₂-Verlauf (Anstieg bei Vollbelegung, Start = {co2Outside} ppm)</h2>
+		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2RiseTitle', { values: { co2: co2Outside } })}</h2>
 		<div class="curve-table">
 			{#each curve as pt}
 				<div class="curve-row">
@@ -243,10 +239,7 @@
 		</div>
 	</div>
 
-	<p class="calc-info">
-		c(t) = c<sub>SS</sub> − (c<sub>SS</sub> − c<sub>0</sub>) · e<sup>−t/τ</sup> — Anstieg bei konstanter Belegung und konstantem Volumenstrom.
-		Für die PID-Parametrierung: Regelstrecke hat Zeitkonstante τ und kein integrierendes Verhalten (PT1-Strecke).
-	</p>
+	<p class="calc-info">{$_('rechner.co2RegelungUi.infoRaumverhalten')}</p>
 	{/if}
 	{/if}
 </div>
@@ -352,5 +345,9 @@
 		font-weight: 600;
 		font-family: ui-monospace, monospace;
 		text-align: right;
+	}
+
+	@media (max-width: 480px) {
+		.preset-grid { grid-template-columns: 1fr; }
 	}
 </style>

@@ -1,5 +1,6 @@
 ---
 title: Thermische Behaglichkeit — PMV, PPD und Komfortparameter
+title_en: Thermal Comfort — PMV, PPD and Comfort Parameters
 slug: thermische-behaglichkeit
 category: komfort
 subcategory: klima
@@ -171,3 +172,165 @@ Bei heissem Sommer akzeptieren Menschen höhere Innentemperaturen als bei konsta
 - **EN 16798-1** — Raumkomfort, Kategorien I–III, Grenzwerte
 - **ASHRAE 55** — Thermal Environmental Conditions for Human Occupancy (US)
 - **SIA 382.1** — Lüftungs- und Klimaanlagen (CH, Temperaturanforderungen)
+
+<!-- EN -->
+
+## Thermal Comfort — PMV, PPD and Comfort Parameters
+
+Thermal comfort is the subjective sense of wellbeing with respect to the thermal environment. In BA it is the goal of all control — not the temperature itself, but the **perceived comfort** of the occupant.
+
+## The Six Influence Parameters
+
+Comfort depends on **six parameters** (after Fanger):
+
+### Physical Parameters (4)
+
+| Parameter | Symbol | Typical Value | Influence |
+|-----------|--------|---------------|-----------|
+| **Air temperature** | T_a | 20–26 °C | Directly via convection |
+| **Mean radiant temperature** | T_r | 18–26 °C | Via thermal radiation (walls, windows) |
+| **Air velocity** | v | < 0.2 m/s (seated) | Cooling through draught |
+| **Relative humidity** | φ | 40–70 % | Perspiration regulation, mucous membranes |
+
+### Personal Parameters (2)
+
+| Parameter | Symbol | Unit | Typical Values |
+|-----------|--------|------|----------------|
+| **Activity (metabolism)** | M | met | 1.0 met = quietly seated, 2.0 met = walking |
+| **Clothing** | I_cl | clo | 0.5 clo = light, 1.0 clo = normal winter |
+
+**1 met** = 58.2 W/m² body surface area (quietly seated)
+**1 clo** = thermal resistance of 0.155 m²K/W
+
+---
+
+## Operative Temperature
+
+The **operative temperature** combines air and radiant temperature:
+
+```
+T_op = (T_a + T_r) / 2   (simplified, at v < 0.2 m/s)
+```
+
+Example: room 22 °C air temperature, cold window wall 14 °C (radiant temperature):
+```
+T_r (mean) ≈ 0.75 × 22 + 0.25 × 14 = 19.5 °C
+T_op ≈ (22 + 19.5) / 2 = 20.75 °C  → feels cooler than measured!
+```
+
+→ Cold windows drastically reduce perceived temperature. Heating must compensate.
+
+---
+
+## PMV — Predicted Mean Vote
+
+**PMV** (ISO 7730) is an index that predicts the mean comfort perception of a group:
+
+| PMV | Sensation |
+|-----|-----------|
+| +3 | Very hot |
+| +2 | Hot |
+| +1 | Slightly warm |
+| **0** | **Neutral (ideal)** |
+| −1 | Slightly cool |
+| −2 | Cool |
+| −3 | Cold |
+
+**Comfort zone:** PMV between −0.5 and +0.5
+
+### PMV Calculation (simplified)
+
+PMV is a complex function of all six parameters (Fanger equation). In practice:
+
+- Office, seated (1.2 met), normal business clothing (1.0 clo):
+  - Summer (light, 0.5 clo): comfort at 24–26 °C
+  - Winter (1.0 clo): comfort at 20–22 °C
+
+---
+
+## PPD — Predicted Percentage Dissatisfied
+
+**PPD** indicates what percentage of a group is dissatisfied:
+
+```
+PPD = 100 − 95 × e^(−0.03353×PMV⁴ − 0.2179×PMV²)
+```
+
+| PMV | PPD |
+|-----|-----|
+| 0 | 5 % |
+| ±0.5 | ~10 % |
+| ±1.0 | ~26 % |
+| ±2.0 | ~77 % |
+
+> **Minimum PPD = 5 %** — even in an ideal room, 5 % of people will be dissatisfied. 100 % satisfaction is impossible.
+
+**Standard requirement EN 16798-1:**
+- Category I: PPD < 6 % (PMV ±0.2)
+- Category II: PPD < 10 % (PMV ±0.5)
+- Category III: PPD < 15 % (PMV ±0.7)
+
+---
+
+## Draught
+
+Draught is one of the most frequent comfort complaints. The **draught rate (DR)** gives the probability of draught discomfort:
+
+```
+DR = (34 − T_a) × (v̄ − 0.05)^0.62 × (0.37 × v̄ × TI + 3.14)
+```
+
+**Limits (EN ISO 7730):**
+
+| Category | DR max. | v̄ max. |
+|----------|---------|---------|
+| A | 10 % | < 0.10 m/s |
+| B | 20 % | < 0.16 m/s |
+| C | 30 % | < 0.21 m/s |
+
+**Practice:** Avoid supply air flows > 0.2 m/s in the occupied zone. Select diffusers accordingly (long-throw nozzle rather than a point diffuser aimed at occupants' heads).
+
+---
+
+## Vertical Temperature Stratification
+
+The temperature difference between head and foot level must not be too large:
+
+| Difference T (head) − T (feet) | Category | PPD |
+|-------------------------------|----------|-----|
+| < 2 K | A | < 3 % |
+| < 3 K | B | < 5 % |
+| < 4 K | C | < 10 % |
+
+> Classic problem: convective heating with a radiator under the window → hot air rises → head warm, feet cold → vertical temperature difference > 4 K → uncomfortable room.
+
+---
+
+## Comfort Temperatures by Use
+
+| Use | Summer setpoint | Winter setpoint | Limits |
+|-----|----------------|-----------------|--------|
+| Office (seated) | 24–25 °C | 21–22 °C | 19–26 °C (standard) |
+| Residential | 24–25 °C | 20–22 °C | 18–26 °C |
+| Hotel room | 24 °C | 21 °C | 19–25 °C |
+| Hospital ward | 24 °C | 22 °C | 22–26 °C (stricter) |
+| Production hall (physical work) | 20–22 °C | 18–20 °C | 16–24 °C |
+
+---
+
+## Adaptive Comfort
+
+In naturally ventilated buildings people adapt to outdoor temperatures:
+
+```
+T_comfort = 0.33 × T_outdoor_running_mean + 18.8   [°C]
+```
+
+In a hot summer occupants accept higher indoor temperatures than in a constant climate. ASHRAE 55 Appendix I uses this model for natural ventilation.
+
+## Standards
+
+- **EN ISO 7730** — Ergonomics of the thermal environment, PMV/PPD calculation
+- **EN 16798-1** — Indoor environment, categories I–III, limit values
+- **ASHRAE 55** — Thermal Environmental Conditions for Human Occupancy (US)
+- **SIA 382.1** — Ventilation and air conditioning systems (CH, temperature requirements)

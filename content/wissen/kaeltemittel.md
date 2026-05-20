@@ -1,5 +1,6 @@
 ---
 title: Kältemittel — R32, R410A, R744, R290 im Vergleich
+title_en: Refrigerants — R32, R410A, R744, R290 Compared
 slug: kaeltemittel
 category: kaelte
 subcategory: kaeltemittel
@@ -132,3 +133,124 @@ Die Verordnung schränkt Kältemittel mit hohem GWP schrittweise ein:
 - **ISO 817** — Kältemittelbezeichnung und Sicherheitsklassifikation
 - **EN 378** — Kälteanlagen, Sicherheit und Umwelt
 - **EN ISO 817** — Sicherheitsklassifikation Kältemittel
+
+<!-- EN -->
+
+The choice of refrigerant affects the efficiency, safety, and long-term viability of a system. The EU F-Gas Regulation is progressively phasing out conventional HFCs (R410A) in favour of lower-GWP alternatives.
+
+## Refrigerant Classification
+
+**ASHRAE/ISO 817 designation:**
+
+```
+R-XYZ
+│
+├── Standardised numbering per ASHRAE 34
+│
+Examples:
+  R-134a: HFC (hydrofluorocarbon)
+  R-744:  CO₂ (natural refrigerant)
+  R-290:  Propane (natural refrigerant, hydrocarbon)
+  R-410A: Blend of R-32 and R-125 (HFC blend)
+```
+
+### Safety Classes (ISO 817)
+
+| Class | Toxicity | Flammability | Examples |
+|-------|----------|-------------|---------|
+| A1 | Low | Non-flammable | R-410A, R-134a, R-744 (CO₂) |
+| A2L | Low | Mildly flammable | **R-32**, R-452B |
+| A3 | Low | Highly flammable | R-290 (propane), R-600a |
+| B1 | High | Non-flammable | R-123 |
+
+---
+
+## The Key Refrigerants
+
+### R-410A (Phase-Out)
+
+| Parameter | Value |
+|-----------|-------|
+| **GWP** (100 years) | **2088** — very high! |
+| Safety class | A1 (non-flammable, non-toxic) |
+| Pressure level | High (~23 bar at 40 °C condensing) |
+| Status | **Phase-out from 2025** (EU F-Gas) |
+| Applications | Split air conditioners, VRF, heat pumps |
+
+→ New equipment with R-410A is banned in the EU from 2025.
+
+### R-32
+
+| Parameter | Value |
+|-----------|-------|
+| **GWP** | **675** — approx. 1/3 of R-410A |
+| Safety class | A2L (mildly flammable) |
+| Pressure level | Medium-high (~19 bar at 40 °C) |
+| Status | Currently most common **replacement** for R-410A |
+| Applications | Air conditioners (Daikin, Mitsubishi, etc.) |
+
+**A2L requirements:** R-32 equipment must meet specific safety requirements (leak detection, ventilated installation). Service technicians need A2L training.
+
+### R-744 (CO₂)
+
+| Parameter | Value |
+|-----------|-------|
+| **GWP** | **1** — natural refrigerant! |
+| Safety class | A1 (non-flammable, non-toxic) |
+| Pressure level | Very high (up to 120 bar transcritical) |
+| Status | Future-proof, growing rapidly |
+| Applications | **Heat pumps** (up to 90 °C flow temp!), supermarket refrigeration |
+
+**Transcritical operation:** At high outdoor temperatures above the critical point (31 °C), the cycle runs transcritically — different physics than subcritical refrigerants. Requires special components.
+
+**Heat pump advantage:** R-744 heat pumps deliver very high flow temperatures (up to 90 °C) — ideal for retrofitting older buildings.
+
+### R-290 (Propane)
+
+| Parameter | Value |
+|-----------|-------|
+| **GWP** | **3** — natural refrigerant! |
+| Safety class | **A3** (highly flammable!) |
+| Pressure level | Low (~13 bar at 40 °C) |
+| Status | Growing, especially small appliances |
+| Applications | Heat pumps (split), refrigerators |
+
+**A3 safety requirements:** Strict installation rules (maximum charge per installation location), leak detection, explosion-proof accessories. Not suitable for all installation environments.
+
+---
+
+## EU F-Gas Regulation 517/2014
+
+The regulation progressively restricts refrigerants with high GWP:
+
+| Year | Measure |
+|------|---------|
+| 2020 | Phase-down HFCs to 37% of 2009 baseline |
+| 2022 | Ban on R-404A and R-507A (GWP > 2500) for new equipment |
+| **2025** | **Ban on R-410A for new equipment < 3 kW** (from 2027 all sizes) |
+| 2030 | Phase-down to 21% |
+| 2050 | Substantial elimination of HFCs |
+
+**In practice:** R-410A service refrigerant remains available for existing equipment — but at higher cost (quota trading).
+
+---
+
+## Comparison Table
+
+| Refrigerant | GWP | Class | Pressure | Future | Application |
+|-------------|-----|-------|----------|--------|-------------|
+| **R-410A** | 2088 | A1 | High | Phase-out 2025 | Existing systems |
+| **R-32** | 675 | A2L | Medium-high | Transitional | New split equipment |
+| **R-744** | 1 | A1 | Very high | Future (heat pumps) | Heat pumps, CO₂ systems |
+| **R-290** | 3 | A3 | Low | Growing | Small heat pumps, refrigerators |
+| R-134a | 1430 | A1 | Medium | Phase-down | Air conditioners, vehicles |
+| R-407C | 1774 | A1 | Medium | Being phased out | Existing systems |
+
+---
+
+## Standards
+
+- **EU Regulation 517/2014** — F-Gas Regulation (including operator obligations)
+- **ISO 817** — Refrigerant designation and safety classification
+- **EN 378** — Refrigerating systems — safety and environmental requirements
+- **EN ISO 817** — Refrigerant safety classification

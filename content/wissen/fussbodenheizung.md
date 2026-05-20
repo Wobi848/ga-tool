@@ -1,5 +1,6 @@
 ---
 title: Fussbodenheizung — Aufbau, Regelung und Trägheit
+title_en: Underfloor Heating — Construction, Control and Thermal Lag
 slug: fussbodenheizung
 category: heizung
 subcategory: heizsysteme
@@ -174,3 +175,168 @@ Dokumentation: Temperaturen täglich aufzeichnen
 - **EN 1264** — Raumflächenintegrierte Heiz- und Kühlsysteme
 - **EN 15377** — Heizungsanlagen in Gebäuden
 - **SIA 384.201** (CH) — Heizungsanlagen in Gebäuden
+
+<!-- EN -->
+
+## Underfloor Heating — Construction, Control and Thermal Lag
+
+Underfloor heating (UFH) is a radiant floor heating system — the entire floor surface acts as the heat emitter. It provides high comfort at low flow temperatures, but has specific control requirements due to its large thermal mass.
+
+## Construction
+
+```
+Floor covering (tiles, parquet, vinyl)
+    ↑
+Screed (5–8 cm) ← Thermal mass (heat store)
+    ↑
+Heating pipe (PE-X or PEX-AL-PEX, Ø16–20 mm, spacing 10–25 cm)
+    ↑
+Impact sound insulation / thermal insulation
+    ↑
+Structural floor
+```
+
+### System Variants
+
+| Variant | Build-up height | Lag | Application |
+|---------|----------------|-----|-------------|
+| Wet screed | 65–100 mm | High | Standard new build |
+| Dry screed | 30–50 mm | Medium | Renovation, lightweight construction |
+| Thin-bed | < 30 mm | Low | Renovation with minimal build-up height |
+
+---
+
+## Flow Temperature — Low-Temperature System
+
+UFH requires significantly **lower flow temperatures** than radiators:
+
+| System | Flow temperature | Spread |
+|--------|-----------------|--------|
+| Radiators (old) | 70–90 °C | 20 K |
+| Radiators (modern) | 55–70 °C | 15 K |
+| Underfloor heating | **30–45 °C** | 5–10 K |
+
+**Why low?** Floor surface temperature must not exceed 29 °C (occupied zones) or 33 °C (perimeter zones) — comfort and hygiene.
+
+**Ideal for heat pumps:** The lower the flow temperature, the higher the COP. UFH + HP = optimum combination.
+
+---
+
+## Thermal Lag — the Central Challenge
+
+The screed has a high thermal mass (specific heat capacity of concrete ≈ 2.0 kJ/(kg·K)):
+
+```
+Screed mass:  ~100–150 kg/m² (at 6 cm depth)
+Heat content: at ΔT = 10 K → 200–300 kJ/m²
+Heat-up time: 1–3 hours to full output (from cold start)
+Cool-down:    4–8 hours after shutdown
+```
+
+### Consequences for Control
+
+1. **Slow response:** Room temperature only reacts hours after valve changes
+2. **Overshoot:** Aggressive controller → large-amplitude oscillation
+3. **Pre-heat optimisation:** Pre-heating required (1–3 hours before occupancy)
+4. **Night setback:** Rarely worthwhile — screed continues radiating heat for hours
+
+---
+
+## Underfloor Heating Control
+
+### Room Temperature Control (standard)
+
+```
+Room sensor → room controller → actuator (thermostatic valve at manifold)
+```
+
+Problem: feedback through screed lag → very slow control loop.
+
+**Recommendation:** P-controller or PI-controller with **very long integral time** (Ti = 60–120 min) → gentle correction.
+
+### Weather-Compensated Flow Control (preferred)
+
+```
+Outdoor temperature → heating curve → flow setpoint (30–45 °C)
+    ↓
+[Mixing valve controller] → mixing valve
+    ↑ Flow actual
+```
+
+The heating curve continuously delivers the right flow temperature → screed is tempered evenly → minimal fluctuation.
+
+### Combined (optimal)
+
+```
+Heating curve → flow base setpoint
+    +
+Room temperature → correction ±3 K on flow setpoint
+    =
+Flow setpoint (combined) → mixing valve
+```
+
+---
+
+## Manifold and Circuits
+
+### Heating Circuit Manifold
+
+Each UFH zone has a **manifold** with individual actuators:
+
+```
+Flow → [Manifold] ─┬─ Circuit 1 (living room)
+                    ├─ Circuit 2 (kitchen)
+                    ├─ Circuit 3 (bedroom)
+                    └─ Circuit 4 (bathroom)
+                        ↓ all return to manifold return header
+```
+
+Each circuit has:
+- Pre-setting valve (hydraulic balancing)
+- Thermostatic or motorised actuator (on/off or modulating)
+- Return temperature indicator (optional)
+
+### Hydraulic Balancing for UFH
+
+Critical! UFH circuits have different lengths — without balancing, short circuits get too much flow:
+
+```
+Circuit length 50 m → low Δp → close valve more
+Circuit length 120 m → high Δp → open valve more
+```
+
+Pre-setting valves at the manifold set the flow rate of all circuits to the same value.
+
+---
+
+## Screed Heat-Up Protocol
+
+Fresh screed must be **conditioned before first operation**:
+
+```
+Day 1: Flow 25 °C (hold 3 days)
+Increase: +5 K per day
+Day 5: Flow 45 °C (hold 4 days)
+Cool-down: −5 K per day
+Documentation: record temperatures daily
+```
+
+**Why:** Moisture release from screed (drying shrinkage). Too rapid heat-up → cracking.
+
+---
+
+## Typical Faults
+
+| Fault | Symptom | Solution |
+|-------|---------|---------|
+| Flow too high (> 50 °C) | Floor too warm, damage | Adjust heating curve |
+| No heat-up protocol | Screed cracks | Carry out protocol (if possible) |
+| No hydraulic balancing | Uneven warming | Set pre-setting valves |
+| Controller too aggressive | Room temp oscillates (±3 K) | Increase integral time |
+| Night setback too deep | Pre-heat not complete by morning | Raise setback level or disable |
+
+## Standards
+
+- **EN 1264** — Floor heating systems and cooling — systems and components
+- **EN 15377** — Heating systems in buildings
+- **SIA 384.201** (CH) — Heating systems in buildings
