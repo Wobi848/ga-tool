@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { _, locale } from 'svelte-i18n';
-	import { abbreviations, byLetter, letters } from '$lib/abkuerzungen/data';
+	import { abbreviations, letters } from '$lib/abkuerzungen/data';
 	import { getEquivalents, langOf, equivalentShorts } from '$lib/abkuerzungen/groups';
 	import { langLabels, type AbbrLang } from '$lib/abkuerzungen/types';
 	import { type Area } from '$lib/wissen/types';

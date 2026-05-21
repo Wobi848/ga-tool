@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
-	import { enhance } from '$app/forms';
 	import { _ } from 'svelte-i18n';
-	import { browser } from '$app/environment';
 	import { converterMap } from '$lib/converters';
 	import { rechnerMap } from '$lib/rechner';
 	import { articleMap } from '$lib/wissen/articles';

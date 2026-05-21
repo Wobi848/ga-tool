@@ -7,7 +7,7 @@
 	import { abbreviations } from '$lib/abkuerzungen/data';
 	import { referenceTables, referenceMap } from '$lib/referenz';
 	import { checklists } from '$lib/checklisten';
-	import { favorites, favTypeLabel, favTypeColor, favTypeHref } from '$lib/stores/favorites';
+	import { favorites, favTypeColor, favTypeHref } from '$lib/stores/favorites';
 
 	let { data } = $props();
 

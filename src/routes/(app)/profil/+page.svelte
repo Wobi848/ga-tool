@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import { onMount, untrack } from 'svelte';
-	import { theme, type Theme } from '$lib/stores/theme';
+	import type { Theme } from '$lib/stores/theme';
 	import { getRecent, clearRecent, type RecentItem } from '$lib/stores/recent';
 	import { _, locale } from 'svelte-i18n';
 	import { rechnerMap } from '$lib/rechner';
@@ -43,7 +43,7 @@
 		{ value: 'Lernender', label_de: 'Lernender', label_en: 'Apprentice' },
 		{ value: 'Andere', label_de: 'Andere', label_en: 'Other' }
 	];
-	const themeIds: Theme[] = ['auto', 'light', 'dark', 'oled'];
+	const _themeIds: Theme[] = ['auto', 'light', 'dark', 'oled'];
 
 	// Form state — initialized from server, locally editable
 	let editName = $state(initial.name);

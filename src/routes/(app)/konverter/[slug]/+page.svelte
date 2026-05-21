@@ -24,7 +24,7 @@
 
 	// Reset when navigating to a different converter
 	$effect(() => {
-		converter.slug; // track
+		void converter.slug; // track
 		values = Object.fromEntries(converter.units.map((u) => [u.id, '']));
 		contextValue = converter.contextInput?.default ?? 20;
 		activeUnit = null;
@@ -116,7 +116,7 @@
 
 	// Recalculate when context (temperature) changes
 	$effect(() => {
-		contextValue; // track
+		void contextValue; // track
 		recalculateAll();
 	});
 </script>

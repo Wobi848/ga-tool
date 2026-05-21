@@ -331,7 +331,7 @@
 
 				<!-- ON labels -->
 				<div class="switch-row switch-row--label">
-					{#each Array(switchCount) as _, i}
+					{#each Array(switchCount) as _, _i (_i)}
 						<div class="switch-col">
 							<span class="state-label state-label--on">ON</span>
 						</div>
@@ -357,7 +357,7 @@
 
 				<!-- OFF labels -->
 				<div class="switch-row switch-row--label">
-					{#each Array(switchCount) as _, i}
+					{#each Array(switchCount) as _, _i (_i)}
 						<div class="switch-col">
 							<span class="state-label state-label--off">OFF</span>
 						</div>

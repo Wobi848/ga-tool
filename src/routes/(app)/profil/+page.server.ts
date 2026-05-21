@@ -1,7 +1,7 @@
 import { error, fail } from '@sveltejs/kit';
 import { eq } from 'drizzle-orm';
 import { db } from '$lib/server/db';
-import { user, account } from '$lib/server/db/auth.schema';
+import { user } from '$lib/server/db/auth.schema';
 import { auth } from '$lib/server/auth';
 import { parseLocation, encodeLocation } from '$lib/server/parseLocation';
 import type { Actions, PageServerLoad } from './$types';

@@ -9,7 +9,6 @@ export const load: PageLoad = ({ params }) => {
 	const related = article.related
 		.map((slug) => articleMap[slug])
 		.filter(Boolean)
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
 		.map(({ body, bodyDe, bodyEn, ...meta }) => meta);
 
 	return { article, related };

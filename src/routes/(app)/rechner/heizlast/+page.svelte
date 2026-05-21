@@ -151,7 +151,7 @@
 
 	// Ausgewählter Raum für Detail-Bearbeitung
 	let selectedId = $state<number | null>(null);
-	const selectedRoom = $derived(rooms.find((r) => r.id === selectedId) ?? null);
+	const _selectedRoom = $derived(rooms.find((r) => r.id === selectedId) ?? null);
 
 	function updateRoom(id: number, field: keyof Raum, value: number | string) {
 		rooms = rooms.map((r) =>

@@ -3,7 +3,6 @@
 		calculateFlowTemp,
 		curvePoints,
 		manufacturerInfo,
-		swissNormOutdoor,
 		type Manufacturer,
 		type CurveParams
 	} from '$lib/rechner/heizkurve';

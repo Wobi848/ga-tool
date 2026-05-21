@@ -74,13 +74,6 @@
 	const maxH = $derived(
 		Math.max(...chartPoints.map((p) => p.hp), ...chartPoints.map((p) => p.hr), 0.1)
 	);
-
-	// Spezifische Pumpendrehzahl (Orientierung)
-	const nq = $derived.by(() => {
-		if (!operatingPoint || operatingPoint.h <= 0) return null;
-		// nq = n × sqrt(Q) / H^(3/4) — Orientierungswert mit n=1450 rpm
-		return (1450 * Math.sqrt(operatingPoint.q / 3600)) / Math.pow(operatingPoint.h * 9.81, 0.75);
-	});
 </script>
 
 <div class="calc-page">

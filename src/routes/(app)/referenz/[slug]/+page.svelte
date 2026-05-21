@@ -53,7 +53,7 @@
 		return rows;
 	});
 
-	function formatCell(v: string | number, type?: 'number' | 'text'): string {
+	function formatCell(v: string | number, _type?: 'number' | 'text'): string {
 		if (typeof v === 'number') {
 			if (Number.isInteger(v)) return String(v);
 			return v.toLocaleString('de-CH', { maximumFractionDigits: 4 });

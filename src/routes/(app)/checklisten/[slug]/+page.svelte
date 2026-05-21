@@ -46,9 +46,9 @@
 	// Auto-save on changes (debounced via effect)
 	$effect(() => {
 		// dep tracking
-		status;
-		notes;
-		context;
+		void status;
+		void notes;
+		void context;
 		const slug = untrack(() => template.slug);
 		const handle = setTimeout(() => {
 			saveChecklistState(slug, { status, notes, context, updatedAt: Date.now() });
@@ -240,7 +240,7 @@
 	</div>
 
 	<!-- Sections -->
-	{#each template.sections as section, sIdx}
+	{#each template.sections as section, _sIdx}
 		{@const sectionDone = section.items.filter((i) => status[i.id]).length}
 		<section class="section">
 			<header class="section-header">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { onMount, tick } from 'svelte';
+	import { tick } from 'svelte';
 	import { _, locale } from 'svelte-i18n';
 
 	const isEn = $derived($locale === 'en');
@@ -45,7 +45,7 @@
 	});
 
 	$effect(() => {
-		query;
+		void query;
 		activeIndex = 0;
 	});
 

@@ -55,7 +55,6 @@
 	let rhAbluft = $state(50); // % rel. Feuchte Abluft
 	let etaT = $state(0.8); // Temperaturrückgewinnungsgrad
 	let etaF = $state(0.7); // Feuchtewirkungsgrad (wenn vorhanden)
-	let rhocp = 0.34; // Wh/(m³·K) — spez. Wärmekapazität Luft
 
 	const sys = $derived(wrgInfo[wrgType]);
 

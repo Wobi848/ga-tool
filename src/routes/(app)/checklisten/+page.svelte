@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import { _, locale } from 'svelte-i18n';
 	import { checklists, countItems, countCritical } from '$lib/checklisten';
