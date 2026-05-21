@@ -6,6 +6,7 @@
 	import { articles, articleMap } from '$lib/wissen/articles';
 	import { abbreviations } from '$lib/abkuerzungen/data';
 	import { referenceTables, referenceMap } from '$lib/referenz';
+	import { checklists } from '$lib/checklisten';
 	import { favorites, favTypeLabel, favTypeColor, favTypeHref } from '$lib/stores/favorites';
 
 	let { data } = $props();
@@ -105,7 +106,7 @@
 			icon: 'clipboard-list',
 			key: 'checklisten',
 			color: '#7c3aed',
-			count: 4
+			count: checklists.length
 		},
 		{
 			href: '/referenz',
