@@ -12,6 +12,7 @@
 		<p class="sub">{$_('changelog.subtitle')}</p>
 	</div>
 	<div class="changelog prose">
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 		{@html html}
 	</div>
 </div>
