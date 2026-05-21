@@ -19,7 +19,14 @@ export const conceptGroups: string[][] = [
 	['FBH', 'UFH'],
 	['TWW', 'DHW'],
 	['USV', 'UPS'],
-	['EnEV', 'GEG']
+	['EnEV', 'GEG'],
+	['FCU', 'ULK'],
+	['PELV', 'SELV'],
+	['VSS', 'CCTV'],
+	['CRI', 'Ra'],
+	['SPD', 'ÜSS'],
+	['TABS', 'BKA'],
+	['EVG', 'ECG'],
 ];
 
 /**
@@ -27,7 +34,7 @@ export const conceptGroups: string[][] = [
  * Nicht aufgeführte Einträge sind `de` (oder was im Abbreviation-Objekt steht).
  */
 export const langMap: Record<string, AbbrLang> = {
-	// English Begriffe
+	// English terms
 	BMS: 'en', BACS: 'en', HMI: 'en', SCADA: 'en', FAT: 'en', SAT: 'en',
 	HVAC: 'en', AHU: 'en', HRV: 'en', ERV: 'en', VAV: 'en', CAV: 'en', DCV: 'en',
 	HEPA: 'en', EER: 'en', SEER: 'en', VRF: 'en', DX: 'en', TXV: 'en', EEV: 'en',
@@ -36,15 +43,23 @@ export const langMap: Record<string, AbbrLang> = {
 	UFH: 'en', DHW: 'en', MCB: 'en', MEP: 'en', UPS: 'en',
 	PLC: 'en', LWP: 'de',
 	DDC: 'en', 'EC-Motor': 'en',
-	IDA: 'en', ODA: 'en', SUP: 'en', ETA: 'en', EHA: 'en',
+	IDA: 'en', ODA: 'en', SUP: 'en', ETA: 'en', EHA: 'en', RCA: 'en',
+	FCU: 'en', SFP: 'en', CHW: 'en',
+	LDR: 'en', IoT: 'en', OT: 'en', RTU: 'en',
+	BIM: 'en', IFC: 'en', MPC: 'en', LCC: 'en',
+	V2G: 'en', MPPT: 'en',
+	CCTV: 'en', HCL: 'en', ECG: 'en', SPD: 'en',
+	DMZ: 'en', SSH: 'en', LCA: 'en', KPI: 'en', ROI: 'en',
 
-	// International (Normen, Protokolle, technische Begriffe ohne Sprachzuordnung)
-	ΔT: 'intl',
+	// International (standards, protocols, universal technical terms)
+	PID: 'intl', PI: 'intl', P: 'intl',
+	ΔT: 'intl', ΔP: 'intl',
 	'OPC UA': 'intl', GWP: 'intl', ODP: 'intl',
 	BACnet: 'intl', Modbus: 'intl', 'M-Bus': 'intl', 'wM-Bus': 'intl',
 	MQTT: 'intl', KNX: 'intl', EIB: 'intl', DALI: 'intl', 'DALI-2': 'intl', LON: 'intl',
 	LoRa: 'intl', LoRaWAN: 'intl', Zigbee: 'intl', 'Z-Wave': 'intl', EnOcean: 'intl',
 	BLE: 'intl', PoE: 'intl', 'TCP/IP': 'intl', UDP: 'intl',
+	LAN: 'intl', DNS: 'intl',
 	DHCP: 'intl', NTP: 'intl', SNMP: 'intl', VLAN: 'intl', VPN: 'intl', TLS: 'intl',
 	API: 'intl', REST: 'intl', JSON: 'intl', 'IEC 61850': 'intl',
 	NTC: 'intl', PTC: 'intl', Pt100: 'intl', Pt1000: 'intl',
@@ -54,8 +69,11 @@ export const langMap: Record<string, AbbrLang> = {
 	IE3: 'intl', IE4: 'intl', IE5: 'intl',
 	PMV: 'intl', PPD: 'intl', LUX: 'intl',
 	PV: 'intl', kWp: 'intl', BIPV: 'intl',
-	EN: 'intl', ISO: 'intl', R32: 'intl', R290: 'intl', R744: 'intl',
-	ePM1: 'intl', F7: 'intl'
+	EN: 'intl', ISO: 'intl', IEC: 'intl', R32: 'intl', R290: 'intl', R744: 'intl',
+	ePM1: 'intl', 'ePM2.5': 'intl', ePM10: 'intl', F7: 'intl',
+	DN: 'intl', PN: 'intl', Kv: 'intl',
+	PELV: 'intl', SELV: 'intl',
+	ppm: 'intl', CAFM: 'intl', 'SG Ready': 'intl',
 };
 
 export function langOf(short: string, fallback: AbbrLang = 'de'): AbbrLang {

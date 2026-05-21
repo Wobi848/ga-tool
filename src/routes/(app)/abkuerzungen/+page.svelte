@@ -6,12 +6,19 @@
 	import { langLabels, type AbbrLang } from '$lib/abkuerzungen/types';
 	import { type Area } from '$lib/wissen/types';
 	import { untrack } from 'svelte';
+	import { onMount } from 'svelte';
 
 	const initialQuery = untrack(() => $page.url.searchParams.get('q') ?? '');
 
 	let query = $state(initialQuery);
 	let selectedAreas: Area[] = $state([]);
-	let selectedLangs: AbbrLang[] = $state([]);
+
+	function defaultLangs(): AbbrLang[] {
+		return $locale === 'en' ? ['en'] : ['de'];
+	}
+
+	let selectedLangs = $state<AbbrLang[]>([]);
+	onMount(() => { selectedLangs = defaultLangs(); });
 
 	function slugifyShort(s: string): string {
 		return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -66,7 +73,7 @@
 		const q = query.trim().toLowerCase();
 		return abbreviations.filter((a) => {
 			if (selectedAreas.length && !a.areas.some((x) => selectedAreas.includes(x))) return false;
-			if (selectedLangs.length && !selectedLangs.includes(langOf(a.short))) return false;
+			if (selectedLangs.length && langOf(a.short) !== 'intl' && !selectedLangs.includes(langOf(a.short))) return false;
 			if (!q) return true;
 			return haystackByShort[a.short]?.includes(q) ?? false;
 		});
@@ -109,7 +116,7 @@
 			class="search-input"
 		/>
 		{#if query || selectedAreas.length || selectedLangs.length}
-			<button class="btn-clear" onclick={() => { query = ''; selectedAreas = []; selectedLangs = []; }} title={$_('abkuerzungen.reset')}>
+			<button class="btn-clear" onclick={() => { query = ''; selectedAreas = []; selectedLangs = defaultLangs(); }} title={$_('abkuerzungen.reset')}>
 				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 					<line x1="18" y1="6" x2="6" y2="18" />
 					<line x1="6" y1="6" x2="18" y2="18" />
@@ -127,13 +134,14 @@
 			>{$_('area.' + a)}</button>
 		{/each}
 		<span class="filter-sep">|</span>
-		{#each (['de', 'en', 'intl'] as AbbrLang[]) as lg}
+		{#each (['de', 'en'] as AbbrLang[]) as lg}
 			<button
 				class="chip chip-lang"
 				class:active={selectedLangs.includes(lg)}
 				onclick={() => (selectedLangs = toggle(selectedLangs, lg))}
 			>{langLabels[lg].flag} {langLabels[lg].short}</button>
 		{/each}
+		<span class="intl-badge" title={$_('abkuerzungen.langIntl')}>🌐 INT</span>
 	</div>
 
 	<!-- A-Z quick nav -->
@@ -318,6 +326,16 @@
 		color: var(--border);
 		font-size: 0.875rem;
 		padding: 0 0.15rem;
+		user-select: none;
+	}
+
+	.intl-badge {
+		font-size: 0.8125rem;
+		padding: 0.25rem 0.7rem;
+		border-radius: 1rem;
+		border: 1px dashed var(--border);
+		color: var(--muted);
+		cursor: default;
 		user-select: none;
 	}
 
