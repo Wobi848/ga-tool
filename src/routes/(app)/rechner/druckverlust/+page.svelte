@@ -91,7 +91,7 @@
 			<label class="calc-field-label" for="dn-sel">{$_('rechner.druckverlustUi.nominalSize')}</label>
 			<select id="dn-sel" bind:value={dn} class="calc-select">
 				{#each Object.entries(pipes) as [k, v]}
-					<option value={k}>{$_(v.labelKey)}</option>
+					<option value={k}>{v.label}</option>
 				{/each}
 			</select>
 		</div>

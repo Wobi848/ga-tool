@@ -70,7 +70,7 @@
 				addressLabel: v.addressLabelKey ? $_(v.addressLabelKey) : v.addressLabel,
 				info: $_(v.infoKey)
 			}])
-		) as Record<Protocol, ProtocolPreset>
+		) as unknown as Record<Protocol, ProtocolPreset>
 	);
 
 	function loadPrefs() {

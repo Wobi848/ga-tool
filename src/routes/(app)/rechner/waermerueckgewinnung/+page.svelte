@@ -16,7 +16,7 @@
 	const wrgInfo = $derived(
 		Object.fromEntries(
 			Object.entries(wrgInfoBase).map(([k, v]) => [k, { ...v, label: $_(v.labelKey), note: $_(v.noteKey) }])
-		) as Record<WrgType, { label: string; note: string; etaH: [number, number]; etaF: [number, number] }>
+		) as unknown as Record<WrgType, { label: string; note: string; etaH: [number, number]; etaF: [number, number] }>
 	);
 
 	// Eingaben

@@ -465,7 +465,10 @@
 			settingsOpen: true,
 			diOffset: isBacnet(addSegType) ? idx * 100000 : 0,
 			diAuto: true,
-			startAddress: ADDR_RANGE[addSegType].min
+			startAddress: ADDR_RANGE[addSegType].min,
+			diSchema: false,
+			diSS: 10,
+			diBB: 1
 		});
 		showAddSegment = false;
 	}

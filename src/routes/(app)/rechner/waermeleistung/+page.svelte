@@ -15,7 +15,7 @@
 	const mediaProps = $derived(
 		Object.fromEntries(
 			Object.entries(mediaPropsBase).map(([k, v]) => [k, { ...v, label: $_(v.labelKey), note: $_(v.noteKey) }])
-		) as Record<Medium, { label: string; note: string; cp: number; rho: number }>
+		) as unknown as Record<Medium, { label: string; note: string; cp: number; rho: number }>
 	);
 
 	let mode: Mode = $state('q-from-flow');

@@ -14,7 +14,7 @@
 	const categories = $derived(
 		Object.fromEntries(
 			Object.entries(categoriesData).map(([k, v]) => [k, { ...v, label: $_(v.labelKey), desc: $_(v.descKey) }])
-		) as Record<Cat, { label: string; desc: string; perPerson: number; perArea: number; co2: number }>
+		) as unknown as Record<Cat, { label: string; desc: string; perPerson: number; perArea: number; co2: number }>
 	);
 
 	let area = $state(25); // m²
@@ -31,7 +31,7 @@
 	const activityFactors = $derived(
 		Object.fromEntries(
 			Object.entries(activityFactorsData).map(([k, v]) => [k, { ...v, label: $_(v.labelKey) }])
-		) as Record<string, { co2: number; label: string }>
+		) as unknown as Record<string, { co2: number; label: string }>
 	);
 
 	const result = $derived.by(() => {
