@@ -17,9 +17,7 @@
 	};
 
 	const preselectedAreas = untrack(() =>
-		(data.userDisciplines ?? [])
-			.map((d) => profileToArea[d])
-			.filter((a): a is Area => !!a)
+		(data.userDisciplines ?? []).map((d) => profileToArea[d]).filter((a): a is Area => !!a)
 	);
 
 	let query = $state('');
@@ -63,12 +61,22 @@
 	<header class="page-header">
 		<h1>{$_('wissen.title')}</h1>
 		<p class="subtitle">
-			{data.articles.length} {$_('wissen.subtitle')}
+			{data.articles.length}
+			{$_('wissen.subtitle')}
 		</p>
 	</header>
 
 	<div class="search-row">
-		<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			class="search-icon"
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<circle cx="11" cy="11" r="8" />
 			<line x1="21" y1="21" x2="16.65" y2="16.65" />
 		</svg>
@@ -80,7 +88,14 @@
 		/>
 		{#if query || selectedAreas.length || selectedDifficulties.length}
 			<button class="btn-clear" onclick={clearFilters} title={$_('wissen.resetFilter')}>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
 					<line x1="18" y1="6" x2="6" y2="18" />
 					<line x1="6" y1="6" x2="18" y2="18" />
 				</svg>
@@ -96,8 +111,8 @@
 					<button
 						class="chip"
 						class:active={selectedAreas.includes(a)}
-						onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-					>{$_('area.' + a)}</button>
+						onclick={() => (selectedAreas = toggle(selectedAreas, a))}>{$_('area.' + a)}</button
+					>
 				{/each}
 			</div>
 		</div>
@@ -110,7 +125,8 @@
 						class:active={selectedDifficulties.includes(d)}
 						style:--chip-active={difficultyColors[d]}
 						onclick={() => (selectedDifficulties = toggle(selectedDifficulties, d))}
-					>{$_('difficulty.' + d)}</button>
+						>{$_('difficulty.' + d)}</button
+					>
 				{/each}
 			</div>
 		</div>
@@ -128,14 +144,21 @@
 				<button class="btn-clear-text" onclick={clearFilters}>{$_('wissen.clearFilters')}</button>
 			</div>
 		{:else}
-			<p class="count">{filtered.length} {filtered.length === 1 ? $_('common.results') : $_('common.resultsPlural')}</p>
+			<p class="count">
+				{filtered.length}
+				{filtered.length === 1 ? $_('common.results') : $_('common.resultsPlural')}
+			</p>
 			<div class="list">
 				{#each filtered as a}
 					<a href="/wissen/{a.slug}" class="article-card">
 						<div class="card-main">
 							<div class="card-header">
 								<h2 class="card-title">{$locale === 'en' && a.title_en ? a.title_en : a.title}</h2>
-								<span class="diff-badge" style:background={difficultyColors[a.difficulty] + '20'} style:color={difficultyColors[a.difficulty]}>
+								<span
+									class="diff-badge"
+									style:background={difficultyColors[a.difficulty] + '20'}
+									style:color={difficultyColors[a.difficulty]}
+								>
 									{$_('difficulty.' + a.difficulty)}
 								</span>
 								{#if $locale === 'en' && !a.hasEnBody}
@@ -143,7 +166,8 @@
 								{/if}
 							</div>
 							<p class="card-meta">
-								{$_('cat.' + a.category, { default: a.category })}{#if a.subcategory} · {$_('cat.' + a.subcategory, { default: a.subcategory })}{/if}
+								{$_('cat.' + a.category, { default: a.category })}{#if a.subcategory}
+									· {$_('cat.' + a.subcategory, { default: a.subcategory })}{/if}
 							</p>
 							<div class="card-chips">
 								{#each a.area as ar}
@@ -157,7 +181,15 @@
 								{/if}
 							</div>
 						</div>
-						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="card-arrow">
+						<svg
+							width="16"
+							height="16"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							class="card-arrow"
+						>
 							<path d="M9 18l6-6-6-6" />
 						</svg>
 					</a>
@@ -288,7 +320,10 @@
 		color: var(--text);
 		cursor: pointer;
 		font-family: inherit;
-		transition: background 0.15s, border-color 0.15s, color 0.15s;
+		transition:
+			background 0.15s,
+			border-color 0.15s,
+			color 0.15s;
 	}
 
 	.chip:hover {
@@ -338,7 +373,9 @@
 		padding: 1rem;
 		text-decoration: none;
 		color: var(--text);
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 	}
 
 	.article-card:hover {

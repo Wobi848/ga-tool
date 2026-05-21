@@ -4,7 +4,22 @@ title_en: Hydraulic Circuits — Single-Pipe, Two-Pipe and Tichelmann
 slug: hydraulische-schaltungen
 category: hydraulik
 subcategory: schaltungen
-tags: [einrohr, zweirohr, tichelmann, bypass, hydraulik, heizkreis, heizverteilung, differenzdruck, volumenstrom, druckverlust, rücklauf, pumpe, strang]
+tags:
+  [
+    einrohr,
+    zweirohr,
+    tichelmann,
+    bypass,
+    hydraulik,
+    heizkreis,
+    heizverteilung,
+    differenzdruck,
+    volumenstrom,
+    druckverlust,
+    rücklauf,
+    pumpe,
+    strang
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulischer-abgleich, motorventile, pid-regler, druckverlust, waermepumpe]
@@ -34,13 +49,13 @@ Das Wasser fliesst durch jeden Heizkörper (oder am Bypass vorbei), kühlt sich 
 
 ### Eigenschaften
 
-| Eigenschaft          | Einrohr                                     |
-|----------------------|---------------------------------------------|
-| Verrohrungsaufwand   | Gering (ein Rohr)                           |
-| Temperaturgefälle    | Jeder nachfolgende HK bekommt kälteres Wasser |
-| Regelbarkeit         | Schlecht (HK am Ende schwer regelbar)       |
-| Hydraul. Abgleich    | Sehr aufwendig, Bypass-Einstellung kritisch |
-| Einsatz heute        | Kaum noch neu eingebaut                     |
+| Eigenschaft        | Einrohr                                       |
+| ------------------ | --------------------------------------------- |
+| Verrohrungsaufwand | Gering (ein Rohr)                             |
+| Temperaturgefälle  | Jeder nachfolgende HK bekommt kälteres Wasser |
+| Regelbarkeit       | Schlecht (HK am Ende schwer regelbar)         |
+| Hydraul. Abgleich  | Sehr aufwendig, Bypass-Einstellung kritisch   |
+| Einsatz heute      | Kaum noch neu eingebaut                       |
 
 ### Bypass-Funktion
 
@@ -71,13 +86,13 @@ Jeder Heizkörper bekommt **dieselbe Vorlauftemperatur** direkt vom Erzeuger. Da
 
 ### Eigenschaften
 
-| Eigenschaft          | Zweirohr                                    |
-|----------------------|---------------------------------------------|
-| Verrohrungsaufwand   | Höher (zwei Rohre)                          |
-| Temperatur je HK     | Identisch (Vorlauftemperatur)               |
-| Regelbarkeit         | Gut (jeder HK unabhängig regelbar)          |
-| Hydraul. Abgleich    | Notwendig (Stränge verschieden lang!)       |
-| Einsatz heute        | Standard für alle neuen Anlagen             |
+| Eigenschaft        | Zweirohr                              |
+| ------------------ | ------------------------------------- |
+| Verrohrungsaufwand | Höher (zwei Rohre)                    |
+| Temperatur je HK   | Identisch (Vorlauftemperatur)         |
+| Regelbarkeit       | Gut (jeder HK unabhängig regelbar)    |
+| Hydraul. Abgleich  | Notwendig (Stränge verschieden lang!) |
+| Einsatz heute      | Standard für alle neuen Anlagen       |
 
 ### Hydraulisches Problem Zweirohr
 
@@ -91,7 +106,7 @@ Lösung: Hydraulischer Abgleich (Voreinstellventile, DDR-Regelung).
 
 ### Prinzip
 
-Auch **Gleichstromschaltung** oder **Rücklauf-Rücklauf-Schaltung** genannt. Besonderheit: Vorlauf führt zum ersten HK, Rücklauf führt *umgekehrt* vom letzten HK zurück.
+Auch **Gleichstromschaltung** oder **Rücklauf-Rücklauf-Schaltung** genannt. Besonderheit: Vorlauf führt zum ersten HK, Rücklauf führt _umgekehrt_ vom letzten HK zurück.
 
 ```
 Vorlauf ─────────────────────────────────►
@@ -106,12 +121,12 @@ Die Idee: Der HK mit dem kürzesten Vorlauf hat den längsten Rücklauf — und 
 
 ### Eigenschaften
 
-| Eigenschaft          | Tichelmann                                  |
-|----------------------|---------------------------------------------|
-| Verrohrungsaufwand   | Höher als Zweirohr (längerer Rücklauf)      |
-| Selbstabgleich       | Nahezu selbstabgleichend (Druckverluste gleich) |
-| Hydraul. Abgleich    | Reduzierter Aufwand nötig                   |
-| Einsatz              | Fussbodenheizung, Flächenheizungen, grosse parallele Kreise |
+| Eigenschaft        | Tichelmann                                                  |
+| ------------------ | ----------------------------------------------------------- |
+| Verrohrungsaufwand | Höher als Zweirohr (längerer Rücklauf)                      |
+| Selbstabgleich     | Nahezu selbstabgleichend (Druckverluste gleich)             |
+| Hydraul. Abgleich  | Reduzierter Aufwand nötig                                   |
+| Einsatz            | Fussbodenheizung, Flächenheizungen, grosse parallele Kreise |
 
 ### Wann Tichelmann?
 
@@ -167,24 +182,24 @@ WP ──── Pumpe ──── Verteiler
 
 ## Vergleich auf einen Blick
 
-| Schaltung     | Verrohrung  | Abgleich      | Gleichmässigkeit | Typischer Einsatz         |
-|---------------|-------------|---------------|------------------|---------------------------|
-| Einrohr       | Einfach     | Aufwendig     | Schlecht         | Altbau (Bestand)          |
-| Zweirohr      | Mittel      | Nötig         | Gut              | Neubau Standard           |
-| Tichelmann    | Aufwendig   | Minimal       | Sehr gut         | FBH, Kollektoren, Decken  |
-| Mit Bypass    | +Armatur    | Regelventil   | —                | Mindestdurchfluss, Entk.  |
+| Schaltung  | Verrohrung | Abgleich    | Gleichmässigkeit | Typischer Einsatz        |
+| ---------- | ---------- | ----------- | ---------------- | ------------------------ |
+| Einrohr    | Einfach    | Aufwendig   | Schlecht         | Altbau (Bestand)         |
+| Zweirohr   | Mittel     | Nötig       | Gut              | Neubau Standard          |
+| Tichelmann | Aufwendig  | Minimal     | Sehr gut         | FBH, Kollektoren, Decken |
+| Mit Bypass | +Armatur   | Regelventil | —                | Mindestdurchfluss, Entk. |
 
 ---
 
 ## Typische Fehler in der Praxis
 
-| Fehler                          | Symptom                              | Ursache                                    |
-|---------------------------------|--------------------------------------|--------------------------------------------|
-| Zu langer Einrohrkreis          | Heizkörper am Ende kalt              | Zu viel Temperaturgefälle                  |
-| Bypass zu offen (Einrohr)       | Heizleistung zu tief                 | Kurzschluss — Wasser fliesst nicht durch HK |
-| Zweirohr ohne Abgleich          | Nah-HK überhitzen, fern-HK kalt      | Druckdifferenz nicht kompensiert           |
-| Tichelmann falsch dimensioniert | Trotzdem ungleichmässig              | HK haben unterschiedliche Widerstände      |
-| Fehlendes Überströmventil (WP)  | WP schaltet bei geschlossenen Kreisen ab | Kein Mindestvolumenstrom                |
+| Fehler                          | Symptom                                  | Ursache                                     |
+| ------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| Zu langer Einrohrkreis          | Heizkörper am Ende kalt                  | Zu viel Temperaturgefälle                   |
+| Bypass zu offen (Einrohr)       | Heizleistung zu tief                     | Kurzschluss — Wasser fliesst nicht durch HK |
+| Zweirohr ohne Abgleich          | Nah-HK überhitzen, fern-HK kalt          | Druckdifferenz nicht kompensiert            |
+| Tichelmann falsch dimensioniert | Trotzdem ungleichmässig                  | HK haben unterschiedliche Widerstände       |
+| Fehlendes Überströmventil (WP)  | WP schaltet bei geschlossenen Kreisen ab | Kein Mindestvolumenstrom                    |
 
 ## Normen
 
@@ -215,13 +230,13 @@ Water flows through each radiator (or bypasses it), cools down, and reaches the 
 
 ### Characteristics
 
-| Property | Single-Pipe |
-|----------|-------------|
-| Piping effort | Low (one pipe) |
+| Property             | Single-Pipe                                |
+| -------------------- | ------------------------------------------ |
+| Piping effort        | Low (one pipe)                             |
 | Temperature gradient | Each downstream radiator gets cooler water |
-| Controllability | Poor (last radiators hard to control) |
-| Hydraulic balancing | Very complex, bypass setting critical |
-| Use today | Rarely installed new |
+| Controllability      | Poor (last radiators hard to control)      |
+| Hydraulic balancing  | Very complex, bypass setting critical      |
+| Use today            | Rarely installed new                       |
 
 ### Bypass Function
 
@@ -252,13 +267,13 @@ Every radiator receives **the same flow temperature** directly from the generato
 
 ### Characteristics
 
-| Property | Two-Pipe |
-|----------|----------|
-| Piping effort | Higher (two pipes) |
-| Temperature per radiator | Identical (flow temperature) |
-| Controllability | Good (each radiator independently controllable) |
-| Hydraulic balancing | Necessary (branches of different lengths!) |
-| Use today | Standard for all new installations |
+| Property                 | Two-Pipe                                        |
+| ------------------------ | ----------------------------------------------- |
+| Piping effort            | Higher (two pipes)                              |
+| Temperature per radiator | Identical (flow temperature)                    |
+| Controllability          | Good (each radiator independently controllable) |
+| Hydraulic balancing      | Necessary (branches of different lengths!)      |
+| Use today                | Standard for all new installations              |
 
 ### Hydraulic Problem — Two-Pipe
 
@@ -272,7 +287,7 @@ Solution: Hydraulic balancing (pre-setting valves, DDR control).
 
 ### Principle
 
-Also called **reverse-return circuit**. Key feature: flow reaches the first radiator, return runs *in reverse* from the last radiator back.
+Also called **reverse-return circuit**. Key feature: flow reaches the first radiator, return runs _in reverse_ from the last radiator back.
 
 ```
 Flow ─────────────────────────────────►
@@ -287,12 +302,12 @@ The idea: the radiator with the shortest flow pipe has the longest return — an
 
 ### Characteristics
 
-| Property | Tichelmann |
-|----------|-----------|
-| Piping effort | Higher than two-pipe (longer return) |
-| Self-balancing | Nearly self-balancing (equal pressure drops) |
-| Hydraulic balancing | Reduced effort required |
-| Applications | Underfloor heating, surface heating, large parallel circuits |
+| Property            | Tichelmann                                                   |
+| ------------------- | ------------------------------------------------------------ |
+| Piping effort       | Higher than two-pipe (longer return)                         |
+| Self-balancing      | Nearly self-balancing (equal pressure drops)                 |
+| Hydraulic balancing | Reduced effort required                                      |
+| Applications        | Underfloor heating, surface heating, large parallel circuits |
 
 ### When to Use Tichelmann?
 
@@ -348,24 +363,24 @@ Opens when all heating circuit valves close → ensures minimum flow through HP.
 
 ## Quick Comparison
 
-| Circuit | Piping | Balancing | Uniformity | Typical Use |
-|---------|--------|-----------|-----------|-------------|
-| Single-pipe | Simple | Complex | Poor | Existing buildings |
-| Two-pipe | Medium | Required | Good | New build standard |
-| Tichelmann | Complex | Minimal | Very good | UFH, collectors, ceilings |
-| With bypass | +valve | Control valve | — | Min. flow, decoupling |
+| Circuit     | Piping  | Balancing     | Uniformity | Typical Use               |
+| ----------- | ------- | ------------- | ---------- | ------------------------- |
+| Single-pipe | Simple  | Complex       | Poor       | Existing buildings        |
+| Two-pipe    | Medium  | Required      | Good       | New build standard        |
+| Tichelmann  | Complex | Minimal       | Very good  | UFH, collectors, ceilings |
+| With bypass | +valve  | Control valve | —          | Min. flow, decoupling     |
 
 ---
 
 ## Typical Field Faults
 
-| Fault | Symptom | Cause |
-|-------|---------|-------|
-| Single-pipe circuit too long | Radiators at end cold | Excessive temperature drop |
-| Bypass too open (single-pipe) | Too little heat output | Short-circuit — water bypasses radiator |
-| Two-pipe without balancing | Near radiators overheat, far radiators cold | Pressure difference not compensated |
-| Tichelmann incorrectly sized | Still uneven | Radiators have different resistances |
-| Missing overflow valve (HP) | HP shuts off when circuits close | No minimum volume flow |
+| Fault                         | Symptom                                     | Cause                                   |
+| ----------------------------- | ------------------------------------------- | --------------------------------------- |
+| Single-pipe circuit too long  | Radiators at end cold                       | Excessive temperature drop              |
+| Bypass too open (single-pipe) | Too little heat output                      | Short-circuit — water bypasses radiator |
+| Two-pipe without balancing    | Near radiators overheat, far radiators cold | Pressure difference not compensated     |
+| Tichelmann incorrectly sized  | Still uneven                                | Radiators have different resistances    |
+| Missing overflow valve (HP)   | HP shuts off when circuits close            | No minimum volume flow                  |
 
 ## Standards
 

@@ -4,7 +4,24 @@ title_en: Shading Control — Blinds, Wind and Sun
 slug: beschattungssteuerung
 category: komfort
 subcategory: beschattung
-tags: [beschattungssteuerung, jalousie, raffstore, sonnenautomatik, windautomatik, regenautomatik, sonnenstand, azimut, elevation, fassade, priorität, knx, dali, behaglichkeit, blend]
+tags:
+  [
+    beschattungssteuerung,
+    jalousie,
+    raffstore,
+    sonnenautomatik,
+    windautomatik,
+    regenautomatik,
+    sonnenstand,
+    azimut,
+    elevation,
+    fassade,
+    priorität,
+    knx,
+    dali,
+    behaglichkeit,
+    blend
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, glt-grundlagen, thermische-behaglichkeit, rlt-anlage]
@@ -37,12 +54,12 @@ Ausgaben:
 
 ## Antriebstypen und Signale
 
-| Signal           | Beschreibung                                   | Einsatz                |
-|------------------|------------------------------------------------|------------------------|
-| **230 V Motorantrieb** | Auf-/Ab-Signal (2 Ausgänge)            | Standard-Raffstore     |
-| **KNX-Antrieb**  | Bus-Steuerung, Positionsrückmeldung           | KNX-Integration        |
-| **Modbus**       | Professionelle Antriebe, Volldiagnose         | GLT-Anbindung          |
-| **0–10 V**       | Lamellenwinkel (selten)                        | Spezielle Antriebe     |
+| Signal                 | Beschreibung                          | Einsatz            |
+| ---------------------- | ------------------------------------- | ------------------ |
+| **230 V Motorantrieb** | Auf-/Ab-Signal (2 Ausgänge)           | Standard-Raffstore |
+| **KNX-Antrieb**        | Bus-Steuerung, Positionsrückmeldung   | KNX-Integration    |
+| **Modbus**             | Professionelle Antriebe, Volldiagnose | GLT-Anbindung      |
+| **0–10 V**             | Lamellenwinkel (selten)               | Spezielle Antriebe |
 
 **Verriegelung:** Auf- und Ab-Signal **niemals gleichzeitig** aktiv! Sonst Motorschaden. DDC-Verriegelung obligatorisch.
 
@@ -53,6 +70,7 @@ Ausgaben:
 ### Sonnenstand-Berechnung
 
 Die GA berechnet den Sonnenstand aus:
+
 - Geografische Koordinaten (Breitengrad, Längengrad)
 - Datum und Uhrzeit
 
@@ -64,17 +82,18 @@ Elevation: Sonnenhöhe über Horizont (0° = Sonnenaufgang, 90° = Zenit)
 ### Fassaden-Exposition
 
 Pro Fassade wird definiert:
+
 - Ausrichtung (Azimut der Fassade: 180° = Südfassade)
 - Aktivierungsbereich: Wenn Sonne auf diese Fassade scheint
 
 **Beispiel Südfassade:**
 
-| Bedingung              | Wert                           |
-|------------------------|--------------------------------|
-| Azimut Sonne in        | 120–240° (Sonne von Süden)     |
-| Elevation Sonne ≥      | 20° (kein Schattenwurf niedriger) |
-| Globalstrahlung ≥      | 200 W/m²                       |
-| → Automatik aktiviert  | Raffstoren fahren runter        |
+| Bedingung             | Wert                              |
+| --------------------- | --------------------------------- |
+| Azimut Sonne in       | 120–240° (Sonne von Süden)        |
+| Elevation Sonne ≥     | 20° (kein Schattenwurf niedriger) |
+| Globalstrahlung ≥     | 200 W/m²                          |
+| → Automatik aktiviert | Raffstoren fahren runter          |
 
 ### Lamellen-Optimierung (Blendschutz + Tageslicht)
 
@@ -94,10 +113,10 @@ Beispiel: Sonne steht bei 45° Elevation
 
 **Wind ist sicherheitsrelevant** — Beschattungsanlage kann bei Sturm beschädigt werden:
 
-| Windgeschwindigkeit | Massnahme                                         |
-|---------------------|---------------------------------------------------|
-| < 6 m/s             | Normalbetrieb                                     |
-| 6–10 m/s            | Warnung, keine Neuauslösung                       |
+| Windgeschwindigkeit | Massnahme                                                 |
+| ------------------- | --------------------------------------------------------- |
+| < 6 m/s             | Normalbetrieb                                             |
+| 6–10 m/s            | Warnung, keine Neuauslösung                               |
 | > 10 m/s            | **Zwang: Alle Raffstoren fahren hoch** (sichere Position) |
 
 **Totzeit nach Wind:** Nach Windabfall mind. 5–10 Minuten warten bevor Automatik wieder übernimmt.
@@ -129,6 +148,7 @@ In der GA gilt eine klare Hierarchie:
 ```
 
 **Manuelle Übersteuerung:**
+
 - Nutzer drückt Taster → manuelle Position 30 Minuten gültig
 - Danach: Automatik übernimmt wieder
 - Oder: Manuelle Sperre bis nächsten Tag
@@ -172,16 +192,16 @@ KNX ist das häufigste System für Gebäude-Jalousien:
 
 ## Typische GA-Datenpunkte
 
-| Datenpunkt                 | Typ | Einheit | Beschreibung                    |
-|----------------------------|-----|---------|---------------------------------|
-| Windgeschwindigkeit        | AI  | m/s     | Wetterstation                   |
-| Globalstrahlung            | AI  | W/m²    | Pyranometer Dach                |
-| Sonnen-Azimut berechnet    | AV  | °       | Berechnet aus Datum + Standort  |
-| Sonnen-Elevation berechnet | AV  | °       | Berechnet                       |
-| Jalousie Fassade N Position | AO | %       | Sollposition 0–100 %            |
-| Jalousie Fassade N Lamelle  | AO | °       | Lamellenwinkel 0–180°           |
-| Windalarm                  | DI  | —       | Bei > Grenzwert                 |
-| Manuelle Übersteuerung     | DI  | —       | Taster aktiv                    |
+| Datenpunkt                  | Typ | Einheit | Beschreibung                   |
+| --------------------------- | --- | ------- | ------------------------------ |
+| Windgeschwindigkeit         | AI  | m/s     | Wetterstation                  |
+| Globalstrahlung             | AI  | W/m²    | Pyranometer Dach               |
+| Sonnen-Azimut berechnet     | AV  | °       | Berechnet aus Datum + Standort |
+| Sonnen-Elevation berechnet  | AV  | °       | Berechnet                      |
+| Jalousie Fassade N Position | AO  | %       | Sollposition 0–100 %           |
+| Jalousie Fassade N Lamelle  | AO  | °       | Lamellenwinkel 0–180°          |
+| Windalarm                   | DI  | —       | Bei > Grenzwert                |
+| Manuelle Übersteuerung      | DI  | —       | Taster aktiv                   |
 
 ## Normen
 
@@ -215,12 +235,12 @@ Outputs:
 
 ## Drive Types and Signals
 
-| Signal | Description | Application |
-|--------|-------------|-------------|
-| **230 V motor drive** | Up/down signals (2 outputs) | Standard roller shutters |
-| **KNX drive** | Bus control, position feedback | KNX integration |
-| **Modbus** | Professional drives, full diagnostics | BMS connection |
-| **0–10 V** | Slat angle (rare) | Special drives |
+| Signal                | Description                           | Application              |
+| --------------------- | ------------------------------------- | ------------------------ |
+| **230 V motor drive** | Up/down signals (2 outputs)           | Standard roller shutters |
+| **KNX drive**         | Bus control, position feedback        | KNX integration          |
+| **Modbus**            | Professional drives, full diagnostics | BMS connection           |
+| **0–10 V**            | Slat angle (rare)                     | Special drives           |
 
 **Interlock:** Up and Down signals must **never** be active simultaneously — motor damage. DDC interlock is mandatory.
 
@@ -231,6 +251,7 @@ Outputs:
 ### Sun Position Calculation
 
 The BMS calculates sun position from:
+
 - Geographic coordinates (latitude, longitude)
 - Date and time
 
@@ -242,17 +263,18 @@ Elevation: sun height above horizon (0° = sunrise, 90° = zenith)
 ### Facade Exposure
 
 For each facade, define:
+
 - Orientation (facade azimuth: 180° = south facade)
 - Activation range: when sun shines on this facade
 
 **Example — South Facade:**
 
-| Condition | Value |
-|-----------|-------|
-| Sun azimuth in | 120–240° (sun from south) |
-| Sun elevation ≥ | 20° (no shading effect below this) |
-| Global irradiance ≥ | 200 W/m² |
-| → Automation active | Shutters lower |
+| Condition           | Value                              |
+| ------------------- | ---------------------------------- |
+| Sun azimuth in      | 120–240° (sun from south)          |
+| Sun elevation ≥     | 20° (no shading effect below this) |
+| Global irradiance ≥ | 200 W/m²                           |
+| → Automation active | Shutters lower                     |
 
 ### Slat Optimisation (Glare + Daylight)
 
@@ -272,11 +294,11 @@ Example: sun at 45° elevation
 
 **Wind is safety-critical** — shading equipment can be damaged in storms:
 
-| Wind speed | Action |
-|-----------|--------|
-| < 6 m/s | Normal operation |
-| 6–10 m/s | Warning, no new triggering |
-| > 10 m/s | **Force: all shutters retract** (safe position) |
+| Wind speed | Action                                          |
+| ---------- | ----------------------------------------------- |
+| < 6 m/s    | Normal operation                                |
+| 6–10 m/s   | Warning, no new triggering                      |
+| > 10 m/s   | **Force: all shutters retract** (safe position) |
 
 **Dead time after wind:** After wind subsides, wait at least 5–10 minutes before automation resumes.
 
@@ -307,6 +329,7 @@ The BMS enforces a clear hierarchy:
 ```
 
 **Manual override:**
+
 - User presses button → manual position valid for 30 minutes
 - Then: automation resumes
 - Or: manual lock until next day
@@ -350,16 +373,16 @@ KNX is the most common system for building blinds:
 
 ## Typical BMS Data Points
 
-| Data Point | Type | Unit | Description |
-|------------|------|------|-------------|
-| Wind speed | AI | m/s | Weather station |
-| Global irradiance | AI | W/m² | Roof pyranometer |
-| Sun azimuth (calc.) | AV | ° | Calculated from date + location |
-| Sun elevation (calc.) | AV | ° | Calculated |
-| Shutter facade N position | AO | % | Target position 0–100 % |
-| Shutter facade N slat | AO | ° | Slat angle 0–180° |
-| Wind alarm | DI | — | Above threshold |
-| Manual override | DI | — | Button active |
+| Data Point                | Type | Unit | Description                     |
+| ------------------------- | ---- | ---- | ------------------------------- |
+| Wind speed                | AI   | m/s  | Weather station                 |
+| Global irradiance         | AI   | W/m² | Roof pyranometer                |
+| Sun azimuth (calc.)       | AV   | °    | Calculated from date + location |
+| Sun elevation (calc.)     | AV   | °    | Calculated                      |
+| Shutter facade N position | AO   | %    | Target position 0–100 %         |
+| Shutter facade N slat     | AO   | °    | Slat angle 0–180°               |
+| Wind alarm                | DI   | —    | Above threshold                 |
+| Manual override           | DI   | —    | Button active                   |
 
 ## Standards
 

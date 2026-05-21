@@ -4,7 +4,23 @@ title_en: Domestic Hot Water Heating — Storage, Instantaneous and Hygiene
 slug: trinkwasser-erwaermung
 category: sanitaer
 subcategory: warmwasser
-tags: [trinkwasser-erwärmung, warmwasser, brauchwasser, speicher, durchflusserwärmer, zirkulation, legionellen, hygiene, zapftemperatur, dvgw, w551, wärmespeicher, tww, kombispeicher]
+tags:
+  [
+    trinkwasser-erwärmung,
+    warmwasser,
+    brauchwasser,
+    speicher,
+    durchflusserwärmer,
+    zirkulation,
+    legionellen,
+    hygiene,
+    zapftemperatur,
+    dvgw,
+    w551,
+    wärmespeicher,
+    tww,
+    kombispeicher
+  ]
 difficulty: fortgeschritten
 area: [hlk, sanitaer, ga]
 related: [legionellen, heizung-grundlagen, waermemengenzaehler, pufferspeicher]
@@ -59,7 +75,7 @@ Kritische Temperaturbereiche:
   45–60 °C: Legionellen wachsen langsam
   > 60 °C: Legionellen sterben innerhalb Minuten ab
   > 70 °C: Sofortige Abtötung
-  
+
 DVGW W551 Anforderungen:
   Speicher:            ≥ 60 °C (oben gemessen)
   Zirkulation:         ≥ 55 °C (überall)
@@ -77,7 +93,7 @@ Warmwasserspeicher 60 °C
     → Steigetrassen → Stockwerkleitungen → Zapfstellen
     ← Rücklauf (> 55 °C)
     ↑ Zirkulationspumpe
-    
+
 Zirkulationstemperatur sinkt:
   OK: RL-Temp > 55 °C
   Nicht OK: RL-Temp < 55 °C → Legionellen-Risiko!
@@ -90,7 +106,7 @@ Zirkulationstemperatur sinkt:
 Zeitsteuerung:
   Betrieb: 06:00–23:00 (Nutzungszeiten)
   Abschaltung: 23:00–06:00 (wenn Leitungen isoliert und kurz)
-  
+
   ACHTUNG: Bei langen Leitungen → auch nachts gefährdet
   → Thermischer Betrieb: Pumpe läuft wenn T_RL < 55 °C
 
@@ -111,7 +127,7 @@ DVGW W551:
     → Wöchentliche thermische Desinfektion
     → T_Speicher ≥ 70 °C
     → Alle Zapfstellen 3 min auf ≥ 70 °C durchspülen
-    
+
 Kleine Anlagen:
   Dauerbetrieb 60 °C (keine periodische Desinfektion nötig)
 ```
@@ -124,7 +140,7 @@ Wöchentlich (z.B. Montag 02:00):
   Ladung bis T_Speicher_Oben ≥ 70 °C
   Zirkulation: 100 % (Maximaldurchfluss)
   Dauer: 30–60 min bei ≥ 70 °C halten
-  
+
   Nach Abschluss:
     Rückkehr auf Normal-Sollwert 60 °C
     Protokollierung: Datum, Zeit, Temperaturverlauf → Compliance
@@ -139,10 +155,10 @@ Warmwasser > 60 °C an Zapfstellen ist eine Verbrühungsgefahr:
 ```
 Lösung: Thermostat-Mischbatterie an Zapfstelle
   Mischventil 3-Wege: TWW 60 °C + KW → gemischt 45 °C
-  
+
 Oder: Zentrales Mischventil nach Speicher
   Speicher 60 °C → Mischventil → Verteilung 45 °C
-  
+
 ACHTUNG: Zirkulation muss trotzdem ≥ 55 °C haben
   → Mischventil nur am Ende der Verteilung, nach Zirkulations-Rücklauf-Anschluss
 ```
@@ -151,18 +167,18 @@ ACHTUNG: Zirkulation muss trotzdem ≥ 55 °C haben
 
 ## GA-Datenpunkte TWW
 
-| Datenpunkt                  | Typ | Einheit | Beschreibung                   |
-|-----------------------------|-----|---------|--------------------------------|
-| TWW-Speicher Temp Oben      | AI  | °C      | Hygiene-Monitoring             |
-| TWW-Speicher Temp Mitte     | AI  | °C      | Ladezustand                    |
-| TWW-Speicher Temp Unten     | AI  | °C      | Kaltzone                       |
-| TWW-Sollwert                | AV  | °C      | Normal 60 °C / Desinf. 70 °C  |
-| Zirkulations-RL Temperatur  | AI  | °C      | Hygiene-Überwachung            |
-| Zirkulationspumpe           | DO  | —       | EIN/AUS                        |
-| Ladepumpe                   | DO  | —       | EIN/AUS                        |
-| Ladeventil                  | AO  | %       | 0–100 %                        |
-| Desinfektion aktiv          | DV  | —       | Wochenprogramm-Status          |
-| TWW-Zapfvolumen             | AI  | l       | Verbrauchsmessung              |
+| Datenpunkt                 | Typ | Einheit | Beschreibung                 |
+| -------------------------- | --- | ------- | ---------------------------- |
+| TWW-Speicher Temp Oben     | AI  | °C      | Hygiene-Monitoring           |
+| TWW-Speicher Temp Mitte    | AI  | °C      | Ladezustand                  |
+| TWW-Speicher Temp Unten    | AI  | °C      | Kaltzone                     |
+| TWW-Sollwert               | AV  | °C      | Normal 60 °C / Desinf. 70 °C |
+| Zirkulations-RL Temperatur | AI  | °C      | Hygiene-Überwachung          |
+| Zirkulationspumpe          | DO  | —       | EIN/AUS                      |
+| Ladepumpe                  | DO  | —       | EIN/AUS                      |
+| Ladeventil                 | AO  | %       | 0–100 %                      |
+| Desinfektion aktiv         | DV  | —       | Wochenprogramm-Status        |
+| TWW-Zapfvolumen            | AI  | l       | Verbrauchsmessung            |
 
 ---
 
@@ -222,7 +238,7 @@ Critical temperature ranges:
   45–60 °C: Legionella grow slowly
   > 60 °C: Legionella die within minutes
   > 70 °C: Instantaneous kill
-  
+
 DVGW W551 requirements:
   Storage:             ≥ 60 °C (measured at top)
   Circulation:         ≥ 55 °C (everywhere)
@@ -240,7 +256,7 @@ DHW storage 60 °C
     → Risers → Floor distribution → Draw-off points
     ← Return (> 55 °C)
     ↑ Circulation pump
-    
+
 Circulation temperature drops:
   OK: return temp. > 55 °C
   Not OK: return temp. < 55 °C → Legionella risk!
@@ -253,7 +269,7 @@ Circulation temperature drops:
 Time control:
   Operation: 06:00–23:00 (occupancy hours)
   Shutdown: 23:00–06:00 (if pipes insulated and short)
-  
+
   CAUTION: Long pipes → at risk overnight too
   → Thermal operation: pump runs when T_return < 55 °C
 
@@ -274,7 +290,7 @@ DVGW W551:
     → Weekly thermal disinfection
     → T_storage ≥ 70 °C
     → All draw-off points flushed 3 min at ≥ 70 °C
-    
+
 Small systems:
   Continuous operation at 60 °C (no periodic disinfection required)
 ```
@@ -287,7 +303,7 @@ Weekly (e.g. Monday 02:00):
   Load until T_storage_top ≥ 70 °C
   Circulation: 100 % (maximum flow)
   Duration: hold at ≥ 70 °C for 30–60 min
-  
+
   After completion:
     Return to normal setpoint 60 °C
     Log: date, time, temperature profile → compliance
@@ -302,10 +318,10 @@ Hot water > 60 °C at draw-off points is a scalding hazard:
 ```
 Solution: thermostatic mixing valve at draw-off point
   3-way mixing valve: DHW 60 °C + CW → mixed 45 °C
-  
+
 Or: central mixing valve after storage
   Storage 60 °C → mixing valve → distribution 45 °C
-  
+
 CAUTION: Circulation must still maintain ≥ 55 °C
   → Mixing valve only at end of distribution, after circulation return connection
 ```
@@ -314,18 +330,18 @@ CAUTION: Circulation must still maintain ≥ 55 °C
 
 ## BA Data Points DHW
 
-| Data point | Type | Unit | Description |
-|------------|------|------|-------------|
-| DHW storage temp top | AI | °C | Hygiene monitoring |
-| DHW storage temp mid | AI | °C | Charge state |
-| DHW storage temp bot | AI | °C | Cold zone |
-| DHW setpoint | AV | °C | Normal 60 °C / Disinfection 70 °C |
-| Circulation return temp | AI | °C | Hygiene monitoring |
-| Circulation pump | DO | — | ON/OFF |
-| Loading pump | DO | — | ON/OFF |
-| Loading valve | AO | % | 0–100 % |
-| Disinfection active | DV | — | Weekly programme status |
-| DHW draw-off volume | AI | l | Consumption measurement |
+| Data point              | Type | Unit | Description                       |
+| ----------------------- | ---- | ---- | --------------------------------- |
+| DHW storage temp top    | AI   | °C   | Hygiene monitoring                |
+| DHW storage temp mid    | AI   | °C   | Charge state                      |
+| DHW storage temp bot    | AI   | °C   | Cold zone                         |
+| DHW setpoint            | AV   | °C   | Normal 60 °C / Disinfection 70 °C |
+| Circulation return temp | AI   | °C   | Hygiene monitoring                |
+| Circulation pump        | DO   | —    | ON/OFF                            |
+| Loading pump            | DO   | —    | ON/OFF                            |
+| Loading valve           | AO   | %    | 0–100 %                           |
+| Disinfection active     | DV   | —    | Weekly programme status           |
+| DHW draw-off volume     | AI   | l    | Consumption measurement           |
 
 ---
 

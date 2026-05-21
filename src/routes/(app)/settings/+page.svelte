@@ -8,12 +8,14 @@
 	const themeValues: Theme[] = ['auto', 'light', 'dark', 'oled'];
 	const langValues: { value: Lang; labelKey: string }[] = [
 		{ value: 'auto', labelKey: 'settings.langAuto' },
-		{ value: 'de',   labelKey: 'settings.langDe' },
-		{ value: 'en',   labelKey: 'settings.langEn' }
+		{ value: 'de', labelKey: 'settings.langDe' },
+		{ value: 'en', labelKey: 'settings.langEn' }
 	];
 
 	let currentLang = $state<Lang>('auto');
-	onMount(() => { currentLang = getSavedLang(); });
+	onMount(() => {
+		currentLang = getSavedLang();
+	});
 </script>
 
 <svelte:head>
@@ -32,11 +34,7 @@
 				<span class="setting-label">{$_('settings.theme')}</span>
 				<div class="theme-options">
 					{#each themeValues as tv}
-						<button
-							class="theme-btn"
-							class:active={$theme === tv}
-							onclick={() => theme.set(tv)}
-						>
+						<button class="theme-btn" class:active={$theme === tv} onclick={() => theme.set(tv)}>
 							{$_(`settings.theme${tv.charAt(0).toUpperCase() + tv.slice(1)}`)}
 						</button>
 					{/each}
@@ -50,8 +48,11 @@
 						<button
 							class="theme-btn"
 							class:active={currentLang === lv.value}
-							onclick={() => { currentLang = lv.value; setLang(lv.value); }}
-						>{$_(lv.labelKey)}</button>
+							onclick={() => {
+								currentLang = lv.value;
+								setLang(lv.value);
+							}}>{$_(lv.labelKey)}</button
+						>
 					{/each}
 				</div>
 			</div>
@@ -73,7 +74,9 @@
 </div>
 
 <style>
-	.settings-page { max-width: 600px; }
+	.settings-page {
+		max-width: 600px;
+	}
 
 	h1 {
 		font-size: 1.5rem;
@@ -82,7 +85,11 @@
 		margin: 0 0 1.5rem;
 	}
 
-	.settings-sections { display: flex; flex-direction: column; gap: 1rem; }
+	.settings-sections {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
 
 	.settings-section h2 {
 		font-size: 0.9375rem;
@@ -128,7 +135,10 @@
 		font-family: var(--font-sans);
 	}
 
-	.theme-btn:hover { color: var(--text); border-color: var(--color-primary); }
+	.theme-btn:hover {
+		color: var(--text);
+		border-color: var(--color-primary);
+	}
 	.theme-btn.active {
 		background-color: var(--color-primary);
 		border-color: var(--color-primary);
@@ -143,5 +153,7 @@
 		color: var(--text);
 	}
 
-	.info-row + .info-row { border-top: 1px solid var(--border); }
+	.info-row + .info-row {
+		border-top: 1px solid var(--border);
+	}
 </style>

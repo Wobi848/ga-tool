@@ -4,7 +4,30 @@ title_en: Refrigeration Systems — Fundamentals and BA
 slug: kaelteanlagen
 category: kaelte
 subcategory: erzeuger
-tags: [kältemaschine, kälteanlage, chiller, kältemittel, verdichter, verflüssiger, verdampfer, cop, eer, seer, free-cooling, rückkühler, kaltwassersatz, split, vrf, dx, r32, r290, r744, gwp, f-gase]
+tags:
+  [
+    kältemaschine,
+    kälteanlage,
+    chiller,
+    kältemittel,
+    verdichter,
+    verflüssiger,
+    verdampfer,
+    cop,
+    eer,
+    seer,
+    free-cooling,
+    rückkühler,
+    kaltwassersatz,
+    split,
+    vrf,
+    dx,
+    r32,
+    r290,
+    r744,
+    gwp,
+    f-gase
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [waermepumpe, taupunkt, druckverlust]
@@ -28,11 +51,11 @@ Verdampfer (kalt) → Verdichter → Verflüssiger (warm) → Expansionsventil �
   (Nutzen)
 ```
 
-| Grösse     | Wärmepumpe  | Kältemaschine |
-|------------|-------------|----------------|
-| Nutzen     | Verflüssiger (Heizung) | Verdampfer (Kühlung) |
-| Abwärme    | Verdampfer (Quelle)    | Verflüssiger (Rückkühler) |
-| Kennzahl   | COP         | EER / COP_c    |
+| Grösse   | Wärmepumpe             | Kältemaschine             |
+| -------- | ---------------------- | ------------------------- |
+| Nutzen   | Verflüssiger (Heizung) | Verdampfer (Kühlung)      |
+| Abwärme  | Verdampfer (Quelle)    | Verflüssiger (Rückkühler) |
+| Kennzahl | COP                    | EER / COP_c               |
 
 ## Leistungskennzahlen
 
@@ -58,21 +81,21 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 
 ### HFKWs (F-Gase) — auslaufend
 
-| Kältemittel | GWP    | Anwendung               | Status                    |
-|-------------|--------|-------------------------|---------------------------|
-| R134a       | 1430   | Kaltwassersätze, Kfz    | Phase-Down läuft          |
-| R410A       | 2088   | Split-Klima, VRF        | Verboten ab 2025 (Neuanlagen) |
-| R407C       | 1774   | Ersatz für R22          | Phase-Down                |
-| R32         | 675    | Split-Klima (neu)       | Übergangs-Kältemittel     |
+| Kältemittel | GWP  | Anwendung            | Status                        |
+| ----------- | ---- | -------------------- | ----------------------------- |
+| R134a       | 1430 | Kaltwassersätze, Kfz | Phase-Down läuft              |
+| R410A       | 2088 | Split-Klima, VRF     | Verboten ab 2025 (Neuanlagen) |
+| R407C       | 1774 | Ersatz für R22       | Phase-Down                    |
+| R32         | 675  | Split-Klima (neu)    | Übergangs-Kältemittel         |
 
 ### Natürliche Kältemittel — Zukunft
 
-| Kältemittel | GWP  | Anwendung                  | Besonderheit               |
-|-------------|------|----------------------------|----------------------------|
-| **R290** (Propan) | 3 | Split, kleine Chiller  | Brennbar (A3), Füllmengebegrenzt |
-| **R744** (CO₂)    | 1 | Transkritische Systeme, Supermarkt | Hoher Betriebsdruck |
-| **R717** (Ammoniak) | 0 | Industriekälte, grosse Chiller | Giftig (B2L), effizient |
-| **R718** (Wasser) | 0 | Turbomaschinen > 200 kW   | Nur Hochtemperaturkühlung  |
+| Kältemittel         | GWP | Anwendung                          | Besonderheit                     |
+| ------------------- | --- | ---------------------------------- | -------------------------------- |
+| **R290** (Propan)   | 3   | Split, kleine Chiller              | Brennbar (A3), Füllmengebegrenzt |
+| **R744** (CO₂)      | 1   | Transkritische Systeme, Supermarkt | Hoher Betriebsdruck              |
+| **R717** (Ammoniak) | 0   | Industriekälte, grosse Chiller     | Giftig (B2L), effizient          |
+| **R718** (Wasser)   | 0   | Turbomaschinen > 200 kW            | Nur Hochtemperaturkühlung        |
 
 > ⚠️ **F-Gase-Verordnung (EU):** Phase-Down von HFKWs bis 2050. Ab 2025 keine neuen Anlagen mit GWP > 750 in vielen Anwendungen. Schweiz: ChemRRV ähnlich.
 
@@ -87,11 +110,11 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 
 ### Rückkühlung (wassergekühlt)
 
-| Typ                | Beschreibung                                | Legionellen-Risiko |
-|--------------------|---------------------------------------------|--------------------|
-| **Trockenrückkühler** | Lamelle + Luft, kein Wasser in Kontakt mit Luft | Gering |
-| **Nassrückkühler / Kühlturm** | Verdunstung, Aerosolbildung möglich | **Hoch** → VDI 2047 beachten! |
-| **Hybridkühler**   | Trocken + Nass kombiniert                   | Mittel             |
+| Typ                           | Beschreibung                                    | Legionellen-Risiko            |
+| ----------------------------- | ----------------------------------------------- | ----------------------------- |
+| **Trockenrückkühler**         | Lamelle + Luft, kein Wasser in Kontakt mit Luft | Gering                        |
+| **Nassrückkühler / Kühlturm** | Verdunstung, Aerosolbildung möglich             | **Hoch** → VDI 2047 beachten! |
+| **Hybridkühler**              | Trocken + Nass kombiniert                       | Mittel                        |
 
 > ⚠️ **Offene Kühltürme** (Nasskühler) sind nach VDI 2047-2 zu betreiben: regelmässige Wasseranalysen, Legionellen < 1000 KBE/100 ml, sonst Abschaltpflicht.
 
@@ -99,11 +122,11 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 
 Kältemittel verdampft direkt im Raumgerät (kein Kaltwasser-Zwischenkreis):
 
-| Typ         | Beschreibung                                    |
-|-------------|-------------------------------------------------|
-| **Split**   | Innen- + Aussengerät, 1:1, bis ~12 kW           |
-| **Multi-Split** | 1 Aussengerät, mehrere Innengeräte         |
-| **VRF/VRV** | Bis 64 Innengeräte pro Ausseneinheit, digitale Regelung, Bus-Protokoll |
+| Typ             | Beschreibung                                                           |
+| --------------- | ---------------------------------------------------------------------- |
+| **Split**       | Innen- + Aussengerät, 1:1, bis ~12 kW                                  |
+| **Multi-Split** | 1 Aussengerät, mehrere Innengeräte                                     |
+| **VRF/VRV**     | Bis 64 Innengeräte pro Ausseneinheit, digitale Regelung, Bus-Protokoll |
 
 ### Free Cooling
 
@@ -135,21 +158,21 @@ Chiller → Pufferspeicher → Verteiler → Verbraucher
 
 ## GA-Datenpunkte Kälteanlage
 
-| Datenpunkt                     | Typ  | Beschreibung                           |
-|--------------------------------|------|----------------------------------------|
-| Betriebsart                    | Soll | Kühlen / Free-Cooling / Off / Standby  |
-| Kaltwasser-Vorlauf Soll        | Soll | Sollwertvorgabe (z.B. 6 °C oder gleitend) |
-| Kaltwasser-Vorlauf Ist         | Ist  | Rückmeldung                            |
-| Kaltwasser-Rücklauf Ist        | Ist  | Temperatur Rücklauf                    |
-| Verdichter Stufe / Frequenz    | Ist  | Laststufe oder FU-Frequenz             |
-| Aktuelle Kühlleistung [kW]     | Ist  | Berechneter Wert (Δt × V̇ × cp)        |
-| Kumulierte Kühlenergie [kWh]   | Ist  | Energiezähler                          |
-| EER aktuell                    | Ist  | Berechneter Momentanwert               |
-| Rückkühler Ventilatoren        | Ist  | Stufen oder Drehzahl                   |
-| Hochdruckalarm                 | Ist  | Störmeldung                            |
-| Niederdruckalarm               | Ist  | Störmeldung                            |
-| Frostschutzalarm               | Ist  | Vorlauf < 4 °C → Notabschaltung        |
-| Wartungsstunden                | Ist  | Betriebsstundenzähler                  |
+| Datenpunkt                   | Typ  | Beschreibung                              |
+| ---------------------------- | ---- | ----------------------------------------- |
+| Betriebsart                  | Soll | Kühlen / Free-Cooling / Off / Standby     |
+| Kaltwasser-Vorlauf Soll      | Soll | Sollwertvorgabe (z.B. 6 °C oder gleitend) |
+| Kaltwasser-Vorlauf Ist       | Ist  | Rückmeldung                               |
+| Kaltwasser-Rücklauf Ist      | Ist  | Temperatur Rücklauf                       |
+| Verdichter Stufe / Frequenz  | Ist  | Laststufe oder FU-Frequenz                |
+| Aktuelle Kühlleistung [kW]   | Ist  | Berechneter Wert (Δt × V̇ × cp)            |
+| Kumulierte Kühlenergie [kWh] | Ist  | Energiezähler                             |
+| EER aktuell                  | Ist  | Berechneter Momentanwert                  |
+| Rückkühler Ventilatoren      | Ist  | Stufen oder Drehzahl                      |
+| Hochdruckalarm               | Ist  | Störmeldung                               |
+| Niederdruckalarm             | Ist  | Störmeldung                               |
+| Frostschutzalarm             | Ist  | Vorlauf < 4 °C → Notabschaltung           |
+| Wartungsstunden              | Ist  | Betriebsstundenzähler                     |
 
 ## Gleitende Sollwertregelung (Chiller Reset)
 
@@ -164,11 +187,11 @@ Aussentemperatur 35 °C → Kaltwasser-Soll: 6 °C (volle Last nötig)
 
 ## F-Gase-Pflichten (Betreiber)
 
-| Füllmenge CO₂-Äquivalent | Pflicht                                |
-|--------------------------|----------------------------------------|
-| ≥ 5 t CO₂-Äq.           | Dichtheitsprüfung alle 12 Monate       |
-| ≥ 50 t CO₂-Äq.          | Dichtheitsprüfung alle 6 Monate        |
-| ≥ 500 t CO₂-Äq.         | Dichtheitsprüfung alle 3 Monate + Leckagedetektor |
+| Füllmenge CO₂-Äquivalent | Pflicht                                           |
+| ------------------------ | ------------------------------------------------- |
+| ≥ 5 t CO₂-Äq.            | Dichtheitsprüfung alle 12 Monate                  |
+| ≥ 50 t CO₂-Äq.           | Dichtheitsprüfung alle 6 Monate                   |
+| ≥ 500 t CO₂-Äq.          | Dichtheitsprüfung alle 3 Monate + Leckagedetektor |
 
 **Beispiel:** 10 kg R410A (GWP 2088) = 20,88 t CO₂-Äquivalent → alle 12 Monate Prüfpflicht.
 
@@ -200,11 +223,11 @@ Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Ev
   (useful effect)
 ```
 
-| Quantity | Heat pump | Chiller |
-|---------|----------|---------|
-| Useful effect | Condenser (heating) | Evaporator (cooling) |
-| Rejected heat | Evaporator (source) | Condenser (dry cooler) |
-| Performance metric | COP | EER / COP_c |
+| Quantity           | Heat pump           | Chiller                |
+| ------------------ | ------------------- | ---------------------- |
+| Useful effect      | Condenser (heating) | Evaporator (cooling)   |
+| Rejected heat      | Evaporator (source) | Condenser (dry cooler) |
+| Performance metric | COP                 | EER / COP_c            |
 
 ## Performance Metrics
 
@@ -230,21 +253,21 @@ Older metric with 4 operating points (100/75/50/25 % load) — still required in
 
 ### HFCs (F-gases) — being phased out
 
-| Refrigerant | GWP | Application | Status |
-|------------|-----|------------|--------|
-| R134a | 1430 | Chillers, automotive | Phase-down under way |
-| R410A | 2088 | Split AC, VRF | Banned from 2025 (new systems) |
-| R407C | 1774 | Replacement for R22 | Phase-down |
-| R32 | 675 | Split AC (new) | Transitional refrigerant |
+| Refrigerant | GWP  | Application          | Status                         |
+| ----------- | ---- | -------------------- | ------------------------------ |
+| R134a       | 1430 | Chillers, automotive | Phase-down under way           |
+| R410A       | 2088 | Split AC, VRF        | Banned from 2025 (new systems) |
+| R407C       | 1774 | Replacement for R22  | Phase-down                     |
+| R32         | 675  | Split AC (new)       | Transitional refrigerant       |
 
 ### Natural Refrigerants — the Future
 
-| Refrigerant | GWP | Application | Special feature |
-|------------|-----|------------|----------------|
-| **R290** (Propane) | 3 | Split, small chillers | Flammable (A3), charge-limited |
-| **R744** (CO₂) | 1 | Transcritical systems, supermarkets | High operating pressure |
-| **R717** (Ammonia) | 0 | Industrial refrigeration, large chillers | Toxic (B2L), efficient |
-| **R718** (Water) | 0 | Turbomachinery > 200 kW | High-temperature cooling only |
+| Refrigerant        | GWP | Application                              | Special feature                |
+| ------------------ | --- | ---------------------------------------- | ------------------------------ |
+| **R290** (Propane) | 3   | Split, small chillers                    | Flammable (A3), charge-limited |
+| **R744** (CO₂)     | 1   | Transcritical systems, supermarkets      | High operating pressure        |
+| **R717** (Ammonia) | 0   | Industrial refrigeration, large chillers | Toxic (B2L), efficient         |
+| **R718** (Water)   | 0   | Turbomachinery > 200 kW                  | High-temperature cooling only  |
 
 > **F-Gas Regulation (EU):** Phase-down of HFCs until 2050. From 2025 no new systems with GWP > 750 in many applications. Switzerland: ChemRRV similar.
 
@@ -259,11 +282,11 @@ Older metric with 4 operating points (100/75/50/25 % load) — still required in
 
 ### Heat Rejection (water-cooled)
 
-| Type | Description | Legionella risk |
-|------|-------------|----------------|
-| **Dry cooler** | Fins + air, no water contact with air | Low |
+| Type                           | Description                             | Legionella risk             |
+| ------------------------------ | --------------------------------------- | --------------------------- |
+| **Dry cooler**                 | Fins + air, no water contact with air   | Low                         |
 | **Wet cooler / cooling tower** | Evaporation, aerosol formation possible | **High** → follow VDI 2047! |
-| **Hybrid cooler** | Dry + wet combined | Medium |
+| **Hybrid cooler**              | Dry + wet combined                      | Medium                      |
 
 > **Open cooling towers** (wet coolers) must be operated to VDI 2047-2: regular water analysis, Legionella < 1000 CFU/100 ml, otherwise mandatory shutdown.
 
@@ -271,11 +294,11 @@ Older metric with 4 operating points (100/75/50/25 % load) — still required in
 
 Refrigerant evaporates directly in the room unit (no chilled water intermediate circuit):
 
-| Type | Description |
-|------|-------------|
-| **Split** | Indoor + outdoor unit, 1:1, up to ~12 kW |
-| **Multi-split** | 1 outdoor unit, multiple indoor units |
-| **VRF/VRV** | Up to 64 indoor units per outdoor unit, digital control, bus protocol |
+| Type            | Description                                                           |
+| --------------- | --------------------------------------------------------------------- |
+| **Split**       | Indoor + outdoor unit, 1:1, up to ~12 kW                              |
+| **Multi-split** | 1 outdoor unit, multiple indoor units                                 |
+| **VRF/VRV**     | Up to 64 indoor units per outdoor unit, digital control, bus protocol |
 
 ### Free Cooling
 
@@ -307,21 +330,21 @@ Chiller → buffer tank → distribution → consumers
 
 ## BA Data Points Refrigeration System
 
-| Data point | Type | Description |
-|-----------|------|-------------|
-| Operating mode | Setpoint | Cooling / free cooling / off / standby |
-| Chilled water flow setpoint | Setpoint | e.g. 6 °C or sliding |
-| Chilled water flow actual | Actual | Feedback |
-| Chilled water return actual | Actual | Return temperature |
-| Compressor stage / frequency | Actual | Load stage or VFD frequency |
-| Current cooling output [kW] | Actual | Calculated (Δt × V̇ × cp) |
-| Cumulative cooling energy [kWh] | Actual | Energy meter |
-| EER current | Actual | Calculated instantaneous value |
-| Dry cooler fans | Actual | Stages or speed |
-| High pressure alarm | Actual | Fault |
-| Low pressure alarm | Actual | Fault |
-| Frost protection alarm | Actual | Flow < 4 °C → emergency shutdown |
-| Maintenance hours | Actual | Operating hour meter |
+| Data point                      | Type     | Description                            |
+| ------------------------------- | -------- | -------------------------------------- |
+| Operating mode                  | Setpoint | Cooling / free cooling / off / standby |
+| Chilled water flow setpoint     | Setpoint | e.g. 6 °C or sliding                   |
+| Chilled water flow actual       | Actual   | Feedback                               |
+| Chilled water return actual     | Actual   | Return temperature                     |
+| Compressor stage / frequency    | Actual   | Load stage or VFD frequency            |
+| Current cooling output [kW]     | Actual   | Calculated (Δt × V̇ × cp)               |
+| Cumulative cooling energy [kWh] | Actual   | Energy meter                           |
+| EER current                     | Actual   | Calculated instantaneous value         |
+| Dry cooler fans                 | Actual   | Stages or speed                        |
+| High pressure alarm             | Actual   | Fault                                  |
+| Low pressure alarm              | Actual   | Fault                                  |
+| Frost protection alarm          | Actual   | Flow < 4 °C → emergency shutdown       |
+| Maintenance hours               | Actual   | Operating hour meter                   |
 
 ## Sliding Setpoint Control (Chiller Reset)
 
@@ -336,11 +359,11 @@ Outdoor temperature 35 °C → chilled water setpoint: 6 °C (full load required
 
 ## F-Gas Obligations (Operator)
 
-| Charge CO₂ equivalent | Obligation |
-|-----------------------|-----------|
-| ≥ 5 t CO₂-eq. | Leak check every 12 months |
-| ≥ 50 t CO₂-eq. | Leak check every 6 months |
-| ≥ 500 t CO₂-eq. | Leak check every 3 months + leak detector |
+| Charge CO₂ equivalent | Obligation                                |
+| --------------------- | ----------------------------------------- |
+| ≥ 5 t CO₂-eq.         | Leak check every 12 months                |
+| ≥ 50 t CO₂-eq.        | Leak check every 6 months                 |
+| ≥ 500 t CO₂-eq.       | Leak check every 3 months + leak detector |
 
 **Example:** 10 kg R410A (GWP 2088) = 20.88 t CO₂-eq. → annual check required.
 

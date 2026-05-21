@@ -4,7 +4,24 @@ title_en: Zigbee — Mesh Radio Network for BA
 slug: zigbee
 category: protokolle
 subcategory: funk
-tags: [zigbee, zigbee2mqtt, mesh, coordinator, router, end-device, 2.4ghz, ieee802154, home-assistant, philips-hue, ikea-tradfri, matter, thread, pairing, channel]
+tags:
+  [
+    zigbee,
+    zigbee2mqtt,
+    mesh,
+    coordinator,
+    router,
+    end-device,
+    2.4ghz,
+    ieee802154,
+    home-assistant,
+    philips-hue,
+    ikea-tradfri,
+    matter,
+    thread,
+    pairing,
+    channel
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [mqtt, enocean, knx, lora, matter-thread, zwave]
@@ -32,11 +49,11 @@ Coordinator (1x)
 
 ### Geräte-Rollen
 
-| Rolle         | Funktion                                     | Energiebedarf         |
-|---------------|----------------------------------------------|-----------------------|
-| **Coordinator** | Einmaliger Netzwerk-Ersteller, Routing-Tabelle | Dauerstrombetrieb    |
-| **Router**    | Leitet Nachrichten weiter, ausgedehnte Reichweite | Dauerstrombetrieb |
-| **End-Device** | Sensor/Aktor, schläft zwischen Messungen     | Batterie möglich      |
+| Rolle           | Funktion                                          | Energiebedarf     |
+| --------------- | ------------------------------------------------- | ----------------- |
+| **Coordinator** | Einmaliger Netzwerk-Ersteller, Routing-Tabelle    | Dauerstrombetrieb |
+| **Router**      | Leitet Nachrichten weiter, ausgedehnte Reichweite | Dauerstrombetrieb |
+| **End-Device**  | Sensor/Aktor, schläft zwischen Messungen          | Batterie möglich  |
 
 **Self-Healing:** Fällt ein Router aus, findet das Netz automatisch einen anderen Weg.
 
@@ -44,15 +61,15 @@ Coordinator (1x)
 
 ## Technische Parameter
 
-| Parameter        | Wert                                    |
-|------------------|-----------------------------------------|
-| Frequenz         | 2.4 GHz (global), 868/915 MHz (regional)|
-| Kanäle           | 16 (2.4 GHz), nummeriert 11–26          |
-| Datenrate        | 250 kbps                                |
-| Reichweite       | 10–30 m (innen), 75–100 m (freies Feld) |
-| Max. Geräte      | 65000 pro Netzwerk (theoretisch)        |
-| Verschlüsselung  | AES-128                                 |
-| Latenz           | 15–30 ms                                |
+| Parameter       | Wert                                     |
+| --------------- | ---------------------------------------- |
+| Frequenz        | 2.4 GHz (global), 868/915 MHz (regional) |
+| Kanäle          | 16 (2.4 GHz), nummeriert 11–26           |
+| Datenrate       | 250 kbps                                 |
+| Reichweite      | 10–30 m (innen), 75–100 m (freies Feld)  |
+| Max. Geräte     | 65000 pro Netzwerk (theoretisch)         |
+| Verschlüsselung | AES-128                                  |
+| Latenz          | 15–30 ms                                 |
 
 **Interferenzproblem:** 2.4 GHz teilt sich den Frequenzbereich mit WLAN (2.4 GHz), Bluetooth und Mikrowellen. WLAN-Kanäle 1, 6, 11 überlappen mit Zigbee-Kanälen. Wichtig: **Zigbee-Kanal 15, 20, 25 oder 26** wählen um WLAN-Kollisionen zu vermeiden.
 
@@ -95,10 +112,11 @@ mqtt:
   server: mqtt://localhost:1883
 serial:
   port: /dev/ttyUSB0
-permit_join: false  # nach Inbetriebnahme schliessen!
+permit_join: false # nach Inbetriebnahme schliessen!
 ```
 
 MQTT-Ausgabe für Sensor:
+
 ```
 zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "linkquality": 255}
 ```
@@ -109,23 +127,23 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 
 ### Stärken
 
-| Stärke                          | Warum                                |
-|---------------------------------|--------------------------------------|
-| Grosse Gerätauswahl             | Massenmärkte: IKEA, Philips Hue, Aqara |
-| Günstige Hardware               | Preise ab CHF 5–20 pro Gerät         |
-| Mesh-Selbstheilung              | Robuster als Single-Hop Funk         |
-| Bidirektional                   | Bestätigungen, Rückmeldungen         |
-| AES-128 Verschlüsselung         | Sicher                               |
+| Stärke                  | Warum                                  |
+| ----------------------- | -------------------------------------- |
+| Grosse Gerätauswahl     | Massenmärkte: IKEA, Philips Hue, Aqara |
+| Günstige Hardware       | Preise ab CHF 5–20 pro Gerät           |
+| Mesh-Selbstheilung      | Robuster als Single-Hop Funk           |
+| Bidirektional           | Bestätigungen, Rückmeldungen           |
+| AES-128 Verschlüsselung | Sicher                                 |
 
 ### Einschränkungen
 
-| Einschränkung                   | Warum                                |
-|---------------------------------|--------------------------------------|
-| 2.4 GHz Interferenz             | WLAN, BT, Mikrowellen                |
-| Coordinator-Abhängigkeit        | Coordinator ausfallkritisch          |
-| Keine Normierung für GA         | Kein BACnet, kein IEC-Standard       |
-| Kein energieharvestig           | Batterien nötig (ausser Netzgeräte)  |
-| Koordinator nur 1x              | Netzwerk-Split bei mehreren Coordinatoren |
+| Einschränkung            | Warum                                     |
+| ------------------------ | ----------------------------------------- |
+| 2.4 GHz Interferenz      | WLAN, BT, Mikrowellen                     |
+| Coordinator-Abhängigkeit | Coordinator ausfallkritisch               |
+| Keine Normierung für GA  | Kein BACnet, kein IEC-Standard            |
+| Kein energieharvestig    | Batterien nötig (ausser Netzgeräte)       |
+| Koordinator nur 1x       | Netzwerk-Split bei mehreren Coordinatoren |
 
 ### Typische GA-Anwendungen mit Zigbee
 
@@ -140,22 +158,23 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 
 ## Vergleich Zigbee vs. EnOcean
 
-| Merkmal            | Zigbee                          | EnOcean                          |
-|--------------------|----------------------------------|----------------------------------|
-| Batterie           | Nötig (ausser Router/Netzgeräte) | Batterielos (Energy Harvesting)  |
-| Bidirektional      | ✅ Ja                            | Eingeschränkt (1BS/4BS unidirekt)|
-| Reichweite         | 10–30 m (Mesh erweitert)        | 30 m (Repeater bis 2 Hops)       |
-| Geräteauswahl      | Sehr gross (Massenmarkt)        | Mittel (GA-spezifisch)           |
-| Normen             | IEEE 802.15.4                   | ISO/IEC 14543-3-1X               |
-| GA-Integration     | Via Zigbee2MQTT/MQTT            | Direkter (KNX/BACnet-Gateway)    |
-| Kosten             | Sehr günstig                    | Mittel bis teuer                 |
-| Wartung            | Batteriewechsel nötig           | Wartungsfrei                     |
+| Merkmal        | Zigbee                           | EnOcean                           |
+| -------------- | -------------------------------- | --------------------------------- |
+| Batterie       | Nötig (ausser Router/Netzgeräte) | Batterielos (Energy Harvesting)   |
+| Bidirektional  | ✅ Ja                            | Eingeschränkt (1BS/4BS unidirekt) |
+| Reichweite     | 10–30 m (Mesh erweitert)         | 30 m (Repeater bis 2 Hops)        |
+| Geräteauswahl  | Sehr gross (Massenmarkt)         | Mittel (GA-spezifisch)            |
+| Normen         | IEEE 802.15.4                    | ISO/IEC 14543-3-1X                |
+| GA-Integration | Via Zigbee2MQTT/MQTT             | Direkter (KNX/BACnet-Gateway)     |
+| Kosten         | Sehr günstig                     | Mittel bis teuer                  |
+| Wartung        | Batteriewechsel nötig            | Wartungsfrei                      |
 
 ---
 
 ## Matter und Thread (Nachfolge-Protokoll)
 
 **Matter** (ehem. CHIP, 2022) ist der neue Smart-Home-Standard (Google, Apple, Amazon, Zigbee Alliance):
+
 - Einheitliches Protokoll über IP
 - Läuft über **Thread** (ebenfalls IEEE 802.15.4 Mesh) oder WLAN/Ethernet
 - Zigbee-Geräte sind **nicht** kompatibel zu Matter
@@ -186,11 +205,11 @@ Coordinator (1×)
 
 ### Device Roles
 
-| Role | Function | Power requirement |
-|------|---------|-----------------|
-| **Coordinator** | One-off network creator, routing table | Continuous power |
-| **Router** | Forwards messages, extends range | Continuous power |
-| **End-Device** | Sensor/actuator, sleeps between measurements | Battery possible |
+| Role            | Function                                     | Power requirement |
+| --------------- | -------------------------------------------- | ----------------- |
+| **Coordinator** | One-off network creator, routing table       | Continuous power  |
+| **Router**      | Forwards messages, extends range             | Continuous power  |
+| **End-Device**  | Sensor/actuator, sleeps between measurements | Battery possible  |
 
 **Self-healing:** If a router fails, the network automatically finds another path.
 
@@ -198,15 +217,15 @@ Coordinator (1×)
 
 ## Technical Parameters
 
-| Parameter | Value |
-|---------|------|
-| Frequency | 2.4 GHz (global), 868/915 MHz (regional) |
-| Channels | 16 (2.4 GHz), numbered 11–26 |
-| Data rate | 250 kbps |
-| Range | 10–30 m (indoors), 75–100 m (open field) |
-| Max. devices | 65,000 per network (theoretical) |
-| Encryption | AES-128 |
-| Latency | 15–30 ms |
+| Parameter    | Value                                    |
+| ------------ | ---------------------------------------- |
+| Frequency    | 2.4 GHz (global), 868/915 MHz (regional) |
+| Channels     | 16 (2.4 GHz), numbered 11–26             |
+| Data rate    | 250 kbps                                 |
+| Range        | 10–30 m (indoors), 75–100 m (open field) |
+| Max. devices | 65,000 per network (theoretical)         |
+| Encryption   | AES-128                                  |
+| Latency      | 15–30 ms                                 |
 
 **Interference issue:** 2.4 GHz shares the frequency band with Wi-Fi (2.4 GHz), Bluetooth and microwave ovens. Wi-Fi channels 1, 6, 11 overlap with Zigbee channels. Important: choose **Zigbee channel 15, 20, 25 or 26** to avoid Wi-Fi collisions.
 
@@ -249,10 +268,11 @@ mqtt:
   server: mqtt://localhost:1883
 serial:
   port: /dev/ttyUSB0
-permit_join: false  # close after commissioning!
+permit_join: false # close after commissioning!
 ```
 
 MQTT output for sensor:
+
 ```
 zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "linkquality": 255}
 ```
@@ -263,23 +283,23 @@ zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "
 
 ### Strengths
 
-| Strength | Why |
-|---------|-----|
+| Strength               | Why                                   |
+| ---------------------- | ------------------------------------- |
 | Large device selection | Mass market: IKEA, Philips Hue, Aqara |
-| Inexpensive hardware | Prices from CHF 5–20 per device |
-| Mesh self-healing | More robust than single-hop radio |
-| Bidirectional | Confirmations, feedback |
-| AES-128 encryption | Secure |
+| Inexpensive hardware   | Prices from CHF 5–20 per device       |
+| Mesh self-healing      | More robust than single-hop radio     |
+| Bidirectional          | Confirmations, feedback               |
+| AES-128 encryption     | Secure                                |
 
 ### Limitations
 
-| Limitation | Why |
-|-----------|-----|
-| 2.4 GHz interference | Wi-Fi, Bluetooth, microwave ovens |
-| Coordinator dependency | Coordinator is a single point of failure |
-| No BA standardisation | No BACnet, no IEC standard |
-| No energy harvesting | Batteries needed (except mains-powered devices) |
-| Only one coordinator | Network split with multiple coordinators |
+| Limitation             | Why                                             |
+| ---------------------- | ----------------------------------------------- |
+| 2.4 GHz interference   | Wi-Fi, Bluetooth, microwave ovens               |
+| Coordinator dependency | Coordinator is a single point of failure        |
+| No BA standardisation  | No BACnet, no IEC standard                      |
+| No energy harvesting   | Batteries needed (except mains-powered devices) |
+| Only one coordinator   | Network split with multiple coordinators        |
 
 ### Typical BA Applications with Zigbee
 
@@ -294,22 +314,23 @@ zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "
 
 ## Comparison Zigbee vs. EnOcean
 
-| Feature | Zigbee | EnOcean |
-|---------|--------|---------|
-| Battery | Required (except routers/mains) | Battery-free (energy harvesting) |
-| Bidirectional | ✅ Yes | Limited (1BS/4BS unidirectional) |
-| Range | 10–30 m (mesh extends) | 30 m (repeater up to 2 hops) |
-| Device selection | Very large (mass market) | Medium (BA-specific) |
-| Standards | IEEE 802.15.4 | ISO/IEC 14543-3-1X |
-| BA integration | Via Zigbee2MQTT/MQTT | More direct (KNX/BACnet gateway) |
-| Cost | Very low | Medium to high |
-| Maintenance | Battery replacement needed | Maintenance-free |
+| Feature          | Zigbee                          | EnOcean                          |
+| ---------------- | ------------------------------- | -------------------------------- |
+| Battery          | Required (except routers/mains) | Battery-free (energy harvesting) |
+| Bidirectional    | ✅ Yes                          | Limited (1BS/4BS unidirectional) |
+| Range            | 10–30 m (mesh extends)          | 30 m (repeater up to 2 hops)     |
+| Device selection | Very large (mass market)        | Medium (BA-specific)             |
+| Standards        | IEEE 802.15.4                   | ISO/IEC 14543-3-1X               |
+| BA integration   | Via Zigbee2MQTT/MQTT            | More direct (KNX/BACnet gateway) |
+| Cost             | Very low                        | Medium to high                   |
+| Maintenance      | Battery replacement needed      | Maintenance-free                 |
 
 ---
 
 ## Matter and Thread (Successor Protocol)
 
 **Matter** (formerly CHIP, 2022) is the new smart home standard (Google, Apple, Amazon, Zigbee Alliance):
+
 - Unified protocol over IP
 - Runs over **Thread** (also IEEE 802.15.4 mesh) or Wi-Fi/Ethernet
 - Zigbee devices are **not** compatible with Matter

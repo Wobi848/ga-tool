@@ -4,7 +4,24 @@ title_en: Damper Actuators — Air Dampers in Building Automation
 slug: klappenantriebe
 category: lueftung
 subcategory: aktoren
-tags: [klappenantrieb, luftklappe, stellzeit, dreipunkt, stetig, fail-safe, aussenluft, abluft, mischluft, vav, brandschutzklappe, rückmeldung, endschalter, nm, drehmoment]
+tags:
+  [
+    klappenantrieb,
+    luftklappe,
+    stellzeit,
+    dreipunkt,
+    stetig,
+    fail-safe,
+    aussenluft,
+    abluft,
+    mischluft,
+    vav,
+    brandschutzklappe,
+    rückmeldung,
+    endschalter,
+    nm,
+    drehmoment
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vav-cav, signaltypen, motorventile, brandschutzklappen]
@@ -19,14 +36,14 @@ Klappenantriebe setzen elektrische Signale in mechanische Klappenstellungen um. 
 
 ## Klappen-Typen
 
-| Klappentyp               | Funktion                             | Einsatz                         |
-|--------------------------|--------------------------------------|---------------------------------|
-| **Aussenluft-Klappe**    | Öffnen/Schliessen Aussenluft        | RLT-Anlage, Einlass             |
-| **Abluft-Klappe**        | Öffnen/Schliessen Abluft/Fortluft   | RLT-Anlage, Auslass             |
-| **Mischluft-Klappe**     | Mischverhältnis Aussen/Umluft       | Energiesparen via Umluft        |
-| **Brandschutzklappe**    | Brandfall-Absperrung                | Feuerschutz                     |
-| **Überström-Klappe**     | Druckausgleich                      | Bei Über-/Unterdruck            |
-| **VAV-Klappe**           | Volumenstromregelung                | VAV-Boxen                       |
+| Klappentyp            | Funktion                          | Einsatz                  |
+| --------------------- | --------------------------------- | ------------------------ |
+| **Aussenluft-Klappe** | Öffnen/Schliessen Aussenluft      | RLT-Anlage, Einlass      |
+| **Abluft-Klappe**     | Öffnen/Schliessen Abluft/Fortluft | RLT-Anlage, Auslass      |
+| **Mischluft-Klappe**  | Mischverhältnis Aussen/Umluft     | Energiesparen via Umluft |
+| **Brandschutzklappe** | Brandfall-Absperrung              | Feuerschutz              |
+| **Überström-Klappe**  | Druckausgleich                    | Bei Über-/Unterdruck     |
+| **VAV-Klappe**        | Volumenstromregelung              | VAV-Boxen                |
 
 ---
 
@@ -66,14 +83,14 @@ Ausgang 0–10 V → Rückmeldung Ist-Position
 
 ## Technische Kenngrössen
 
-| Parameter        | Typische Werte           | Bedeutung                      |
-|------------------|--------------------------|--------------------------------|
-| **Drehmoment**   | 2–40 Nm                  | Kraft zum Bewegen der Klappe   |
-| **Stellzeit**    | 30–300 s (0–90°)         | Zeit für Vollaushub            |
-| **Nennspannung** | 24 VAC/DC oder 230 VAC   | Versorgungsspannung            |
-| **Stellsignal**  | 2-Pkt, 3-Pkt, 0–10 V     | Art der Ansteuerung            |
-| **Fail-Safe**    | AUF / ZU / Halten        | Sicherheitsstellung bei Ausfall|
-| **Rückmeldung**  | Endschalter, 0–10 V      | Position zurückmelden          |
+| Parameter        | Typische Werte         | Bedeutung                       |
+| ---------------- | ---------------------- | ------------------------------- |
+| **Drehmoment**   | 2–40 Nm                | Kraft zum Bewegen der Klappe    |
+| **Stellzeit**    | 30–300 s (0–90°)       | Zeit für Vollaushub             |
+| **Nennspannung** | 24 VAC/DC oder 230 VAC | Versorgungsspannung             |
+| **Stellsignal**  | 2-Pkt, 3-Pkt, 0–10 V   | Art der Ansteuerung             |
+| **Fail-Safe**    | AUF / ZU / Halten      | Sicherheitsstellung bei Ausfall |
+| **Rückmeldung**  | Endschalter, 0–10 V    | Position zurückmelden           |
 
 ### Drehmoment berechnen
 
@@ -89,11 +106,11 @@ Typische Faustregel: **4–8 Nm/m² Klappenfläche** (abhängig von Druckdiffere
 
 ## Fail-Safe Stellung
 
-| Fail-Safe | Beschreibung                    | Anwendung                       |
-|-----------|----------------------------------|---------------------------------|
-| **ZU**    | Federrückstellung → schliesst    | Aussenluft-Klappe (Frost!)      |
-| **AUF**   | Federrückstellung → öffnet       | Überdruckklappe, Sicherheit     |
-| **Halten**| Motor hält letzte Position (keine Feder) | VAV, Mischklappe        |
+| Fail-Safe  | Beschreibung                             | Anwendung                   |
+| ---------- | ---------------------------------------- | --------------------------- |
+| **ZU**     | Federrückstellung → schliesst            | Aussenluft-Klappe (Frost!)  |
+| **AUF**    | Federrückstellung → öffnet               | Überdruckklappe, Sicherheit |
+| **Halten** | Motor hält letzte Position (keine Feder) | VAV, Mischklappe            |
 
 **Federrückstell-Antriebe** gehen bei Stromausfall automatisch in Fail-Safe-Position — bevorzugt für sicherheitskritische Klappen.
 
@@ -120,7 +137,7 @@ Logik DDC:
 ```
 Signal: AO 0–10 V
 0 V = 100 % Aussenluft / 0 % Umluft
-5 V = 50 % Aussenluft / 50 % Umluft  
+5 V = 50 % Aussenluft / 50 % Umluft
 10 V = 0 % Aussenluft / 100 % Umluft
 
 Gekoppelt: Aussenluft-Klappe + Umluft-Klappe mechanisch gegengekoppelt
@@ -134,7 +151,7 @@ Volumenstrom-Regler DDC:
   Messeingang: Differenzdruck (→ Volumenstrom)
   Ausgang: 0–10 V → Klappen-Sollposition
   Rückmeldung: 0–10 V Klappenstellung-Ist
-  
+
 Regelziel: Volumenstrom = Soll (z.B. 200 m³/h)
 ```
 
@@ -142,13 +159,13 @@ Regelziel: Volumenstrom = Soll (z.B. 200 m³/h)
 
 ## Typische Fehler
 
-| Fehler                           | Symptom                             | Lösung                         |
-|----------------------------------|--------------------------------------|--------------------------------|
-| Falsches Drehmoment              | Klappe klemmt, Antrieb überhitzt    | Antrieb austauschen            |
-| Klappe dreht in falsche Richtung | Vollständig verkehrt                | Drehrichtung im Antrieb ändern |
-| 3-Punkt Verriegelung fehlt       | Antrieb zerstört (Gegenansteuerung)  | DDC-Verriegelung implementieren|
+| Fehler                           | Symptom                               | Lösung                              |
+| -------------------------------- | ------------------------------------- | ----------------------------------- |
+| Falsches Drehmoment              | Klappe klemmt, Antrieb überhitzt      | Antrieb austauschen                 |
+| Klappe dreht in falsche Richtung | Vollständig verkehrt                  | Drehrichtung im Antrieb ändern      |
+| 3-Punkt Verriegelung fehlt       | Antrieb zerstört (Gegenansteuerung)   | DDC-Verriegelung implementieren     |
 | Fail-safe falsch (AUF statt ZU)  | Anlage heizt/kühlt Aussenluft unnötig | Antrieb mit richtiger Federstellung |
-| Rückmeldung falsch verdrahtet    | DDC meldet falsche Position          | Endschalter-Anschluss prüfen  |
+| Rückmeldung falsch verdrahtet    | DDC meldet falsche Position           | Endschalter-Anschluss prüfen        |
 
 ## Normen
 
@@ -161,14 +178,14 @@ Damper actuators convert electrical signals into mechanical damper positions. Th
 
 ## Damper Types
 
-| Damper type | Function | Application |
-|-------------|---------|------------|
-| **Outdoor air damper** | Open/close outdoor air | AHU, air inlet |
-| **Extract air damper** | Open/close extract/exhaust air | AHU, air outlet |
-| **Mixing damper** | Mix ratio outdoor/recirculated air | Energy saving via recirculation |
-| **Fire damper** | Closure in fire event | Fire protection |
-| **Relief damper** | Pressure equalisation | On over/under-pressure |
-| **VAV damper** | Volume flow control | VAV boxes |
+| Damper type            | Function                           | Application                     |
+| ---------------------- | ---------------------------------- | ------------------------------- |
+| **Outdoor air damper** | Open/close outdoor air             | AHU, air inlet                  |
+| **Extract air damper** | Open/close extract/exhaust air     | AHU, air outlet                 |
+| **Mixing damper**      | Mix ratio outdoor/recirculated air | Energy saving via recirculation |
+| **Fire damper**        | Closure in fire event              | Fire protection                 |
+| **Relief damper**      | Pressure equalisation              | On over/under-pressure          |
+| **VAV damper**         | Volume flow control                | VAV boxes                       |
 
 ---
 
@@ -208,14 +225,14 @@ Output 0–10 V → feedback of actual position
 
 ## Technical Parameters
 
-| Parameter | Typical values | Meaning |
-|-----------|--------------|---------|
-| **Torque** | 2–40 Nm | Force to move the damper |
-| **Stroke time** | 30–300 s (0–90°) | Time for full travel |
-| **Supply voltage** | 24 VAC/DC or 230 VAC | Supply voltage |
-| **Control signal** | 2-pos, 3-pos, 0–10 V | Type of control |
-| **Fail-safe** | OPEN / CLOSED / Hold | Safety position on failure |
-| **Feedback** | End switch, 0–10 V | Position reporting |
+| Parameter          | Typical values       | Meaning                    |
+| ------------------ | -------------------- | -------------------------- |
+| **Torque**         | 2–40 Nm              | Force to move the damper   |
+| **Stroke time**    | 30–300 s (0–90°)     | Time for full travel       |
+| **Supply voltage** | 24 VAC/DC or 230 VAC | Supply voltage             |
+| **Control signal** | 2-pos, 3-pos, 0–10 V | Type of control            |
+| **Fail-safe**      | OPEN / CLOSED / Hold | Safety position on failure |
+| **Feedback**       | End switch, 0–10 V   | Position reporting         |
 
 ### Torque Calculation
 
@@ -231,11 +248,11 @@ Typical rule of thumb: **4–8 Nm/m² damper area** (depending on differential p
 
 ## Fail-Safe Position
 
-| Fail-safe | Description | Application |
-|-----------|-----------|------------|
-| **CLOSED** | Spring return → closes | Outdoor air damper (frost!) |
-| **OPEN** | Spring return → opens | Relief damper, safety |
-| **Hold** | Motor holds last position (no spring) | VAV, mixing damper |
+| Fail-safe  | Description                           | Application                 |
+| ---------- | ------------------------------------- | --------------------------- |
+| **CLOSED** | Spring return → closes                | Outdoor air damper (frost!) |
+| **OPEN**   | Spring return → opens                 | Relief damper, safety       |
+| **Hold**   | Motor holds last position (no spring) | VAV, mixing damper          |
 
 **Spring-return actuators** automatically move to the fail-safe position on power failure — preferred for safety-critical dampers.
 
@@ -276,7 +293,7 @@ DDC volume flow controller:
   Measurement input: differential pressure (→ volume flow)
   Output: 0–10 V → damper position setpoint
   Feedback: 0–10 V actual damper position
-  
+
 Control objective: volume flow = setpoint (e.g. 200 m³/h)
 ```
 
@@ -284,13 +301,13 @@ Control objective: volume flow = setpoint (e.g. 200 m³/h)
 
 ## Typical Faults
 
-| Fault | Symptom | Solution |
-|-------|---------|---------|
-| Wrong torque | Damper jams, actuator overheats | Replace actuator |
-| Damper rotates in wrong direction | Completely reversed | Change rotation direction in actuator |
-| 3-position interlock missing | Actuator destroyed (opposing commands) | Implement DDC interlock |
+| Fault                                    | Symptom                                      | Solution                              |
+| ---------------------------------------- | -------------------------------------------- | ------------------------------------- |
+| Wrong torque                             | Damper jams, actuator overheats              | Replace actuator                      |
+| Damper rotates in wrong direction        | Completely reversed                          | Change rotation direction in actuator |
+| 3-position interlock missing             | Actuator destroyed (opposing commands)       | Implement DDC interlock               |
 | Wrong fail-safe (OPEN instead of CLOSED) | System heats/cools outdoor air unnecessarily | Actuator with correct spring position |
-| Feedback wired incorrectly | DDC reports wrong position | Check end switch wiring |
+| Feedback wired incorrectly               | DDC reports wrong position                   | Check end switch wiring               |
 
 ## Standards
 

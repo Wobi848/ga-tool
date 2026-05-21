@@ -167,7 +167,8 @@ export const rechner: RechnerMeta[] = [
 		slug: 'gewichteter-mittelwert',
 		name: 'Gewichteter Mittelwert',
 		name_en: 'Weighted Average',
-		short: 'Beliebig viele Messwerte mit individueller Gewichtung — z.B. Raumtemperaturen, Sensoren',
+		short:
+			'Beliebig viele Messwerte mit individueller Gewichtung — z.B. Raumtemperaturen, Sensoren',
 		short_en: 'Any number of values with individual weighting — e.g. room temperatures, sensors',
 		icon: 'sliders',
 		color: '#0891b2'
@@ -177,7 +178,8 @@ export const rechner: RechnerMeta[] = [
 		name: 'Bus-IBN Adresskonfigurator',
 		name_en: 'Bus Commissioning Address Configurator',
 		short: 'BACnet MSTP/IP · Modbus RTU · KNX — Adressverwaltung mit IBN-Dokument-Export',
-		short_en: 'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export',
+		short_en:
+			'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export',
 		icon: 'cpu',
 		color: '#2563eb'
 	}

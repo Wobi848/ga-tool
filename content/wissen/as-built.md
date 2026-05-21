@@ -4,7 +4,21 @@ title_en: As-Built Documentation — Contents and Formats
 slug: as-built
 category: dokumentation
 subcategory: ibn
-tags: [as-built, bestandsdokumentation, revisionsplan, übergabedokumentation, schlussabnahme, dpl-asbuilt, schemen, backup, passwörter, wartungsanleitung, betriebshandbuch, ga-dokumentation]
+tags:
+  [
+    as-built,
+    bestandsdokumentation,
+    revisionsplan,
+    übergabedokumentation,
+    schlussabnahme,
+    dpl-asbuilt,
+    schemen,
+    backup,
+    passwörter,
+    wartungsanleitung,
+    betriebshandbuch,
+    ga-dokumentation
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, tab-protokoll, funktionsbeschreibung, glt-grundlagen, ddc-programmierung]
@@ -48,7 +62,7 @@ Enthalten:
   - Tatsächliche Klemmen und Kabelbezeichnungen
   - Endgültige Skalierungen und Wertebereiche
   - IBN-Status: geprüft ✓
-  
+
 Format: Excel oder CSV (maschinenlesbar)
 Pflichtfelder: DPL-ID, Bezeichnung, Typ, Adresse, Einheit, Min, Max, Status
 ```
@@ -61,7 +75,7 @@ Revisionsschemen:
   - Lüftungsschema (RLT mit allen Komponenten)
   - Elektroschema (Schaltschrank-Aufbau)
   - MSR-Schema (alle Sensoren und Aktoren eingezeichnet)
-  
+
 Format: PDF (finalisiert) + CAD-Quelldatei (DWG / DXF)
 Revisions-Index: aktueller Stand mit Datum
 ```
@@ -74,7 +88,7 @@ Enthalten:
   - Software-Version des Controllers (Hardware + Firmware)
   - Kompiliertes Programm (Binär) + Quellcode
   - Parameterlisten (Regler-Einstellwerte, Zeitprogramme)
-  
+
 Format: Hersteller-spezifisch (Siemens PXCT, Sauter SAUTERnet, etc.)
 Speicherung: Datenträger abgegeben + Cloud-Backup
 ```
@@ -111,7 +125,7 @@ Je Komponente:
   - Bedienungsanleitung GLT-Software
   - Technische Datenblätter aller Sensoren, Aktoren
   - Wartungsanleitungen (Hersteller-Service-Manual)
-  
+
 Format: PDF, in Ablage nach Gewerken geordnet
 ```
 
@@ -214,7 +228,7 @@ Contains:
   - Actual terminal and cable designations
   - Final scaling and value ranges
   - Commissioning status: verified ✓
-  
+
 Format: Excel or CSV (machine-readable)
 Required fields: DPL-ID, description, type, address, unit, min, max, status
 ```
@@ -227,7 +241,7 @@ Revision drawings:
   - Ventilation diagram (AHU with all components)
   - Electrical diagram (control panel layout)
   - Instrumentation diagram (all sensors and actuators shown)
-  
+
 Format: PDF (finalised) + CAD source file (DWG / DXF)
 Revision index: current status with date
 ```
@@ -240,7 +254,7 @@ Contains:
   - Controller software version (hardware + firmware)
   - Compiled programme (binary) + source code
   - Parameter lists (controller setpoints, time programmes)
-  
+
 Format: manufacturer-specific (Siemens PXCT, Sauter SAUTERnet, etc.)
 Storage: physical media handed over + cloud backup
 ```
@@ -277,7 +291,7 @@ Per component:
   - BMS software user guide
   - Technical data sheets for all sensors, actuators
   - Maintenance manuals (manufacturer service manual)
-  
+
 Format: PDF, filed by trade
 ```
 

@@ -12,7 +12,13 @@ const abbrLongByShort: Record<string, string> = Object.fromEntries(
 	abbreviations.map((a) => [a.short, a.long])
 );
 
-export type SearchType = 'konverter' | 'rechner' | 'wissen' | 'abkuerzung' | 'referenz' | 'checkliste';
+export type SearchType =
+	| 'konverter'
+	| 'rechner'
+	| 'wissen'
+	| 'abkuerzung'
+	| 'referenz'
+	| 'checkliste';
 
 export interface SearchItem {
 	type: SearchType;
@@ -63,7 +69,9 @@ const items: SearchItem[] = [
 			subtitle: a.description,
 			subtitle_en: a.descriptionEn,
 			keywords: [a.short, a.long, ...(a.related ?? []), ...eqShorts, ...eqLongs],
-			url: a.wissenSlug ? `/wissen/${a.wissenSlug}` : `/abkuerzungen?q=${encodeURIComponent(a.short)}`
+			url: a.wissenSlug
+				? `/wissen/${a.wissenSlug}`
+				: `/abkuerzungen?q=${encodeURIComponent(a.short)}`
 		};
 	}),
 	...referenceTables.map((t) => ({

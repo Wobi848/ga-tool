@@ -21,7 +21,14 @@
 		<!-- Logo -->
 		<div class="logo-block">
 			<div class="logo-icon">
-				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+				<svg
+					width="28"
+					height="28"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="white"
+					stroke-width="2.5"
+				>
 					<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
 					<polyline points="9 22 9 12 15 12 15 22" />
 				</svg>
@@ -36,8 +43,8 @@
 				<div class="verify-icon">✉️</div>
 				<h2>E-Mail bestätigen</h2>
 				<p class="verify-text">
-					Wir haben einen Bestätigungslink an <strong>{verifyEmail}</strong> gesendet.
-					Klicke den Link in der E-Mail um deinen Account zu aktivieren.
+					Wir haben einen Bestätigungslink an <strong>{verifyEmail}</strong> gesendet. Klicke den Link
+					in der E-Mail um deinen Account zu aktivieren.
 				</p>
 				<p class="verify-sub">Kein E-Mail erhalten? Prüfe deinen Spam-Ordner.</p>
 				{#if form?.message && !resentOk}
@@ -46,17 +53,24 @@
 				{#if resentOk}
 					<p class="resent-ok">E-Mail erneut gesendet ✓</p>
 				{:else}
-					<form method="POST" action="?/resendVerification" use:enhance={() => {
-						loading = true;
-						return async ({ update }) => { loading = false; update(); };
-					}}>
+					<form
+						method="POST"
+						action="?/resendVerification"
+						use:enhance={() => {
+							loading = true;
+							return async ({ update }) => {
+								loading = false;
+								update();
+							};
+						}}
+					>
 						<input type="hidden" name="email" value={verifyEmail} />
 						<button type="submit" class="btn-primary resend-btn" disabled={loading}>
 							{loading ? '…' : 'E-Mail erneut senden'}
 						</button>
 					</form>
 				{/if}
-				<button class="toggle-btn" onclick={() => mode = 'login'}>Zurück zur Anmeldung</button>
+				<button class="toggle-btn" onclick={() => (mode = 'login')}>Zurück zur Anmeldung</button>
 			</div>
 		{:else}
 			<!-- Auth card -->
@@ -68,25 +82,52 @@
 					action={mode === 'login' ? '?/login' : '?/register'}
 					use:enhance={() => {
 						loading = true;
-						return async ({ update }) => { loading = false; update(); };
+						return async ({ update }) => {
+							loading = false;
+							update();
+						};
 					}}
 					class="form"
 				>
 					{#if mode === 'register'}
 						<div class="field">
 							<label for="name">Name</label>
-							<input id="name" name="name" type="text" autocomplete="name" required class="input-base" placeholder="Max Muster" />
+							<input
+								id="name"
+								name="name"
+								type="text"
+								autocomplete="name"
+								required
+								class="input-base"
+								placeholder="Max Muster"
+							/>
 						</div>
 					{/if}
 
 					<div class="field">
 						<label for="email">E-Mail</label>
-						<input id="email" name="email" type="email" autocomplete="email" required class="input-base" placeholder="name@beispiel.ch" />
+						<input
+							id="email"
+							name="email"
+							type="email"
+							autocomplete="email"
+							required
+							class="input-base"
+							placeholder="name@beispiel.ch"
+						/>
 					</div>
 
 					<div class="field">
 						<label for="password">Passwort</label>
-						<input id="password" name="password" type="password" autocomplete={mode === 'login' ? 'current-password' : 'new-password'} required class="input-base" placeholder="••••••••" />
+						<input
+							id="password"
+							name="password"
+							type="password"
+							autocomplete={mode === 'login' ? 'current-password' : 'new-password'}
+							required
+							class="input-base"
+							placeholder="••••••••"
+						/>
 					</div>
 
 					{#if form?.message}
@@ -121,9 +162,15 @@
 		background-color: var(--bg);
 	}
 
-	.container { width: 100%; max-width: 360px; }
+	.container {
+		width: 100%;
+		max-width: 360px;
+	}
 
-	.logo-block { text-align: center; margin-bottom: 2rem; }
+	.logo-block {
+		text-align: center;
+		margin-bottom: 2rem;
+	}
 
 	.logo-icon {
 		width: 3.5rem;
@@ -143,7 +190,11 @@
 		margin: 0 0 0.25rem;
 	}
 
-	.logo-block p { color: var(--muted); margin: 0; font-size: 0.9375rem; }
+	.logo-block p {
+		color: var(--muted);
+		margin: 0;
+		font-size: 0.9375rem;
+	}
 
 	.card h2 {
 		font-size: 1.125rem;
@@ -152,11 +203,23 @@
 		margin: 0 0 1.25rem;
 	}
 
-	.form { display: flex; flex-direction: column; gap: 0.875rem; }
+	.form {
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+	}
 
-	.field { display: flex; flex-direction: column; gap: 0.375rem; }
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.375rem;
+	}
 
-	.field label { font-size: 0.875rem; font-weight: 500; color: var(--text); }
+	.field label {
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: var(--text);
+	}
 
 	.error-msg {
 		font-size: 0.875rem;
@@ -166,7 +229,12 @@
 		padding: 0.5rem 0.75rem;
 	}
 
-	.submit-btn { width: 100%; padding: 0.625rem; margin-top: 0.25rem; font-size: 0.9375rem; }
+	.submit-btn {
+		width: 100%;
+		padding: 0.625rem;
+		margin-top: 0.25rem;
+		font-size: 0.9375rem;
+	}
 
 	.divider {
 		height: 1px;
@@ -186,7 +254,9 @@
 		padding: 0;
 	}
 
-	.toggle-btn:hover { text-decoration: underline; }
+	.toggle-btn:hover {
+		text-decoration: underline;
+	}
 
 	.back-link {
 		display: block;
@@ -196,21 +266,52 @@
 		text-decoration: none;
 		margin-top: 1.25rem;
 	}
-	.back-link:hover { color: var(--color-primary); }
+	.back-link:hover {
+		color: var(--color-primary);
+	}
 
-	.footer-note { text-align: center; color: var(--muted); font-size: 0.75rem; margin-top: 0.75rem; }
+	.footer-note {
+		text-align: center;
+		color: var(--muted);
+		font-size: 0.75rem;
+		margin-top: 0.75rem;
+	}
 
-	.verify-card { text-align: center; }
-	.verify-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
-	.verify-card h2 { margin: 0 0 1rem; }
-	.verify-text { font-size: 0.9375rem; color: var(--text); line-height: 1.6; margin: 0 0 0.5rem; }
-	.verify-sub { font-size: 0.8125rem; color: var(--muted); margin: 0 0 1rem; }
+	.verify-card {
+		text-align: center;
+	}
+	.verify-icon {
+		font-size: 2.5rem;
+		margin-bottom: 0.75rem;
+	}
+	.verify-card h2 {
+		margin: 0 0 1rem;
+	}
+	.verify-text {
+		font-size: 0.9375rem;
+		color: var(--text);
+		line-height: 1.6;
+		margin: 0 0 0.5rem;
+	}
+	.verify-sub {
+		font-size: 0.8125rem;
+		color: var(--muted);
+		margin: 0 0 1rem;
+	}
 
-	.resend-btn { width: 100%; padding: 0.5rem; font-size: 0.875rem; margin-bottom: 0.75rem; }
+	.resend-btn {
+		width: 100%;
+		padding: 0.5rem;
+		font-size: 0.875rem;
+		margin-bottom: 0.75rem;
+	}
 
 	.resent-ok {
-		font-size: 0.875rem; color: #16a34a;
-		background: #f0fdf4; border-radius: 0.5rem;
-		padding: 0.5rem 0.75rem; margin: 0 0 0.75rem;
+		font-size: 0.875rem;
+		color: #16a34a;
+		background: #f0fdf4;
+		border-radius: 0.5rem;
+		padding: 0.5rem 0.75rem;
+		margin: 0 0 0.75rem;
 	}
 </style>

@@ -30,15 +30,16 @@
 		const { rho, nu } = mediaProps[medium];
 		const k = 0.045e-3; // Rauhigkeit Stahl (m)
 
-		const A = Math.PI * Math.pow(di / 1000, 2) / 4; // m²
+		const A = (Math.PI * Math.pow(di / 1000, 2)) / 4; // m²
 		const v = flow / 3600 / A; // m/s
 		const Re = (v * (di / 1000)) / nu;
 
 		// Colebrook-White, approximation by Swamee-Jain
 		const term = k / (3.7 * (di / 1000)) + 5.74 / Math.pow(Re, 0.9);
-		const lambda = Re < 2300
-			? 64 / Re // laminar
-			: 0.25 / Math.pow(Math.log10(term), 2);
+		const lambda =
+			Re < 2300
+				? 64 / Re // laminar
+				: 0.25 / Math.pow(Math.log10(term), 2);
 
 		// Druckverlust pro m: R [Pa/m] = λ × (1/d) × (ρ × v²)/2
 		const R = (lambda / (di / 1000)) * ((rho * v * v) / 2);
@@ -55,21 +56,34 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
 			<h1 class="calc-title">{$_('rechner.druckverlust.name')}</h1>
-			<FavButton type="rechner" slug="druckverlust" title={$_('rechner.druckverlust.name')} size={20} />
+			<FavButton
+				type="rechner"
+				slug="druckverlust"
+				title={$_('rechner.druckverlust.name')}
+				size={20}
+			/>
 		</div>
 	</header>
 
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.druckverlustUi.flow')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="flow-in">{$_('rechner.druckverlustUi.volumeFlow')}</label>
+			<label class="calc-field-label" for="flow-in">{$_('rechner.druckverlustUi.volumeFlow')}</label
+			>
 			<div class="calc-input-wrap">
 				<input id="flow-in" type="number" step="0.1" min="0" bind:value={flow} class="calc-input" />
 				<span class="calc-input-unit">m³/h</span>
@@ -88,7 +102,8 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.druckverlustUi.pipework')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="dn-sel">{$_('rechner.druckverlustUi.nominalSize')}</label>
+			<label class="calc-field-label" for="dn-sel">{$_('rechner.druckverlustUi.nominalSize')}</label
+			>
 			<select id="dn-sel" bind:value={dn} class="calc-select">
 				{#each Object.entries(pipes) as [k, v]}
 					<option value={k}>{v.label}</option>
@@ -120,23 +135,33 @@
 	<div class="calc-result-section">
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.totalDp')}</span>
-			<span class="calc-result-value primary">{fmt(result.dpTotal / 100, 1)}<span class="calc-result-unit">mbar</span></span>
+			<span class="calc-result-value primary"
+				>{fmt(result.dpTotal / 100, 1)}<span class="calc-result-unit">mbar</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.frictionDp')}</span>
-			<span class="calc-result-value">{fmt(result.dpL / 100, 1)}<span class="calc-result-unit">mbar</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.dpL / 100, 1)}<span class="calc-result-unit">mbar</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.localDp')}</span>
-			<span class="calc-result-value">{fmt(result.dpZ / 100, 1)}<span class="calc-result-unit">mbar</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.dpZ / 100, 1)}<span class="calc-result-unit">mbar</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.velocity')}</span>
-			<span class="calc-result-value">{fmt(result.v, 2)}<span class="calc-result-unit">m/s</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.v, 2)}<span class="calc-result-unit">m/s</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.pressureGradient')}</span>
-			<span class="calc-result-value">{fmt(result.R, 0)}<span class="calc-result-unit">Pa/m</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.R, 0)}<span class="calc-result-unit">Pa/m</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.druckverlustUi.reynolds')}</span>

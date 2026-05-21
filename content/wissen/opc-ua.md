@@ -4,7 +4,23 @@ title_en: OPC UA — Unified Architecture
 slug: opc-ua
 category: protokolle
 subcategory: industrie
-tags: [opc-ua, opc, unified-architecture, information-model, nodeid, namespace, subscription, monitored-item, security, certificate, pubsub, tsn, industrie-4-0, iiot]
+tags:
+  [
+    opc-ua,
+    opc,
+    unified-architecture,
+    information-model,
+    nodeid,
+    namespace,
+    subscription,
+    monitored-item,
+    security,
+    certificate,
+    pubsub,
+    tsn,
+    industrie-4-0,
+    iiot
+  ]
 difficulty: experte
 area: [ga, it]
 related: [bacnet, modbus, knx]
@@ -19,14 +35,14 @@ lang: de
 
 ## OPC UA vs. klassisches OPC (DA/HDA)
 
-| Merkmal              | OPC Classic (DA/HDA)  | OPC UA                        |
-|----------------------|-----------------------|-------------------------------|
-| Betriebssystem       | Windows only (COM/DCOM) | Plattformunabhängig          |
-| Sicherheit           | Windows-Authentifizierung | TLS, Zertifikate, Rollen    |
-| Topologie            | Client-Server         | Client-Server + Pub/Sub       |
-| Transport            | DCOM                  | TCP, HTTPS, WebSocket, MQTT   |
-| Datenmodell          | Flat Tags             | Objektorientiertes Infomodell |
-| Standardisierung     | OPC Foundation        | IEC 62541 (international)     |
+| Merkmal          | OPC Classic (DA/HDA)      | OPC UA                        |
+| ---------------- | ------------------------- | ----------------------------- |
+| Betriebssystem   | Windows only (COM/DCOM)   | Plattformunabhängig           |
+| Sicherheit       | Windows-Authentifizierung | TLS, Zertifikate, Rollen      |
+| Topologie        | Client-Server             | Client-Server + Pub/Sub       |
+| Transport        | DCOM                      | TCP, HTTPS, WebSocket, MQTT   |
+| Datenmodell      | Flat Tags                 | Objektorientiertes Infomodell |
+| Standardisierung | OPC Foundation            | IEC 62541 (international)     |
 
 ## Architektur & Konzepte
 
@@ -51,11 +67,11 @@ Root
 
 Jeder Knoten im Adressraum hat eine eindeutige **Node ID**:
 
-| Format          | Beispiel                    | Beschreibung                |
-|-----------------|-----------------------------|-----------------------------|
-| Numerisch       | `ns=2;i=1003`               | Namespace 2, Integer 1003   |
-| String          | `ns=2;s=Vorlauftemperatur`  | Namespace 2, String-Key     |
-| GUID            | `ns=2;g=550e8400-...`       | UUID                        |
+| Format    | Beispiel                   | Beschreibung              |
+| --------- | -------------------------- | ------------------------- |
+| Numerisch | `ns=2;i=1003`              | Namespace 2, Integer 1003 |
+| String    | `ns=2;s=Vorlauftemperatur` | Namespace 2, String-Key   |
+| GUID      | `ns=2;g=550e8400-...`      | UUID                      |
 
 - `ns=0`: OPC UA Standard-Namespace (Server, Typen, …)
 - `ns=1+`: anwendungsspezifisch (Gerätehersteller, GLT-Anbieter)
@@ -64,15 +80,15 @@ Jeder Knoten im Adressraum hat eine eindeutige **Node ID**:
 
 Jeder Node hat Attribute:
 
-| Attribut        | Beschreibung                          |
-|-----------------|---------------------------------------|
-| `NodeId`        | Eindeutige ID                         |
-| `BrowseName`    | Menschenlesbarer Name                 |
-| `DisplayName`   | Lokalisierter Anzeigename             |
-| `Value`         | **Aktueller Wert** (nur Variables)    |
-| `DataType`      | Boolean, Int32, Float, String, …      |
-| `AccessLevel`   | Read, Write, HistoryRead, …           |
-| `StatusCode`    | Good, Bad, Uncertain + Substatus      |
+| Attribut      | Beschreibung                       |
+| ------------- | ---------------------------------- |
+| `NodeId`      | Eindeutige ID                      |
+| `BrowseName`  | Menschenlesbarer Name              |
+| `DisplayName` | Lokalisierter Anzeigename          |
+| `Value`       | **Aktueller Wert** (nur Variables) |
+| `DataType`    | Boolean, Int32, Float, String, …   |
+| `AccessLevel` | Read, Write, HistoryRead, …        |
+| `StatusCode`  | Good, Bad, Uncertain + Substatus   |
 
 ## Services (Kommunikation)
 
@@ -80,12 +96,12 @@ OPC UA Services sind Request/Response-Paare:
 
 ### Datenzugriff
 
-| Service            | Beschreibung                                        |
-|--------------------|-----------------------------------------------------|
-| `Read`             | Einzelne oder mehrere Attribute lesen               |
-| `Write`            | Werte schreiben                                     |
-| `Browse`           | Adressraum erkunden (Knoten auflisten)              |
-| `TranslateBrowsePathsToNodeIds` | Pfad → NodeId auflösen              |
+| Service                         | Beschreibung                           |
+| ------------------------------- | -------------------------------------- |
+| `Read`                          | Einzelne oder mehrere Attribute lesen  |
+| `Write`                         | Werte schreiben                        |
+| `Browse`                        | Adressraum erkunden (Knoten auflisten) |
+| `TranslateBrowsePathsToNodeIds` | Pfad → NodeId auflösen                 |
 
 ### Subscriptions & MonitoredItems
 
@@ -107,6 +123,7 @@ Server sendet Notifications bei Änderung oder im Takt
 ### Events & Alarme
 
 OPC UA hat ein vollständiges Alarm- und Ereignismodell:
+
 - `ConditionType`, `AlarmConditionType`, `LimitAlarmType`
 - Zustände: Active, Acknowledged, Confirmed
 - Historische Events via `HistoryRead`
@@ -122,19 +139,19 @@ OPC UA hat Sicherheit als Kernbestandteil (nicht nachträglich hinzugefügt):
 
 ### Security Modes
 
-| Mode                | Verschlüsselung | Signatur | Einsatz                 |
-|---------------------|-----------------|----------|-------------------------|
-| None                | Nein            | Nein     | Nur für Tests!          |
-| Sign                | Nein            | Ja       | Integrität ohne Privacy |
-| SignAndEncrypt      | **Ja**          | Ja       | **Produktion**          |
+| Mode           | Verschlüsselung | Signatur | Einsatz                 |
+| -------------- | --------------- | -------- | ----------------------- |
+| None           | Nein            | Nein     | Nur für Tests!          |
+| Sign           | Nein            | Ja       | Integrität ohne Privacy |
+| SignAndEncrypt | **Ja**          | Ja       | **Produktion**          |
 
 ### Security Policies
 
-| Policy                    | Algorithmus              |
-|---------------------------|--------------------------|
-| Basic256Sha256            | AES-256, SHA-256 (empfohlen) |
-| Aes128_Sha256_RsaOaep     | AES-128 (moderner)       |
-| Aes256_Sha256_RsaPss      | AES-256, PSS (neuester)  |
+| Policy                | Algorithmus                  |
+| --------------------- | ---------------------------- |
+| Basic256Sha256        | AES-256, SHA-256 (empfohlen) |
+| Aes128_Sha256_RsaOaep | AES-128 (moderner)           |
+| Aes256_Sha256_RsaPss  | AES-256, PSS (neuester)      |
 
 ### Zertifikate
 
@@ -146,11 +163,11 @@ OPC UA hat Sicherheit als Kernbestandteil (nicht nachträglich hinzugefügt):
 
 ## Transporte
 
-| Transport         | Port   | Beschreibung                               |
-|-------------------|--------|--------------------------------------------|
-| **OPC UA TCP**    | 4840   | Standard, binäres Protokoll, effizient     |
-| **HTTPS**         | 443    | Für Firewall-Durchquerung, JSON/XML        |
-| **WebSocket**     | variabel | Browser-Zugriff                          |
+| Transport      | Port     | Beschreibung                           |
+| -------------- | -------- | -------------------------------------- |
+| **OPC UA TCP** | 4840     | Standard, binäres Protokoll, effizient |
+| **HTTPS**      | 443      | Für Firewall-Durchquerung, JSON/XML    |
+| **WebSocket**  | variabel | Browser-Zugriff                        |
 
 URL-Schema: `opc.tcp://192.168.1.100:4840/UA/Server`
 
@@ -179,20 +196,21 @@ Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
 ```
 
 **Companion Specifications:** standardisierte Adressraummodelle für Gerätetypen:
+
 - `OPC UA for Building Automation` (in Entwicklung)
 - `OPC UA for HVAC` (Honeywell, Siemens aktiv beteiligt)
 - `OPC UA for Energy` (Energiemanagement)
 
 ## Werkzeuge
 
-| Tool                  | Beschreibung                                      |
-|-----------------------|---------------------------------------------------|
+| Tool                              | Beschreibung                                  |
+| --------------------------------- | --------------------------------------------- |
 | **UaExpert** (Unified Automation) | Kostenloser Browser/Client — Standard für IBN |
-| **Prosys OPC UA Browser** | Kostenlos, Java-basiert                    |
-| **node-opcua**        | Open-Source Node.js-Bibliothek                    |
-| **open62541**         | Open-Source C-Bibliothek (Server + Client)        |
-| **python-opcua / asyncua** | Python-Bibliothek                           |
-| **Wireshark**         | OPC UA Dissector eingebaut                        |
+| **Prosys OPC UA Browser**         | Kostenlos, Java-basiert                       |
+| **node-opcua**                    | Open-Source Node.js-Bibliothek                |
+| **open62541**                     | Open-Source C-Bibliothek (Server + Client)    |
+| **python-opcua / asyncua**        | Python-Bibliothek                             |
+| **Wireshark**                     | OPC UA Dissector eingebaut                    |
 
 ## Typische IBN-Schritte
 
@@ -217,14 +235,14 @@ Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
 
 ## OPC UA vs. Classic OPC (DA/HDA)
 
-| Feature | OPC Classic (DA/HDA) | OPC UA |
-|---------|---------------------|--------|
-| Operating system | Windows only (COM/DCOM) | Platform-independent |
-| Security | Windows authentication | TLS, certificates, roles |
-| Topology | Client-server | Client-server + pub/sub |
-| Transport | DCOM | TCP, HTTPS, WebSocket, MQTT |
-| Data model | Flat tags | Object-oriented info model |
-| Standardisation | OPC Foundation | IEC 62541 (international) |
+| Feature          | OPC Classic (DA/HDA)    | OPC UA                      |
+| ---------------- | ----------------------- | --------------------------- |
+| Operating system | Windows only (COM/DCOM) | Platform-independent        |
+| Security         | Windows authentication  | TLS, certificates, roles    |
+| Topology         | Client-server           | Client-server + pub/sub     |
+| Transport        | DCOM                    | TCP, HTTPS, WebSocket, MQTT |
+| Data model       | Flat tags               | Object-oriented info model  |
+| Standardisation  | OPC Foundation          | IEC 62541 (international)   |
 
 ## Architecture & Concepts
 
@@ -249,11 +267,11 @@ Root
 
 Every node in the address space has a unique **Node ID**:
 
-| Format | Example | Description |
-|--------|---------|-------------|
-| Numeric | `ns=2;i=1003` | Namespace 2, integer 1003 |
-| String | `ns=2;s=FlowTemperature` | Namespace 2, string key |
-| GUID | `ns=2;g=550e8400-...` | UUID |
+| Format  | Example                  | Description               |
+| ------- | ------------------------ | ------------------------- |
+| Numeric | `ns=2;i=1003`            | Namespace 2, integer 1003 |
+| String  | `ns=2;s=FlowTemperature` | Namespace 2, string key   |
+| GUID    | `ns=2;g=550e8400-...`    | UUID                      |
 
 - `ns=0`: OPC UA standard namespace (server, types, …)
 - `ns=1+`: application-specific (device manufacturer, BMS vendor)
@@ -262,15 +280,15 @@ Every node in the address space has a unique **Node ID**:
 
 Every node has attributes:
 
-| Attribute | Description |
-|-----------|-------------|
-| `NodeId` | Unique ID |
-| `BrowseName` | Human-readable name |
-| `DisplayName` | Localised display name |
-| `Value` | **Current value** (variables only) |
-| `DataType` | Boolean, Int32, Float, String, … |
-| `AccessLevel` | Read, Write, HistoryRead, … |
-| `StatusCode` | Good, Bad, Uncertain + substatus |
+| Attribute     | Description                        |
+| ------------- | ---------------------------------- |
+| `NodeId`      | Unique ID                          |
+| `BrowseName`  | Human-readable name                |
+| `DisplayName` | Localised display name             |
+| `Value`       | **Current value** (variables only) |
+| `DataType`    | Boolean, Int32, Float, String, …   |
+| `AccessLevel` | Read, Write, HistoryRead, …        |
+| `StatusCode`  | Good, Bad, Uncertain + substatus   |
 
 ## Services (Communication)
 
@@ -278,12 +296,12 @@ OPC UA services are request/response pairs:
 
 ### Data Access
 
-| Service | Description |
-|---------|-------------|
-| `Read` | Read single or multiple attributes |
-| `Write` | Write values |
-| `Browse` | Explore address space (list nodes) |
-| `TranslateBrowsePathsToNodeIds` | Resolve path → NodeId |
+| Service                         | Description                        |
+| ------------------------------- | ---------------------------------- |
+| `Read`                          | Read single or multiple attributes |
+| `Write`                         | Write values                       |
+| `Browse`                        | Explore address space (list nodes) |
+| `TranslateBrowsePathsToNodeIds` | Resolve path → NodeId              |
 
 ### Subscriptions & MonitoredItems
 
@@ -305,6 +323,7 @@ Server sends notifications on change or at interval
 ### Events & Alarms
 
 OPC UA has a complete alarm and event model:
+
 - `ConditionType`, `AlarmConditionType`, `LimitAlarmType`
 - States: Active, Acknowledged, Confirmed
 - Historical events via `HistoryRead`
@@ -320,19 +339,19 @@ OPC UA has security as a core component (not added as an afterthought):
 
 ### Security Modes
 
-| Mode | Encryption | Signature | Use case |
-|------|-----------|-----------|---------|
-| None | No | No | Testing only! |
-| Sign | No | Yes | Integrity without privacy |
-| SignAndEncrypt | **Yes** | Yes | **Production** |
+| Mode           | Encryption | Signature | Use case                  |
+| -------------- | ---------- | --------- | ------------------------- |
+| None           | No         | No        | Testing only!             |
+| Sign           | No         | Yes       | Integrity without privacy |
+| SignAndEncrypt | **Yes**    | Yes       | **Production**            |
 
 ### Security Policies
 
-| Policy | Algorithm |
-|--------|-----------|
-| Basic256Sha256 | AES-256, SHA-256 (recommended) |
-| Aes128_Sha256_RsaOaep | AES-128 (more modern) |
-| Aes256_Sha256_RsaPss | AES-256, PSS (latest) |
+| Policy                | Algorithm                      |
+| --------------------- | ------------------------------ |
+| Basic256Sha256        | AES-256, SHA-256 (recommended) |
+| Aes128_Sha256_RsaOaep | AES-128 (more modern)          |
+| Aes256_Sha256_RsaPss  | AES-256, PSS (latest)          |
 
 ### Certificates
 
@@ -344,11 +363,11 @@ OPC UA has security as a core component (not added as an afterthought):
 
 ## Transports
 
-| Transport | Port | Description |
-|-----------|------|-------------|
-| **OPC UA TCP** | 4840 | Standard, binary protocol, efficient |
-| **HTTPS** | 443 | For firewall traversal, JSON/XML |
-| **WebSocket** | variable | Browser access |
+| Transport      | Port     | Description                          |
+| -------------- | -------- | ------------------------------------ |
+| **OPC UA TCP** | 4840     | Standard, binary protocol, efficient |
+| **HTTPS**      | 443      | For firewall traversal, JSON/XML     |
+| **WebSocket**  | variable | Browser access                       |
 
 URL scheme: `opc.tcp://192.168.1.100:4840/UA/Server`
 
@@ -377,20 +396,21 @@ Cloud/ERP:         OPC UA client or pub/sub → MQTT
 ```
 
 **Companion specifications:** standardised address space models for device types:
+
 - `OPC UA for Building Automation` (in development)
 - `OPC UA for HVAC` (Honeywell, Siemens actively involved)
 - `OPC UA for Energy` (energy management)
 
 ## Tools
 
-| Tool | Description |
-|------|-------------|
+| Tool                              | Description                                      |
+| --------------------------------- | ------------------------------------------------ |
 | **UaExpert** (Unified Automation) | Free browser/client — standard for commissioning |
-| **Prosys OPC UA Browser** | Free, Java-based |
-| **node-opcua** | Open-source Node.js library |
-| **open62541** | Open-source C library (server + client) |
-| **python-opcua / asyncua** | Python library |
-| **Wireshark** | OPC UA dissector built in |
+| **Prosys OPC UA Browser**         | Free, Java-based                                 |
+| **node-opcua**                    | Open-source Node.js library                      |
+| **open62541**                     | Open-source C library (server + client)          |
+| **python-opcua / asyncua**        | Python library                                   |
+| **Wireshark**                     | OPC UA dissector built in                        |
 
 ## Typical Commissioning Steps
 

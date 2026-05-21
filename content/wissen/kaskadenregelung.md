@@ -4,7 +4,20 @@ title_en: Cascade Control and Feedforward Control
 slug: kaskadenregelung
 category: regelung
 subcategory: regler
-tags: [kaskadenregelung, führungsregelung, übergeordneter-regler, untergeordneter-regler, master-slave, vorlauftemperatur, aussentemperatur, heizkurve, raumtemperatur, witterungsführung, gleitender-sollwert]
+tags:
+  [
+    kaskadenregelung,
+    führungsregelung,
+    übergeordneter-regler,
+    untergeordneter-regler,
+    master-slave,
+    vorlauftemperatur,
+    aussentemperatur,
+    heizkurve,
+    raumtemperatur,
+    witterungsführung,
+    gleitender-sollwert
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk]
 related: [pid-regler, steuern-regeln, zweipunktregelung, heizkurve, glt-grundlagen]
@@ -28,7 +41,7 @@ Führungsgrösse (Soll) → [Master-Regler] → Sollwert für Slave
                          [Slave-Regler] → Stellgrösse → Strecke
                                     ↑
                           Istwert Slave (innerer Kreis)
-                                    
+
 Istwert Master → [Master-Regler] ←
 ```
 
@@ -128,6 +141,7 @@ Master: längere Nachstellzeit (Ti gross), ruhigere Reaktion
 ```
 
 **Vorgehen:**
+
 1. Slave zuerst parametrieren (Master auf manuell setzen)
 2. Slave testen und optimieren
 3. Master dazuschalten und optimieren
@@ -155,7 +169,7 @@ Reference (setpoint) → [Master controller] → Setpoint for slave
                         [Slave controller] → Control output → Plant
                                    ↑
                          Actual value (inner loop)
-                                   
+
 Actual value (outer) → [Master controller] ←
 ```
 
@@ -255,6 +269,7 @@ Master: longer integral time (Ti large), smoother response
 ```
 
 **Procedure:**
+
 1. Tune slave first (put master in manual)
 2. Test and optimise slave
 3. Enable master and optimise

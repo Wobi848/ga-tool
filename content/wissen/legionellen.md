@@ -4,7 +4,23 @@ title_en: Legionella — Protection in Drinking Water Systems
 slug: legionellen
 category: sanitaer
 subcategory: hygiene
-tags: [legionellen, legionellose, trinkwasser, warmwasser, speicher, zirkulation, schutztemperatur, thermische-desinfektion, spuelung, stagnation, dvgw, vdi2035, w551, heizung]
+tags:
+  [
+    legionellen,
+    legionellose,
+    trinkwasser,
+    warmwasser,
+    speicher,
+    zirkulation,
+    schutztemperatur,
+    thermische-desinfektion,
+    spuelung,
+    stagnation,
+    dvgw,
+    vdi2035,
+    w551,
+    heizung
+  ]
 difficulty: fortgeschritten
 area: [sanitaer, ga, hlk]
 related: [vdi6022, signaltypen, alarmmanagement]
@@ -19,14 +35,14 @@ lang: de
 
 ## Wachstumsbedingungen
 
-| Temperatur     | Verhalten                               |
-|----------------|-----------------------------------------|
-| < 20 °C        | Kein Wachstum (aber Überleben möglich)  |
-| 25–45 °C       | **Optimales Wachstum**                  |
-| 50 °C          | Wachstum gestoppt                       |
-| 55 °C          | Absterben (langsam, nach Minuten)       |
-| 60 °C          | Zuverlässiges Absterben                 |
-| 70 °C          | Sofortiges Absterben                    |
+| Temperatur | Verhalten                              |
+| ---------- | -------------------------------------- |
+| < 20 °C    | Kein Wachstum (aber Überleben möglich) |
+| 25–45 °C   | **Optimales Wachstum**                 |
+| 50 °C      | Wachstum gestoppt                      |
+| 55 °C      | Absterben (langsam, nach Minuten)      |
+| 60 °C      | Zuverlässiges Absterben                |
+| 70 °C      | Sofortiges Absterben                   |
 
 > **Kritische Zone: 25–55 °C** — jeder Warmwasserspeicher oder jede Leitung in diesem Bereich ist ein Risiko.
 
@@ -44,12 +60,12 @@ lang: de
 
 ### Warmwasser-Speicher
 
-| Kriterium          | Anforderung                              |
-|--------------------|------------------------------------------|
-| Speichertemperatur | **≥ 60 °C** dauerhaft                    |
-| Vorlauftemperatur  | ≥ 60 °C                                  |
-| Zirkulationsrücklauf | ≥ 55 °C (am kältesten Punkt!)           |
-| Max. Abkühlzeit    | Kein Bereich unter 55 °C nach 5 min     |
+| Kriterium            | Anforderung                         |
+| -------------------- | ----------------------------------- |
+| Speichertemperatur   | **≥ 60 °C** dauerhaft               |
+| Vorlauftemperatur    | ≥ 60 °C                             |
+| Zirkulationsrücklauf | ≥ 55 °C (am kältesten Punkt!)       |
+| Max. Abkühlzeit      | Kein Bereich unter 55 °C nach 5 min |
 
 ### Zirkulationssystem
 
@@ -67,11 +83,11 @@ Die Zirkulationspumpe muss laufen bis jeder Punkt im System ≥ 55 °C erreicht.
 
 ### Kaltwasser
 
-| Kriterium          | Anforderung                              |
-|--------------------|------------------------------------------|
-| Kaltwassertemperatur | **≤ 25 °C** (dauerhaft < 20 °C optimal) |
-| Kein Kontakt mit WW | Leitungsführung getrennt               |
-| Keine Stagnation    | Wenig genutzte Leitungen regelmässig spülen |
+| Kriterium            | Anforderung                                 |
+| -------------------- | ------------------------------------------- |
+| Kaltwassertemperatur | **≤ 25 °C** (dauerhaft < 20 °C optimal)     |
+| Kein Kontakt mit WW  | Leitungsführung getrennt                    |
+| Keine Stagnation     | Wenig genutzte Leitungen regelmässig spülen |
 
 > ⚠️ In schlecht gedämmten Gebäuden erwärmt sich Kaltwasser durch benachbarte Warmwasserleitungen auf > 25 °C — Legionellengefahr!
 
@@ -111,12 +127,12 @@ Wochenprogramm:
 
 ### Massnahmen gegen Stagnation
 
-| Massnahme                    | Beschreibung                                           |
-|------------------------------|--------------------------------------------------------|
-| **Spülprogramme**            | Automatisch wenig genutzte Zapfstellen spülen         |
-| **Zirkulation überprüfen**   | Alle Stränge müssen Rücklauftemperatur erreichen       |
-| **Totstücke entfernen**      | Nicht genutzte Leitungsenden physisch trennen          |
-| **Temperaturüberwachung**    | Mehrere Fühler im System → Alarm wenn < 55 °C (WW)    |
+| Massnahme                  | Beschreibung                                       |
+| -------------------------- | -------------------------------------------------- |
+| **Spülprogramme**          | Automatisch wenig genutzte Zapfstellen spülen      |
+| **Zirkulation überprüfen** | Alle Stränge müssen Rücklauftemperatur erreichen   |
+| **Totstücke entfernen**    | Nicht genutzte Leitungsenden physisch trennen      |
+| **Temperaturüberwachung**  | Mehrere Fühler im System → Alarm wenn < 55 °C (WW) |
 
 ## Spülprogramm in der GA
 
@@ -136,12 +152,12 @@ Täglich 06:00:
 
 ## Messstellen für GA
 
-| Messstelle              | Sensor    | Grenzwert      | Alarm              |
-|-------------------------|-----------|----------------|--------------------|
-| Speicher Warmwasser     | PT1000    | ≥ 60 °C        | Alarm wenn < 58 °C |
-| Zirkulation Rücklauf    | PT1000    | ≥ 55 °C        | Alarm wenn < 53 °C |
-| Kaltwassereintritt      | PT1000    | ≤ 25 °C        | Warnung wenn > 22 °C |
-| Vorlauf jeder Strang    | PT1000    | ≥ 55 °C        | optional           |
+| Messstelle           | Sensor | Grenzwert | Alarm                |
+| -------------------- | ------ | --------- | -------------------- |
+| Speicher Warmwasser  | PT1000 | ≥ 60 °C   | Alarm wenn < 58 °C   |
+| Zirkulation Rücklauf | PT1000 | ≥ 55 °C   | Alarm wenn < 53 °C   |
+| Kaltwassereintritt   | PT1000 | ≤ 25 °C   | Warnung wenn > 22 °C |
+| Vorlauf jeder Strang | PT1000 | ≥ 55 °C   | optional             |
 
 ## Dokumentationspflicht
 
@@ -175,14 +191,14 @@ In vielen Ländern gesetzlich vorgeschrieben (CH: SWKI BT102-01):
 
 ## Growth Conditions
 
-| Temperature | Behaviour |
-|------------|----------|
-| < 20 °C | No growth (but survival possible) |
-| 25–45 °C | **Optimal growth** |
-| 50 °C | Growth stopped |
-| 55 °C | Die-off (slowly, after minutes) |
-| 60 °C | Reliable die-off |
-| 70 °C | Immediate die-off |
+| Temperature | Behaviour                         |
+| ----------- | --------------------------------- |
+| < 20 °C     | No growth (but survival possible) |
+| 25–45 °C    | **Optimal growth**                |
+| 50 °C       | Growth stopped                    |
+| 55 °C       | Die-off (slowly, after minutes)   |
+| 60 °C       | Reliable die-off                  |
+| 70 °C       | Immediate die-off                 |
 
 > **Critical zone: 25–55 °C** — any hot water storage or pipework in this range is a risk.
 
@@ -200,11 +216,11 @@ In vielen Ländern gesetzlich vorgeschrieben (CH: SWKI BT102-01):
 
 ### Hot Water Storage
 
-| Criterion | Requirement |
-|----------|------------|
-| Storage temperature | **≥ 60 °C** continuously |
-| Supply temperature | ≥ 60 °C |
-| Circulation return | ≥ 55 °C (at the coldest point!) |
+| Criterion           | Requirement                     |
+| ------------------- | ------------------------------- |
+| Storage temperature | **≥ 60 °C** continuously        |
+| Supply temperature  | ≥ 60 °C                         |
+| Circulation return  | ≥ 55 °C (at the coldest point!) |
 | Max. cool-down time | No area below 55 °C after 5 min |
 
 ### Circulation System
@@ -223,11 +239,11 @@ The circulation pump must run until every point in the system reaches ≥ 55 °C
 
 ### Cold Water
 
-| Criterion | Requirement |
-|----------|------------|
+| Criterion              | Requirement                                |
+| ---------------------- | ------------------------------------------ |
 | Cold water temperature | **≤ 25 °C** (continuously < 20 °C optimal) |
-| No contact with HW | Separate pipe routing |
-| No stagnation | Flush infrequently used pipework regularly |
+| No contact with HW     | Separate pipe routing                      |
+| No stagnation          | Flush infrequently used pipework regularly |
 
 > ⚠️ In poorly insulated buildings, cold water is warmed above 25 °C by adjacent hot water pipes — Legionella risk!
 
@@ -267,12 +283,12 @@ Weekly programme:
 
 ### Measures Against Stagnation
 
-| Measure | Description |
-|--------|------------|
-| **Flushing programmes** | Automatically flush infrequently used draw-off points |
-| **Circulation check** | All risers must reach return temperature |
-| **Remove dead legs** | Physically disconnect unused pipe ends |
-| **Temperature monitoring** | Multiple sensors in system → alarm if < 55 °C (HW) |
+| Measure                    | Description                                           |
+| -------------------------- | ----------------------------------------------------- |
+| **Flushing programmes**    | Automatically flush infrequently used draw-off points |
+| **Circulation check**      | All risers must reach return temperature              |
+| **Remove dead legs**       | Physically disconnect unused pipe ends                |
+| **Temperature monitoring** | Multiple sensors in system → alarm if < 55 °C (HW)    |
 
 ## Flushing Programme in BA
 
@@ -292,12 +308,12 @@ Daily 06:00:
 
 ## Measuring Points for BA
 
-| Measuring point | Sensor | Limit value | Alarm |
-|--------------|-------|-----------|------|
-| Hot water storage | PT1000 | ≥ 60 °C | Alarm if < 58 °C |
-| Circulation return | PT1000 | ≥ 55 °C | Alarm if < 53 °C |
-| Cold water inlet | PT1000 | ≤ 25 °C | Warning if > 22 °C |
-| Supply each riser | PT1000 | ≥ 55 °C | optional |
+| Measuring point    | Sensor | Limit value | Alarm              |
+| ------------------ | ------ | ----------- | ------------------ |
+| Hot water storage  | PT1000 | ≥ 60 °C     | Alarm if < 58 °C   |
+| Circulation return | PT1000 | ≥ 55 °C     | Alarm if < 53 °C   |
+| Cold water inlet   | PT1000 | ≤ 25 °C     | Warning if > 22 °C |
+| Supply each riser  | PT1000 | ≥ 55 °C     | optional           |
 
 ## Documentation Requirements
 

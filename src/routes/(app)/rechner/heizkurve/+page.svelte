@@ -53,7 +53,6 @@
 	// Current outdoor for "live" readout
 	let currentTA = $state(0);
 
-
 	const params = $derived<CurveParams>({
 		manufacturer,
 		systemType,
@@ -64,7 +63,10 @@
 		heatLimit,
 		maxFlow,
 		minFlow,
-		ta1, tv1, ta2, tv2,
+		ta1,
+		tv1,
+		ta2,
+		tv2,
 		footpoint
 	});
 
@@ -100,7 +102,9 @@
 	}
 
 	const pathD = $derived(
-		points.map(([ta, tv], i) => `${i === 0 ? 'M' : 'L'} ${x(ta).toFixed(1)} ${y(tv).toFixed(1)}`).join(' ')
+		points
+			.map(([ta, tv], i) => `${i === 0 ? 'M' : 'L'} ${x(ta).toFixed(1)} ${y(tv).toFixed(1)}`)
+			.join(' ')
 	);
 
 	const xTicks = [-15, -10, -5, 0, 5, 10, 15, 20];
@@ -110,7 +114,14 @@
 <div class="calc-page wide">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
@@ -162,7 +173,9 @@
 			<line x1={padL} y1={padT + plotH} x2={padL + plotW} y2={padT + plotH} class="axis" />
 
 			<!-- axis labels -->
-			<text x={padL + plotW / 2} y={H - 2} class="axis-label" text-anchor="middle">{$_('rechner.heizkurveUi.outdoorTempAxis')}</text>
+			<text x={padL + plotW / 2} y={H - 2} class="axis-label" text-anchor="middle"
+				>{$_('rechner.heizkurveUi.outdoorTempAxis')}</text
+			>
 			<text x={padL - 28} y={padT - 2} class="axis-label">TV [°C]</text>
 
 			<!-- Heizgrenze marker -->
@@ -194,7 +207,8 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.heizkurveUi.liveQuery')}</h2>
 		<div class="calc-field" style="border-top: none">
-			<label class="calc-field-label" for="cta-in">{$_('rechner.heizkurveUi.currentOutdoor')}</label>
+			<label class="calc-field-label" for="cta-in">{$_('rechner.heizkurveUi.currentOutdoor')}</label
+			>
 			<div class="calc-input-wrap">
 				<input id="cta-in" type="number" step="0.5" bind:value={currentTA} class="calc-input" />
 				<span class="calc-input-unit">°C</span>
@@ -202,7 +216,9 @@
 		</div>
 		<div class="calc-field">
 			<span class="calc-field-label">{$_('rechner.heizkurveUi.flowSetpoint')}</span>
-			<span class="calc-result-value primary">{fmt(currentTV, 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value primary"
+				>{fmt(currentTV, 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 	</div>
 
@@ -210,28 +226,36 @@
 		<div class="calc-section">
 			<h2 class="calc-section-title">{$_('rechner.heizkurveUi.honeywellSection')}</h2>
 			<div class="calc-field">
-				<label class="calc-field-label" for="ta1-in">{$_('rechner.heizkurveUi.honeywellPoint1OutdoorTemp')}</label>
+				<label class="calc-field-label" for="ta1-in"
+					>{$_('rechner.heizkurveUi.honeywellPoint1OutdoorTemp')}</label
+				>
 				<div class="calc-input-wrap">
 					<input id="ta1-in" type="number" step="1" bind:value={ta1} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="tv1-in">{$_('rechner.heizkurveUi.honeywellPoint1Flow')}</label>
+				<label class="calc-field-label" for="tv1-in"
+					>{$_('rechner.heizkurveUi.honeywellPoint1Flow')}</label
+				>
 				<div class="calc-input-wrap">
 					<input id="tv1-in" type="number" step="1" bind:value={tv1} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="ta2-in">{$_('rechner.heizkurveUi.honeywellPoint2OutdoorTemp')}</label>
+				<label class="calc-field-label" for="ta2-in"
+					>{$_('rechner.heizkurveUi.honeywellPoint2OutdoorTemp')}</label
+				>
 				<div class="calc-input-wrap">
 					<input id="ta2-in" type="number" step="1" bind:value={ta2} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
 				</div>
 			</div>
 			<div class="calc-field">
-				<label class="calc-field-label" for="tv2-in">{$_('rechner.heizkurveUi.honeywellPoint2Flow')}</label>
+				<label class="calc-field-label" for="tv2-in"
+					>{$_('rechner.heizkurveUi.honeywellPoint2Flow')}</label
+				>
 				<div class="calc-input-wrap">
 					<input id="tv2-in" type="number" step="1" bind:value={tv2} class="calc-input" />
 					<span class="calc-input-unit">°C</span>
@@ -254,7 +278,15 @@
 			<div class="calc-field">
 				<label class="calc-field-label" for="sl-sauter">{$_('rechner.heizkurveUi.slope')}</label>
 				<div class="calc-input-wrap">
-					<input id="sl-sauter" type="number" step="0.1" min="0.1" max="5" bind:value={slope} class="calc-input" />
+					<input
+						id="sl-sauter"
+						type="number"
+						step="0.1"
+						min="0.1"
+						max="5"
+						bind:value={slope}
+						class="calc-input"
+					/>
 					<span class="calc-input-unit">—</span>
 				</div>
 			</div>
@@ -264,8 +296,14 @@
 			<h2 class="calc-section-title">{$_('rechner.heizkurveUi.curveParams')}</h2>
 			<div class="calc-field" style="border-top: none">
 				<label class="calc-field-label" for="sl-in">
-					{manufacturer === 'buderus' ? $_('rechner.heizkurveUi.curveSteepness') : $_('rechner.heizkurveUi.slope')}
-					<span class="calc-field-hint">{$_('rechner.heizkurveUi.slopeRangeHint', { values: { min: info.slopeRange[0], max: info.slopeRange[1] } })}</span>
+					{manufacturer === 'buderus'
+						? $_('rechner.heizkurveUi.curveSteepness')
+						: $_('rechner.heizkurveUi.slope')}
+					<span class="calc-field-hint"
+						>{$_('rechner.heizkurveUi.slopeRangeHint', {
+							values: { min: info.slopeRange[0], max: info.slopeRange[1] }
+						})}</span
+					>
 				</label>
 				<div class="calc-input-wrap">
 					<input
@@ -286,7 +324,15 @@
 					<span class="calc-field-hint">{$_('rechner.heizkurveUi.levelHint')}</span>
 				</label>
 				<div class="calc-input-wrap">
-					<input id="lvl-in" type="number" step="0.5" min="-15" max="15" bind:value={level} class="calc-input" />
+					<input
+						id="lvl-in"
+						type="number"
+						step="0.5"
+						min="-15"
+						max="15"
+						bind:value={level}
+						class="calc-input"
+					/>
 					<span class="calc-input-unit">K</span>
 				</div>
 			</div>
@@ -337,24 +383,36 @@
 
 	<div class="calc-result-section">
 		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.heizkurveUi.designFlow', { values: { t: normOutdoor } })}</span>
-			<span class="calc-result-value primary">{fmt(tvDesign, 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-label"
+				>{$_('rechner.heizkurveUi.designFlow', { values: { t: normOutdoor } })}</span
+			>
+			<span class="calc-result-value primary"
+				>{fmt(tvDesign, 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">TV bei −5 °C</span>
-			<span class="calc-result-value">{fmt(calculateFlowTemp(-5, params), 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value"
+				>{fmt(calculateFlowTemp(-5, params), 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">TV bei 0 °C</span>
-			<span class="calc-result-value">{fmt(calculateFlowTemp(0, params), 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value"
+				>{fmt(calculateFlowTemp(0, params), 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">TV bei +5 °C</span>
-			<span class="calc-result-value">{fmt(calculateFlowTemp(5, params), 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value"
+				>{fmt(calculateFlowTemp(5, params), 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">TV bei +10 °C</span>
-			<span class="calc-result-value">{fmt(calculateFlowTemp(10, params), 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value"
+				>{fmt(calculateFlowTemp(10, params), 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 	</div>
 

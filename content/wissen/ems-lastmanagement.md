@@ -4,10 +4,39 @@ title_en: EMS and Load Management — Energy Management in BA
 slug: ems-lastmanagement
 category: energie
 subcategory: management
-tags: [ems, energiemanagementsystem, lastmanagement, spitzenlast, pv, photovoltaik, eigenverbrauch, sg-ready, demand-response, lademanagement, ocpp, iso50001, batteriespeicher, verbrauchsoptimierung]
+tags:
+  [
+    ems,
+    energiemanagementsystem,
+    lastmanagement,
+    spitzenlast,
+    pv,
+    photovoltaik,
+    eigenverbrauch,
+    sg-ready,
+    demand-response,
+    lademanagement,
+    ocpp,
+    iso50001,
+    batteriespeicher,
+    verbrauchsoptimierung
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
-related: [glt-grundlagen, waermepumpe, bacnet, modbus, mbus, pv-integration, batteriespeicher, sg-ready, demand-response, e-mobility-lademanagement, iso50001]
+related:
+  [
+    glt-grundlagen,
+    waermepumpe,
+    bacnet,
+    modbus,
+    mbus,
+    pv-integration,
+    batteriespeicher,
+    sg-ready,
+    demand-response,
+    e-mobility-lademanagement,
+    iso50001
+  ]
 norm: [ISO 50001, EN 50160, IEC 61851, SIA 2024]
 updated: 2026-05-14
 lang: de
@@ -19,15 +48,15 @@ Ein **Energiemanagementsystem (EMS)** überwacht und optimiert den Energieverbra
 
 ## EMS vs. GLT
 
-| Funktion               | GLT                        | EMS                         |
-|------------------------|----------------------------|-----------------------------|
-| Regelung HLK           | ✅ Kern-Aufgabe             | ❌ Nein                      |
-| Alarmmanagement        | ✅                          | Nur Energie-Alarme          |
-| Energiemessung         | Optional                   | ✅ Kern-Aufgabe              |
-| Optimierung Zeitpläne  | Manuell                    | ✅ Automatisch               |
-| PV-Integration         | Nein                       | ✅                           |
-| Lastmanagement         | Optional                   | ✅ Kern-Aufgabe              |
-| Reporting / ISO 50001  | Nicht vorgesehen            | ✅                           |
+| Funktion              | GLT              | EMS                |
+| --------------------- | ---------------- | ------------------ |
+| Regelung HLK          | ✅ Kern-Aufgabe  | ❌ Nein            |
+| Alarmmanagement       | ✅               | Nur Energie-Alarme |
+| Energiemessung        | Optional         | ✅ Kern-Aufgabe    |
+| Optimierung Zeitpläne | Manuell          | ✅ Automatisch     |
+| PV-Integration        | Nein             | ✅                 |
+| Lastmanagement        | Optional         | ✅ Kern-Aufgabe    |
+| Reporting / ISO 50001 | Nicht vorgesehen | ✅                 |
 
 In modernen Anlagen wächst GLT und EMS zusammen — oder das EMS ist ein Modul der GLT.
 
@@ -53,13 +82,13 @@ Wenn Leistung droht Grenzwert zu überschreiten:
 
 ### Schaltprioritäten festlegen
 
-| Priorität | Last                | Abschalten | Bemerkung                   |
-|-----------|---------------------|------------|-----------------------------|
-| 1         | E-Ladestation       | Sofort     | Akzeptabel für Nutzer       |
-| 2         | Klimaanlage (Kühlen)| Bis 15 min | Thermische Trägheit hilft   |
-| 3         | WW-Boiler           | Bis 60 min | Speicher hält Temperatur    |
-| 4         | Beleuchtung unbel.  | Sofort     | Keine Auswirkung            |
-| Nie       | Sicherheitsbeleuchtung, Notfall | — | Gesetzlich verboten     |
+| Priorität | Last                            | Abschalten | Bemerkung                 |
+| --------- | ------------------------------- | ---------- | ------------------------- |
+| 1         | E-Ladestation                   | Sofort     | Akzeptabel für Nutzer     |
+| 2         | Klimaanlage (Kühlen)            | Bis 15 min | Thermische Trägheit hilft |
+| 3         | WW-Boiler                       | Bis 60 min | Speicher hält Temperatur  |
+| 4         | Beleuchtung unbel.              | Sofort     | Keine Auswirkung          |
+| Nie       | Sicherheitsbeleuchtung, Notfall | —          | Gesetzlich verboten       |
 
 ---
 
@@ -99,12 +128,12 @@ EMS-Regelung:
 
 **SG-Ready** ist ein deutsches Gütesiegel für wärmepumpengeeignete Anlagen mit 4 Betriebszuständen:
 
-| Zustand | Signal (2 DI-Leitungen) | Bedeutung                               |
-|---------|--------------------------|------------------------------------------|
-| **1**   | 00                        | Betriebssperre (Netz überlastet)        |
-| **2**   | 01                        | Normalbetrieb                            |
-| **3**   | 10                        | Einschaltempfehlung (PV-Überschuss)     |
-| **4**   | 11                        | Einschaltbefehl (Überproduktion Wind/PV)|
+| Zustand | Signal (2 DI-Leitungen) | Bedeutung                                |
+| ------- | ----------------------- | ---------------------------------------- |
+| **1**   | 00                      | Betriebssperre (Netz überlastet)         |
+| **2**   | 01                      | Normalbetrieb                            |
+| **3**   | 10                      | Einschaltempfehlung (PV-Überschuss)      |
+| **4**   | 11                      | Einschaltbefehl (Überproduktion Wind/PV) |
 
 Das EMS setzt Zustand 3 wenn PV-Überschuss vorhanden → WP läuft auf maximale Leistung (Puffer laden).
 
@@ -116,12 +145,12 @@ Haushalts- und gewerbliche Batteriespeicher ergänzen PV:
 
 ### Ladestrategien
 
-| Strategie              | Beschreibung                                   |
-|------------------------|------------------------------------------------|
-| **PV-Eigenverbrauch**  | Laden wenn PV > Verbrauch, Entladen nachts     |
-| **Peak Shaving**       | Entladen bei Lastspitzen, Laden bei Tal        |
-| **Nacht-Ladung**       | Laden bei günstigen Nachttarif                 |
-| **Notstrom-Reserve**   | SOC niemals unter 20 % (Blackout-Schutz)      |
+| Strategie             | Beschreibung                               |
+| --------------------- | ------------------------------------------ |
+| **PV-Eigenverbrauch** | Laden wenn PV > Verbrauch, Entladen nachts |
+| **Peak Shaving**      | Entladen bei Lastspitzen, Laden bei Tal    |
+| **Nacht-Ladung**      | Laden bei günstigen Nachttarif             |
+| **Notstrom-Reserve**  | SOC niemals unter 20 % (Blackout-Schutz)   |
 
 **GA-Integration:** EMS liest SOC (State of Charge), steuert Lade-/Entladeleistung via Modbus oder herstellerspez. API.
 
@@ -161,15 +190,15 @@ Einphasige Ladesäulen können Phasen ungleichmässig belasten → Blindleistung
 
 Struktur der Norm:
 
-| Element            | Beschreibung                                   |
-|--------------------|------------------------------------------------|
-| Energiepolitik     | Commitment der Unternehmensleitung             |
-| Energiebasis       | Referenzwert, gegen den Verbesserungen gemessen |
-| Energie-KPIs       | Messbare Kennzahlen (kWh/m², kWh/Produkt)     |
-| Ziele              | Jährliche Reduktionsziele                      |
-| Massnahmenplan     | Konkrete Massnahmen, Verantwortliche, Termine  |
-| Überwachung        | EMS misst und berichtet (M&V)                  |
-| Auditierung        | Externe Überprüfung alle 3 Jahre (Zertifizierung) |
+| Element        | Beschreibung                                      |
+| -------------- | ------------------------------------------------- |
+| Energiepolitik | Commitment der Unternehmensleitung                |
+| Energiebasis   | Referenzwert, gegen den Verbesserungen gemessen   |
+| Energie-KPIs   | Messbare Kennzahlen (kWh/m², kWh/Produkt)         |
+| Ziele          | Jährliche Reduktionsziele                         |
+| Massnahmenplan | Konkrete Massnahmen, Verantwortliche, Termine     |
+| Überwachung    | EMS misst und berichtet (M&V)                     |
+| Auditierung    | Externe Überprüfung alle 3 Jahre (Zertifizierung) |
 
 **GA-Beitrag:** EMS liefert die Messdaten für ISO 50001 automatisch — Verbrauch nach Energieträger, Fläche, Zeit.
 
@@ -188,15 +217,15 @@ An **energy management system (EMS)** monitors and optimises the energy consumpt
 
 ## EMS vs. BMS
 
-| Function | BMS | EMS |
-|----------|-----|-----|
-| HVAC control | Core task | No |
-| Alarm management | Yes | Energy alarms only |
-| Energy metering | Optional | Core task |
-| Schedule optimisation | Manual | Automatic |
-| PV integration | No | Yes |
-| Load management | Optional | Core task |
-| Reporting / ISO 50001 | Not foreseen | Yes |
+| Function              | BMS          | EMS                |
+| --------------------- | ------------ | ------------------ |
+| HVAC control          | Core task    | No                 |
+| Alarm management      | Yes          | Energy alarms only |
+| Energy metering       | Optional     | Core task          |
+| Schedule optimisation | Manual       | Automatic          |
+| PV integration        | No           | Yes                |
+| Load management       | Optional     | Core task          |
+| Reporting / ISO 50001 | Not foreseen | Yes                |
 
 In modern systems BMS and EMS converge — or the EMS is a module of the BMS.
 
@@ -222,13 +251,13 @@ When power threatens to exceed limit:
 
 ### Setting Switching Priorities
 
-| Priority | Load | Switch off | Note |
-|---------|------|-----------|------|
-| 1 | EV charging station | Immediately | Acceptable to users |
-| 2 | Air conditioning (cooling) | Up to 15 min | Thermal mass helps |
-| 3 | DHW boiler | Up to 60 min | Storage holds temperature |
-| 4 | Lighting (unoccupied) | Immediately | No impact |
-| Never | Safety lighting, emergency | — | Legally prohibited |
+| Priority | Load                       | Switch off   | Note                      |
+| -------- | -------------------------- | ------------ | ------------------------- |
+| 1        | EV charging station        | Immediately  | Acceptable to users       |
+| 2        | Air conditioning (cooling) | Up to 15 min | Thermal mass helps        |
+| 3        | DHW boiler                 | Up to 60 min | Storage holds temperature |
+| 4        | Lighting (unoccupied)      | Immediately  | No impact                 |
+| Never    | Safety lighting, emergency | —            | Legally prohibited        |
 
 ---
 
@@ -268,12 +297,12 @@ EMS control:
 
 **SG-Ready** is a German quality mark for heat pump systems with 4 operating states:
 
-| State | Signal (2 DI lines) | Meaning |
-|-------|---------------------|---------|
-| **1** | 00 | Lockout (grid overloaded) |
-| **2** | 01 | Normal operation |
-| **3** | 10 | Switch-on recommendation (PV surplus) |
-| **4** | 11 | Switch-on command (wind/PV overproduction) |
+| State | Signal (2 DI lines) | Meaning                                    |
+| ----- | ------------------- | ------------------------------------------ |
+| **1** | 00                  | Lockout (grid overloaded)                  |
+| **2** | 01                  | Normal operation                           |
+| **3** | 10                  | Switch-on recommendation (PV surplus)      |
+| **4** | 11                  | Switch-on command (wind/PV overproduction) |
 
 The EMS sets state 3 when PV surplus is available → HP runs at maximum output (charge buffer).
 
@@ -285,12 +314,12 @@ Residential and commercial battery storage complements PV:
 
 ### Charging Strategies
 
-| Strategy | Description |
-|---------|-------------|
+| Strategy                | Description                                      |
+| ----------------------- | ------------------------------------------------ |
 | **PV self-consumption** | Charge when PV > consumption, discharge at night |
-| **Peak shaving** | Discharge at load peaks, charge in off-peak |
-| **Night charging** | Charge at favourable night tariff |
-| **Emergency reserve** | SOC never below 20 % (blackout protection) |
+| **Peak shaving**        | Discharge at load peaks, charge in off-peak      |
+| **Night charging**      | Charge at favourable night tariff                |
+| **Emergency reserve**   | SOC never below 20 % (blackout protection)       |
 
 **BA integration:** EMS reads SOC (state of charge), controls charge/discharge power via Modbus or manufacturer API.
 
@@ -330,15 +359,15 @@ Single-phase charging points can unbalance phases → reactive power, phase imba
 
 Standard structure:
 
-| Element | Description |
-|---------|-------------|
-| Energy policy | Management commitment |
+| Element         | Description                                             |
+| --------------- | ------------------------------------------------------- |
+| Energy policy   | Management commitment                                   |
 | Energy baseline | Reference value against which improvements are measured |
-| Energy KPIs | Measurable metrics (kWh/m², kWh/product) |
-| Targets | Annual reduction targets |
-| Action plan | Concrete measures, responsibilities, deadlines |
-| Monitoring | EMS measures and reports (M&V) |
-| Audit | External review every 3 years (certification) |
+| Energy KPIs     | Measurable metrics (kWh/m², kWh/product)                |
+| Targets         | Annual reduction targets                                |
+| Action plan     | Concrete measures, responsibilities, deadlines          |
+| Monitoring      | EMS measures and reports (M&V)                          |
+| Audit           | External review every 3 years (certification)           |
 
 **BA contribution:** EMS automatically supplies the measurement data for ISO 50001 — consumption by energy carrier, area and time period.
 

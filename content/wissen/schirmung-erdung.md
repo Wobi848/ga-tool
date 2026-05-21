@@ -4,7 +4,22 @@ title_en: Shielding and Earthing — EMC in Building Automation
 slug: schirmung-erdung
 category: signale
 subcategory: emv
-tags: [schirmung, erdung, emv, brummschleife, schirmanschluss, kabelschirm, potentialausgleich, entstörung, differenziell, gleichtakt, ferritkern, leitungsführung, messfehler]
+tags:
+  [
+    schirmung,
+    erdung,
+    emv,
+    brummschleife,
+    schirmanschluss,
+    kabelschirm,
+    potentialausgleich,
+    entstörung,
+    differenziell,
+    gleichtakt,
+    ferritkern,
+    leitungsführung,
+    messfehler
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [signaltypen, frequenzumrichter, modbus, netzwerk-ga]
@@ -21,14 +36,14 @@ Messfehler, Signalstörungen und unerklärliche Kommunikationsausfälle haben of
 
 Signalleitungen wirken als Antennen. Störquellen:
 
-| Störquelle              | Störmechanismus                        |
-|-------------------------|----------------------------------------|
-| Frequenzumrichter       | Hohe Oberwellen, Schaltflanken         |
-| Motorleitungen          | Elektromagnetische Induktion           |
-| Netzspannung 50 Hz      | Kapazitive und induktive Kopplung      |
-| Beleuchtung (Schaltvorgang) | Impulsstörer                       |
-| Mobilfunk, WLAN         | HF-Einstreuung                         |
-| Potentialunterschiede   | Ausgleichsströme über Schirm           |
+| Störquelle                  | Störmechanismus                   |
+| --------------------------- | --------------------------------- |
+| Frequenzumrichter           | Hohe Oberwellen, Schaltflanken    |
+| Motorleitungen              | Elektromagnetische Induktion      |
+| Netzspannung 50 Hz          | Kapazitive und induktive Kopplung |
+| Beleuchtung (Schaltvorgang) | Impulsstörer                      |
+| Mobilfunk, WLAN             | HF-Einstreuung                    |
+| Potentialunterschiede       | Ausgleichsströme über Schirm      |
 
 ---
 
@@ -73,16 +88,19 @@ Bei hochfrequenten Störungen (FU, Schaltfrequenzen > 10 kHz) ist beidseitige Er
 ## Brummschleife erkennen und beheben
 
 **Symptome:**
+
 - Messwert überlagert mit 50 Hz Zittern (im Trend sichtbar)
 - Analoge Messung schwankt ±0.5–2 V
 - Modbus-Kommunikation instabil (CRC-Fehler)
 
 **Diagnose:**
+
 1. Messsignal mit Oszilloskop prüfen (50 Hz aufmoduliert?)
 2. Schirm an einem Ende öffnen → Störung weg? → Brummschleife bestätigt
 3. Potentialdifferenz zwischen zwei Erdungspunkten messen (Sollte < 100 mV sein)
 
 **Lösung:**
+
 1. Schirm nur einseitig erden
 2. Galvanische Trennung (Isolationsübertrager, Trennverstärker)
 3. Potentialausgleichsleiter zwischen Schaltschränken (separate Leitung, grün-gelb, 6–16 mm²)
@@ -93,15 +111,16 @@ Bei hochfrequenten Störungen (FU, Schaltfrequenzen > 10 kHz) ist beidseitige Er
 
 ### Kabelklassen
 
-| Kabeltyp          | Zusammen verlegen?                           |
-|-------------------|----------------------------------------------|
-| 230 V / 400 V     | NEIN — getrennt von Signalleitungen          |
-| Motorleitungen (FU) | NEIN — eigener Kabelweg, grosser Abstand  |
-| Bus (Modbus, KNX) | JA mit anderen Bus-Leitungen, getrennt von 230V |
-| Analoge Signale   | Getrennt von 230 V, möglichst getrennt von Bus |
-| Ethernet          | Getrennt von 230 V (PoE-Kabel haben eigene Schirmung) |
+| Kabeltyp            | Zusammen verlegen?                                    |
+| ------------------- | ----------------------------------------------------- |
+| 230 V / 400 V       | NEIN — getrennt von Signalleitungen                   |
+| Motorleitungen (FU) | NEIN — eigener Kabelweg, grosser Abstand              |
+| Bus (Modbus, KNX)   | JA mit anderen Bus-Leitungen, getrennt von 230V       |
+| Analoge Signale     | Getrennt von 230 V, möglichst getrennt von Bus        |
+| Ethernet            | Getrennt von 230 V (PoE-Kabel haben eigene Schirmung) |
 
 **Mindestabstände:**
+
 - Signal zu 230 V: > 50 mm
 - Signal zu Motorleitung (FU): > 200 mm (besser in eigenem Kanal)
 - Kreuzen erlaubt (senkrecht), parallel so wenig wie möglich
@@ -161,14 +180,14 @@ Measurement errors, signal interference, and unexplained communication failures 
 
 Signal cables act as antennas. Sources of interference:
 
-| Source | Interference mechanism |
-|--------|----------------------|
-| Variable speed drives | High harmonics, switching edges |
-| Motor cables | Electromagnetic induction |
-| Mains voltage 50 Hz | Capacitive and inductive coupling |
-| Lighting (switching) | Impulse interference |
-| Mobile phone, WLAN | RF ingress |
-| Potential differences | Equalisation currents via shield |
+| Source                | Interference mechanism            |
+| --------------------- | --------------------------------- |
+| Variable speed drives | High harmonics, switching edges   |
+| Motor cables          | Electromagnetic induction         |
+| Mains voltage 50 Hz   | Capacitive and inductive coupling |
+| Lighting (switching)  | Impulse interference              |
+| Mobile phone, WLAN    | RF ingress                        |
+| Potential differences | Equalisation currents via shield  |
 
 ---
 
@@ -212,16 +231,19 @@ For high-frequency interference (VSD, switching frequencies > 10 kHz), double-en
 ## Identifying and Resolving Ground Loops
 
 **Symptoms:**
+
 - Measurement value overlaid with 50 Hz ripple (visible in trend)
 - Analogue measurement fluctuates ±0.5–2 V
 - Modbus communication unstable (CRC errors)
 
 **Diagnosis:**
+
 1. Check signal with oscilloscope (50 Hz superimposed?)
 2. Open shield at one end → interference gone? → ground loop confirmed
 3. Measure potential difference between two earth points (should be < 100 mV)
 
 **Solution:**
+
 1. Earth shield at one end only
 2. Galvanic isolation (isolation transformer, isolating amplifier)
 3. Equipotential bonding conductor between panels (separate cable, green-yellow, 6–16 mm²)
@@ -232,15 +254,16 @@ For high-frequency interference (VSD, switching frequencies > 10 kHz), double-en
 
 ### Cable Classes
 
-| Cable type | Route together? |
-|-----------|----------------|
-| 230 V / 400 V | NO — separate from signal cables |
-| Motor cables (VSD) | NO — dedicated cable tray, large clearance |
-| Bus (Modbus, KNX) | YES with other bus cables, separate from 230 V |
-| Analogue signals | Separate from 230 V, preferably separate from bus |
-| Ethernet | Separate from 230 V (PoE cables have own shielding) |
+| Cable type         | Route together?                                     |
+| ------------------ | --------------------------------------------------- |
+| 230 V / 400 V      | NO — separate from signal cables                    |
+| Motor cables (VSD) | NO — dedicated cable tray, large clearance          |
+| Bus (Modbus, KNX)  | YES with other bus cables, separate from 230 V      |
+| Analogue signals   | Separate from 230 V, preferably separate from bus   |
+| Ethernet           | Separate from 230 V (PoE cables have own shielding) |
 
 **Minimum separations:**
+
 - Signal to 230 V: > 50 mm
 - Signal to motor cable (VSD): > 200 mm (better in dedicated trunking)
 - Crossing allowed (perpendicular), parallel routing as short as possible

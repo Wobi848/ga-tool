@@ -4,7 +4,26 @@ title_en: Room Automation — Room DDC and Room Controllers
 slug: raumautomation
 category: ga
 subcategory: raumregelung
-tags: [raumautomation, raum-ddc, raumregler, fan-coil, fancoil, fcu, vav-box, raumtemperatur, praesenz, konstantlicht, raumbus, bacnet, lon, konnektoren, hotelbetrieb, buroautomation, zone]
+tags:
+  [
+    raumautomation,
+    raum-ddc,
+    raumregler,
+    fan-coil,
+    fancoil,
+    fcu,
+    vav-box,
+    raumtemperatur,
+    praesenz,
+    konstantlicht,
+    raumbus,
+    bacnet,
+    lon,
+    konnektoren,
+    hotelbetrieb,
+    buroautomation,
+    zone
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
 related: [glt-grundlagen, pid-regler, vav-cav, dali, bacnet, knx]
@@ -48,24 +67,24 @@ Raumluft
 
 ### Regelung
 
-| Stufe        | Beschreibung                                  |
-|--------------|-----------------------------------------------|
-| **Temperaturregler** | Misst Raumtemperatur, regelt über Ventil |
-| **Ventilator**       | 3 Stufen (Low/Mid/High) oder stufenlos via FU |
-| **Ventil**           | 2-Wege oder 3-Wege (Heizen / Kühlen)    |
-| **Heizen/Kühlen Umschaltung** | DDC wählt je nach Jahreszeit / Anforderung |
+| Stufe                         | Beschreibung                                  |
+| ----------------------------- | --------------------------------------------- |
+| **Temperaturregler**          | Misst Raumtemperatur, regelt über Ventil      |
+| **Ventilator**                | 3 Stufen (Low/Mid/High) oder stufenlos via FU |
+| **Ventil**                    | 2-Wege oder 3-Wege (Heizen / Kühlen)          |
+| **Heizen/Kühlen Umschaltung** | DDC wählt je nach Jahreszeit / Anforderung    |
 
 ### Typische DDC-Datenpunkte FCU
 
-| Datenpunkt         | Typ  | Beschreibung                           |
-|--------------------|------|----------------------------------------|
-| Raumtemperatur Ist | AI   | PT1000                                 |
-| Raumtemperatur Soll| AV   | Vorgabe Nutzer oder GLT                |
-| Ventilator Stufe   | AO   | 0–10 V für stufenlose Regelung         |
-| Kühlventil         | AO   | 0–10 V Stellsignal                     |
-| Heizventil         | AO   | 0–10 V Stellsignal                     |
-| Betriebsart        | AV   | Komfort / Nacht / Abwesend             |
-| Präsenz            | DI   | PIR oder Karte (Hotel)                 |
+| Datenpunkt          | Typ | Beschreibung                   |
+| ------------------- | --- | ------------------------------ |
+| Raumtemperatur Ist  | AI  | PT1000                         |
+| Raumtemperatur Soll | AV  | Vorgabe Nutzer oder GLT        |
+| Ventilator Stufe    | AO  | 0–10 V für stufenlose Regelung |
+| Kühlventil          | AO  | 0–10 V Stellsignal             |
+| Heizventil          | AO  | 0–10 V Stellsignal             |
+| Betriebsart         | AV  | Komfort / Nacht / Abwesend     |
+| Präsenz             | DI  | PIR oder Karte (Hotel)         |
 
 ---
 
@@ -93,14 +112,14 @@ Raumregler steuert:
 
 Gute Raumautomation kennt mehrere Profile:
 
-| Profil           | Temperatur | Lüftung    | Licht     | Beschattung       |
-|------------------|------------|------------|-----------|-------------------|
-| **Komfort**      | 21 °C      | Normal     | Präsenz   | Automatisch       |
-| **Vorkomfort**   | 19 °C      | Reduziert  | Aus       | Automatisch       |
-| **Nacht**        | 16 °C      | Minimal    | Aus       | Zu (Sommer: auf)  |
-| **Abwesend**     | 16 °C      | Minimal    | Aus       | Aus               |
-| **Sitzung**      | 21 °C      | 100 %      | 100 %     | Beschattet        |
-| **Präsentation** | 21 °C      | Normal     | 30 %      | Beschattet        |
+| Profil           | Temperatur | Lüftung   | Licht   | Beschattung      |
+| ---------------- | ---------- | --------- | ------- | ---------------- |
+| **Komfort**      | 21 °C      | Normal    | Präsenz | Automatisch      |
+| **Vorkomfort**   | 19 °C      | Reduziert | Aus     | Automatisch      |
+| **Nacht**        | 16 °C      | Minimal   | Aus     | Zu (Sommer: auf) |
+| **Abwesend**     | 16 °C      | Minimal   | Aus     | Aus              |
+| **Sitzung**      | 21 °C      | 100 %     | 100 %   | Beschattet       |
+| **Präsentation** | 21 °C      | Normal    | 30 %    | Beschattet       |
 
 Übergang zwischen Profilen wird von Zeitprogramm, Präsenzsensor oder manuellem Eingriff ausgelöst.
 
@@ -126,13 +145,13 @@ Keine Präsenz (5–15 min) → Standby
 
 Raumregler kommunizieren mit übergeordneter DDC oder direkt mit GLT:
 
-| System         | Protokoll       | Besonderheit                       |
-|----------------|-----------------|------------------------------------|
-| **KNX**        | KNX TP          | Flächendeckend, Taster integrierbar |
-| **BACnet MS/TP** | RS-485        | Industrie-Standard, GA-üblich     |
-| **LON**        | LON-Works       | Ältere Installationen, noch im Feld |
-| **Modbus RTU** | RS-485          | Einfach, günstig                   |
-| **proprietär** | Hersteller-spez.| Siemens PPS2, Sauter EY-modulo     |
+| System           | Protokoll        | Besonderheit                        |
+| ---------------- | ---------------- | ----------------------------------- |
+| **KNX**          | KNX TP           | Flächendeckend, Taster integrierbar |
+| **BACnet MS/TP** | RS-485           | Industrie-Standard, GA-üblich       |
+| **LON**          | LON-Works        | Ältere Installationen, noch im Feld |
+| **Modbus RTU**   | RS-485           | Einfach, günstig                    |
+| **proprietär**   | Hersteller-spez. | Siemens PPS2, Sauter EY-modulo      |
 
 ---
 
@@ -148,7 +167,7 @@ Gast steckt Karte ein:
   → Temperatur: Komfort (21 °C)
   → Lüftung: Normal
   → Licht: vorhanden (manuelle Steuerung)
-  
+
 Gast entnimmt Karte:
   → DI "Zimmer besetzt" = AUS (nach 1 min)
   → Temperatur: Abwesend (18 °C Sommer, 16 °C Winter)
@@ -162,7 +181,7 @@ Gast entnimmt Karte:
 DND-Taste gedrückt:
   → DO "DND-Lampe aussen" = EIN
   → GLT-Signal: kein Haushalt-Zutritt
-  
+
 MUR-Taste gedrückt:
   → DO "MUR-Lampe aussen" = EIN
   → GLT-Signal: Reinigung erwünscht
@@ -229,24 +248,24 @@ Room air
 
 ### Control
 
-| Stage | Description |
-|-------|-------------|
-| **Temperature controller** | Measures room temp, controls via valve |
-| **Fan** | 3 speeds (Low/Mid/High) or variable via VFD |
-| **Valve** | 2-way or 3-way (heating / cooling) |
-| **Heating/cooling switchover** | DDC selects based on season / demand |
+| Stage                          | Description                                 |
+| ------------------------------ | ------------------------------------------- |
+| **Temperature controller**     | Measures room temp, controls via valve      |
+| **Fan**                        | 3 speeds (Low/Mid/High) or variable via VFD |
+| **Valve**                      | 2-way or 3-way (heating / cooling)          |
+| **Heating/cooling switchover** | DDC selects based on season / demand        |
 
 ### Typical DDC Data Points — FCU
 
-| Data Point | Type | Description |
-|------------|------|-------------|
-| Room temperature actual | AI | PT1000 |
-| Room temperature setpoint | AV | User or BMS setting |
-| Fan speed | AO | 0–10 V for variable control |
-| Cooling valve | AO | 0–10 V control signal |
-| Heating valve | AO | 0–10 V control signal |
-| Operating mode | AV | Comfort / Night / Absent |
-| Presence | DI | PIR or key card (hotel) |
+| Data Point                | Type | Description                 |
+| ------------------------- | ---- | --------------------------- |
+| Room temperature actual   | AI   | PT1000                      |
+| Room temperature setpoint | AV   | User or BMS setting         |
+| Fan speed                 | AO   | 0–10 V for variable control |
+| Cooling valve             | AO   | 0–10 V control signal       |
+| Heating valve             | AO   | 0–10 V control signal       |
+| Operating mode            | AV   | Comfort / Night / Absent    |
+| Presence                  | DI   | PIR or key card (hotel)     |
 
 ---
 
@@ -274,14 +293,14 @@ Room controller manages:
 
 Good room automation knows multiple profiles:
 
-| Profile | Temperature | Ventilation | Lighting | Shading |
-|---------|-------------|-------------|----------|---------|
-| **Comfort** | 21 °C | Normal | Presence | Automatic |
-| **Pre-comfort** | 19 °C | Reduced | Off | Automatic |
-| **Night** | 16 °C | Minimum | Off | Closed (summer: open) |
-| **Absent** | 16 °C | Minimum | Off | Off |
-| **Meeting** | 21 °C | 100 % | 100 % | Shaded |
-| **Presentation** | 21 °C | Normal | 30 % | Shaded |
+| Profile          | Temperature | Ventilation | Lighting | Shading               |
+| ---------------- | ----------- | ----------- | -------- | --------------------- |
+| **Comfort**      | 21 °C       | Normal      | Presence | Automatic             |
+| **Pre-comfort**  | 19 °C       | Reduced     | Off      | Automatic             |
+| **Night**        | 16 °C       | Minimum     | Off      | Closed (summer: open) |
+| **Absent**       | 16 °C       | Minimum     | Off      | Off                   |
+| **Meeting**      | 21 °C       | 100 %       | 100 %    | Shaded                |
+| **Presentation** | 21 °C       | Normal      | 30 %     | Shaded                |
 
 Transitions between profiles are triggered by time programs, presence sensors or manual input.
 
@@ -307,13 +326,13 @@ No presence (5–15 min) → standby
 
 Room controllers communicate with the overarching DDC or directly with the BMS:
 
-| System | Protocol | Special feature |
-|--------|----------|-----------------|
-| **KNX** | KNX TP | Widespread, panel buttons integratable |
-| **BACnet MS/TP** | RS-485 | Industry standard, common in BA |
-| **LON** | LON-Works | Older installations, still in the field |
-| **Modbus RTU** | RS-485 | Simple, cost-effective |
-| **Proprietary** | Manufacturer-specific | Siemens PPS2, Sauter EY-modulo |
+| System           | Protocol              | Special feature                         |
+| ---------------- | --------------------- | --------------------------------------- |
+| **KNX**          | KNX TP                | Widespread, panel buttons integratable  |
+| **BACnet MS/TP** | RS-485                | Industry standard, common in BA         |
+| **LON**          | LON-Works             | Older installations, still in the field |
+| **Modbus RTU**   | RS-485                | Simple, cost-effective                  |
+| **Proprietary**  | Manufacturer-specific | Siemens PPS2, Sauter EY-modulo          |
 
 ---
 

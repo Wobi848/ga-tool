@@ -4,7 +4,24 @@ title_en: LON — LonWorks in Existing Buildings
 slug: lon
 category: protokolle
 subcategory: feldbus
-tags: [lon, lonworks, lonmark, neuron-chip, free-topology, ftt10, tp-1250, nv, snvt, network-variable, lon-bridge, migration, echelon, legacy, gbr]
+tags:
+  [
+    lon,
+    lonworks,
+    lonmark,
+    neuron-chip,
+    free-topology,
+    ftt10,
+    tp-1250,
+    nv,
+    snvt,
+    network-variable,
+    lon-bridge,
+    migration,
+    echelon,
+    legacy,
+    gbr
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [bacnet, modbus, knx, glt-grundlagen, opc-ua]
@@ -30,12 +47,12 @@ LON wurde von **Echelon Corporation** (heute Adesto) entwickelt und basiert auf 
 
 ## Physikalische Schicht
 
-| Medium          | Name     | Datenrate | Topologie             | Einsatz                     |
-|-----------------|----------|-----------|-----------------------|-----------------------------|
-| Twisted Pair    | FTT-10   | 78 kbps   | Free Topology (Stern, Bus, Ring) | Gebäude-Standard |
-| Twisted Pair    | TP-1250  | 1.25 Mbps | Bus-Topologie          | Backbone, Unterverteiler    |
-| Lichtwellenleiter | FOD    | 1.25 Mbps | Punkt-zu-Punkt         | Grosse Distanzen            |
-| IP-Tunnel       | IP-852   | Ethernet  | IP-Netz               | LON über IP (Modern)        |
+| Medium            | Name    | Datenrate | Topologie                        | Einsatz                  |
+| ----------------- | ------- | --------- | -------------------------------- | ------------------------ |
+| Twisted Pair      | FTT-10  | 78 kbps   | Free Topology (Stern, Bus, Ring) | Gebäude-Standard         |
+| Twisted Pair      | TP-1250 | 1.25 Mbps | Bus-Topologie                    | Backbone, Unterverteiler |
+| Lichtwellenleiter | FOD     | 1.25 Mbps | Punkt-zu-Punkt                   | Grosse Distanzen         |
+| IP-Tunnel         | IP-852  | Ethernet  | IP-Netz                          | LON über IP (Modern)     |
 
 **FTT-10 (Free Topology):** Der häufigste LON-Typ. Bis 128 Geräte pro Segment, max. 500 m Kabellänge. Keine fixe Topologie — Stern, Bus oder Misch-Topologie möglich.
 
@@ -43,13 +60,13 @@ LON wurde von **Echelon Corporation** (heute Adesto) entwickelt und basiert auf 
 
 ## LON-Adressierung
 
-| Ebene          | Beschreibung                                  |
-|----------------|-----------------------------------------------|
-| Neuron-ID      | 48-bit eindeutige Geräte-ID (ab Werk)         |
-| Domain         | Netzwerkbereich (bis 255 Geräte)              |
-| Subnet         | Unterbereich (bis 127 Subnets pro Domain)     |
-| Node           | Gerät im Subnet (bis 127 Nodes)               |
-| Group          | Multicast-Adresse für Broadcast an Gruppe     |
+| Ebene     | Beschreibung                              |
+| --------- | ----------------------------------------- |
+| Neuron-ID | 48-bit eindeutige Geräte-ID (ab Werk)     |
+| Domain    | Netzwerkbereich (bis 255 Geräte)          |
+| Subnet    | Unterbereich (bis 127 Subnets pro Domain) |
+| Node      | Gerät im Subnet (bis 127 Nodes)           |
+| Group     | Multicast-Adresse für Broadcast an Gruppe |
 
 ---
 
@@ -67,13 +84,13 @@ Konfiguration und Inbetriebnahme mit **LNS** (LonWorks Network Services):
 
 ## Typische LON-Geräte im Bestand
 
-| Gerät                     | Hersteller          | Bemerkung                        |
-|---------------------------|---------------------|----------------------------------|
-| DDC-Controller (LON)       | Siemens, Sauter, TAC | Automationsebene                |
-| Raumregler (LON)           | Siemens, Honeywell  | Fan-Coil, VAV                   |
-| Frequenzumrichter (LON)    | diverse             | FU mit LON-Karte                |
-| Zählerterminals (LON)      | diverse             | M-Bus-Daten über LON            |
-| Gateways LON→BACnet        | Beckhoff, PTC       | Migration/Integration           |
+| Gerät                   | Hersteller           | Bemerkung             |
+| ----------------------- | -------------------- | --------------------- |
+| DDC-Controller (LON)    | Siemens, Sauter, TAC | Automationsebene      |
+| Raumregler (LON)        | Siemens, Honeywell   | Fan-Coil, VAV         |
+| Frequenzumrichter (LON) | diverse              | FU mit LON-Karte      |
+| Zählerterminals (LON)   | diverse              | M-Bus-Daten über LON  |
+| Gateways LON→BACnet     | Beckhoff, PTC        | Migration/Integration |
 
 ---
 
@@ -109,13 +126,13 @@ Phase 4: LON-Segment leer → abschalten
 
 ## LON vs. BACnet heute
 
-| Aspekt               | LON                              | BACnet                          |
-|----------------------|----------------------------------|---------------------------------|
-| Neue Installationen  | Kaum noch (< 5 %)                | Standard                        |
-| Bestand CH/DE        | Viele grosse Gebäude vor 2005    | Neuere Anlagen                  |
-| Interoperabilität    | Mittel (SNVT hilft)              | BTL-Zertifizierung              |
-| Tool-Verfügbarkeit   | Eingeschränkt                    | Gut                             |
-| Fachkräfte           | Wenige junge Techniker           | Standard-Ausbildung             |
+| Aspekt              | LON                           | BACnet              |
+| ------------------- | ----------------------------- | ------------------- |
+| Neue Installationen | Kaum noch (< 5 %)             | Standard            |
+| Bestand CH/DE       | Viele grosse Gebäude vor 2005 | Neuere Anlagen      |
+| Interoperabilität   | Mittel (SNVT hilft)           | BTL-Zertifizierung  |
+| Tool-Verfügbarkeit  | Eingeschränkt                 | Gut                 |
+| Fachkräfte          | Wenige junge Techniker        | Standard-Ausbildung |
 
 > **Praxis-Tipp:** Wenn du LON-Anlage übernimmst: erstelle sofort eine Dokumentation aller NV-Bindings und der Gerätekonfiguration. Diese Information ist oft nur in der alten LNS-Datenbank gespeichert — verloren = sehr teuer.
 
@@ -143,12 +160,12 @@ LON was developed by **Echelon Corporation** (now Adesto) and is based on a dedi
 
 ## Physical Layer
 
-| Medium | Name | Data Rate | Topology | Application |
-|--------|------|-----------|----------|-------------|
-| Twisted pair | FTT-10 | 78 kbps | Free topology (star, bus, ring) | Building standard |
-| Twisted pair | TP-1250 | 1.25 Mbps | Bus topology | Backbone, sub-distribution |
-| Fibre optic | FOD | 1.25 Mbps | Point-to-point | Long distances |
-| IP tunnel | IP-852 | Ethernet | IP network | LON over IP (modern) |
+| Medium       | Name    | Data Rate | Topology                        | Application                |
+| ------------ | ------- | --------- | ------------------------------- | -------------------------- |
+| Twisted pair | FTT-10  | 78 kbps   | Free topology (star, bus, ring) | Building standard          |
+| Twisted pair | TP-1250 | 1.25 Mbps | Bus topology                    | Backbone, sub-distribution |
+| Fibre optic  | FOD     | 1.25 Mbps | Point-to-point                  | Long distances             |
+| IP tunnel    | IP-852  | Ethernet  | IP network                      | LON over IP (modern)       |
 
 **FTT-10 (Free Topology):** The most common LON type. Up to 128 devices per segment, max. 500 m cable length. No fixed topology — star, bus, or mixed topology all possible.
 
@@ -156,13 +173,13 @@ LON was developed by **Echelon Corporation** (now Adesto) and is based on a dedi
 
 ## LON Addressing
 
-| Level | Description |
-|-------|-------------|
-| Neuron ID | 48-bit unique device ID (factory-set) |
-| Domain | Network area (up to 255 devices) |
-| Subnet | Sub-area (up to 127 subnets per domain) |
-| Node | Device in subnet (up to 127 nodes) |
-| Group | Multicast address for group broadcast |
+| Level     | Description                             |
+| --------- | --------------------------------------- |
+| Neuron ID | 48-bit unique device ID (factory-set)   |
+| Domain    | Network area (up to 255 devices)        |
+| Subnet    | Sub-area (up to 127 subnets per domain) |
+| Node      | Device in subnet (up to 127 nodes)      |
+| Group     | Multicast address for group broadcast   |
 
 ---
 
@@ -180,13 +197,13 @@ Configuration and commissioning with **LNS** (LonWorks Network Services):
 
 ## Typical LON Devices in Existing Installations
 
-| Device | Manufacturer | Notes |
-|--------|-------------|-------|
-| DDC controller (LON) | Siemens, Sauter, TAC | Automation level |
-| Room controller (LON) | Siemens, Honeywell | Fan-coil, VAV |
-| Variable speed drive (LON) | Various | VFD with LON card |
-| Meter terminals (LON) | Various | M-Bus data over LON |
-| LON → BACnet gateways | Beckhoff, PTC | Migration / integration |
+| Device                     | Manufacturer         | Notes                   |
+| -------------------------- | -------------------- | ----------------------- |
+| DDC controller (LON)       | Siemens, Sauter, TAC | Automation level        |
+| Room controller (LON)      | Siemens, Honeywell   | Fan-coil, VAV           |
+| Variable speed drive (LON) | Various              | VFD with LON card       |
+| Meter terminals (LON)      | Various              | M-Bus data over LON     |
+| LON → BACnet gateways      | Beckhoff, PTC        | Migration / integration |
 
 ---
 
@@ -222,13 +239,13 @@ Phase 4: LON segment empty → decommission
 
 ## LON vs. BACnet Today
 
-| Aspect | LON | BACnet |
-|--------|-----|--------|
-| New installations | Rare (< 5%) | Standard |
-| Existing stock CH/DE | Many large buildings pre-2005 | Newer systems |
-| Interoperability | Medium (SNVT helps) | BTL certification |
-| Tool availability | Limited | Good |
-| Skilled workforce | Few younger technicians | Standard training |
+| Aspect               | LON                           | BACnet            |
+| -------------------- | ----------------------------- | ----------------- |
+| New installations    | Rare (< 5%)                   | Standard          |
+| Existing stock CH/DE | Many large buildings pre-2005 | Newer systems     |
+| Interoperability     | Medium (SNVT helps)           | BTL certification |
+| Tool availability    | Limited                       | Good              |
+| Skilled workforce    | Few younger technicians       | Standard training |
 
 > **Practical tip:** When you take over a LON system, immediately create documentation of all NV bindings and device configurations. This information is often stored only in the old LNS database — if lost, recovery is very expensive.
 

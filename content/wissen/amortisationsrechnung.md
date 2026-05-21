@@ -4,7 +4,23 @@ title_en: Payback Calculation for BA Measures
 slug: amortisationsrechnung
 category: wirtschaftlichkeit
 subcategory: investition
-tags: [amortisation, wirtschaftlichkeit, investitionsrechnung, payback, roi, energieeinsparung, ga-massnahmen, kosten-nutzen, kapitalwert, npv, annuitäten, lebenszykluskosten, lcc, investition]
+tags:
+  [
+    amortisation,
+    wirtschaftlichkeit,
+    investitionsrechnung,
+    payback,
+    roi,
+    energieeinsparung,
+    ga-massnahmen,
+    kosten-nutzen,
+    kapitalwert,
+    npv,
+    annuitäten,
+    lebenszykluskosten,
+    lcc,
+    investition
+  ]
 difficulty: grundlagen
 area: [ga, normen]
 related: [ems-lastmanagement, en15232, energieausweis-kennzahlen, lebenszyklus-lcc]
@@ -27,7 +43,7 @@ Beispiel: Automatische Beleuchtungssteuerung
   Energie-Einsparung:      3.000 CHF/a
   Betriebskosten-Senkung:    500 CHF/a
   Gesamteinsparung:         3.500 CHF/a
-  
+
   Amortisationszeit = 15.000 / 3.500 = 4.3 Jahre
 ```
 
@@ -37,16 +53,16 @@ Beispiel: Automatische Beleuchtungssteuerung
 
 ## Typische GA-Massnahmen mit Amortisationszeiten
 
-| Massnahme                        | Investition | Einsparung/a | Amortisation |
-|----------------------------------|-------------|--------------|-------------|
-| Präsenzsteuerung Beleuchtung     | 500–2.000 CHF/Raum | 300–800 CHF | 2–4 Jahre |
-| Nachtauskühlung (Softwarelogik)  | 2.000–5.000 CHF | 1.500–4.000 CHF | 1–3 Jahre |
-| Witterungsgeführte Regelung     | 3.000–8.000 CHF | 2.000–5.000 CHF | 2–4 Jahre |
-| Hydraulischer Abgleich           | 5.000–15.000 CHF | 2.000–6.000 CHF | 2–5 Jahre |
-| Frequenzumrichter auf Pumpe      | 3.000–8.000 CHF | 2.000–5.000 CHF | 1–3 Jahre |
-| Submetering (Messinfrastruktur)  | 10.000–30.000 CHF | 5.000–15.000 CHF | 2–4 Jahre |
-| EN 15232 Klasse D → B Upgrade    | 20.000–50.000 CHF | 8.000–20.000 CHF | 2–4 Jahre |
-| GLT-Nachrüstung Altbau           | 30.000–100.000 CHF | 10.000–25.000 CHF | 3–6 Jahre |
+| Massnahme                       | Investition        | Einsparung/a      | Amortisation |
+| ------------------------------- | ------------------ | ----------------- | ------------ |
+| Präsenzsteuerung Beleuchtung    | 500–2.000 CHF/Raum | 300–800 CHF       | 2–4 Jahre    |
+| Nachtauskühlung (Softwarelogik) | 2.000–5.000 CHF    | 1.500–4.000 CHF   | 1–3 Jahre    |
+| Witterungsgeführte Regelung     | 3.000–8.000 CHF    | 2.000–5.000 CHF   | 2–4 Jahre    |
+| Hydraulischer Abgleich          | 5.000–15.000 CHF   | 2.000–6.000 CHF   | 2–5 Jahre    |
+| Frequenzumrichter auf Pumpe     | 3.000–8.000 CHF    | 2.000–5.000 CHF   | 1–3 Jahre    |
+| Submetering (Messinfrastruktur) | 10.000–30.000 CHF  | 5.000–15.000 CHF  | 2–4 Jahre    |
+| EN 15232 Klasse D → B Upgrade   | 20.000–50.000 CHF  | 8.000–20.000 CHF  | 2–4 Jahre    |
+| GLT-Nachrüstung Altbau          | 30.000–100.000 CHF | 10.000–25.000 CHF | 3–6 Jahre    |
 
 ---
 
@@ -84,18 +100,18 @@ NPV = −20.000 + 40.550 = +20.550 CHF → rentabel
 
 Die Norm gibt Einsparpotenziale je Upgrade der GA-Klasse an:
 
-| Gebäudetyp         | Klasse D → C | Klasse C → B | Klasse B → A |
-|--------------------|-------------|--------------|-------------|
-| Bürogebäude (Heiz.)| −18 %        | −14 %         | −9 %         |
-| Bürogebäude (Kühl.)| −28 %        | −24 %         | −12 %        |
-| Hotel               | −15 %        | −12 %         | −8 %         |
-| Krankenhaus         | −17 %        | −11 %         | −8 %         |
+| Gebäudetyp          | Klasse D → C | Klasse C → B | Klasse B → A |
+| ------------------- | ------------ | ------------ | ------------ |
+| Bürogebäude (Heiz.) | −18 %        | −14 %        | −9 %         |
+| Bürogebäude (Kühl.) | −28 %        | −24 %        | −12 %        |
+| Hotel               | −15 %        | −12 %        | −8 %         |
+| Krankenhaus         | −17 %        | −11 %        | −8 %         |
 
 ```
 Beispiel: Bürogebäude 2000 m², Heizkosten 15.000 CHF/a
   Upgrade D → B: Einsparung 18 % + 14 % = ~29 %
   → 15.000 × 0.29 = 4.350 CHF/a Einsparung
-  
+
   Bei Investition 30.000 CHF: Amortisation 30.000 / 4.350 = 6.9 Jahre
 ```
 
@@ -110,14 +126,14 @@ Relevante Förderprogramme (Stand 2026):
   Gebäudeprogramm (Bund + Kantone):
     Fassadendämmung: CHF 30/m²
     Heizsystem-Ersatz (WP): CHF 500–5.000
-    
+
   KMU-Energieprogramm:
     Effizienzmassnahmen Industrie/Gewerbe: bis 50 %
-    
+
 Amortisation mit Förderung:
   Investition netto = Bruttokosten − Förderung
   → Kürzere Amortisationszeit
-  
+
   Beispiel:
     Investition brutto: 20.000 CHF
     Förderung 25 %:     −5.000 CHF
@@ -139,7 +155,7 @@ Beispiel: Ölheizung 100 kW, 1000 Betriebsstunden/Jahr
   CO₂ je Liter Öl: 2.65 kg
   CO₂ gesamt: 9524 × 2.65 kg = 25.2 t CO₂/a
   CO₂-Abgabe: 25.2 t × 120 CHF = 3.024 CHF/a
-  
+
 → Ersatz durch Wärmepumpe spart nicht nur Energie, auch CO₂-Kosten
 ```
 
@@ -166,7 +182,7 @@ Example: Automatic lighting control
   Energy savings:          3,000 CHF/a
   Operating cost reduction:  500 CHF/a
   Total savings:           3,500 CHF/a
-  
+
   Payback period = 15,000 / 3,500 = 4.3 years
 ```
 
@@ -176,16 +192,16 @@ Example: Automatic lighting control
 
 ## Typical BA Measures and Payback Periods
 
-| Measure | Investment | Savings/a | Payback |
-|---------|-----------|-----------|---------|
-| Presence-controlled lighting | CHF 500–2,000/room | CHF 300–800 | 2–4 years |
-| Night cooling (software logic) | CHF 2,000–5,000 | CHF 1,500–4,000 | 1–3 years |
-| Weather-compensated control | CHF 3,000–8,000 | CHF 2,000–5,000 | 2–4 years |
-| Hydraulic balancing | CHF 5,000–15,000 | CHF 2,000–6,000 | 2–5 years |
-| Variable speed drive on pump | CHF 3,000–8,000 | CHF 2,000–5,000 | 1–3 years |
-| Sub-metering (metering infrastructure) | CHF 10,000–30,000 | CHF 5,000–15,000 | 2–4 years |
-| EN 15232 class D → B upgrade | CHF 20,000–50,000 | CHF 8,000–20,000 | 2–4 years |
-| BMS retrofit (existing building) | CHF 30,000–100,000 | CHF 10,000–25,000 | 3–6 years |
+| Measure                                | Investment         | Savings/a         | Payback   |
+| -------------------------------------- | ------------------ | ----------------- | --------- |
+| Presence-controlled lighting           | CHF 500–2,000/room | CHF 300–800       | 2–4 years |
+| Night cooling (software logic)         | CHF 2,000–5,000    | CHF 1,500–4,000   | 1–3 years |
+| Weather-compensated control            | CHF 3,000–8,000    | CHF 2,000–5,000   | 2–4 years |
+| Hydraulic balancing                    | CHF 5,000–15,000   | CHF 2,000–6,000   | 2–5 years |
+| Variable speed drive on pump           | CHF 3,000–8,000    | CHF 2,000–5,000   | 1–3 years |
+| Sub-metering (metering infrastructure) | CHF 10,000–30,000  | CHF 5,000–15,000  | 2–4 years |
+| EN 15232 class D → B upgrade           | CHF 20,000–50,000  | CHF 8,000–20,000  | 2–4 years |
+| BMS retrofit (existing building)       | CHF 30,000–100,000 | CHF 10,000–25,000 | 3–6 years |
 
 ---
 
@@ -223,18 +239,18 @@ NPV = −20,000 + 40,550 = +20,550 CHF → profitable
 
 The standard provides savings potentials for each BA class upgrade:
 
-| Building type | Class D → C | Class C → B | Class B → A |
-|---------------|------------|------------|------------|
-| Office (heating) | −18% | −14% | −9% |
-| Office (cooling) | −28% | −24% | −12% |
-| Hotel | −15% | −12% | −8% |
-| Hospital | −17% | −11% | −8% |
+| Building type    | Class D → C | Class C → B | Class B → A |
+| ---------------- | ----------- | ----------- | ----------- |
+| Office (heating) | −18%        | −14%        | −9%         |
+| Office (cooling) | −28%        | −24%        | −12%        |
+| Hotel            | −15%        | −12%        | −8%         |
+| Hospital         | −17%        | −11%        | −8%         |
 
 ```
 Example: Office building 2,000 m², heating cost CHF 15,000/a
   Upgrade D → B: savings 18% + 14% = ~29%
   → 15,000 × 0.29 = CHF 4,350/a savings
-  
+
   With CHF 30,000 investment: payback = 30,000 / 4,350 = 6.9 years
 ```
 
@@ -249,14 +265,14 @@ Relevant funding programmes (as of 2026):
   Buildings programme (federal + cantonal):
     Facade insulation: CHF 30/m²
     Heating system replacement (heat pump): CHF 500–5,000
-    
+
   SME energy programme:
     Efficiency measures for industry/commerce: up to 50%
-    
+
 Payback with subsidy:
   Net investment = gross cost − subsidy
   → Shorter payback period
-  
+
   Example:
     Gross investment: CHF 20,000
     Subsidy 25%:      −CHF 5,000
@@ -278,7 +294,7 @@ Example: Oil boiler 100 kW, 1,000 operating hours/year
   CO₂ per litre of oil: 2.65 kg
   Total CO₂: 9,524 × 2.65 kg = 25.2 t CO₂/a
   CO₂ levy: 25.2 t × CHF 120 = CHF 3,024/a
-  
+
 → Replacing with a heat pump saves not only energy but also CO₂ costs
 ```
 

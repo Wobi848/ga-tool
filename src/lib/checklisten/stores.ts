@@ -1,9 +1,9 @@
 import { browser } from '$app/environment';
 
 interface ChecklistState {
-	status: Record<string, boolean>;   // itemId → checked
-	notes: Record<string, string>;     // itemId → notes
-	context: Record<string, string>;   // free-form context (Anlage, Ort, Datum, Techniker)
+	status: Record<string, boolean>; // itemId → checked
+	notes: Record<string, string>; // itemId → notes
+	context: Record<string, string>; // free-form context (Anlage, Ort, Datum, Techniker)
 	updatedAt: number;
 }
 
@@ -33,10 +33,7 @@ export function loadChecklistState(slug: string): ChecklistState {
 export function saveChecklistState(slug: string, state: ChecklistState) {
 	if (!browser) return;
 	try {
-		localStorage.setItem(
-			PREFIX + slug,
-			JSON.stringify({ ...state, updatedAt: Date.now() })
-		);
+		localStorage.setItem(PREFIX + slug, JSON.stringify({ ...state, updatedAt: Date.now() }));
 	} catch {
 		/* ignore */
 	}

@@ -11,50 +11,67 @@
 	let { data } = $props();
 
 	const moduleHref: Record<string, string> = {
-		konverter:    '/konverter',
-		rechner:      '/rechner',
-		wissen:       '/wissen',
-		checkliste:   '/checklisten',
-		referenz:     '/referenz',
+		konverter: '/konverter',
+		rechner: '/rechner',
+		wissen: '/wissen',
+		checkliste: '/checklisten',
+		referenz: '/referenz',
 		abkuerzungen: '/abkuerzungen'
 	};
 	const moduleColor: Record<string, string> = {
-		konverter:    '#ea580c',
-		rechner:      '#0d9488',
-		wissen:       '#2563eb',
-		checkliste:   '#7c3aed',
-		referenz:     '#0891b2',
+		konverter: '#ea580c',
+		rechner: '#0d9488',
+		wissen: '#2563eb',
+		checkliste: '#7c3aed',
+		referenz: '#0891b2',
 		abkuerzungen: '#65a30d'
 	};
 
 	const moduleLabel: Record<string, string> = $derived({
-		konverter:    $_('common.type.konverter'),
-		rechner:      $_('common.type.rechner'),
-		wissen:       $_('common.type.artikel'),
-		checkliste:   $_('common.type.checkliste'),
-		referenz:     $_('common.type.referenz'),
+		konverter: $_('common.type.konverter'),
+		rechner: $_('common.type.rechner'),
+		wissen: $_('common.type.artikel'),
+		checkliste: $_('common.type.checkliste'),
+		referenz: $_('common.type.referenz'),
 		abkuerzungen: $_('nav.abbreviations')
 	});
 
 	const rechnerSlugKey: Record<string, string> = {
-		'heizkurve': 'heizkurve', 'kv-wert': 'kvWert', 'ausdehnungsgefaess': 'ausdehnungsgefaess',
-		'druckverlust': 'druckverlust', 'luftbedarf': 'luftbedarf', 'taupunkt': 'taupunkt',
-		'waermeleistung': 'waermeleistung', 'psychrometrie': 'psychrometrie',
-		'pid-simulator': 'pidSimulator', 'leitungslaenge': 'leitungslaenge',
-		'elektro': 'elektro', 'dip-switch': 'dipSwitch', 'co2-regelung': 'co2Regelung',
-		'u-wert': 'uWert', 'ventilautoritaet': 'ventilautoritaet',
-		'waermerueckgewinnung': 'waermerueckgewinnung', 'pumpenkennlinie': 'pumpenkennlinie',
-		'heizlast': 'heizlast', 'bus-ibn': 'busIbn'
+		heizkurve: 'heizkurve',
+		'kv-wert': 'kvWert',
+		ausdehnungsgefaess: 'ausdehnungsgefaess',
+		druckverlust: 'druckverlust',
+		luftbedarf: 'luftbedarf',
+		taupunkt: 'taupunkt',
+		waermeleistung: 'waermeleistung',
+		psychrometrie: 'psychrometrie',
+		'pid-simulator': 'pidSimulator',
+		leitungslaenge: 'leitungslaenge',
+		elektro: 'elektro',
+		'dip-switch': 'dipSwitch',
+		'co2-regelung': 'co2Regelung',
+		'u-wert': 'uWert',
+		ventilautoritaet: 'ventilautoritaet',
+		waermerueckgewinnung: 'waermerueckgewinnung',
+		pumpenkennlinie: 'pumpenkennlinie',
+		heizlast: 'heizlast',
+		'bus-ibn': 'busIbn'
 	};
 
 	function resolveTitle(module: string, slug: string): string {
-		if (module === 'konverter') return $_('konverter.' + slug + '.name', { default: converterMap[slug]?.name ?? slug });
+		if (module === 'konverter')
+			return $_('konverter.' + slug + '.name', { default: converterMap[slug]?.name ?? slug });
 		if (module === 'rechner') {
 			const key = rechnerSlugKey[slug];
-			return key ? $_('rechner.' + key + '.name', { default: rechnerMap[slug]?.name ?? slug }) : (rechnerMap[slug]?.name ?? slug);
+			return key
+				? $_('rechner.' + key + '.name', { default: rechnerMap[slug]?.name ?? slug })
+				: (rechnerMap[slug]?.name ?? slug);
 		}
-		if (module === 'wissen') { const a = articleMap[slug]; return (isEn && a?.title_en ? a.title_en : a?.title) ?? slug; }
-		if (module === 'referenz')  return referenceMap[slug]?.title ?? slug;
+		if (module === 'wissen') {
+			const a = articleMap[slug];
+			return (isEn && a?.title_en ? a.title_en : a?.title) ?? slug;
+		}
+		if (module === 'referenz') return referenceMap[slug]?.title ?? slug;
 		return slug;
 	}
 
@@ -68,12 +85,42 @@
 	}
 
 	const moduleKeys = [
-		{ href: '/rechner',      icon: 'calculator',     key: 'rechner',      color: '#0d9488', count: rechner.length },
-		{ href: '/wissen',       icon: 'book-open',      key: 'wissen',       color: '#2563eb', count: articles.length },
-		{ href: '/konverter',    icon: 'refresh-cw',     key: 'konverter',    color: '#ea580c', count: converters.length },
-		{ href: '/checklisten',  icon: 'clipboard-list', key: 'checklisten',  color: '#7c3aed', count: 4 },
-		{ href: '/referenz',     icon: 'table',          key: 'referenz',     color: '#0891b2', count: referenceTables.length },
-		{ href: '/abkuerzungen', icon: 'type',           key: 'abkuerzungen', color: '#65a30d', count: abbreviations.length }
+		{
+			href: '/rechner',
+			icon: 'calculator',
+			key: 'rechner',
+			color: '#0d9488',
+			count: rechner.length
+		},
+		{ href: '/wissen', icon: 'book-open', key: 'wissen', color: '#2563eb', count: articles.length },
+		{
+			href: '/konverter',
+			icon: 'refresh-cw',
+			key: 'konverter',
+			color: '#ea580c',
+			count: converters.length
+		},
+		{
+			href: '/checklisten',
+			icon: 'clipboard-list',
+			key: 'checklisten',
+			color: '#7c3aed',
+			count: 4
+		},
+		{
+			href: '/referenz',
+			icon: 'table',
+			key: 'referenz',
+			color: '#0891b2',
+			count: referenceTables.length
+		},
+		{
+			href: '/abkuerzungen',
+			icon: 'type',
+			key: 'abkuerzungen',
+			color: '#65a30d',
+			count: abbreviations.length
+		}
 	];
 </script>
 
@@ -88,57 +135,94 @@
 	</header>
 
 	{#if $favorites.length > 0}
-	<section class="section">
-		<h2 class="section-title">
-			<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="section-icon" style="color:#eab308">
-				<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-			</svg>
-			{$_('dashboard.favorites')}
-		</h2>
-		<div class="fav-strip">
-			{#each $favorites.slice().reverse() as fav}
-			<a href="{favTypeHref[fav.type]}/{fav.slug}" class="fav-pill">
-				<span class="fav-pill-dot" style="background:{favTypeColor[fav.type]}"></span>
-				<span class="fav-pill-type" style="color:{favTypeColor[fav.type]}">{$_('common.type.' + fav.type)}</span>
-				<span class="fav-pill-title">{resolveFavTitle(fav.type, fav.slug, fav.title)}</span>
-				<button
-					type="button"
-					class="fav-pill-remove"
-					onclick={(e) => { e.preventDefault(); e.stopPropagation(); favorites.remove(fav.type, fav.slug); }}
-					aria-label={$_('dashboard.removeFavorite')}
+		<section class="section">
+			<h2 class="section-title">
+				<svg
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="currentColor"
+					stroke="none"
+					class="section-icon"
+					style="color:#eab308"
 				>
-					<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-				</button>
-			</a>
-			{/each}
-		</div>
-	</section>
+					<polygon
+						points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+					/>
+				</svg>
+				{$_('dashboard.favorites')}
+			</h2>
+			<div class="fav-strip">
+				{#each $favorites.slice().reverse() as fav}
+					<a href="{favTypeHref[fav.type]}/{fav.slug}" class="fav-pill">
+						<span class="fav-pill-dot" style="background:{favTypeColor[fav.type]}"></span>
+						<span class="fav-pill-type" style="color:{favTypeColor[fav.type]}"
+							>{$_('common.type.' + fav.type)}</span
+						>
+						<span class="fav-pill-title">{resolveFavTitle(fav.type, fav.slug, fav.title)}</span>
+						<button
+							type="button"
+							class="fav-pill-remove"
+							onclick={(e) => {
+								e.preventDefault();
+								e.stopPropagation();
+								favorites.remove(fav.type, fav.slug);
+							}}
+							aria-label={$_('dashboard.removeFavorite')}
+						>
+							<svg
+								width="11"
+								height="11"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.5"
+								><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg
+							>
+						</button>
+					</a>
+				{/each}
+			</div>
+		</section>
 	{/if}
 
 	{#if data.topItems.length > 0}
-	<section class="section">
-		<h2 class="section-title">
-			<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="section-icon" style="color:var(--color-primary)">
-				<polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
-			</svg>
-			{$_('dashboard.recentlyUsed')}
-		</h2>
-		<div class="top-list">
-			{#each data.topItems as item, i}
-			{#if moduleHref[item.module]}
-			<a href="{moduleHref[item.module]}/{item.slug}" class="top-item">
-				<span class="top-accent" style="background:{moduleColor[item.module]}"></span>
-				<span class="top-rank">{i + 1}</span>
-				<span class="top-badge" style:color={moduleColor[item.module]} style:background="{moduleColor[item.module]}18">
-					{moduleLabel[item.module] ?? item.module}
-				</span>
-				<span class="top-title">{resolveTitle(item.module, item.slug ?? '')}</span>
-				<span class="top-cnt">{item.cnt}×</span>
-			</a>
-			{/if}
-			{/each}
-		</div>
-	</section>
+		<section class="section">
+			<h2 class="section-title">
+				<svg
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					class="section-icon"
+					style="color:var(--color-primary)"
+				>
+					<polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
+				</svg>
+				{$_('dashboard.recentlyUsed')}
+			</h2>
+			<div class="top-list">
+				{#each data.topItems as item, i}
+					{#if moduleHref[item.module]}
+						<a href="{moduleHref[item.module]}/{item.slug}" class="top-item">
+							<span class="top-accent" style="background:{moduleColor[item.module]}"></span>
+							<span class="top-rank">{i + 1}</span>
+							<span
+								class="top-badge"
+								style:color={moduleColor[item.module]}
+								style:background="{moduleColor[item.module]}18"
+							>
+								{moduleLabel[item.module] ?? item.module}
+							</span>
+							<span class="top-title">{resolveTitle(item.module, item.slug ?? '')}</span>
+							<span class="top-cnt">{item.cnt}×</span>
+						</a>
+					{/if}
+				{/each}
+			</div>
+		</section>
 	{/if}
 
 	<section class="section">
@@ -153,7 +237,15 @@
 						<span class="module-label">{$_(`dashboard.modules.${mod.key}.name`)}</span>
 						<span class="module-desc">{mod.count} {$_(`dashboard.modules.${mod.key}.desc`)}</span>
 					</div>
-					<svg class="module-arrow" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<svg
+						class="module-arrow"
+						width="15"
+						height="15"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
 						<polyline points="9 18 15 12 9 6" />
 					</svg>
 				</a>
@@ -163,24 +255,63 @@
 </div>
 
 {#snippet ModuleIcon({ name }: { name: string })}
-	<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+	<svg
+		width="20"
+		height="20"
+		viewBox="0 0 24 24"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="2"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
 		{#if name === 'refresh-cw'}
 			<polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
 			<path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
 		{:else if name === 'calculator'}
 			<rect x="4" y="2" width="16" height="20" rx="2" />
 			<line x1="8" y1="6" x2="16" y2="6" />
-			<line x1="8" y1="10" x2="8" y2="10" stroke-width="3" /><line x1="12" y1="10" x2="12" y2="10" stroke-width="3" /><line x1="16" y1="10" x2="16" y2="10" stroke-width="3" />
-			<line x1="8" y1="14" x2="8" y2="14" stroke-width="3" /><line x1="12" y1="14" x2="12" y2="14" stroke-width="3" /><line x1="16" y1="14" x2="16" y2="14" stroke-width="3" />
+			<line x1="8" y1="10" x2="8" y2="10" stroke-width="3" /><line
+				x1="12"
+				y1="10"
+				x2="12"
+				y2="10"
+				stroke-width="3"
+			/><line x1="16" y1="10" x2="16" y2="10" stroke-width="3" />
+			<line x1="8" y1="14" x2="8" y2="14" stroke-width="3" /><line
+				x1="12"
+				y1="14"
+				x2="12"
+				y2="14"
+				stroke-width="3"
+			/><line x1="16" y1="14" x2="16" y2="14" stroke-width="3" />
 			<line x1="8" y1="18" x2="16" y2="18" stroke-width="3" />
 		{:else if name === 'book-open'}
-			<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+			<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path
+				d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
+			/>
 		{:else if name === 'clipboard-list'}
-			<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" /><line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" />
+			<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect
+				x="8"
+				y="2"
+				width="8"
+				height="4"
+				rx="1"
+			/><line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" />
 		{:else if name === 'table'}
-			<rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line x1="3" y1="15" x2="21" y2="15" /><line x1="9" y1="3" x2="9" y2="21" />
+			<rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line
+				x1="3"
+				y1="15"
+				x2="21"
+				y2="15"
+			/><line x1="9" y1="3" x2="9" y2="21" />
 		{:else if name === 'type'}
-			<polyline points="4 7 4 4 20 4 20 7" /><line x1="9" y1="20" x2="15" y2="20" /><line x1="12" y1="4" x2="12" y2="20" />
+			<polyline points="4 7 4 4 20 4 20 7" /><line x1="9" y1="20" x2="15" y2="20" /><line
+				x1="12"
+				y1="4"
+				x2="12"
+				y2="20"
+			/>
 		{/if}
 	</svg>
 {/snippet}
@@ -248,7 +379,9 @@
 		text-decoration: none;
 		color: var(--text);
 		font-size: 0.8125rem;
-		transition: border-color 0.15s, background 0.15s;
+		transition:
+			border-color 0.15s,
+			background 0.15s;
 		max-width: 220px;
 	}
 
@@ -289,12 +422,18 @@
 		align-items: center;
 		flex-shrink: 0;
 		opacity: 0;
-		transition: opacity 0.15s, color 0.15s;
+		transition:
+			opacity 0.15s,
+			color 0.15s;
 		margin-left: 0.1rem;
 	}
 
-	.fav-pill:hover .fav-pill-remove { opacity: 1; }
-	.fav-pill-remove:hover { color: #dc2626; }
+	.fav-pill:hover .fav-pill-remove {
+		opacity: 1;
+	}
+	.fav-pill-remove:hover {
+		color: #dc2626;
+	}
 
 	/* ── Recently Used ───────────────────────────────── */
 	.top-list {
@@ -314,7 +453,9 @@
 		text-decoration: none;
 		color: var(--text);
 		font-size: 0.875rem;
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 		overflow: hidden;
 	}
 
@@ -380,7 +521,10 @@
 		border: 1px solid var(--border);
 		border-radius: 0.875rem;
 		text-decoration: none;
-		transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s,
+			background 0.15s;
 		position: relative;
 		overflow: hidden;
 	}
@@ -445,7 +589,9 @@
 	.module-arrow {
 		color: var(--muted);
 		flex-shrink: 0;
-		transition: transform 0.15s, color 0.15s;
+		transition:
+			transform 0.15s,
+			color 0.15s;
 	}
 
 	.module-card:hover .module-arrow {

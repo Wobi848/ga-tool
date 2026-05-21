@@ -4,7 +4,24 @@ title_en: Free Cooling — Direct and Indirect Free Cooling
 slug: free-cooling
 category: klima
 subcategory: freie-kuehlung
-tags: [free-cooling, freie-kühlung, direkte-freie-kühlung, indirekte-freie-kühlung, economizer, bypass, kältemaschine, wärmetauscher, aussenluft, geochore, kühlenergie, effizienz, eer, cop, hvac]
+tags:
+  [
+    free-cooling,
+    freie-kühlung,
+    direkte-freie-kühlung,
+    indirekte-freie-kühlung,
+    economizer,
+    bypass,
+    kältemaschine,
+    wärmetauscher,
+    aussenluft,
+    geochore,
+    kühlenergie,
+    effizienz,
+    eer,
+    cop,
+    hvac
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, nachtauskuehlung, adiabatische-kuehlung, cop-eer, kaeltemittel, rlt-anlage]
@@ -38,13 +55,14 @@ Aussenluft wird direkt zur Raumkühlung genutzt:
 Sommer-Nacht / Übergangszeit:
   T_Aussen = 18 °C
   T_Raum_Soll = 22 °C
-  
+
   → 100 % Aussenluft (Bypass über Wärmerückgewinnung)
   → Kältemaschine AUS
   → Lüftungs-Ventilator kühlt Gebäude
 ```
 
 Regelung:
+
 ```
 Wenn T_Aussen < T_Raum − 2 K:
   → Aussenluft-Klappe: 100 %
@@ -54,6 +72,7 @@ Wenn T_Aussen < T_Raum − 2 K:
 ```
 
 Enthalpie-Kontrolle nötig (wenn feuchte Nächte):
+
 ```
 Wenn h_Aussen < h_Raum − 3 kJ/kg:
   → Free Cooling aktiv
@@ -79,7 +98,7 @@ Variante A: Kältemaschine parallel zum WT (häufig):
   Freikühlung:  WT → Kühler → zurück
   Kombiniert:   WT + Kältemaschine parallel (Übergangssaison)
   Vollbetrieb:  Nur Kältemaschine (Hochsommer)
-  
+
 Variante B: Kältemaschine in Serie:
   WT kühlt vor → Kältemaschine kühlt nach → weniger Verdichterleistung
 ```
@@ -92,7 +111,7 @@ Erdwärme-Anlage (Erdsonden, Grundwasser) liefert Kaltwasser ohne Wärmepumpe:
 Sommer: Erde hat 12–14 °C (kühler als Aussenluft 30 °C)
     → Wärme aus Gebäude → Sonde → Erde
     → Nur Pumpenenergie: COP 50–100
-    
+
 Bedingung: Kühltemperatur > 16 °C (sonst Kondensation in Decken)
 ```
 
@@ -103,11 +122,11 @@ Bedingung: Kühltemperatur > 16 °C (sonst Kondensation in Decken)
 ```
 Jahresstunden Kühlung nötig (Büro, CH-Mittelland):
   Gesamt: ~1200 h/Jahr
-  
+
   Free Cooling möglich (T_Aussen < 15 °C):  ~900 h = 75 %
   Nur Kältemaschine (T_Aussen > 20 °C):    ~200 h = 17 %
   Mischbetrieb:                             ~100 h =  8 %
-  
+
 → Free Cooling kann 60–75 % der Kühlenergiekosten einsparen
 ```
 
@@ -136,15 +155,15 @@ Stufe 3 — Nur Kältemaschine:
 
 ## GA-Datenpunkte Free Cooling
 
-| Datenpunkt                 | Typ | Einheit | Beschreibung               |
-|----------------------------|-----|---------|----------------------------|
-| T_Aussenluft               | AI  | °C      | Freigabebedingung          |
-| T_Kälteträger VL Ist       | AI  | °C      | Kühlwasser-Vorlauf         |
-| Free-Cooling Betrieb       | DI  | —       | Rückkühler aktiv           |
-| Kältemaschine Freigabe     | DO  | —       | KM gesperrt bei FC         |
-| Rückkühler Ventilator      | AO  | %       | Drehzahl 0–100 %           |
-| Umschaltventil FC/KM       | DO  | —       | Klappe Free Cooling-Pfad   |
-| Energie Free Cooling       | AI  | kWh     | Einsparungsmonitoring      |
+| Datenpunkt             | Typ | Einheit | Beschreibung             |
+| ---------------------- | --- | ------- | ------------------------ |
+| T_Aussenluft           | AI  | °C      | Freigabebedingung        |
+| T_Kälteträger VL Ist   | AI  | °C      | Kühlwasser-Vorlauf       |
+| Free-Cooling Betrieb   | DI  | —       | Rückkühler aktiv         |
+| Kältemaschine Freigabe | DO  | —       | KM gesperrt bei FC       |
+| Rückkühler Ventilator  | AO  | %       | Drehzahl 0–100 %         |
+| Umschaltventil FC/KM   | DO  | —       | Klappe Free Cooling-Pfad |
+| Energie Free Cooling   | AI  | kWh     | Einsparungsmonitoring    |
 
 ---
 
@@ -155,7 +174,7 @@ Beispiel: 1000 m² Büro, 100 kW Kühlbedarf
 
 Ohne Free Cooling:
   1200 h × 100 kW / 3.5 COP = 34.300 kWh Strom
-  
+
 Mit Free Cooling (70 % FC-Anteil):
   Nur KM:   300 h × 100 kW / 3.5 = 8.600 kWh
   FC-Pumpen: 900 h × 5 kW       =  4.500 kWh
@@ -196,13 +215,14 @@ Outdoor air is used directly for room cooling:
 Summer night / shoulder season:
   T_outdoor = 18 °C
   T_room_setpoint = 22 °C
-  
+
   → 100 % outdoor air (bypass around heat recovery)
   → Chiller OFF
   → Ventilation fan cools building
 ```
 
 Control logic:
+
 ```
 If T_outdoor < T_room − 2 K:
   → Outdoor air damper: 100 %
@@ -212,6 +232,7 @@ If T_outdoor < T_room − 2 K:
 ```
 
 Enthalpy check required (humid nights):
+
 ```
 If h_outdoor < h_room − 3 kJ/kg:
   → Free cooling active
@@ -237,7 +258,7 @@ Variant A: Chiller in parallel with HX (common):
   Free cooling:  HX → cooler → return
   Combined:      HX + chiller in parallel (shoulder season)
   Full load:     Chiller only (peak summer)
-  
+
 Variant B: Chiller in series:
   HX pre-cools → chiller post-cools → less compressor power
 ```
@@ -250,7 +271,7 @@ Ground source heat pump system (boreholes, groundwater) supplies cold water with
 Summer: ground at 12–14 °C (cooler than outdoor 30 °C)
     → Heat from building → borehole → ground
     → Only pump energy: COP 50–100
-    
+
 Condition: cooling temperature > 16 °C (otherwise condensation in ceilings)
 ```
 
@@ -261,11 +282,11 @@ Condition: cooling temperature > 16 °C (otherwise condensation in ceilings)
 ```
 Annual cooling hours needed (office, CH midlands):
   Total: ~1200 h/year
-  
+
   Free cooling possible (T_outdoor < 15 °C):  ~900 h = 75 %
   Chiller only (T_outdoor > 20 °C):           ~200 h = 17 %
   Mixed operation:                             ~100 h =  8 %
-  
+
 → Free cooling can save 60–75 % of cooling energy costs
 ```
 
@@ -294,15 +315,15 @@ Stage 3 — Chiller only:
 
 ## BA Data Points — Free Cooling
 
-| Data point | Type | Unit | Description |
-|-----------|------|------|------------|
-| T_outdoor | AI | °C | Enable condition |
-| T_chilled water supply actual | AI | °C | Chilled water supply |
-| Free cooling operation | DI | — | Dry cooler active |
-| Chiller enable | DO | — | Chiller locked during FC |
-| Dry cooler fan | AO | % | Speed 0–100 % |
-| FC/chiller changeover valve | DO | — | Damper free cooling path |
-| Free cooling energy | AI | kWh | Savings monitoring |
+| Data point                    | Type | Unit | Description              |
+| ----------------------------- | ---- | ---- | ------------------------ |
+| T_outdoor                     | AI   | °C   | Enable condition         |
+| T_chilled water supply actual | AI   | °C   | Chilled water supply     |
+| Free cooling operation        | DI   | —    | Dry cooler active        |
+| Chiller enable                | DO   | —    | Chiller locked during FC |
+| Dry cooler fan                | AO   | %    | Speed 0–100 %            |
+| FC/chiller changeover valve   | DO   | —    | Damper free cooling path |
+| Free cooling energy           | AI   | kWh  | Savings monitoring       |
 
 ---
 
@@ -313,7 +334,7 @@ Example: 1000 m² office, 100 kW cooling demand
 
 Without free cooling:
   1200 h × 100 kW / 3.5 COP = 34,300 kWh electricity
-  
+
 With free cooling (70 % FC share):
   Chiller only:  300 h × 100 kW / 3.5 = 8,600 kWh
   FC pumps:      900 h × 5 kW         = 4,500 kWh

@@ -4,7 +4,26 @@ title_en: Docker in BA — Containers for BMS Services
 slug: docker-ga
 category: it
 subcategory: infrastruktur
-tags: [docker, container, docker-compose, image, microservices, influxdb, grafana, mosquitto, node-red, portainer, gitlab, reverse-proxy, traefik, nginx, ga-server, iot, mqtt]
+tags:
+  [
+    docker,
+    container,
+    docker-compose,
+    image,
+    microservices,
+    influxdb,
+    grafana,
+    mosquitto,
+    node-red,
+    portainer,
+    gitlab,
+    reverse-proxy,
+    traefik,
+    nginx,
+    ga-server,
+    iot,
+    mqtt
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [proxmox, backup-ga, netzwerk-ga, mqtt, cybersecurity-ot, trending-historisierung]
@@ -24,7 +43,7 @@ Problem ohne Docker:
   "Es lief auf meinem Laptop, aber nicht auf dem Server"
   Abhängigkeiten: Python 3.8 vs. 3.11, Node.js 14 vs. 18
   Updates brechen andere Dienste
-  
+
 Mit Docker:
   Jeder Dienst = eigener Container = eigene Abhängigkeiten
   Läuft überall gleich (Laptop, Server, Cloud)
@@ -46,8 +65,8 @@ services:
   mosquitto:
     image: eclipse-mosquitto:2
     ports:
-      - "1883:1883"
-      - "8883:8883"  # TLS
+      - '1883:1883'
+      - '8883:8883' # TLS
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
@@ -57,7 +76,7 @@ services:
   node-red:
     image: nodered/node-red:3
     ports:
-      - "1880:1880"
+      - '1880:1880'
     volumes:
       - ./node-red-data:/data
     depends_on:
@@ -68,7 +87,7 @@ services:
   influxdb:
     image: influxdb:2
     ports:
-      - "8086:8086"
+      - '8086:8086'
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: admin
@@ -83,7 +102,7 @@ services:
   grafana:
     image: grafana/grafana:10
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     volumes:
@@ -102,16 +121,16 @@ volumes:
 
 ## Typische Dienste für GA
 
-| Dienst          | Image                        | Zweck                            |
-|-----------------|------------------------------|----------------------------------|
-| MQTT-Broker     | eclipse-mosquitto            | IoT-Geräte, KNX-IoT, Sensoren   |
-| IoT-Flow        | nodered/node-red             | Protokoll-Konvertierung          |
-| Zeitreihendaten | influxdb:2                   | Historian                         |
-| Dashboard       | grafana/grafana               | Visualisierung Trends            |
-| Management      | portainer/portainer-ce        | Web-GUI für Docker-Container     |
-| Reverse Proxy   | traefik oder nginx            | TLS-Terminierung, Routing        |
-| M-Bus Gateway   | rsmb oder iobroker            | M-Bus-Zähler auslesen            |
-| BACnet Gateway  | bacnet-stack oder YABE        | BACnet → MQTT/HTTP               |
+| Dienst          | Image                  | Zweck                         |
+| --------------- | ---------------------- | ----------------------------- |
+| MQTT-Broker     | eclipse-mosquitto      | IoT-Geräte, KNX-IoT, Sensoren |
+| IoT-Flow        | nodered/node-red       | Protokoll-Konvertierung       |
+| Zeitreihendaten | influxdb:2             | Historian                     |
+| Dashboard       | grafana/grafana        | Visualisierung Trends         |
+| Management      | portainer/portainer-ce | Web-GUI für Docker-Container  |
+| Reverse Proxy   | traefik oder nginx     | TLS-Terminierung, Routing     |
+| M-Bus Gateway   | rsmb oder iobroker     | M-Bus-Zähler auslesen         |
+| BACnet Gateway  | bacnet-stack oder YABE | BACnet → MQTT/HTTP            |
 
 ---
 
@@ -124,7 +143,7 @@ Konfiguration BACnet-Read-Node:
   Device: 192.168.10.50:47808
   Object: AI 1 (Aussentemperatur)
   Interval: 60s
-  
+
 Konfiguration InfluxDB-Write-Node:
   Bucket: gebaeude
   Measurement: temperature
@@ -142,7 +161,7 @@ Konfiguration InfluxDB-Write-Node:
 Docker-Volumes sichern:
   1. Methode: bind-mounts (Daten auf Host-Verzeichnis)
      → Backup mit Standard-Backup-Tools (rsync, tar)
-     
+
   2. Methode: Docker Volume Backup
      docker run --rm -v influxdb-data:/data \
        -v $(pwd):/backup alpine \
@@ -160,21 +179,21 @@ Regelmässige Backups:
 ```
 1. Keine Container als root laufen lassen:
    user: "1000:1000"  in docker-compose.yml
-   
+
 2. Geheimnisse nie im Image (env-Variablen oder Secrets):
    Falsch: GRAFANA_PASSWORD: "admin123"
    Richtig: Env-Datei (.env) mit korrekten Berechtigungen
-   
+
 3. Netzwerk-Isolation:
    networks:
      ot-net: (nur OT-Dienste)
      it-net: (nur IT-Dienste)
      intern: (interne Kommunikation)
-   
+
 4. Images aktuell halten:
    docker pull image:tag → regelmässig (monatlich)
    docker compose up -d (nach Pull)
-   
+
 5. Ports einschränken:
    Nur notwendige Ports nach aussen öffnen
    Management-GUIs (Portainer, Grafana) hinter VPN
@@ -191,7 +210,7 @@ Portainer starten:
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v portainer_data:/data \
     portainer/portainer-ce:latest
-    
+
 Dann: https://server-ip:9443
 → Web-GUI zum Verwalten aller Container
 → Logs anzeigen, Container neustarten, Images aktualisieren
@@ -232,8 +251,8 @@ services:
   mosquitto:
     image: eclipse-mosquitto:2
     ports:
-      - "1883:1883"
-      - "8883:8883"  # TLS
+      - '1883:1883'
+      - '8883:8883' # TLS
     volumes:
       - ./mosquitto/config:/mosquitto/config
       - ./mosquitto/data:/mosquitto/data
@@ -243,7 +262,7 @@ services:
   node-red:
     image: nodered/node-red:3
     ports:
-      - "1880:1880"
+      - '1880:1880'
     volumes:
       - ./node-red-data:/data
     depends_on:
@@ -254,7 +273,7 @@ services:
   influxdb:
     image: influxdb:2
     ports:
-      - "8086:8086"
+      - '8086:8086'
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: admin
@@ -269,7 +288,7 @@ services:
   grafana:
     image: grafana/grafana:10
     ports:
-      - "3000:3000"
+      - '3000:3000'
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD}
     volumes:
@@ -288,16 +307,16 @@ volumes:
 
 ## Typical Services for BA
 
-| Service | Image | Purpose |
-|---------|-------|---------|
-| MQTT broker | eclipse-mosquitto | IoT devices, KNX-IoT, sensors |
-| IoT flow | nodered/node-red | Protocol conversion |
-| Time-series data | influxdb:2 | Historian |
-| Dashboard | grafana/grafana | Trend visualisation |
-| Management | portainer/portainer-ce | Web GUI for Docker containers |
-| Reverse proxy | traefik or nginx | TLS termination, routing |
-| M-Bus gateway | rsmb or ioBroker | Read M-Bus meters |
-| BACnet gateway | bacnet-stack or YABE | BACnet → MQTT/HTTP |
+| Service          | Image                  | Purpose                       |
+| ---------------- | ---------------------- | ----------------------------- |
+| MQTT broker      | eclipse-mosquitto      | IoT devices, KNX-IoT, sensors |
+| IoT flow         | nodered/node-red       | Protocol conversion           |
+| Time-series data | influxdb:2             | Historian                     |
+| Dashboard        | grafana/grafana        | Trend visualisation           |
+| Management       | portainer/portainer-ce | Web GUI for Docker containers |
+| Reverse proxy    | traefik or nginx       | TLS termination, routing      |
+| M-Bus gateway    | rsmb or ioBroker       | Read M-Bus meters             |
+| BACnet gateway   | bacnet-stack or YABE   | BACnet → MQTT/HTTP            |
 
 ---
 

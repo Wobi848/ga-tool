@@ -18,7 +18,7 @@ export function dewPoint(tC: number, rhPct: number): number {
 /** Absolute humidity x [g/kg dry air] from t [°C] and rh [%], at p = 101325 Pa. */
 export function absHumidity(tC: number, rhPct: number, p = 101325): number {
 	const pw = (rhPct / 100) * pSat(tC);
-	return (0.622 * pw) / (p - pw) * 1000;
+	return ((0.622 * pw) / (p - pw)) * 1000;
 }
 
 /** Specific enthalpy of moist air [kJ/kg dry air] from t [°C] and x [g/kg]. */

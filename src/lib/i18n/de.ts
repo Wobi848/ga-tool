@@ -19,7 +19,8 @@ export const de = {
 		close: 'Schliessen',
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
-		updateText: 'PID-Simulator, 16 neue Wissensartikel, RS-485/CAN/PROFIBUS/Matter, Changelog, Tastaturkürzel'
+		updateText:
+			'PID-Simulator, 16 neue Wissensartikel, RS-485/CAN/PROFIBUS/Matter, Changelog, Tastaturkürzel'
 	},
 	auth: {
 		login: 'Anmelden',
@@ -40,10 +41,16 @@ export const de = {
 		recentlyUsed: 'Meist aufgerufen',
 		removeFavorite: 'Aus Favoriten entfernen',
 		modules: {
-			konverter: { name: 'Konverter', desc: 'Einheiten-Konverter — Druck, Temperatur, Durchfluss, Feuchte' },
+			konverter: {
+				name: 'Konverter',
+				desc: 'Einheiten-Konverter — Druck, Temperatur, Durchfluss, Feuchte'
+			},
 			rechner: { name: 'Rechner', desc: 'Heizkurve, Kv-Wert, Taupunkt, Psychrometrie' },
 			wissen: { name: 'Wissensbasis', desc: 'Artikel zu HLK, GA, Protokollen' },
-			checklisten: { name: 'Checklisten', desc: 'Interaktive IBN-/Übergabe-Checklisten mit CSV-Export' },
+			checklisten: {
+				name: 'Checklisten',
+				desc: 'Interaktive IBN-/Übergabe-Checklisten mit CSV-Export'
+			},
 			referenz: { name: 'Referenz', desc: 'Tabellen — DN, Filter, Glykol, Kältemittel' },
 			abkuerzungen: { name: 'Abkürzungen', desc: 'Kürzel — bilingual DE ↔ EN' }
 		}
@@ -86,10 +93,10 @@ export const de = {
 		results: 'Ergebnis',
 		resultsPlural: 'Ergebnisse',
 		type: {
-			artikel:    'Artikel',
-			rechner:    'Rechner',
-			konverter:  'Konverter',
-			referenz:   'Referenz',
+			artikel: 'Artikel',
+			rechner: 'Rechner',
+			konverter: 'Konverter',
+			referenz: 'Referenz',
 			checkliste: 'Checkliste'
 		},
 		addToFavorites: 'Zu Favoriten hinzufügen',
@@ -115,18 +122,18 @@ export const de = {
 
 	// ── Areas & Difficulty ───────────────────────────────────────────────────
 	area: {
-		hlk:      'HLK',
+		hlk: 'HLK',
 		sanitaer: 'Sanitär',
-		elektro:  'Elektro',
-		ga:       'GA',
-		it:       'IT',
-		normen:   'Normen'
+		elektro: 'Elektro',
+		ga: 'GA',
+		it: 'IT',
+		normen: 'Normen'
 	},
 
 	difficulty: {
-		grundlagen:     'Grundlagen',
+		grundlagen: 'Grundlagen',
 		fortgeschritten: 'Fortgeschritten',
-		experte:        'Experte'
+		experte: 'Experte'
 	},
 
 	// ── Wissen ────────────────────────────────────────────────────────────────
@@ -144,7 +151,8 @@ export const de = {
 		updatedAt: 'Aktualisiert:',
 		relatedTools: 'Rechner & Tools',
 		relatedArticles: 'Verwandte Artikel',
-		onlyGerman: 'Dieser Artikel ist noch nicht auf Englisch verfügbar — deutsche Version wird angezeigt.',
+		onlyGerman:
+			'Dieser Artikel ist noch nicht auf Englisch verfügbar — deutsche Version wird angezeigt.',
 		deOnly: 'Nur DE'
 	},
 
@@ -168,7 +176,8 @@ export const de = {
 		allDoneText: 'Du kannst die Checkliste jetzt als CSV exportieren und ablegen.',
 		resetBtn: 'Zurücksetzen',
 		exportCSV: 'Als CSV exportieren',
-		infoText: 'Häkchen + Notizen werden automatisch im Browser gespeichert (pro Checkliste). CSV-Export für Berichte.',
+		infoText:
+			'Häkchen + Notizen werden automatisch im Browser gespeichert (pro Checkliste). CSV-Export für Berichte.',
 		mustCriteria: 'Muss-Kriterium',
 		savedFlash: '✓ gespeichert',
 		anlage: 'Anlage',
@@ -198,7 +207,8 @@ export const de = {
 		copyRow: 'Ganze Zeile kopieren (TSV)',
 		noRowsMatch: 'Keine Zeile passt zur Suche.',
 		noteLabel: 'Hinweis',
-		infoText: 'Klick auf eine Zelle kopiert den Wert. Klick auf das Symbol rechts kopiert die Zeile als TSV. Klick auf eine Spalten-Überschrift sortiert auf-/absteigend.'
+		infoText:
+			'Klick auf eine Zelle kopiert den Wert. Klick auf das Symbol rechts kopiert die Zeile als TSV. Klick auf eine Spalten-Überschrift sortiert auf-/absteigend.'
 	},
 
 	// ── Abkürzungen ───────────────────────────────────────────────────────────
@@ -325,7 +335,8 @@ export const de = {
 
 		// Per-page strings
 		heizkurveUi: {
-			formulaNote: 'Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen. Bei Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3. Quellen: SIA 384/2, Herstellerunterlagen.',
+			formulaNote:
+				'Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen. Bei Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3. Quellen: SIA 384/2, Herstellerunterlagen.',
 			manufacturerSystem: 'Hersteller / System',
 			heatEmitter: 'Wärmeübergabe',
 			radiator: 'Radiator (n ≈ 1.3)',
@@ -350,7 +361,8 @@ export const de = {
 			minFlow: 'Min. Vorlauf',
 			maxFlow: 'Max. Vorlauf',
 			designFlow: 'Auslegungs-Vorlauf bei {t} °C',
-			maxFlowWarning: '⚠ Auslegungstemperatur {tv} °C wird durch max. Vorlauf {max} °C begrenzt. Höhere Neigung oder Niveau ist wirkungslos. Heizfläche evtl. zu klein.',
+			maxFlowWarning:
+				'⚠ Auslegungstemperatur {tv} °C wird durch max. Vorlauf {max} °C begrenzt. Höhere Neigung oder Niveau ist wirkungslos. Heizfläche evtl. zu klein.',
 			curve: 'Kennlinie',
 			normOutdoorLegend: 'Norm-Aussentemp',
 			currentLegend: 'aktuell',
@@ -363,9 +375,12 @@ export const de = {
 		},
 
 		ausdehnungsgefaessUi: {
-			warnPrePressureDetail: 'Vordruck p₀ = {p0} bar liegt unter dem empfohlenen Mindestwert ({min} bar). Bei statischer Höhe von {h} m muss p₀ ≥ {min} bar sein, damit keine Unterdruckzonen entstehen.',
-			warnSpreadDetail: 'Spreizung pₑ − p₀ = {spread} bar zu klein. Üblich ≥ 0.8 bar — sonst wird das MAG sehr gross.',
-			formulaNote: 'Formel: V_N = (V_e + V_wv) × (pₑ + 1) / (pₑ − p₀) · Wasservorlage V_wv = max(0.5 % × V_A, 3 l). Standard-MAG-Grössen nach SWKI 91-1.',
+			warnPrePressureDetail:
+				'Vordruck p₀ = {p0} bar liegt unter dem empfohlenen Mindestwert ({min} bar). Bei statischer Höhe von {h} m muss p₀ ≥ {min} bar sein, damit keine Unterdruckzonen entstehen.',
+			warnSpreadDetail:
+				'Spreizung pₑ − p₀ = {spread} bar zu klein. Üblich ≥ 0.8 bar — sonst wird das MAG sehr gross.',
+			formulaNote:
+				'Formel: V_N = (V_e + V_wv) × (pₑ + 1) / (pₑ − p₀) · Wasservorlage V_wv = max(0.5 % × V_A, 3 l). Standard-MAG-Grössen nach SWKI 91-1.',
 			plant: 'Anlage',
 			plantContent: 'Anlageninhalt',
 			plantContentHint: 'Wassermenge in der Anlage',
@@ -388,7 +403,8 @@ export const de = {
 		},
 
 		luftbedarfUi: {
-			formulaNote: 'Berechnung nach SN EN 16798-1: massgebend ist der grössere der beiden Werte (Personen- + Flächenbedarf vs. CO₂-Massenbilanz). Aussenluft-CO₂ = 400 ppm angenommen.',
+			formulaNote:
+				'Berechnung nach SN EN 16798-1: massgebend ist der grössere der beiden Werte (Personen- + Flächenbedarf vs. CO₂-Massenbilanz). Aussenluft-CO₂ = 400 ppm angenommen.',
 			room: 'Raum',
 			floorArea: 'Bodenfläche',
 			roomHeight: 'Raumhöhe',
@@ -434,17 +450,20 @@ export const de = {
 		},
 
 		taupunktUi: {
-			formulaNote: 'Berechnet nach Magnus-Formel (Konstanten a = 17.62, b = 243.12 °C). Gültig im Bereich −45 … +60 °C über Wasser.',
+			formulaNote:
+				'Berechnet nach Magnus-Formel (Konstanten a = 17.62, b = 243.12 °C). Gültig im Bereich −45 … +60 °C über Wasser.',
 			airTemp: 'Lufttemperatur',
 			relHumidity: 'Relative Feuchte',
 			dewpoint: 'Taupunkt',
 			absHumidity: 'Absolute Feuchte',
 			tempSpread: 'Spreizung T − Taupunkt',
-			warnCondensation: 'Kondensationsgefahr: Oberflächentemperatur unter ca. {t} °C kann zu Tauwasser führen.'
+			warnCondensation:
+				'Kondensationsgefahr: Oberflächentemperatur unter ca. {t} °C kann zu Tauwasser führen.'
 		},
 
 		ventilautoritaetUi: {
-			formulaNote: 'Kv = Q / √(ΔpV) bei ΔpV in bar, Q in m³/h — nach EN 60534. Kvs nächste Normgrösse ≥ Kv × 1.3 wählen (Regelbereich + Reserve).',
+			formulaNote:
+				'Kv = Q / √(ΔpV) bei ΔpV in bar, Q in m³/h — nach EN 60534. Kvs nächste Normgrösse ≥ Kv × 1.3 wählen (Regelbereich + Reserve).',
 			tabAuthority: 'Ventilautorität α',
 			tabKvs: 'Kvs-Auswahl',
 			pressures: 'Druckverhältnisse',
@@ -468,8 +487,10 @@ export const de = {
 			recommendedKvs: 'Empfohlenes Kvs (× 1.3 Sicherheit)',
 			kvsOverKv: 'Kvs / Kv',
 			kvsStandard: 'Standardreihe Kvs',
-			curveNote: 'Grau = Ideallinie (α = 1). Je kleiner α, desto mehr weicht die effektive Kurve ab.',
-			authorityFormulaNote: 'α = ΔpV,100 / (ΔpV,100 + ΔpSystem) — Empfehlung: α ≥ 0.5 (min. 0.3). Tiefes α → Ventil verliert Regeleinfluss → überproportionaler Durchflussanstieg bei kleinen Hüben.'
+			curveNote:
+				'Grau = Ideallinie (α = 1). Je kleiner α, desto mehr weicht die effektive Kurve ab.',
+			authorityFormulaNote:
+				'α = ΔpV,100 / (ΔpV,100 + ΔpSystem) — Empfehlung: α ≥ 0.5 (min. 0.3). Tiefes α → Ventil verliert Regeleinfluss → überproportionaler Durchflussanstieg bei kleinen Hüben.'
 		},
 
 		uWertUi: {
@@ -508,11 +529,13 @@ export const de = {
 			matGlassWool: 'Glaswolle',
 			matPUR: 'PUR-Schaum',
 			matAirGap: 'Luftspalt (ruhend)',
-			formulaNoteWarnBridges: 'U = 1 / (Rsi + Σ(d/λ) + Rse) nach SIA 180 / EN ISO 6946. Wärmebrücken und Befestigungen sind nicht berücksichtigt.'
+			formulaNoteWarnBridges:
+				'U = 1 / (Rsi + Σ(d/λ) + Rse) nach SIA 180 / EN ISO 6946. Wärmebrücken und Befestigungen sind nicht berücksichtigt.'
 		},
 
 		waermerueckgewinnungUi: {
-			annualSavingNote: 'Jahreskostenersparnis: Annahme 2000 Heizstunden, Strom-/Wärmepreis 0.12 CHF/kWh.',
+			annualSavingNote:
+				'Jahreskostenersparnis: Annahme 2000 Heizstunden, Strom-/Wärmepreis 0.12 CHF/kWh.',
 			wrgType: 'WRG-Typ',
 			enthalpyExchanger: 'Kreuzgegenstrom (Enthalpie-Tauscher)',
 			rotarySorption: 'Rotationssorptions-WRG',
@@ -534,10 +557,14 @@ export const de = {
 			supplyHumidity: 'Feuchtegehalt Zuluft nach WRG',
 			annualSaving: 'Energieersparnis/Jahr (2000h, 0.12 CHF/kWh)',
 			typicalEtaHint: 'Typisch {min}–{max}% für {type}',
-			noteEnthalpyExchanger: 'Feuchteübertragung möglich (Membran). Sehr hohe Effizienz, kein Leckage-Problem.',
-			noteRotarySorption: 'Hohe Feuchterückgewinnung. Achtung: geringe Überströmung Abluft→Zuluft (1–5%).',
-			notePlateHeatEx: 'Keine Feuchteübertragung. Einfach, robust, kein Leckage-Risiko. Vereisungsschutz nötig.',
-			noteRecirculation: 'Nur Wärme, mittlere Effizienz. Einsatz bei getrennten Zu/Abluft-Leitungen.'
+			noteEnthalpyExchanger:
+				'Feuchteübertragung möglich (Membran). Sehr hohe Effizienz, kein Leckage-Problem.',
+			noteRotarySorption:
+				'Hohe Feuchterückgewinnung. Achtung: geringe Überströmung Abluft→Zuluft (1–5%).',
+			notePlateHeatEx:
+				'Keine Feuchteübertragung. Einfach, robust, kein Leckage-Risiko. Vereisungsschutz nötig.',
+			noteRecirculation:
+				'Nur Wärme, mittlere Effizienz. Einsatz bei getrennten Zu/Abluft-Leitungen.'
 		},
 
 		druckverlustUi: {
@@ -559,12 +586,15 @@ export const de = {
 			warnLowVelocity: 'Strömung sehr langsam.',
 			mediumWater: 'Wasser 20 °C',
 			mediumBrine: 'Sole 30 % @ 20 °C',
-			formulaNote: 'Druckverlust-Formel: Δp = (λ × L/d + Σζ) × ρ × v² / 2. Reibungsbeiwert λ: laminar (Re < 2300) = 64/Re, turbulent: Swamee-Jain-Approx. mit k = 0.045 mm (Stahl).'
+			formulaNote:
+				'Druckverlust-Formel: Δp = (λ × L/d + Σζ) × ρ × v² / 2. Reibungsbeiwert λ: laminar (Re < 2300) = 64/Re, turbulent: Swamee-Jain-Approx. mit k = 0.045 mm (Stahl).'
 		},
 
 		psychrometrieUi: {
-			warnSaturated: 'Der berechnete Zustand liegt über der Sättigungslinie (φ > 100 %). Bei dieser Temperatur kann die Luft nicht so viel Wasserdampf aufnehmen — Tauwasser fällt aus.',
-			formulaNote: 'Berechnung nach Magnus über Wasser. h = 1.006 × T + x × (2501 + 1.86 × T) [kJ/kg trockene Luft]. Bezugsdruck p₀ = 101 325 Pa (Meereshöhe).',
+			warnSaturated:
+				'Der berechnete Zustand liegt über der Sättigungslinie (φ > 100 %). Bei dieser Temperatur kann die Luft nicht so viel Wasserdampf aufnehmen — Tauwasser fällt aus.',
+			formulaNote:
+				'Berechnung nach Magnus über Wasser. h = 1.006 × T + x × (2501 + 1.86 × T) [kJ/kg trockene Luft]. Bezugsdruck p₀ = 101 325 Pa (Meereshöhe).',
 			stateDef: 'Zustandsdefinition',
 			inputVars: 'Eingabegrössen',
 			tRelHumidity: 'T + rel. Feuchte',
@@ -678,8 +708,10 @@ export const de = {
 			modeAuslegung: 'Auslegung',
 			modeRaumverhalten: 'Raumverhalten',
 			co2RiseTitle: 'CO₂-Verlauf (Anstieg bei Vollbelegung, Start = {co2} ppm)',
-			infoAuslegung: 'q = G / (c<sub>Ziel</sub> − c<sub>Aussen</sub>) · 10⁶ — massgebend für DDC-Auslegung bei Vollbelegung. Zeitkonstante τ = V / q gibt die Trägheit des Raumes an (relevant für PID-Parametrierung).',
-			infoRaumverhalten: 'c(t) = c<sub>SS</sub> − (c<sub>SS</sub> − c<sub>0</sub>) · e<sup>−t/τ</sup> — Anstieg bei konstanter Belegung und konstantem Volumenstrom. Für die PID-Parametrierung: Regelstrecke hat Zeitkonstante τ und kein integrierendes Verhalten (PT1-Strecke).',
+			infoAuslegung:
+				'q = G / (c<sub>Ziel</sub> − c<sub>Aussen</sub>) · 10⁶ — massgebend für DDC-Auslegung bei Vollbelegung. Zeitkonstante τ = V / q gibt die Trägheit des Raumes an (relevant für PID-Parametrierung).',
+			infoRaumverhalten:
+				'c(t) = c<sub>SS</sub> − (c<sub>SS</sub> − c<sub>0</sub>) · e<sup>−t/τ</sup> — Anstieg bei konstanter Belegung und konstantem Volumenstrom. Für die PID-Parametrierung: Regelstrecke hat Zeitkonstante τ und kein integrierendes Verhalten (PT1-Strecke).',
 			actRest: 'Ruhend / Schlafen',
 			actOffice: 'Büro / leichte Tätigkeit',
 			actPhysical: 'Körperliche Arbeit',
@@ -705,12 +737,14 @@ export const de = {
 			freeDeliveryLabel: 'Volumenstrom bei H=0 (Q₀)',
 			designFlowLabel: 'Auslegungs-Volumenstrom',
 			networkPressureDrop: 'Druckverlust Rohrnetz bei Auslegung',
-			noIntersection: 'Kein Schnittpunkt im gültigen Bereich — Pumpe unterdimensioniert oder Rohrnetz falsch eingestellt.',
+			noIntersection:
+				'Kein Schnittpunkt im gültigen Bereich — Pumpe unterdimensioniert oder Rohrnetz falsch eingestellt.',
 			pumpCurveLabel: 'Pumpenkennlinie',
 			networkLabel: 'Rohrnetz',
 			operatingPointLabel: 'Betriebspunkt',
 			customPreset: 'Benutzerdefiniert',
-			formulaNote: 'Pumpenkennlinie: H(Q) = H₀ × (1 − (Q/Q₀)²) — parabolische Näherung. Rohrnetz: H(Q) = R × Q² mit R = ΔpAuslegung / Q²Auslegung. Betriebspunkt = Schnittpunkt beider Kurven.',
+			formulaNote:
+				'Pumpenkennlinie: H(Q) = H₀ × (1 − (Q/Q₀)²) — parabolische Näherung. Rohrnetz: H(Q) = R × Q² mit R = ΔpAuslegung / Q²Auslegung. Betriebspunkt = Schnittpunkt beider Kurven.',
 			operatingPointTooltip: 'Betriebspunkt'
 		},
 
@@ -744,9 +778,11 @@ export const de = {
 			voltageAtDevice: 'Spannung am Gerät',
 			voltDropPct: 'Spannungsfall',
 			cableResistance: 'Leitungswiderstand (Hin+Rück)',
-			warnVoltageLow: 'Spannung am Gerät zu niedrig ({u} V < {umin} V) — Querschnitt erhöhen oder Länge reduzieren.',
+			warnVoltageLow:
+				'Spannung am Gerät zu niedrig ({u} V < {umin} V) — Querschnitt erhöhen oder Länge reduzieren.',
 			warnCurrentHigh: 'Strombelastbarkeit überschritten: {i} A > {imax} A (zulässig für {cs} mm²)',
-			infoCalc: 'ΔU = 2 × L × ρ × I_eff / A · ρCu = {rho} Ω·mm²/m · Gesamtlänge (Hin+Rück): {l} m · I_eff = {i} A ({placement})',
+			infoCalc:
+				'ΔU = 2 × L × ρ × I_eff / A · ρCu = {rho} Ω·mm²/m · Gesamtlänge (Hin+Rück): {l} m · I_eff = {i} A ({placement})',
 			maxCableLength: 'Max. Leitungslänge ({cs} mm²)',
 			allowedDrop: 'Erlaubter Spannungsfall',
 			compareAll: 'Vergleich alle Querschnitte',
@@ -764,7 +800,7 @@ export const de = {
 		},
 
 		elektroUi: {
-			ohmsLaw: 'Ohm\'sches Gesetz — U = R × I',
+			ohmsLaw: "Ohm'sches Gesetz — U = R × I",
 			find: 'Gesucht',
 			resistance: 'Widerstand R (Ω)',
 			voltage: 'Spannung U (V)',
@@ -783,7 +819,8 @@ export const de = {
 			currentFromPower: 'Strom aus Leistung + Absicherung',
 			circuit: 'Schaltung',
 			recommendedFuse: 'Empfohlene Absicherung',
-			fuseNote: 'Absicherung = nächst höherer Normwert (6–32 A) bei I × 1.25 (80%-Regel nach NIN/VDE)'
+			fuseNote:
+				'Absicherung = nächst höherer Normwert (6–32 A) bei I × 1.25 (80%-Regel nach NIN/VDE)'
 		},
 
 		dipSwitchUi: {
@@ -801,9 +838,12 @@ export const de = {
 			range: 'Bereich',
 			bitResolution: 'Bit-Auflösung',
 			warnOutOfRange: 'Adresse ausserhalb des gültigen Bereichs ({min}–{max})',
-			infoBacnetMstp: 'BACnet MS/TP verwendet MAC-Adressen von 0–127 (7 Bit). Jedes Gerät am Bus braucht eine eindeutige Adresse. Adressen 0–127 für Geräte, 128+ reserviert für Router/Broadcasts.',
-			infoModbusRtu: 'Modbus RTU verwendet Slave-IDs von 1–247 (0 = Broadcast, 248–255 reserviert). 8 DIP-Switches decken den gesamten Bereich ab. Adresse 0 ist für Broadcast-Befehle reserviert und darf keinem Gerät zugewiesen werden.',
-			infoKnx: 'KNX DIP-Switches kodieren typischerweise die Linienzahl oder Geräteadresse innerhalb einer Linie (0–255, 8 Bit). Die vollständige physikalische Adresse (Bereich.Linie.Gerät) wird via ETS vergeben.',
+			infoBacnetMstp:
+				'BACnet MS/TP verwendet MAC-Adressen von 0–127 (7 Bit). Jedes Gerät am Bus braucht eine eindeutige Adresse. Adressen 0–127 für Geräte, 128+ reserviert für Router/Broadcasts.',
+			infoModbusRtu:
+				'Modbus RTU verwendet Slave-IDs von 1–247 (0 = Broadcast, 248–255 reserviert). 8 DIP-Switches decken den gesamten Bereich ab. Adresse 0 ist für Broadcast-Befehle reserviert und darf keinem Gerät zugewiesen werden.',
+			infoKnx:
+				'KNX DIP-Switches kodieren typischerweise die Linienzahl oder Geräteadresse innerhalb einer Linie (0–255, 8 Bit). Die vollständige physikalische Adresse (Bereich.Linie.Gerät) wird via ETS vergeben.',
 			infoCustom: 'Benutzerdefinierte Konfiguration. Switch-Anzahl und Adressbereich frei wählbar.',
 			addressLabelKnx: 'Physikalische Adresse (Linie)',
 			addressLabelCustom: 'Adresse'
@@ -836,7 +876,8 @@ export const de = {
 			benchmarkNew: 'Neubau: 30–60 W/m²',
 			benchmarkOld: 'Altbau: 60–100 W/m²',
 			benchmarkUninsulated: 'Unsaniert: >100 W/m²',
-			calcNote: 'Vereinfachte Berechnung nach EN 12831 / SIA 384.201. Aussenflächenermittlung über geometrische Näherung (quadratischer Grundriss). Für Baugenehmigung und Normberechnung ist eine detaillierte Heizlastberechnung mit Wärmebrücken und genauen Bauteilflächen nötig.',
+			calcNote:
+				'Vereinfachte Berechnung nach EN 12831 / SIA 384.201. Aussenflächenermittlung über geometrische Näherung (quadratischer Grundriss). Für Baugenehmigung und Normberechnung ist eine detaillierte Heizlastberechnung mit Wärmebrücken und genauen Bauteilflächen nötig.',
 			roomWohnen: 'Wohnzimmer',
 			roomSchlafen: 'Schlafzimmer',
 			roomBad: 'Badezimmer',
@@ -853,7 +894,8 @@ export const de = {
 			pressureDiff: 'Druckdifferenz Δp',
 			kvValue: 'Kv-Wert',
 			recommendedKvs: 'Empfohlene Kvs (nächste Norm)',
-			warnLowAuthority: 'Geringe Ventilautorität (a ≈ {a}). Für saubere Regelung α ≥ 0.3 — Ventil evtl. zu gross.',
+			warnLowAuthority:
+				'Geringe Ventilautorität (a ≈ {a}). Für saubere Regelung α ≥ 0.3 — Ventil evtl. zu gross.',
 			formulaNote: 'Formel: Kv = V̇ × √(1 / Δp), Wasser bei 20 °C.',
 			stdKvsSeries: 'Standard-Kvs nach DIN EN 1267:'
 		}
@@ -867,16 +909,16 @@ export const de = {
 		copy: 'Kopieren',
 		allConverters: 'Alle Konverter',
 		resetAll: 'Alle zurücksetzen',
-		druck:      { name: 'Druck' },
+		druck: { name: 'Druck' },
 		durchfluss: { name: 'Durchfluss' },
-		energie:    { name: 'Energie' },
-		feuchte:    { name: 'Feuchte' },
-		leistung:   { name: 'Leistung' },
+		energie: { name: 'Energie' },
+		feuchte: { name: 'Feuchte' },
+		leistung: { name: 'Leistung' },
 		luftmengen: { name: 'Luftmengen' },
 		temperatur: { name: 'Temperatur' },
-		signal:     { name: 'Analogsignal' },
+		signal: { name: 'Analogsignal' },
 		beleuchtung: { name: 'Beleuchtung' },
-		winkel:     { name: 'Winkel / Ventilstellung' }
+		winkel: { name: 'Winkel / Ventilstellung' }
 	},
 
 	// ── Changelog ─────────────────────────────────────────────────────────────
@@ -892,7 +934,8 @@ export const de = {
 		admin: 'Admin',
 		recentlyUsed: 'Zuletzt verwendet',
 		clear: 'Leeren',
-		emptyRecent: 'Noch nichts geöffnet. Konverter und Rechner erscheinen hier nach dem ersten Aufruf.',
+		emptyRecent:
+			'Noch nichts geöffnet. Konverter und Rechner erscheinen hier nach dem ersten Aufruf.',
 		quickSettings: 'Schnelleinstellungen',
 		theme: 'Theme',
 		personalData: 'Persönliche Daten',
@@ -980,7 +1023,8 @@ export const de = {
 		nextFreeHint: 'nächste freie ≥ {addr}',
 		modbusSettings: 'Baud: {baud} · Parität: {parity} · Stoppbits: {stopBits}',
 		knxSettings: 'Topologie: {topology} · Medium: {medium}',
-		addrHintMstp: 'MAC 1–127 · Regler typisch 1–31, Sensoren/Aktoren 32–127 · MAC 0 reserviert für Router/Gateway',
+		addrHintMstp:
+			'MAC 1–127 · Regler typisch 1–31, Sensoren/Aktoren 32–127 · MAC 0 reserviert für Router/Gateway',
 		addrHintIp: 'Device Instance 0–4.194.302 (projektübergreifend eindeutig)',
 		addrHintModbus: 'Slave ID 1–247 · 0 = Broadcast (reserviert) · 248–255 reserviert',
 		addrHintKnx: 'Linie 1–255 (physikalische Adresse via ETS)',
@@ -1112,7 +1156,8 @@ export const de = {
 		statusError: 'Fehler',
 
 		// CSV headers
-		csvHeaderAll: 'Segment;Protokoll;MAC;Gerätename;Typ;Hersteller;Modell;Gruppe;Device Instance;Status;Notizen',
+		csvHeaderAll:
+			'Segment;Protokoll;MAC;Gerätename;Typ;Hersteller;Modell;Gruppe;Device Instance;Status;Notizen',
 		csvHeaderSeg: 'MAC;Gerätename;Typ;Hersteller;Modell;Gruppe;Device Instance;Status;Notizen',
 
 		// Device library — categories

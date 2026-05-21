@@ -23,9 +23,8 @@ function parseFrontmatter(raw: string): { data: Record<string, unknown>; content
 		const valueRaw = trimmed.slice(colon + 1).trim();
 		if (valueRaw.startsWith('[') && valueRaw.endsWith(']')) {
 			const inner = valueRaw.slice(1, -1).trim();
-			data[key] = inner === ''
-				? []
-				: inner.split(',').map((s) => s.trim().replace(/^['"]|['"]$/g, ''));
+			data[key] =
+				inner === '' ? [] : inner.split(',').map((s) => s.trim().replace(/^['"]|['"]$/g, ''));
 		} else if (
 			(valueRaw.startsWith('"') && valueRaw.endsWith('"')) ||
 			(valueRaw.startsWith("'") && valueRaw.endsWith("'"))

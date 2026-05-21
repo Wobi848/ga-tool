@@ -65,11 +65,11 @@ Klassisches Verfahren — bewährt aber konservativ:
 3. **Kritisches K_p (K_p_krit)** und **Schwingungsdauer T_krit** notieren
 4. Werte einsetzen:
 
-| Reglertyp | K_p          | T_n          | T_v          |
-|-----------|--------------|--------------|--------------|
-| P         | 0.5 × K_krit | —            | —            |
-| PI        | 0.45 × K_krit| 0.85 × T_krit| —            |
-| PID       | 0.6 × K_krit | 0.5 × T_krit | 0.125 × T_krit|
+| Reglertyp | K_p           | T_n           | T_v            |
+| --------- | ------------- | ------------- | -------------- |
+| P         | 0.5 × K_krit  | —             | —              |
+| PI        | 0.45 × K_krit | 0.85 × T_krit | —              |
+| PID       | 0.6 × K_krit  | 0.5 × T_krit  | 0.125 × T_krit |
 
 ## Praxis-Tipps
 
@@ -144,7 +144,7 @@ Classic method — proven but conservative:
 4. Apply the values:
 
 | Controller type | K_p           | T_n           | T_v            |
-|-----------------|---------------|---------------|----------------|
+| --------------- | ------------- | ------------- | -------------- |
 | P               | 0.5 × K_crit  | —             | —              |
 | PI              | 0.45 × K_crit | 0.85 × T_crit | —              |
 | PID             | 0.6 × K_crit  | 0.5 × T_crit  | 0.125 × T_crit |

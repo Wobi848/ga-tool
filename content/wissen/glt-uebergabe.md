@@ -4,7 +4,23 @@ title_en: BMS Handover to the Operator — Contents, Training and Acceptance
 slug: glt-uebergabe
 category: dokumentation
 subcategory: ibn
-tags: [glt-übergabe, betreiberschulung, übergabe, abnahme, einweisung, betriebsanleitung, betreiber, fm, facility-management, schlüssel, passwörter, gewährleistung, unterhaltsvertrag, wartungsvertrag]
+tags:
+  [
+    glt-übergabe,
+    betreiberschulung,
+    übergabe,
+    abnahme,
+    einweisung,
+    betriebsanleitung,
+    betreiber,
+    fm,
+    facility-management,
+    schlüssel,
+    passwörter,
+    gewährleistung,
+    unterhaltsvertrag,
+    wartungsvertrag
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [tab-protokoll, as-built, funktionsbeschreibung, alarmmanagement, remote-zugriff]
@@ -59,7 +75,7 @@ Inhalte:
   - Sollwerte ändern (Raumtemperatur, Betriebszeiten)
   - Zeitprogramme bearbeiten
   - Manuell steuern (Hand/Auto)
-  
+
 Praxis: Betreiber führt alle Aktionen selbst durch
 Dauer: 60–90 Minuten
 ```
@@ -73,7 +89,7 @@ Inhalte:
   - Welche Alarme sind kritisch, welche können warten?
   - Wann Servicetechniker rufen?
   - Notfallprotokoll (Frostschutz ausgelöst → Was tun?)
-  
+
 Dauer: 30–45 Minuten
 ```
 
@@ -84,7 +100,7 @@ Inhalte:
   - Trendgraphen lesen (Regelgüte beurteilen)
   - Energieberichte abrufen
   - Monatliche Verbrauchsübersicht
-  
+
 Dauer: 20–30 Minuten
 ```
 
@@ -102,13 +118,13 @@ Schulungsprotokoll:
   Teilnehmer:
     - Maria Muster, Hauswart (Unterschrift)
     - Hans Meier, FM (Unterschrift)
-  
+
   Themen:
     ✓ Anlagenbedienung GLT
     ✓ Alarme und Quittierung
     ✓ Zeitprogramme anpassen
     ✓ Notfallprozeduren
-  
+
   Bemerkungen: Betreiber wünscht zusätzliche Schulung Energieauswertung
                 → Termin wird vereinbart
 ```
@@ -140,19 +156,19 @@ Empfehlung an Betreiber für Unterhalt:
 
 ```
 Empfohlene Wartungsintervalle GA:
-  
+
 Halbjährlich:
   - Sichtprüfung aller Feldgeräte
   - Alarm-Log auswerten (wiederkehrende Probleme)
   - Software-Updates (DDC / GLT)
-  
+
 Jährlich:
   - Vollständige Funktionsprüfung (alle Datenpunkte)
   - Kalibrierung wichtiger Sensoren (Raumfühler, Zähler)
   - DDC-Backup erneuern
   - Passwörter ändern
   - Jahresmeldung an Betreiber (Energieverbrauch, Trends)
-  
+
 Alle 2–5 Jahre:
   - Vollständige System-Revision
   - Hardware-Alterungsprüfung (Batterien in DDC, Netzteile)
@@ -165,7 +181,7 @@ Alle 2–5 Jahre:
 
 ```
 1. Offene Mängel besprechen (15 min)
-2. Dokumentation übergeben (10 min)  
+2. Dokumentation übergeben (10 min)
 3. Zugangsdaten übergeben (5 min)
 4. Schulung durchführen (120 min)
 5. TAB-Protokoll unterschreiben (5 min)
@@ -232,7 +248,7 @@ Contents:
   - Changing setpoints (room temperature, operating hours)
   - Editing time programmes
   - Manual control (manual/auto)
-  
+
 Practice: operator performs all actions themselves
 Duration: 60–90 minutes
 ```
@@ -246,7 +262,7 @@ Contents:
   - Which alarms are critical, which can wait?
   - When to call a service technician?
   - Emergency procedure (frost protection triggered → what to do?)
-  
+
 Duration: 30–45 minutes
 ```
 
@@ -257,7 +273,7 @@ Contents:
   - Reading trend graphs (assessing control quality)
   - Accessing energy reports
   - Monthly consumption overview
-  
+
 Duration: 20–30 minutes
 ```
 
@@ -275,13 +291,13 @@ Training record:
   Participants:
     - Maria Sample, Caretaker (signature)
     - Hans Meier, FM (signature)
-  
+
   Topics:
     ✓ BMS system operation
     ✓ Alarms and acknowledgement
     ✓ Adjusting time programmes
     ✓ Emergency procedures
-  
+
   Notes: operator requests additional energy analysis training
          → appointment to be arranged
 ```
@@ -313,19 +329,19 @@ Recommendation to operator for ongoing maintenance:
 
 ```
 Recommended BA maintenance intervals:
-  
+
 Semi-annual:
   - Visual inspection of all field devices
   - Evaluate alarm log (recurring issues)
   - Software updates (DDC / BMS)
-  
+
 Annual:
   - Complete functional check (all data points)
   - Calibration of key sensors (room sensors, meters)
   - Renew DDC backup
   - Change passwords
   - Annual report to operator (energy consumption, trends)
-  
+
 Every 2–5 years:
   - Full system revision
   - Hardware ageing check (DDC batteries, power supplies)

@@ -4,7 +4,21 @@ title_en: Two-Position Control vs. Continuous Control
 slug: zweipunktregelung
 category: regelung
 subcategory: regler
-tags: [zweipunktregelung, stetige-regelung, thermostat, hysterese, schaltdifferenz, pendeln, schalthäufigkeit, ein-aus, bang-bang, pid, proportional, dreipunktregelung]
+tags:
+  [
+    zweipunktregelung,
+    stetige-regelung,
+    thermostat,
+    hysterese,
+    schaltdifferenz,
+    pendeln,
+    schalthäufigkeit,
+    ein-aus,
+    bang-bang,
+    pid,
+    proportional,
+    dreipunktregelung
+  ]
 difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, steuern-regeln, alarmmanagement, glt-grundlagen]
@@ -35,22 +49,22 @@ Temperatur steigt auf 22.5 °C → Heizung AUS
 
 Die Hysterese ist entscheidend für die Regelqualität:
 
-| Hysterese | Effekt                                    |
-|-----------|-------------------------------------------|
-| Zu klein  | Sehr häufiges Schalten → Verschleiss      |
+| Hysterese | Effekt                                             |
+| --------- | -------------------------------------------------- |
+| Zu klein  | Sehr häufiges Schalten → Verschleiss               |
 | Zu gross  | Grosse Temperaturschwankungen → schlechter Komfort |
-| Optimal   | Seltenes Schalten, akzeptable Schwankung  |
+| Optimal   | Seltenes Schalten, akzeptable Schwankung           |
 
 **Faustformel:** Hysterese = 2–5 % des Messbereichs oder 1–3 K für Raumtemperatur.
 
 ### Vor- und Nachteile
 
-| Vorteil                              | Nachteil                               |
-|--------------------------------------|----------------------------------------|
-| Einfach (nur 1 Bit)                  | Schwingt permanent                     |
-| Günstig (einfaches Relais)           | Keine Präzision                        |
-| Robust                               | Häufige Schaltvorgänge (Relais-Verschleiss) |
-| Kein Regler-Tuning nötig             | Energieverschwendung (Überschwingen)   |
+| Vorteil                    | Nachteil                                    |
+| -------------------------- | ------------------------------------------- |
+| Einfach (nur 1 Bit)        | Schwingt permanent                          |
+| Günstig (einfaches Relais) | Keine Präzision                             |
+| Robust                     | Häufige Schaltvorgänge (Relais-Verschleiss) |
+| Kein Regler-Tuning nötig   | Energieverschwendung (Überschwingen)        |
 
 ### Typische Anwendungen
 
@@ -117,15 +131,15 @@ Im Bereich: kein Signal → Ventil bleibt stehen (integrierendes Verhalten)
 
 ## Vergleich auf einen Blick
 
-| Merkmal               | Zweipunkt     | Dreipunkt     | Stetig (PI)   |
-|-----------------------|---------------|---------------|---------------|
-| Ausgangssignal        | 0/1 (Relais)  | Auf/Zu/Stop   | 0–10 V / 4–20 mA |
-| Regelgüte             | Schlecht      | Mittel        | Gut           |
-| Kosten                | Sehr gering   | Gering        | Mittel        |
-| Ventil-/Antriebstyp  | Schützschaltung | 3-Punkt-Motor | Stetigantrieb |
-| Verschleiss           | Relais (hoch) | Motor (mittel)| Antrieb (gering) |
-| Tuning                | Nur Hysterese | Stellzeit     | Kp, Ti, Td    |
-| Typischer Einsatz     | Thermostat    | Einfache HK   | Klima, Lüftung, Kühlung |
+| Merkmal             | Zweipunkt       | Dreipunkt      | Stetig (PI)             |
+| ------------------- | --------------- | -------------- | ----------------------- |
+| Ausgangssignal      | 0/1 (Relais)    | Auf/Zu/Stop    | 0–10 V / 4–20 mA        |
+| Regelgüte           | Schlecht        | Mittel         | Gut                     |
+| Kosten              | Sehr gering     | Gering         | Mittel                  |
+| Ventil-/Antriebstyp | Schützschaltung | 3-Punkt-Motor  | Stetigantrieb           |
+| Verschleiss         | Relais (hoch)   | Motor (mittel) | Antrieb (gering)        |
+| Tuning              | Nur Hysterese   | Stellzeit      | Kp, Ti, Td              |
+| Typischer Einsatz   | Thermostat      | Einfache HK    | Klima, Lüftung, Kühlung |
 
 ---
 
@@ -171,22 +185,22 @@ Temperature rises to 22.5 °C → heating OFF
 
 The hysteresis is decisive for control quality:
 
-| Hysteresis | Effect |
-|-----------|--------|
-| Too small | Very frequent switching → wear |
-| Too large | Large temperature swings → poor comfort |
-| Optimal | Infrequent switching, acceptable variation |
+| Hysteresis | Effect                                     |
+| ---------- | ------------------------------------------ |
+| Too small  | Very frequent switching → wear             |
+| Too large  | Large temperature swings → poor comfort    |
+| Optimal    | Infrequent switching, acceptable variation |
 
 **Rule of thumb:** Hysteresis = 2–5% of measuring range or 1–3 K for room temperature.
 
 ### Advantages and Disadvantages
 
-| Advantage | Disadvantage |
-|-----------|-------------|
-| Simple (only 1 bit) | Permanent oscillation |
-| Low cost (simple relay) | No precision |
-| Robust | Frequent switching (relay wear) |
-| No controller tuning required | Energy waste (overshoot) |
+| Advantage                     | Disadvantage                    |
+| ----------------------------- | ------------------------------- |
+| Simple (only 1 bit)           | Permanent oscillation           |
+| Low cost (simple relay)       | No precision                    |
+| Robust                        | Frequent switching (relay wear) |
+| No controller tuning required | Energy waste (overshoot)        |
 
 ### Typical Applications
 
@@ -253,15 +267,15 @@ Within band: no signal → valve stays (integrating behaviour)
 
 ## Comparison at a Glance
 
-| Feature | Two-position | Three-position | Continuous (PI) |
-|---------|------------|---------------|----------------|
-| Output signal | 0/1 (relay) | Open/close/stop | 0–10 V / 4–20 mA |
-| Control quality | Poor | Medium | Good |
-| Cost | Very low | Low | Medium |
-| Valve/actuator type | Contactor switching | 3-point motor | Modulating actuator |
-| Wear | Relay (high) | Motor (medium) | Actuator (low) |
-| Tuning | Hysteresis only | Stroke time | Kp, Ti, Td |
-| Typical use | Thermostat | Simple heating circuit | HVAC, ventilation, cooling |
+| Feature             | Two-position        | Three-position         | Continuous (PI)            |
+| ------------------- | ------------------- | ---------------------- | -------------------------- |
+| Output signal       | 0/1 (relay)         | Open/close/stop        | 0–10 V / 4–20 mA           |
+| Control quality     | Poor                | Medium                 | Good                       |
+| Cost                | Very low            | Low                    | Medium                     |
+| Valve/actuator type | Contactor switching | 3-point motor          | Modulating actuator        |
+| Wear                | Relay (high)        | Motor (medium)         | Actuator (low)             |
+| Tuning              | Hysteresis only     | Stroke time            | Kp, Ti, Td                 |
+| Typical use         | Thermostat          | Simple heating circuit | HVAC, ventilation, cooling |
 
 ---
 

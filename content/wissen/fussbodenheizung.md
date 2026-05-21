@@ -4,7 +4,22 @@ title_en: Underfloor Heating — Construction, Control and Thermal Lag
 slug: fussbodenheizung
 category: heizung
 subcategory: heizsysteme
-tags: [fussbodenheizung, fbh, flächenheizung, trägheit, vorlauftemperatur, niedrigtemperatur, regelkreis, verteiler, estrich, hydraulischer-abgleich, wärmepumpe, raumfühler, auskühlzeit]
+tags:
+  [
+    fussbodenheizung,
+    fbh,
+    flächenheizung,
+    trägheit,
+    vorlauftemperatur,
+    niedrigtemperatur,
+    regelkreis,
+    verteiler,
+    estrich,
+    hydraulischer-abgleich,
+    wärmepumpe,
+    raumfühler,
+    auskühlzeit
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulische-schaltungen, hydraulischer-abgleich, waermepumpe, pid-regler, pufferspeicher]
@@ -33,11 +48,11 @@ Tragkonstruktion
 
 ### Systemvarianten
 
-| Variante          | Aufbauhöhe | Trägheit | Einsatz                   |
-|-------------------|------------|----------|---------------------------|
-| Nassestrich        | 65–100 mm  | Hoch     | Neubau Standard           |
-| Trockenestrich     | 30–50 mm   | Mittel   | Renovation, leichte Konstruktion |
-| Dünnschicht        | < 30 mm    | Niedrig  | Renovation mit wenig Aufbauhöhe |
+| Variante       | Aufbauhöhe | Trägheit | Einsatz                          |
+| -------------- | ---------- | -------- | -------------------------------- |
+| Nassestrich    | 65–100 mm  | Hoch     | Neubau Standard                  |
+| Trockenestrich | 30–50 mm   | Mittel   | Renovation, leichte Konstruktion |
+| Dünnschicht    | < 30 mm    | Niedrig  | Renovation mit wenig Aufbauhöhe  |
 
 ---
 
@@ -45,11 +60,11 @@ Tragkonstruktion
 
 Die FBH benötigt deutlich **niedrigere Vorlauftemperaturen** als Heizkörper:
 
-| System               | Vorlauftemperatur | Spreizung |
-|----------------------|-------------------|-----------|
-| Radiatoren (alt)     | 70–90 °C          | 20 K      |
-| Radiatoren (modern)  | 55–70 °C          | 15 K      |
-| Fussbodenheizung     | **30–45 °C**      | 5–10 K    |
+| System              | Vorlauftemperatur | Spreizung |
+| ------------------- | ----------------- | --------- |
+| Radiatoren (alt)    | 70–90 °C          | 20 K      |
+| Radiatoren (modern) | 55–70 °C          | 15 K      |
+| Fussbodenheizung    | **30–45 °C**      | 5–10 K    |
 
 **Warum niedrig?** Fussbodentemperatur darf 29 °C (Wohnbereich) bzw. 33 °C (Randzonen) nicht überschreiten (Komfort + Hygiene).
 
@@ -127,6 +142,7 @@ Vorlauf → [Verteiler] ─┬─ Kreis 1 (Wohnzimmer)
 ```
 
 Jeder Kreis hat:
+
 - Einstellventil (hydraulischer Abgleich)
 - Thermostatischer oder motorischer Stellantrieb (EIN/AUS oder stetig)
 - Rücklauftemperatur-Anzeige (optional)
@@ -162,13 +178,13 @@ Dokumentation: Temperaturen täglich aufzeichnen
 
 ## Typische Fehler
 
-| Fehler                          | Symptom                         | Lösung                          |
-|---------------------------------|---------------------------------|---------------------------------|
-| Vorlauf zu hoch (> 50 °C)       | Boden zu warm, Schäden         | Heizkurve anpassen              |
-| Kein Aufheizprotokoll           | Estrichrisse                    | Protokoll nachholen (wenn möglich)|
-| Kein hydr. Abgleich             | Ungleichmässige Erwärmung       | Voreinstellventile einstellen   |
-| Regler zu aggressiv             | Raumtemperatur schwingt (±3 K)  | Nachstellzeit vergrössern        |
-| Nachtabsenkung zu tief          | Aufheizung morgens nicht fertig | Absenkniveau erhöhen oder weg   |
+| Fehler                    | Symptom                         | Lösung                             |
+| ------------------------- | ------------------------------- | ---------------------------------- |
+| Vorlauf zu hoch (> 50 °C) | Boden zu warm, Schäden          | Heizkurve anpassen                 |
+| Kein Aufheizprotokoll     | Estrichrisse                    | Protokoll nachholen (wenn möglich) |
+| Kein hydr. Abgleich       | Ungleichmässige Erwärmung       | Voreinstellventile einstellen      |
+| Regler zu aggressiv       | Raumtemperatur schwingt (±3 K)  | Nachstellzeit vergrössern          |
+| Nachtabsenkung zu tief    | Aufheizung morgens nicht fertig | Absenkniveau erhöhen oder weg      |
 
 ## Normen
 
@@ -198,11 +214,11 @@ Structural floor
 
 ### System Variants
 
-| Variant | Build-up height | Lag | Application |
-|---------|----------------|-----|-------------|
-| Wet screed | 65–100 mm | High | Standard new build |
-| Dry screed | 30–50 mm | Medium | Renovation, lightweight construction |
-| Thin-bed | < 30 mm | Low | Renovation with minimal build-up height |
+| Variant    | Build-up height | Lag    | Application                             |
+| ---------- | --------------- | ------ | --------------------------------------- |
+| Wet screed | 65–100 mm       | High   | Standard new build                      |
+| Dry screed | 30–50 mm        | Medium | Renovation, lightweight construction    |
+| Thin-bed   | < 30 mm         | Low    | Renovation with minimal build-up height |
 
 ---
 
@@ -210,11 +226,11 @@ Structural floor
 
 UFH requires significantly **lower flow temperatures** than radiators:
 
-| System | Flow temperature | Spread |
-|--------|-----------------|--------|
-| Radiators (old) | 70–90 °C | 20 K |
-| Radiators (modern) | 55–70 °C | 15 K |
-| Underfloor heating | **30–45 °C** | 5–10 K |
+| System             | Flow temperature | Spread |
+| ------------------ | ---------------- | ------ |
+| Radiators (old)    | 70–90 °C         | 20 K   |
+| Radiators (modern) | 55–70 °C         | 15 K   |
+| Underfloor heating | **30–45 °C**     | 5–10 K |
 
 **Why low?** Floor surface temperature must not exceed 29 °C (occupied zones) or 33 °C (perimeter zones) — comfort and hygiene.
 
@@ -292,6 +308,7 @@ Flow → [Manifold] ─┬─ Circuit 1 (living room)
 ```
 
 Each circuit has:
+
 - Pre-setting valve (hydraulic balancing)
 - Thermostatic or motorised actuator (on/off or modulating)
 - Return temperature indicator (optional)
@@ -327,13 +344,13 @@ Documentation: record temperatures daily
 
 ## Typical Faults
 
-| Fault | Symptom | Solution |
-|-------|---------|---------|
-| Flow too high (> 50 °C) | Floor too warm, damage | Adjust heating curve |
-| No heat-up protocol | Screed cracks | Carry out protocol (if possible) |
-| No hydraulic balancing | Uneven warming | Set pre-setting valves |
-| Controller too aggressive | Room temp oscillates (±3 K) | Increase integral time |
-| Night setback too deep | Pre-heat not complete by morning | Raise setback level or disable |
+| Fault                     | Symptom                          | Solution                         |
+| ------------------------- | -------------------------------- | -------------------------------- |
+| Flow too high (> 50 °C)   | Floor too warm, damage           | Adjust heating curve             |
+| No heat-up protocol       | Screed cracks                    | Carry out protocol (if possible) |
+| No hydraulic balancing    | Uneven warming                   | Set pre-setting valves           |
+| Controller too aggressive | Room temp oscillates (±3 K)      | Increase integral time           |
+| Night setback too deep    | Pre-heat not complete by morning | Raise setback level or disable   |
 
 ## Standards
 

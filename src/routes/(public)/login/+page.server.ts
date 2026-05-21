@@ -13,7 +13,10 @@ export const actions: Actions = {
 	login: async (event) => {
 		const ip = event.getClientAddress();
 		if (!rateLimit(`login:${ip}`, 5, 5 * 60 * 1000)) {
-			return fail(429, { message: 'Zu viele Anmeldeversuche. Bitte 5 Minuten warten.', mode: 'login' });
+			return fail(429, {
+				message: 'Zu viele Anmeldeversuche. Bitte 5 Minuten warten.',
+				mode: 'login'
+			});
 		}
 
 		const data = await event.request.formData();
@@ -36,7 +39,10 @@ export const actions: Actions = {
 	register: async (event) => {
 		const ip = event.getClientAddress();
 		if (!rateLimit(`register:${ip}`, 5, 60 * 60 * 1000)) {
-			return fail(429, { message: 'Zu viele Registrierungsversuche. Bitte später erneut versuchen.', mode: 'register' });
+			return fail(429, {
+				message: 'Zu viele Registrierungsversuche. Bitte später erneut versuchen.',
+				mode: 'register'
+			});
 		}
 
 		const data = await event.request.formData();
@@ -69,7 +75,11 @@ export const actions: Actions = {
 		const email = data.get('email')?.toString() ?? '';
 
 		if (!rateLimit(`resend:${email}`, 1, 10 * 60 * 1000)) {
-			return fail(429, { message: 'E-Mail wurde bereits gesendet. Bitte 10 Minuten warten.', verifyPending: true, email });
+			return fail(429, {
+				message: 'E-Mail wurde bereits gesendet. Bitte 10 Minuten warten.',
+				verifyPending: true,
+				email
+			});
 		}
 
 		if (!email) return fail(400, { message: 'E-Mail fehlt', verifyPending: true, email: '' });

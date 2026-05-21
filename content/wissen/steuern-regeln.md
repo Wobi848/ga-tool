@@ -4,7 +4,22 @@ title_en: Control vs. Regulation — the fundamental difference
 slug: steuern-regeln
 category: regelung
 subcategory: grundlagen
-tags: [steuern, regeln, regelkreis, open-loop, closed-loop, rückführung, führungsgrösse, stellgrösse, regelgrösse, störgrösse, istwert, sollwert, pid]
+tags:
+  [
+    steuern,
+    regeln,
+    regelkreis,
+    open-loop,
+    closed-loop,
+    rückführung,
+    führungsgrösse,
+    stellgrösse,
+    regelgrösse,
+    störgrösse,
+    istwert,
+    sollwert,
+    pid
+  ]
 difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, zweipunktregelung, kaskadenregelung, glt-grundlagen]
@@ -26,17 +41,19 @@ In der Praxis werden „steuern" und „regeln" oft verwechselt. Der Unterschied
 Befehl: "Ventil 50 % öffnen"
     ↓
 Ventilantrieb öffnet auf 50 %
-    
+
 (Kein Sensor prüft ob die gewünschte Temperatur erreicht wurde)
 ```
 
 **Merkmale:**
+
 - Keine Messung der Auswirkung
 - Kein Ausgleich von Störungen
 - Einfach, schnell, günstig
 - Ungenau bei veränderlichen Bedingungen
 
 **Beispiele Steuern:**
+
 - Zeitschaltuhr: Pumpe läuft von 7–18 Uhr (egal ob Heizwärme benötigt wird)
 - Licht: Taster drücken → Licht an (keine Helligkeitsmessung)
 - Jalousie: Auf-Taste drücken → fährt hoch (keine Positionsrückmeldung)
@@ -64,12 +81,14 @@ Neuer Istwert → zurück zum Vergleich
 ```
 
 **Merkmale:**
+
 - Rückführung (Istwert-Messung)
 - Ausgleich von Störungen (z.B. Fenster offen → Regler merkt Abkühlung → regelt nach)
 - Präzise, selbstkorrigierend
 - Aufwendiger (Sensor, Regler, Parametrierung)
 
 **Beispiele Regeln:**
+
 - Raumtemperatur-Regelung (Thermostat mit Rückmeldung)
 - Druckregelung (Differenzdrucksensor → FU regelt Drehzahl)
 - CO₂-geführte Lüftung (CO₂-Sensor → Volumenstrom)
@@ -95,27 +114,27 @@ W (Führungsgrösse/Sollwert)
 Rückführung → zurück zum Summierpunkt
 ```
 
-| Element          | Symbol | Beispiel                            |
-|------------------|--------|-------------------------------------|
-| Führungsgrösse   | W      | Soll-Raumtemperatur 22 °C           |
-| Regelabweichung  | e      | 22 − 20 = 2 K                       |
-| Stellgrösse      | Y      | Ventilöffnung 0–100 %               |
-| Regelgrösse/Istwert | X  | Gemessene Raumtemperatur 20 °C      |
-| Störgrösse       | Z      | Aussentemperatur, Fenster offen     |
-| Strecke          | S      | Raum mit Heizkörper                 |
+| Element             | Symbol | Beispiel                        |
+| ------------------- | ------ | ------------------------------- |
+| Führungsgrösse      | W      | Soll-Raumtemperatur 22 °C       |
+| Regelabweichung     | e      | 22 − 20 = 2 K                   |
+| Stellgrösse         | Y      | Ventilöffnung 0–100 %           |
+| Regelgrösse/Istwert | X      | Gemessene Raumtemperatur 20 °C  |
+| Störgrösse          | Z      | Aussentemperatur, Fenster offen |
+| Strecke             | S      | Raum mit Heizkörper             |
 
 ---
 
 ## Wann steuern, wann regeln?
 
-| Situation                              | Steuern | Regeln |
-|----------------------------------------|---------|--------|
-| Eingang und Ausgang direkt proportional (keine Störungen) | ✅ | — |
-| Störungen müssen kompensiert werden    | —       | ✅     |
-| Genauigkeit wichtig                    | —       | ✅     |
-| Einfache EIN/AUS-Schaltung ohne Feedback | ✅   | —      |
-| Temperatur, Druck, Durchfluss halten   | —       | ✅     |
-| Zeitprogramm (wann, nicht wie viel)    | ✅       | —      |
+| Situation                                                 | Steuern | Regeln |
+| --------------------------------------------------------- | ------- | ------ |
+| Eingang und Ausgang direkt proportional (keine Störungen) | ✅      | —      |
+| Störungen müssen kompensiert werden                       | —       | ✅     |
+| Genauigkeit wichtig                                       | —       | ✅     |
+| Einfache EIN/AUS-Schaltung ohne Feedback                  | ✅      | —      |
+| Temperatur, Druck, Durchfluss halten                      | —       | ✅     |
+| Zeitprogramm (wann, nicht wie viel)                       | ✅      | —      |
 
 **In der Praxis** wird beides kombiniert: Das Zeitprogramm **steuert** den Betriebsmodus (Komfort/Nacht), innerhalb des Modus **regelt** der PID-Regler die Temperatur.
 
@@ -143,12 +162,14 @@ Valve actuator opens to 50%
 ```
 
 **Characteristics:**
+
 - No measurement of the effect
 - No compensation for disturbances
 - Simple, fast, inexpensive
 - Inaccurate under varying conditions
 
 **Control examples:**
+
 - Time switch: pump runs 7 am–6 pm (regardless of heating demand)
 - Light: press button → light on (no brightness measurement)
 - Blind: press UP → moves up (no position feedback)
@@ -176,12 +197,14 @@ New actual value → back to comparison
 ```
 
 **Characteristics:**
+
 - Feedback (actual value measurement)
 - Compensation for disturbances (e.g. window open → controller detects cooling → corrects)
 - Precise, self-correcting
 - More complex (sensor, controller, commissioning)
 
 **Regulation examples:**
+
 - Room temperature control (thermostat with feedback)
 - Pressure control (differential pressure sensor → VFD controls speed)
 - CO₂-guided ventilation (CO₂ sensor → air volume)
@@ -207,27 +230,27 @@ W (Setpoint / Reference)
 Feedback → back to summing point
 ```
 
-| Element | Symbol | Example |
-|---------|--------|---------|
-| Setpoint | W | Target room temperature 22 °C |
-| Control deviation | e | 22 − 20 = 2 K |
-| Control output | Y | Valve position 0–100% |
-| Actual value | X | Measured room temperature 20 °C |
-| Disturbance | Z | Outdoor temperature, window open |
-| Process | S | Room with radiator |
+| Element           | Symbol | Example                          |
+| ----------------- | ------ | -------------------------------- |
+| Setpoint          | W      | Target room temperature 22 °C    |
+| Control deviation | e      | 22 − 20 = 2 K                    |
+| Control output    | Y      | Valve position 0–100%            |
+| Actual value      | X      | Measured room temperature 20 °C  |
+| Disturbance       | Z      | Outdoor temperature, window open |
+| Process           | S      | Room with radiator               |
 
 ---
 
 ## When to Control, When to Regulate?
 
-| Situation | Control | Regulate |
-|-----------|---------|----------|
-| Input and output directly proportional (no disturbances) | ✅ | — |
-| Disturbances must be compensated | — | ✅ |
-| Accuracy is important | — | ✅ |
-| Simple ON/OFF switching without feedback | ✅ | — |
-| Maintaining temperature, pressure, flow | — | ✅ |
-| Time schedule (when, not how much) | ✅ | — |
+| Situation                                                | Control | Regulate |
+| -------------------------------------------------------- | ------- | -------- |
+| Input and output directly proportional (no disturbances) | ✅      | —        |
+| Disturbances must be compensated                         | —       | ✅       |
+| Accuracy is important                                    | —       | ✅       |
+| Simple ON/OFF switching without feedback                 | ✅      | —        |
+| Maintaining temperature, pressure, flow                  | —       | ✅       |
+| Time schedule (when, not how much)                       | ✅      | —        |
 
 **In practice** both are combined: the time schedule **controls** the operating mode (comfort/night), while within that mode the PID controller **regulates** the temperature.
 

@@ -4,7 +4,24 @@ title_en: Hand-0-Auto — Operating Modes in BA
 slug: hand-0-auto
 category: regelung
 subcategory: betrieb
-tags: [hand-0-auto, hoa, betriebsarten, handsteuerung, automatikbetrieb, notbetrieb, failsafe, verriegelung, freigabe, schützsteuerung, ddc-betriebsarten, gleitsteuerung, wartungsschalter, übersteuerung, bypass]
+tags:
+  [
+    hand-0-auto,
+    hoa,
+    betriebsarten,
+    handsteuerung,
+    automatikbetrieb,
+    notbetrieb,
+    failsafe,
+    verriegelung,
+    freigabe,
+    schützsteuerung,
+    ddc-betriebsarten,
+    gleitsteuerung,
+    wartungsschalter,
+    übersteuerung,
+    bypass
+  ]
 difficulty: grundlagen
 area: [ga, elektro]
 related: [ddc-programmierung, glt-grundlagen, vdi3814, alarmmanagement, regelkreise]
@@ -22,11 +39,11 @@ Jede steuerbare Anlage in der GA muss mindestens drei Betriebsarten unterstütze
 
 ## Die drei Betriebsarten
 
-| Zustand | Kurzzeichen | Beschreibung |
-|---------|------------|-------------|
-| **Hand** | H | Manueller Eingriff — Anlage läuft unabhängig von DDC/GLT |
-| **0** | 0 | Zwangsabschaltung — Anlage aus, unabhängig von DDC/GLT |
-| **Auto** | A | DDC/GLT steuert automatisch nach Programm und Regelung |
+| Zustand  | Kurzzeichen | Beschreibung                                             |
+| -------- | ----------- | -------------------------------------------------------- |
+| **Hand** | H           | Manueller Eingriff — Anlage läuft unabhängig von DDC/GLT |
+| **0**    | 0           | Zwangsabschaltung — Anlage aus, unabhängig von DDC/GLT   |
+| **Auto** | A           | DDC/GLT steuert automatisch nach Programm und Regelung   |
 
 ---
 
@@ -46,6 +63,7 @@ DDC-Ausgang (Schütz K1) ────────────────► Mot
 ```
 
 **Im Schaltschrank werden H-0-A-Schalter für jeden Verbraucher eingebaut:**
+
 - Pumpen (Heizung, Kühlung)
 - Ventilatoren (Zu-/Abluft)
 - Klappen (Motor-Stellantriebe)
@@ -57,13 +75,13 @@ DDC-Ausgang (Schütz K1) ────────────────► Mot
 
 Neben dem Hardware-Schalter definiert die DDC-Programmierung Software-Betriebsarten:
 
-| DDC-Betriebsart | Funktion |
-|----------------|---------|
-| **Automatik** | Normalbetrieb nach Programm/Regelung |
-| **Hand** (Software) | Operator setzt fixen Sollwert/Stellgrösse via GLT |
-| **Aus** (Software) | Zwangsabschaltung via GLT, Alarm-Quittierung nötig |
-| **Wartung** | Deaktiviert Alarme, erlaubt manuelle Tests |
-| **Notbetrieb** | Vordefinierter Sicherheitszustand bei Kommunikationsausfall |
+| DDC-Betriebsart     | Funktion                                                    |
+| ------------------- | ----------------------------------------------------------- |
+| **Automatik**       | Normalbetrieb nach Programm/Regelung                        |
+| **Hand** (Software) | Operator setzt fixen Sollwert/Stellgrösse via GLT           |
+| **Aus** (Software)  | Zwangsabschaltung via GLT, Alarm-Quittierung nötig          |
+| **Wartung**         | Deaktiviert Alarme, erlaubt manuelle Tests                  |
+| **Notbetrieb**      | Vordefinierter Sicherheitszustand bei Kommunikationsausfall |
 
 ### Prioritätshierarchie (wichtig!)
 
@@ -84,14 +102,14 @@ Priorität (hoch → niedrig):
 
 ### Typische Failsafe-Strategien
 
-| Anlage | Failsafe-Verhalten | Begründung |
-|-------|-------------------|-----------|
-| Heizungsventil | Auf (federkraftgesteuert) | Frostschutz im Winter |
-| Kühlung Ventil | Zu | Keine Kühlung sicherer als Überkühlung |
-| Lüftungsanlage | Weiterbetrieb auf letzter Stellung | Kein Luftmangel |
-| Brandschutzklappen | Zu (federkraftgesteuert) | Sicherheit |
-| Pumpe | Läuft weiter (Schütz angezogen) | Frostschutz |
-| RWA-Klappen | Zu | Keine Fehlaktivierung |
+| Anlage             | Failsafe-Verhalten                 | Begründung                             |
+| ------------------ | ---------------------------------- | -------------------------------------- |
+| Heizungsventil     | Auf (federkraftgesteuert)          | Frostschutz im Winter                  |
+| Kühlung Ventil     | Zu                                 | Keine Kühlung sicherer als Überkühlung |
+| Lüftungsanlage     | Weiterbetrieb auf letzter Stellung | Kein Luftmangel                        |
+| Brandschutzklappen | Zu (federkraftgesteuert)           | Sicherheit                             |
+| Pumpe              | Läuft weiter (Schütz angezogen)    | Frostschutz                            |
+| RWA-Klappen        | Zu                                 | Keine Fehlaktivierung                  |
 
 **Faustregel:** Failsafe-Richtung immer auf den "sichereren" Zustand, nicht auf den "wirtschaftlicheren".
 
@@ -105,7 +123,7 @@ Die Gebäudeleittechnik erlaubt dem Operator, in den Automatikbetrieb einzugreif
 GLT-Bild: Pumpe P1
   [Auto] [Hand: EIN] [Hand: AUS]
   Aktuell: Auto (läuft: JA)
-  
+
   Operator klickt "Hand: EIN"
   → DDC setzt Pumpe zwangsweise EIN
   → Alarm "Handeingriff P1" wird generiert
@@ -113,6 +131,7 @@ GLT-Bild: Pumpe P1
 ```
 
 **Best Practice:**
+
 - Jede Übersteuerung wird alarmiert und protokolliert
 - Maximale Übersteuerungsdauer konfigurierbar (z.B. 4h, dann automatisch zurück auf Auto)
 - Rückkehr auf Auto: explizit durch Operator oder automatisch nach Ablauf
@@ -122,6 +141,7 @@ GLT-Bild: Pumpe P1
 ## Inbetriebnahme und H-0-A
 
 Bei der Inbetriebnahme ist H-0-A unverzichtbar:
+
 1. H-Stellung: Anlage mechanisch prüfen (dreht richtig, keine Vibration)
 2. A-Stellung: DDC-Verknüpfung prüfen (Rückmeldung kommt an, Regler reagiert)
 3. 0-Stellung: Sicherheitsabschaltung prüfen (Frostschutz löst aus?)
@@ -132,14 +152,15 @@ Bei der Inbetriebnahme ist H-0-A unverzichtbar:
 
 Zur H-0-A-Infrastruktur gehören immer:
 
-| Signal | Typ | Beschreibung |
-|--------|-----|-------------|
-| Betriebsrückmeldung | DI | Motorschutzschalter oder Hilfsschütz-Kontakt bestätigt "läuft" |
-| Störmeldung | DI | Motorschutz ausgelöst (Überlast, Kurzschluss) |
-| Hand-Rückmeldung | DI | H-0-A-Schalter in Hand-Stellung (optional) |
-| Betriebsstunden | Counter | DDC zählt Laufzeit → Wartungsintervall |
+| Signal              | Typ     | Beschreibung                                                   |
+| ------------------- | ------- | -------------------------------------------------------------- |
+| Betriebsrückmeldung | DI      | Motorschutzschalter oder Hilfsschütz-Kontakt bestätigt "läuft" |
+| Störmeldung         | DI      | Motorschutz ausgelöst (Überlast, Kurzschluss)                  |
+| Hand-Rückmeldung    | DI      | H-0-A-Schalter in Hand-Stellung (optional)                     |
+| Betriebsstunden     | Counter | DDC zählt Laufzeit → Wartungsintervall                         |
 
 **Plausibilitätsprüfung:** DDC prüft:
+
 - Sollbefehl = EIN, aber Betriebsrückmeldung = AUS → Störalarm nach Quittierungszeit (z.B. 5s)
 - H-0-A-Schalter in Hand → Alarm "Handeingriff" generieren
 
@@ -159,11 +180,11 @@ Every controllable plant in BA must support at least three operating modes: **Ha
 
 ## The Three Operating Modes
 
-| State | Symbol | Description |
-|-------|--------|------------|
-| **Hand** | H | Manual override — plant runs independently of DDC/BMS |
-| **0** | 0 | Forced shutdown — plant off, independent of DDC/BMS |
-| **Auto** | A | DDC/BMS controls automatically per schedule and regulation |
+| State    | Symbol | Description                                                |
+| -------- | ------ | ---------------------------------------------------------- |
+| **Hand** | H      | Manual override — plant runs independently of DDC/BMS      |
+| **0**    | 0      | Forced shutdown — plant off, independent of DDC/BMS        |
+| **Auto** | A      | DDC/BMS controls automatically per schedule and regulation |
 
 ---
 
@@ -183,6 +204,7 @@ DDC output (contactor K1) ──────────────► Motor
 ```
 
 **H-0-A switches are installed in the control panel for every consumer:**
+
 - Pumps (heating, cooling)
 - Fans (supply/extract air)
 - Dampers (motorised actuators)
@@ -194,13 +216,13 @@ DDC output (contactor K1) ──────────────► Motor
 
 In addition to the hardware switch, the DDC program defines software operating modes:
 
-| DDC mode | Function |
-|---------|---------|
-| **Automatic** | Normal operation per schedule/control |
-| **Hand** (software) | Operator sets fixed setpoint/output via BMS |
-| **Off** (software) | Forced shutdown via BMS, alarm acknowledgement required |
-| **Maintenance** | Disables alarms, allows manual testing |
-| **Emergency** | Predefined safe state on communication failure |
+| DDC mode            | Function                                                |
+| ------------------- | ------------------------------------------------------- |
+| **Automatic**       | Normal operation per schedule/control                   |
+| **Hand** (software) | Operator sets fixed setpoint/output via BMS             |
+| **Off** (software)  | Forced shutdown via BMS, alarm acknowledgement required |
+| **Maintenance**     | Disables alarms, allows manual testing                  |
+| **Emergency**       | Predefined safe state on communication failure          |
 
 ### Priority Hierarchy (important!)
 
@@ -221,14 +243,14 @@ Priority (high → low):
 
 ### Typical Failsafe Strategies
 
-| Plant | Failsafe behaviour | Reason |
-|-------|-------------------|--------|
-| Heating valve | Open (spring-return) | Frost protection in winter |
-| Cooling valve | Closed | No cooling safer than overcooling |
-| Ventilation system | Continue on last position | No lack of air |
-| Fire dampers | Closed (spring-return) | Safety |
-| Pump | Continues running (contactor energised) | Frost protection |
-| Smoke extract dampers | Closed | No spurious activation |
+| Plant                 | Failsafe behaviour                      | Reason                            |
+| --------------------- | --------------------------------------- | --------------------------------- |
+| Heating valve         | Open (spring-return)                    | Frost protection in winter        |
+| Cooling valve         | Closed                                  | No cooling safer than overcooling |
+| Ventilation system    | Continue on last position               | No lack of air                    |
+| Fire dampers          | Closed (spring-return)                  | Safety                            |
+| Pump                  | Continues running (contactor energised) | Frost protection                  |
+| Smoke extract dampers | Closed                                  | No spurious activation            |
 
 **Rule of thumb:** Failsafe direction always to the "safer" state, not the "more economical" one.
 
@@ -242,7 +264,7 @@ The building management system allows the operator to intervene in automatic mod
 BMS display: Pump P1
   [Auto] [Manual: ON] [Manual: OFF]
   Current: Auto (running: YES)
-  
+
   Operator clicks "Manual: ON"
   → DDC forces pump ON
   → Alarm "Manual override P1" is generated
@@ -250,6 +272,7 @@ BMS display: Pump P1
 ```
 
 **Best practice:**
+
 - Every override is alarmed and logged
 - Maximum override duration configurable (e.g. 4 h, then automatic return to Auto)
 - Return to Auto: explicitly by operator or automatically after timeout
@@ -259,6 +282,7 @@ BMS display: Pump P1
 ## Commissioning and H-0-A
 
 During commissioning, H-0-A is indispensable:
+
 1. H position: check plant mechanically (correct rotation, no vibration)
 2. A position: check DDC wiring (feedback received, controller responds)
 3. 0 position: check safety shutdown (frost protection triggered?)
@@ -269,14 +293,15 @@ During commissioning, H-0-A is indispensable:
 
 The H-0-A infrastructure always includes:
 
-| Signal | Type | Description |
-|--------|------|------------|
-| Run feedback | DI | Motor protection relay or auxiliary contactor confirms "running" |
-| Fault signal | DI | Motor protection tripped (overload, short circuit) |
-| Hand feedback | DI | H-0-A switch in hand position (optional) |
-| Operating hours | Counter | DDC counts run time → maintenance interval |
+| Signal          | Type    | Description                                                      |
+| --------------- | ------- | ---------------------------------------------------------------- |
+| Run feedback    | DI      | Motor protection relay or auxiliary contactor confirms "running" |
+| Fault signal    | DI      | Motor protection tripped (overload, short circuit)               |
+| Hand feedback   | DI      | H-0-A switch in hand position (optional)                         |
+| Operating hours | Counter | DDC counts run time → maintenance interval                       |
 
 **Plausibility check:** DDC verifies:
+
 - Command = ON but run feedback = OFF → fault alarm after delay (e.g. 5 s)
 - H-0-A switch in Hand → generate "manual override" alarm
 

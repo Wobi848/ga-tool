@@ -4,10 +4,35 @@ title_en: Commissioning Preparation — Checklist and Typical Errors
 slug: ibn-vorbereitung
 category: dokumentation
 subcategory: ibn
-tags: [inbetriebnahme, ibn, ibs, vorbereitung, checkliste, verdrahtung, kalibrierung, kommunikationstest, netzwerk, dpl, pre-ibs, frostschutz, sicherheitstest, messprotokoll, erstbetrieb]
+tags:
+  [
+    inbetriebnahme,
+    ibn,
+    ibs,
+    vorbereitung,
+    checkliste,
+    verdrahtung,
+    kalibrierung,
+    kommunikationstest,
+    netzwerk,
+    dpl,
+    pre-ibs,
+    frostschutz,
+    sicherheitstest,
+    messprotokoll,
+    erstbetrieb
+  ]
 difficulty: fortgeschritten
 area: [ga]
-related: [tab-protokoll, as-built, datenpunktliste, funktionsbeschreibung, glt-grundlagen, ddc-programmierung]
+related:
+  [
+    tab-protokoll,
+    as-built,
+    datenpunktliste,
+    funktionsbeschreibung,
+    glt-grundlagen,
+    ddc-programmierung
+  ]
 norm: [VDI 3814, SIA 386.110, AMEV IBN 2014]
 updated: 2026-05-15
 lang: de
@@ -84,6 +109,7 @@ Jeden Datenpunkt einzeln prüfen:
 ```
 
 **Typische Fehler bei Punkt-für-Punkt-Test:**
+
 - DI invertiert (Öffner/Schliesserkontakt vertauscht)
 - AI Skalierung falsch (0–100 Pa statt 0–500 Pa konfiguriert)
 - AO Ausgangssignal fehlt (Sicherung, falsches Modul)
@@ -116,17 +142,17 @@ Jeden Alarm bewusst auslösen:
 
 ## Typische Fehler und deren Ursachen
 
-| Fehler                          | Häufige Ursache                          | Lösung                        |
-|---------------------------------|------------------------------------------|-------------------------------|
-| PT1000 zeigt falschen Wert      | Skalierung falsch konfiguriert           | Min/Max-Werte im DDC prüfen   |
-| Ventil öffnet nicht             | Fail-Safe-Richtung falsch                | Antrieb umklemmen oder Logik  |
-| DDC nicht erreichbar            | IP-Adresse falsch / VLAN-Problem         | Netzwerkconfig prüfen         |
-| BACnet-Objekte fehlen           | Device-ID Konflikt                       | Device-ID eindeutig setzen    |
-| Pumpe läuft aber kein Durchfluss| Rückschlagventil falsch eingebaut        | Einbaurichtung prüfen         |
-| Regler schwingt                 | PID zu aggressiv (Kp zu hoch)            | Kp reduzieren, Ti erhöhen     |
-| Alarm kommt sofort bei Start    | Verzögerung = 0, Einschalttransiente     | Einschaltverzögerung setzen   |
-| Fühler zeigt −99 °C             | Kabelbruch (4–20 mA bei 0 mA)            | Verbindung prüfen             |
-| Ventil geht sofort auf 100 %    | Regler-Ausgang invertiert                | Inversionsparameter prüfen    |
+| Fehler                           | Häufige Ursache                      | Lösung                       |
+| -------------------------------- | ------------------------------------ | ---------------------------- |
+| PT1000 zeigt falschen Wert       | Skalierung falsch konfiguriert       | Min/Max-Werte im DDC prüfen  |
+| Ventil öffnet nicht              | Fail-Safe-Richtung falsch            | Antrieb umklemmen oder Logik |
+| DDC nicht erreichbar             | IP-Adresse falsch / VLAN-Problem     | Netzwerkconfig prüfen        |
+| BACnet-Objekte fehlen            | Device-ID Konflikt                   | Device-ID eindeutig setzen   |
+| Pumpe läuft aber kein Durchfluss | Rückschlagventil falsch eingebaut    | Einbaurichtung prüfen        |
+| Regler schwingt                  | PID zu aggressiv (Kp zu hoch)        | Kp reduzieren, Ti erhöhen    |
+| Alarm kommt sofort bei Start     | Verzögerung = 0, Einschalttransiente | Einschaltverzögerung setzen  |
+| Fühler zeigt −99 °C              | Kabelbruch (4–20 mA bei 0 mA)        | Verbindung prüfen            |
+| Ventil geht sofort auf 100 %     | Regler-Ausgang invertiert            | Inversionsparameter prüfen   |
 
 ---
 
@@ -138,10 +164,10 @@ IBN-Reihenfolge:
      - Frostschutz (→ startet Pumpen, schliesst Klappen)
      - Notaus (falls vorhanden)
      - Brandschutz-Verriegelungen
-     
+
   2. DANN Regelkreise in Betrieb nehmen
   3. ZULETZT Optimierung und Feinabstimmung
-  
+
 Niemals: Anlage in Betrieb ohne getesteten Frostschutz!
   → Im Ernstfall: 10 °C Aussenluft → RLT läuft ohne Heizung → Frostschaden
 ```
@@ -150,12 +176,12 @@ Niemals: Anlage in Betrieb ohne getesteten Frostschutz!
 
 ## IBN-Protokoll je Datenpunkt
 
-| DPL-ID     | Typ | Beschreibung           | Messwert IBN | OK | Kommentar         |
-|------------|-----|------------------------|-------------|----|--------------------|
-| HZG-T-VL1  | AI  | Vorlauf HK1           | 42.5 °C     | ✓  |                    |
-| HZG-P1-EIN | DO  | Pumpe HK1             | 1           | ✓  |                    |
-| HZG-P1-LFG | DI  | Pumpe HK1 Laufmeldung | 1           | ✓  |                    |
-| LFT-T-ZL1  | AI  | Zuluft RLT-01         | −999 °C     | ✗  | Fühler Bruch, tauschen |
+| DPL-ID     | Typ | Beschreibung          | Messwert IBN | OK  | Kommentar              |
+| ---------- | --- | --------------------- | ------------ | --- | ---------------------- |
+| HZG-T-VL1  | AI  | Vorlauf HK1           | 42.5 °C      | ✓   |                        |
+| HZG-P1-EIN | DO  | Pumpe HK1             | 1            | ✓   |                        |
+| HZG-P1-LFG | DI  | Pumpe HK1 Laufmeldung | 1            | ✓   |                        |
+| LFT-T-ZL1  | AI  | Zuluft RLT-01         | −999 °C      | ✗   | Fühler Bruch, tauschen |
 
 ---
 
@@ -236,6 +262,7 @@ Test each data point individually:
 ```
 
 **Typical errors in point-by-point test:**
+
 - DI inverted (normally open/normally closed contact swapped)
 - AI scaling wrong (configured 0–100 Pa instead of 0–500 Pa)
 - AO output signal missing (fuse, wrong module)
@@ -268,17 +295,17 @@ Deliberately trigger each alarm:
 
 ## Typical Errors and Their Causes
 
-| Error | Frequent cause | Solution |
-|-------|--------------|---------|
-| PT1000 shows wrong value | Scaling misconfigured | Check min/max values in DDC |
-| Valve does not open | Fail-safe direction wrong | Rewire actuator or change logic |
-| DDC not reachable | Wrong IP address / VLAN issue | Check network config |
-| BACnet objects missing | Device ID conflict | Set unique Device ID |
-| Pump runs but no flow | Check valve installed backwards | Check installation direction |
-| Controller oscillates | PID too aggressive (Kp too high) | Reduce Kp, increase Ti |
-| Alarm triggers immediately on start | Delay = 0, switch-on transient | Set switch-on delay |
-| Sensor shows −99 °C | Cable break (4–20 mA at 0 mA) | Check connection |
-| Valve goes immediately to 100 % | Controller output inverted | Check inversion parameter |
+| Error                               | Frequent cause                   | Solution                        |
+| ----------------------------------- | -------------------------------- | ------------------------------- |
+| PT1000 shows wrong value            | Scaling misconfigured            | Check min/max values in DDC     |
+| Valve does not open                 | Fail-safe direction wrong        | Rewire actuator or change logic |
+| DDC not reachable                   | Wrong IP address / VLAN issue    | Check network config            |
+| BACnet objects missing              | Device ID conflict               | Set unique Device ID            |
+| Pump runs but no flow               | Check valve installed backwards  | Check installation direction    |
+| Controller oscillates               | PID too aggressive (Kp too high) | Reduce Kp, increase Ti          |
+| Alarm triggers immediately on start | Delay = 0, switch-on transient   | Set switch-on delay             |
+| Sensor shows −99 °C                 | Cable break (4–20 mA at 0 mA)    | Check connection                |
+| Valve goes immediately to 100 %     | Controller output inverted       | Check inversion parameter       |
 
 ---
 
@@ -290,10 +317,10 @@ Commissioning sequence:
      - Frost protection (→ starts pumps, closes dampers)
      - Emergency stop (if present)
      - Fire protection interlocks
-     
+
   2. THEN commission control loops
   3. LAST optimisation and fine-tuning
-  
+
 Never: put plant into operation without tested frost protection!
   → In an emergency: −10 °C outdoor air → AHU runs without heating → frost damage
 ```
@@ -302,12 +329,12 @@ Never: put plant into operation without tested frost protection!
 
 ## Commissioning Record per Data Point
 
-| DPL ID | Type | Description | Measured value | OK | Comment |
-|--------|------|------------|---------------|----|----|
-| HTG-T-SUP1 | AI | Supply HHC 1 | 42.5 °C | ✓ | |
-| HTG-P1-ON | DO | Pump HHC 1 | 1 | ✓ | |
-| HTG-P1-RUN | DI | Pump HHC 1 run feedback | 1 | ✓ | |
-| VNT-T-SUP1 | AI | Supply air AHU-01 | −999 °C | ✗ | Sensor broken, replace |
+| DPL ID     | Type | Description             | Measured value | OK  | Comment                |
+| ---------- | ---- | ----------------------- | -------------- | --- | ---------------------- |
+| HTG-T-SUP1 | AI   | Supply HHC 1            | 42.5 °C        | ✓   |                        |
+| HTG-P1-ON  | DO   | Pump HHC 1              | 1              | ✓   |                        |
+| HTG-P1-RUN | DI   | Pump HHC 1 run feedback | 1              | ✓   |                        |
+| VNT-T-SUP1 | AI   | Supply air AHU-01       | −999 °C        | ✗   | Sensor broken, replace |
 
 ---
 

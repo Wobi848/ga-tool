@@ -4,7 +4,23 @@ title_en: BMS / DDC — Levels of Building Automation
 slug: glt-grundlagen
 category: ga
 subcategory: grundlagen
-tags: [glt, ddc, gebäudeleittechnik, gebäudeautomation, feldebene, automationsebene, managementebene, hand-0-auto, betriebsarten, sollwert, raumautomation, bacnet, scada, leitebene]
+tags:
+  [
+    glt,
+    ddc,
+    gebäudeleittechnik,
+    gebäudeautomation,
+    feldebene,
+    automationsebene,
+    managementebene,
+    hand-0-auto,
+    betriebsarten,
+    sollwert,
+    raumautomation,
+    bacnet,
+    scada,
+    leitebene
+  ]
 difficulty: grundlagen
 area: [ga]
 related: [bacnet, modbus, knx, pid-regler, alarmmanagement, signaltypen]
@@ -77,7 +93,7 @@ Das Herz der Regelung — hier laufen die Programme:
 Jeder Aktor in der GA hat drei Betriebsarten:
 
 | Modus    | Symbol | Beschreibung                                           |
-|----------|--------|--------------------------------------------------------|
+| -------- | ------ | ------------------------------------------------------ |
 | **Hand** | H      | Direkter manueller Eingriff — Programm ignoriert       |
 | **0**    | 0      | Zwangsausschaltung — Aktor ist aus, Programm ignoriert |
 | **Auto** | A      | Normalbetrieb — Programm regelt                        |
@@ -113,14 +129,14 @@ Datenpunkt: Pumpe1 Auto = EIN (vom Regler)
 
 Neben HOA gibt es übergeordnete Betriebsarten die die gesamte Anlage beeinflussen:
 
-| Betriebsart        | Beschreibung                                    |
-|--------------------|-------------------------------------------------|
-| **Komfort**        | Voller Betrieb, Normaltemperaturen              |
-| **Vorkomfort**     | Aufwärmen vor Belegung (Morgens)                |
-| **Nacht/Abwesend** | Abgesenkte Temperaturen, reduzierte Lüftung     |
-| **Standby**        | Minimalheizung (Frostschutz), Lüftung aus       |
-| **Sonder/Hand**    | Sonderbetrieb, manuell ausgelöst                |
-| **Störung**        | Sicherheitsabschaltung                          |
+| Betriebsart        | Beschreibung                                |
+| ------------------ | ------------------------------------------- |
+| **Komfort**        | Voller Betrieb, Normaltemperaturen          |
+| **Vorkomfort**     | Aufwärmen vor Belegung (Morgens)            |
+| **Nacht/Abwesend** | Abgesenkte Temperaturen, reduzierte Lüftung |
+| **Standby**        | Minimalheizung (Frostschutz), Lüftung aus   |
+| **Sonder/Hand**    | Sonderbetrieb, manuell ausgelöst            |
+| **Störung**        | Sicherheitsabschaltung                      |
 
 **Automatischer Übergang:**
 
@@ -141,18 +157,22 @@ Samstag/Sonntag:
 Sollwerte können auf verschiedene Arten vorgegeben werden:
 
 ### Fixer Sollwert
+
 - Raumtemperatur immer 22 °C
 - Einfach, keine Interaktion nötig
 
 ### Gleitender Sollwert (witterungsgeführt)
+
 - Vorlauftemperatur folgt Aussentemperatur (Heizkurve)
 - Zulufttemperatur folgt Aussentemperatur
 
 ### Kaskaden-Sollwert
+
 - Übergeordneter Regler gibt Sollwert für untergeordneten vor
 - Beispiel: Raumtemperatur-Regler steuert Vorlauftemperatur-Regler
 
 ### Bediener-Eingriff
+
 - Nutzer kann Sollwert ±2 K verstellen (innerhalb definierter Grenzen)
 - GLT überwacht: Eingriffe ausserhalb Grenzen → Alarm
 
@@ -269,11 +289,11 @@ Overarching visualisation and operation:
 
 Every actuator in BA has three operating modes:
 
-| Mode | Symbol | Description |
-|------|--------|-------------|
-| **Hand** | H | Direct manual intervention — programme ignored |
-| **0** | 0 | Forced off — actuator off, programme ignored |
-| **Auto** | A | Normal operation — programme controls |
+| Mode     | Symbol | Description                                    |
+| -------- | ------ | ---------------------------------------------- |
+| **Hand** | H      | Direct manual intervention — programme ignored |
+| **0**    | 0      | Forced off — actuator off, programme ignored   |
+| **Auto** | A      | Normal operation — programme controls          |
 
 ### Physical Hand-0-Auto Switches
 
@@ -306,14 +326,14 @@ Data point: Pump1 Auto = ON (from controller)
 
 In addition to HOA, there are overarching operating modes that affect the entire plant:
 
-| Operating mode | Description |
-|---------------|-------------|
-| **Comfort** | Full operation, normal temperatures |
-| **Pre-comfort** | Warm-up before occupancy (mornings) |
-| **Night/Absent** | Reduced temperatures, reduced ventilation |
-| **Standby** | Minimum heating (frost protection), ventilation off |
-| **Special/Manual** | Special operation, manually triggered |
-| **Fault** | Safety shutdown |
+| Operating mode     | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| **Comfort**        | Full operation, normal temperatures                 |
+| **Pre-comfort**    | Warm-up before occupancy (mornings)                 |
+| **Night/Absent**   | Reduced temperatures, reduced ventilation           |
+| **Standby**        | Minimum heating (frost protection), ventilation off |
+| **Special/Manual** | Special operation, manually triggered               |
+| **Fault**          | Safety shutdown                                     |
 
 **Automatic transition:**
 
@@ -334,18 +354,22 @@ Saturday/Sunday:
 Setpoints can be specified in different ways:
 
 ### Fixed Setpoint
+
 - Room temperature always 22 °C
 - Simple, no interaction required
 
 ### Sliding Setpoint (Weather-Compensated)
+
 - Flow temperature follows outdoor temperature (heating curve)
 - Supply air temperature follows outdoor temperature
 
 ### Cascade Setpoint
+
 - Superior controller provides setpoint to subordinate controller
 - Example: room temperature controller drives flow temperature controller
 
 ### Operator Intervention
+
 - User can adjust setpoint ±2 K (within defined limits)
 - BMS monitors: interventions outside limits → alarm
 

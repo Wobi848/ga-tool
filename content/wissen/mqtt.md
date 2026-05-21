@@ -4,7 +4,25 @@ title_en: MQTT — Messaging for IoT and BA
 slug: mqtt
 category: protokolle
 subcategory: iot
-tags: [mqtt, broker, publisher, subscriber, topic, qos, retain, last-will, mosquitto, hivemq, node-red, home-assistant, sparkplug, tls, iiot, cloud]
+tags:
+  [
+    mqtt,
+    broker,
+    publisher,
+    subscriber,
+    topic,
+    qos,
+    retain,
+    last-will,
+    mosquitto,
+    hivemq,
+    node-red,
+    home-assistant,
+    sparkplug,
+    tls,
+    iiot,
+    cloud
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, opc-ua, modbus]
@@ -51,20 +69,20 @@ ga-tool/anlage2/kälte/chiller1/eer
 
 ### Wildcards
 
-| Wildcard | Beschreibung                                            | Beispiel                              |
-|----------|---------------------------------------------------------|---------------------------------------|
-| `+`      | Einzelne Ebene                                          | `ga-tool/+/heizung/vorlauf/temperatur` |
-| `#`      | Alle Ebenen ab hier (immer am Ende)                     | `ga-tool/anlage1/#`                   |
+| Wildcard | Beschreibung                        | Beispiel                               |
+| -------- | ----------------------------------- | -------------------------------------- |
+| `+`      | Einzelne Ebene                      | `ga-tool/+/heizung/vorlauf/temperatur` |
+| `#`      | Alle Ebenen ab hier (immer am Ende) | `ga-tool/anlage1/#`                    |
 
 `ga-tool/#` subscribed alles unter diesem Präfix.
 
 ## QoS — Quality of Service
 
-| Level | Name               | Garantie                              | Einsatz                         |
-|-------|--------------------|---------------------------------------|---------------------------------|
-| **0** | At most once       | Keine — Feuer und vergiss             | Telemetrie, häufige Updates     |
-| **1** | At least once      | Mindestens 1x geliefert (Duplikate möglich) | Alarmmeldungen, Befehle   |
-| **2** | Exactly once       | Genau 1x (mit Handshake)             | Abrechnungsdaten, kritische Befehle |
+| Level | Name          | Garantie                                    | Einsatz                             |
+| ----- | ------------- | ------------------------------------------- | ----------------------------------- |
+| **0** | At most once  | Keine — Feuer und vergiss                   | Telemetrie, häufige Updates         |
+| **1** | At least once | Mindestens 1x geliefert (Duplikate möglich) | Alarmmeldungen, Befehle             |
+| **2** | Exactly once  | Genau 1x (mit Handshake)                    | Abrechnungsdaten, kritische Befehle |
 
 > Für GA-Alarme und Steuerbefehle mindestens **QoS 1** verwenden. QoS 0 kann bei Verbindungsproblemen einfach verloren gehen.
 
@@ -99,13 +117,13 @@ Für **Verbindungsüberwachung** unverzichtbar.
 
 Der Broker ist das Herzstück. Populäre Implementierungen:
 
-| Broker          | Beschreibung                                          | Einsatz                    |
-|-----------------|-------------------------------------------------------|----------------------------|
-| **Mosquitto**   | Open Source, leichtgewichtig, de-facto-Standard       | Raspberry Pi, eigener Server |
-| **EMQX**        | Enterprise, hohe Skalierbarkeit, Web-UI               | Grössere Anlagen            |
-| **HiveMQ**      | Enterprise, Cluster-fähig, Java                       | Cloud, Enterprise           |
-| **VerneMQ**     | Hochverfügbar, Erlang-basiert                         | Cloud                       |
-| **AWS IoT Core / Azure IoT Hub** | Cloud-Broker mit MQTT-API            | Cloud-Anbindung             |
+| Broker                           | Beschreibung                                    | Einsatz                      |
+| -------------------------------- | ----------------------------------------------- | ---------------------------- |
+| **Mosquitto**                    | Open Source, leichtgewichtig, de-facto-Standard | Raspberry Pi, eigener Server |
+| **EMQX**                         | Enterprise, hohe Skalierbarkeit, Web-UI         | Grössere Anlagen             |
+| **HiveMQ**                       | Enterprise, Cluster-fähig, Java                 | Cloud, Enterprise            |
+| **VerneMQ**                      | Hochverfügbar, Erlang-basiert                   | Cloud                        |
+| **AWS IoT Core / Azure IoT Hub** | Cloud-Broker mit MQTT-API                       | Cloud-Anbindung              |
 
 **Mosquitto auf Raspberry Pi / Linux:** Standard für GA-Projekte. Installation: `apt install mosquitto mosquitto-clients`
 
@@ -147,6 +165,7 @@ Node-RED bietet graphisches Flowprogramming — ideal für GA-Integrationen ohne
 ### Sparkplug B
 
 **Sparkplug B** (Eclipse Foundation) ist eine standardisierte Nutzlast-Spezifikation auf MQTT:
+
 - Definiertes Topic-Schema (`spBv1.0/...`)
 - Protobuf-Payload (effizient, typisiert)
 - Birth/Death Messages (ähnlich LWT)
@@ -167,39 +186,39 @@ acme/hauptgebäude/lüftung/rlt1/filter/differenzdruck
 
 MQTT 5.0 (2019) bringt wichtige Verbesserungen:
 
-| Feature                   | 3.1.1 | 5.0 |
-|---------------------------|-------|-----|
-| Reason Codes              | Minimal | Detailliert |
-| Request/Response Pattern  | ❌     | ✅ (ReplyTo-Topic) |
-| Message Expiry            | ❌     | ✅ (TTL) |
-| Shared Subscriptions      | Proprietär | ✅ Standard |
-| Topic Aliases             | ❌     | ✅ (Bandbreite sparen) |
-| User Properties           | ❌     | ✅ (Key-Value Metadaten) |
+| Feature                  | 3.1.1      | 5.0                      |
+| ------------------------ | ---------- | ------------------------ |
+| Reason Codes             | Minimal    | Detailliert              |
+| Request/Response Pattern | ❌         | ✅ (ReplyTo-Topic)       |
+| Message Expiry           | ❌         | ✅ (TTL)                 |
+| Shared Subscriptions     | Proprietär | ✅ Standard              |
+| Topic Aliases            | ❌         | ✅ (Bandbreite sparen)   |
+| User Properties          | ❌         | ✅ (Key-Value Metadaten) |
 
 Für neue Projekte **MQTT 5.0 empfohlen** wenn Broker und Clients unterstützen.
 
 ## Vergleich MQTT vs. BACnet COV
 
-| Merkmal              | MQTT                         | BACnet COV                      |
-|----------------------|------------------------------|---------------------------------|
-| Standardisierung     | ISO/IEC 20922                | ASHRAE 135 / ISO 16484-5        |
-| Datenmodell          | Freie Topics/Payloads        | Standardisierte Objekte/Properties |
-| Semantik             | Keine (nur Bytes/String)     | Typisiert (AI, AO, BI, BO, …)  |
-| Interoperabilität    | Hersteller-spezifisch        | BTL-zertifiziert                |
-| Verbreitung GA       | Wachsend                     | Etabliert                       |
-| IoT/Cloud            | ✅ Nativ                     | ❌ Gateway nötig               |
+| Merkmal           | MQTT                     | BACnet COV                         |
+| ----------------- | ------------------------ | ---------------------------------- |
+| Standardisierung  | ISO/IEC 20922            | ASHRAE 135 / ISO 16484-5           |
+| Datenmodell       | Freie Topics/Payloads    | Standardisierte Objekte/Properties |
+| Semantik          | Keine (nur Bytes/String) | Typisiert (AI, AO, BI, BO, …)      |
+| Interoperabilität | Hersteller-spezifisch    | BTL-zertifiziert                   |
+| Verbreitung GA    | Wachsend                 | Etabliert                          |
+| IoT/Cloud         | ✅ Nativ                 | ❌ Gateway nötig                   |
 
 **Faustregel:** BACnet für GLT-zu-GLT/DDC, MQTT für Cloud/IoT/Datenpipelines.
 
 ## Werkzeuge
 
-| Tool            | Beschreibung                                        |
-|-----------------|-----------------------------------------------------|
-| **MQTT Explorer** | Desktop-Client, Baum-Ansicht aller Topics         |
-| **MQTTX**        | Cross-platform Client, gut für Tests              |
-| **mosquitto_pub/sub** | CLI-Tools, ideal für Scripting              |
-| **Node-RED**     | Flow-basierte Integration                          |
-| **Grafana + InfluxDB** | Dashboard + Zeitreihen-Datenbank via MQTT   |
+| Tool                   | Beschreibung                              |
+| ---------------------- | ----------------------------------------- |
+| **MQTT Explorer**      | Desktop-Client, Baum-Ansicht aller Topics |
+| **MQTTX**              | Cross-platform Client, gut für Tests      |
+| **mosquitto_pub/sub**  | CLI-Tools, ideal für Scripting            |
+| **Node-RED**           | Flow-basierte Integration                 |
+| **Grafana + InfluxDB** | Dashboard + Zeitreihen-Datenbank via MQTT |
 
 ## Normen
 
@@ -247,20 +266,20 @@ ba-tool/plant2/cooling/chiller1/eer
 
 ### Wildcards
 
-| Wildcard | Description | Example |
-|----------|-------------|---------|
-| `+` | Single level | `ba-tool/+/heating/flow/temperature` |
-| `#` | All levels from here (always at end) | `ba-tool/plant1/#` |
+| Wildcard | Description                          | Example                              |
+| -------- | ------------------------------------ | ------------------------------------ |
+| `+`      | Single level                         | `ba-tool/+/heating/flow/temperature` |
+| `#`      | All levels from here (always at end) | `ba-tool/plant1/#`                   |
 
 `ba-tool/#` subscribes to everything under this prefix.
 
 ## QoS — Quality of Service
 
-| Level | Name | Guarantee | Use case |
-|-------|------|-----------|---------|
-| **0** | At most once | None — fire and forget | Telemetry, frequent updates |
-| **1** | At least once | Delivered at least once (duplicates possible) | Alarm messages, commands |
-| **2** | Exactly once | Exactly once (with handshake) | Billing data, critical commands |
+| Level | Name          | Guarantee                                     | Use case                        |
+| ----- | ------------- | --------------------------------------------- | ------------------------------- |
+| **0** | At most once  | None — fire and forget                        | Telemetry, frequent updates     |
+| **1** | At least once | Delivered at least once (duplicates possible) | Alarm messages, commands        |
+| **2** | Exactly once  | Exactly once (with handshake)                 | Billing data, critical commands |
 
 > For BA alarms and control commands, use at least **QoS 1**. QoS 0 can simply be lost during connection problems.
 
@@ -295,13 +314,13 @@ Essential for **connection monitoring**.
 
 The broker is the centrepiece. Popular implementations:
 
-| Broker | Description | Use case |
-|--------|-------------|---------|
-| **Mosquitto** | Open source, lightweight, de-facto standard | Raspberry Pi, own server |
-| **EMQX** | Enterprise, high scalability, web UI | Larger installations |
-| **HiveMQ** | Enterprise, cluster-capable, Java | Cloud, enterprise |
-| **VerneMQ** | High availability, Erlang-based | Cloud |
-| **AWS IoT Core / Azure IoT Hub** | Cloud broker with MQTT API | Cloud integration |
+| Broker                           | Description                                 | Use case                 |
+| -------------------------------- | ------------------------------------------- | ------------------------ |
+| **Mosquitto**                    | Open source, lightweight, de-facto standard | Raspberry Pi, own server |
+| **EMQX**                         | Enterprise, high scalability, web UI        | Larger installations     |
+| **HiveMQ**                       | Enterprise, cluster-capable, Java           | Cloud, enterprise        |
+| **VerneMQ**                      | High availability, Erlang-based             | Cloud                    |
+| **AWS IoT Core / Azure IoT Hub** | Cloud broker with MQTT API                  | Cloud integration        |
 
 **Mosquitto on Raspberry Pi / Linux:** Standard for BA projects. Install: `apt install mosquitto mosquitto-clients`
 
@@ -343,6 +362,7 @@ Node-RED provides graphical flow programming — ideal for BA integrations witho
 ### Sparkplug B
 
 **Sparkplug B** (Eclipse Foundation) is a standardised payload specification on top of MQTT:
+
 - Defined topic schema (`spBv1.0/...`)
 - Protobuf payload (efficient, typed)
 - Birth/death messages (similar to LWT)
@@ -363,38 +383,38 @@ acme/main-building/ventilation/ahu1/filter/differentialpressure
 
 MQTT 5.0 (2019) brings important improvements:
 
-| Feature | 3.1.1 | 5.0 |
-|---------|-------|-----|
-| Reason codes | Minimal | Detailed |
-| Request/response pattern | ❌ | ✅ (ReplyTo topic) |
-| Message expiry | ❌ | ✅ (TTL) |
-| Shared subscriptions | Proprietary | ✅ Standard |
-| Topic aliases | ❌ | ✅ (save bandwidth) |
-| User properties | ❌ | ✅ (key-value metadata) |
+| Feature                  | 3.1.1       | 5.0                     |
+| ------------------------ | ----------- | ----------------------- |
+| Reason codes             | Minimal     | Detailed                |
+| Request/response pattern | ❌          | ✅ (ReplyTo topic)      |
+| Message expiry           | ❌          | ✅ (TTL)                |
+| Shared subscriptions     | Proprietary | ✅ Standard             |
+| Topic aliases            | ❌          | ✅ (save bandwidth)     |
+| User properties          | ❌          | ✅ (key-value metadata) |
 
 **MQTT 5.0 recommended** for new projects when broker and clients support it.
 
 ## Comparison MQTT vs. BACnet COV
 
-| Feature | MQTT | BACnet COV |
-|---------|------|-----------|
-| Standardisation | ISO/IEC 20922 | ASHRAE 135 / ISO 16484-5 |
-| Data model | Free topics/payloads | Standardised objects/properties |
-| Semantics | None (bytes/string only) | Typed (AI, AO, BI, BO, …) |
-| Interoperability | Manufacturer-specific | BTL-certified |
-| BA adoption | Growing | Established |
-| IoT/cloud | ✅ Native | ❌ Gateway required |
+| Feature          | MQTT                     | BACnet COV                      |
+| ---------------- | ------------------------ | ------------------------------- |
+| Standardisation  | ISO/IEC 20922            | ASHRAE 135 / ISO 16484-5        |
+| Data model       | Free topics/payloads     | Standardised objects/properties |
+| Semantics        | None (bytes/string only) | Typed (AI, AO, BI, BO, …)       |
+| Interoperability | Manufacturer-specific    | BTL-certified                   |
+| BA adoption      | Growing                  | Established                     |
+| IoT/cloud        | ✅ Native                | ❌ Gateway required             |
 
 **Rule of thumb:** BACnet for BMS-to-BMS/DDC, MQTT for cloud/IoT/data pipelines.
 
 ## Tools
 
-| Tool | Description |
-|------|-------------|
-| **MQTT Explorer** | Desktop client, tree view of all topics |
-| **MQTTX** | Cross-platform client, great for testing |
-| **mosquitto_pub/sub** | CLI tools, ideal for scripting |
-| **Node-RED** | Flow-based integration |
+| Tool                   | Description                               |
+| ---------------------- | ----------------------------------------- |
+| **MQTT Explorer**      | Desktop client, tree view of all topics   |
+| **MQTTX**              | Cross-platform client, great for testing  |
+| **mosquitto_pub/sub**  | CLI tools, ideal for scripting            |
+| **Node-RED**           | Flow-based integration                    |
 | **Grafana + InfluxDB** | Dashboard + time-series database via MQTT |
 
 ## Standards

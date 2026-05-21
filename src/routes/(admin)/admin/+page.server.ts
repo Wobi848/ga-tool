@@ -1,5 +1,9 @@
 import { db } from '$lib/server/db';
-import { user as userTable, session as sessionTable, account as accountTable } from '$lib/server/db/auth.schema';
+import {
+	user as userTable,
+	session as sessionTable,
+	account as accountTable
+} from '$lib/server/db/auth.schema';
 import { userFavorites } from '$lib/server/db/favorites.schema';
 import { eq, desc, sql } from 'drizzle-orm';
 import { fail, redirect } from '@sveltejs/kit';
@@ -11,39 +15,44 @@ import type { PageServerLoad, Actions } from './$types';
 export const load: PageServerLoad = async ({ locals }) => {
 	if (!locals.user || locals.user.role !== 'admin') redirect(302, '/');
 	const [users, favRows, lastLoginRows] = await Promise.all([
-		db.select({
-			id: userTable.id,
-			name: userTable.name,
-			email: userTable.email,
-			emailVerified: userTable.emailVerified,
-			role: userTable.role,
-			banned: userTable.banned,
-			banReason: userTable.banReason,
-			createdAt: userTable.createdAt,
-			updatedAt: userTable.updatedAt,
-			profileRole: userTable.profileRole,
-			company: userTable.company
-		})
-		.from(userTable)
-		.orderBy(desc(userTable.createdAt)),
+		db
+			.select({
+				id: userTable.id,
+				name: userTable.name,
+				email: userTable.email,
+				emailVerified: userTable.emailVerified,
+				role: userTable.role,
+				banned: userTable.banned,
+				banReason: userTable.banReason,
+				createdAt: userTable.createdAt,
+				updatedAt: userTable.updatedAt,
+				profileRole: userTable.profileRole,
+				company: userTable.company
+			})
+			.from(userTable)
+			.orderBy(desc(userTable.createdAt)),
 
-		db.select({ userId: userFavorites.userId, data: userFavorites.data })
-		.from(userFavorites),
+		db.select({ userId: userFavorites.userId, data: userFavorites.data }).from(userFavorites),
 
-		db.select({
-			userId: sessionTable.userId,
-			lastLogin: sql<number>`max(${sessionTable.createdAt})`
-		})
-		.from(sessionTable)
-		.groupBy(sessionTable.userId)
+		db
+			.select({
+				userId: sessionTable.userId,
+				lastLogin: sql<number>`max(${sessionTable.createdAt})`
+			})
+			.from(sessionTable)
+			.groupBy(sessionTable.userId)
 	]);
 
-	const favMap = Object.fromEntries(favRows.map(r => [r.userId, r.data]));
-	const loginMap = Object.fromEntries(lastLoginRows.map(r => [r.userId, r.lastLogin]));
+	const favMap = Object.fromEntries(favRows.map((r) => [r.userId, r.data]));
+	const loginMap = Object.fromEntries(lastLoginRows.map((r) => [r.userId, r.lastLogin]));
 
-	const usersWithData = users.map(u => {
+	const usersWithData = users.map((u) => {
 		let favs: { type: string; slug: string; title: string }[] = [];
-		try { favs = JSON.parse(favMap[u.id] ?? '[]'); } catch { /* ignore */ }
+		try {
+			favs = JSON.parse(favMap[u.id] ?? '[]');
+		} catch {
+			/* ignore */
+		}
 		return { ...u, favorites: favs, lastLogin: loginMap[u.id] ?? null };
 	});
 
@@ -57,7 +66,8 @@ export const actions: Actions = {
 		const reason = (data.get('reason') as string)?.trim() || 'Gesperrt durch Admin';
 
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
-		if (userId === locals.user?.id) return fail(400, { error: 'Eigener Account kann nicht gesperrt werden' });
+		if (userId === locals.user?.id)
+			return fail(400, { error: 'Eigener Account kann nicht gesperrt werden' });
 
 		await db
 			.update(userTable)
@@ -89,7 +99,8 @@ export const actions: Actions = {
 		const role = data.get('role') as string;
 
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
-		if (userId === locals.user?.id) return fail(400, { error: 'Eigene Rolle kann nicht geändert werden' });
+		if (userId === locals.user?.id)
+			return fail(400, { error: 'Eigene Rolle kann nicht geändert werden' });
 		if (role !== 'admin' && role !== 'user') return fail(400, { error: 'Ungültige Rolle' });
 
 		await db.update(userTable).set({ role }).where(eq(userTable.id, userId));
@@ -102,7 +113,8 @@ export const actions: Actions = {
 		const userId = data.get('userId') as string;
 
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
-		if (userId === locals.user?.id) return fail(400, { error: 'Eigener Account kann nicht gelöscht werden' });
+		if (userId === locals.user?.id)
+			return fail(400, { error: 'Eigener Account kann nicht gelöscht werden' });
 
 		await db.delete(userTable).where(eq(userTable.id, userId));
 
@@ -115,15 +127,14 @@ export const actions: Actions = {
 		const newPassword = (data.get('newPassword') as string)?.trim();
 
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
-		if (!newPassword || newPassword.length < 8) return fail(400, { error: 'Passwort min. 8 Zeichen' });
-		if (userId === locals.user?.id) return fail(400, { error: 'Eigenes Passwort hier nicht ändern — Profil verwenden' });
+		if (!newPassword || newPassword.length < 8)
+			return fail(400, { error: 'Passwort min. 8 Zeichen' });
+		if (userId === locals.user?.id)
+			return fail(400, { error: 'Eigenes Passwort hier nicht ändern — Profil verwenden' });
 
 		const hashed = await hashPassword(newPassword);
 
-		await db
-			.update(accountTable)
-			.set({ password: hashed })
-			.where(eq(accountTable.userId, userId));
+		await db.update(accountTable).set({ password: hashed }).where(eq(accountTable.userId, userId));
 
 		await db.delete(sessionTable).where(eq(sessionTable.userId, userId));
 
@@ -136,7 +147,10 @@ export const actions: Actions = {
 
 		const resend = new Resend(env.RESEND_API_KEY);
 		const FROM = env.RESEND_FROM ?? 'GA Tool <noreply@ga-tool.app>';
-		const safeEmail = locals.user.email.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		const safeEmail = locals.user.email
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;');
 
 		const { error } = await resend.emails.send({
 			from: FROM,
@@ -200,11 +214,12 @@ export const actions: Actions = {
 			const FROM = env.RESEND_FROM ?? 'GA Tool <noreply@ga-tool.app>';
 			const base = env.ORIGIN ?? 'https://ga-tool.app';
 			const firstName = name.split(' ')[0] || name;
-			await resend.emails.send({
-				from: FROM,
-				to: email,
-				subject: 'Dein GA Tool Account ist bereit',
-				html: `
+			await resend.emails
+				.send({
+					from: FROM,
+					to: email,
+					subject: 'Dein GA Tool Account ist bereit',
+					html: `
 					<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:2rem">
 						<div style="background:#2563eb;border-radius:0.75rem;padding:1.5rem;margin-bottom:1.5rem;text-align:center">
 							<h1 style="color:#fff;margin:0;font-size:1.5rem">GA Tool</h1>
@@ -222,7 +237,8 @@ export const actions: Actions = {
 						<p style="color:#94a3b8;font-size:0.75rem;margin:1.5rem 0 0;text-align:center">Bitte ändere dein Passwort nach der ersten Anmeldung im Profil.</p>
 					</div>
 				`
-			}).catch(() => {});
+				})
+				.catch(() => {});
 		}
 
 		return { success: true, action: 'createUser', newUserId: userId };

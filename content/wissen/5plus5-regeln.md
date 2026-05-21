@@ -4,7 +4,21 @@ title_en: 5+5 Life-Saving Electrical Safety Rules (SUVA)
 slug: 5plus5-regeln
 category: sicherheit
 subcategory: elektrosicherheit
-tags: [suva, 5plus5, sicherheitsregeln, spannungsfreiheit, freischalten, lockout, tagout, elektrosicherheit, niv, en50110, elektroinstallation, arbeiten-unter-spannung]
+tags:
+  [
+    suva,
+    5plus5,
+    sicherheitsregeln,
+    spannungsfreiheit,
+    freischalten,
+    lockout,
+    tagout,
+    elektrosicherheit,
+    niv,
+    en50110,
+    elektroinstallation,
+    arbeiten-unter-spannung
+  ]
 difficulty: grundlagen
 area: [elektro, ga]
 related: [frequenzumrichter]
@@ -104,6 +118,7 @@ Diese 5 Schritte sind **in dieser Reihenfolge** durchzuführen — kein Schritt 
 ## Nach den Arbeiten
 
 Vor dem Wiedereinschalten in umgekehrter Reihenfolge:
+
 1. Erdungs- und Kurzschlussgarnituren entfernen
 2. Abdeckungen und Schutzschranken entfernen
 3. Alle Schlösser/Warnzeichen entfernen (jede Person ihr eigenes!)
@@ -115,13 +130,13 @@ Vor dem Wiedereinschalten in umgekehrter Reihenfolge:
 
 In Deutschland gelten die **„5 Sicherheitsregeln"** nach DGUV Information 203-001, die technisch identisch mit den zweiten 5 SUVA-Regeln sind:
 
-| Nr. | SUVA (CH) 2. Gruppe      | DGUV (DE)                              |
-|-----|--------------------------|----------------------------------------|
-| 1   | Freischalten             | Freischalten                           |
+| Nr. | SUVA (CH) 2. Gruppe             | DGUV (DE)                       |
+| --- | ------------------------------- | ------------------------------- |
+| 1   | Freischalten                    | Freischalten                    |
 | 2   | Gegen Wiedereinschalten sichern | Gegen Wiedereinschalten sichern |
-| 3   | Spannungsfreiheit feststellen | Spannungsfreiheit feststellen      |
-| 4   | Erden und kurzschliessen | Erden und kurzschliessen               |
-| 5   | Benachbarte Teile abdecken | Benachbarte Teile abdecken           |
+| 3   | Spannungsfreiheit feststellen   | Spannungsfreiheit feststellen   |
+| 4   | Erden und kurzschliessen        | Erden und kurzschliessen        |
+| 5   | Benachbarte Teile abdecken      | Benachbarte Teile abdecken      |
 
 Der Unterschied: SUVA ergänzt **5 Organisationsregeln** vorne — der DE-Standard setzt diese als bekannt voraus.
 
@@ -223,6 +238,7 @@ These 5 steps must be carried out **in this exact order** — no step may be ski
 ## After the Work
 
 Before re-energising, reverse the sequence:
+
 1. Remove earthing and short-circuit equipment
 2. Remove covers and protective barriers
 3. Remove all locks/warning signs (each person removes their own!)
@@ -234,13 +250,13 @@ Before re-energising, reverse the sequence:
 
 In Germany the **"5 Safety Rules"** per DGUV Information 203-001 apply, which are technically identical to the second group of 5 SUVA rules:
 
-| No. | SUVA (CH) 2nd group | DGUV (DE) |
-|-----|---------------------|-----------|
-| 1 | Isolate | Isolate |
-| 2 | Secure against re-energisation | Secure against re-energisation |
-| 3 | Verify absence of voltage | Verify absence of voltage |
-| 4 | Earth and short-circuit | Earth and short-circuit |
-| 5 | Cover adjacent live parts | Cover adjacent live parts |
+| No. | SUVA (CH) 2nd group            | DGUV (DE)                      |
+| --- | ------------------------------ | ------------------------------ |
+| 1   | Isolate                        | Isolate                        |
+| 2   | Secure against re-energisation | Secure against re-energisation |
+| 3   | Verify absence of voltage      | Verify absence of voltage      |
+| 4   | Earth and short-circuit        | Earth and short-circuit        |
+| 5   | Cover adjacent live parts      | Cover adjacent live parts      |
 
 The difference: SUVA adds **5 organisational rules** at the front — the German standard assumes these as prerequisites.
 

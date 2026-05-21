@@ -4,10 +4,42 @@ title_en: Sensors in BA — Overview
 slug: sensoren
 category: signale
 subcategory: sensoren
-tags: [sensor, pt100, pt1000, ntc, drucksensor, durchflussmessung, co2-sensor, ndir, voc, feuchtesensor, pir, radar, helligkeitssensor, waermemengenzaehler, kalibrierung, transmitter]
+tags:
+  [
+    sensor,
+    pt100,
+    pt1000,
+    ntc,
+    drucksensor,
+    durchflussmessung,
+    co2-sensor,
+    ndir,
+    voc,
+    feuchtesensor,
+    pir,
+    radar,
+    helligkeitssensor,
+    waermemengenzaehler,
+    kalibrierung,
+    transmitter
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
-related: [signaltypen, mbus, alarmmanagement, vdi6022, rlt-anlage, drucksensoren, durchflussmessung, co2-sensoren, voc-sensoren, feuchtesensoren, praesenzsensoren, helligkeitssensoren]
+related:
+  [
+    signaltypen,
+    mbus,
+    alarmmanagement,
+    vdi6022,
+    rlt-anlage,
+    drucksensoren,
+    durchflussmessung,
+    co2-sensoren,
+    voc-sensoren,
+    feuchtesensoren,
+    praesenzsensoren,
+    helligkeitssensoren
+  ]
 norm: [IEC 60751, EN ISO 16890, EN 14511]
 updated: 2026-05-14
 lang: de
@@ -23,14 +55,14 @@ Sensoren sind die Sinnesorgane der Gebäudeautomation. Ohne korrekte Messungen g
 
 Beide sind **Widerstandstemperaturfühler** (RTD = Resistance Temperature Detector) aus Platin:
 
-| Eigenschaft         | PT100              | PT1000             |
-|---------------------|--------------------|--------------------|
-| Widerstand bei 0 °C | 100 Ω              | 1000 Ω             |
-| Kennlinien-Steigung | 0.385 Ω/K          | 3.85 Ω/K          |
-| Empfindlichkeit     | Niedrig            | 10× höher als PT100 |
+| Eigenschaft         | PT100               | PT1000                |
+| ------------------- | ------------------- | --------------------- |
+| Widerstand bei 0 °C | 100 Ω               | 1000 Ω                |
+| Kennlinien-Steigung | 0.385 Ω/K           | 3.85 Ω/K              |
+| Empfindlichkeit     | Niedrig             | 10× höher als PT100   |
 | Leitungswiderstand  | Kritisch (2-Draht!) | Unkritisch bis ~100 m |
-| Genauigkeit         | Klasse A: ±0.15 K  | Klasse A: ±0.15 K  |
-| Einsatz GA          | Eher Industrie     | **GA-Standard**    |
+| Genauigkeit         | Klasse A: ±0.15 K   | Klasse A: ±0.15 K     |
+| Einsatz GA          | Eher Industrie      | **GA-Standard**       |
 
 **Warum PT1000 in der GA?**
 Leitungswiderstand eines 0.5 mm² Kabels: ~36 Ω/100 m. Bei PT100 ergibt das einen Messfehler von ~93 K — untauglich! Bei PT1000 derselbe Widerstand: ~9 K Fehler. Mit 2-Draht und max. 50 m noch vertretbar. Mit Kabeln > 50 m: 4-Draht-Anschluss verwenden.
@@ -57,10 +89,10 @@ Leitungswiderstand eines 0.5 mm² Kabels: ~36 Ω/100 m. Bei PT100 ergibt das ein
 
 ### Typen
 
-| Typ              | Misst was                          | Einsatz in GA                    |
-|------------------|------------------------------------|----------------------------------|
-| **Absolutdruck** | Druck relativ zum Vakuum           | Selten (meteorologisch)          |
-| **Relativdruck** | Druck relativ zur Atmosphäre       | Systemdruck Heizung, Kälte       |
+| Typ                | Misst was                         | Einsatz in GA                   |
+| ------------------ | --------------------------------- | ------------------------------- |
+| **Absolutdruck**   | Druck relativ zum Vakuum          | Selten (meteorologisch)         |
+| **Relativdruck**   | Druck relativ zur Atmosphäre      | Systemdruck Heizung, Kälte      |
 | **Differenzdruck** | Druckdifferenz zwischen 2 Punkten | Filter, Pumpen, Durchfluss, VAV |
 
 ### Differenzdrucksensor (häufigster GA-Einsatz)
@@ -72,12 +104,14 @@ Niederdruckseite ────┘
 ```
 
 **Typische Anwendungen:**
+
 - Filterwächter (Druckverlust über Filter → Verschmutzungsanzeige)
 - Durchflussmessung (Blende + Δp → V̇ berechnen via Bernoulli)
 - Pumpenstatus (Δp über Pumpe → Laufmeldung)
 - VAV-Box Volumenstromregler
 
 **Einbauhinweise:**
+
 - Messbohrungen **senkrecht** zur Strömungsrichtung (Staudruck vermeiden)
 - Absperrventile (Nadelventile) für Wartung/Kalibrierung vorsehen
 - Ausgleichsleitung (Bypass) für Nullpunktsabgleich vorsehen
@@ -90,25 +124,25 @@ Niederdruckseite ────┘
 
 **Prinzip:** Spule erzeugt Magnetfeld. Leitendes Fluid induziert Spannung proportional zur Strömungsgeschwindigkeit (Faraday).
 
-| Eigenschaft     | Wert                                   |
-|-----------------|----------------------------------------|
-| Messmedium      | Leitfähige Flüssigkeit (Heizwasser, Kaltwasser) |
-| Genauigkeit     | ±0.5 % (Klasse 1)                      |
-| Druckverlust    | Minimal (kein Einbauelement)           |
-| Einbaulängen    | 5× DN Vorlauf, 3× DN Nachlauf          |
-| Ausgangssignal  | 4–20 mA, Puls oder Modbus              |
+| Eigenschaft    | Wert                                            |
+| -------------- | ----------------------------------------------- |
+| Messmedium     | Leitfähige Flüssigkeit (Heizwasser, Kaltwasser) |
+| Genauigkeit    | ±0.5 % (Klasse 1)                               |
+| Druckverlust   | Minimal (kein Einbauelement)                    |
+| Einbaulängen   | 5× DN Vorlauf, 3× DN Nachlauf                   |
+| Ausgangssignal | 4–20 mA, Puls oder Modbus                       |
 
 ### Ultraschall
 
 **Prinzip:** Laufzeitdifferenz von Ultraschallpulsen in und gegen die Strömungsrichtung.
 
-| Eigenschaft     | Wert                                   |
-|-----------------|----------------------------------------|
-| Messmedium      | Jede Flüssigkeit (auch nicht-leitend)  |
-| Genauigkeit     | ±1–3 %                                 |
-| Clamp-on möglich| Ja (kein Eingriff in Rohr!)           |
-| Einbaulängen    | 10–15× DN (kritischer als MID)         |
-| Einsatz GA      | Kälte, Warm-/Kaltwasser-Monitoring     |
+| Eigenschaft      | Wert                                  |
+| ---------------- | ------------------------------------- |
+| Messmedium       | Jede Flüssigkeit (auch nicht-leitend) |
+| Genauigkeit      | ±1–3 %                                |
+| Clamp-on möglich | Ja (kein Eingriff in Rohr!)           |
+| Einbaulängen     | 10–15× DN (kritischer als MID)        |
+| Einsatz GA       | Kälte, Warm-/Kaltwasser-Monitoring    |
 
 ### Wärme-/Kältemengenberechnung
 
@@ -141,13 +175,13 @@ Verhältnis → CO₂-Konzentration in ppm
 
 ### Kenngrössen
 
-| Parameter         | Typischer Wert                  |
-|-------------------|---------------------------------|
-| Messbereich       | 0–2000 ppm (Innenraum), bis 5000 ppm |
-| Genauigkeit       | ±50 ppm oder ±3 % Messwert      |
-| Ansprechzeit T90  | 1–3 Minuten                     |
-| Kalibrierung      | Alle 2–5 Jahre empfohlen        |
-| Ausgangssignal    | 0–10 V, 4–20 mA, Modbus         |
+| Parameter        | Typischer Wert                       |
+| ---------------- | ------------------------------------ |
+| Messbereich      | 0–2000 ppm (Innenraum), bis 5000 ppm |
+| Genauigkeit      | ±50 ppm oder ±3 % Messwert           |
+| Ansprechzeit T90 | 1–3 Minuten                          |
+| Kalibrierung     | Alle 2–5 Jahre empfohlen             |
+| Ausgangssignal   | 0–10 V, 4–20 mA, Modbus              |
 
 ### Automatic Background Calibration (ABC)
 
@@ -157,12 +191,12 @@ Viele Sensoren kalibrieren sich automatisch: sie gehen davon aus, dass der niedr
 
 ### Alarm-Grenzwerte (EN 16798)
 
-| Raumkategorie | Grenzwert (CO₂ über Aussenluft) | Qualität   |
-|---------------|----------------------------------|------------|
-| IDA 1         | ≤ 400 ppm (ca. 800 ppm abs.)    | Sehr gut   |
-| IDA 2         | ≤ 800 ppm                        | Gut        |
-| IDA 3         | ≤ 1350 ppm                       | Mittel     |
-| IDA 4         | > 1350 ppm                       | Schlecht   |
+| Raumkategorie | Grenzwert (CO₂ über Aussenluft) | Qualität |
+| ------------- | ------------------------------- | -------- |
+| IDA 1         | ≤ 400 ppm (ca. 800 ppm abs.)    | Sehr gut |
+| IDA 2         | ≤ 800 ppm                       | Gut      |
+| IDA 3         | ≤ 1350 ppm                      | Mittel   |
+| IDA 4         | > 1350 ppm                      | Schlecht |
 
 ---
 
@@ -182,12 +216,12 @@ Viele Sensoren kalibrieren sich automatisch: sie gehen davon aus, dass der niedr
 
 ## Präsenz- und Bewegungsmelder
 
-| Typ         | Messprinzip           | Erkennt                  | Typischer Einsatz          |
-|-------------|----------------------|--------------------------|----------------------------|
-| **PIR**     | Passiv Infrarot      | Bewegung                 | Beleuchtung, einfache Präsenz |
-| **Radar (Mikrowelle)** | Doppler  | Auch statische Personen  | Büro (sitzende Person!), HVAC |
-| **Kamera/KI** | Bildanalyse        | Personenzahl, Positionierung | Höherwertige Anwendungen |
-| **CO₂**     | Indirekt via CO₂     | Belegung (mit Verzögerung) | Lüftungssteuerung         |
+| Typ                    | Messprinzip      | Erkennt                      | Typischer Einsatz             |
+| ---------------------- | ---------------- | ---------------------------- | ----------------------------- |
+| **PIR**                | Passiv Infrarot  | Bewegung                     | Beleuchtung, einfache Präsenz |
+| **Radar (Mikrowelle)** | Doppler          | Auch statische Personen      | Büro (sitzende Person!), HVAC |
+| **Kamera/KI**          | Bildanalyse      | Personenzahl, Positionierung | Höherwertige Anwendungen      |
+| **CO₂**                | Indirekt via CO₂ | Belegung (mit Verzögerung)   | Lüftungssteuerung             |
 
 **PIR-Einschränkung:** Erkennt nur Bewegung. Sitzende Person am Schreibtisch → PIR sieht sie nicht nach 10 Minuten! → Licht/Lüftung schaltet ab trotz Belegung.
 
@@ -236,14 +270,14 @@ Sensors are the sense organs of building automation. Without correct measurement
 
 Both are **resistance temperature detectors** (RTD) made of platinum:
 
-| Property | PT100 | PT1000 |
-|----------|-------|--------|
-| Resistance at 0 °C | 100 Ω | 1000 Ω |
-| Characteristic slope | 0.385 Ω/K | 3.85 Ω/K |
-| Sensitivity | Low | 10× higher than PT100 |
-| Cable resistance | Critical (2-wire!) | Uncritical up to ~100 m |
-| Accuracy | Class A: ±0.15 K | Class A: ±0.15 K |
-| Use in BA | More industrial | **BA standard** |
+| Property             | PT100              | PT1000                  |
+| -------------------- | ------------------ | ----------------------- |
+| Resistance at 0 °C   | 100 Ω              | 1000 Ω                  |
+| Characteristic slope | 0.385 Ω/K          | 3.85 Ω/K                |
+| Sensitivity          | Low                | 10× higher than PT100   |
+| Cable resistance     | Critical (2-wire!) | Uncritical up to ~100 m |
+| Accuracy             | Class A: ±0.15 K   | Class A: ±0.15 K        |
+| Use in BA            | More industrial    | **BA standard**         |
 
 **Why PT1000 in BA?**
 Cable resistance of a 0.5 mm² cable: ~36 Ω/100 m. With PT100 this gives a measurement error of ~93 K — unusable! With PT1000 the same resistance gives ~9 K error. With 2-wire and max. 50 m still acceptable. For cables > 50 m: use 4-wire connection.
@@ -270,11 +304,11 @@ Cable resistance of a 0.5 mm² cable: ~36 Ω/100 m. With PT100 this gives a meas
 
 ### Types
 
-| Type | Measures | BA application |
-|------|---------|----------------|
-| **Absolute pressure** | Pressure relative to vacuum | Rare (meteorological) |
-| **Gauge pressure** | Pressure relative to atmosphere | System pressure heating, cooling |
-| **Differential pressure** | Pressure difference between 2 points | Filters, pumps, flow, VAV |
+| Type                      | Measures                             | BA application                   |
+| ------------------------- | ------------------------------------ | -------------------------------- |
+| **Absolute pressure**     | Pressure relative to vacuum          | Rare (meteorological)            |
+| **Gauge pressure**        | Pressure relative to atmosphere      | System pressure heating, cooling |
+| **Differential pressure** | Pressure difference between 2 points | Filters, pumps, flow, VAV        |
 
 ### Differential Pressure Sensor (Most Common in BA)
 
@@ -285,12 +319,14 @@ Low-pressure side ───────┘
 ```
 
 **Typical applications:**
+
 - Filter monitor (pressure drop across filter → fouling indicator)
 - Flow measurement (orifice + Δp → calculate V̇ via Bernoulli)
 - Pump status (Δp across pump → run signal)
 - VAV box volume flow controller
 
 **Installation notes:**
+
 - Measurement tappings **perpendicular** to flow direction (avoid dynamic pressure)
 - Provide isolation valves (needle valves) for maintenance/calibration
 - Provide equalisation line (bypass) for zero adjustment
@@ -303,25 +339,25 @@ Low-pressure side ───────┘
 
 **Principle:** Coil generates magnetic field. Conductive fluid induces voltage proportional to flow velocity (Faraday).
 
-| Property | Value |
-|----------|-------|
-| Measurement medium | Conductive liquid (heating water, chilled water) |
-| Accuracy | ±0.5 % (Class 1) |
-| Pressure drop | Minimal (no insert element) |
-| Straight run required | 5× DN upstream, 3× DN downstream |
-| Output signal | 4–20 mA, pulse or Modbus |
+| Property              | Value                                            |
+| --------------------- | ------------------------------------------------ |
+| Measurement medium    | Conductive liquid (heating water, chilled water) |
+| Accuracy              | ±0.5 % (Class 1)                                 |
+| Pressure drop         | Minimal (no insert element)                      |
+| Straight run required | 5× DN upstream, 3× DN downstream                 |
+| Output signal         | 4–20 mA, pulse or Modbus                         |
 
 ### Ultrasonic
 
 **Principle:** Transit time difference of ultrasonic pulses with and against flow direction.
 
-| Property | Value |
-|----------|-------|
-| Measurement medium | Any liquid (including non-conductive) |
-| Accuracy | ±1–3 % |
-| Clamp-on possible | Yes (no pipe intrusion!) |
-| Straight run required | 10–15× DN (more critical than MID) |
-| BA application | Cooling, heating/chilled water monitoring |
+| Property              | Value                                     |
+| --------------------- | ----------------------------------------- |
+| Measurement medium    | Any liquid (including non-conductive)     |
+| Accuracy              | ±1–3 %                                    |
+| Clamp-on possible     | Yes (no pipe intrusion!)                  |
+| Straight run required | 10–15× DN (more critical than MID)        |
+| BA application        | Cooling, heating/chilled water monitoring |
 
 ### Heat / Cooling Energy Calculation
 
@@ -354,13 +390,13 @@ Ratio → CO₂ concentration in ppm
 
 ### Key Parameters
 
-| Parameter | Typical value |
-|-----------|--------------|
-| Measuring range | 0–2000 ppm (indoor), up to 5000 ppm |
-| Accuracy | ±50 ppm or ±3 % of reading |
-| Response time T90 | 1–3 minutes |
-| Calibration | Recommended every 2–5 years |
-| Output signal | 0–10 V, 4–20 mA, Modbus |
+| Parameter         | Typical value                       |
+| ----------------- | ----------------------------------- |
+| Measuring range   | 0–2000 ppm (indoor), up to 5000 ppm |
+| Accuracy          | ±50 ppm or ±3 % of reading          |
+| Response time T90 | 1–3 minutes                         |
+| Calibration       | Recommended every 2–5 years         |
+| Output signal     | 0–10 V, 4–20 mA, Modbus             |
 
 ### Automatic Background Calibration (ABC)
 
@@ -370,12 +406,12 @@ Many sensors self-calibrate: they assume the lowest value within 14 days corresp
 
 ### Alarm Limits (EN 16798)
 
-| Room category | Limit (CO₂ above outdoor) | Quality |
-|--------------|--------------------------|---------|
-| IDA 1 | ≤ 400 ppm (approx. 800 ppm abs.) | Very good |
-| IDA 2 | ≤ 800 ppm | Good |
-| IDA 3 | ≤ 1350 ppm | Medium |
-| IDA 4 | > 1350 ppm | Poor |
+| Room category | Limit (CO₂ above outdoor)        | Quality   |
+| ------------- | -------------------------------- | --------- |
+| IDA 1         | ≤ 400 ppm (approx. 800 ppm abs.) | Very good |
+| IDA 2         | ≤ 800 ppm                        | Good      |
+| IDA 3         | ≤ 1350 ppm                       | Medium    |
+| IDA 4         | > 1350 ppm                       | Poor      |
 
 ---
 
@@ -395,12 +431,12 @@ Many sensors self-calibrate: they assume the lowest value within 14 days corresp
 
 ## Presence and Motion Detectors
 
-| Type | Measuring principle | Detects | Typical application |
-|------|--------------------|---------|--------------------|
-| **PIR** | Passive infrared | Movement | Lighting, simple presence |
-| **Radar (microwave)** | Doppler | Also stationary persons | Office (seated person!), HVAC |
-| **Camera / AI** | Image analysis | Occupant count, positioning | Higher-value applications |
-| **CO₂** | Indirect via CO₂ | Occupancy (with delay) | Ventilation control |
+| Type                  | Measuring principle | Detects                     | Typical application           |
+| --------------------- | ------------------- | --------------------------- | ----------------------------- |
+| **PIR**               | Passive infrared    | Movement                    | Lighting, simple presence     |
+| **Radar (microwave)** | Doppler             | Also stationary persons     | Office (seated person!), HVAC |
+| **Camera / AI**       | Image analysis      | Occupant count, positioning | Higher-value applications     |
+| **CO₂**               | Indirect via CO₂    | Occupancy (with delay)      | Ventilation control           |
 
 **PIR limitation:** Detects movement only. Seated person at desk → PIR loses detection after ~10 minutes! → Lighting/ventilation turns off despite occupancy.
 

@@ -4,7 +4,24 @@ title_en: Trending and Historisation — Data Recording in BA
 slug: trending-historisierung
 category: ga
 subcategory: betrieb
-tags: [trending, historisierung, trendlog, cov, polling, zeitreihen, influxdb, grafana, archivierung, auflösung, retention, anomalieerkennung, last-value, change-of-value, bacnet-trendlog]
+tags:
+  [
+    trending,
+    historisierung,
+    trendlog,
+    cov,
+    polling,
+    zeitreihen,
+    influxdb,
+    grafana,
+    archivierung,
+    auflösung,
+    retention,
+    anomalieerkennung,
+    last-value,
+    change-of-value,
+    bacnet-trendlog
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [glt-grundlagen, bacnet, alarmmanagement, ems-lastmanagement]
@@ -30,10 +47,10 @@ t=0:02   → T_VL = 45.3 °C → speichern (kein Änderung, trotzdem speichern)
 ...
 ```
 
-| Vorteil               | Nachteil                          |
-|-----------------------|-----------------------------------|
-| Einfach, gleichmässig | Viel Speicher (auch gleiche Werte)|
-| Gut für Zeitreihen    | Kurze Transienten können fehlen   |
+| Vorteil               | Nachteil                           |
+| --------------------- | ---------------------------------- |
+| Einfach, gleichmässig | Viel Speicher (auch gleiche Werte) |
+| Gut für Zeitreihen    | Kurze Transienten können fehlen    |
 
 ### COV — Change of Value
 
@@ -45,11 +62,11 @@ t=0:01   → T_VL = 45.3 °C → kein Senden (< 0.5 K Änderung)
 t=0:10   → T_VL = 46.0 °C → senden (> 0.5 K = COV-Inkrement)
 ```
 
-| Vorteil               | Nachteil                          |
-|-----------------------|-----------------------------------|
-| Wenig Netzlast        | Ungleichmässige Zeitreihe        |
-| Wenig Speicher        | COV-Inkrement falsch → Datenlücken|
-| Relevante Änderungen  | Schwerer zu visualisieren         |
+| Vorteil              | Nachteil                           |
+| -------------------- | ---------------------------------- |
+| Wenig Netzlast       | Ungleichmässige Zeitreihe          |
+| Wenig Speicher       | COV-Inkrement falsch → Datenlücken |
+| Relevante Änderungen | Schwerer zu visualisieren          |
 
 **Best Practice:** Polling für Anzeige + COV für Archivierung, oder Polling mit niedrigerer Auflösung für Archiv.
 
@@ -59,14 +76,14 @@ t=0:10   → T_VL = 46.0 °C → senden (> 0.5 K = COV-Inkrement)
 
 ### Auflösungs-Empfehlung
 
-| Datenpunkt-Typ        | Auflösung Echtzeit | Archivauflösung | Aufbewahrung |
-|-----------------------|--------------------|--------------------|--------------|
-| Raumtemperatur        | 1–5 min            | 15 min             | 2 Jahre      |
-| Vorlauftemperatur HK  | 30 s               | 5 min              | 2 Jahre      |
-| Energiezähler         | 15 min             | 15 min             | 5+ Jahre     |
-| Alarmereignisse       | Sekunde (Event)    | Sekunde (Event)    | 5+ Jahre     |
-| Ventilstellung        | 1 min              | 15 min             | 1 Jahr       |
-| Störmeldungen         | Sekunde (Event)    | Sekunde (Event)    | 5+ Jahre     |
+| Datenpunkt-Typ       | Auflösung Echtzeit | Archivauflösung | Aufbewahrung |
+| -------------------- | ------------------ | --------------- | ------------ |
+| Raumtemperatur       | 1–5 min            | 15 min          | 2 Jahre      |
+| Vorlauftemperatur HK | 30 s               | 5 min           | 2 Jahre      |
+| Energiezähler        | 15 min             | 15 min          | 5+ Jahre     |
+| Alarmereignisse      | Sekunde (Event)    | Sekunde (Event) | 5+ Jahre     |
+| Ventilstellung       | 1 min              | 15 min          | 1 Jahr       |
+| Störmeldungen        | Sekunde (Event)    | Sekunde (Event) | 5+ Jahre     |
 
 **Grob:** Für Regelungsoptimierung braucht man 1-min-Auflösung. Für Energieberichte reichen 15 min.
 
@@ -189,10 +206,10 @@ t=0:02   → T_SUP = 45.3 °C → store (no change, still stored)
 ...
 ```
 
-| Advantage | Disadvantage |
-|----------|------------|
-| Simple, uniform | Much storage (even unchanged values) |
-| Good for time series | Short transients may be missed |
+| Advantage            | Disadvantage                         |
+| -------------------- | ------------------------------------ |
+| Simple, uniform      | Much storage (even unchanged values) |
+| Good for time series | Short transients may be missed       |
 
 ### COV — Change of Value
 
@@ -204,11 +221,11 @@ t=0:01   → T_SUP = 45.3 °C → no send (< 0.5 K change)
 t=0:10   → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
 ```
 
-| Advantage | Disadvantage |
-|----------|------------|
-| Low network load | Irregular time series |
-| Low storage | Wrong COV increment → data gaps |
-| Relevant changes only | Harder to visualise |
+| Advantage             | Disadvantage                    |
+| --------------------- | ------------------------------- |
+| Low network load      | Irregular time series           |
+| Low storage           | Wrong COV increment → data gaps |
+| Relevant changes only | Harder to visualise             |
 
 **Best practice:** Polling for display + COV for archiving, or polling at lower resolution for archive.
 
@@ -218,14 +235,14 @@ t=0:10   → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
 
 ### Resolution Recommendations
 
-| Data point type | Real-time resolution | Archive resolution | Retention |
-|---------------|--------------------|--------------------|---------|
-| Room temperature | 1–5 min | 15 min | 2 years |
-| Heating circuit supply temp. | 30 s | 5 min | 2 years |
-| Energy meter | 15 min | 15 min | 5+ years |
-| Alarm events | second (event) | second (event) | 5+ years |
-| Valve position | 1 min | 15 min | 1 year |
-| Fault signals | second (event) | second (event) | 5+ years |
+| Data point type              | Real-time resolution | Archive resolution | Retention |
+| ---------------------------- | -------------------- | ------------------ | --------- |
+| Room temperature             | 1–5 min              | 15 min             | 2 years   |
+| Heating circuit supply temp. | 30 s                 | 5 min              | 2 years   |
+| Energy meter                 | 15 min               | 15 min             | 5+ years  |
+| Alarm events                 | second (event)       | second (event)     | 5+ years  |
+| Valve position               | 1 min                | 15 min             | 1 year    |
+| Fault signals                | second (event)       | second (event)     | 5+ years  |
 
 **Roughly:** For control optimisation you need 1-min resolution. For energy reports, 15 min is sufficient.
 

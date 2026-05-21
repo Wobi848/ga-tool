@@ -60,7 +60,15 @@
 
 {#if !isOnline && isStandalone}
 	<div class="offline-banner" role="status" aria-live="polite">
-		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			width="14"
+			height="14"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<line x1="1" y1="1" x2="23" y2="23" />
 			<path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
 			<path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
@@ -75,18 +83,38 @@
 
 {#if showOfflineReady}
 	<div class="toast toast--ready" role="status">
-		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			width="14"
+			height="14"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
 			<polyline points="22 4 12 14.01 9 11.01" />
 		</svg>
 		{$_('pwa.offlineReady')}
-		<button class="toast-close" onclick={() => (showOfflineReady = false)} aria-label={$_('nav.close')}>×</button>
+		<button
+			class="toast-close"
+			onclick={() => (showOfflineReady = false)}
+			aria-label={$_('nav.close')}>×</button
+		>
 	</div>
 {/if}
 
 {#if installPromptEvent && !installDismissed}
 	<div class="toast toast--install" role="status">
-		<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			width="14"
+			height="14"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
 			<polyline points="7 10 12 15 17 10" />
 			<line x1="12" y1="15" x2="12" y2="3" />
@@ -182,7 +210,11 @@
 			transform: none;
 			white-space: normal;
 		}
-		.toast--ready { bottom: 5rem; }
-		.toast--install { bottom: 5rem; }
+		.toast--ready {
+			bottom: 5rem;
+		}
+		.toast--install {
+			bottom: 5rem;
+		}
 	}
 </style>

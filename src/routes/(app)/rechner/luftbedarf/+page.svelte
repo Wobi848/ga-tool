@@ -5,16 +5,49 @@
 
 	// EN 16798-1 Kategorien (Aussenluftvolumenstrom pro Person + pro m² Boden)
 	type Cat = 'I' | 'II' | 'III' | 'IV';
-	const categoriesData: Record<Cat, { labelKey: string; perPerson: number; perArea: number; co2: number; descKey: string }> = {
-		I:   { labelKey: 'rechner.luftbedarfUi.cat1', perPerson: 10,  perArea: 1.0, co2: 550,  descKey: 'rechner.luftbedarfUi.cat1desc' },
-		II:  { labelKey: 'rechner.luftbedarfUi.cat2', perPerson: 7,   perArea: 0.7, co2: 800,  descKey: 'rechner.luftbedarfUi.cat2desc' },
-		III: { labelKey: 'rechner.luftbedarfUi.cat3', perPerson: 4,   perArea: 0.4, co2: 1350, descKey: 'rechner.luftbedarfUi.cat3desc' },
-		IV:  { labelKey: 'rechner.luftbedarfUi.cat4', perPerson: 2.5, perArea: 0.3, co2: 1500, descKey: 'rechner.luftbedarfUi.cat4desc' }
+	const categoriesData: Record<
+		Cat,
+		{ labelKey: string; perPerson: number; perArea: number; co2: number; descKey: string }
+	> = {
+		I: {
+			labelKey: 'rechner.luftbedarfUi.cat1',
+			perPerson: 10,
+			perArea: 1.0,
+			co2: 550,
+			descKey: 'rechner.luftbedarfUi.cat1desc'
+		},
+		II: {
+			labelKey: 'rechner.luftbedarfUi.cat2',
+			perPerson: 7,
+			perArea: 0.7,
+			co2: 800,
+			descKey: 'rechner.luftbedarfUi.cat2desc'
+		},
+		III: {
+			labelKey: 'rechner.luftbedarfUi.cat3',
+			perPerson: 4,
+			perArea: 0.4,
+			co2: 1350,
+			descKey: 'rechner.luftbedarfUi.cat3desc'
+		},
+		IV: {
+			labelKey: 'rechner.luftbedarfUi.cat4',
+			perPerson: 2.5,
+			perArea: 0.3,
+			co2: 1500,
+			descKey: 'rechner.luftbedarfUi.cat4desc'
+		}
 	};
 	const categories = $derived(
 		Object.fromEntries(
-			Object.entries(categoriesData).map(([k, v]) => [k, { ...v, label: $_(v.labelKey), desc: $_(v.descKey) }])
-		) as unknown as Record<Cat, { label: string; desc: string; perPerson: number; perArea: number; co2: number }>
+			Object.entries(categoriesData).map(([k, v]) => [
+				k,
+				{ ...v, label: $_(v.labelKey), desc: $_(v.descKey) }
+			])
+		) as unknown as Record<
+			Cat,
+			{ label: string; desc: string; perPerson: number; perArea: number; co2: number }
+		>
 	);
 
 	let area = $state(25); // m²
@@ -24,8 +57,8 @@
 	let activity = $state<'rest' | 'office' | 'physical'>('office');
 
 	const activityFactorsData: Record<string, { co2: number; labelKey: string }> = {
-		rest:     { co2: 17, labelKey: 'rechner.luftbedarfUi.actRest' },
-		office:   { co2: 19, labelKey: 'rechner.luftbedarfUi.actOffice' },
+		rest: { co2: 17, labelKey: 'rechner.luftbedarfUi.actRest' },
+		office: { co2: 19, labelKey: 'rechner.luftbedarfUi.actOffice' },
 		physical: { co2: 35, labelKey: 'rechner.luftbedarfUi.actPhysical' }
 	};
 	const activityFactors = $derived(
@@ -59,7 +92,14 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
@@ -109,7 +149,9 @@
 			</select>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="act-sel">{$_('rechner.luftbedarfUi.activityLevel')}</label>
+			<label class="calc-field-label" for="act-sel"
+				>{$_('rechner.luftbedarfUi.activityLevel')}</label
+			>
 			<select id="act-sel" bind:value={activity} class="calc-select">
 				{#each Object.entries(activityFactors) as [k, v]}
 					<option value={k}>{v.label}</option>
@@ -121,23 +163,35 @@
 	<div class="calc-result-section">
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.luftbedarfUi.recommendedFlow')}</span>
-			<span class="calc-result-value primary">{fmt(result.recommended, 0)}<span class="calc-result-unit">m³/h</span></span>
+			<span class="calc-result-value primary"
+				>{fmt(result.recommended, 0)}<span class="calc-result-unit">m³/h</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.luftbedarfUi.perEN')}</span>
-			<span class="calc-result-value">{fmt(result.flowEN, 0)}<span class="calc-result-unit">m³/h</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.flowEN, 0)}<span class="calc-result-unit">m³/h</span></span
+			>
 		</div>
 		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.luftbedarfUi.perCO2', { values: { ppm: result.co2Target } })}</span>
-			<span class="calc-result-value">{fmt(result.flowCO2, 0)}<span class="calc-result-unit">m³/h</span></span>
+			<span class="calc-result-label"
+				>{$_('rechner.luftbedarfUi.perCO2', { values: { ppm: result.co2Target } })}</span
+			>
+			<span class="calc-result-value"
+				>{fmt(result.flowCO2, 0)}<span class="calc-result-unit">m³/h</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.luftbedarfUi.airChange')}</span>
-			<span class="calc-result-value">{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.luftbedarfUi.roomVolume')}</span>
-			<span class="calc-result-value">{fmt(result.volume, 1)}<span class="calc-result-unit">m³</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.volume, 1)}<span class="calc-result-unit">m³</span></span
+			>
 		</div>
 	</div>
 

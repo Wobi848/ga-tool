@@ -4,7 +4,23 @@ title_en: Motorised Valves — 2-Way, 3-Way, Kv Value
 slug: motorventile
 category: hydraulik
 subcategory: armaturen
-tags: [motorventil, 2-wege-ventil, 3-wege-ventil, kv-wert, stellantrieb, regelventil, mischventil, umlenkventil, kvs, druckverlust, autorität, gleichprozent, linear, fail-safe]
+tags:
+  [
+    motorventil,
+    2-wege-ventil,
+    3-wege-ventil,
+    kv-wert,
+    stellantrieb,
+    regelventil,
+    mischventil,
+    umlenkventil,
+    kvs,
+    druckverlust,
+    autorität,
+    gleichprozent,
+    linear,
+    fail-safe
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulischer-abgleich, hydraulische-schaltungen, pid-regler, signaltypen]
@@ -32,6 +48,7 @@ Eingang → [Ventil] → Ausgang
 - **Effekt auf Hydraulik:** Ventil schliesst → Druck im Strang steigt → andere Ventile arbeiten mit höherem Differenzdruck
 
 **2-Wege-Ventil im Heizkörperkreis:**
+
 ```
 Vorlauf → 2-Wege-Ventil → Heizkörper → Rücklauf
 ```
@@ -62,11 +79,11 @@ Eingang → [Umlenkventil]
 
 ### Kurzübersicht
 
-| Typ              | Verbindungen | Funktion             | Typischer Einsatz              |
-|------------------|--------------|----------------------|--------------------------------|
-| 2-Wege           | 2 (A, AB)    | Öffnen / Schliessen  | Einzel-Verbraucher, Variable Anlage |
-| 3-Wege Misch     | 3 (A, B, AB) | Mischen              | Heizkreis-Vorlauftemp, WP-Einbindung |
-| 3-Wege Umlenk    | 3 (A, B, AB) | Umlenken             | Heizen/Kühlen Umschaltung      |
+| Typ           | Verbindungen | Funktion            | Typischer Einsatz                    |
+| ------------- | ------------ | ------------------- | ------------------------------------ |
+| 2-Wege        | 2 (A, AB)    | Öffnen / Schliessen | Einzel-Verbraucher, Variable Anlage  |
+| 3-Wege Misch  | 3 (A, B, AB) | Mischen             | Heizkreis-Vorlauftemp, WP-Einbindung |
+| 3-Wege Umlenk | 3 (A, B, AB) | Umlenken            | Heizen/Kühlen Umschaltung            |
 
 ---
 
@@ -83,11 +100,13 @@ Kv = Q × √(1 / Δp)
 ```
 
 Oder aufgelöst nach Durchfluss:
+
 ```
 Q = Kv × √Δp
 ```
 
 Und nach Druckverlust:
+
 ```
 Δp = (Q / Kv)²
 ```
@@ -95,6 +114,7 @@ Und nach Druckverlust:
 **Einheiten:** Q in m³/h, Δp in bar
 
 **Beispiel:**
+
 - Ventil Kv = 2.5 m³/h
 - Differenzdruck = 0.4 bar
 - Durchfluss Q = 2.5 × √0.4 = 2.5 × 0.632 = **1.58 m³/h**
@@ -121,9 +141,11 @@ Beispiel: 10 kW, Spreizung 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 - Für gute Regelbarkeit: Ventil sollte **30–50 % des Systemdrucks** verbrauchen (Ventilautorität)
 
 **Ventilautorität:**
+
 ```
 α = Δpv / (Δpv + ΔpNetz)
 ```
+
 α > 0.5 = gut; α < 0.3 = schlechte Regelbarkeit (Ventil hat kaum Einfluss)
 
 ### Schritt 3: Kv berechnen
@@ -176,13 +198,13 @@ Hub 100% → Kv 100%
 
 ### Typen
 
-| Typ              | Stellsignal | Charakteristik                          |
-|------------------|-------------|------------------------------------------|
-| **2-Punkt**      | 24V EIN/AUS | Auf / Zu — für einfache Anwendungen      |
-| **3-Punkt**      | Auf/Zu-Signal | Langsame Integration, kein Rückmeldesignal |
-| **Stetig 0–10 V** | 0–10 V      | Präzise Regelung, Rückmeldung 0–10 V    |
-| **Stetig 4–20 mA** | 4–20 mA    | Lange Leitungen, Kabelbrucherkennung     |
-| **Bus (KNX, Modbus)** | Bus-Befehl | Diagnose, Rückmeldung, Positionierung  |
+| Typ                   | Stellsignal   | Charakteristik                             |
+| --------------------- | ------------- | ------------------------------------------ |
+| **2-Punkt**           | 24V EIN/AUS   | Auf / Zu — für einfache Anwendungen        |
+| **3-Punkt**           | Auf/Zu-Signal | Langsame Integration, kein Rückmeldesignal |
+| **Stetig 0–10 V**     | 0–10 V        | Präzise Regelung, Rückmeldung 0–10 V       |
+| **Stetig 4–20 mA**    | 4–20 mA       | Lange Leitungen, Kabelbrucherkennung       |
+| **Bus (KNX, Modbus)** | Bus-Befehl    | Diagnose, Rückmeldung, Positionierung      |
 
 ### Stellzeit
 
@@ -195,11 +217,11 @@ Hub 100% → Kv 100%
 
 Bei Signalausfall (Kabelbruch, Stromausfall) nimmt der Antrieb eine definierte Position ein:
 
-| Fail-Safe | Wann sinnvoll                                    |
-|-----------|--------------------------------------------------|
-| **Auf**   | Frostschutz (Heizregister muss offen bleiben)    |
-| **Zu**    | Dampfventil (Verbrühungsschutz), Kühldecke       |
-| **Halten**| Pneumatische Antriebe (halten letzte Position)   |
+| Fail-Safe  | Wann sinnvoll                                  |
+| ---------- | ---------------------------------------------- |
+| **Auf**    | Frostschutz (Heizregister muss offen bleiben)  |
+| **Zu**     | Dampfventil (Verbrühungsschutz), Kühldecke     |
+| **Halten** | Pneumatische Antriebe (halten letzte Position) |
 
 > ⚠️ Fail-Safe Stellung **immer** projektieren und testen! Was passiert bei Kabelbruch? Schaden durch Frost? Übertemperatur? Das muss im Voraus geplant sein.
 
@@ -207,14 +229,14 @@ Bei Signalausfall (Kabelbruch, Stromausfall) nimmt der Antrieb eine definierte P
 
 ## Typische Fehler in der Praxis
 
-| Fehler                        | Symptom                                  | Lösung                              |
-|-------------------------------|------------------------------------------|-------------------------------------|
-| Ventil zu gross (Kvs falsch)  | Regelventil immer fast geschlossen, Geräusche | Ventil tauschen                |
-| Ventilautorität zu klein      | Regelung instabil, schwingt              | Systemdruck erhöhen oder Ventil verkleinern |
-| Kennlinie falsch              | Überproportionale Reaktion bei kleinen Hüben | Kennlinientyp prüfen           |
-| Fail-safe nicht konfiguriert  | Ventil bleibt bei Ausfall in Zufallsstellung | Antrieb parametrieren          |
-| Misch- statt Umlenkventil     | Kurzschluss im System                    | Rohranschluss und Typ prüfen        |
-| Antrieb zu schnell            | Wasserhammergeräusche                    | Stellzeit erhöhen (Parametrierung)  |
+| Fehler                       | Symptom                                       | Lösung                                      |
+| ---------------------------- | --------------------------------------------- | ------------------------------------------- |
+| Ventil zu gross (Kvs falsch) | Regelventil immer fast geschlossen, Geräusche | Ventil tauschen                             |
+| Ventilautorität zu klein     | Regelung instabil, schwingt                   | Systemdruck erhöhen oder Ventil verkleinern |
+| Kennlinie falsch             | Überproportionale Reaktion bei kleinen Hüben  | Kennlinientyp prüfen                        |
+| Fail-safe nicht konfiguriert | Ventil bleibt bei Ausfall in Zufallsstellung  | Antrieb parametrieren                       |
+| Misch- statt Umlenkventil    | Kurzschluss im System                         | Rohranschluss und Typ prüfen                |
+| Antrieb zu schnell           | Wasserhammergeräusche                         | Stellzeit erhöhen (Parametrierung)          |
 
 ## Normen
 
@@ -243,6 +265,7 @@ Inlet → [Valve] → Outlet
 - **Hydraulic effect:** valve closes → pressure in branch rises → other valves operate at higher differential pressure
 
 **2-way valve in radiator circuit:**
+
 ```
 Flow → 2-way valve → Radiator → Return
 ```
@@ -273,11 +296,11 @@ Inlet → [Diverting valve]
 
 ### Quick Overview
 
-| Type | Connections | Function | Typical application |
-|------|------------|----------|---------------------|
-| 2-way | 2 (A, AB) | Open / close | Individual consumer, variable system |
-| 3-way mixing | 3 (A, B, AB) | Mix | Heating circuit flow temp, HP integration |
-| 3-way diverting | 3 (A, B, AB) | Divert | Heating/cooling switchover |
+| Type            | Connections  | Function     | Typical application                       |
+| --------------- | ------------ | ------------ | ----------------------------------------- |
+| 2-way           | 2 (A, AB)    | Open / close | Individual consumer, variable system      |
+| 3-way mixing    | 3 (A, B, AB) | Mix          | Heating circuit flow temp, HP integration |
+| 3-way diverting | 3 (A, B, AB) | Divert       | Heating/cooling switchover                |
 
 ---
 
@@ -294,11 +317,13 @@ Kv = Q × √(1 / Δp)
 ```
 
 Rearranged for flow:
+
 ```
 Q = Kv × √Δp
 ```
 
 And for pressure drop:
+
 ```
 Δp = (Q / Kv)²
 ```
@@ -306,6 +331,7 @@ And for pressure drop:
 **Units:** Q in m³/h, Δp in bar
 
 **Example:**
+
 - Valve Kv = 2.5 m³/h
 - Differential pressure = 0.4 bar
 - Flow Q = 2.5 × √0.4 = 2.5 × 0.632 = **1.58 m³/h**
@@ -332,9 +358,11 @@ Example: 10 kW, spread 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 - For good controllability: valve should consume **30–50 % of system pressure** (valve authority)
 
 **Valve authority:**
+
 ```
 α = Δpv / (Δpv + ΔpSystem)
 ```
+
 α > 0.5 = good; α < 0.3 = poor controllability (valve has little influence)
 
 ### Step 3: Calculate Kv
@@ -387,13 +415,13 @@ Stroke 100% → Kv 100%
 
 ### Types
 
-| Type | Control signal | Characteristic |
-|------|---------------|----------------|
-| **2-position** | 24V ON/OFF | Open / close — for simple applications |
-| **3-position** | Open/close signal | Slow integration, no feedback signal |
-| **Continuous 0–10 V** | 0–10 V | Precise control, 0–10 V feedback |
-| **Continuous 4–20 mA** | 4–20 mA | Long cables, cable break detection |
-| **Bus (KNX, Modbus)** | Bus command | Diagnostics, feedback, positioning |
+| Type                   | Control signal    | Characteristic                         |
+| ---------------------- | ----------------- | -------------------------------------- |
+| **2-position**         | 24V ON/OFF        | Open / close — for simple applications |
+| **3-position**         | Open/close signal | Slow integration, no feedback signal   |
+| **Continuous 0–10 V**  | 0–10 V            | Precise control, 0–10 V feedback       |
+| **Continuous 4–20 mA** | 4–20 mA           | Long cables, cable break detection     |
+| **Bus (KNX, Modbus)**  | Bus command       | Diagnostics, feedback, positioning     |
 
 ### Stroke Time
 
@@ -406,11 +434,11 @@ Stroke 100% → Kv 100%
 
 On signal loss (cable break, power failure), the actuator moves to a defined position:
 
-| Fail-safe | When appropriate |
-|-----------|-----------------|
-| **Open** | Frost protection (heating coil must remain open) |
-| **Closed** | Steam valve (scald protection), chilled ceiling |
-| **Hold** | Pneumatic actuators (hold last position) |
+| Fail-safe  | When appropriate                                 |
+| ---------- | ------------------------------------------------ |
+| **Open**   | Frost protection (heating coil must remain open) |
+| **Closed** | Steam valve (scald protection), chilled ceiling  |
+| **Hold**   | Pneumatic actuators (hold last position)         |
 
 > ⚠️ Fail-safe position must **always** be specified and tested! What happens on cable break? Frost damage? Overtemperature? This must be planned in advance.
 
@@ -418,14 +446,14 @@ On signal loss (cable break, power failure), the actuator moves to a defined pos
 
 ## Typical Field Faults
 
-| Fault | Symptom | Solution |
-|-------|---------|---------|
-| Valve too large (wrong Kvs) | Control valve nearly always closed, noise | Replace valve |
-| Valve authority too low | Control unstable, oscillating | Increase system pressure or reduce valve size |
-| Wrong characteristic | Disproportionate response at small strokes | Check characteristic type |
-| Fail-safe not configured | Valve remains in random position on failure | Parameterise actuator |
-| Mixing instead of diverting valve | Short-circuit in system | Check pipe connection and valve type |
-| Actuator too fast | Water hammer noise | Increase stroke time (parameterisation) |
+| Fault                             | Symptom                                     | Solution                                      |
+| --------------------------------- | ------------------------------------------- | --------------------------------------------- |
+| Valve too large (wrong Kvs)       | Control valve nearly always closed, noise   | Replace valve                                 |
+| Valve authority too low           | Control unstable, oscillating               | Increase system pressure or reduce valve size |
+| Wrong characteristic              | Disproportionate response at small strokes  | Check characteristic type                     |
+| Fail-safe not configured          | Valve remains in random position on failure | Parameterise actuator                         |
+| Mixing instead of diverting valve | Short-circuit in system                     | Check pipe connection and valve type          |
+| Actuator too fast                 | Water hammer noise                          | Increase stroke time (parameterisation)       |
 
 ## Standards
 

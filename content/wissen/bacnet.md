@@ -4,7 +4,24 @@ title_en: BACnet — Building Automation and Control Networks
 slug: bacnet
 category: protokolle
 subcategory: gebäudeautomation
-tags: [bacnet, bacnet-ip, mstp, who-is, i-am, cov, bbmd, objekobjekte, properties, device, analog-input, binary-output, schedule, trend, priority-array]
+tags:
+  [
+    bacnet,
+    bacnet-ip,
+    mstp,
+    who-is,
+    i-am,
+    cov,
+    bbmd,
+    objekobjekte,
+    properties,
+    device,
+    analog-input,
+    binary-output,
+    schedule,
+    trend,
+    priority-array
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [modbus, knx, opc-ua, iec61850]
@@ -19,13 +36,13 @@ lang: de
 
 ## Varianten / Datalinkschichten
 
-| Variante        | Transport           | Typischer Einsatz                               |
-|-----------------|---------------------|-------------------------------------------------|
-| **BACnet/IP**   | UDP Port 47808      | GLT, DDC-Vernetzung, Ethernet-Backbone          |
-| **BACnet MS/TP**| RS-485 (Token-Bus)  | Feldebene, kostengünstige DDC                   |
-| BACnet/SC       | WebSocket über TLS  | Cloud, sichere WAN-Verbindungen (neu)           |
-| BACnet Ethernet | Ethernet (raw)      | Legacy, selten                                  |
-| BACnet ARCNET   | ARCNET              | Veraltet                                        |
+| Variante         | Transport          | Typischer Einsatz                      |
+| ---------------- | ------------------ | -------------------------------------- |
+| **BACnet/IP**    | UDP Port 47808     | GLT, DDC-Vernetzung, Ethernet-Backbone |
+| **BACnet MS/TP** | RS-485 (Token-Bus) | Feldebene, kostengünstige DDC          |
+| BACnet/SC        | WebSocket über TLS | Cloud, sichere WAN-Verbindungen (neu)  |
+| BACnet Ethernet  | Ethernet (raw)     | Legacy, selten                         |
+| BACnet ARCNET    | ARCNET             | Veraltet                               |
 
 **BACnet/IP** und **MS/TP** sind in der Praxis die relevanten Varianten.
 
@@ -35,42 +52,42 @@ BACnet repräsentiert alle Mess- und Steuergrössen als **Objekte**. Jedes Gerä
 
 ### Wichtige Objekttypen
 
-| Objekttyp              | Kürzel | Beschreibung                                   |
-|------------------------|--------|------------------------------------------------|
-| Analog Input           | AI     | Analoger Messwert (Temp., Druck, …)            |
-| Analog Output          | AO     | Analoger Stellwert (Ventil, FU, …)             |
-| Analog Value           | AV     | Interner Rechenwert / Sollwert                 |
-| Binary Input           | BI     | Binärer Zustand (Störmeldung, Laufmeldung)     |
-| Binary Output          | BO     | Binärer Befehl (Ein/Aus)                       |
-| Binary Value           | BV     | Interner Binärwert / Freigabe                  |
-| Multi-State Input/Output| MSI/MSO | Mehrstufige Zustände (Betriebsarten)         |
-| Schedule               | SCH    | Zeitprogramm                                   |
-| Calendar               | CAL    | Feiertagsliste für Schedule                    |
-| Trend Log              | TL     | Aufzeichnung von Wertverläufen                 |
-| Notification Class     | NC     | Alarmweiterleitung                             |
-| Loop                   | LP     | PID-Regelkreis                                 |
-| Program                | PRG    | Applikationsprogramm                           |
+| Objekttyp                | Kürzel  | Beschreibung                               |
+| ------------------------ | ------- | ------------------------------------------ |
+| Analog Input             | AI      | Analoger Messwert (Temp., Druck, …)        |
+| Analog Output            | AO      | Analoger Stellwert (Ventil, FU, …)         |
+| Analog Value             | AV      | Interner Rechenwert / Sollwert             |
+| Binary Input             | BI      | Binärer Zustand (Störmeldung, Laufmeldung) |
+| Binary Output            | BO      | Binärer Befehl (Ein/Aus)                   |
+| Binary Value             | BV      | Interner Binärwert / Freigabe              |
+| Multi-State Input/Output | MSI/MSO | Mehrstufige Zustände (Betriebsarten)       |
+| Schedule                 | SCH     | Zeitprogramm                               |
+| Calendar                 | CAL     | Feiertagsliste für Schedule                |
+| Trend Log                | TL      | Aufzeichnung von Wertverläufen             |
+| Notification Class       | NC      | Alarmweiterleitung                         |
+| Loop                     | LP      | PID-Regelkreis                             |
+| Program                  | PRG     | Applikationsprogramm                       |
 
 ### Wichtige Properties
 
 Jedes Objekt hat Properties. Die Pflichtproperties jedes Objekts:
 
-| Property              | Bedeutung                                            |
-|-----------------------|------------------------------------------------------|
-| `Object_Identifier`   | Objekttyp + Instanznummer (z.B. AI:3)                |
-| `Object_Name`         | Lesbarer Name (z.B. "Aussentemperatur")              |
-| `Object_Type`         | Typ des Objekts                                      |
-| `Present_Value`       | **Aktueller Wert** — das Wichtigste                  |
-| `Status_Flags`        | In-Alarm, Fault, Overridden, Out-of-Service          |
-| `Units`               | Masseinheit (degreesCelsius, pascals, percent, …)    |
-| `Description`         | Freitext-Beschreibung                                |
+| Property            | Bedeutung                                         |
+| ------------------- | ------------------------------------------------- |
+| `Object_Identifier` | Objekttyp + Instanznummer (z.B. AI:3)             |
+| `Object_Name`       | Lesbarer Name (z.B. "Aussentemperatur")           |
+| `Object_Type`       | Typ des Objekts                                   |
+| `Present_Value`     | **Aktueller Wert** — das Wichtigste               |
+| `Status_Flags`      | In-Alarm, Fault, Overridden, Out-of-Service       |
+| `Units`             | Masseinheit (degreesCelsius, pascals, percent, …) |
+| `Description`       | Freitext-Beschreibung                             |
 
 Für AO/BO zusätzlich:
 
-| Property              | Bedeutung                                            |
-|-----------------------|------------------------------------------------------|
-| `Priority_Array`      | 16 Prioritätsstufen (1 = höchste)                    |
-| `Relinquish_Default`  | Wert wenn alle Prioritätsstufen frei                 |
+| Property             | Bedeutung                            |
+| -------------------- | ------------------------------------ |
+| `Priority_Array`     | 16 Prioritätsstufen (1 = höchste)    |
+| `Relinquish_Default` | Wert wenn alle Prioritätsstufen frei |
 
 > ⚠️ **Priority Array:** BACnet erlaubt mehrere Quellen gleichzeitig auf einen Ausgang zu schreiben. Priorität 8 = GLT-Handsteuerung, Priorität 16 = Normalfahrt. Immer die richtige Priorität verwenden!
 
@@ -87,12 +104,12 @@ Damit wird das **BACnet Device Object** gefunden. Darüber lassen sich alle weit
 
 ### Datenzugriff
 
-| Service              | Beschreibung                                    |
-|----------------------|-------------------------------------------------|
-| `ReadProperty`       | Einzelnen Property-Wert lesen                   |
-| `WriteProperty`      | Property schreiben (z.B. Present_Value)         |
-| `ReadPropertyMultiple` | Mehrere Properties in einem Request           |
-| `SubscribeCOV`       | **Change of Value** — Push bei Wertänderung     |
+| Service                | Beschreibung                                |
+| ---------------------- | ------------------------------------------- |
+| `ReadProperty`         | Einzelnen Property-Wert lesen               |
+| `WriteProperty`        | Property schreiben (z.B. Present_Value)     |
+| `ReadPropertyMultiple` | Mehrere Properties in einem Request         |
+| `SubscribeCOV`         | **Change of Value** — Push bei Wertänderung |
 
 **COV (Change of Value)** ist entscheidend für effiziente GLT-Anbindungen — statt zyklischen Polling meldet das Gerät Änderungen selbstständig.
 
@@ -153,13 +170,13 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
 ## Typische Fehler
 
-| Problem                          | Ursache / Massnahme                                    |
-|----------------------------------|--------------------------------------------------------|
-| Gerät nicht gefunden (Who-Is)    | Anderes Subnetz? BBMD fehlt oder falsch konfiguriert   |
-| Device Instance doppelt          | Zwei Geräte mit gleicher ID — eines umbenennen         |
-| COV-Subscriptions laufen ab      | Client muss re-subscriben (Lifetime beachten)          |
-| Schreibzugriff schlägt fehl      | Priorität zu niedrig? Objekt Out-of-Service?           |
-| MS/TP: Geräte antworten sporadisch | Terminierung? Kabel zu lang? Max-Master zu klein?     |
+| Problem                            | Ursache / Massnahme                                  |
+| ---------------------------------- | ---------------------------------------------------- |
+| Gerät nicht gefunden (Who-Is)      | Anderes Subnetz? BBMD fehlt oder falsch konfiguriert |
+| Device Instance doppelt            | Zwei Geräte mit gleicher ID — eines umbenennen       |
+| COV-Subscriptions laufen ab        | Client muss re-subscriben (Lifetime beachten)        |
+| Schreibzugriff schlägt fehl        | Priorität zu niedrig? Objekt Out-of-Service?         |
+| MS/TP: Geräte antworten sporadisch | Terminierung? Kabel zu lang? Max-Master zu klein?    |
 
 ## Normen
 
@@ -173,13 +190,13 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
 ## Variants / Data Link Layers
 
-| Variant | Transport | Typical application |
-|---------|-----------|-------------------|
-| **BACnet/IP** | UDP port 47808 | BMS, DDC networking, Ethernet backbone |
-| **BACnet MS/TP** | RS-485 (token bus) | Field level, low-cost DDC |
-| BACnet/SC | WebSocket over TLS | Cloud, secure WAN connections (new) |
-| BACnet Ethernet | Ethernet (raw) | Legacy, rare |
-| BACnet ARCNET | ARCNET | Obsolete |
+| Variant          | Transport          | Typical application                    |
+| ---------------- | ------------------ | -------------------------------------- |
+| **BACnet/IP**    | UDP port 47808     | BMS, DDC networking, Ethernet backbone |
+| **BACnet MS/TP** | RS-485 (token bus) | Field level, low-cost DDC              |
+| BACnet/SC        | WebSocket over TLS | Cloud, secure WAN connections (new)    |
+| BACnet Ethernet  | Ethernet (raw)     | Legacy, rare                           |
+| BACnet ARCNET    | ARCNET             | Obsolete                               |
 
 **BACnet/IP** and **MS/TP** are the relevant variants in practice.
 
@@ -189,41 +206,41 @@ BACnet represents all measured and control variables as **objects**. Each device
 
 ### Important Object Types
 
-| Object type | Abbrev. | Description |
-|------------|---------|------------|
-| Analog Input | AI | Analogue measured value (temp., pressure, …) |
-| Analog Output | AO | Analogue control value (valve, VSD, …) |
-| Analog Value | AV | Internal calculated value / setpoint |
-| Binary Input | BI | Binary state (fault, run feedback) |
-| Binary Output | BO | Binary command (on/off) |
-| Binary Value | BV | Internal binary value / enable |
-| Multi-State Input/Output | MSI/MSO | Multi-level states (operating modes) |
-| Schedule | SCH | Time schedule |
-| Calendar | CAL | Holiday list for Schedule |
-| Trend Log | TL | Recording of value histories |
-| Notification Class | NC | Alarm routing |
-| Loop | LP | PID control loop |
-| Program | PRG | Application program |
+| Object type              | Abbrev. | Description                                  |
+| ------------------------ | ------- | -------------------------------------------- |
+| Analog Input             | AI      | Analogue measured value (temp., pressure, …) |
+| Analog Output            | AO      | Analogue control value (valve, VSD, …)       |
+| Analog Value             | AV      | Internal calculated value / setpoint         |
+| Binary Input             | BI      | Binary state (fault, run feedback)           |
+| Binary Output            | BO      | Binary command (on/off)                      |
+| Binary Value             | BV      | Internal binary value / enable               |
+| Multi-State Input/Output | MSI/MSO | Multi-level states (operating modes)         |
+| Schedule                 | SCH     | Time schedule                                |
+| Calendar                 | CAL     | Holiday list for Schedule                    |
+| Trend Log                | TL      | Recording of value histories                 |
+| Notification Class       | NC      | Alarm routing                                |
+| Loop                     | LP      | PID control loop                             |
+| Program                  | PRG     | Application program                          |
 
 ### Important Properties
 
 Each object has properties. The mandatory properties of every object:
 
-| Property | Meaning |
-|---------|--------|
-| `Object_Identifier` | Object type + instance number (e.g. AI:3) |
-| `Object_Name` | Human-readable name (e.g. "Outdoor temperature") |
-| `Object_Type` | Type of the object |
-| `Present_Value` | **Current value** — the most important |
-| `Status_Flags` | In-Alarm, Fault, Overridden, Out-of-Service |
-| `Units` | Engineering unit (degreesCelsius, pascals, percent, …) |
-| `Description` | Free-text description |
+| Property            | Meaning                                                |
+| ------------------- | ------------------------------------------------------ |
+| `Object_Identifier` | Object type + instance number (e.g. AI:3)              |
+| `Object_Name`       | Human-readable name (e.g. "Outdoor temperature")       |
+| `Object_Type`       | Type of the object                                     |
+| `Present_Value`     | **Current value** — the most important                 |
+| `Status_Flags`      | In-Alarm, Fault, Overridden, Out-of-Service            |
+| `Units`             | Engineering unit (degreesCelsius, pascals, percent, …) |
+| `Description`       | Free-text description                                  |
 
 For AO/BO additionally:
 
-| Property | Meaning |
-|---------|--------|
-| `Priority_Array` | 16 priority levels (1 = highest) |
+| Property             | Meaning                                     |
+| -------------------- | ------------------------------------------- |
+| `Priority_Array`     | 16 priority levels (1 = highest)            |
 | `Relinquish_Default` | Value when all priority levels are released |
 
 > ⚠️ **Priority Array:** BACnet allows multiple sources to write to one output simultaneously. Priority 8 = BMS manual override, Priority 16 = normal operation. Always use the correct priority!
@@ -241,12 +258,12 @@ This locates the **BACnet Device Object**. All further objects can then be liste
 
 ### Data Access
 
-| Service | Description |
-|--------|------------|
-| `ReadProperty` | Read a single property value |
-| `WriteProperty` | Write a property (e.g. Present_Value) |
-| `ReadPropertyMultiple` | Read multiple properties in one request |
-| `SubscribeCOV` | **Change of Value** — push on value change |
+| Service                | Description                                |
+| ---------------------- | ------------------------------------------ |
+| `ReadProperty`         | Read a single property value               |
+| `WriteProperty`        | Write a property (e.g. Present_Value)      |
+| `ReadPropertyMultiple` | Read multiple properties in one request    |
+| `SubscribeCOV`         | **Change of Value** — push on value change |
 
 **COV (Change of Value)** is critical for efficient BMS integration — instead of cyclic polling, the device reports changes autonomously.
 
@@ -307,12 +324,12 @@ Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 
 ## Typical Errors
 
-| Problem | Cause / action |
-|---------|--------------|
-| Device not found (Who-Is) | Different subnet? BBMD missing or misconfigured |
-| Device Instance duplicate | Two devices with same ID — rename one |
-| COV subscriptions expire | Client must re-subscribe (observe lifetime) |
-| Write access fails | Priority too low? Object Out-of-Service? |
+| Problem                             | Cause / action                                     |
+| ----------------------------------- | -------------------------------------------------- |
+| Device not found (Who-Is)           | Different subnet? BBMD missing or misconfigured    |
+| Device Instance duplicate           | Two devices with same ID — rename one              |
+| COV subscriptions expire            | Client must re-subscribe (observe lifetime)        |
+| Write access fails                  | Priority too low? Object Out-of-Service?           |
 | MS/TP: devices respond sporadically | Termination? Cable too long? Max-Master too small? |
 
 ## Standards

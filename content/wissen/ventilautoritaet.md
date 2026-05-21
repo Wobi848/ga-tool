@@ -4,7 +4,20 @@ title_en: Valve Authority — Impact on Control Quality
 slug: ventilautoritaet
 category: hydraulik
 subcategory: ventile
-tags: [ventilautoritaet, kvs-wert, kv-wert, druckabfall, regelqualität, linearventil, gleichprozentigventil, hydraulik, durchflusscharakteristik, stellventil, auslegung]
+tags:
+  [
+    ventilautoritaet,
+    kvs-wert,
+    kv-wert,
+    druckabfall,
+    regelqualität,
+    linearventil,
+    gleichprozentigventil,
+    hydraulik,
+    durchflusscharakteristik,
+    stellventil,
+    auslegung
+  ]
 difficulty: grundlagen
 area: [hlk, ga]
 related: [motorventile, ventil-schaltungen, druckverlust, kv-wert]
@@ -24,33 +37,33 @@ Die **Ventilautorität** α (Alpha) beschreibt, welchen Anteil des Gesamtdruckve
 α = ΔpV,100 / (ΔpV,100 + ΔpSystem)
 ```
 
-| Variable | Bedeutung |
-|---|---|
-| **ΔpV,100** | Druckverlust des Ventils bei 100% Hub (vollgeöffnet) |
+| Variable     | Bedeutung                                                 |
+| ------------ | --------------------------------------------------------- |
+| **ΔpV,100**  | Druckverlust des Ventils bei 100% Hub (vollgeöffnet)      |
 | **ΔpSystem** | Druckverlust des restlichen Kreises (WT, Rohre, Fittings) |
-| **α** | Ventilautorität [−], 0 bis 1 |
+| **α**        | Ventilautorität [−], 0 bis 1                              |
 
 ## Einfluss auf die Kennlinie
 
 Das Ventil selbst hat eine geometrisch definierte Kennlinie (linear oder gleichprozentig). Durch die Ventilautorität wird diese **Eigenkennlinie** zur **Stellkennlinie** im eingebauten Zustand verzerrt:
 
-| α | Auswirkung bei Linearventil |
-|---|---|
-| α = 1.0 | Ideal — Stellkennlinie = Eigenkennlinie |
-| α = 0.5 | Gut — leichte Verzerrung, akzeptabel |
-| α = 0.3 | Grenzbereich — Kennlinie deutlich konvex |
+| α       | Auswirkung bei Linearventil                                                                              |
+| ------- | -------------------------------------------------------------------------------------------------------- |
+| α = 1.0 | Ideal — Stellkennlinie = Eigenkennlinie                                                                  |
+| α = 0.5 | Gut — leichte Verzerrung, akzeptabel                                                                     |
+| α = 0.3 | Grenzbereich — Kennlinie deutlich konvex                                                                 |
 | α = 0.1 | Schlecht — Ventil öffnet 0–80% Hub ohne nennenswerten Regeleffekt, erst die letzten 20% Hub regeln alles |
 
 **Praxisproblem bei zu kleiner Ventilautorität:** Der Regler arbeitet lange "blind" (kein Durchflusseinfluss) und springt dann schnell in Sättigung → schlechte Regelqualität, Schwingneigung.
 
 ## Empfehlungen
 
-| Anwendung | Empfohlenes α |
-|---|---|
-| Heizkreis, HLK allgemein | ≥ 0.5 |
-| Kühlung, enge Spreizung | ≥ 0.4 |
-| Unterstation Fernwärme | ≥ 0.3 (Minimumwert) |
-| Absolute Untergrenze | 0.2 |
+| Anwendung                | Empfohlenes α       |
+| ------------------------ | ------------------- |
+| Heizkreis, HLK allgemein | ≥ 0.5               |
+| Kühlung, enge Spreizung  | ≥ 0.4               |
+| Unterstation Fernwärme   | ≥ 0.3 (Minimumwert) |
+| Absolute Untergrenze     | 0.2                 |
 
 ## Kvs-Auswahl für gute Ventilautorität
 
@@ -67,10 +80,10 @@ Kvs ≥ Kv × 1.3    [nächste Normgrösse]
 
 ## Gleichprozentige vs. lineare Kennlinie
 
-| Kennlinie | Geeignet für | Vorteil |
-|---|---|---|
-| **Linear** | α ≥ 0.5 | Einfach, gut bei hoher Autorität |
-| **Gleichprozentig** | α 0.3–0.5 | Kompensiert teilweise geringe Autorität |
+| Kennlinie           | Geeignet für | Vorteil                                 |
+| ------------------- | ------------ | --------------------------------------- |
+| **Linear**          | α ≥ 0.5      | Einfach, gut bei hoher Autorität        |
+| **Gleichprozentig** | α 0.3–0.5    | Kompensiert teilweise geringe Autorität |
 
 Ein gleichprozentig-Ventil erzeugt bei niedrigem Hub wenig Durchfluss und steigert ihn exponentiell — das kompensiert die Kennlinienkrümmung bei schlechter Ventilautorität. Es ist aber kein Ersatz für eine vernünftige Dimensionierung.
 
@@ -94,33 +107,33 @@ The **valve authority** α (alpha) describes what fraction of the total pressure
 α = ΔpV,100 / (ΔpV,100 + ΔpSystem)
 ```
 
-| Variable | Meaning |
-|----------|---------|
-| **ΔpV,100** | Pressure drop across the valve at 100% stroke (fully open) |
+| Variable     | Meaning                                                        |
+| ------------ | -------------------------------------------------------------- |
+| **ΔpV,100**  | Pressure drop across the valve at 100% stroke (fully open)     |
 | **ΔpSystem** | Pressure drop of the rest of the circuit (HX, pipes, fittings) |
-| **α** | Valve authority [−], 0 to 1 |
+| **α**        | Valve authority [−], 0 to 1                                    |
 
 ## Effect on the Characteristic Curve
 
 The valve itself has a geometrically defined characteristic (linear or equal-percentage). The valve authority distorts this **inherent characteristic** into the **installed characteristic**:
 
-| α | Effect with linear valve |
-|---|--------------------------|
-| α = 1.0 | Ideal — installed = inherent characteristic |
-| α = 0.5 | Good — slight distortion, acceptable |
-| α = 0.3 | Borderline — characteristic noticeably convex |
+| α       | Effect with linear valve                                                              |
+| ------- | ------------------------------------------------------------------------------------- |
+| α = 1.0 | Ideal — installed = inherent characteristic                                           |
+| α = 0.5 | Good — slight distortion, acceptable                                                  |
+| α = 0.3 | Borderline — characteristic noticeably convex                                         |
 | α = 0.1 | Poor — valve opens 0–80% stroke with negligible flow effect; last 20% do all the work |
 
 **Practical problem with low valve authority:** The controller operates "blind" for a long time (no flow influence) and then jumps rapidly to saturation → poor control quality, tendency to oscillate.
 
 ## Recommendations
 
-| Application | Recommended α |
-|-------------|---------------|
-| Heating circuit, HVAC general | ≥ 0.5 |
-| Cooling, tight temperature spread | ≥ 0.4 |
-| District heating substation | ≥ 0.3 (minimum) |
-| Absolute minimum | 0.2 |
+| Application                       | Recommended α   |
+| --------------------------------- | --------------- |
+| Heating circuit, HVAC general     | ≥ 0.5           |
+| Cooling, tight temperature spread | ≥ 0.4           |
+| District heating substation       | ≥ 0.3 (minimum) |
+| Absolute minimum                  | 0.2             |
 
 ## Kvs Selection for Good Valve Authority
 
@@ -137,10 +150,10 @@ Kvs ≥ Kv × 1.3    [next standard size up]
 
 ## Equal-Percentage vs. Linear Characteristic
 
-| Characteristic | Suitable for | Advantage |
-|----------------|--------------|-----------|
-| **Linear** | α ≥ 0.5 | Simple, works well at high authority |
-| **Equal-percentage** | α 0.3–0.5 | Partially compensates low authority |
+| Characteristic       | Suitable for | Advantage                            |
+| -------------------- | ------------ | ------------------------------------ |
+| **Linear**           | α ≥ 0.5      | Simple, works well at high authority |
+| **Equal-percentage** | α 0.3–0.5    | Partially compensates low authority  |
 
 An equal-percentage valve delivers little flow at low stroke and increases it exponentially — compensating for characteristic distortion under poor valve authority. It is not a substitute for proper sizing.
 

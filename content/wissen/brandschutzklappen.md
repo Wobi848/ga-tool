@@ -4,7 +4,24 @@ title_en: Fire Dampers — Control and Documentation
 slug: brandschutzklappen
 category: sicherheit
 subcategory: brandschutz
-tags: [bsk, brandschutzklappe, feuerschutzklappe, brandschutz, feuerwiderstand, rauchabzug, rwa, auslösung, thermoelement, rückmeldung, protokoll, inbetriebnahme, schmelzeinsatz, en15650, en1366]
+tags:
+  [
+    bsk,
+    brandschutzklappe,
+    feuerschutzklappe,
+    brandschutz,
+    feuerwiderstand,
+    rauchabzug,
+    rwa,
+    auslösung,
+    thermoelement,
+    rückmeldung,
+    protokoll,
+    inbetriebnahme,
+    schmelzeinsatz,
+    en15650,
+    en1366
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro, hlk]
 related: [rlt-anlage, alarmmanagement, glt-grundlagen, ddc-programmierung]
@@ -40,12 +57,12 @@ lang: de
 
 ## Auslöse-Mechanismen
 
-| Auslöser           | Beschreibung                                     | GA-Relevanz          |
-|--------------------|--------------------------------------------------|----------------------|
-| **Schmelzeinsatz** | Mechanisch, bei ca. 72 °C → Feder schliesst Klappe | Ausfallsicher, kein Strom nötig |
-| **Elektrischer Auslöser** | 24 V Signal → Klappe schliesst      | Steuerbar, rückmeldbar |
-| **Thermoelement**  | Temperaturmessung, löst bei Grenzwert aus       | Kombinierbar         |
-| **Rauchmelder**    | Optischer oder ionischer Melder im Kanal        | Für Rauchschutz-Funktion |
+| Auslöser                  | Beschreibung                                       | GA-Relevanz                     |
+| ------------------------- | -------------------------------------------------- | ------------------------------- |
+| **Schmelzeinsatz**        | Mechanisch, bei ca. 72 °C → Feder schliesst Klappe | Ausfallsicher, kein Strom nötig |
+| **Elektrischer Auslöser** | 24 V Signal → Klappe schliesst                     | Steuerbar, rückmeldbar          |
+| **Thermoelement**         | Temperaturmessung, löst bei Grenzwert aus          | Kombinierbar                    |
+| **Rauchmelder**           | Optischer oder ionischer Melder im Kanal           | Für Rauchschutz-Funktion        |
 
 **Kombiniert:** Schmelzeinsatz (Sicherheit) + elektrischer Auslöser (Steuerung aus GLT/BMA).
 
@@ -78,21 +95,21 @@ DDC-Ausgang → Relais → 24 V Haltestrom BSK
 
 Jede BSK meldet ihren Status zurück:
 
-| Signal               | Typ | Bedeutung                               |
-|----------------------|-----|-----------------------------------------|
-| Klappe AUF           | DI  | Betriebszustand, Lüftung aktiv          |
-| Klappe ZU            | DI  | Ausgelöst (Brandfall oder Test)         |
-| Störung (Sammelstörung) | DI | Klappe reagiert nicht / Endfehler     |
+| Signal                  | Typ | Bedeutung                         |
+| ----------------------- | --- | --------------------------------- |
+| Klappe AUF              | DI  | Betriebszustand, Lüftung aktiv    |
+| Klappe ZU               | DI  | Ausgelöst (Brandfall oder Test)   |
+| Störung (Sammelstörung) | DI  | Klappe reagiert nicht / Endfehler |
 
 **Endlagen-Überwachung:** Nach Auslösung (Zu-Befehl) muss Klappe innerhalb definierter Zeit die ZU-Meldung liefern. Timeout = Alarm.
 
 ### GLT-Alarmierung
 
-| Alarm                         | Priorität | Massnahme                    |
-|-------------------------------|-----------|------------------------------|
-| BSK ausgelöst (nicht Test)    | Kritisch  | Sofort Feuerwehr + Betreiber |
-| BSK Rückmeldung fehlt (Störung) | Hoch    | Inspektion erforderlich      |
-| BSK kann nicht zurückgestellt werden | Mittel | Wartung                  |
+| Alarm                                | Priorität | Massnahme                    |
+| ------------------------------------ | --------- | ---------------------------- |
+| BSK ausgelöst (nicht Test)           | Kritisch  | Sofort Feuerwehr + Betreiber |
+| BSK Rückmeldung fehlt (Störung)      | Hoch      | Inspektion erforderlich      |
+| BSK kann nicht zurückgestellt werden | Mittel    | Wartung                      |
 
 ---
 
@@ -145,11 +162,11 @@ BSK-Liste (pro Klappe):
 
 BSK müssen **regelmässig geprüft** werden (Betreiberverantwortung):
 
-| Prüfung               | Intervall   | Beschreibung                       |
-|-----------------------|-------------|------------------------------------|
-| Sichtprüfung          | Jährlich    | Korrosion, Beschädigung, Freiheit  |
-| Funktionsprüfung      | Jährlich    | Auslösung und Rückstellung testen  |
-| Vollprüfung           | 5–10 Jahre  | Komplette Prüfung inkl. Dokumentation |
+| Prüfung          | Intervall  | Beschreibung                          |
+| ---------------- | ---------- | ------------------------------------- |
+| Sichtprüfung     | Jährlich   | Korrosion, Beschädigung, Freiheit     |
+| Funktionsprüfung | Jährlich   | Auslösung und Rückstellung testen     |
+| Vollprüfung      | 5–10 Jahre | Komplette Prüfung inkl. Dokumentation |
 
 **GA-Unterstützung:** Automatische Erinnerung wenn Prüfintervall abläuft. Testergebnisse in GLT archivieren.
 
@@ -190,12 +207,12 @@ BSK müssen **regelmässig geprüft** werden (Betreiberverantwortung):
 
 ## Triggering Mechanisms
 
-| Trigger | Description | BA relevance |
-|---------|------------|-------------|
-| **Fusible link** | Mechanical, at ~72 °C → spring closes damper | Fail-safe, no power needed |
-| **Electric actuator** | 24 V signal → damper closes | Controllable, can provide feedback |
-| **Thermocouple** | Temperature measurement, trips at threshold | Can be combined |
-| **Smoke detector** | Optical or ionisation detector in duct | For smoke protection function |
+| Trigger               | Description                                  | BA relevance                       |
+| --------------------- | -------------------------------------------- | ---------------------------------- |
+| **Fusible link**      | Mechanical, at ~72 °C → spring closes damper | Fail-safe, no power needed         |
+| **Electric actuator** | 24 V signal → damper closes                  | Controllable, can provide feedback |
+| **Thermocouple**      | Temperature measurement, trips at threshold  | Can be combined                    |
+| **Smoke detector**    | Optical or ionisation detector in duct       | For smoke protection function      |
 
 **Combined:** Fusible link (safety) + electric actuator (control from BMS/fire alarm panel).
 
@@ -228,21 +245,21 @@ DDC output → relay → 24 V holding current FD
 
 Every fire damper reports its status:
 
-| Signal | Type | Meaning |
-|--------|------|---------|
-| Damper OPEN | DI | Operating state, ventilation active |
-| Damper CLOSED | DI | Tripped (fire event or test) |
-| Fault (collective) | DI | Damper not responding / end-stop error |
+| Signal             | Type | Meaning                                |
+| ------------------ | ---- | -------------------------------------- |
+| Damper OPEN        | DI   | Operating state, ventilation active    |
+| Damper CLOSED      | DI   | Tripped (fire event or test)           |
+| Fault (collective) | DI   | Damper not responding / end-stop error |
 
 **End-stop monitoring:** After trip (close command), damper must deliver the CLOSED feedback within a defined time. Timeout = alarm.
 
 ### BMS Alarms
 
-| Alarm | Priority | Action |
-|-------|---------|--------|
-| FD tripped (not test) | Critical | Immediately notify fire brigade + operator |
-| FD feedback missing (fault) | High | Inspection required |
-| FD cannot be reset | Medium | Maintenance |
+| Alarm                       | Priority | Action                                     |
+| --------------------------- | -------- | ------------------------------------------ |
+| FD tripped (not test)       | Critical | Immediately notify fire brigade + operator |
+| FD feedback missing (fault) | High     | Inspection required                        |
+| FD cannot be reset          | Medium   | Maintenance                                |
 
 ---
 
@@ -295,11 +312,11 @@ FD list (per damper):
 
 Fire dampers must be **regularly inspected** (operator responsibility):
 
-| Inspection | Interval | Description |
-|-----------|---------|------------|
-| Visual inspection | Annual | Corrosion, damage, freedom of movement |
-| Function test | Annual | Test trip and reset |
-| Full inspection | 5–10 years | Complete check including documentation |
+| Inspection        | Interval   | Description                            |
+| ----------------- | ---------- | -------------------------------------- |
+| Visual inspection | Annual     | Corrosion, damage, freedom of movement |
+| Function test     | Annual     | Test trip and reset                    |
+| Full inspection   | 5–10 years | Complete check including documentation |
 
 **BA support:** Automatic reminder when inspection interval is due. Archive test results in BMS.
 

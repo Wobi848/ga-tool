@@ -4,7 +4,23 @@ title_en: CAN Bus — Controller Area Network in Building Automation
 slug: can-bus
 category: kommunikation
 subcategory: feldbus
-tags: [can, can-bus, controller-area-network, iso-11898, canopen, j1939, differenzielle-übertragung, nachrichtenbasiert, priorität, fehlerbehandlung, belimo, hvac, antriebe, aufzug]
+tags:
+  [
+    can,
+    can-bus,
+    controller-area-network,
+    iso-11898,
+    canopen,
+    j1939,
+    differenzielle-übertragung,
+    nachrichtenbasiert,
+    priorität,
+    fehlerbehandlung,
+    belimo,
+    hvac,
+    antriebe,
+    aufzug
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
 related: [rs485, modbus, bacnet, frequenzumrichter, motorventile, klappenantriebe]
@@ -22,15 +38,16 @@ CAN (Controller Area Network) wurde 1986 von Bosch für die Fahrzeugelektronik e
 
 ## Warum CAN in der Gebäudeautomation?
 
-| Eigenschaft | Vorteil für GA |
-|-------------|----------------|
-| Ereignisgesteuert | Statusmeldungen sofort bei Zustandsänderung |
-| Priorisierung | Alarmmeldungen verdrängen Routinedaten |
-| Multi-Master | Kein zentraler Koordinator nötig |
-| Hohe Störfestigkeit | Differenzielle Übertragung, CRC-Prüfung |
+| Eigenschaft                  | Vorteil für GA                               |
+| ---------------------------- | -------------------------------------------- |
+| Ereignisgesteuert            | Statusmeldungen sofort bei Zustandsänderung  |
+| Priorisierung                | Alarmmeldungen verdrängen Routinedaten       |
+| Multi-Master                 | Kein zentraler Koordinator nötig             |
+| Hohe Störfestigkeit          | Differenzielle Übertragung, CRC-Prüfung      |
 | Zuverlässige Fehlererkennung | Automatische Wiederholung, Bus-Off-Erkennung |
 
 Typische GA-Anwendungen:
+
 - **Belimo CAN** — Klappenantriebe und Ventile mit CAN-Interface
 - **Aufzugssteuerungen** — Fahrkorbkommunikation gemäss EN 81-28
 - **EC-Ventilatoren** — z.B. ebm-papst mit CANopen-Interface
@@ -43,23 +60,23 @@ Typische GA-Anwendungen:
 
 CAN nutzt eine **differenzielle Zweidrahtleitung** (CAN_H, CAN_L) ähnlich RS-485, jedoch mit anderen Spannungspegeln:
 
-| Pegel | CAN_H | CAN_L | Differenz |
-|-------|-------|-------|-----------|
-| Rezessiv (1) | 2,5 V | 2,5 V | 0 V |
-| Dominant (0) | 3,5 V | 1,5 V | 2 V |
+| Pegel        | CAN_H | CAN_L | Differenz |
+| ------------ | ----- | ----- | --------- |
+| Rezessiv (1) | 2,5 V | 2,5 V | 0 V       |
+| Dominant (0) | 3,5 V | 1,5 V | 2 V       |
 
 **Abschlusswiderstände:** 120 Ω an beiden Busenden (identisch RS-485).
 
 ### Leitungslänge vs. Baudrate
 
-| Baudrate | Max. Leitungslänge |
-|----------|--------------------|
-| 1 Mbit/s | 25 m |
-| 500 kbit/s | 100 m |
-| 250 kbit/s | 250 m |
-| 125 kbit/s | 500 m |
-| 50 kbit/s | 1000 m |
-| 10 kbit/s | 5000 m |
+| Baudrate   | Max. Leitungslänge |
+| ---------- | ------------------ |
+| 1 Mbit/s   | 25 m               |
+| 500 kbit/s | 100 m              |
+| 250 kbit/s | 250 m              |
+| 125 kbit/s | 500 m              |
+| 50 kbit/s  | 1000 m             |
+| 10 kbit/s  | 5000 m             |
 
 Für GA mit Kabellängen > 100 m: 125 kbit/s oder 250 kbit/s wählen.
 
@@ -94,18 +111,19 @@ CANopen (CiA 301) ist das wichtigste CAN-Applikationsprotokoll in der GA:
 
 ### Kommunikationsobjekte
 
-| Objekt | Kürzel | Funktion |
-|--------|--------|----------|
-| Process Data Object | PDO | Echtzeit-Prozessdaten (Messwerte, Sollwerte) |
-| Service Data Object | SDO | Konfiguration und Parametrierung |
-| Network Management | NMT | Anlauf, Stopp, Fehlerreset |
-| Heartbeat/Guarding | HB/LG | Überwachung der Teilnehmer |
-| Emergency | EMCY | Fehlermeldungen |
-| Sync | SYNC | Zeitsynchronisation |
+| Objekt              | Kürzel | Funktion                                     |
+| ------------------- | ------ | -------------------------------------------- |
+| Process Data Object | PDO    | Echtzeit-Prozessdaten (Messwerte, Sollwerte) |
+| Service Data Object | SDO    | Konfiguration und Parametrierung             |
+| Network Management  | NMT    | Anlauf, Stopp, Fehlerreset                   |
+| Heartbeat/Guarding  | HB/LG  | Überwachung der Teilnehmer                   |
+| Emergency           | EMCY   | Fehlermeldungen                              |
+| Sync                | SYNC   | Zeitsynchronisation                          |
 
 ### Geräteprofil CiA 417 — Gebäudeautomation
 
 CiA 417 definiert CANopen-Geräteklassen speziell für GA:
+
 - **Raumbediengeräte** (Thermostat, CO₂-Sensor)
 - **Ventilantriebe** (Heiz-/Kühlventile)
 - **Lüftungsklappen**
@@ -115,21 +133,22 @@ CiA 417 definiert CANopen-Geräteklassen speziell für GA:
 
 ## CAN vs. RS-485 / Modbus
 
-| Merkmal | CAN / CANopen | RS-485 / Modbus RTU |
-|---------|---------------|---------------------|
-| Architektur | Multi-Master, ereignisgesteuert | Master-Slave, polling |
-| Priorität | Ja (per ID) | Nein |
-| Fehlererkennung | CRC + Bitstuffing + ACK | CRC (nur) |
-| Latenz | Gering (ereignisgesteuert) | Hoch (Polling-Zykluszeit) |
-| Teilnehmer | 127 | 32 (Standard) |
-| Verbreitung GA CH/DE | Mittel (Antriebe, Lüftung) | Sehr hoch |
-| Konfigurationsaufwand | Höher (Objektverzeichnis) | Gering (Register direkt) |
+| Merkmal               | CAN / CANopen                   | RS-485 / Modbus RTU       |
+| --------------------- | ------------------------------- | ------------------------- |
+| Architektur           | Multi-Master, ereignisgesteuert | Master-Slave, polling     |
+| Priorität             | Ja (per ID)                     | Nein                      |
+| Fehlererkennung       | CRC + Bitstuffing + ACK         | CRC (nur)                 |
+| Latenz                | Gering (ereignisgesteuert)      | Hoch (Polling-Zykluszeit) |
+| Teilnehmer            | 127                             | 32 (Standard)             |
+| Verbreitung GA CH/DE  | Mittel (Antriebe, Lüftung)      | Sehr hoch                 |
+| Konfigurationsaufwand | Höher (Objektverzeichnis)       | Gering (Register direkt)  |
 
 ---
 
 ## CAN FD — Flexible Data Rate
 
 CAN FD (ISO 11898-1:2015) erlaubt:
+
 - **Bis zu 64 Byte** Nutzdaten (statt 8)
 - **Bis zu 8 Mbit/s** im Datenteil
 - Rückwärtskompatibel mit klassischem CAN im Arbitrationsteil
@@ -140,15 +159,16 @@ In der GA noch selten, aber in neueren HVAC-Geräten zunehmend anzutreffen.
 
 ## Typische Fehler und Diagnose
 
-| Fehler | Ursache | Massnahme |
-|--------|---------|-----------|
-| Bus-Off | Zu viele Übertragungsfehler | Ursache finden (Abschluss, Schirmung) |
-| Error Passive | Teilnehmer hat > 127 Fehler gezählt | Kommunikation prüfen |
-| Keine Kommunikation | Abschlusswiderstände fehlen | 120 Ω an beide Enden |
-| Sporadische Fehler | EMV-Störungen | Schirmung verbessern, Baudrate senken |
-| Node antwortet nicht | NMT-State falsch | NMT Start-Node senden |
+| Fehler               | Ursache                             | Massnahme                             |
+| -------------------- | ----------------------------------- | ------------------------------------- |
+| Bus-Off              | Zu viele Übertragungsfehler         | Ursache finden (Abschluss, Schirmung) |
+| Error Passive        | Teilnehmer hat > 127 Fehler gezählt | Kommunikation prüfen                  |
+| Keine Kommunikation  | Abschlusswiderstände fehlen         | 120 Ω an beide Enden                  |
+| Sporadische Fehler   | EMV-Störungen                       | Schirmung verbessern, Baudrate senken |
+| Node antwortet nicht | NMT-State falsch                    | NMT Start-Node senden                 |
 
 ### CAN-Diagnose-Tools
+
 - **PEAK PCAN-USB** — günstiger CAN-Analysator
 - **CANalyzer (Vector)** — professionelle Analyse
 - **Wireshark + SocketCAN** (Linux) — kostenlos
@@ -186,15 +206,16 @@ CAN (Controller Area Network) was developed by Bosch in 1986 for automotive elec
 
 ## Why CAN in Building Automation?
 
-| Property | Advantage for BA |
-|----------|-----------------|
-| Event-driven | Status messages transmitted immediately on state change |
-| Prioritisation | Alarm messages pre-empt routine data |
-| Multi-master | No central coordinator required |
-| High noise immunity | Differential transmission, CRC checking |
-| Reliable error detection | Automatic retransmission, Bus-Off detection |
+| Property                 | Advantage for BA                                        |
+| ------------------------ | ------------------------------------------------------- |
+| Event-driven             | Status messages transmitted immediately on state change |
+| Prioritisation           | Alarm messages pre-empt routine data                    |
+| Multi-master             | No central coordinator required                         |
+| High noise immunity      | Differential transmission, CRC checking                 |
+| Reliable error detection | Automatic retransmission, Bus-Off detection             |
 
 Typical BA applications:
+
 - **Belimo CAN** — damper actuators and valves with CAN interface
 - **Lift controls** — car communication per EN 81-28
 - **EC fans** — e.g. ebm-papst with CANopen interface
@@ -207,23 +228,23 @@ Typical BA applications:
 
 CAN uses a **differential two-wire link** (CAN_H, CAN_L) similar to RS-485, but with different voltage levels:
 
-| Level | CAN_H | CAN_L | Differential |
-|-------|-------|-------|-------------|
-| Recessive (1) | 2.5 V | 2.5 V | 0 V |
-| Dominant (0) | 3.5 V | 1.5 V | 2 V |
+| Level         | CAN_H | CAN_L | Differential |
+| ------------- | ----- | ----- | ------------ |
+| Recessive (1) | 2.5 V | 2.5 V | 0 V          |
+| Dominant (0)  | 3.5 V | 1.5 V | 2 V          |
 
 **Termination resistors:** 120 Ω at both bus ends (identical to RS-485).
 
 ### Cable Length vs. Baud Rate
 
-| Baud Rate | Max. Cable Length |
-|-----------|-----------------|
-| 1 Mbit/s | 25 m |
-| 500 kbit/s | 100 m |
-| 250 kbit/s | 250 m |
-| 125 kbit/s | 500 m |
-| 50 kbit/s | 1,000 m |
-| 10 kbit/s | 5,000 m |
+| Baud Rate  | Max. Cable Length |
+| ---------- | ----------------- |
+| 1 Mbit/s   | 25 m              |
+| 500 kbit/s | 100 m             |
+| 250 kbit/s | 250 m             |
+| 125 kbit/s | 500 m             |
+| 50 kbit/s  | 1,000 m           |
+| 10 kbit/s  | 5,000 m           |
 
 For BA with cable lengths > 100 m: choose 125 kbit/s or 250 kbit/s.
 
@@ -258,18 +279,19 @@ CANopen (CiA 301) is the most important CAN application protocol in BA:
 
 ### Communication Objects
 
-| Object | Abbreviation | Function |
-|--------|-------------|---------|
-| Process Data Object | PDO | Real-time process data (measured values, setpoints) |
-| Service Data Object | SDO | Configuration and parameterisation |
-| Network Management | NMT | Start-up, stop, fault reset |
-| Heartbeat/Guarding | HB/LG | Node monitoring |
-| Emergency | EMCY | Error messages |
-| Sync | SYNC | Time synchronisation |
+| Object              | Abbreviation | Function                                            |
+| ------------------- | ------------ | --------------------------------------------------- |
+| Process Data Object | PDO          | Real-time process data (measured values, setpoints) |
+| Service Data Object | SDO          | Configuration and parameterisation                  |
+| Network Management  | NMT          | Start-up, stop, fault reset                         |
+| Heartbeat/Guarding  | HB/LG        | Node monitoring                                     |
+| Emergency           | EMCY         | Error messages                                      |
+| Sync                | SYNC         | Time synchronisation                                |
 
 ### Device Profile CiA 417 — Building Automation
 
 CiA 417 defines CANopen device classes specifically for BA:
+
 - **Room operating units** (thermostat, CO₂ sensor)
 - **Valve actuators** (heating/cooling valves)
 - **Ventilation dampers**
@@ -279,21 +301,22 @@ CiA 417 defines CANopen device classes specifically for BA:
 
 ## CAN vs. RS-485 / Modbus
 
-| Feature | CAN / CANopen | RS-485 / Modbus RTU |
-|---------|--------------|---------------------|
-| Architecture | Multi-master, event-driven | Master-slave, polling |
-| Prioritisation | Yes (by ID) | No |
-| Error detection | CRC + bit stuffing + ACK | CRC only |
-| Latency | Low (event-driven) | Higher (polling cycle time) |
-| Nodes | 127 | 32 (standard) |
-| Prevalence in BA (CH/DE) | Medium (actuators, ventilation) | Very high |
-| Configuration effort | Higher (object dictionary) | Low (direct register access) |
+| Feature                  | CAN / CANopen                   | RS-485 / Modbus RTU          |
+| ------------------------ | ------------------------------- | ---------------------------- |
+| Architecture             | Multi-master, event-driven      | Master-slave, polling        |
+| Prioritisation           | Yes (by ID)                     | No                           |
+| Error detection          | CRC + bit stuffing + ACK        | CRC only                     |
+| Latency                  | Low (event-driven)              | Higher (polling cycle time)  |
+| Nodes                    | 127                             | 32 (standard)                |
+| Prevalence in BA (CH/DE) | Medium (actuators, ventilation) | Very high                    |
+| Configuration effort     | Higher (object dictionary)      | Low (direct register access) |
 
 ---
 
 ## CAN FD — Flexible Data Rate
 
 CAN FD (ISO 11898-1:2015) allows:
+
 - **Up to 64 bytes** payload (instead of 8)
 - **Up to 8 Mbit/s** in the data phase
 - Backward compatible with classic CAN in the arbitration phase
@@ -304,15 +327,16 @@ Still rare in BA, but increasingly found in newer HVAC equipment.
 
 ## Common Faults and Diagnostics
 
-| Fault | Cause | Measure |
-|-------|-------|---------|
-| Bus-Off | Too many transmission errors | Find root cause (termination, shielding) |
-| Error Passive | Node has counted > 127 errors | Check communication |
-| No communication | Missing termination resistors | 120 Ω at both ends |
-| Sporadic errors | EMC interference | Improve shielding, reduce baud rate |
-| Node not responding | Wrong NMT state | Send NMT Start-Node |
+| Fault               | Cause                         | Measure                                  |
+| ------------------- | ----------------------------- | ---------------------------------------- |
+| Bus-Off             | Too many transmission errors  | Find root cause (termination, shielding) |
+| Error Passive       | Node has counted > 127 errors | Check communication                      |
+| No communication    | Missing termination resistors | 120 Ω at both ends                       |
+| Sporadic errors     | EMC interference              | Improve shielding, reduce baud rate      |
+| Node not responding | Wrong NMT state               | Send NMT Start-Node                      |
 
 ### CAN Diagnostic Tools
+
 - **PEAK PCAN-USB** — affordable CAN analyser
 - **CANalyzer (Vector)** — professional analysis
 - **Wireshark + SocketCAN** (Linux) — free

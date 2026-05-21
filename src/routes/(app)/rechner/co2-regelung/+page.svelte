@@ -7,20 +7,20 @@
 	let mode: Mode = $state('auslegung');
 
 	// Shared inputs
-	let volume = $state(75);       // m³
+	let volume = $state(75); // m³
 	let persons = $state(10);
 	let activity = $state<'rest' | 'office' | 'physical'>('office');
-	let co2Outside = $state(420);  // ppm
+	let co2Outside = $state(420); // ppm
 
 	// Mode 1: Auslegung
-	let co2Target = $state(1000);  // ppm
+	let co2Target = $state(1000); // ppm
 
 	// Mode 2: Raumverhalten
-	let flowRate = $state(300);    // m³/h
+	let flowRate = $state(300); // m³/h
 
 	const activityCO2Base: Record<string, { lph: number; labelKey: string }> = {
-		rest:     { lph: 12, labelKey: 'rechner.co2RegelungUi.actRest' },
-		office:   { lph: 18, labelKey: 'rechner.co2RegelungUi.actOffice' },
+		rest: { lph: 12, labelKey: 'rechner.co2RegelungUi.actRest' },
+		office: { lph: 18, labelKey: 'rechner.co2RegelungUi.actOffice' },
 		physical: { lph: 35, labelKey: 'rechner.co2RegelungUi.actPhysical' }
 	};
 	const activityCO2 = $derived(
@@ -30,17 +30,19 @@
 	);
 
 	const co2PresetKeys = [
-		{ labelKey: 'rechner.co2RegelungUi.presetCat1',       ppmFn: () => co2Outside + 350 },
-		{ labelKey: 'rechner.co2RegelungUi.presetCat2',       ppmFn: () => co2Outside + 500 },
-		{ labelKey: 'rechner.co2RegelungUi.presetCat3',       ppmFn: () => co2Outside + 800 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCat1', ppmFn: () => co2Outside + 350 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCat2', ppmFn: () => co2Outside + 500 },
+		{ labelKey: 'rechner.co2RegelungUi.presetCat3', ppmFn: () => co2Outside + 800 },
 		{ labelKey: 'rechner.co2RegelungUi.presetPettenkofer', ppmFn: () => 1000 },
-		{ labelKey: 'rechner.co2RegelungUi.presetCritical',   ppmFn: () => 2000 }
+		{ labelKey: 'rechner.co2RegelungUi.presetCritical', ppmFn: () => 2000 }
 	];
-	const co2Presets = $derived(co2PresetKeys.map(p => ({ label: $_(p.labelKey), ppm: p.ppmFn() })));
+	const co2Presets = $derived(
+		co2PresetKeys.map((p) => ({ label: $_(p.labelKey), ppm: p.ppmFn() }))
+	);
 
 	const result = $derived.by(() => {
 		const g = activityCO2[activity].lph * persons; // l/h total CO₂ production
-		const gM3 = g / 1000;                          // m³/h CO₂
+		const gM3 = g / 1000; // m³/h CO₂
 
 		if (mode === 'auslegung') {
 			if (co2Target <= co2Outside) return null;
@@ -67,7 +69,7 @@
 		const tau = result.tau; // min
 		const ss = result.steadyState;
 		const start = co2Outside;
-		const points = [0, 0.5, 1, 1.5, 2, 2.5, 3].map(t => ({
+		const points = [0, 0.5, 1, 1.5, 2, 2.5, 3].map((t) => ({
 			t: Math.round(t * tau),
 			co2: Math.round(ss - (ss - start) * Math.exp(-t))
 		}));
@@ -85,23 +87,43 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
 			<h1 class="calc-title">{$_('rechner.co2Regelung.name')}</h1>
-			<FavButton type="rechner" slug="co2-regelung" title={$_('rechner.co2Regelung.name')} size={20} />
+			<FavButton
+				type="rechner"
+				slug="co2-regelung"
+				title={$_('rechner.co2Regelung.name')}
+				size={20}
+			/>
 		</div>
 	</header>
 
 	<!-- Mode Switch -->
 	<div class="mode-tabs">
-		<button class="mode-tab" class:active={mode === 'auslegung'} onclick={() => mode = 'auslegung'}>
+		<button
+			class="mode-tab"
+			class:active={mode === 'auslegung'}
+			onclick={() => (mode = 'auslegung')}
+		>
 			{$_('rechner.co2RegelungUi.modeAuslegung')}
 		</button>
-		<button class="mode-tab" class:active={mode === 'raumverhalten'} onclick={() => mode = 'raumverhalten'}>
+		<button
+			class="mode-tab"
+			class:active={mode === 'raumverhalten'}
+			onclick={() => (mode = 'raumverhalten')}
+		>
 			{$_('rechner.co2RegelungUi.modeRaumverhalten')}
 		</button>
 	</div>
@@ -119,12 +141,21 @@
 		<div class="calc-field">
 			<label class="calc-field-label" for="pers-in">{$_('rechner.co2RegelungUi.occupants')}</label>
 			<div class="calc-input-wrap">
-				<input id="pers-in" type="number" step="1" min="0" bind:value={persons} class="calc-input" />
+				<input
+					id="pers-in"
+					type="number"
+					step="1"
+					min="0"
+					bind:value={persons}
+					class="calc-input"
+				/>
 				<span class="calc-input-unit">{$_('rechner.co2RegelungUi.persons')}</span>
 			</div>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="act-sel">{$_('rechner.co2RegelungUi.activityLevel')}</label>
+			<label class="calc-field-label" for="act-sel"
+				>{$_('rechner.co2RegelungUi.activityLevel')}</label
+			>
 			<select id="act-sel" bind:value={activity} class="calc-select">
 				{#each Object.entries(activityCO2) as [k, v]}
 					<option value={k}>{v.label} — {v.lph} l/h·P</option>
@@ -132,9 +163,19 @@
 			</select>
 		</div>
 		<div class="calc-field">
-			<label class="calc-field-label" for="co2out-in">{$_('rechner.co2RegelungUi.co2Outside')}</label>
+			<label class="calc-field-label" for="co2out-in"
+				>{$_('rechner.co2RegelungUi.co2Outside')}</label
+			>
 			<div class="calc-input-wrap">
-				<input id="co2out-in" type="number" step="10" min="380" max="600" bind:value={co2Outside} class="calc-input" />
+				<input
+					id="co2out-in"
+					type="number"
+					step="10"
+					min="380"
+					max="600"
+					bind:value={co2Outside}
+					class="calc-input"
+				/>
 				<span class="calc-input-unit">ppm</span>
 			</div>
 		</div>
@@ -142,105 +183,142 @@
 
 	<!-- Mode 1: Auslegung -->
 	{#if mode === 'auslegung'}
-	<div class="calc-section">
-		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2Target')}</h2>
-		<div class="preset-grid">
-			{#each co2Presets as p}
-				<button
-					class="preset-btn"
-					class:active={co2Target === p.ppm}
-					onclick={() => co2Target = p.ppm}
-				>{p.label}<br/><span class="preset-ppm">{p.ppm} ppm</span></button>
-			{/each}
-		</div>
-		<div class="calc-field">
-			<label class="calc-field-label" for="co2t-in">{$_('rechner.co2RegelungUi.orManual')}</label>
-			<div class="calc-input-wrap">
-				<input id="co2t-in" type="number" step="50" min="450" max="5000" bind:value={co2Target} class="calc-input" />
-				<span class="calc-input-unit">ppm</span>
+		<div class="calc-section">
+			<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2Target')}</h2>
+			<div class="preset-grid">
+				{#each co2Presets as p}
+					<button
+						class="preset-btn"
+						class:active={co2Target === p.ppm}
+						onclick={() => (co2Target = p.ppm)}
+						>{p.label}<br /><span class="preset-ppm">{p.ppm} ppm</span></button
+					>
+				{/each}
+			</div>
+			<div class="calc-field">
+				<label class="calc-field-label" for="co2t-in">{$_('rechner.co2RegelungUi.orManual')}</label>
+				<div class="calc-input-wrap">
+					<input
+						id="co2t-in"
+						type="number"
+						step="50"
+						min="450"
+						max="5000"
+						bind:value={co2Target}
+						class="calc-input"
+					/>
+					<span class="calc-input-unit">ppm</span>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	{#if result}
-	<div class="calc-result-section">
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.minFlow')}</span>
-			<span class="calc-result-value primary">{fmt(result.q, 0)}<span class="calc-result-unit">m³/h</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
-			<span class="calc-result-value">{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
-			<span class="calc-result-value">{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
-			<span class="calc-result-value">{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span>
-		</div>
-	</div>
-	<p class="calc-info">{$_('rechner.co2RegelungUi.infoAuslegung')}</p>
-	{/if}
+		{#if result}
+			<div class="calc-result-section">
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.minFlow')}</span>
+					<span class="calc-result-value primary"
+						>{fmt(result.q, 0)}<span class="calc-result-unit">m³/h</span></span
+					>
+				</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span
+					>
+				</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span
+					>
+				</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span
+					>
+				</div>
+			</div>
+			<p class="calc-info">{$_('rechner.co2RegelungUi.infoAuslegung')}</p>
+		{/if}
 	{/if}
 
 	<!-- Mode 2: Raumverhalten -->
 	{#if mode === 'raumverhalten'}
-	<div class="calc-section">
-		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.ventilationUnit')}</h2>
-		<div class="calc-field" style="border-top: none">
-			<label class="calc-field-label" for="flow-in">{$_('rechner.co2RegelungUi.volumeFlow')}</label>
-			<div class="calc-input-wrap">
-				<input id="flow-in" type="number" step="50" min="10" bind:value={flowRate} class="calc-input" />
-				<span class="calc-input-unit">m³/h</span>
+		<div class="calc-section">
+			<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.ventilationUnit')}</h2>
+			<div class="calc-field" style="border-top: none">
+				<label class="calc-field-label" for="flow-in"
+					>{$_('rechner.co2RegelungUi.volumeFlow')}</label
+				>
+				<div class="calc-input-wrap">
+					<input
+						id="flow-in"
+						type="number"
+						step="50"
+						min="10"
+						bind:value={flowRate}
+						class="calc-input"
+					/>
+					<span class="calc-input-unit">m³/h</span>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	{#if result}
-	<div class="calc-result-section">
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.steadyStateCO2')}</span>
-			<span class="calc-result-value primary" style="color: {co2Color(result.steadyState)}">
-				{fmt(result.steadyState, 0)}<span class="calc-result-unit">ppm</span>
-			</span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
-			<span class="calc-result-value">{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
-			<span class="calc-result-value">{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
-			<span class="calc-result-value">{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span>
-		</div>
-	</div>
-
-	<!-- CO₂-Verlauf Tabelle -->
-	<div class="calc-section">
-		<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2RiseTitle', { values: { co2: co2Outside } })}</h2>
-		<div class="curve-table">
-			{#each curve as pt}
-				<div class="curve-row">
-					<span class="curve-t">{pt.t} min</span>
-					<div class="curve-bar-wrap">
-						<div
-							class="curve-bar"
-							style="width: {Math.min(100, ((pt.co2 - co2Outside) / (result.steadyState - co2Outside + 1)) * 100)}%; background: {co2Color(pt.co2)}"
-						></div>
-					</div>
-					<span class="curve-val" style="color: {co2Color(pt.co2)}">{pt.co2} ppm</span>
+		{#if result}
+			<div class="calc-result-section">
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.steadyStateCO2')}</span>
+					<span class="calc-result-value primary" style="color: {co2Color(result.steadyState)}">
+						{fmt(result.steadyState, 0)}<span class="calc-result-unit">ppm</span>
+					</span>
 				</div>
-			{/each}
-		</div>
-	</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.timeConstant')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.tau, 0)}<span class="calc-result-unit">min</span></span
+					>
+				</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.time90')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.t90, 0)}<span class="calc-result-unit">min</span></span
+					>
+				</div>
+				<div class="calc-result">
+					<span class="calc-result-label">{$_('rechner.co2RegelungUi.airChange')}</span>
+					<span class="calc-result-value"
+						>{fmt(result.ach, 2)}<span class="calc-result-unit">1/h</span></span
+					>
+				</div>
+			</div>
 
-	<p class="calc-info">{$_('rechner.co2RegelungUi.infoRaumverhalten')}</p>
-	{/if}
+			<!-- CO₂-Verlauf Tabelle -->
+			<div class="calc-section">
+				<h2 class="calc-section-title">
+					{$_('rechner.co2RegelungUi.co2RiseTitle', { values: { co2: co2Outside } })}
+				</h2>
+				<div class="curve-table">
+					{#each curve as pt}
+						<div class="curve-row">
+							<span class="curve-t">{pt.t} min</span>
+							<div class="curve-bar-wrap">
+								<div
+									class="curve-bar"
+									style="width: {Math.min(
+										100,
+										((pt.co2 - co2Outside) / (result.steadyState - co2Outside + 1)) * 100
+									)}%; background: {co2Color(pt.co2)}"
+								></div>
+							</div>
+							<span class="curve-val" style="color: {co2Color(pt.co2)}">{pt.co2} ppm</span>
+						</div>
+					{/each}
+				</div>
+			</div>
+
+			<p class="calc-info">{$_('rechner.co2RegelungUi.infoRaumverhalten')}</p>
+		{/if}
 	{/if}
 </div>
 
@@ -266,7 +344,9 @@
 		font-weight: 500;
 		color: var(--muted);
 		cursor: pointer;
-		transition: background 0.15s, color 0.15s;
+		transition:
+			background 0.15s,
+			color 0.15s;
 	}
 
 	.mode-tab.active {
@@ -292,7 +372,9 @@
 		cursor: pointer;
 		text-align: left;
 		line-height: 1.4;
-		transition: border-color 0.15s, color 0.15s;
+		transition:
+			border-color 0.15s,
+			color 0.15s;
 	}
 
 	.preset-btn.active {
@@ -348,6 +430,8 @@
 	}
 
 	@media (max-width: 480px) {
-		.preset-grid { grid-template-columns: 1fr; }
+		.preset-grid {
+			grid-template-columns: 1fr;
+		}
 	}
 </style>

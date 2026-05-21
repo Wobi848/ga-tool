@@ -42,7 +42,14 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
@@ -118,7 +125,9 @@
 		{#if mode === 'kv-from-qdp'}
 			<div class="calc-result">
 				<span class="calc-result-label">{$_('rechner.kvWertUi.recommendedKvs')}</span>
-				<span class="calc-result-value">{recommendedKvs}<span class="calc-result-unit">m³/h</span></span>
+				<span class="calc-result-value"
+					>{recommendedKvs}<span class="calc-result-unit">m³/h</span></span
+				>
 			</div>
 		{/if}
 	</div>
@@ -131,6 +140,7 @@
 
 	<p class="calc-info">
 		{$_('rechner.kvWertUi.formulaNote')} <br />
-		{$_('rechner.kvWertUi.stdKvsSeries')} {stdKvs.join(' · ')}
+		{$_('rechner.kvWertUi.stdKvsSeries')}
+		{stdKvs.join(' · ')}
 	</p>
 </div>

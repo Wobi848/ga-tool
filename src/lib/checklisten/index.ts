@@ -34,8 +34,5 @@ export function countItems(t: ChecklistTemplate): number {
 }
 
 export function countCritical(t: ChecklistTemplate): number {
-	return t.sections.reduce(
-		(sum, s) => sum + s.items.filter((i) => i.critical).length,
-		0
-	);
+	return t.sections.reduce((sum, s) => sum + s.items.filter((i) => i.critical).length, 0);
 }

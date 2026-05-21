@@ -4,7 +4,23 @@ title_en: Buffer Storage — Function, Integration and Stratification
 slug: pufferspeicher
 category: heizung
 subcategory: speicher
-tags: [pufferspeicher, hydraulik, schichtung, warmwasser, solar, waermepumpe, heizkreis, temperatursensor, ddc, speicherladung, stratifikation, bypass, entkopplung, mindestvolumenstrom]
+tags:
+  [
+    pufferspeicher,
+    hydraulik,
+    schichtung,
+    warmwasser,
+    solar,
+    waermepumpe,
+    heizkreis,
+    temperatursensor,
+    ddc,
+    speicherladung,
+    stratifikation,
+    bypass,
+    entkopplung,
+    mindestvolumenstrom
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [waermepumpe, hydraulische-schaltungen, hydraulischer-abgleich, pid-regler, legionellen]
@@ -66,6 +82,7 @@ Rücklauf Erzeuger ← [unten]
 ```
 
 **Schichtungszerstörung vermeiden:**
+
 - Rohranschlüsse **oben** und **unten** (nicht seitlich mittig)
 - Einströmgeschwindigkeit gering halten (< 0.2 m/s im Speicher)
 - Einströmung gegen Prallblech oder über Taucheinstutzen
@@ -103,7 +120,7 @@ Puffer (vereinfacht):
 [Sensor oben T_oben]     ←── Erzeuger Vorlauf
                               ←── Heizkreis Vorlauf
 ─────────────────────────────
-[Sensor mitte T_mitte]   
+[Sensor mitte T_mitte]
 ─────────────────────────────
 [Sensor unten T_unten]   ←── Erzeuger Rücklauf
                               ←── Heizkreis Rücklauf
@@ -114,7 +131,7 @@ Puffer (vereinfacht):
 ```
 Wenn T_oben < Soll_Speicher (z.B. 55 °C):
   → WP starten, laden bis T_oben ≥ Soll + Hysterese (z.B. 57 °C)
-  
+
 Wenn T_oben ≥ Soll + Hysterese:
   → WP stoppen, Speicher hält Wärme vor
 ```
@@ -126,7 +143,7 @@ Wenn T_oben ≥ Soll + Hysterese:
 ```
 Wenn T_oben > Heizkreis-Vorlauftemperatur:
   → Heizkreis direkt aus Speicher versorgt (kein Mischer nötig)
-  
+
 Wenn T_oben knapp über oder unter Heizkreis-Soll:
   → Mischventil oder 3-Wege-Ventil reduziert Temperatur
 ```
@@ -228,6 +245,7 @@ Generator return ← [bottom]
 ```
 
 **Avoid destroying stratification:**
+
 - Pipe connections at **top** and **bottom** (not centrally on the side)
 - Keep inflow velocity low (< 0.2 m/s inside tank)
 - Inflow against baffle plate or via dip tube
@@ -276,7 +294,7 @@ Buffer tank (simplified):
 ```
 If T_top < setpoint (e.g. 55 °C):
   → Start HP, charge until T_top ≥ setpoint + hysteresis (e.g. 57 °C)
-  
+
 If T_top ≥ setpoint + hysteresis:
   → Stop HP, buffer maintains stored heat
 ```
@@ -288,7 +306,7 @@ If T_top ≥ setpoint + hysteresis:
 ```
 If T_top > heating circuit flow temperature:
   → Heating circuit supplied directly from buffer (no mixer required)
-  
+
 If T_top just above or below heating circuit setpoint:
   → Mixing valve or 3-way valve reduces temperature
 ```

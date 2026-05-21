@@ -4,7 +4,21 @@ title_en: Adiabatic Cooling — Principle and Application Limits
 slug: adiabatische-kuehlung
 category: klima
 subcategory: freie-kuehlung
-tags: [adiabatische-kühlung, verdunstungskühlung, evaporative-cooling, zuluft-kühlung, wärmetauscher-vorkühlung, kühlgrenztemperatur, feuchtkugeltemperatur, ews, kühlenergie, recooler, rückkühler, verdunstung]
+tags:
+  [
+    adiabatische-kühlung,
+    verdunstungskühlung,
+    evaporative-cooling,
+    zuluft-kühlung,
+    wärmetauscher-vorkühlung,
+    kühlgrenztemperatur,
+    feuchtkugeltemperatur,
+    ews,
+    kühlenergie,
+    recooler,
+    rückkühler,
+    verdunstung
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, nachtauskuehlung, rlt-anlage, befeuchter, cop-eer, free-cooling]
@@ -29,11 +43,12 @@ Beispiel:
   Zustand A: 32 °C, 20 % rF, h = 50 kJ/kg
   Wasser verdunstet adiabat (kein Wärmetausch mit Umgebung)
   Zustand B: 22 °C, 60 % rF, h = 50 kJ/kg (Enthalpie gleich!)
-  
+
   → 10 K Abkühlung, aber 40 % mehr Feuchte
 ```
 
 **Kühlgrenztemperatur (Feuchtkugeltemperatur Tw):** Die minimale erreichbare Temperatur:
+
 ```
 Tw = T − (T − Td) × (1 − rF/100)
 Grob: Tw ≈ T × (0.62 × rF/100)^0.52   [Magnus-Näherung]
@@ -65,7 +80,7 @@ Adiabatische Kühlung auf der **Abluft-Seite** eines Wärmetauschers:
 Abluft (25 °C, 55 % rF)
     → adiabatisch befeuchtet → 18 °C, 100 % rF
     → kühlt Zuluft über Plattenwärmetauscher ohne direkte Befeuchtung
-    
+
 Zuluft bleibt trocken → keine Feuchteerhöhung auf Zuluftseite
 ```
 
@@ -81,7 +96,7 @@ Rückkühlwasser 30 °C (Kondensatorseite)
     → Sprühnebelkühlung am Rückkühler
     → Rückkühlwasser 24 °C
     → COP der Kältemaschine steigt deutlich
-    
+
 Einsatz: Spitzenlasttage wenn Luft trocken und heiss
 ```
 
@@ -89,13 +104,13 @@ Einsatz: Spitzenlasttage wenn Luft trocken und heiss
 
 ## Effizienzvergleich
 
-| Methode                    | COP / Einsparpotenzial    | Einschränkung                     |
-|----------------------------|---------------------------|-----------------------------------|
-| Kältemaschine              | COP 2.5–4.5               | Referenz, immer möglich           |
-| Direkte Evaporativkühlung  | COP 20–50                 | Nur trocken < 40 % rF             |
-| Indirekte Evaporativkühlung| COP 10–30                 | Trocken < 50 % rF                 |
-| Rückkühler-Vorkühlung      | +20–40 % Kältemaschine COP| Spitzenlasttage, trocken          |
-| Nachtauskühlung            | COP > 100 (Lüfterenergie)  | Nur nachts, Speichermasse nötig   |
+| Methode                     | COP / Einsparpotenzial     | Einschränkung                   |
+| --------------------------- | -------------------------- | ------------------------------- |
+| Kältemaschine               | COP 2.5–4.5                | Referenz, immer möglich         |
+| Direkte Evaporativkühlung   | COP 20–50                  | Nur trocken < 40 % rF           |
+| Indirekte Evaporativkühlung | COP 10–30                  | Trocken < 50 % rF               |
+| Rückkühler-Vorkühlung       | +20–40 % Kältemaschine COP | Spitzenlasttage, trocken        |
+| Nachtauskühlung             | COP > 100 (Lüfterenergie)  | Nur nachts, Speichermasse nötig |
 
 ---
 
@@ -104,21 +119,21 @@ Einsatz: Spitzenlasttage wenn Luft trocken und heiss
 ```
 Kühlgrenztemperatur-Analyse für Standort Zürich:
   Sommerdesigntag: 32 °C, 35 % rF → Tw = 21.5 °C
-  
+
   Direkte Kühlung erreichbar bis: ~22 °C Zuluft
   Für Bürokühlung (Zuluft 16–18 °C) → nicht ausreichend
-  
+
   → Adiabatische Kühlung als Teilkühlung, Restlast = Kältemaschine
   → Oder: Vorkühlung reduziert Kälteleistungsbedarf um 30–50 %
 ```
 
 **Kritische Klimazonen:**
 
-| Klima          | Adiabatische Kühlung  | Begründung               |
-|----------------|----------------------|--------------------------|
-| Trocken/heiss  | Sehr geeignet        | Grosses Δ(T - Tw)        |
-| Mitteleuropas  | Bedingt geeignet     | Im Sommer 40–60 % rF     |
-| Feucht/tropisch| Nicht geeignet       | Tw ≈ T, keine Kühlung    |
+| Klima           | Adiabatische Kühlung | Begründung            |
+| --------------- | -------------------- | --------------------- |
+| Trocken/heiss   | Sehr geeignet        | Grosses Δ(T - Tw)     |
+| Mitteleuropas   | Bedingt geeignet     | Im Sommer 40–60 % rF  |
+| Feucht/tropisch | Nicht geeignet       | Tw ≈ T, keine Kühlung |
 
 ---
 
@@ -144,7 +159,7 @@ Freigabebedingungen adiabatische Kühlung:
   T_Aussen > 27 °C
   UND rF_Aussen < 50 %
   UND Kältemaschine läuft / Kälteleistungsbedarf aktiv
-  
+
 Abschalten wenn:
   T_Aussen < 25 °C (unnötig)
   ODER rF_Aussen > 65 % (unwirksam und Hygienerisiko)
@@ -153,13 +168,13 @@ Abschalten wenn:
 
 **GA-Datenpunkte:**
 
-| Datenpunkt              | Typ | Einheit | Beschreibung              |
-|-------------------------|-----|---------|---------------------------|
-| Adiabatik Freigabe      | DO  | —       | Pumpe / Sprühanlage EIN   |
-| Wassertemperatur Vorrat | AI  | °C      | Hygiene-Monitoring        |
-| Wasserverbrauch         | AI  | l/h     | Monitoring                |
-| T_Aussen               | AI  | °C      | Freigabebedingung         |
-| rF_Aussen              | AI  | %       | Freigabebedingung         |
+| Datenpunkt              | Typ | Einheit | Beschreibung            |
+| ----------------------- | --- | ------- | ----------------------- |
+| Adiabatik Freigabe      | DO  | —       | Pumpe / Sprühanlage EIN |
+| Wassertemperatur Vorrat | AI  | °C      | Hygiene-Monitoring      |
+| Wasserverbrauch         | AI  | l/h     | Monitoring              |
+| T_Aussen                | AI  | °C      | Freigabebedingung       |
+| rF_Aussen               | AI  | %       | Freigabebedingung       |
 
 ---
 
@@ -185,11 +200,12 @@ Example:
   State A: 32 °C, 20% RH, h = 50 kJ/kg
   Water evaporates adiabatically (no heat exchange with surroundings)
   State B: 22 °C, 60% RH, h = 50 kJ/kg (enthalpy unchanged!)
-  
+
   → 10 K cooling, but 40% higher humidity
 ```
 
 **Wet-bulb temperature (Tw):** The minimum achievable temperature:
+
 ```
 Tw = T − (T − Td) × (1 − RH/100)
 Approx: Tw ≈ T × (0.62 × RH/100)^0.52   [Magnus approximation]
@@ -221,7 +237,7 @@ Adiabatic cooling applied to the **exhaust air side** of a heat exchanger:
 Exhaust air (25 °C, 55% RH)
     → adiabatically humidified → 18 °C, 100% RH
     → cools supply air via plate heat exchanger without direct humidification
-    
+
 Supply air remains dry → no humidity increase on the supply side
 ```
 
@@ -237,7 +253,7 @@ Recooling water 30 °C (condenser side)
     → spray mist cooling at the recooler
     → Recooling water 24 °C
     → Chiller COP improves significantly
-    
+
 Application: peak load days when air is dry and hot
 ```
 
@@ -245,13 +261,13 @@ Application: peak load days when air is dry and hot
 
 ## Efficiency Comparison
 
-| Method | COP / Savings Potential | Limitation |
-|--------|------------------------|-----------|
-| Mechanical chiller | COP 2.5–4.5 | Reference, always possible |
-| Direct evaporative cooling | COP 20–50 | Only dry < 40% RH |
-| Indirect evaporative cooling | COP 10–30 | Dry < 50% RH |
-| Recooler pre-cooling | +20–40% chiller COP | Peak load days, dry conditions |
-| Night cooling | COP > 100 (fan energy only) | Night only, thermal mass required |
+| Method                       | COP / Savings Potential     | Limitation                        |
+| ---------------------------- | --------------------------- | --------------------------------- |
+| Mechanical chiller           | COP 2.5–4.5                 | Reference, always possible        |
+| Direct evaporative cooling   | COP 20–50                   | Only dry < 40% RH                 |
+| Indirect evaporative cooling | COP 10–30                   | Dry < 50% RH                      |
+| Recooler pre-cooling         | +20–40% chiller COP         | Peak load days, dry conditions    |
+| Night cooling                | COP > 100 (fan energy only) | Night only, thermal mass required |
 
 ---
 
@@ -260,21 +276,21 @@ Application: peak load days when air is dry and hot
 ```
 Wet-bulb temperature analysis for Zurich:
   Summer design day: 32 °C, 35% RH → Tw = 21.5 °C
-  
+
   Direct cooling achievable down to: ~22 °C supply air
   For office cooling (supply air 16–18 °C) → insufficient
-  
+
   → Adiabatic cooling as partial cooling; remaining load = chiller
   → Or: pre-cooling reduces chiller capacity demand by 30–50%
 ```
 
 **Critical climate zones:**
 
-| Climate | Adiabatic Cooling | Reason |
-|---------|------------------|--------|
-| Hot and dry | Very suitable | Large Δ(T − Tw) |
-| Central European | Conditionally suitable | 40–60% RH in summer |
-| Humid / tropical | Not suitable | Tw ≈ T, no cooling effect |
+| Climate          | Adiabatic Cooling      | Reason                    |
+| ---------------- | ---------------------- | ------------------------- |
+| Hot and dry      | Very suitable          | Large Δ(T − Tw)           |
+| Central European | Conditionally suitable | 40–60% RH in summer       |
+| Humid / tropical | Not suitable           | Tw ≈ T, no cooling effect |
 
 ---
 
@@ -300,7 +316,7 @@ Enable conditions for adiabatic cooling:
   T_outdoor > 27 °C
   AND RH_outdoor < 50%
   AND chiller running / cooling load active
-  
+
 Disable when:
   T_outdoor < 25 °C (unnecessary)
   OR RH_outdoor > 65% (ineffective and hygiene risk)
@@ -309,13 +325,13 @@ Disable when:
 
 **BA data points:**
 
-| Data point | Type | Unit | Description |
-|------------|------|------|-------------|
-| Adiabatic enable | DO | — | Pump / spray system ON |
-| Water temperature (tank) | AI | °C | Hygiene monitoring |
-| Water consumption | AI | l/h | Monitoring |
-| T_outdoor | AI | °C | Enable condition |
-| RH_outdoor | AI | % | Enable condition |
+| Data point               | Type | Unit | Description            |
+| ------------------------ | ---- | ---- | ---------------------- |
+| Adiabatic enable         | DO   | —    | Pump / spray system ON |
+| Water temperature (tank) | AI   | °C   | Hygiene monitoring     |
+| Water consumption        | AI   | l/h  | Monitoring             |
+| T_outdoor                | AI   | °C   | Enable condition       |
+| RH_outdoor               | AI   | %    | Enable condition       |
 
 ---
 

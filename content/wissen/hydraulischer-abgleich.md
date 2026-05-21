@@ -4,7 +4,20 @@ title_en: Hydraulic Balancing
 slug: hydraulischer-abgleich
 category: heizung
 subcategory: hydraulik
-tags: [hydraulischer-abgleich, voreinstellung, thermostatventil, strangregulierung, differenzdruck, δp-regler, heizkreis, durchfluss, überströmventil, pumpenauslegung, en14336]
+tags:
+  [
+    hydraulischer-abgleich,
+    voreinstellung,
+    thermostatventil,
+    strangregulierung,
+    differenzdruck,
+    δp-regler,
+    heizkreis,
+    durchfluss,
+    überströmventil,
+    pumpenauslegung,
+    en14336
+  ]
 difficulty: fortgeschritten
 area: [hlk]
 related: [druckverlust, heizkurve, waermepumpe]
@@ -31,6 +44,7 @@ Der **hydraulische Abgleich** sorgt dafür, dass jeder Heizkreis exakt die berec
 Jedes Heizkörperventil oder Strangventil wird auf einen **vorberechneten Kv-Wert** eingestellt. Die Voreinstellung entspricht dem hydraulischen Widerstand für den berechneten Volumenstrom.
 
 **Vorgehen:**
+
 1. Heizlastberechnung nach EN 12831 → Normheizlast je Raum
 2. Aus Vorlauf-/Rücklauftemperatur → Normvolumenstrom je Heizkörper: `V̇ = Q / (c_p · ρ · ΔT)`
 3. Aus Normvolumenstrom + verfügbarer Druckdifferenz → Ventil-Voreinstellung
@@ -51,12 +65,14 @@ Moderne Systeme (z.B. Danfoss Eco, IMI Hydronic Engineering TA-Balance) messen u
 ### Voreinstellbare Heizkörperventile
 
 Thermostatventil mit einstellbarem **Voreinstellkv**:
+
 - Einstellbereich typisch 1–8 (entspricht Kv 0,07–0,95 m³/h)
 - Hersteller: Danfoss, IMI Heimeier, Oventrop
 
 ### Strangregulierventile (SRV)
 
 Absperr- + Regulierventil für jeden Heizkreisstrang oder jede Steigeleitung:
+
 - Mit Messventilen für Differenzdruck-Durchflussmessung
 - Hersteller: TA Hydronics, Oventrop, Danfoss
 
@@ -84,6 +100,7 @@ Mindest-Volumenstrom sicherstellen wenn alle Thermostatventile zugeregelt sind. 
 ## Pumpenauslegung nach Abgleich
 
 Nach dem Abgleich kann (und soll) die Pumpe neu eingestellt werden:
+
 - **Förderhöhe:** Nur noch der berechnete Nenndruckverlust des Auslegungskreises
 - **Drehzahlregelung:** Proportionaldruckregelung oder konstantem Δp je nach Anlage
 
@@ -93,11 +110,11 @@ Nach dem Abgleich kann (und soll) die Pumpe neu eingestellt werden:
 
 $$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
 
-| Grösse   | Wert (Wasser)                        |
-|----------|--------------------------------------|
-| c_p      | 4,182 kJ/(kg·K)                      |
-| ρ        | 1000 kg/m³ (bei 50 °C: 988 kg/m³)   |
-| ΔT       | Vorlauf − Rücklauf (z.B. 10 K)       |
+| Grösse | Wert (Wasser)                     |
+| ------ | --------------------------------- |
+| c_p    | 4,182 kJ/(kg·K)                   |
+| ρ      | 1000 kg/m³ (bei 50 °C: 988 kg/m³) |
+| ΔT     | Vorlauf − Rücklauf (z.B. 10 K)    |
 
 **Beispiel:** Heizkörper 1 kW, VL/RL 60/50 °C (ΔT = 10 K):
 
@@ -117,11 +134,13 @@ Der hydraulische Abgleich ist selten direkt in der GA-Messwarte sichtbar — abe
 ## Protokoll & Dokumentation
 
 Nach dem Abgleich ist ein **Abgleichprotokoll** zu erstellen:
+
 - Ventiltyp, Einstellwert, Volumenstrom-Ist / -Soll je Heizkörper / Strang
 - Gesamtvolumenstrom, Pumpenkennpunkt
 - Datum, Ausführender, Unterschrift
 
 **Wichtig für:**
+
 - Gewährleistung
 - Übergabe an Betreiber
 - Nachweis gegenüber Energieberater / Gutachter (GEG-Pflicht)
@@ -151,6 +170,7 @@ Nach dem Abgleich ist ein **Abgleichprotokoll** zu erstellen:
 Every radiator valve or circuit valve is set to a **pre-calculated Kv value**. The presetting corresponds to the hydraulic resistance needed for the calculated flow rate.
 
 **Procedure:**
+
 1. Heat load calculation per EN 12831 → design heat load per room
 2. From supply/return temperature → design flow rate per radiator: `V̇ = Q / (c_p · ρ · ΔT)`
 3. From design flow rate + available differential pressure → valve presetting
@@ -171,12 +191,14 @@ Modern systems (e.g. Danfoss Eco, IMI Hydronic Engineering TA-Balance) measure a
 ### Presettable Radiator Valves
 
 Thermostatic valve with adjustable **presetting Kv**:
+
 - Setting range typically 1–8 (corresponding to Kv 0.07–0.95 m³/h)
 - Manufacturers: Danfoss, IMI Heimeier, Oventrop
 
 ### Circuit Balancing Valves (CBV)
 
 Isolation + regulation valve for each heating circuit or riser:
+
 - With measuring valves for differential-pressure flow measurement
 - Manufacturers: TA Hydronics, Oventrop, Danfoss
 
@@ -204,6 +226,7 @@ Ensures minimum flow when all thermostatic valves are closed. Prevents cavitatio
 ## Pump Sizing After Balancing
 
 After balancing, the pump should (and must) be re-set:
+
 - **Head:** Only the calculated design pressure loss of the index circuit
 - **Speed control:** Proportional pressure control or constant Δp, depending on the system
 
@@ -213,11 +236,11 @@ After balancing, the pump should (and must) be re-set:
 
 $$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
 
-| Parameter | Value (water) |
-|-----------|--------------|
-| c_p | 4.182 kJ/(kg·K) |
-| ρ | 1000 kg/m³ (at 50 °C: 988 kg/m³) |
-| ΔT | Supply − return (e.g. 10 K) |
+| Parameter | Value (water)                    |
+| --------- | -------------------------------- |
+| c_p       | 4.182 kJ/(kg·K)                  |
+| ρ         | 1000 kg/m³ (at 50 °C: 988 kg/m³) |
+| ΔT        | Supply − return (e.g. 10 K)      |
 
 **Example:** Radiator 1 kW, supply/return 60/50 °C (ΔT = 10 K):
 
@@ -237,11 +260,13 @@ Hydraulic balancing is rarely directly visible in the BMS operator station — b
 ## Report and Documentation
 
 After balancing, a **balancing report** must be prepared:
+
 - Valve type, setting value, actual/target flow rate per radiator/circuit
 - Total flow rate, pump operating point
 - Date, technician, signature
 
 **Required for:**
+
 - Warranty
 - Handover to building operator
 - Evidence for energy consultant / auditor (GEG obligation)

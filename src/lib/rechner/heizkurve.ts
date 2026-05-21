@@ -6,10 +6,10 @@ export type Manufacturer = 'generic' | 'siemens' | 'viessmann' | 'buderus' | 'ho
 
 export interface CurveParams {
 	manufacturer: Manufacturer;
-	roomTemp: number;       // Soll Raumtemperatur [°C]
-	normOutdoor: number;    // Normaussentemperatur [°C] (z.B. CH: -8 °C)
-	slope: number;          // Neigung / Steilheit (0.2–4)
-	level: number;          // Niveau / Parallelverschiebung [K]
+	roomTemp: number; // Soll Raumtemperatur [°C]
+	normOutdoor: number; // Normaussentemperatur [°C] (z.B. CH: -8 °C)
+	slope: number; // Neigung / Steilheit (0.2–4)
+	level: number; // Niveau / Parallelverschiebung [K]
 	systemType: 'radiator' | 'floor'; // beeinflusst Exponent
 	// Honeywell 2-Punkt
 	ta1?: number;
@@ -19,9 +19,9 @@ export interface CurveParams {
 	// Sauter Fusspunkt
 	footpoint?: number;
 	// Heizgrenze
-	heatLimit?: number;     // °C, oberhalb keine Heizung
-	maxFlow?: number;       // max. Vorlauftemperatur [°C]
-	minFlow?: number;       // min. Vorlauftemperatur [°C]
+	heatLimit?: number; // °C, oberhalb keine Heizung
+	maxFlow?: number; // max. Vorlauftemperatur [°C]
+	minFlow?: number; // min. Vorlauftemperatur [°C]
 }
 
 /**
@@ -126,7 +126,12 @@ export function calculateFlowTemp(ta: number, p: CurveParams): number {
 }
 
 /** Generate (TA, TV) points for plotting curve */
-export function curvePoints(p: CurveParams, taMin = -15, taMax = 20, steps = 36): Array<[number, number]> {
+export function curvePoints(
+	p: CurveParams,
+	taMin = -15,
+	taMax = 20,
+	steps = 36
+): Array<[number, number]> {
 	const pts: Array<[number, number]> = [];
 	for (let i = 0; i <= steps; i++) {
 		const ta = taMin + ((taMax - taMin) * i) / steps;
@@ -135,12 +140,40 @@ export function curvePoints(p: CurveParams, taMin = -15, taMax = 20, steps = 36)
 	return pts;
 }
 
-export const manufacturerInfo: Record<Manufacturer, { label: string; family: string; slopeRange: [number, number]; slopeStep: number }> = {
-	generic: { label: 'Generisch (linear)', family: 'Pädagogisch — TV = TR + s × (TR − TA) + Niveau', slopeRange: [0.2, 4.0], slopeStep: 0.1 },
-	siemens: { label: 'Siemens DESIGO / RVS / Albatros', family: 'Neigung 0.2–3.5, Niveau ± 15 K', slopeRange: [0.2, 3.5], slopeStep: 0.05 },
-	viessmann: { label: 'Viessmann Vitotronic', family: 'Neigung 0.2–3.5, Niveau ± 15 K', slopeRange: [0.2, 3.5], slopeStep: 0.05 },
-	buderus: { label: 'Buderus / Bosch (EMS)', family: 'Steilheit 0.2–4.0, Niveau ± 15 K', slopeRange: [0.2, 4.0], slopeStep: 0.05 },
-	honeywell: { label: 'Honeywell / Resideo', family: '2-Punkte-Methode (TA₁→TV₁, TA₂→TV₂)', slopeRange: [0.2, 4.0], slopeStep: 0.1 },
+export const manufacturerInfo: Record<
+	Manufacturer,
+	{ label: string; family: string; slopeRange: [number, number]; slopeStep: number }
+> = {
+	generic: {
+		label: 'Generisch (linear)',
+		family: 'Pädagogisch — TV = TR + s × (TR − TA) + Niveau',
+		slopeRange: [0.2, 4.0],
+		slopeStep: 0.1
+	},
+	siemens: {
+		label: 'Siemens DESIGO / RVS / Albatros',
+		family: 'Neigung 0.2–3.5, Niveau ± 15 K',
+		slopeRange: [0.2, 3.5],
+		slopeStep: 0.05
+	},
+	viessmann: {
+		label: 'Viessmann Vitotronic',
+		family: 'Neigung 0.2–3.5, Niveau ± 15 K',
+		slopeRange: [0.2, 3.5],
+		slopeStep: 0.05
+	},
+	buderus: {
+		label: 'Buderus / Bosch (EMS)',
+		family: 'Steilheit 0.2–4.0, Niveau ± 15 K',
+		slopeRange: [0.2, 4.0],
+		slopeStep: 0.05
+	},
+	honeywell: {
+		label: 'Honeywell / Resideo',
+		family: '2-Punkte-Methode (TA₁→TV₁, TA₂→TV₂)',
+		slopeRange: [0.2, 4.0],
+		slopeStep: 0.1
+	},
 	sauter: { label: 'Sauter', family: 'Neigung + Fusspunkt', slopeRange: [0.2, 4.0], slopeStep: 0.1 }
 };
 

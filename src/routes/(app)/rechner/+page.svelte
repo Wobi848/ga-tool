@@ -3,14 +3,25 @@
 	import { _ } from 'svelte-i18n';
 
 	const slugKey: Record<string, string> = {
-		'heizkurve': 'heizkurve', 'kv-wert': 'kvWert', 'ausdehnungsgefaess': 'ausdehnungsgefaess',
-		'druckverlust': 'druckverlust', 'luftbedarf': 'luftbedarf', 'taupunkt': 'taupunkt',
-		'waermeleistung': 'waermeleistung', 'psychrometrie': 'psychrometrie',
-		'pid-simulator': 'pidSimulator', 'leitungslaenge': 'leitungslaenge',
-		'elektro': 'elektro', 'dip-switch': 'dipSwitch', 'co2-regelung': 'co2Regelung',
-		'u-wert': 'uWert', 'ventilautoritaet': 'ventilautoritaet',
-		'waermerueckgewinnung': 'waermerueckgewinnung', 'pumpenkennlinie': 'pumpenkennlinie',
-		'heizlast': 'heizlast', 'bus-ibn': 'busIbn'
+		heizkurve: 'heizkurve',
+		'kv-wert': 'kvWert',
+		ausdehnungsgefaess: 'ausdehnungsgefaess',
+		druckverlust: 'druckverlust',
+		luftbedarf: 'luftbedarf',
+		taupunkt: 'taupunkt',
+		waermeleistung: 'waermeleistung',
+		psychrometrie: 'psychrometrie',
+		'pid-simulator': 'pidSimulator',
+		leitungslaenge: 'leitungslaenge',
+		elektro: 'elektro',
+		'dip-switch': 'dipSwitch',
+		'co2-regelung': 'co2Regelung',
+		'u-wert': 'uWert',
+		ventilautoritaet: 'ventilautoritaet',
+		waermerueckgewinnung: 'waermerueckgewinnung',
+		pumpenkennlinie: 'pumpenkennlinie',
+		heizlast: 'heizlast',
+		'bus-ibn': 'busIbn'
 	};
 
 	const iconPaths: Record<string, string> = {
@@ -36,7 +47,16 @@
 		{#each rechner as r}
 			<a href="/rechner/{r.slug}" class="card">
 				<div class="card-icon" style="background: {r.color}20; color: {r.color}">
-					<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+					<svg
+						width="22"
+						height="22"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
 						<path d={iconPaths[r.icon] ?? 'M12 2v20M2 12h20'} />
 					</svg>
 				</div>
@@ -44,7 +64,15 @@
 					<h2 class="card-title">{$_(`rechner.${slugKey[r.slug]}.name`, { default: r.name })}</h2>
 					<p class="card-short">{$_(`rechner.${slugKey[r.slug]}.short`, { default: r.short })}</p>
 				</div>
-				<svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+				<svg
+					class="card-arrow"
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
 					<path d="M9 18l6-6-6-6" />
 				</svg>
 			</a>
@@ -91,7 +119,9 @@
 		border: 1px solid var(--border);
 		border-radius: 0.75rem;
 		text-decoration: none;
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 	}
 
 	.card:hover {

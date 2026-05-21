@@ -4,7 +4,29 @@ title_en: Visualisation and HMI Symbols in BA
 slug: visualisierung-hmi
 category: ga
 subcategory: visualisierung
-tags: [visualisierung, hmi, symbole, glt-bild, schaltbild, fliessschema, pumpe, ventil, klappe, sensor, farbe, farblegende, iso-symbole, norm-symbole, bedienoberfläche, scada, desigo, ebi, win-cc, niagara]
+tags:
+  [
+    visualisierung,
+    hmi,
+    symbole,
+    glt-bild,
+    schaltbild,
+    fliessschema,
+    pumpe,
+    ventil,
+    klappe,
+    sensor,
+    farbe,
+    farblegende,
+    iso-symbole,
+    norm-symbole,
+    bedienoberfläche,
+    scada,
+    desigo,
+    ebi,
+    win-cc,
+    niagara
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, datenpunktliste, tab-protokoll, alarmmanagement, brandschutzklappen]
@@ -28,7 +50,7 @@ Gute GLT-Visualisierung:
   ✓ Alarme prominent sichtbar
   ✓ Keine unnötige Dekoration / Animationen
   ✓ Konsistente Symbole im ganzen Projekt
-  
+
 Schlechte Praxis:
   ✗ 3D-Grafiken und Fotos (verlangsamt, veraltet schnell)
   ✗ Zu viele Farben (verliert Bedeutung)
@@ -40,25 +62,25 @@ Schlechte Praxis:
 
 ## Farbcodes (Best Practice / Industriestandard)
 
-| Farbe        | Bedeutung                              | Beispiel                        |
-|--------------|----------------------------------------|---------------------------------|
-| **Grün**     | Betrieb OK / aktiv / EIN               | Pumpe läuft                     |
-| **Rot**      | Störung / Alarm / Fehler               | Motorschutz ausgelöst           |
-| **Gelb**     | Warnung / Handsteuerung                | Hand-Betrieb aktiv              |
-| **Grau**     | AUS / inaktiv / gesperrt              | Pumpe gestoppt                  |
-| **Blau**     | Kälte / Kühlsystem / Kältewasser      | Kaltwasserleitung               |
-| **Orange**   | Wärme / Heizung / Dampf               | Vorlauf-/Rücklaufleitung        |
-| **Weiss**    | Aussenluft / Neutralzustand            | Luftstrom / ODA                 |
-| **Cyan**     | Zuluft (nach Aufbereitung)            | Zuluftkanal                     |
+| Farbe      | Bedeutung                        | Beispiel                 |
+| ---------- | -------------------------------- | ------------------------ |
+| **Grün**   | Betrieb OK / aktiv / EIN         | Pumpe läuft              |
+| **Rot**    | Störung / Alarm / Fehler         | Motorschutz ausgelöst    |
+| **Gelb**   | Warnung / Handsteuerung          | Hand-Betrieb aktiv       |
+| **Grau**   | AUS / inaktiv / gesperrt         | Pumpe gestoppt           |
+| **Blau**   | Kälte / Kühlsystem / Kältewasser | Kaltwasserleitung        |
+| **Orange** | Wärme / Heizung / Dampf          | Vorlauf-/Rücklaufleitung |
+| **Weiss**  | Aussenluft / Neutralzustand      | Luftstrom / ODA          |
+| **Cyan**   | Zuluft (nach Aufbereitung)       | Zuluftkanal              |
 
 **Alarm-Farben (Priorität):**
 
-| Farbe         | Priorität         |
-|---------------|-------------------|
-| Rot blinkend  | Kritisch          |
-| Rot           | Hoch              |
-| Orange        | Mittel            |
-| Gelb          | Niedrig / Warnung |
+| Farbe        | Priorität         |
+| ------------ | ----------------- |
+| Rot blinkend | Kritisch          |
+| Rot          | Hoch              |
+| Orange       | Mittel            |
+| Gelb         | Niedrig / Warnung |
 
 ---
 
@@ -116,11 +138,11 @@ Laufpfeil: zeigt Drehrichtung
 ```
 Ebene 1: Übersichtsbilder
   - Gebäude-Gesamtübersicht (welche Anlagen, wo Alarme)
-  
+
 Ebene 2: Anlagenbilder
   - RLT-Anlage 1 (Schema mit allen Komponenten)
   - Heizkreis 1 (Pumpe, Ventile, Temperaturen)
-  
+
 Ebene 3: Detailbilder / Popups
   - Einzelregler parametrierung
   - Zeitprogramm-Editor
@@ -154,12 +176,12 @@ Suchfunktion nach Datenpunkt-Bezeichnung
 
 ## Bedienebenen und Passwortschutz
 
-| Ebene  | Zugriffsrechte                              | Typischer Nutzer     |
-|--------|---------------------------------------------|----------------------|
-| 0      | Nur Lesen (Anzeige)                         | Hausmeister, Mieter  |
-| 1      | Sollwerte ändern, manuell steuern           | Betrieb, FM          |
-| 2      | Zeitprogramme, Parameter, Regler-Tuning    | Servicetechniker     |
-| 3      | Vollzugriff, Programmierung, Konfiguration  | GA-Inbetriebnehmer   |
+| Ebene | Zugriffsrechte                             | Typischer Nutzer    |
+| ----- | ------------------------------------------ | ------------------- |
+| 0     | Nur Lesen (Anzeige)                        | Hausmeister, Mieter |
+| 1     | Sollwerte ändern, manuell steuern          | Betrieb, FM         |
+| 2     | Zeitprogramme, Parameter, Regler-Tuning    | Servicetechniker    |
+| 3     | Vollzugriff, Programmierung, Konfiguration | GA-Inbetriebnehmer  |
 
 ---
 
@@ -172,7 +194,7 @@ Montag:    [██████░░░░░░░░░░░░░░░░�
             06:00  --  18:00  AUS
 Samstag:   [░░░░░░░░░░░░░░░░░░░░░░░]
             kein Betrieb
-            
+
 Symbole:
   ██ = Komfortbetrieb (Sollwert X)
   ▒▒ = Absenkbetrieb (Sollwert Y)
@@ -183,14 +205,15 @@ Symbole:
 
 ## Normen und Systeme
 
-| Norm / Referenz      | Inhalt                                             |
-|----------------------|----------------------------------------------------|
-| **IEC 62424**        | Darstellung in CAEX / PCSD (Prozessleitsysteme)    |
-| **DIN 2481**         | Rohrleitungssymbole (Ventile, Klappen)             |
-| **EN ISO 10628**     | Fliesschemata für Verfahrenstechnik                |
-| **VDI 3814-4**       | Qualitätsanforderungen Visualisierung GA           |
+| Norm / Referenz  | Inhalt                                          |
+| ---------------- | ----------------------------------------------- |
+| **IEC 62424**    | Darstellung in CAEX / PCSD (Prozessleitsysteme) |
+| **DIN 2481**     | Rohrleitungssymbole (Ventile, Klappen)          |
+| **EN ISO 10628** | Fliesschemata für Verfahrenstechnik             |
+| **VDI 3814-4**   | Qualitätsanforderungen Visualisierung GA        |
 
 **Gängige GLT-Systeme:**
+
 - Siemens Desigo CC / Insight
 - Honeywell EBI (Enterprise Buildings Integrator)
 - Schneider Electric EcoStruxure Building Operation
@@ -226,25 +249,25 @@ Poor practice:
 
 ## Colour Codes (Best Practice / Industry Standard)
 
-| Colour | Meaning | Example |
-|--------|---------|---------|
-| **Green** | Running OK / active / ON | Pump running |
-| **Red** | Fault / alarm / error | Motor protection tripped |
-| **Yellow** | Warning / manual control | Hand mode active |
-| **Grey** | OFF / inactive / locked | Pump stopped |
-| **Blue** | Cold / cooling system / chilled water | Chilled water pipe |
-| **Orange** | Heat / heating / steam | Flow/return pipe |
-| **White** | Outdoor air / neutral state | Airflow / ODA |
-| **Cyan** | Supply air (after conditioning) | Supply air duct |
+| Colour     | Meaning                               | Example                  |
+| ---------- | ------------------------------------- | ------------------------ |
+| **Green**  | Running OK / active / ON              | Pump running             |
+| **Red**    | Fault / alarm / error                 | Motor protection tripped |
+| **Yellow** | Warning / manual control              | Hand mode active         |
+| **Grey**   | OFF / inactive / locked               | Pump stopped             |
+| **Blue**   | Cold / cooling system / chilled water | Chilled water pipe       |
+| **Orange** | Heat / heating / steam                | Flow/return pipe         |
+| **White**  | Outdoor air / neutral state           | Airflow / ODA            |
+| **Cyan**   | Supply air (after conditioning)       | Supply air duct          |
 
 **Alarm colours (priority):**
 
-| Colour | Priority |
-|--------|---------|
-| Red flashing | Critical |
-| Red | High |
-| Orange | Medium |
-| Yellow | Low / warning |
+| Colour       | Priority      |
+| ------------ | ------------- |
+| Red flashing | Critical      |
+| Red          | High          |
+| Orange       | Medium        |
+| Yellow       | Low / warning |
 
 ---
 
@@ -340,12 +363,12 @@ Search function by data point name
 
 ## Access Levels and Password Protection
 
-| Level | Access rights | Typical user |
-|-------|--------------|--------------|
-| 0 | Read only (display) | Caretaker, tenant |
-| 1 | Change setpoints, manual control | Operations, FM |
-| 2 | Time programs, parameters, controller tuning | Service technician |
-| 3 | Full access, programming, configuration | BA commissioning engineer |
+| Level | Access rights                                | Typical user              |
+| ----- | -------------------------------------------- | ------------------------- |
+| 0     | Read only (display)                          | Caretaker, tenant         |
+| 1     | Change setpoints, manual control             | Operations, FM            |
+| 2     | Time programs, parameters, controller tuning | Service technician        |
+| 3     | Full access, programming, configuration      | BA commissioning engineer |
 
 ---
 
@@ -369,14 +392,15 @@ Symbols:
 
 ## Standards and Systems
 
-| Standard / Reference | Content |
-|---------------------|---------|
-| **IEC 62424** | Representation in CAEX / PCSD (process control systems) |
-| **DIN 2481** | Pipe symbols (valves, dampers) |
-| **EN ISO 10628** | Flow diagrams for process engineering |
-| **VDI 3814-4** | Quality requirements for BA visualisation |
+| Standard / Reference | Content                                                 |
+| -------------------- | ------------------------------------------------------- |
+| **IEC 62424**        | Representation in CAEX / PCSD (process control systems) |
+| **DIN 2481**         | Pipe symbols (valves, dampers)                          |
+| **EN ISO 10628**     | Flow diagrams for process engineering                   |
+| **VDI 3814-4**       | Quality requirements for BA visualisation               |
 
 **Common BMS systems:**
+
 - Siemens Desigo CC / Insight
 - Honeywell EBI (Enterprise Buildings Integrator)
 - Schneider Electric EcoStruxure Building Operation

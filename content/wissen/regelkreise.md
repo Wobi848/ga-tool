@@ -4,7 +4,25 @@ title_en: Control Loops — Fundamentals and Dead Time
 slug: regelkreise
 category: regelung
 subcategory: grundlagen
-tags: [regelkreis, totzeit, verzögerung, strecke, regler, sensor, aktor, stellgrösse, regelgrösse, führungsgrösse, störgrösse, pt1, totzeitstrecke, sprungantwort, einregelzeit, überschwingen]
+tags:
+  [
+    regelkreis,
+    totzeit,
+    verzögerung,
+    strecke,
+    regler,
+    sensor,
+    aktor,
+    stellgrösse,
+    regelgrösse,
+    führungsgrösse,
+    störgrösse,
+    pt1,
+    totzeitstrecke,
+    sprungantwort,
+    einregelzeit,
+    überschwingen
+  ]
 difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, steuern-regeln, zweipunktregelung, kaskadenregelung]
@@ -26,23 +44,23 @@ Führungs-     │   e           Y           X          │
 grösse W ──►[+]──►[Regler]──►[Stellglied]──►[Strecke]──► Regelgrösse X
              [−]                               ↑
               └───────[Messglied/Sensor]────────┘
-                                    
+
                                Störgrösse Z
                                     ↓
                              [Strecke] ←──────
 ```
 
-| Element          | Funktion                                    | GA-Beispiel                     |
-|------------------|---------------------------------------------|---------------------------------|
-| **Führungsgrösse W** | Sollwert                               | Raum-Soll 22 °C                 |
-| **Regelabweichung e** | W − X (Differenz)                    | 22 − 20 = 2 K                  |
-| **Regler**       | Berechnet Stellgrösse aus Abweichung       | PI-Regler                       |
-| **Stellgrösse Y** | Ausgangssignal des Reglers              | 0–10 V ans Ventil               |
-| **Stellglied**   | Wandelt Y in physikalische Wirkung         | Ventilantrieb                   |
-| **Strecke S**    | Das zu regelnde System                     | Raum mit Heizkörper             |
-| **Regelgrösse X** | Was gemessen wird                        | Ist-Raumtemperatur              |
-| **Störgrösse Z** | Unerwünschte Beeinflussung                 | Fenster offen, Sonneneinstrahlung|
-| **Messglied**    | Sensor, wandelt physikalisch → elektrisch  | PT1000 + Transmitter            |
+| Element               | Funktion                                  | GA-Beispiel                       |
+| --------------------- | ----------------------------------------- | --------------------------------- |
+| **Führungsgrösse W**  | Sollwert                                  | Raum-Soll 22 °C                   |
+| **Regelabweichung e** | W − X (Differenz)                         | 22 − 20 = 2 K                     |
+| **Regler**            | Berechnet Stellgrösse aus Abweichung      | PI-Regler                         |
+| **Stellgrösse Y**     | Ausgangssignal des Reglers                | 0–10 V ans Ventil                 |
+| **Stellglied**        | Wandelt Y in physikalische Wirkung        | Ventilantrieb                     |
+| **Strecke S**         | Das zu regelnde System                    | Raum mit Heizkörper               |
+| **Regelgrösse X**     | Was gemessen wird                         | Ist-Raumtemperatur                |
+| **Störgrösse Z**      | Unerwünschte Beeinflussung                | Fenster offen, Sonneneinstrahlung |
+| **Messglied**         | Sensor, wandelt physikalisch → elektrisch | PT1000 + Transmitter              |
 
 ---
 
@@ -64,7 +82,7 @@ Strecke mit Verzögerung — häufigster Typ in der GA:
 
 ```
 Sprung am Eingang t=0:
-                    
+
 Ausgang:   │         ___________
            │       /
            │      /  Zeitkonstante T1
@@ -83,7 +101,7 @@ Strecke mit **Totzeitanteil** — Eingang hat erst nach der Totzeit Wirkung auf 
 
 ```
 Sprung am Eingang t=0:
-                    
+
 Ausgang:   │              ___________
            │             /
            │            /
@@ -110,27 +128,28 @@ Beispiel Heizungsvorlauf: Ventil öffnet → Heizwasser fliesst durch Rohr (Totz
 
 ### Was verursacht Totzeit?
 
-| Ursache                       | Totzeit-Grösse      | System                     |
-|-------------------------------|---------------------|----------------------------|
-| Transport von Heizwasser im Rohr | 5–60 s         | Heizkörper, FBH             |
-| Wärmedurchgang Wärmetauscher  | 10–120 s            | Lufterhitzer/-kühler       |
-| Wärmedurchgang Estrich        | 30–180 min          | Fussbodenheizung            |
-| Thermische Trägheit Raum      | 15–60 min           | Raumtemperatur              |
-| Messfilterung                 | 1–30 s              | Glättungsfilter im DDC      |
+| Ursache                          | Totzeit-Grösse | System                 |
+| -------------------------------- | -------------- | ---------------------- |
+| Transport von Heizwasser im Rohr | 5–60 s         | Heizkörper, FBH        |
+| Wärmedurchgang Wärmetauscher     | 10–120 s       | Lufterhitzer/-kühler   |
+| Wärmedurchgang Estrich           | 30–180 min     | Fussbodenheizung       |
+| Thermische Trägheit Raum         | 15–60 min      | Raumtemperatur         |
+| Messfilterung                    | 1–30 s         | Glättungsfilter im DDC |
 
 ### Auswirkung auf Regelbarkeit
 
 **Faustformel:**
+
 ```
 Je grösser das Verhältnis Totzeit / Zeitkonstante, desto schwieriger die Regelbarkeit
 ```
 
-| Tt / T1          | Regelbarkeit        | Empfehlung                  |
-|------------------|---------------------|-----------------------------|
-| < 0.1            | Sehr gut            | Aggressiver Regler möglich   |
-| 0.1 – 0.5        | Gut                 | Standard PID               |
-| 0.5 – 1.0        | Mittel              | Vorsichtige Parametrierung  |
-| > 1.0            | Schwierig           | Kaskadenregelung erwägen    |
+| Tt / T1   | Regelbarkeit | Empfehlung                 |
+| --------- | ------------ | -------------------------- |
+| < 0.1     | Sehr gut     | Aggressiver Regler möglich |
+| 0.1 – 0.5 | Gut          | Standard PID               |
+| 0.5 – 1.0 | Mittel       | Vorsichtige Parametrierung |
+| > 1.0     | Schwierig    | Kaskadenregelung erwägen   |
 
 ### Fussbodenheizung: extremes Beispiel
 
@@ -180,23 +199,23 @@ Setpoint      │   e           Y           X          │
 W ──────────►[+]──►[Controller]──►[Actuator]──►[Process]──► Controlled variable X
              [−]                               ↑
               └───────[Measuring element]───────┘
-                                    
+
                                Disturbance Z
                                     ↓
                              [Process] ←──────
 ```
 
-| Element | Function | BA example |
-|---------|---------|-----------|
-| **Setpoint W** | Reference value | Room setpoint 22 °C |
-| **Control error e** | W − X (difference) | 22 − 20 = 2 K |
-| **Controller** | Calculates output from error | PI controller |
-| **Control output Y** | Controller output signal | 0–10 V to valve |
-| **Actuator** | Converts Y to physical effect | Valve actuator |
-| **Process S** | The system being controlled | Room with radiator |
-| **Controlled variable X** | What is measured | Actual room temperature |
-| **Disturbance Z** | Unwanted influence | Window open, solar gain |
-| **Measuring element** | Sensor, converts physical → electrical | PT1000 + transmitter |
+| Element                   | Function                               | BA example              |
+| ------------------------- | -------------------------------------- | ----------------------- |
+| **Setpoint W**            | Reference value                        | Room setpoint 22 °C     |
+| **Control error e**       | W − X (difference)                     | 22 − 20 = 2 K           |
+| **Controller**            | Calculates output from error           | PI controller           |
+| **Control output Y**      | Controller output signal               | 0–10 V to valve         |
+| **Actuator**              | Converts Y to physical effect          | Valve actuator          |
+| **Process S**             | The system being controlled            | Room with radiator      |
+| **Controlled variable X** | What is measured                       | Actual room temperature |
+| **Disturbance Z**         | Unwanted influence                     | Window open, solar gain |
+| **Measuring element**     | Sensor, converts physical → electrical | PT1000 + transmitter    |
 
 ---
 
@@ -218,7 +237,7 @@ Process with delay — the most common type in BA:
 
 ```
 Step input at t=0:
-                    
+
 Output:    │         ___________
            │       /
            │      /  Time constant T1
@@ -237,7 +256,7 @@ Process with **dead time** — input has no effect on output until after the dea
 
 ```
 Step input at t=0:
-                    
+
 Output:    │              ___________
            │             /
            │            /
@@ -264,27 +283,28 @@ Example heating circuit: valve opens → heating water flows through pipe (dead 
 
 ### What Causes Dead Time?
 
-| Cause | Dead time magnitude | System |
-|-------|-------------------|--------|
-| Transport of heating water in pipe | 5–60 s | Radiator, UFH |
-| Heat transfer in heat exchanger | 10–120 s | Air heater/cooler |
-| Heat transfer through screed | 30–180 min | Underfloor heating |
-| Thermal inertia of room | 15–60 min | Room temperature |
-| Measurement filtering | 1–30 s | Smoothing filter in DDC |
+| Cause                              | Dead time magnitude | System                  |
+| ---------------------------------- | ------------------- | ----------------------- |
+| Transport of heating water in pipe | 5–60 s              | Radiator, UFH           |
+| Heat transfer in heat exchanger    | 10–120 s            | Air heater/cooler       |
+| Heat transfer through screed       | 30–180 min          | Underfloor heating      |
+| Thermal inertia of room            | 15–60 min           | Room temperature        |
+| Measurement filtering              | 1–30 s              | Smoothing filter in DDC |
 
 ### Effect on Controllability
 
 **Rule of thumb:**
+
 ```
 The larger the ratio of dead time to time constant, the more difficult the control
 ```
 
-| Tt / T1 | Controllability | Recommendation |
-|--------|----------------|---------------|
-| < 0.1 | Very good | Aggressive controller possible |
-| 0.1 – 0.5 | Good | Standard PID |
-| 0.5 – 1.0 | Moderate | Cautious parameterisation |
-| > 1.0 | Difficult | Consider cascade control |
+| Tt / T1   | Controllability | Recommendation                 |
+| --------- | --------------- | ------------------------------ |
+| < 0.1     | Very good       | Aggressive controller possible |
+| 0.1 – 0.5 | Good            | Standard PID                   |
+| 0.5 – 1.0 | Moderate        | Cautious parameterisation      |
+| > 1.0     | Difficult       | Consider cascade control       |
 
 ### Underfloor Heating: Extreme Example
 

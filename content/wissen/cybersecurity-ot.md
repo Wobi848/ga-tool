@@ -4,7 +4,25 @@ title_en: OT Cybersecurity — Security in Building Automation
 slug: cybersecurity-ot
 category: it
 subcategory: sicherheit
-tags: [cybersecurity, ot-security, ics, iec62443, angriffsvektoren, schutzkonzept, patch, vlan, vpn, firewall, authentifizierung, schwachstelle, bacnet, modbus, remote-access, incident-response]
+tags:
+  [
+    cybersecurity,
+    ot-security,
+    ics,
+    iec62443,
+    angriffsvektoren,
+    schutzkonzept,
+    patch,
+    vlan,
+    vpn,
+    firewall,
+    authentifizierung,
+    schwachstelle,
+    bacnet,
+    modbus,
+    remote-access,
+    incident-response
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [netzwerk-ga, remote-zugriff, bacnet, opc-ua, glt-grundlagen]
@@ -38,15 +56,15 @@ OT-Sicherheit (Operational Technology) ist kein Luxus mehr — GA-Systeme sind r
 
 ## Angriffsvektoren in der GA
 
-| Angriffsvektor              | Beispiel                                   | Häufigkeit |
-|-----------------------------|--------------------------------------------|------------|
-| **Fernzugriff ohne MFA**    | VPN ohne 2FA, Teamviewer mit schwachem PW  | Sehr hoch  |
-| **Default-Passwörter**      | DDC Werk-PW "admin/admin", nie geändert    | Sehr hoch  |
-| **Fehlende Segmentierung**  | OT direkt im gleichen Netz wie IT          | Hoch       |
-| **Ungepatchte Software**    | Windows XP GLT-Server mit EternalBlue-Vuln | Hoch       |
-| **USB-Sticks**              | Techniker bringt infiziertes USB mit        | Mittel     |
-| **Lieferkette**             | Kompromittierte Firmware vom Hersteller    | Niedrig    |
-| **Social Engineering**      | Techniker wird manipuliert                 | Mittel     |
+| Angriffsvektor             | Beispiel                                   | Häufigkeit |
+| -------------------------- | ------------------------------------------ | ---------- |
+| **Fernzugriff ohne MFA**   | VPN ohne 2FA, Teamviewer mit schwachem PW  | Sehr hoch  |
+| **Default-Passwörter**     | DDC Werk-PW "admin/admin", nie geändert    | Sehr hoch  |
+| **Fehlende Segmentierung** | OT direkt im gleichen Netz wie IT          | Hoch       |
+| **Ungepatchte Software**   | Windows XP GLT-Server mit EternalBlue-Vuln | Hoch       |
+| **USB-Sticks**             | Techniker bringt infiziertes USB mit       | Mittel     |
+| **Lieferkette**            | Kompromittierte Firmware vom Hersteller    | Niedrig    |
+| **Social Engineering**     | Techniker wird manipuliert                 | Mittel     |
 
 ---
 
@@ -94,12 +112,12 @@ Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht e
 
 ### 4. Patches und Updates
 
-| Situation               | Vorgehen                                    |
-|-------------------------|---------------------------------------------|
-| IT-Systeme (GLT-Server) | Regelmässige Windows/Linux-Updates          |
-| DDC-Firmware            | Hersteller-Updates nach Testphase einspielen |
-| Legacy-Geräte (Ende of Life) | Kompensation: Netzwerksegmentierung    |
-| Testen vor Produktiv    | Updates immer erst in Testumgebung          |
+| Situation                    | Vorgehen                                     |
+| ---------------------------- | -------------------------------------------- |
+| IT-Systeme (GLT-Server)      | Regelmässige Windows/Linux-Updates           |
+| DDC-Firmware                 | Hersteller-Updates nach Testphase einspielen |
+| Legacy-Geräte (Ende of Life) | Kompensation: Netzwerksegmentierung          |
+| Testen vor Produktiv         | Updates immer erst in Testumgebung           |
 
 > ⚠️ Viele GLT-Server laufen noch auf Windows Server 2008/2012 — end of life, keine Sicherheitsupdates mehr. Sofortmassnahme: Segmentierung verstärken, Migration planen.
 
@@ -136,14 +154,14 @@ Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht e
 
 ## Schwachstellen-Übersicht in typischer GA
 
-| Schwachstelle               | Priorität | Aufwand Behebung |
-|-----------------------------|-----------|------------------|
-| Default-Passwörter          | KRITISCH  | Sehr gering (sofort ändern!) |
-| Kein VPN/MFA für Fernzugriff | KRITISCH | Mittel           |
-| OT=IT im selben Netz        | HOCH      | Mittel (VLAN)    |
-| Ungepatchter Windows-Server | HOCH      | Mittel           |
-| Keine Logs / Monitoring     | MITTEL    | Mittel           |
-| Physischer Zugang unkontrolliert | MITTEL | Gering          |
+| Schwachstelle                    | Priorität | Aufwand Behebung             |
+| -------------------------------- | --------- | ---------------------------- |
+| Default-Passwörter               | KRITISCH  | Sehr gering (sofort ändern!) |
+| Kein VPN/MFA für Fernzugriff     | KRITISCH  | Mittel                       |
+| OT=IT im selben Netz             | HOCH      | Mittel (VLAN)                |
+| Ungepatchter Windows-Server      | HOCH      | Mittel                       |
+| Keine Logs / Monitoring          | MITTEL    | Mittel                       |
+| Physischer Zugang unkontrolliert | MITTEL    | Gering                       |
 
 ## Normen
 
@@ -177,15 +195,15 @@ OT security (Operational Technology) is no longer optional — BA systems are re
 
 ## Attack Vectors in BA
 
-| Attack vector | Example | Frequency |
-|-------------|---------|----------|
-| **Remote access without MFA** | VPN without 2FA, TeamViewer with weak password | Very high |
-| **Default passwords** | DDC factory password "admin/admin", never changed | Very high |
-| **Lack of segmentation** | OT directly on the same network as IT | High |
-| **Unpatched software** | Windows XP BMS server with EternalBlue vulnerability | High |
-| **USB sticks** | Technician brings infected USB | Medium |
-| **Supply chain** | Compromised firmware from manufacturer | Low |
-| **Social engineering** | Technician is manipulated | Medium |
+| Attack vector                 | Example                                              | Frequency |
+| ----------------------------- | ---------------------------------------------------- | --------- |
+| **Remote access without MFA** | VPN without 2FA, TeamViewer with weak password       | Very high |
+| **Default passwords**         | DDC factory password "admin/admin", never changed    | Very high |
+| **Lack of segmentation**      | OT directly on the same network as IT                | High      |
+| **Unpatched software**        | Windows XP BMS server with EternalBlue vulnerability | High      |
+| **USB sticks**                | Technician brings infected USB                       | Medium    |
+| **Supply chain**              | Compromised firmware from manufacturer               | Low       |
+| **Social engineering**        | Technician is manipulated                            | Medium    |
 
 ---
 
@@ -233,12 +251,12 @@ Rule: **Every zone boundary requires explicitly permitted connections.** What is
 
 ### 4. Patches and Updates
 
-| Situation | Procedure |
-|-----------|----------|
-| IT systems (BMS server) | Regular Windows/Linux updates |
-| DDC firmware | Apply manufacturer updates after test phase |
-| Legacy devices (end of life) | Compensate: strengthen segmentation |
-| Test before production | Always apply updates to test environment first |
+| Situation                    | Procedure                                      |
+| ---------------------------- | ---------------------------------------------- |
+| IT systems (BMS server)      | Regular Windows/Linux updates                  |
+| DDC firmware                 | Apply manufacturer updates after test phase    |
+| Legacy devices (end of life) | Compensate: strengthen segmentation            |
+| Test before production       | Always apply updates to test environment first |
 
 > ⚠️ Many BMS servers still run on Windows Server 2008/2012 — end of life, no more security updates. Immediate action: strengthen segmentation, plan migration.
 
@@ -275,14 +293,14 @@ Rule: **Every zone boundary requires explicitly permitted connections.** What is
 
 ## Vulnerability Overview in Typical BA
 
-| Vulnerability | Priority | Remediation effort |
-|-------------|---------|-------------------|
-| Default passwords | CRITICAL | Very low (change immediately!) |
-| No VPN/MFA for remote access | CRITICAL | Medium |
-| OT = IT on same network | HIGH | Medium (VLAN) |
-| Unpatched Windows server | HIGH | Medium |
-| No logs / monitoring | MEDIUM | Medium |
-| Physical access uncontrolled | MEDIUM | Low |
+| Vulnerability                | Priority | Remediation effort             |
+| ---------------------------- | -------- | ------------------------------ |
+| Default passwords            | CRITICAL | Very low (change immediately!) |
+| No VPN/MFA for remote access | CRITICAL | Medium                         |
+| OT = IT on same network      | HIGH     | Medium (VLAN)                  |
+| Unpatched Windows server     | HIGH     | Medium                         |
+| No logs / monitoring         | MEDIUM   | Medium                         |
+| Physical access uncontrolled | MEDIUM   | Low                            |
 
 ## Standards
 

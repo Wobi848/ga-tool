@@ -4,7 +4,23 @@ title_en: Heat Meters — Function, Installation and Readout
 slug: waermemengenzaehler
 category: energie
 subcategory: zaehler
-tags: [wärmemengenzähler, wärmezähler, kältezähler, wmz, durchfluss, temperaturdifferenz, mbus, energiemessung, abrechnung, einbau, kalibrierung, ultraschall, flügelrad, wärmeleistung]
+tags:
+  [
+    wärmemengenzähler,
+    wärmezähler,
+    kältezähler,
+    wmz,
+    durchfluss,
+    temperaturdifferenz,
+    mbus,
+    energiemessung,
+    abrechnung,
+    einbau,
+    kalibrierung,
+    ultraschall,
+    flügelrad,
+    wärmeleistung
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [mbus, sensoren, ems-lastmanagement, hydraulischer-abgleich]
@@ -35,9 +51,9 @@ Q [kWh] ≈ V̇ [m³/h] × 1.163 × ΔT [K] × Zeit
 
 ```
 Vorlauf →──[Durchflussmesser]──────────►
-              ↑                          
+              ↑
           Volumen V̇         [Rechenwerk: integriert Q]
-              ↑                          
+              ↑
          [Temp.fühler VL]  [Temp.fühler RL]
                                ↑
                    Rücklauf ←──────────
@@ -47,12 +63,12 @@ Vorlauf →──[Durchflussmesser]──────────►
 
 ## Messprinzipien Durchfluss
 
-| Prinzip         | Beschreibung                         | Genauigkeit | Einsatz                |
-|-----------------|--------------------------------------|-------------|------------------------|
-| **Ultraschall** | Laufzeitdifferenz                    | ±1–3 %      | Standard, wartungsfrei |
-| **Flügelrad**   | Mechanisch, rotierend                | ±2–5 %      | Einfach, günstig       |
-| **Magnetisch (MID)** | Induktiv                       | ±0.5–1 %    | Hohe Genauigkeit       |
-| **Wirkdruckverfahren** | Blende/Venturi               | ±1–2 %      | Grosse DN              |
+| Prinzip                | Beschreibung          | Genauigkeit | Einsatz                |
+| ---------------------- | --------------------- | ----------- | ---------------------- |
+| **Ultraschall**        | Laufzeitdifferenz     | ±1–3 %      | Standard, wartungsfrei |
+| **Flügelrad**          | Mechanisch, rotierend | ±2–5 %      | Einfach, günstig       |
+| **Magnetisch (MID)**   | Induktiv              | ±0.5–1 %    | Hohe Genauigkeit       |
+| **Wirkdruckverfahren** | Blende/Venturi        | ±1–2 %      | Grosse DN              |
 
 **Ultraschall** ist heute Standard — keine beweglichen Teile, daher wartungsarm und langlebig.
 
@@ -60,11 +76,11 @@ Vorlauf →──[Durchflussmesser]──────────►
 
 ## Genauigkeitsklassen (EN 1434)
 
-| Klasse | Genauigkeit  | Anwendung                         |
-|--------|--------------|-----------------------------------|
-| **1**  | ±5 %         | Einfache Systeme                  |
-| **2**  | ±3–5 %       | Standard Wohnbau-Abrechnung       |
-| **3**  | ±2 %         | Genauere Anwendungen              |
+| Klasse     | Genauigkeit | Anwendung                           |
+| ---------- | ----------- | ----------------------------------- |
+| **1**      | ±5 %        | Einfache Systeme                    |
+| **2**      | ±3–5 %      | Standard Wohnbau-Abrechnung         |
+| **3**      | ±2 %        | Genauere Anwendungen                |
 | **MI-004** | MID-konform | Abrechnungsrelevant (Pflicht CH/EU) |
 
 **MID** (Measuring Instruments Directive, 2014/32/EU): Für Abrechnungszwecke muss WMZ MID-konform sein und darf nur durch geeichten Zähler ersetzt werden.
@@ -82,7 +98,7 @@ Rücklauf: alternativ (oft einfacher)
 Einbaulängen (Ultraschall):
   Vorlauf (Einlauf): mind. 5× DN gerades Rohr
   Nachlauf:          mind. 3× DN gerades Rohr
-  
+
 Nicht direkt nach:
   Pumpe, T-Stück, Ventil → Strömungsstörung → Messfehler
 ```
@@ -103,14 +119,14 @@ Beide Temperaturfühler (Vor- und Rücklauf) müssen **geeichtes Paar** sein (gl
 
 ## Auslesung und Schnittstellen
 
-| Schnittstelle | Beschreibung                                  | GA-Einsatz           |
-|---------------|-----------------------------------------------|----------------------|
-| **M-Bus**     | Primäres Protokoll für Zähler (EN 13757)      | Standard in CH/DE/EU |
-| **wM-Bus**    | Funk-M-Bus (868 MHz)                          | Nachrüstung, Fernablesung |
-| **Modbus RTU** | Alternativ bei neueren Geräten              | GA-Integration       |
-| **Impulsausgang** | S0-Schnittstelle, 1 Impuls = x kWh       | Einfache Zählung     |
-| **Optischer Ausgang** | IR-Auslesung (Ableseschwand)         | Manuelle Ablesung    |
-| **Display**   | Lokale Anzeige                                | Vor-Ort-Kontrolle    |
+| Schnittstelle         | Beschreibung                             | GA-Einsatz                |
+| --------------------- | ---------------------------------------- | ------------------------- |
+| **M-Bus**             | Primäres Protokoll für Zähler (EN 13757) | Standard in CH/DE/EU      |
+| **wM-Bus**            | Funk-M-Bus (868 MHz)                     | Nachrüstung, Fernablesung |
+| **Modbus RTU**        | Alternativ bei neueren Geräten           | GA-Integration            |
+| **Impulsausgang**     | S0-Schnittstelle, 1 Impuls = x kWh       | Einfache Zählung          |
+| **Optischer Ausgang** | IR-Auslesung (Ableseschwand)             | Manuelle Ablesung         |
+| **Display**           | Lokale Anzeige                           | Vor-Ort-Kontrolle         |
 
 ### M-Bus Auslesung
 
@@ -134,26 +150,26 @@ Zähler-Datenpunkte (EN 13757):
 **Kalibrierung:** Hersteller kalibriert bei Produktion, Zertifikat liegt bei.
 **Eichung:** Staatliche Eichung für Abrechnungszähler (Pflicht für Mieterabrechnung):
 
-| Land | Eichperiode       | Behörde           |
-|------|-------------------|-------------------|
-| DE   | 5 Jahre           | Eichamt           |
+| Land | Eichperiode                                 | Behörde               |
+| ---- | ------------------------------------------- | --------------------- |
+| DE   | 5 Jahre                                     | Eichamt               |
 | CH   | 5 Jahre (Ultraschall) / 2 Jahre (Flügelrad) | Metas / Kant. Eichamt |
-| AT   | 5 Jahre           | BEV               |
+| AT   | 5 Jahre                                     | BEV                   |
 
 ---
 
 ## Typische GA-Datenpunkte WMZ
 
-| Datenpunkt              | Einheit | Beschreibung                        |
-|-------------------------|---------|-------------------------------------|
-| Wärmemenge kumuliert    | kWh     | Energiezählerstand                  |
-| Volumenmenge kumuliert  | m³      | Volumenzählerstand                  |
-| Aktuelle Leistung       | kW      | Momentanleistung                    |
-| Aktueller Volumenstrom  | m³/h    | Momentan-Durchfluss                 |
-| Vorlauftemperatur       | °C      |                                     |
-| Rücklauftemperatur      | °C      |                                     |
-| Temperaturdifferenz ΔT  | K       | Berechnet (VL − RL)                 |
-| Fehlercode              | —       | Zähler-Statusbyte                   |
+| Datenpunkt             | Einheit | Beschreibung        |
+| ---------------------- | ------- | ------------------- |
+| Wärmemenge kumuliert   | kWh     | Energiezählerstand  |
+| Volumenmenge kumuliert | m³      | Volumenzählerstand  |
+| Aktuelle Leistung      | kW      | Momentanleistung    |
+| Aktueller Volumenstrom | m³/h    | Momentan-Durchfluss |
+| Vorlauftemperatur      | °C      |                     |
+| Rücklauftemperatur     | °C      |                     |
+| Temperaturdifferenz ΔT | K       | Berechnet (VL − RL) |
+| Fehlercode             | —       | Zähler-Statusbyte   |
 
 ---
 
@@ -186,9 +202,9 @@ Q [kWh] ≈ V̇ [m³/h] × 1.163 × ΔT [K] × time
 
 ```
 Supply →──[Flow meter]──────────────►
-              ↑                          
+              ↑
           Volume V̇         [Calculator: integrates Q]
-              ↑                          
+              ↑
          [Temp. sensor supply]  [Temp. sensor return]
                                     ↑
                     Return ←────────────
@@ -198,12 +214,12 @@ Supply →──[Flow meter]──────────────►
 
 ## Flow Measurement Principles
 
-| Principle | Description | Accuracy | Application |
-|----------|------------|---------|------------|
-| **Ultrasonic** | Transit time difference | ±1–3 % | Standard, maintenance-free |
-| **Impeller** | Mechanical, rotating | ±2–5 % | Simple, low cost |
-| **Electromagnetic (MID)** | Inductive | ±0.5–1 % | High accuracy |
-| **Differential pressure** | Orifice / Venturi | ±1–2 % | Large DN |
+| Principle                 | Description             | Accuracy | Application                |
+| ------------------------- | ----------------------- | -------- | -------------------------- |
+| **Ultrasonic**            | Transit time difference | ±1–3 %   | Standard, maintenance-free |
+| **Impeller**              | Mechanical, rotating    | ±2–5 %   | Simple, low cost           |
+| **Electromagnetic (MID)** | Inductive               | ±0.5–1 % | High accuracy              |
+| **Differential pressure** | Orifice / Venturi       | ±1–2 %   | Large DN                   |
 
 **Ultrasonic** is today's standard — no moving parts, therefore low-maintenance and long-lasting.
 
@@ -211,11 +227,11 @@ Supply →──[Flow meter]──────────────►
 
 ## Accuracy Classes (EN 1434)
 
-| Class | Accuracy | Application |
-|-------|---------|------------|
-| **1** | ±5 % | Simple systems |
-| **2** | ±3–5 % | Standard residential billing |
-| **3** | ±2 % | More precise applications |
+| Class      | Accuracy      | Application                        |
+| ---------- | ------------- | ---------------------------------- |
+| **1**      | ±5 %          | Simple systems                     |
+| **2**      | ±3–5 %        | Standard residential billing       |
+| **3**      | ±2 %          | More precise applications          |
 | **MI-004** | MID-compliant | Billing-relevant (mandatory CH/EU) |
 
 **MID** (Measuring Instruments Directive, 2014/32/EU): For billing purposes, the heat meter must be MID-compliant and may only be replaced by a verified meter.
@@ -233,7 +249,7 @@ Return pipe:  alternative (often more accessible)
 Straight pipe lengths (ultrasonic):
   Upstream (inlet): at least 5× DN straight pipe
   Downstream:       at least 3× DN straight pipe
-  
+
 Not immediately after:
   Pump, T-piece, valve → flow disturbance → measurement error
 ```
@@ -254,14 +270,14 @@ Both temperature sensors (supply and return) must be a **matched pair** (same ca
 
 ## Readout and Interfaces
 
-| Interface | Description | BA application |
-|----------|------------|--------------|
-| **M-Bus** | Primary protocol for meters (EN 13757) | Standard in CH/DE/EU |
-| **wM-Bus** | Wireless M-Bus (868 MHz) | Retrofit, remote reading |
-| **Modbus RTU** | Alternative in newer devices | BA integration |
-| **Pulse output** | S0 interface, 1 pulse = x kWh | Simple counting |
-| **Optical output** | IR readout (reading window) | Manual readout |
-| **Display** | Local indication | On-site check |
+| Interface          | Description                            | BA application           |
+| ------------------ | -------------------------------------- | ------------------------ |
+| **M-Bus**          | Primary protocol for meters (EN 13757) | Standard in CH/DE/EU     |
+| **wM-Bus**         | Wireless M-Bus (868 MHz)               | Retrofit, remote reading |
+| **Modbus RTU**     | Alternative in newer devices           | BA integration           |
+| **Pulse output**   | S0 interface, 1 pulse = x kWh          | Simple counting          |
+| **Optical output** | IR readout (reading window)            | Manual readout           |
+| **Display**        | Local indication                       | On-site check            |
 
 ### M-Bus Readout
 
@@ -285,26 +301,26 @@ Meter data points (EN 13757):
 **Calibration:** Manufacturer calibrates during production; certificate included.
 **Legal verification:** Statutory verification for billing meters (mandatory for tenant billing):
 
-| Country | Verification period | Authority |
-|---------|-------------------|----------|
-| DE | 5 years | Weights and Measures Office |
-| CH | 5 years (ultrasonic) / 2 years (impeller) | Metas / Cantonal W&M Office |
-| AT | 5 years | BEV |
+| Country | Verification period                       | Authority                   |
+| ------- | ----------------------------------------- | --------------------------- |
+| DE      | 5 years                                   | Weights and Measures Office |
+| CH      | 5 years (ultrasonic) / 2 years (impeller) | Metas / Cantonal W&M Office |
+| AT      | 5 years                                   | BEV                         |
 
 ---
 
 ## Typical BA Data Points — Heat Meter
 
-| Data point | Unit | Description |
-|-----------|------|------------|
-| Heat energy cumulative | kWh | Energy meter reading |
-| Volume cumulative | m³ | Volume meter reading |
-| Current power | kW | Instantaneous power |
-| Current volume flow | m³/h | Instantaneous flow |
-| Supply temperature | °C | |
-| Return temperature | °C | |
-| Temperature differential ΔT | K | Calculated (supply − return) |
-| Error code | — | Meter status byte |
+| Data point                  | Unit | Description                  |
+| --------------------------- | ---- | ---------------------------- |
+| Heat energy cumulative      | kWh  | Energy meter reading         |
+| Volume cumulative           | m³   | Volume meter reading         |
+| Current power               | kW   | Instantaneous power          |
+| Current volume flow         | m³/h | Instantaneous flow           |
+| Supply temperature          | °C   |                              |
+| Return temperature          | °C   |                              |
+| Temperature differential ΔT | K    | Calculated (supply − return) |
+| Error code                  | —    | Meter status byte            |
 
 ---
 

@@ -13,7 +13,7 @@
 	let nextId = $state(3);
 	let rows = $state<Row[]>([
 		{ id: 1, label: '', value: null, weight: 1 },
-		{ id: 2, label: '', value: null, weight: 1 },
+		{ id: 2, label: '', value: null, weight: 1 }
 	]);
 
 	function addRow() {
@@ -22,10 +22,12 @@
 
 	function removeRow(id: number) {
 		if (rows.length <= 2) return;
-		rows = rows.filter(r => r.id !== id);
+		rows = rows.filter((r) => r.id !== id);
 	}
 
-	const validRows = $derived(rows.filter(r => r.value !== null && !isNaN(r.value as number) && r.weight > 0));
+	const validRows = $derived(
+		rows.filter((r) => r.value !== null && !isNaN(r.value as number) && r.weight > 0)
+	);
 	const weightSum = $derived(validRows.reduce((s, r) => s + r.weight, 0));
 	const result = $derived(
 		weightSum > 0
@@ -34,10 +36,10 @@
 	);
 
 	const contributions = $derived(
-		validRows.map(r => ({
+		validRows.map((r) => ({
 			...r,
 			share: weightSum > 0 ? (r.weight / weightSum) * 100 : 0,
-			contribution: weightSum > 0 ? (r.value as number) * r.weight / weightSum : 0
+			contribution: weightSum > 0 ? ((r.value as number) * r.weight) / weightSum : 0
 		}))
 	);
 </script>
@@ -45,14 +47,26 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
 			<h1 class="calc-title">{$_('rechner.gewichteterMittelwert.name')}</h1>
-			<FavButton type="rechner" slug="gewichteter-mittelwert" title={$_('rechner.gewichteterMittelwert.name')} size={20} />
+			<FavButton
+				type="rechner"
+				slug="gewichteter-mittelwert"
+				title={$_('rechner.gewichteterMittelwert.name')}
+				size={20}
+			/>
 		</div>
 	</header>
 
@@ -95,16 +109,30 @@
 					disabled={rows.length <= 2}
 					aria-label="Zeile entfernen"
 				>
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-						<path d="M18 6 6 18M6 6l12 12"/>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M18 6 6 18M6 6l12 12" />
 					</svg>
 				</button>
 			</div>
 		{/each}
 
 		<button type="button" class="add-btn" onclick={addRow}>
-			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-				<path d="M12 5v14M5 12h14"/>
+			<svg
+				width="14"
+				height="14"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path d="M12 5v14M5 12h14" />
 			</svg>
 			Zeile hinzufügen
 		</button>
@@ -143,7 +171,8 @@
 		{/if}
 
 		<p class="calc-info">
-			x̄ = (Σ xᵢ · wᵢ) / Σ wᵢ — Gewichte können beliebige positive Zahlen sein (Flächen, Zeiten, Faktoren…)
+			x̄ = (Σ xᵢ · wᵢ) / Σ wᵢ — Gewichte können beliebige positive Zahlen sein (Flächen, Zeiten,
+			Faktoren…)
 		</p>
 	{/if}
 </div>
@@ -174,9 +203,15 @@
 		margin-bottom: 0.375rem;
 	}
 
-	.col-label { min-width: 0; }
-	.col-value { min-width: 0; }
-	.col-weight { min-width: 0; }
+	.col-label {
+		min-width: 0;
+	}
+	.col-value {
+		min-width: 0;
+	}
+	.col-weight {
+		min-width: 0;
+	}
 
 	.del-btn {
 		background: none;
@@ -190,8 +225,13 @@
 		justify-content: center;
 		transition: color 0.15s;
 	}
-	.del-btn:hover:not(:disabled) { color: #dc2626; }
-	.del-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+	.del-btn:hover:not(:disabled) {
+		color: #dc2626;
+	}
+	.del-btn:disabled {
+		opacity: 0.25;
+		cursor: not-allowed;
+	}
 
 	.add-btn {
 		display: flex;
@@ -208,7 +248,9 @@
 		font-family: inherit;
 		width: 100%;
 		justify-content: center;
-		transition: border-color 0.15s, color 0.15s;
+		transition:
+			border-color 0.15s,
+			color 0.15s;
 	}
 	.add-btn:hover {
 		border-color: var(--color-primary);
@@ -224,7 +266,9 @@
 		padding: 0.3rem 0;
 		border-top: 1px solid var(--border);
 	}
-	.contrib-row:first-of-type { border-top: none; }
+	.contrib-row:first-of-type {
+		border-top: none;
+	}
 
 	.contrib-label {
 		font-size: 0.8125rem;
@@ -265,7 +309,11 @@
 
 	@media (max-width: 480px) {
 		.row-header,
-		.row-input { grid-template-columns: 1fr 5rem 4rem 1.5rem; }
-		.contrib-row { grid-template-columns: 1fr 1fr 3rem 3rem; }
+		.row-input {
+			grid-template-columns: 1fr 5rem 4rem 1.5rem;
+		}
+		.contrib-row {
+			grid-template-columns: 1fr 1fr 3rem 3rem;
+		}
 	}
 </style>

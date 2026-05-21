@@ -4,7 +4,27 @@ title_en: COP and EER — Efficiency of Heat Pumps and Chillers
 slug: cop-eer
 category: klima
 subcategory: effizienz
-tags: [cop, eer, scop, seer, jar, jaz, kältemaschine, wärmepumpe, leistungszahl, effizienz, normbedingungen, jahresarbeitszahl, betaspunkt, exergie, carnot, hspf, eseer, iplv]
+tags:
+  [
+    cop,
+    eer,
+    scop,
+    seer,
+    jar,
+    jaz,
+    kältemaschine,
+    wärmepumpe,
+    leistungszahl,
+    effizienz,
+    normbedingungen,
+    jahresarbeitszahl,
+    betaspunkt,
+    exergie,
+    carnot,
+    hspf,
+    eseer,
+    iplv
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, waermepumpe, free-cooling, adiabatische-kuehlung, kaeltemittel]
@@ -30,7 +50,7 @@ P_el:   aufgenommene elektrische Leistung [kW]
 Beispiel:
   Luft/Wasser-WP bei A7W35:
   COP = 12 kW / 3 kW = 4.0
-  
+
   Interpretation: 1 kWh Strom → 4 kWh Wärme
   (1 kWh aus Strom + 3 kWh aus Umwelt)
 ```
@@ -49,6 +69,7 @@ Beispiel:
 ```
 
 **Zusammenhang COP und EER (reversible Wärmepumpe):**
+
 ```
 COP_Heiz = EER_Kalt + 1
 Physikalisch: Wärme = Kälte + Antriebsenergie
@@ -67,7 +88,7 @@ Beispiel A7W35 (Wärmepumpe Luft/Wasser):
   T_hoch = 35 + 273 = 308 K
   T_tief = 7 + 273  = 280 K
   COP_Carnot = 308 / (308 − 280) = 11.0
-  
+
   Realer COP = 4.0 → Gütegrad = 4.0 / 11.0 = 36 %
   (Typisch: 35–55 % je nach Qualität der Maschine)
 ```
@@ -81,13 +102,13 @@ Beispiel A7W35 (Wärmepumpe Luft/Wasser):
 
 Vergleichbarkeit erfordert definierte Prüfbedingungen:
 
-| Anlagetype          | Bezeichnung | Quellentemperatur | Senketemperatur |
-|---------------------|-------------|-------------------|-----------------|
-| Luft/Wasser WP      | A7W35       | 7 °C Aussenluft   | 35 °C Vorlauf   |
-| Luft/Wasser WP      | A-7W35      | −7 °C Aussenluft  | 35 °C Vorlauf   |
-| Sole/Wasser WP      | B0W35       | 0 °C Sole         | 35 °C Vorlauf   |
-| Wasser/Wasser WP    | W10W35      | 10 °C Grundwasser | 35 °C Vorlauf   |
-| Kältemaschine       | W7W27       | 7/12 °C KW        | 27/32 °C        |
+| Anlagetype       | Bezeichnung | Quellentemperatur | Senketemperatur |
+| ---------------- | ----------- | ----------------- | --------------- |
+| Luft/Wasser WP   | A7W35       | 7 °C Aussenluft   | 35 °C Vorlauf   |
+| Luft/Wasser WP   | A-7W35      | −7 °C Aussenluft  | 35 °C Vorlauf   |
+| Sole/Wasser WP   | B0W35       | 0 °C Sole         | 35 °C Vorlauf   |
+| Wasser/Wasser WP | W10W35      | 10 °C Grundwasser | 35 °C Vorlauf   |
+| Kältemaschine    | W7W27       | 7/12 °C KW        | 27/32 °C        |
 
 ---
 
@@ -102,7 +123,7 @@ SCOP = Q_Heiz_gesamt [kWh/Jahr] / E_el_gesamt [kWh/Jahr]
 
 Typische Werte Luft/Wasser WP in CH:
   SCOP = 2.8–4.5 je nach Standort und Vorlauftemp
-  
+
 Je kälter der Standort → weniger SCOP (mehr Betrieb bei −A7)
 Je höher die Vorlauftemp → weniger SCOP
 ```
@@ -129,7 +150,7 @@ Kältemaschinen laufen selten bei Volllast. Teillasteffizienz ist entscheidend:
 ```
 ESEER (European Seasonal Energy Efficiency Ratio):
   Gewichteter Mittelwert aus 4 Betriebspunkten:
-  
+
   100 % Last: Gewichtung  3 % (selten)
    75 % Last: Gewichtung 33 %
    50 % Last: Gewichtung 41 %  ← häufigster Betrieb!
@@ -142,14 +163,14 @@ Moderne VRF-Systeme: ESEER 5.0–7.0
 
 ## Praktische Einflussfaktoren auf COP/EER
 
-| Faktor                        | Effekt auf COP/EER         |
-|-------------------------------|----------------------------|
-| Vorlauftemperatur ↑           | COP ↓ (jedes K kostet ~2 %)|
-| Quellentemperatur ↓ (WP Luft) | COP ↓                      |
-| Verschmutzter Kondensator     | EER ↓ (bis −30 %!)         |
-| Teillastbetrieb (mit FU)      | EER oft ↑                  |
-| Kältemittelmangel             | COP/EER ↓ stark            |
-| Überhitzung / Unterkühlung falsch | EER ↓              |
+| Faktor                            | Effekt auf COP/EER          |
+| --------------------------------- | --------------------------- |
+| Vorlauftemperatur ↑               | COP ↓ (jedes K kostet ~2 %) |
+| Quellentemperatur ↓ (WP Luft)     | COP ↓                       |
+| Verschmutzter Kondensator         | EER ↓ (bis −30 %!)          |
+| Teillastbetrieb (mit FU)          | EER oft ↑                   |
+| Kältemittelmangel                 | COP/EER ↓ stark             |
+| Überhitzung / Unterkühlung falsch | EER ↓                       |
 
 ---
 
@@ -160,9 +181,9 @@ DDC berechnet laufend Real-COP/-EER:
 
   Q_WP = V_Heizung × 1.163 × ΔT_VL-RL   [kWh]
   P_el = aus Energiezähler               [kWh]
-  
+
   COP_aktuell = Q_WP / P_el
-  
+
   Trend: COP täglich mitteln → Degradationsanalyse
   Alarm: COP < 2.5 (Wärmepumpe defekt / verschmutzt)
 ```
@@ -192,7 +213,7 @@ P_el:   electrical power input [kW]
 Example:
   Air-to-water heat pump at A7W35:
   COP = 12 kW / 3 kW = 4.0
-  
+
   Interpretation: 1 kWh electricity → 4 kWh heat
   (1 kWh from grid + 3 kWh from the environment)
 ```
@@ -211,6 +232,7 @@ Example:
 ```
 
 **Relationship between COP and EER (reversible heat pump):**
+
 ```
 COP_heating = EER_cooling + 1
 Physics: heat = cooling + drive energy
@@ -229,7 +251,7 @@ Example A7W35 (air-to-water heat pump):
   T_high = 35 + 273 = 308 K
   T_low  = 7 + 273  = 280 K
   COP_Carnot = 308 / (308 − 280) = 11.0
-  
+
   Actual COP = 4.0 → efficiency ratio = 4.0 / 11.0 = 36%
   (Typical: 35–55% depending on machine quality)
 ```
@@ -243,13 +265,13 @@ Example A7W35 (air-to-water heat pump):
 
 Comparability requires defined test conditions:
 
-| System type | Designation | Source temperature | Sink temperature |
-|-------------|------------|-------------------|-----------------|
-| Air-to-water heat pump | A7W35 | 7 °C outdoor air | 35 °C flow |
-| Air-to-water heat pump | A-7W35 | −7 °C outdoor air | 35 °C flow |
-| Brine-to-water heat pump | B0W35 | 0 °C brine | 35 °C flow |
-| Water-to-water heat pump | W10W35 | 10 °C groundwater | 35 °C flow |
-| Chiller | W7W27 | 7/12 °C chilled water | 27/32 °C |
+| System type              | Designation | Source temperature    | Sink temperature |
+| ------------------------ | ----------- | --------------------- | ---------------- |
+| Air-to-water heat pump   | A7W35       | 7 °C outdoor air      | 35 °C flow       |
+| Air-to-water heat pump   | A-7W35      | −7 °C outdoor air     | 35 °C flow       |
+| Brine-to-water heat pump | B0W35       | 0 °C brine            | 35 °C flow       |
+| Water-to-water heat pump | W10W35      | 10 °C groundwater     | 35 °C flow       |
+| Chiller                  | W7W27       | 7/12 °C chilled water | 27/32 °C         |
 
 ---
 
@@ -264,7 +286,7 @@ SCOP = Q_heat_total [kWh/year] / E_el_total [kWh/year]
 
 Typical values, air-to-water heat pump in CH:
   SCOP = 2.8–4.5 depending on location and flow temperature
-  
+
 Colder location → lower SCOP (more operation at −A7)
 Higher flow temperature → lower SCOP
 ```
@@ -291,7 +313,7 @@ Chillers rarely run at full load. Part-load efficiency is decisive:
 ```
 ESEER (European Seasonal Energy Efficiency Ratio):
   Weighted average of 4 operating points:
-  
+
   100% load: weighting  3% (rare)
    75% load: weighting 33%
    50% load: weighting 41%  ← most common operating point!
@@ -304,14 +326,14 @@ Modern VRF systems: ESEER 5.0–7.0
 
 ## Practical Factors Affecting COP/EER
 
-| Factor | Effect on COP/EER |
-|--------|------------------|
-| Higher flow temperature | COP ↓ (approx. 2% per K) |
-| Lower source temperature (air-to-water heat pump) | COP ↓ |
-| Fouled condenser | EER ↓ (up to −30%!) |
-| Part-load with VFD | EER often ↑ |
-| Refrigerant undercharge | COP/EER ↓ significantly |
-| Incorrect superheat / subcooling | EER ↓ |
+| Factor                                            | Effect on COP/EER        |
+| ------------------------------------------------- | ------------------------ |
+| Higher flow temperature                           | COP ↓ (approx. 2% per K) |
+| Lower source temperature (air-to-water heat pump) | COP ↓                    |
+| Fouled condenser                                  | EER ↓ (up to −30%!)      |
+| Part-load with VFD                                | EER often ↑              |
+| Refrigerant undercharge                           | COP/EER ↓ significantly  |
+| Incorrect superheat / subcooling                  | EER ↓                    |
 
 ---
 
@@ -322,9 +344,9 @@ DDC continuously calculates real-time COP/EER:
 
   Q_HP = V_heating × 1.163 × ΔT_supply-return   [kWh]
   P_el = from energy meter                        [kWh]
-  
+
   COP_current = Q_HP / P_el
-  
+
   Trend: daily average COP → degradation analysis
   Alarm: COP < 2.5 (heat pump faulty / fouled)
 ```

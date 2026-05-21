@@ -16,11 +16,32 @@ export const energie: ConverterMeta = {
 	icon: 'battery-charging',
 	color: '#16a34a',
 	units: [
-		{ id: 'kWh', label: 'Kilowattstunde', labelEn: 'Kilowatt hour', symbol: 'kWh', note: 'Standard Energieverbrauch', noteEn: 'Standard energy consumption' },
+		{
+			id: 'kWh',
+			label: 'Kilowattstunde',
+			labelEn: 'Kilowatt hour',
+			symbol: 'kWh',
+			note: 'Standard Energieverbrauch',
+			noteEn: 'Standard energy consumption'
+		},
 		{ id: 'MWh', label: 'Megawattstunde', labelEn: 'Megawatt hour', symbol: 'MWh' },
-		{ id: 'GJ', label: 'Gigajoule', labelEn: 'Gigajoule', symbol: 'GJ', note: 'Fernwärme-Abrechnung CH', noteEn: 'District heating billing CH' },
+		{
+			id: 'GJ',
+			label: 'Gigajoule',
+			labelEn: 'Gigajoule',
+			symbol: 'GJ',
+			note: 'Fernwärme-Abrechnung CH',
+			noteEn: 'District heating billing CH'
+		},
 		{ id: 'MJ', label: 'Megajoule', labelEn: 'Megajoule', symbol: 'MJ' },
-		{ id: 'kJ', label: 'Kilojoule', labelEn: 'Kilojoule', symbol: 'kJ', note: 'SI-Einheit', noteEn: 'SI unit' }
+		{
+			id: 'kJ',
+			label: 'Kilojoule',
+			labelEn: 'Kilojoule',
+			symbol: 'kJ',
+			note: 'SI-Einheit',
+			noteEn: 'SI unit'
+		}
 	],
 	toBase: (v, u) => v * toBase[u],
 	fromBase: (v, u) => v / toBase[u]

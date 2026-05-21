@@ -4,7 +4,25 @@ title_en: Alarm Management in BA
 slug: alarmmanagement
 category: regelung
 subcategory: betrieb
-tags: [alarm, alarmmanagement, alarmphilosophie, alarmpriorität, nuisance-alarm, chattering, alarm-flood, totzeit, hysterese, shelving, suppression, quittierung, ack, eemua191, isa18, vdi3814]
+tags:
+  [
+    alarm,
+    alarmmanagement,
+    alarmphilosophie,
+    alarmpriorität,
+    nuisance-alarm,
+    chattering,
+    alarm-flood,
+    totzeit,
+    hysterese,
+    shelving,
+    suppression,
+    quittierung,
+    ack,
+    eemua191,
+    isa18,
+    vdi3814
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [bacnet, pid-regler, signaltypen]
@@ -22,6 +40,7 @@ Gut parametriertes Alarmmanagement ist der Unterschied zwischen einer nutzbaren 
 ### Was ist ein Alarm?
 
 Ein Alarm signalisiert einen **anormalen Zustand, der eine Reaktion erfordert**. Was kein Alarm ist:
+
 - Ein Ereignis das nur dokumentiert werden soll → **Ereignis/Log**
 - Eine Information ohne Handlungsbedarf → **Hinweis**
 - Eine Routine-Wartungserinnerung → **Wartungsmeldung**
@@ -30,13 +49,13 @@ Ein Alarm signalisiert einen **anormalen Zustand, der eine Reaktion erfordert**.
 
 ### EEMUA 191 Richtwerte (Industrie-Standard)
 
-| KPI                          | Zielwert          | Kritisch           |
-|------------------------------|-------------------|--------------------|
-| Alarme pro Stunde (Mittel)   | ≤ 1 / 10 min      | > 1 / min          |
-| Stehende Alarme              | < 10              | > 50               |
-| Chattering Alarme            | 0                 | > 5 % aller Alarme |
-| Floodingalarm-Ereignisse/Monat | 0              | > 1                |
-| Unterdrückte Alarme (Shelved) | < 5 %            | > 10 %             |
+| KPI                            | Zielwert     | Kritisch           |
+| ------------------------------ | ------------ | ------------------ |
+| Alarme pro Stunde (Mittel)     | ≤ 1 / 10 min | > 1 / min          |
+| Stehende Alarme                | < 10         | > 50               |
+| Chattering Alarme              | 0            | > 5 % aller Alarme |
+| Floodingalarm-Ereignisse/Monat | 0            | > 1                |
+| Unterdrückte Alarme (Shelved)  | < 5 %        | > 10 %             |
 
 **Alarm Flood:** > 10 Alarme in 10 Minuten — der Operator kann nicht mehr sinnvoll reagieren.
 
@@ -44,12 +63,12 @@ Ein Alarm signalisiert einen **anormalen Zustand, der eine Reaktion erfordert**.
 
 Vier Stufen haben sich in der GA bewährt:
 
-| Priorität | Bezeichnung | Farbe   | Reaktionszeit | Beispiele                                    |
-|-----------|-------------|---------|---------------|----------------------------------------------|
-| 1         | Kritisch    | Rot     | Sofort        | Frostschutz ausgelöst, Brandschutzklappe, Leckage |
-| 2         | Hoch        | Orange  | < 15 min      | Pumpe Störung, Heizung ausgefallen            |
-| 3         | Mittel      | Gelb    | < 4 h         | Filter verschmutzt, Kommunikationsfehler     |
-| 4         | Niedrig     | Blau    | Nächste Wartung | Betriebsstunden erreicht, Sensor Drift     |
+| Priorität | Bezeichnung | Farbe  | Reaktionszeit   | Beispiele                                         |
+| --------- | ----------- | ------ | --------------- | ------------------------------------------------- |
+| 1         | Kritisch    | Rot    | Sofort          | Frostschutz ausgelöst, Brandschutzklappe, Leckage |
+| 2         | Hoch        | Orange | < 15 min        | Pumpe Störung, Heizung ausgefallen                |
+| 3         | Mittel      | Gelb   | < 4 h           | Filter verschmutzt, Kommunikationsfehler          |
+| 4         | Niedrig     | Blau   | Nächste Wartung | Betriebsstunden erreicht, Sensor Drift            |
 
 > Viele Systeme werden mit zu vielen Kritisch-Alarmen parametriert. Wenn alles kritisch ist, ist nichts kritisch. **Maximal 5 % aller Alarme sollten Priorität 1 haben.**
 
@@ -57,48 +76,49 @@ Vier Stufen haben sich in der GA bewährt:
 
 ### Temperaturen
 
-| Messstelle                | Warnung        | Alarm          | Verzögerung |
-|---------------------------|----------------|----------------|-------------|
-| Raumtemperatur zu kalt    | < 19 °C        | < 17 °C        | 30 min      |
-| Raumtemperatur zu warm    | > 25 °C        | > 28 °C        | 30 min      |
-| Frostschutz Heizregister  | —              | < 5 °C         | 0 s (sofort!) |
-| Frostschutz Kaltwasser    | < 5 °C         | < 3 °C         | 0 s         |
-| Vorlauf zu niedrig        | > Soll − 5 K   | > Soll − 10 K  | 15 min      |
+| Messstelle               | Warnung      | Alarm         | Verzögerung   |
+| ------------------------ | ------------ | ------------- | ------------- |
+| Raumtemperatur zu kalt   | < 19 °C      | < 17 °C       | 30 min        |
+| Raumtemperatur zu warm   | > 25 °C      | > 28 °C       | 30 min        |
+| Frostschutz Heizregister | —            | < 5 °C        | 0 s (sofort!) |
+| Frostschutz Kaltwasser   | < 5 °C       | < 3 °C        | 0 s           |
+| Vorlauf zu niedrig       | > Soll − 5 K | > Soll − 10 K | 15 min        |
 
 ### Drücke & Durchfluss
 
-| Messstelle                | Alarm          | Verzögerung |
-|---------------------------|----------------|-------------|
-| Differenzdruck Filter G4  | > 200 Pa       | 0 s         |
-| Differenzdruck Filter F7  | > 300 Pa       | 0 s         |
-| Differenzdruck Filter F9  | > 400 Pa       | 0 s         |
-| Systemdruck Heizung tief  | < 1,0 bar      | 60 s        |
-| Systemdruck Heizung hoch  | > 4,0 bar      | 10 s        |
-| Durchfluss ohne Anforderung | > 0,1 m³/h  | 30 s (Leckageverdacht) |
+| Messstelle                  | Alarm      | Verzögerung            |
+| --------------------------- | ---------- | ---------------------- |
+| Differenzdruck Filter G4    | > 200 Pa   | 0 s                    |
+| Differenzdruck Filter F7    | > 300 Pa   | 0 s                    |
+| Differenzdruck Filter F9    | > 400 Pa   | 0 s                    |
+| Systemdruck Heizung tief    | < 1,0 bar  | 60 s                   |
+| Systemdruck Heizung hoch    | > 4,0 bar  | 10 s                   |
+| Durchfluss ohne Anforderung | > 0,1 m³/h | 30 s (Leckageverdacht) |
 
 ### Kommunikation
 
-| Verbindung                | Alarm-Timeout  | Bemerkung                  |
-|---------------------------|----------------|----------------------------|
-| BACnet/IP Gerät           | 60–120 s       | Reboot-Zeit einrechnen     |
-| Modbus RTU Gerät          | 30–60 s        |                            |
-| KNX-Gateway               | 120 s          |                            |
-| Netzwerk (Ping)           | 30 s           |                            |
+| Verbindung       | Alarm-Timeout | Bemerkung              |
+| ---------------- | ------------- | ---------------------- |
+| BACnet/IP Gerät  | 60–120 s      | Reboot-Zeit einrechnen |
+| Modbus RTU Gerät | 30–60 s       |                        |
+| KNX-Gateway      | 120 s         |                        |
+| Netzwerk (Ping)  | 30 s          |                        |
 
 ### Raumluft
 
-| Parameter    | Warnung     | Alarm       | Norm              |
-|--------------|-------------|-------------|-------------------|
-| CO₂          | > 1000 ppm  | > 1500 ppm  | EN 16798 IDA 2/3  |
-| VOC          | Geräteabhängig |          |                   |
-| Relative Feuchte hoch | > 65 % | > 70 %  | Schimmelrisiko    |
-| Relative Feuchte tief | < 30 % | < 25 %  | Komfort + Gesundheit |
+| Parameter             | Warnung        | Alarm      | Norm                 |
+| --------------------- | -------------- | ---------- | -------------------- |
+| CO₂                   | > 1000 ppm     | > 1500 ppm | EN 16798 IDA 2/3     |
+| VOC                   | Geräteabhängig |            |                      |
+| Relative Feuchte hoch | > 65 %         | > 70 %     | Schimmelrisiko       |
+| Relative Feuchte tief | < 30 %         | < 25 %     | Komfort + Gesundheit |
 
 ## Chattering & Nuisance Alarms
 
 **Chattering:** Ein Alarm der innerhalb kurzer Zeit mehrfach ein- und ausgeht.
 
 **Ursachen:**
+
 - Hysterese zu klein (Messwert schwankt um den Grenzwert)
 - Totzeit zu kurz
 - Sensor-Rauschen
@@ -141,6 +161,7 @@ Gute Parametrierung:
 ## Quittierung (ACK)
 
 **Quittieren ≠ Beheben:**
+
 - **ACK:** Operator bestätigt "ich habe den Alarm gesehen" — Alarm bleibt aktiv wenn Ursache noch besteht
 - **Normalzustand:** Alarm verschwindet wenn Messwert wieder im Normalbereich
 - **Reset:** Manche Alarme bleiben nach Normalzustand stehen bis manuell quittiert (Latch)
@@ -164,13 +185,13 @@ Parametrierung in GLT-System oder separates Alerting-System (z.B. PagerDuty, SIG
 
 Für professionelles Alarmmanagement KPIs monatlich auswerten:
 
-| KPI                              | Berechnung                                    |
-|----------------------------------|-----------------------------------------------|
-| Alarme/Stunde                    | Anzahl Alarm-Events / Betriebsstunden         |
-| Stehende Alarme                  | Anzahl Alarme die > 24 h aktiv sind           |
-| Chattering-Rate                  | Alarme mit > 10 Zustandswechseln/Tag (%)      |
-| Anerkennungsrate                 | Quittierte Alarme / Gesamtalarme (%)          |
-| Top-10 häufigste Alarme          | Pareto-Analyse → Ansatzpunkte für Optimierung |
+| KPI                     | Berechnung                                    |
+| ----------------------- | --------------------------------------------- |
+| Alarme/Stunde           | Anzahl Alarm-Events / Betriebsstunden         |
+| Stehende Alarme         | Anzahl Alarme die > 24 h aktiv sind           |
+| Chattering-Rate         | Alarme mit > 10 Zustandswechseln/Tag (%)      |
+| Anerkennungsrate        | Quittierte Alarme / Gesamtalarme (%)          |
+| Top-10 häufigste Alarme | Pareto-Analyse → Ansatzpunkte für Optimierung |
 
 **Pareto-Prinzip:** 20 % der Alarm-Punkte verursachen 80 % der Alarm-Events. Die Top-10 analysieren und bereinigen → grosse Wirkung.
 
@@ -193,6 +214,7 @@ Well-configured alarm management is the difference between a usable BMS and an a
 ### What is an Alarm?
 
 An alarm signals an **abnormal condition that requires a response**. What is not an alarm:
+
 - An event that only needs to be documented → **event/log**
 - Information with no action required → **notification**
 - A routine maintenance reminder → **maintenance message**
@@ -201,13 +223,13 @@ An alarm signals an **abnormal condition that requires a response**. What is not
 
 ### EEMUA 191 Target Values (industry standard)
 
-| KPI | Target | Critical |
-|-----|--------|---------|
-| Alarms per hour (average) | ≤ 1 / 10 min | > 1 / min |
-| Standing alarms | < 10 | > 50 |
-| Chattering alarms | 0 | > 5 % of all alarms |
-| Flooding alarm events/month | 0 | > 1 |
-| Suppressed alarms (shelved) | < 5 % | > 10 % |
+| KPI                         | Target       | Critical            |
+| --------------------------- | ------------ | ------------------- |
+| Alarms per hour (average)   | ≤ 1 / 10 min | > 1 / min           |
+| Standing alarms             | < 10         | > 50                |
+| Chattering alarms           | 0            | > 5 % of all alarms |
+| Flooding alarm events/month | 0            | > 1                 |
+| Suppressed alarms (shelved) | < 5 %        | > 10 %              |
 
 **Alarm flood:** > 10 alarms in 10 minutes — the operator can no longer respond meaningfully.
 
@@ -215,12 +237,12 @@ An alarm signals an **abnormal condition that requires a response**. What is not
 
 Four levels have proven effective in BA:
 
-| Priority | Name | Colour | Response time | Examples |
-|---------|------|--------|--------------|---------|
-| 1 | Critical | Red | Immediate | Frost protection triggered, fire damper, leakage |
-| 2 | High | Orange | < 15 min | Pump fault, heating failed |
-| 3 | Medium | Yellow | < 4 h | Filter dirty, communication error |
-| 4 | Low | Blue | Next maintenance | Operating hours reached, sensor drift |
+| Priority | Name     | Colour | Response time    | Examples                                         |
+| -------- | -------- | ------ | ---------------- | ------------------------------------------------ |
+| 1        | Critical | Red    | Immediate        | Frost protection triggered, fire damper, leakage |
+| 2        | High     | Orange | < 15 min         | Pump fault, heating failed                       |
+| 3        | Medium   | Yellow | < 4 h            | Filter dirty, communication error                |
+| 4        | Low      | Blue   | Next maintenance | Operating hours reached, sensor drift            |
 
 > Many systems are configured with too many critical alarms. If everything is critical, nothing is critical. **Maximum 5 % of all alarms should be priority 1.**
 
@@ -228,48 +250,49 @@ Four levels have proven effective in BA:
 
 ### Temperatures
 
-| Measurement point | Warning | Alarm | Delay |
-|-----------------|---------|-------|-------|
-| Room temperature too cold | < 19 °C | < 17 °C | 30 min |
-| Room temperature too warm | > 25 °C | > 28 °C | 30 min |
-| Frost protection heating coil | — | < 5 °C | 0 s (immediate!) |
-| Frost protection cold water | < 5 °C | < 3 °C | 0 s |
-| Flow too low | > setpoint − 5 K | > setpoint − 10 K | 15 min |
+| Measurement point             | Warning          | Alarm             | Delay            |
+| ----------------------------- | ---------------- | ----------------- | ---------------- |
+| Room temperature too cold     | < 19 °C          | < 17 °C           | 30 min           |
+| Room temperature too warm     | > 25 °C          | > 28 °C           | 30 min           |
+| Frost protection heating coil | —                | < 5 °C            | 0 s (immediate!) |
+| Frost protection cold water   | < 5 °C           | < 3 °C            | 0 s              |
+| Flow too low                  | > setpoint − 5 K | > setpoint − 10 K | 15 min           |
 
 ### Pressures & Flow
 
-| Measurement point | Alarm | Delay |
-|-----------------|-------|-------|
-| Differential pressure filter G4 | > 200 Pa | 0 s |
-| Differential pressure filter F7 | > 300 Pa | 0 s |
-| Differential pressure filter F9 | > 400 Pa | 0 s |
-| System pressure heating low | < 1.0 bar | 60 s |
-| System pressure heating high | > 4.0 bar | 10 s |
-| Flow without demand | > 0.1 m³/h | 30 s (leak suspected) |
+| Measurement point               | Alarm      | Delay                 |
+| ------------------------------- | ---------- | --------------------- |
+| Differential pressure filter G4 | > 200 Pa   | 0 s                   |
+| Differential pressure filter F7 | > 300 Pa   | 0 s                   |
+| Differential pressure filter F9 | > 400 Pa   | 0 s                   |
+| System pressure heating low     | < 1.0 bar  | 60 s                  |
+| System pressure heating high    | > 4.0 bar  | 10 s                  |
+| Flow without demand             | > 0.1 m³/h | 30 s (leak suspected) |
 
 ### Communication
 
-| Connection | Alarm timeout | Note |
-|-----------|-------------|------|
-| BACnet/IP device | 60–120 s | Allow for reboot time |
-| Modbus RTU device | 30–60 s | |
-| KNX gateway | 120 s | |
-| Network (ping) | 30 s | |
+| Connection        | Alarm timeout | Note                  |
+| ----------------- | ------------- | --------------------- |
+| BACnet/IP device  | 60–120 s      | Allow for reboot time |
+| Modbus RTU device | 30–60 s       |                       |
+| KNX gateway       | 120 s         |                       |
+| Network (ping)    | 30 s          |                       |
 
 ### Indoor Air
 
-| Parameter | Warning | Alarm | Standard |
-|-----------|---------|-------|---------|
-| CO₂ | > 1000 ppm | > 1500 ppm | EN 16798 IDA 2/3 |
-| VOC | Device-dependent | | |
-| Relative humidity high | > 65 % | > 70 % | Mould risk |
-| Relative humidity low | < 30 % | < 25 % | Comfort + health |
+| Parameter              | Warning          | Alarm      | Standard         |
+| ---------------------- | ---------------- | ---------- | ---------------- |
+| CO₂                    | > 1000 ppm       | > 1500 ppm | EN 16798 IDA 2/3 |
+| VOC                    | Device-dependent |            |                  |
+| Relative humidity high | > 65 %           | > 70 %     | Mould risk       |
+| Relative humidity low  | < 30 %           | < 25 %     | Comfort + health |
 
 ## Chattering & Nuisance Alarms
 
 **Chattering:** an alarm that goes in and out multiple times within a short period.
 
 **Causes:**
+
 - Hysteresis too small (measured value fluctuates around the limit)
 - Dead time too short
 - Sensor noise
@@ -312,6 +335,7 @@ Good configuration:
 ## Acknowledgement (ACK)
 
 **Acknowledging ≠ fixing:**
+
 - **ACK:** operator confirms "I have seen this alarm" — alarm remains active if cause still exists
 - **Normal state:** alarm disappears when measured value returns to normal range
 - **Reset:** some alarms remain active after normalising until manually acknowledged (latch)
@@ -335,13 +359,13 @@ Configuration in BMS or separate alerting system (e.g. PagerDuty, SIGNL4, own SM
 
 For professional alarm management, evaluate KPIs monthly:
 
-| KPI | Calculation |
-|-----|------------|
-| Alarms/hour | Number of alarm events / operating hours |
-| Standing alarms | Alarms active for > 24 h |
-| Chattering rate | Alarms with > 10 state changes/day (%) |
-| Acknowledgement rate | Acknowledged alarms / total alarms (%) |
-| Top 10 most frequent alarms | Pareto analysis → optimisation targets |
+| KPI                         | Calculation                              |
+| --------------------------- | ---------------------------------------- |
+| Alarms/hour                 | Number of alarm events / operating hours |
+| Standing alarms             | Alarms active for > 24 h                 |
+| Chattering rate             | Alarms with > 10 state changes/day (%)   |
+| Acknowledgement rate        | Acknowledged alarms / total alarms (%)   |
+| Top 10 most frequent alarms | Pareto analysis → optimisation targets   |
 
 **Pareto principle:** 20 % of alarm points cause 80 % of alarm events. Analyse and fix the top 10 → large impact.
 

@@ -18,10 +18,15 @@
 	}
 
 	let selectedLangs = $state<AbbrLang[]>([]);
-	onMount(() => { selectedLangs = defaultLangs(); });
+	onMount(() => {
+		selectedLangs = defaultLangs();
+	});
 
 	function slugifyShort(s: string): string {
-		return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+		return s
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-|-$/g, '');
 	}
 
 	function scrollToShort(s: string) {
@@ -64,7 +69,9 @@
 				($locale === 'en' && a.descriptionEn ? a.descriptionEn : a.description) ?? '',
 				...eqShorts,
 				...eqLongs
-			].join(' ').toLowerCase();
+			]
+				.join(' ')
+				.toLowerCase();
 		}
 		return map;
 	});
@@ -73,7 +80,12 @@
 		const q = query.trim().toLowerCase();
 		return abbreviations.filter((a) => {
 			if (selectedAreas.length && !a.areas.some((x) => selectedAreas.includes(x))) return false;
-			if (selectedLangs.length && langOf(a.short) !== 'intl' && !selectedLangs.includes(langOf(a.short))) return false;
+			if (
+				selectedLangs.length &&
+				langOf(a.short) !== 'intl' &&
+				!selectedLangs.includes(langOf(a.short))
+			)
+				return false;
 			if (!q) return true;
 			return haystackByShort[a.short]?.includes(q) ?? false;
 		});
@@ -100,12 +112,22 @@
 	<header class="page-header">
 		<h1>{$_('abkuerzungen.title')}</h1>
 		<p class="subtitle">
-			{abbreviations.length} {$_('abkuerzungen.subtitle')}
+			{abbreviations.length}
+			{$_('abkuerzungen.subtitle')}
 		</p>
 	</header>
 
 	<div class="search-row">
-		<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			class="search-icon"
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<circle cx="11" cy="11" r="8" />
 			<line x1="21" y1="21" x2="16.65" y2="16.65" />
 		</svg>
@@ -116,8 +138,23 @@
 			class="search-input"
 		/>
 		{#if query || selectedAreas.length || selectedLangs.length}
-			<button class="btn-clear" onclick={() => { query = ''; selectedAreas = []; selectedLangs = defaultLangs(); }} title={$_('abkuerzungen.reset')}>
-				<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<button
+				class="btn-clear"
+				onclick={() => {
+					query = '';
+					selectedAreas = [];
+					selectedLangs = defaultLangs();
+				}}
+				title={$_('abkuerzungen.reset')}
+			>
+				<svg
+					width="16"
+					height="16"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+				>
 					<line x1="18" y1="6" x2="6" y2="18" />
 					<line x1="6" y1="6" x2="18" y2="18" />
 				</svg>
@@ -130,16 +167,17 @@
 			<button
 				class="chip"
 				class:active={selectedAreas.includes(a)}
-				onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-			>{$_('area.' + a)}</button>
+				onclick={() => (selectedAreas = toggle(selectedAreas, a))}>{$_('area.' + a)}</button
+			>
 		{/each}
 		<span class="filter-sep">|</span>
-		{#each (['de', 'en'] as AbbrLang[]) as lg}
+		{#each ['de', 'en'] as AbbrLang[] as lg}
 			<button
 				class="chip chip-lang"
 				class:active={selectedLangs.includes(lg)}
 				onclick={() => (selectedLangs = toggle(selectedLangs, lg))}
-			>{langLabels[lg].flag} {langLabels[lg].short}</button>
+				>{langLabels[lg].flag} {langLabels[lg].short}</button
+			>
 		{/each}
 		<span class="intl-badge" title={$_('abkuerzungen.langIntl')}>🌐 INT</span>
 	</div>
@@ -151,8 +189,8 @@
 				class="az-btn"
 				class:disabled={!visibleLetters.includes(l)}
 				disabled={!visibleLetters.includes(l)}
-				onclick={() => scrollToLetter(l)}
-			>{l}</button>
+				onclick={() => scrollToLetter(l)}>{l}</button
+			>
 		{/each}
 	</nav>
 
@@ -177,13 +215,30 @@
 							>
 								<div class="abbr-head">
 									<span class="abbr-short">{a.short}</span>
-									<span class="lang-pill" title={lang === 'intl' ? $_('abkuerzungen.langIntl') : lang === 'en' ? $_('abkuerzungen.langEn') : $_('abkuerzungen.langDe')}>
-										{langLabels[lang].flag} {langLabels[lang].short}
+									<span
+										class="lang-pill"
+										title={lang === 'intl'
+											? $_('abkuerzungen.langIntl')
+											: lang === 'en'
+												? $_('abkuerzungen.langEn')
+												: $_('abkuerzungen.langDe')}
+									>
+										{langLabels[lang].flag}
+										{langLabels[lang].short}
 									</span>
 									<span class="abbr-long">{a.long}</span>
 									{#if a.wissenSlug}
 										<span class="abbr-link-hint" title={$_('abkuerzungen.hasArticle')}>
-											<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+											<svg
+												width="14"
+												height="14"
+												viewBox="0 0 24 24"
+												fill="none"
+												stroke="currentColor"
+												stroke-width="2"
+												stroke-linecap="round"
+												stroke-linejoin="round"
+											>
 												<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
 												<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
 											</svg>
@@ -199,7 +254,11 @@
 											<button
 												type="button"
 												class="eq-chip"
-												onclick={(e) => { e.preventDefault(); e.stopPropagation(); scrollToShort(eq.short); }}
+												onclick={(e) => {
+													e.preventDefault();
+													e.stopPropagation();
+													scrollToShort(eq.short);
+												}}
 												title="Zu {eq.short} — {eq.long}"
 											>
 												<span class="eq-flag">{langLabels[eqLang].flag}</span>
@@ -211,7 +270,9 @@
 								{/if}
 
 								{#if a.description || a.descriptionEn}
-									<p class="abbr-desc">{$locale === 'en' && a.descriptionEn ? a.descriptionEn : a.description}</p>
+									<p class="abbr-desc">
+										{$locale === 'en' && a.descriptionEn ? a.descriptionEn : a.description}
+									</p>
 								{/if}
 								<div class="abbr-foot">
 									<div class="abbr-areas">
@@ -221,7 +282,8 @@
 									</div>
 									{#if a.related && a.related.length}
 										<span class="abbr-related">
-											{$_('abkuerzungen.related')} {a.related.join(' · ')}
+											{$_('abkuerzungen.related')}
+											{a.related.join(' · ')}
 										</span>
 									{/if}
 									{#if a.wissenSlug}
@@ -348,7 +410,10 @@
 		color: var(--text);
 		cursor: pointer;
 		font-family: inherit;
-		transition: background 0.15s, border-color 0.15s, color 0.15s;
+		transition:
+			background 0.15s,
+			border-color 0.15s,
+			color 0.15s;
 	}
 
 	.chip:hover {
@@ -434,7 +499,9 @@
 		padding: 0.875rem 1rem;
 		text-decoration: none;
 		color: inherit;
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 	}
 
 	.abbr-card-linked {
@@ -505,7 +572,9 @@
 		color: var(--text);
 		cursor: pointer;
 		font-family: inherit;
-		transition: border-color 0.15s, background 0.15s;
+		transition:
+			border-color 0.15s,
+			background 0.15s;
 	}
 
 	.eq-chip:hover {

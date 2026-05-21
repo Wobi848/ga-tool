@@ -17,7 +17,14 @@
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
@@ -44,7 +51,15 @@
 				{$_('rechner.taupunktUi.relHumidity')}
 			</label>
 			<div class="calc-input-wrap">
-				<input id="rh-input" type="number" step="1" min="0" max="100" bind:value={rh} class="calc-input" />
+				<input
+					id="rh-input"
+					type="number"
+					step="1"
+					min="0"
+					max="100"
+					bind:value={rh}
+					class="calc-input"
+				/>
 				<span class="calc-input-unit">%</span>
 			</div>
 		</div>
@@ -53,15 +68,21 @@
 	<div class="calc-result-section">
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.taupunktUi.dewpoint')}</span>
-			<span class="calc-result-value primary">{fmt(result.dp, 1)}<span class="calc-result-unit">°C</span></span>
+			<span class="calc-result-value primary"
+				>{fmt(result.dp, 1)}<span class="calc-result-unit">°C</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.taupunktUi.absHumidity')}</span>
-			<span class="calc-result-value">{fmt(result.x, 2)}<span class="calc-result-unit">g/kg</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.x, 2)}<span class="calc-result-unit">g/kg</span></span
+			>
 		</div>
 		<div class="calc-result">
 			<span class="calc-result-label">{$_('rechner.taupunktUi.tempSpread')}</span>
-			<span class="calc-result-value">{fmt(result.spread, 1)}<span class="calc-result-unit">K</span></span>
+			<span class="calc-result-value"
+				>{fmt(result.spread, 1)}<span class="calc-result-unit">K</span></span
+			>
 		</div>
 	</div>
 

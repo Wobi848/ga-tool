@@ -4,7 +4,22 @@ title_en: Data Point List (DPL) — Structure and Naming Conventions
 slug: datenpunktliste
 category: dokumentation
 subcategory: ibn
-tags: [datenpunktliste, dpl, namenskonventionen, msr-kürzel, tag, datapoint, bacnet, modbus, ibn, dokumentation, schnittstelle, planungsunterlage, abnahme]
+tags:
+  [
+    datenpunktliste,
+    dpl,
+    namenskonventionen,
+    msr-kürzel,
+    tag,
+    datapoint,
+    bacnet,
+    modbus,
+    ibn,
+    dokumentation,
+    schnittstelle,
+    planungsunterlage,
+    abnahme
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement]
@@ -33,28 +48,28 @@ Ein Datenpunkt ist jede messbare, steuerbare oder überwachbare Grösse:
 
 ### Pflichtfelder pro Datenpunkt
 
-| Feld              | Beispiel                   | Beschreibung                          |
-|-------------------|----------------------------|---------------------------------------|
-| **ID / Tag**      | `HZG-K1-VL-T-IST`         | Eindeutige Bezeichnung                |
-| **Signaltyp**     | AI                         | AI / AO / DI / DO / AV / BV          |
-| **Einheit**       | °C                         | °C, bar, %, m³/h, kW, —              |
-| **Bereich**       | −10 … 120                  | Physikalischer Bereich des Signals    |
-| **Protokoll**     | BACnet                     | BACnet / Modbus / KNX / physisch     |
-| **Adresse**       | AI 1 (Instanz 1)           | Protokoll-spezifische Adresse        |
-| **Anlage/System** | Heizung                    | Funktionsbereich                     |
-| **Beschreibung**  | Vorlauftemperatur Heizkreis 1 | Klartextbeschreibung             |
-| **Alarmgrenzen**  | Warnung 80 °C / Alarm 90 °C | Optional aber empfohlen             |
-| **GLT-Sichtbar**  | Ja                         | Erscheint in Visualisierung?         |
-| **Trending**      | 15 min / COV               | Historisierung?                      |
+| Feld              | Beispiel                      | Beschreibung                       |
+| ----------------- | ----------------------------- | ---------------------------------- |
+| **ID / Tag**      | `HZG-K1-VL-T-IST`             | Eindeutige Bezeichnung             |
+| **Signaltyp**     | AI                            | AI / AO / DI / DO / AV / BV        |
+| **Einheit**       | °C                            | °C, bar, %, m³/h, kW, —            |
+| **Bereich**       | −10 … 120                     | Physikalischer Bereich des Signals |
+| **Protokoll**     | BACnet                        | BACnet / Modbus / KNX / physisch   |
+| **Adresse**       | AI 1 (Instanz 1)              | Protokoll-spezifische Adresse      |
+| **Anlage/System** | Heizung                       | Funktionsbereich                   |
+| **Beschreibung**  | Vorlauftemperatur Heizkreis 1 | Klartextbeschreibung               |
+| **Alarmgrenzen**  | Warnung 80 °C / Alarm 90 °C   | Optional aber empfohlen            |
+| **GLT-Sichtbar**  | Ja                            | Erscheint in Visualisierung?       |
+| **Trending**      | 15 min / COV                  | Historisierung?                    |
 
 ### Empfohlene Zusatzfelder
 
-| Feld              | Beschreibung                            |
-|-------------------|-----------------------------------------|
-| IBN-Status        | Geplant / Verdrahtet / Getestet / OK    |
-| Schaltschrank     | Welcher UVT, welche Klemme              |
-| Kabelbezeichnung  | Kabelliste-Referenz                     |
-| Hersteller/Typ    | Sensortyp für Wartung                   |
+| Feld                 | Beschreibung                         |
+| -------------------- | ------------------------------------ |
+| IBN-Status           | Geplant / Verdrahtet / Getestet / OK |
+| Schaltschrank        | Welcher UVT, welche Klemme           |
+| Kabelbezeichnung     | Kabelliste-Referenz                  |
+| Hersteller/Typ       | Sensortyp für Wartung                |
 | Inbetriebnahme-Datum | Wann getestet                        |
 
 ---
@@ -65,68 +80,68 @@ Ein Datenpunkt ist jede messbare, steuerbare oder überwachbare Grösse:
 
 **Beispiel:** `HZG-K1-VL-T-IST`
 
-| Teil    | Kürzel | Bedeutung               |
-|---------|--------|-------------------------|
-| System  | HZG    | Heizung                 |
-| Kreis   | K1     | Kreis 1                 |
-| Komp.   | VL     | Vorlauf                 |
-| Signal  | T      | Temperatur              |
-| Art     | IST    | Istwert                 |
+| Teil   | Kürzel | Bedeutung  |
+| ------ | ------ | ---------- |
+| System | HZG    | Heizung    |
+| Kreis  | K1     | Kreis 1    |
+| Komp.  | VL     | Vorlauf    |
+| Signal | T      | Temperatur |
+| Art    | IST    | Istwert    |
 
 ### Häufige Systemkürzel
 
-| Kürzel | System                        |
-|--------|-------------------------------|
-| HZG    | Heizung                       |
-| KLT    | Kälte / Kühlung               |
-| LFT    | Lüftung / RLT                 |
-| SAN    | Sanitär / Warmwasser          |
-| ELT    | Elektro / Beleuchtung         |
-| BSC    | Beschattung                   |
-| BSK    | Brandschutzklappe             |
-| SIC    | Sicherheit / Zutrittskontrolle|
-| EMS    | Energie / Zähler              |
+| Kürzel | System                         |
+| ------ | ------------------------------ |
+| HZG    | Heizung                        |
+| KLT    | Kälte / Kühlung                |
+| LFT    | Lüftung / RLT                  |
+| SAN    | Sanitär / Warmwasser           |
+| ELT    | Elektro / Beleuchtung          |
+| BSC    | Beschattung                    |
+| BSK    | Brandschutzklappe              |
+| SIC    | Sicherheit / Zutrittskontrolle |
+| EMS    | Energie / Zähler               |
 
 ### Häufige Signalkürzel
 
-| Kürzel | Bedeutung                     |
-|--------|-------------------------------|
-| T      | Temperatur                    |
-| P      | Druck                         |
-| F      | Durchfluss (Flow)             |
-| H      | Feuchte (Humidity)            |
-| L      | Licht / Helligkeit            |
-| Q      | Wärmemenge / Energie          |
-| S      | Status / Störmeldung          |
-| Z      | Zähler                        |
+| Kürzel | Bedeutung            |
+| ------ | -------------------- |
+| T      | Temperatur           |
+| P      | Druck                |
+| F      | Durchfluss (Flow)    |
+| H      | Feuchte (Humidity)   |
+| L      | Licht / Helligkeit   |
+| Q      | Wärmemenge / Energie |
+| S      | Status / Störmeldung |
+| Z      | Zähler               |
 
 ### Häufige Artenkürzel
 
-| Kürzel | Bedeutung                     |
-|--------|-------------------------------|
-| IST    | Istwert                       |
-| SOLL   | Sollwert                      |
-| EIN    | Einschaltsignal               |
-| AUS    | Ausschaltsignal               |
-| STR    | Störung                       |
-| LFG    | Laufmeldung (läuft)           |
-| HND    | Handstellung                  |
-| AUTO   | Automatikmeldung              |
+| Kürzel | Bedeutung           |
+| ------ | ------------------- |
+| IST    | Istwert             |
+| SOLL   | Sollwert            |
+| EIN    | Einschaltsignal     |
+| AUS    | Ausschaltsignal     |
+| STR    | Störung             |
+| LFG    | Laufmeldung (läuft) |
+| HND    | Handstellung        |
+| AUTO   | Automatikmeldung    |
 
 ---
 
 ## Beispiel-DPL (Heizkreis)
 
-| ID                 | Typ | Einheit | Protokoll | Adresse    | Beschreibung                    |
-|--------------------|-----|---------|-----------|------------|---------------------------------|
-| HZG-K1-VL-T-IST    | AI  | °C      | BACnet    | AI 1       | Vorlauftemperatur Heizkreis 1   |
-| HZG-K1-RL-T-IST    | AI  | °C      | BACnet    | AI 2       | Rücklauftemperatur Heizkreis 1  |
-| HZG-K1-VL-T-SOLL   | AV  | °C      | BACnet    | AV 1       | Vorlauf-Sollwert (berechnet)    |
-| HZG-K1-MV-SOLL     | AO  | %       | BACnet    | AO 1       | Mischventil Heizkreis 1 (0–10V) |
-| HZG-K1-P1-EIN      | DO  | —       | BACnet    | BO 1       | Pumpe Heizkreis 1 EIN/AUS       |
-| HZG-K1-P1-LFG      | DI  | —       | BACnet    | BI 1       | Pumpe Heizkreis 1 Laufmeldung   |
-| HZG-K1-P1-STR      | DI  | —       | BACnet    | BI 2       | Pumpe Heizkreis 1 Störmeldung   |
-| HZG-K1-T-SOLL-ABS  | AV  | °C      | BACnet    | AV 2       | Vorlauf-Sollwert absolut (GLT)  |
+| ID                | Typ | Einheit | Protokoll | Adresse | Beschreibung                    |
+| ----------------- | --- | ------- | --------- | ------- | ------------------------------- |
+| HZG-K1-VL-T-IST   | AI  | °C      | BACnet    | AI 1    | Vorlauftemperatur Heizkreis 1   |
+| HZG-K1-RL-T-IST   | AI  | °C      | BACnet    | AI 2    | Rücklauftemperatur Heizkreis 1  |
+| HZG-K1-VL-T-SOLL  | AV  | °C      | BACnet    | AV 1    | Vorlauf-Sollwert (berechnet)    |
+| HZG-K1-MV-SOLL    | AO  | %       | BACnet    | AO 1    | Mischventil Heizkreis 1 (0–10V) |
+| HZG-K1-P1-EIN     | DO  | —       | BACnet    | BO 1    | Pumpe Heizkreis 1 EIN/AUS       |
+| HZG-K1-P1-LFG     | DI  | —       | BACnet    | BI 1    | Pumpe Heizkreis 1 Laufmeldung   |
+| HZG-K1-P1-STR     | DI  | —       | BACnet    | BI 2    | Pumpe Heizkreis 1 Störmeldung   |
+| HZG-K1-T-SOLL-ABS | AV  | °C      | BACnet    | AV 2    | Vorlauf-Sollwert absolut (GLT)  |
 
 ---
 
@@ -134,14 +149,14 @@ Ein Datenpunkt ist jede messbare, steuerbare oder überwachbare Grösse:
 
 Die DPL ist auch Checkliste für die Inbetriebnahme:
 
-| Status         | Bedeutung                                   |
-|----------------|---------------------------------------------|
-| **Geplant**    | In DPL eingetragen, noch nicht verdrahtet   |
-| **Verdrahtet** | Kabel liegt, noch nicht an DDC             |
-| **Konfiguriert**| Adresse vergeben, DDC parametriert         |
-| **Getestet**   | Messwert stimmt, Signal verifiziert         |
-| **OK**         | Vollständig abgenommen                      |
-| **Defekt**     | Sensor defekt, Ersatz nötig                |
+| Status           | Bedeutung                                 |
+| ---------------- | ----------------------------------------- |
+| **Geplant**      | In DPL eingetragen, noch nicht verdrahtet |
+| **Verdrahtet**   | Kabel liegt, noch nicht an DDC            |
+| **Konfiguriert** | Adresse vergeben, DDC parametriert        |
+| **Getestet**     | Messwert stimmt, Signal verifiziert       |
+| **OK**           | Vollständig abgenommen                    |
+| **Defekt**       | Sensor defekt, Ersatz nötig               |
 
 ---
 
@@ -185,29 +200,29 @@ A data point is any measurable, controllable, or monitored quantity:
 
 ### Mandatory Fields per Data Point
 
-| Field | Example | Description |
-|-------|---------|------------|
-| **ID / Tag** | `HTG-C1-SUP-T-ACT` | Unique identifier |
-| **Signal type** | AI | AI / AO / DI / DO / AV / BV |
-| **Unit** | °C | °C, bar, %, m³/h, kW, — |
-| **Range** | −10 … 120 | Physical signal range |
-| **Protocol** | BACnet | BACnet / Modbus / KNX / physical |
-| **Address** | AI 1 (instance 1) | Protocol-specific address |
-| **System** | Heating | Functional area |
-| **Description** | Supply temperature heating circuit 1 | Plain-text description |
-| **Alarm limits** | Warning 80 °C / Alarm 90 °C | Optional but recommended |
-| **BMS visible** | Yes | Appears in visualisation? |
-| **Trending** | 15 min / COV | Historisation? |
+| Field            | Example                              | Description                      |
+| ---------------- | ------------------------------------ | -------------------------------- |
+| **ID / Tag**     | `HTG-C1-SUP-T-ACT`                   | Unique identifier                |
+| **Signal type**  | AI                                   | AI / AO / DI / DO / AV / BV      |
+| **Unit**         | °C                                   | °C, bar, %, m³/h, kW, —          |
+| **Range**        | −10 … 120                            | Physical signal range            |
+| **Protocol**     | BACnet                               | BACnet / Modbus / KNX / physical |
+| **Address**      | AI 1 (instance 1)                    | Protocol-specific address        |
+| **System**       | Heating                              | Functional area                  |
+| **Description**  | Supply temperature heating circuit 1 | Plain-text description           |
+| **Alarm limits** | Warning 80 °C / Alarm 90 °C          | Optional but recommended         |
+| **BMS visible**  | Yes                                  | Appears in visualisation?        |
+| **Trending**     | 15 min / COV                         | Historisation?                   |
 
 ### Recommended Additional Fields
 
-| Field | Description |
-|-------|------------|
-| IBN status | Planned / Wired / Tested / OK |
-| Control panel | Which sub-distribution, which terminal |
-| Cable designation | Cable schedule reference |
-| Manufacturer/type | Sensor type for maintenance |
-| Commissioning date | When tested |
+| Field              | Description                            |
+| ------------------ | -------------------------------------- |
+| IBN status         | Planned / Wired / Tested / OK          |
+| Control panel      | Which sub-distribution, which terminal |
+| Cable designation  | Cable schedule reference               |
+| Manufacturer/type  | Sensor type for maintenance            |
+| Commissioning date | When tested                            |
 
 ---
 
@@ -217,68 +232,68 @@ A data point is any measurable, controllable, or monitored quantity:
 
 **Example:** `HTG-C1-SUP-T-ACT`
 
-| Part | Abbreviation | Meaning |
-|------|------------|---------|
-| System | HTG | Heating |
-| Circuit | C1 | Circuit 1 |
-| Component | SUP | Supply |
-| Signal | T | Temperature |
-| Type | ACT | Actual value |
+| Part      | Abbreviation | Meaning      |
+| --------- | ------------ | ------------ |
+| System    | HTG          | Heating      |
+| Circuit   | C1           | Circuit 1    |
+| Component | SUP          | Supply       |
+| Signal    | T            | Temperature  |
+| Type      | ACT          | Actual value |
 
 ### Common System Abbreviations
 
-| Abbrev. | System |
-|---------|--------|
-| HTG | Heating |
-| CLG | Cooling / refrigeration |
-| VNT | Ventilation / AHU |
-| SAN | Sanitary / domestic hot water |
-| LTG | Electrical / lighting |
-| SHD | Shading / blinds |
-| FDM | Fire damper |
-| SEC | Security / access control |
-| EMS | Energy / meters |
+| Abbrev. | System                        |
+| ------- | ----------------------------- |
+| HTG     | Heating                       |
+| CLG     | Cooling / refrigeration       |
+| VNT     | Ventilation / AHU             |
+| SAN     | Sanitary / domestic hot water |
+| LTG     | Electrical / lighting         |
+| SHD     | Shading / blinds              |
+| FDM     | Fire damper                   |
+| SEC     | Security / access control     |
+| EMS     | Energy / meters               |
 
 ### Common Signal Abbreviations
 
-| Abbrev. | Meaning |
-|---------|--------|
-| T | Temperature |
-| P | Pressure |
-| F | Flow |
-| H | Humidity |
-| L | Light / illuminance |
-| Q | Heat quantity / energy |
-| S | Status / fault |
-| Z | Counter |
+| Abbrev. | Meaning                |
+| ------- | ---------------------- |
+| T       | Temperature            |
+| P       | Pressure               |
+| F       | Flow                   |
+| H       | Humidity               |
+| L       | Light / illuminance    |
+| Q       | Heat quantity / energy |
+| S       | Status / fault         |
+| Z       | Counter                |
 
 ### Common Type Abbreviations
 
-| Abbrev. | Meaning |
-|---------|--------|
-| ACT | Actual value |
-| SP | Setpoint |
-| ON | Start signal |
-| OFF | Stop signal |
-| FLT | Fault |
-| RUN | Run feedback |
-| MAN | Manual position |
-| AUTO | Automatic |
+| Abbrev. | Meaning         |
+| ------- | --------------- |
+| ACT     | Actual value    |
+| SP      | Setpoint        |
+| ON      | Start signal    |
+| OFF     | Stop signal     |
+| FLT     | Fault           |
+| RUN     | Run feedback    |
+| MAN     | Manual position |
+| AUTO    | Automatic       |
 
 ---
 
 ## Example DPL (Heating Circuit)
 
-| ID | Type | Unit | Protocol | Address | Description |
-|----|------|------|---------|--------|------------|
-| HTG-C1-SUP-T-ACT | AI | °C | BACnet | AI 1 | Supply temperature heating circuit 1 |
-| HTG-C1-RET-T-ACT | AI | °C | BACnet | AI 2 | Return temperature heating circuit 1 |
-| HTG-C1-SUP-T-SP | AV | °C | BACnet | AV 1 | Supply setpoint (calculated) |
-| HTG-C1-MV-SP | AO | % | BACnet | AO 1 | Mixing valve circuit 1 (0–10 V) |
-| HTG-C1-P1-ON | DO | — | BACnet | BO 1 | Pump circuit 1 ON/OFF |
-| HTG-C1-P1-RUN | DI | — | BACnet | BI 1 | Pump circuit 1 run feedback |
-| HTG-C1-P1-FLT | DI | — | BACnet | BI 2 | Pump circuit 1 fault |
-| HTG-C1-T-SP-ABS | AV | °C | BACnet | AV 2 | Supply setpoint absolute (BMS) |
+| ID               | Type | Unit | Protocol | Address | Description                          |
+| ---------------- | ---- | ---- | -------- | ------- | ------------------------------------ |
+| HTG-C1-SUP-T-ACT | AI   | °C   | BACnet   | AI 1    | Supply temperature heating circuit 1 |
+| HTG-C1-RET-T-ACT | AI   | °C   | BACnet   | AI 2    | Return temperature heating circuit 1 |
+| HTG-C1-SUP-T-SP  | AV   | °C   | BACnet   | AV 1    | Supply setpoint (calculated)         |
+| HTG-C1-MV-SP     | AO   | %    | BACnet   | AO 1    | Mixing valve circuit 1 (0–10 V)      |
+| HTG-C1-P1-ON     | DO   | —    | BACnet   | BO 1    | Pump circuit 1 ON/OFF                |
+| HTG-C1-P1-RUN    | DI   | —    | BACnet   | BI 1    | Pump circuit 1 run feedback          |
+| HTG-C1-P1-FLT    | DI   | —    | BACnet   | BI 2    | Pump circuit 1 fault                 |
+| HTG-C1-T-SP-ABS  | AV   | °C   | BACnet   | AV 2    | Supply setpoint absolute (BMS)       |
 
 ---
 
@@ -286,14 +301,14 @@ A data point is any measurable, controllable, or monitored quantity:
 
 The DPL also serves as a commissioning checklist:
 
-| Status | Meaning |
-|--------|--------|
-| **Planned** | Entered in DPL, not yet wired |
-| **Wired** | Cable installed, not yet connected to DDC |
-| **Configured** | Address assigned, DDC parameterised |
-| **Tested** | Measured value correct, signal verified |
-| **OK** | Fully accepted |
-| **Defective** | Sensor faulty, replacement needed |
+| Status         | Meaning                                   |
+| -------------- | ----------------------------------------- |
+| **Planned**    | Entered in DPL, not yet wired             |
+| **Wired**      | Cable installed, not yet connected to DDC |
+| **Configured** | Address assigned, DDC parameterised       |
+| **Tested**     | Measured value correct, signal verified   |
+| **OK**         | Fully accepted                            |
+| **Defective**  | Sensor faulty, replacement needed         |
 
 ---
 

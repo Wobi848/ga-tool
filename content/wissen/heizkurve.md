@@ -4,7 +4,17 @@ title_en: Heating Curve / Weather Compensation
 slug: heizkurve
 category: regelung
 subcategory: heizung
-tags: [heizkurve, witterungsführung, neigung, niveau, steilheit, aussentemperaturkompensation, vorlauftemperatur, parallelverschiebung]
+tags:
+  [
+    heizkurve,
+    witterungsführung,
+    neigung,
+    niveau,
+    steilheit,
+    aussentemperaturkompensation,
+    vorlauftemperatur,
+    parallelverschiebung
+  ]
 difficulty: grundlagen
 area: [hlk]
 related: [pid-regler, mischer, fussbodenheizung, radiatorheizung]
@@ -15,7 +25,7 @@ lang: de
 
 # Heizkurve / Witterungsführung
 
-Die **Heizkurve** (auch *Heizkennlinie*, *Witterungsführung*) bestimmt die **Vorlauftemperatur** in Abhängigkeit von der **Aussentemperatur**. Sie ist die wichtigste Vorsteuerung in einer Heizungsregelung — der PI-Raumregler korrigiert nur noch die feinen Abweichungen.
+Die **Heizkurve** (auch _Heizkennlinie_, _Witterungsführung_) bestimmt die **Vorlauftemperatur** in Abhängigkeit von der **Aussentemperatur**. Sie ist die wichtigste Vorsteuerung in einer Heizungsregelung — der PI-Raumregler korrigiert nur noch die feinen Abweichungen.
 
 > ⚙️ **Tool:** Im [Heizkurven-Rechner](/rechner/heizkurve) kannst du die Kurve grafisch verstellen und siehst sofort den Vorlauf-Sollwert bei verschiedenen Aussentemperaturen.
 
@@ -27,7 +37,7 @@ Je kälter es draussen ist, desto höher muss die Vorlauftemperatur sein, um die
 TV = T_Raum + Steigung × (T_Raum − TA) × Charakteristik + Niveau
 ```
 
-Die *Charakteristik* hängt vom Heizsystem ab:
+Die _Charakteristik_ hängt vom Heizsystem ab:
 
 - **Radiatoren:** Exponent n ≈ 1.3 (degressive Kurve)
 - **Fussbodenheizung:** Exponent n ≈ 1.1 (fast linear)
@@ -39,13 +49,13 @@ Die *Charakteristik* hängt vom Heizsystem ab:
 
 Bestimmt **wie stark** die Kurve ansteigt. Hersteller verwenden unterschiedliche Bereiche:
 
-| Hersteller            | Parameter | Typischer Bereich |
-|-----------------------|-----------|-------------------|
-| Siemens DESIGO / RVS  | Neigung   | 0.2 – 3.5         |
-| Viessmann Vitotronic  | Neigung   | 0.2 – 3.5         |
-| Buderus / Bosch EMS   | Steilheit | 0.2 – 4.0         |
-| Honeywell / Resideo   | 2-Punkte  | —                 |
-| Sauter                | Neigung   | 0.2 – 4.0         |
+| Hersteller           | Parameter | Typischer Bereich |
+| -------------------- | --------- | ----------------- |
+| Siemens DESIGO / RVS | Neigung   | 0.2 – 3.5         |
+| Viessmann Vitotronic | Neigung   | 0.2 – 3.5         |
+| Buderus / Bosch EMS  | Steilheit | 0.2 – 4.0         |
+| Honeywell / Resideo  | 2-Punkte  | —                 |
+| Sauter               | Neigung   | 0.2 – 4.0         |
 
 Faustwerte:
 
@@ -84,14 +94,14 @@ Aussentemperatur, oberhalb der die Heizung abschaltet. Üblich:
 
 Standortabhängig — Auswahl nach SIA 384/2. Im Schweizer Mittelland −7 bis −10 °C, in den Alpen bis −19 °C (Davos).
 
-| Ort        | Norm-Aussentemp |
-|------------|-----------------|
-| Zürich     | −8 °C           |
-| Bern       | −10 °C          |
-| Basel      | −7 °C           |
-| Chur       | −13 °C          |
-| Davos      | −19 °C          |
-| Lugano     | −5 °C           |
+| Ort    | Norm-Aussentemp |
+| ------ | --------------- |
+| Zürich | −8 °C           |
+| Bern   | −10 °C          |
+| Basel  | −7 °C           |
+| Chur   | −13 °C          |
+| Davos  | −19 °C          |
+| Lugano | −5 °C           |
 
 ## Sonderfälle
 
@@ -101,7 +111,7 @@ Standortabhängig — Auswahl nach SIA 384/2. Im Schweizer Mittelland −7 bis �
 
 <!-- EN -->
 
-The **heating curve** (also *heating characteristic*, *weather compensation*) determines the **flow temperature** based on the **outdoor temperature**. It is the most important feedforward element in heating control — the PI room controller only compensates for fine residual deviations.
+The **heating curve** (also _heating characteristic_, _weather compensation_) determines the **flow temperature** based on the **outdoor temperature**. It is the most important feedforward element in heating control — the PI room controller only compensates for fine residual deviations.
 
 > ⚙️ **Tool:** In the [Heating Curve Calculator](/rechner/heizkurve) you can graphically adjust the curve and instantly see the flow setpoint at different outdoor temperatures.
 
@@ -113,7 +123,7 @@ The colder it is outside, the higher the flow temperature must be to compensate 
 TV = T_Room + Slope × (T_Room − TA) × Characteristic + Level
 ```
 
-The *characteristic* depends on the heating system:
+The _characteristic_ depends on the heating system:
 
 - **Radiators:** Exponent n ≈ 1.3 (degressive curve)
 - **Underfloor heating:** Exponent n ≈ 1.1 (nearly linear)
@@ -125,13 +135,13 @@ The *characteristic* depends on the heating system:
 
 Determines **how steeply** the curve rises. Manufacturers use different parameter ranges:
 
-| Manufacturer | Parameter | Typical range |
-|--------------|-----------|---------------|
-| Siemens DESIGO / RVS | Slope | 0.2 – 3.5 |
-| Viessmann Vitotronic | Slope | 0.2 – 3.5 |
-| Buderus / Bosch EMS | Steepness | 0.2 – 4.0 |
-| Honeywell / Resideo | 2-point | — |
-| Sauter | Slope | 0.2 – 4.0 |
+| Manufacturer         | Parameter | Typical range |
+| -------------------- | --------- | ------------- |
+| Siemens DESIGO / RVS | Slope     | 0.2 – 3.5     |
+| Viessmann Vitotronic | Slope     | 0.2 – 3.5     |
+| Buderus / Bosch EMS  | Steepness | 0.2 – 4.0     |
+| Honeywell / Resideo  | 2-point   | —             |
+| Sauter               | Slope     | 0.2 – 4.0     |
 
 Typical values:
 
@@ -171,13 +181,13 @@ Outdoor temperature above which heating switches off. Typical values:
 Location-dependent — selected per SIA 384/2. In the Swiss Mittelland −7 to −10 °C, in the Alps down to −19 °C (Davos).
 
 | Location | Design outdoor temp |
-|----------|---------------------|
-| Zürich | −8 °C |
-| Bern | −10 °C |
-| Basel | −7 °C |
-| Chur | −13 °C |
-| Davos | −19 °C |
-| Lugano | −5 °C |
+| -------- | ------------------- |
+| Zürich   | −8 °C               |
+| Bern     | −10 °C              |
+| Basel    | −7 °C               |
+| Chur     | −13 °C              |
+| Davos    | −19 °C              |
+| Lugano   | −5 °C               |
 
 ## Special Cases
 

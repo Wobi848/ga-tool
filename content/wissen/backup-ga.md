@@ -4,7 +4,24 @@ title_en: Backup Strategies for BA Systems — 3-2-1 Rule
 slug: backup-ga
 category: it
 subcategory: betrieb
-tags: [backup, datensicherung, 3-2-1-regel, glt-backup, ddc-backup, disaster-recovery, rto, rpo, offsite, verschlüsselung, rotation, wiederherstellung, rsync, proxmox-backup-server, nas]
+tags:
+  [
+    backup,
+    datensicherung,
+    3-2-1-regel,
+    glt-backup,
+    ddc-backup,
+    disaster-recovery,
+    rto,
+    rpo,
+    offsite,
+    verschlüsselung,
+    rotation,
+    wiederherstellung,
+    rsync,
+    proxmox-backup-server,
+    nas
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [proxmox, docker-ga, cybersecurity-ot, remote-zugriff, netzwerk-ga, glt-uebergabe]
@@ -41,17 +58,17 @@ Warum:
    - Quellcode-Backup je Controller
    - Parameterlisten (Sollwerte, Zeitprogramme)
    - Konfigurationsdateien
-   
+
 2. GLT-Datenbank:
    - Systemkonfiguration (Datenpunkte, Alarme, Visualisierung)
    - Benutzerverwaltung
    - Trends / Historik (komprimiert, ältere Daten seltener)
-   
+
 3. Netzwerk-Konfiguration:
    - Switch-Configs (exportiert)
    - Firewall-Regeln
    - IP-Pläne
-   
+
 4. Passwörter (verschlüsselt!):
    KeePass-Datenbank oder ähnliches
 ```
@@ -68,14 +85,15 @@ Warum:
 
 ## Backup-Typen
 
-| Typ          | Beschreibung                           | Speicherplatz | Wiederherstellung |
-|--------------|----------------------------------------|---------------|-------------------|
-| Vollbackup   | Alles komplett                         | Hoch          | Einfach           |
-| Inkrementell | Nur Änderungen seit letztem Backup     | Gering        | Aufwendiger       |
-| Differenziell | Änderungen seit letztem Vollbackup   | Mittel        | Mittel            |
-| Snapshot     | Zustand eingefroren (VM, Container)    | Hoch          | Sehr schnell      |
+| Typ           | Beschreibung                        | Speicherplatz | Wiederherstellung |
+| ------------- | ----------------------------------- | ------------- | ----------------- |
+| Vollbackup    | Alles komplett                      | Hoch          | Einfach           |
+| Inkrementell  | Nur Änderungen seit letztem Backup  | Gering        | Aufwendiger       |
+| Differenziell | Änderungen seit letztem Vollbackup  | Mittel        | Mittel            |
+| Snapshot      | Zustand eingefroren (VM, Container) | Hoch          | Sehr schnell      |
 
 **Empfehlung GA:**
+
 ```
 Täglich: Inkrementelles Backup (schnell, wenig Platz)
 Wöchentlich: Vollbackup (Basis für Inkrementelle)
@@ -94,7 +112,7 @@ Für Proxmox-basierte GA-Server:
   - Verschlüsselung (Ende-zu-Ende)
   - Inkrementelle Backups nach erster Vollsicherung
   - Retention-Policy (behalte 7 täglich, 4 wöchentlich, 6 monatlich)
-  
+
 Einrichtung:
   1. PBS auf separater Hardware/VM
   2. Proxmox-Host → PBS als Backup-Storage
@@ -145,7 +163,7 @@ Dokumentiert vor dem Ernstfall:
 RTO (Recovery Time Objective):
   Wie lange darf der Ausfall maximal dauern?
   GA-Anlage: typisch 4–24 Stunden (je nach Kritikalität)
-  
+
 RPO (Recovery Point Objective):
   Wie viele Datenverluste sind akzeptabel?
   GA-Config: 0–24 Stunden (tägliches Backup akzeptabel)
@@ -171,11 +189,11 @@ Quartärlich:
   - Testwiederherstellung in Sandbox-Umgebung
   - Kann GLT aus Backup gestartet werden?
   - Sind alle DDC-Programme vollständig?
-  
+
 Jährlich:
   - Vollständiger DR-Test (alles aus Backup wiederherstellen)
   - Dauer messen → im DRP dokumentieren
-  
+
 Protokoll:
   Datum, Tester, Ergebnis, Abweichungen → Ablage in Dokumentation
 ```
@@ -258,14 +276,15 @@ Why:
 
 ## Backup Types
 
-| Type | Description | Storage | Recovery |
-|------|-------------|---------|---------|
-| Full backup | Everything complete | High | Simple |
-| Incremental | Changes since last backup | Low | More complex |
-| Differential | Changes since last full backup | Medium | Medium |
-| Snapshot | State frozen (VM, container) | High | Very fast |
+| Type         | Description                    | Storage | Recovery     |
+| ------------ | ------------------------------ | ------- | ------------ |
+| Full backup  | Everything complete            | High    | Simple       |
+| Incremental  | Changes since last backup      | Low     | More complex |
+| Differential | Changes since last full backup | Medium  | Medium       |
+| Snapshot     | State frozen (VM, container)   | High    | Very fast    |
 
 **Recommendation for BA:**
+
 ```
 Daily:   Incremental backup (fast, little space)
 Weekly:  Full backup (basis for incrementals)

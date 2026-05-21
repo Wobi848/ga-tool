@@ -4,10 +4,36 @@ title_en: Zone Concepts — Office, Hotel, Hospital, Residential
 slug: zonenkonzepte
 category: ga
 subcategory: planung
-tags: [zonenkonzepte, raumzonierung, büro, hotel, spital, krankenhaus, wohnen, einzelraum, gruppenraum, betriebszeiten, komfortprofil, präsenz, nutzungsart, ga-klasse, temperaturanforderungen]
+tags:
+  [
+    zonenkonzepte,
+    raumzonierung,
+    büro,
+    hotel,
+    spital,
+    krankenhaus,
+    wohnen,
+    einzelraum,
+    gruppenraum,
+    betriebszeiten,
+    komfortprofil,
+    präsenz,
+    nutzungsart,
+    ga-klasse,
+    temperaturanforderungen
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk]
-related: [raumautomation, thermische-behaglichkeit, en15232, sia386, vdi6022, glt-grundlagen, raumluftqualitaet]
+related:
+  [
+    raumautomation,
+    thermische-behaglichkeit,
+    en15232,
+    sia386,
+    vdi6022,
+    glt-grundlagen,
+    raumluftqualitaet
+  ]
 norm: [EN 15232, SIA 380/1, DIN 1946-4, VDI 6022, EN 16798]
 updated: 2026-05-15
 lang: de
@@ -25,10 +51,10 @@ Kriterien für eine Zone (gleicher DDC-Regelkreis):
   - Gleiche Temperaturanforderung
   - Gleiche Personendichte (CO2-Basis)
   - Gleiche Feuchte- und Luftqualitätsanforderung
-  
+
 Falsch: Büro + Korridor in einer Zone
   (Büro oft leer, Korridor immer durchlaufen → unterschiedliches Verhalten)
-  
+
 Richtig: Einzelraum = eigene Zone (Einzelraum-Regelung)
 ```
 
@@ -64,8 +90,8 @@ Betriebsart:
   Leer: Absenkbetrieb (17 °C / min. Zuluft)
   Vor-Start (30 min): Vorheizen/Vorkühlen
   Besetzt: Komfort (22 °C, 500 lux, max. Zuluft für CO2)
-  
-Besonderheit: 
+
+Besonderheit:
   Buchungssystem → Kalender-Integration → DDC-Vorbereitung
   Kurze Meetings: Präsenz → keine Vorheizung (Energiesparmodus)
 ```
@@ -83,7 +109,7 @@ Betriebszustände:
   Zimmer BESETZT:     Komfort 20–24 °C, Lüftung normal
   Zimmer ANWESEND:    Eco-Karte steckt → Vollbetrieb
   Eco-Karte raus:     15 min Delay → Absenkung
-  
+
 Eco-Karte-Logik:
   Hotel-Schlüsselkarte in Wandsteckdose → Strom frei, Lüftung aktiv
   Karte raus → 15 min → Strom ab, Absenkbetrieb
@@ -132,7 +158,7 @@ Betriebsmodi:
   Standby: 18 °C, 8 Luftwechsel/h, +10 Pa
   Vorbereitung (Reinigung): 22 °C, 20 LW/h
   OP aktiv: 20–24 °C, ≥ 20 LW/h, +15 Pa Überdruck, 500 lux
-  
+
 LAF-Decke (Laminar Air Flow): 0.24–0.45 m/s senkrecht
 Freigabe OP: Arzt / OP-Pflege → GLT-Betriebsart-Signal
 ```
@@ -169,12 +195,12 @@ Individuelle Zimmer: lokale Thermostate (kein DDC nötig)
 
 Jedes Projekt benötigt einen Zonenplan:
 
-| Zone ID | Bezeichnung     | Nutzung          | Sollwert Heiz | Sollwert Kühl | Lüftung |
-|---------|-----------------|------------------|--------------|---------------|---------|
-| Z-01    | Büro EG West    | Einzelbüro       | 21 °C        | 26 °C         | DCV CO2 |
-| Z-02    | Besprechung 101 | Sitzungsraum     | 22 °C        | 25 °C         | 6 × LW/h|
-| Z-03    | Korridor EG     | Verkehrsfläche   | 18 °C        | 28 °C         | 1 × LW/h|
-| Z-04    | Serverraum      | IT-Infrastruktur | 18–24 °C     | 24 °C         | konstant|
+| Zone ID | Bezeichnung     | Nutzung          | Sollwert Heiz | Sollwert Kühl | Lüftung  |
+| ------- | --------------- | ---------------- | ------------- | ------------- | -------- |
+| Z-01    | Büro EG West    | Einzelbüro       | 21 °C         | 26 °C         | DCV CO2  |
+| Z-02    | Besprechung 101 | Sitzungsraum     | 22 °C         | 25 °C         | 6 × LW/h |
+| Z-03    | Korridor EG     | Verkehrsfläche   | 18 °C         | 28 °C         | 1 × LW/h |
+| Z-04    | Serverraum      | IT-Infrastruktur | 18–24 °C      | 24 °C         | konstant |
 
 ---
 
@@ -199,10 +225,10 @@ Criteria for a zone (same DDC control loop):
   - Same temperature requirement
   - Same occupant density (CO₂ basis)
   - Same humidity and air quality requirement
-  
+
 Wrong: office + corridor in one zone
   (office often empty, corridor always used → different behaviour)
-  
+
 Right: individual room = own zone (single-room control)
 ```
 
@@ -238,7 +264,7 @@ Operating mode:
   Empty: setback (17 °C / min. supply air)
   Pre-start (30 min): pre-heat/pre-cool
   Occupied: comfort (22 °C, 500 lux, max. supply air for CO₂)
-  
+
 Special feature:
   Booking system → calendar integration → DDC preparation
   Short meetings: presence → no pre-heating (energy-saving mode)
@@ -257,7 +283,7 @@ Operating states:
   Room OCCUPIED:      Comfort 20–24 °C, normal ventilation
   Room GUEST IN:      Key card inserted → full operation
   Key card removed:   15 min delay → setback
-  
+
 Key card logic:
   Hotel key card in wall socket → power enabled, ventilation active
   Card removed → 15 min → power off, setback mode
@@ -306,7 +332,7 @@ Operating modes:
   Standby: 18 °C, 8 ACH, +10 Pa
   Preparation (cleaning): 22 °C, 20 ACH
   OR active: 20–24 °C, ≥ 20 ACH, +15 Pa positive pressure, 500 lux
-  
+
 LAF ceiling (laminar air flow): 0.24–0.45 m/s vertical
 OR release: surgeon / OR nurse → BMS operating mode signal
 ```
@@ -343,12 +369,12 @@ Individual rooms: local thermostats (no DDC required)
 
 Every project requires a zone plan:
 
-| Zone ID | Name | Use | Heating setpoint | Cooling setpoint | Ventilation |
-|---------|------|-----|-----------------|-----------------|-------------|
-| Z-01 | Office GF West | Private office | 21 °C | 26 °C | DCV CO₂ |
-| Z-02 | Meeting room 101 | Conference | 22 °C | 25 °C | 6 × ACH |
-| Z-03 | Corridor GF | Circulation | 18 °C | 28 °C | 1 × ACH |
-| Z-04 | Server room | IT infrastructure | 18–24 °C | 24 °C | Constant |
+| Zone ID | Name             | Use               | Heating setpoint | Cooling setpoint | Ventilation |
+| ------- | ---------------- | ----------------- | ---------------- | ---------------- | ----------- |
+| Z-01    | Office GF West   | Private office    | 21 °C            | 26 °C            | DCV CO₂     |
+| Z-02    | Meeting room 101 | Conference        | 22 °C            | 25 °C            | 6 × ACH     |
+| Z-03    | Corridor GF      | Circulation       | 18 °C            | 28 °C            | 1 × ACH     |
+| Z-04    | Server room      | IT infrastructure | 18–24 °C         | 24 °C            | Constant    |
 
 ---
 

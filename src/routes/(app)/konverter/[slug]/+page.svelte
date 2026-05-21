@@ -10,7 +10,9 @@
 
 	const converter = $derived(data.converter);
 	const isEn = $derived($locale === 'en');
-	function t(de: string, en?: string) { return isEn && en ? en : de; }
+	function t(de: string, en?: string) {
+		return isEn && en ? en : de;
+	}
 
 	// Context value (temperature for feuchte, etc.)
 	let contextValue = $state(untrack(() => data.converter.contextInput?.default ?? 20));
@@ -122,14 +124,26 @@
 <div class="page">
 	<header class="page-header">
 		<a href="/konverter" class="back-link">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allConverters')}
 		</a>
 		<div class="title-row">
 			<h1>{$_('konverter.' + converter.slug + '.name', { default: converter.name })}</h1>
-			<FavButton type="konverter" slug={converter.slug} title={$_('konverter.' + converter.slug + '.name', { default: converter.name })} size={20} />
+			<FavButton
+				type="konverter"
+				slug={converter.slug}
+				title={$_('konverter.' + converter.slug + '.name', { default: converter.name })}
+				size={20}
+			/>
 		</div>
 	</header>
 
@@ -181,11 +195,25 @@
 						disabled={!values[unit.id]}
 					>
 						{#if copiedUnit === unit.id}
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+							<svg
+								width="14"
+								height="14"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2.5"
+							>
 								<path d="M20 6L9 17l-5-5" />
 							</svg>
 						{:else}
-							<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<svg
+								width="14"
+								height="14"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+							>
 								<rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
 								<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
 							</svg>
@@ -381,7 +409,10 @@
 		color: var(--muted);
 		cursor: pointer;
 		flex-shrink: 0;
-		transition: color 0.15s, border-color 0.15s, background 0.15s;
+		transition:
+			color 0.15s,
+			border-color 0.15s,
+			background 0.15s;
 	}
 
 	.copy-btn:hover:not(:disabled) {
@@ -410,7 +441,9 @@
 		font-size: 0.875rem;
 		font-family: inherit;
 		cursor: pointer;
-		transition: color 0.15s, border-color 0.15s;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
 	}
 
 	.reset-btn:hover {

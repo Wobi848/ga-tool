@@ -4,7 +4,21 @@ title_en: Hydraulic Valve Circuits — Throttling, Mixing, Diverting and Injecti
 slug: ventil-schaltungen
 category: hydraulik
 subcategory: regelung
-tags: [drosselschaltung, beimischschaltung, umlenkschaltung, einspritzschaltung, 2-weg-ventil, 3-weg-ventil, regelventil, hydraulik, mischventil, heizkreis, kühlkreis, vormischung]
+tags:
+  [
+    drosselschaltung,
+    beimischschaltung,
+    umlenkschaltung,
+    einspritzschaltung,
+    2-weg-ventil,
+    3-weg-ventil,
+    regelventil,
+    hydraulik,
+    mischventil,
+    heizkreis,
+    kühlkreis,
+    vormischung
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulische-schaltungen, motorventile, pid-regler, temperaturspreizungen]
@@ -19,11 +33,11 @@ Die Ventilschaltung bestimmt, wie ein Regelventil in den Heiz- oder Kühlkreis e
 
 ## Auswahltabelle
 
-| Schaltungsart | Übliche Schaltungen | Seltene Schaltungen |
-|---|---|---|
-| mit 2-Weg-Ventil | Drosselschaltung | Einspritzschaltung (2-Weg) |
-| mit fester Vormischung | Beimischschaltung (variabel) | Beimischschaltung (fest) |
-| mit 3-Weg-Ventil | Umlenkschaltung | Einspritzschaltung (3-Weg) |
+| Schaltungsart          | Übliche Schaltungen          | Seltene Schaltungen        |
+| ---------------------- | ---------------------------- | -------------------------- |
+| mit 2-Weg-Ventil       | Drosselschaltung             | Einspritzschaltung (2-Weg) |
+| mit fester Vormischung | Beimischschaltung (variabel) | Beimischschaltung (fest)   |
+| mit 3-Weg-Ventil       | Umlenkschaltung              | Einspritzschaltung (3-Weg) |
 
 ---
 
@@ -35,13 +49,13 @@ Das 2-Weg-Ventil sitzt **in Reihe** im Verbraucherkreis und drosselt den Volumen
 Vorlauf ──► [2-Weg-Ventil] ──► Verbraucher ──► Rücklauf
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Volumenstrom Sekundär | Variabel — sinkt bei Teillast |
-| Vorlauftemperatur | Konstant (Primärkreis) |
-| Rücklauftemperatur | Steigt bei Teillast |
-| Pumpenenergie | Sinkt bei Teillast (variable Pumpe) |
-| Regelgüte | Gut — einfaches Regelverhalten |
+| Eigenschaft           | Wert                                |
+| --------------------- | ----------------------------------- |
+| Volumenstrom Sekundär | Variabel — sinkt bei Teillast       |
+| Vorlauftemperatur     | Konstant (Primärkreis)              |
+| Rücklauftemperatur    | Steigt bei Teillast                 |
+| Pumpenenergie         | Sinkt bei Teillast (variable Pumpe) |
+| Regelgüte             | Gut — einfaches Regelverhalten      |
 
 **Einsatz:** Standardschaltung für Heiz- und Kühlregister in RLT-Anlagen, überall wo variable Volumenströme unkritisch sind.
 
@@ -60,12 +74,12 @@ Primär-VL ──► [2-Weg-Ventil] ──►┐
 Primär-RL ◄──────────────────────────────────────────┘
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Volumenstrom Primär | Sehr klein (nur Einspritzmenge) |
-| Volumenstrom Sekundär | Konstant und gross |
-| Regelgrösse | Mischtemperatur im Sekundärkreis |
-| Regelgüte | Sehr gut, aber Kvs-Auslegung kritisch |
+| Eigenschaft           | Wert                                  |
+| --------------------- | ------------------------------------- |
+| Volumenstrom Primär   | Sehr klein (nur Einspritzmenge)       |
+| Volumenstrom Sekundär | Konstant und gross                    |
+| Regelgrösse           | Mischtemperatur im Sekundärkreis      |
+| Regelgüte             | Sehr gut, aber Kvs-Auslegung kritisch |
 
 **Einsatz:** Wenn der Primärvolumenstrom minimal sein soll (z.B. Fernwärme mit sehr hohem ΔT). Selten wegen Komplexität (eigene Sekundärpumpe, Rücklaufleitung ins Primärnetz).
 
@@ -82,12 +96,12 @@ Sek.-RL ─────┘                                  │
              ◄──────────────────────────────────┘
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Volumenstrom Sekundär | Konstant |
-| Vorlauftemperatur | Variabel (geregelte Mischtemperatur) |
-| Primärvolumenstrom | Variabel |
-| Regelgüte | Gut — bei grossem Mischungsverhältnis träge |
+| Eigenschaft           | Wert                                        |
+| --------------------- | ------------------------------------------- |
+| Volumenstrom Sekundär | Konstant                                    |
+| Vorlauftemperatur     | Variabel (geregelte Mischtemperatur)        |
+| Primärvolumenstrom    | Variabel                                    |
+| Regelgüte             | Gut — bei grossem Mischungsverhältnis träge |
 
 **Einsatz:** FBH, Deckenheizung/-kühlung, Fernwärme-Übergabe, überall wo konstanter Sekundärvolumenstrom gewünscht ist.
 
@@ -104,12 +118,12 @@ Primär-VL ──────────────────────►
                    (Drosselventil)
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Mischungsverhältnis | Fix — nicht regelbar |
-| Vorlauftemperatur | Fest abhängig vom Primär-VL |
-| Regelung | Nur über Primärtemperatur oder Primärvolumenstrom |
-| Regelgüte | Gering — keine lokale Anpassung möglich |
+| Eigenschaft         | Wert                                              |
+| ------------------- | ------------------------------------------------- |
+| Mischungsverhältnis | Fix — nicht regelbar                              |
+| Vorlauftemperatur   | Fest abhängig vom Primär-VL                       |
+| Regelung            | Nur über Primärtemperatur oder Primärvolumenstrom |
+| Regelgüte           | Gering — keine lokale Anpassung möglich           |
 
 **Einsatz:** Nur wenn eine vereinfachte, wartungsarme Lösung ohne Stellantrieb akzeptabel ist — z.B. einfache Heizkörpergruppen im Bestand, Sekundärkreise mit unveränderlichem Wärmebedarf.
 
@@ -125,12 +139,12 @@ Primär-VL ──► [3-Weg-Umlenker] ──► Verbraucher ──► Primär-RL
                       └──────────► Bypass ──► Primär-RL
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Volumenstrom Primär | Konstant (Pumpe immer gleich belastet) |
-| Volumenstrom Verbraucher | Variabel |
-| Vorlauftemperatur | Konstant |
-| Regelgüte | Sehr gut — schnelles Ansprechen |
+| Eigenschaft              | Wert                                   |
+| ------------------------ | -------------------------------------- |
+| Volumenstrom Primär      | Konstant (Pumpe immer gleich belastet) |
+| Volumenstrom Verbraucher | Variabel                               |
+| Vorlauftemperatur        | Konstant                               |
+| Regelgüte                | Sehr gut — schnelles Ansprechen        |
 
 **Einsatz:** Erzeuger mit Mindestvolumenstrom — Wärmepumpen, Kessel mit Mindestrücklauftemperatur, Kältemaschinen.
 
@@ -148,12 +162,12 @@ Primär-VL ──►┐
 Primär-RL ◄──┘
 ```
 
-| Eigenschaft | Wert |
-|---|---|
-| Volumenstrom Primär | Sehr klein |
-| Volumenstrom Sekundär | Konstant und gross |
-| Vorteil ggü. 2-Weg | Weniger Rohrleitungen, integrierte RL-Führung |
-| Regelgüte | Sehr gut — Kvs-Auslegung kritisch |
+| Eigenschaft           | Wert                                          |
+| --------------------- | --------------------------------------------- |
+| Volumenstrom Primär   | Sehr klein                                    |
+| Volumenstrom Sekundär | Konstant und gross                            |
+| Vorteil ggü. 2-Weg    | Weniger Rohrleitungen, integrierte RL-Führung |
+| Regelgüte             | Sehr gut — Kvs-Auslegung kritisch             |
 
 **Einsatz:** Betonkernaktivierung, grosse träge Systeme, Fernwärme mit hohem Primär-ΔT. Etwas weniger komplex als die 2-Weg-Variante da das 3-Weg-Ventil VL- und RL-Seite des Primärnetzes zusammenfasst.
 
@@ -161,14 +175,14 @@ Primär-RL ◄──┘
 
 ## Vergleich alle 6 Schaltungen
 
-| # | Schaltung | Ventil | Primär-VS | Sek.-VS | Sek.-VL-Temp | Einsatz |
-|---|---|---|---|---|---|---|
-| 1 | Drosselung | 2-Weg | variabel | variabel | konstant | Register, Konvektoren |
-| 2 | Einspritzung | 2-Weg | minimal | konstant | variabel | Fernwärme hohem ΔT |
-| 3 | Beimischung variabel | 3-Weg Mischer | variabel | konstant | variabel | FBH, Fernwärme |
-| 4 | Beimischung fest | Fixblende | — | konstant | fix | Bestand, simpel |
-| 5 | Umlenkung | 3-Weg Umlenker | konstant | variabel | konstant | WP, KM, Kessel |
-| 6 | Einspritzung | 3-Weg | minimal | konstant | variabel | BKA, träge Systeme |
+| #   | Schaltung            | Ventil         | Primär-VS | Sek.-VS  | Sek.-VL-Temp | Einsatz               |
+| --- | -------------------- | -------------- | --------- | -------- | ------------ | --------------------- |
+| 1   | Drosselung           | 2-Weg          | variabel  | variabel | konstant     | Register, Konvektoren |
+| 2   | Einspritzung         | 2-Weg          | minimal   | konstant | variabel     | Fernwärme hohem ΔT    |
+| 3   | Beimischung variabel | 3-Weg Mischer  | variabel  | konstant | variabel     | FBH, Fernwärme        |
+| 4   | Beimischung fest     | Fixblende      | —         | konstant | fix          | Bestand, simpel       |
+| 5   | Umlenkung            | 3-Weg Umlenker | konstant  | variabel | konstant     | WP, KM, Kessel        |
+| 6   | Einspritzung         | 3-Weg          | minimal   | konstant | variabel     | BKA, träge Systeme    |
 
 ---
 
@@ -192,11 +206,11 @@ The valve circuit determines how a control valve is integrated into the heating 
 
 ## Selection Table
 
-| Circuit type | Common | Rare |
-|-------------|--------|------|
-| With 2-way valve | Throttling circuit | Injection circuit (2-way) |
-| With fixed premix | Mixing circuit (variable) | Mixing circuit (fixed) |
-| With 3-way valve | Diverting circuit | Injection circuit (3-way) |
+| Circuit type      | Common                    | Rare                      |
+| ----------------- | ------------------------- | ------------------------- |
+| With 2-way valve  | Throttling circuit        | Injection circuit (2-way) |
+| With fixed premix | Mixing circuit (variable) | Mixing circuit (fixed)    |
+| With 3-way valve  | Diverting circuit         | Injection circuit (3-way) |
 
 ---
 
@@ -208,13 +222,13 @@ The 2-way valve sits **in series** in the consumer circuit and throttles the vol
 Flow ──► [2-way valve] ──► Consumer ──► Return
 ```
 
-| Property | Value |
-|----------|-------|
-| Secondary flow rate | Variable — falls at part load |
-| Flow temperature | Constant (primary circuit) |
-| Return temperature | Rises at part load |
-| Pump energy | Falls at part load (variable pump) |
-| Control quality | Good — simple control behaviour |
+| Property            | Value                              |
+| ------------------- | ---------------------------------- |
+| Secondary flow rate | Variable — falls at part load      |
+| Flow temperature    | Constant (primary circuit)         |
+| Return temperature  | Rises at part load                 |
+| Pump energy         | Falls at part load (variable pump) |
+| Control quality     | Good — simple control behaviour    |
 
 **Application:** Standard circuit for heating and cooling coils in AHUs, wherever variable flow rates are uncritical.
 
@@ -233,12 +247,12 @@ Primary flow ──► [2-way valve] ──►┐
 Primary return ◄────────────────────────────────────┘
 ```
 
-| Property | Value |
-|----------|-------|
-| Primary flow rate | Very small (injection quantity only) |
-| Secondary flow rate | Constant and large |
+| Property            | Value                                  |
+| ------------------- | -------------------------------------- |
+| Primary flow rate   | Very small (injection quantity only)   |
+| Secondary flow rate | Constant and large                     |
 | Controlled variable | Mixed temperature in secondary circuit |
-| Control quality | Very good, but Kvs sizing critical |
+| Control quality     | Very good, but Kvs sizing critical     |
 
 **Application:** When primary flow should be minimal (e.g. district heat with very high ΔT). Rare due to complexity (own secondary pump, return pipe to primary network).
 
@@ -255,12 +269,12 @@ Sec. return ────┘                              │
                 ◄──────────────────────────────┘
 ```
 
-| Property | Value |
-|----------|-------|
-| Secondary flow rate | Constant |
-| Flow temperature | Variable (controlled mixed temperature) |
-| Primary flow rate | Variable |
-| Control quality | Good — sluggish at large mixing ratio |
+| Property            | Value                                   |
+| ------------------- | --------------------------------------- |
+| Secondary flow rate | Constant                                |
+| Flow temperature    | Variable (controlled mixed temperature) |
+| Primary flow rate   | Variable                                |
+| Control quality     | Good — sluggish at large mixing ratio   |
 
 **Application:** UFH, chilled/heated ceilings, district heat interface, wherever constant secondary flow is desired.
 
@@ -277,12 +291,12 @@ Primary flow ──────────────────► Consumer 
                       (throttle valve)
 ```
 
-| Property | Value |
-|----------|-------|
-| Mixing ratio | Fixed — not adjustable |
-| Flow temperature | Fixed, depending on primary flow |
-| Control | Only via primary temperature or flow rate |
-| Control quality | Low — no local adjustment |
+| Property         | Value                                     |
+| ---------------- | ----------------------------------------- |
+| Mixing ratio     | Fixed — not adjustable                    |
+| Flow temperature | Fixed, depending on primary flow          |
+| Control          | Only via primary temperature or flow rate |
+| Control quality  | Low — no local adjustment                 |
 
 **Application:** Only where a simplified, low-maintenance solution without actuator is acceptable — e.g. simple radiator groups in existing buildings, secondary circuits with unchanging heat demand.
 
@@ -298,12 +312,12 @@ Primary flow ──► [3-way diverter] ──► Consumer ──► Primary ret
                         └──────────► Bypass ──► Primary return
 ```
 
-| Property | Value |
-|----------|-------|
-| Primary flow rate | Constant (pump always equally loaded) |
-| Consumer flow rate | Variable |
-| Flow temperature | Constant |
-| Control quality | Very good — fast response |
+| Property           | Value                                 |
+| ------------------ | ------------------------------------- |
+| Primary flow rate  | Constant (pump always equally loaded) |
+| Consumer flow rate | Variable                              |
+| Flow temperature   | Constant                              |
+| Control quality    | Very good — fast response             |
 
 **Application:** Generators with minimum flow rate — heat pumps, boilers with minimum return temperature, chillers.
 
@@ -321,12 +335,12 @@ Primary flow ──►┐
 Primary return ◄┘
 ```
 
-| Property | Value |
-|----------|-------|
-| Primary flow rate | Very small |
-| Secondary flow rate | Constant and large |
+| Property            | Value                                  |
+| ------------------- | -------------------------------------- |
+| Primary flow rate   | Very small                             |
+| Secondary flow rate | Constant and large                     |
 | Advantage vs. 2-way | Fewer pipes, integrated return routing |
-| Control quality | Very good — Kvs sizing critical |
+| Control quality     | Very good — Kvs sizing critical        |
 
 **Application:** Thermally activated building systems, large sluggish systems, district heat with high primary ΔT.
 
@@ -334,14 +348,14 @@ Primary return ◄┘
 
 ## Comparison of All 6 Circuits
 
-| # | Circuit | Valve | Primary flow | Sec. flow | Sec. flow temp | Application |
-|---|---------|-------|-------------|-----------|----------------|-------------|
-| 1 | Throttling | 2-way | Variable | Variable | Constant | Coils, convectors |
-| 2 | Injection | 2-way | Minimal | Constant | Variable | District heat, high ΔT |
-| 3 | Mixing variable | 3-way mixer | Variable | Constant | Variable | UFH, district heat |
-| 4 | Mixing fixed | Fixed orifice | — | Constant | Fixed | Existing buildings |
-| 5 | Diverting | 3-way diverter | Constant | Variable | Constant | HP, chiller, boiler |
-| 6 | Injection | 3-way | Minimal | Constant | Variable | TABS, sluggish systems |
+| #   | Circuit         | Valve          | Primary flow | Sec. flow | Sec. flow temp | Application            |
+| --- | --------------- | -------------- | ------------ | --------- | -------------- | ---------------------- |
+| 1   | Throttling      | 2-way          | Variable     | Variable  | Constant       | Coils, convectors      |
+| 2   | Injection       | 2-way          | Minimal      | Constant  | Variable       | District heat, high ΔT |
+| 3   | Mixing variable | 3-way mixer    | Variable     | Constant  | Variable       | UFH, district heat     |
+| 4   | Mixing fixed    | Fixed orifice  | —            | Constant  | Fixed          | Existing buildings     |
+| 5   | Diverting       | 3-way diverter | Constant     | Variable  | Constant       | HP, chiller, boiler    |
+| 6   | Injection       | 3-way          | Minimal      | Constant  | Variable       | TABS, sluggish systems |
 
 ---
 

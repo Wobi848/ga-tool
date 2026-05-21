@@ -4,7 +4,28 @@ title_en: Z-Wave — Wireless Mesh Network for Smart Buildings
 slug: zwave
 category: kommunikation
 subcategory: drahtlos
-tags: [z-wave, z-wave-plus, z-wave-lr, 868mhz, mesh-netzwerk, smart-home, subghz, sicherheit, aes-128, s0-s2, zwavejs, home-assistant, fibaro, aeotec, qubino, schalter, steckdosen, jalousie, raumautomation]
+tags:
+  [
+    z-wave,
+    z-wave-plus,
+    z-wave-lr,
+    868mhz,
+    mesh-netzwerk,
+    smart-home,
+    subghz,
+    sicherheit,
+    aes-128,
+    s0-s2,
+    zwavejs,
+    home-assistant,
+    fibaro,
+    aeotec,
+    qubino,
+    schalter,
+    steckdosen,
+    jalousie,
+    raumautomation
+  ]
 difficulty: grundlagen
 area: [ga, elektro]
 related: [zigbee, enocean, knx, raumautomation, mqtt]
@@ -22,14 +43,14 @@ Z-Wave ist ein proprietäres drahtloses Mesh-Protokoll für die Heimautomation u
 
 ## Technische Eckdaten
 
-| Parameter | Z-Wave | Z-Wave Plus (Gen 5) | Z-Wave LR |
-|-----------|--------|---------------------|-----------|
-| Frequenz CH/DE | 868,42 MHz | 868,42 MHz | 868,4 / 869,85 MHz |
-| Reichweite | 30 m (innen) | 100 m (aussen) | bis 1600 m |
-| Max. Netzknoten | 232 | 232 | 4000 |
-| Datenrate | 9,6 / 40 kbit/s | 9,6 / 40 / 100 kbit/s | 100 kbit/s |
-| Sendeleistung | 1 mW | 1 mW | 25 mW |
-| Topologie | Mesh | Mesh | Stern + Mesh |
+| Parameter       | Z-Wave          | Z-Wave Plus (Gen 5)   | Z-Wave LR          |
+| --------------- | --------------- | --------------------- | ------------------ |
+| Frequenz CH/DE  | 868,42 MHz      | 868,42 MHz            | 868,4 / 869,85 MHz |
+| Reichweite      | 30 m (innen)    | 100 m (aussen)        | bis 1600 m         |
+| Max. Netzknoten | 232             | 232                   | 4000               |
+| Datenrate       | 9,6 / 40 kbit/s | 9,6 / 40 / 100 kbit/s | 100 kbit/s         |
+| Sendeleistung   | 1 mW            | 1 mW                  | 25 mW              |
+| Topologie       | Mesh            | Mesh                  | Stern + Mesh       |
 
 ---
 
@@ -55,13 +76,13 @@ Routingtiefe: bis 4 Hops (Zwischenknoten) von Controller zum Zielgerät.
 
 Z-Wave bietet seit S2 (2017) starke Verschlüsselung:
 
-| Sicherheitsklasse | Verschlüsselung | Anwendung |
-|-------------------|-----------------|-----------|
-| S0 (alt) | AES-128 (anfällig für Replay-Angriffe) | Ältere Geräte |
-| S2 Access Control | AES-128, ECDH | Türschlösser, Alarm |
-| S2 Authenticated | AES-128, ECDH | Dimmer, Thermostate |
-| S2 Unauthenticated | AES-128 | Geräte ohne Display |
-| SmartStart | QR-Code Pairing | Einfache sichere Inbetriebnahme |
+| Sicherheitsklasse  | Verschlüsselung                        | Anwendung                       |
+| ------------------ | -------------------------------------- | ------------------------------- |
+| S0 (alt)           | AES-128 (anfällig für Replay-Angriffe) | Ältere Geräte                   |
+| S2 Access Control  | AES-128, ECDH                          | Türschlösser, Alarm             |
+| S2 Authenticated   | AES-128, ECDH                          | Dimmer, Thermostate             |
+| S2 Unauthenticated | AES-128                                | Geräte ohne Display             |
+| SmartStart         | QR-Code Pairing                        | Einfache sichere Inbetriebnahme |
 
 SmartStart ermöglicht sicheres Einlernen mit QR-Code — Gerät wird nach dem Einschalten automatisch mit dem Netzwerk verbunden.
 
@@ -70,6 +91,7 @@ SmartStart ermöglicht sicheres Einlernen mit QR-Code — Gerät wird nach dem E
 ## Gerätetypen und Geräteklassen
 
 ### Aktoren (netz-versorgt, Router-Fähig)
+
 - **Schaltaktoren** (Steckdosen, Einbaurelais)
 - **Dimmer** (Phasenabschnitt, Phasenabschnitt rückwärts)
 - **Rolladen-/Jalousienaktor**
@@ -77,6 +99,7 @@ SmartStart ermöglicht sicheres Einlernen mit QR-Code — Gerät wird nach dem E
 - **Lichtschalter** (Flush-Mount)
 
 ### Sensoren (batteriebetrieben, kein Router)
+
 - Tür-/Fenster-Kontakt
 - Bewegungsmelder (PIR)
 - Temperatursensor
@@ -84,6 +107,7 @@ SmartStart ermöglicht sicheres Einlernen mit QR-Code — Gerät wird nach dem E
 - Überschwemmungssensor
 
 ### Controller
+
 - **Z-Wave Hub** (Fibaro Home Center, Vera, Aeotec Z-Stick)
 - **Smart Home Systeme** mit Z-Wave (Home Assistant, Homey, SmartThings)
 
@@ -94,7 +118,9 @@ SmartStart ermöglicht sicheres Einlernen mit QR-Code — Gerät wird nach dem E
 Z-Wave ist primär für die **Wohngebäudeautomation** konzipiert, wird aber auch in kleineren Gewerbegebäuden eingesetzt:
 
 ### Home Assistant + Z-Wave JS
+
 Die beliebteste Open-Source-Integration:
+
 ```
 Gebäude
   │
@@ -109,26 +135,26 @@ Home Assistant (Raspberry Pi / Mini-PC)
 
 ### Typische GA-Anwendungen
 
-| Bereich | Z-Wave-Gerät |
-|---------|-------------|
-| Einzelbüros | Raumthermostat, Heizkörperventil |
-| Hotelzimmer | Steckdose, Jalousie, Türkontakt |
-| Wohngebäude | Rolladen, Dimmer, Rauchwarnmelder |
-| Retrofit | Nachrüst-Thermostat (kein Kabelverlegen) |
+| Bereich     | Z-Wave-Gerät                             |
+| ----------- | ---------------------------------------- |
+| Einzelbüros | Raumthermostat, Heizkörperventil         |
+| Hotelzimmer | Steckdose, Jalousie, Türkontakt          |
+| Wohngebäude | Rolladen, Dimmer, Rauchwarnmelder        |
+| Retrofit    | Nachrüst-Thermostat (kein Kabelverlegen) |
 
 ---
 
 ## Z-Wave vs. Zigbee vs. EnOcean
 
-| Merkmal | Z-Wave | Zigbee | EnOcean |
-|---------|--------|--------|---------|
-| Frequenz | 868 MHz | 2,4 GHz | 868 MHz |
+| Merkmal           | Z-Wave                                | Zigbee                     | EnOcean                 |
+| ----------------- | ------------------------------------- | -------------------------- | ----------------------- |
+| Frequenz          | 868 MHz                               | 2,4 GHz                    | 868 MHz                 |
 | Interoperabilität | Hoch (Z-Wave Alliance Zertifizierung) | Mittel (Matter verbessert) | Hoch (EnOcean Alliance) |
-| Batterie | Ja | Ja | Batterielos! |
-| Reichweite | 30–100 m | 10–30 m | 30 m |
-| Max. Netzgrösse | 232 (4000 mit LR) | 65000 | Broadcast |
-| Protokoll | Proprietär (Z-Wave Alliance) | IEEE 802.15.4 + ZigBee | EnOcean Protocol |
-| Open Source | Nein (spec verfügbar) | Ja | Teilweise |
+| Batterie          | Ja                                    | Ja                         | Batterielos!            |
+| Reichweite        | 30–100 m                              | 10–30 m                    | 30 m                    |
+| Max. Netzgrösse   | 232 (4000 mit LR)                     | 65000                      | Broadcast               |
+| Protokoll         | Proprietär (Z-Wave Alliance)          | IEEE 802.15.4 + ZigBee     | EnOcean Protocol        |
+| Open Source       | Nein (spec verfügbar)                 | Ja                         | Teilweise               |
 
 ---
 
@@ -145,6 +171,7 @@ Home Assistant (Raspberry Pi / Mini-PC)
 ## Z-Wave Long Range (LR)
 
 Z-Wave LR (2020) adressiert die bisherigen Grenzen:
+
 - **Bis 1600 m Reichweite** (Aussenbereich, Direktverbindung)
 - **Bis 4000 Knoten** pro Netzwerk
 - **Stern-Topologie** (kein Mesh-Routing nötig)
@@ -160,14 +187,14 @@ Z-Wave is a proprietary wireless mesh protocol for home automation and light bui
 
 ## Technical Specifications
 
-| Parameter | Z-Wave | Z-Wave Plus (Gen 5) | Z-Wave LR |
-|-----------|--------|---------------------|-----------|
-| Frequency CH/DE | 868.42 MHz | 868.42 MHz | 868.4 / 869.85 MHz |
-| Range | 30 m (indoors) | 100 m (outdoors) | up to 1,600 m |
-| Max. network nodes | 232 | 232 | 4,000 |
-| Data rate | 9.6 / 40 kbit/s | 9.6 / 40 / 100 kbit/s | 100 kbit/s |
-| Transmit power | 1 mW | 1 mW | 25 mW |
-| Topology | Mesh | Mesh | Star + mesh |
+| Parameter          | Z-Wave          | Z-Wave Plus (Gen 5)   | Z-Wave LR          |
+| ------------------ | --------------- | --------------------- | ------------------ |
+| Frequency CH/DE    | 868.42 MHz      | 868.42 MHz            | 868.4 / 869.85 MHz |
+| Range              | 30 m (indoors)  | 100 m (outdoors)      | up to 1,600 m      |
+| Max. network nodes | 232             | 232                   | 4,000              |
+| Data rate          | 9.6 / 40 kbit/s | 9.6 / 40 / 100 kbit/s | 100 kbit/s         |
+| Transmit power     | 1 mW            | 1 mW                  | 25 mW              |
+| Topology           | Mesh            | Mesh                  | Star + mesh        |
 
 ---
 
@@ -193,13 +220,13 @@ Routing depth: up to 4 hops (intermediate nodes) from controller to target devic
 
 Z-Wave has offered strong encryption since S2 (2017):
 
-| Security class | Encryption | Application |
-|---------------|-----------|------------|
-| S0 (old) | AES-128 (vulnerable to replay attacks) | Older devices |
-| S2 Access Control | AES-128, ECDH | Door locks, alarm |
-| S2 Authenticated | AES-128, ECDH | Dimmers, thermostats |
-| S2 Unauthenticated | AES-128 | Devices without display |
-| SmartStart | QR code pairing | Simple secure commissioning |
+| Security class     | Encryption                             | Application                 |
+| ------------------ | -------------------------------------- | --------------------------- |
+| S0 (old)           | AES-128 (vulnerable to replay attacks) | Older devices               |
+| S2 Access Control  | AES-128, ECDH                          | Door locks, alarm           |
+| S2 Authenticated   | AES-128, ECDH                          | Dimmers, thermostats        |
+| S2 Unauthenticated | AES-128                                | Devices without display     |
+| SmartStart         | QR code pairing                        | Simple secure commissioning |
 
 SmartStart enables secure inclusion via QR code — the device is automatically joined to the network after power-up.
 
@@ -208,6 +235,7 @@ SmartStart enables secure inclusion via QR code — the device is automatically 
 ## Device Types and Classes
 
 ### Actuators (mains-powered, router-capable)
+
 - **Switching actuators** (sockets, flush-mount relays)
 - **Dimmers** (leading/trailing edge)
 - **Blind/roller shutter actuator**
@@ -215,6 +243,7 @@ SmartStart enables secure inclusion via QR code — the device is automatically 
 - **Light switches** (flush-mount)
 
 ### Sensors (battery-powered, no routing)
+
 - Door/window contact
 - Motion detector (PIR)
 - Temperature sensor
@@ -222,6 +251,7 @@ SmartStart enables secure inclusion via QR code — the device is automatically 
 - Flood sensor
 
 ### Controllers
+
 - **Z-Wave hub** (Fibaro Home Center, Vera, Aeotec Z-Stick)
 - **Smart home systems** with Z-Wave (Home Assistant, Homey, SmartThings)
 
@@ -232,7 +262,9 @@ SmartStart enables secure inclusion via QR code — the device is automatically 
 Z-Wave is primarily designed for **residential building automation** but is also used in smaller commercial buildings:
 
 ### Home Assistant + Z-Wave JS
+
 The most popular open-source integration:
+
 ```
 Building
   │
@@ -247,26 +279,26 @@ Home Assistant (Raspberry Pi / mini PC)
 
 ### Typical BA Applications
 
-| Area | Z-Wave device |
-|------|-------------|
-| Individual offices | Room thermostat, radiator valve |
-| Hotel rooms | Socket, blind, door contact |
-| Residential | Roller shutter, dimmer, smoke detector |
-| Retrofit | Retrofit thermostat (no cable installation) |
+| Area               | Z-Wave device                               |
+| ------------------ | ------------------------------------------- |
+| Individual offices | Room thermostat, radiator valve             |
+| Hotel rooms        | Socket, blind, door contact                 |
+| Residential        | Roller shutter, dimmer, smoke detector      |
+| Retrofit           | Retrofit thermostat (no cable installation) |
 
 ---
 
 ## Z-Wave vs. Zigbee vs. EnOcean
 
-| Feature | Z-Wave | Zigbee | EnOcean |
-|---------|--------|--------|---------|
-| Frequency | 868 MHz | 2.4 GHz | 868 MHz |
-| Interoperability | High (Z-Wave Alliance certification) | Medium (Matter improves this) | High (EnOcean Alliance) |
-| Battery | Yes | Yes | Battery-free! |
-| Range | 30–100 m | 10–30 m | 30 m |
-| Max. network size | 232 (4,000 with LR) | 65,000 | Broadcast |
-| Protocol | Proprietary (Z-Wave Alliance) | IEEE 802.15.4 + ZigBee | EnOcean protocol |
-| Open source | No (spec available) | Yes | Partly |
+| Feature           | Z-Wave                               | Zigbee                        | EnOcean                 |
+| ----------------- | ------------------------------------ | ----------------------------- | ----------------------- |
+| Frequency         | 868 MHz                              | 2.4 GHz                       | 868 MHz                 |
+| Interoperability  | High (Z-Wave Alliance certification) | Medium (Matter improves this) | High (EnOcean Alliance) |
+| Battery           | Yes                                  | Yes                           | Battery-free!           |
+| Range             | 30–100 m                             | 10–30 m                       | 30 m                    |
+| Max. network size | 232 (4,000 with LR)                  | 65,000                        | Broadcast               |
+| Protocol          | Proprietary (Z-Wave Alliance)        | IEEE 802.15.4 + ZigBee        | EnOcean protocol        |
+| Open source       | No (spec available)                  | Yes                           | Partly                  |
 
 ---
 
@@ -283,6 +315,7 @@ Home Assistant (Raspberry Pi / mini PC)
 ## Z-Wave Long Range (LR)
 
 Z-Wave LR (2020) addresses the previous limitations:
+
 - **Up to 1,600 m range** (outdoor, direct connection)
 - **Up to 4,000 nodes** per network
 - **Star topology** (no mesh routing required)

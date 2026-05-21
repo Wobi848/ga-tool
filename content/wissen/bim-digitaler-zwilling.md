@@ -4,7 +4,22 @@ title_en: BIM and the Digital Twin in Building Automation
 slug: bim-digitaler-zwilling
 category: systeme
 subcategory: planung
-tags: [bim, ifc, digitaler-zwilling, buildingsmart, gbxml, revit, archicad, openBIM, cobiebim, digital-twin, as-built, datenpunktliste, facility-management]
+tags:
+  [
+    bim,
+    ifc,
+    digitaler-zwilling,
+    buildingsmart,
+    gbxml,
+    revit,
+    archicad,
+    openBIM,
+    cobiebim,
+    digital-twin,
+    as-built,
+    datenpunktliste,
+    facility-management
+  ]
 difficulty: grundlagen
 area: [ga]
 related: [datenpunktliste, as-built, glt-grundlagen, opc-ua, vdi3814, funktionsbeschreibung]
@@ -20,6 +35,7 @@ lang: de
 ## Was ist BIM?
 
 BIM ist mehr als 3D-CAD. Es enthält:
+
 - **Geometrie**: Räume, Wände, Leitungsführungen, Gerätestandorte
 - **Attribute**: Material, Leistung, Hersteller, Seriennummer
 - **Beziehungen**: Raum → Zone → Anlage → Gebäude
@@ -28,14 +44,14 @@ BIM ist mehr als 3D-CAD. Es enthält:
 
 ## BIM-Level und Reife
 
-| Level | Bezeichnung | Inhalt |
-|---|---|---|
-| LOD 100 | Konzept | Massen, Kubaturen |
-| LOD 200 | Vorentwurf | Ungefähre Geometrie, Systemkonzept |
-| LOD 300 | Ausführungsplanung | Genaue Geometrie, Materialien |
-| LOD 350 | Koordination | Montage-relevante Details, Kollisionsprüfung |
-| LOD 400 | Fertigung | Herstellerdaten, Einbaudetails |
-| LOD 500 | As-Built | Ist-Zustand nach Ausführung, für FM |
+| Level   | Bezeichnung        | Inhalt                                       |
+| ------- | ------------------ | -------------------------------------------- |
+| LOD 100 | Konzept            | Massen, Kubaturen                            |
+| LOD 200 | Vorentwurf         | Ungefähre Geometrie, Systemkonzept           |
+| LOD 300 | Ausführungsplanung | Genaue Geometrie, Materialien                |
+| LOD 350 | Koordination       | Montage-relevante Details, Kollisionsprüfung |
+| LOD 400 | Fertigung          | Herstellerdaten, Einbaudetails               |
+| LOD 500 | As-Built           | Ist-Zustand nach Ausführung, für FM          |
 
 Für GA-Betrieb relevant: **LOD 400–500** — Gerätedaten, Datenpunkte, Kalibrierwerte.
 
@@ -43,21 +59,22 @@ Für GA-Betrieb relevant: **LOD 400–500** — Gerätedaten, Datenpunkte, Kalib
 
 **IFC** (Industry Foundation Classes, ISO 16739) ist das herstellerneutrale Austauschformat. Alle GA-relevanten Systeme haben IFC-Entitäten:
 
-| IFC-Klasse | GA-Relevanz |
-|---|---|
-| IfcSpace | Raum → Zone → GA-Datenpunkt |
-| IfcSensor | Temperaturfühler, CO₂-Sensor |
-| IfcActuator | Ventil, Klappe, Antrieb |
-| IfcController | DDC-Regler |
-| IfcDistributionControlElement | Allgemeines GA-Element |
-| IfcSystem | HLK-Anlage (Heizkreis, RLT) |
-| IfcZone | Regelzone, Brandabschnitt |
+| IFC-Klasse                    | GA-Relevanz                  |
+| ----------------------------- | ---------------------------- |
+| IfcSpace                      | Raum → Zone → GA-Datenpunkt  |
+| IfcSensor                     | Temperaturfühler, CO₂-Sensor |
+| IfcActuator                   | Ventil, Klappe, Antrieb      |
+| IfcController                 | DDC-Regler                   |
+| IfcDistributionControlElement | Allgemeines GA-Element       |
+| IfcSystem                     | HLK-Anlage (Heizkreis, RLT)  |
+| IfcZone                       | Regelzone, Brandabschnitt    |
 
 **gbXML** (Green Building XML) ist ein weiteres Format, spezialisiert auf thermische Simulation und Energieberechnung.
 
 ## BIM in der GA-Praxis
 
 ### Datenpunktliste aus BIM generieren
+
 Statt manueller Excel-Datenpunktliste kann diese aus dem BIM-Modell exportiert werden:
 
 ```
@@ -72,9 +89,11 @@ BIM-Modell (IFC)
 → Automatische Befüllung der Datenpunktliste, Reduzierung von Eingabefehlern.
 
 ### Kollisionsprüfung
+
 BIM erkennt Kollisionen zwischen Lüftungskanälen und Rohrleitungen bereits in der Planung — vor dem Bau. Spart teure Nachbesserungen auf der Baustelle.
 
 ### As-Built Dokumentation
+
 Nach Abnahme wird das BIM-Modell auf den effektiven Einbauzustand aktualisiert → **As-Built-BIM** als lebendige Dokumentation. Basis für FM-Systeme (CAFM).
 
 ## Digitaler Zwilling
@@ -98,23 +117,23 @@ Ein **Digitaler Zwilling** geht über BIM hinaus: Er ist das BIM-Modell **plus E
 
 ### Anwendungen Digitaler Zwilling
 
-| Anwendung | Vorteil |
-|---|---|
-| Fault Detection & Diagnostics (FDD) | Anomalien erkennen, bevor sie zu Ausfällen werden |
-| Energiesimulation | Massnahmen testen ohne Eingriff im Gebäude |
-| Condition Monitoring | Verschleiss von Pumpen/Ventilatoren vorhersagen |
-| Commissioning-Unterstützung | Sollverhalten aus Simulation mit Ist vergleichen |
-| Notfallplanung | Brandausbreitung simulieren, Evakuierungswege optimieren |
+| Anwendung                           | Vorteil                                                  |
+| ----------------------------------- | -------------------------------------------------------- |
+| Fault Detection & Diagnostics (FDD) | Anomalien erkennen, bevor sie zu Ausfällen werden        |
+| Energiesimulation                   | Massnahmen testen ohne Eingriff im Gebäude               |
+| Condition Monitoring                | Verschleiss von Pumpen/Ventilatoren vorhersagen          |
+| Commissioning-Unterstützung         | Sollverhalten aus Simulation mit Ist vergleichen         |
+| Notfallplanung                      | Brandausbreitung simulieren, Evakuierungswege optimieren |
 
 ## Wichtige Standards und Normen
 
-| Standard | Inhalt |
-|---|---|
-| ISO 19650 | BIM-Prozessmanagement, Information Requirements |
-| EN ISO 16739 | IFC-Schema |
-| VDI 3805 | Produktdaten für HVAC-Geräte (Datenaustausch) |
-| SWKI BIM 001 | BIM-Anforderungen für TGA (Schweiz) |
-| COBie | Construction Operations Building Information Exchange — Übergabe Betrieb |
+| Standard     | Inhalt                                                                   |
+| ------------ | ------------------------------------------------------------------------ |
+| ISO 19650    | BIM-Prozessmanagement, Information Requirements                          |
+| EN ISO 16739 | IFC-Schema                                                               |
+| VDI 3805     | Produktdaten für HVAC-Geräte (Datenaustausch)                            |
+| SWKI BIM 001 | BIM-Anforderungen für TGA (Schweiz)                                      |
+| COBie        | Construction Operations Building Information Exchange — Übergabe Betrieb |
 
 ## Herausforderungen in der Praxis
 
@@ -127,6 +146,7 @@ Ein **Digitaler Zwilling** geht über BIM hinaus: Er ist das BIM-Modell **plus E
 ## Einstieg für GA-Inbetriebnehmer
 
 Auch ohne vollständiges BIM profitiert man von BIM-Grundsätzen:
+
 1. **Geräte mit eindeutiger ID** in Datenpunktliste verknüpfen
 2. **Raum-/Zonenreferenz** bei jedem Datenpunkt pflegen
 3. **As-Built-Notizen** digital erfassen (statt handschriftlich)
@@ -141,6 +161,7 @@ In absehbarer Zukunft wird die GA-Datenpunktliste direkt aus dem IFC-Modell bef�
 ## What Is BIM?
 
 BIM is more than 3D CAD. It contains:
+
 - **Geometry**: Rooms, walls, pipe routes, device locations
 - **Attributes**: Material, capacity, manufacturer, serial number
 - **Relationships**: Room → zone → system → building
@@ -149,14 +170,14 @@ BIM is more than 3D CAD. It contains:
 
 ## BIM Levels and Maturity
 
-| Level | Name | Content |
-|-------|------|---------|
-| LOD 100 | Concept | Volumes, massing |
-| LOD 200 | Schematic | Approximate geometry, system concept |
-| LOD 300 | Design development | Accurate geometry, materials |
-| LOD 350 | Coordination | Assembly details, clash detection |
-| LOD 400 | Fabrication | Manufacturer data, installation details |
-| LOD 500 | As-Built | Actual installed state, for FM |
+| Level   | Name               | Content                                 |
+| ------- | ------------------ | --------------------------------------- |
+| LOD 100 | Concept            | Volumes, massing                        |
+| LOD 200 | Schematic          | Approximate geometry, system concept    |
+| LOD 300 | Design development | Accurate geometry, materials            |
+| LOD 350 | Coordination       | Assembly details, clash detection       |
+| LOD 400 | Fabrication        | Manufacturer data, installation details |
+| LOD 500 | As-Built           | Actual installed state, for FM          |
 
 Relevant for BA operation: **LOD 400–500** — device data, data points, calibration values.
 
@@ -164,21 +185,22 @@ Relevant for BA operation: **LOD 400–500** — device data, data points, calib
 
 **IFC** (Industry Foundation Classes, ISO 16739) is the vendor-neutral exchange format. All BA-relevant systems have IFC entities:
 
-| IFC Class | BA Relevance |
-|-----------|-------------|
-| IfcSpace | Room → zone → BA data point |
-| IfcSensor | Temperature sensor, CO₂ sensor |
-| IfcActuator | Valve, damper, actuator |
-| IfcController | DDC controller |
-| IfcDistributionControlElement | General BA element |
-| IfcSystem | HVAC system (heating circuit, AHU) |
-| IfcZone | Control zone, fire compartment |
+| IFC Class                     | BA Relevance                       |
+| ----------------------------- | ---------------------------------- |
+| IfcSpace                      | Room → zone → BA data point        |
+| IfcSensor                     | Temperature sensor, CO₂ sensor     |
+| IfcActuator                   | Valve, damper, actuator            |
+| IfcController                 | DDC controller                     |
+| IfcDistributionControlElement | General BA element                 |
+| IfcSystem                     | HVAC system (heating circuit, AHU) |
+| IfcZone                       | Control zone, fire compartment     |
 
 **gbXML** (Green Building XML) is another format, specialised for thermal simulation and energy calculation.
 
 ## BIM in BA Practice
 
 ### Generating Data Point Lists from BIM
+
 Instead of a manual Excel data point list, it can be exported from the BIM model:
 
 ```
@@ -193,9 +215,11 @@ BIM model (IFC)
 → Automated population of the data point list, reduced data entry errors.
 
 ### Clash Detection
+
 BIM identifies collisions between ventilation ducts and pipework during the design phase — before construction. Avoids costly on-site rework.
 
 ### As-Built Documentation
+
 After acceptance, the BIM model is updated to the actual installed state → **as-built BIM** as living documentation. Basis for FM systems (CAFM).
 
 ## Digital Twin
@@ -219,23 +243,23 @@ A **digital twin** goes beyond BIM: it is the BIM model **plus real-time sensor 
 
 ### Digital Twin Applications
 
-| Application | Benefit |
-|-------------|---------|
-| Fault Detection & Diagnostics (FDD) | Detect anomalies before they cause failures |
-| Energy simulation | Test measures without intervening in the real building |
-| Condition monitoring | Predict wear on pumps and fans |
-| Commissioning support | Compare simulated with actual behaviour |
-| Emergency planning | Simulate fire spread, optimise evacuation routes |
+| Application                         | Benefit                                                |
+| ----------------------------------- | ------------------------------------------------------ |
+| Fault Detection & Diagnostics (FDD) | Detect anomalies before they cause failures            |
+| Energy simulation                   | Test measures without intervening in the real building |
+| Condition monitoring                | Predict wear on pumps and fans                         |
+| Commissioning support               | Compare simulated with actual behaviour                |
+| Emergency planning                  | Simulate fire spread, optimise evacuation routes       |
 
 ## Key Standards
 
-| Standard | Content |
-|----------|---------|
-| ISO 19650 | BIM process management, information requirements |
-| EN ISO 16739 | IFC schema |
-| VDI 3805 | Product data for HVAC devices (data exchange) |
-| SWKI BIM 001 | BIM requirements for building services (Switzerland) |
-| COBie | Construction Operations Building Information Exchange — operations handover |
+| Standard     | Content                                                                     |
+| ------------ | --------------------------------------------------------------------------- |
+| ISO 19650    | BIM process management, information requirements                            |
+| EN ISO 16739 | IFC schema                                                                  |
+| VDI 3805     | Product data for HVAC devices (data exchange)                               |
+| SWKI BIM 001 | BIM requirements for building services (Switzerland)                        |
+| COBie        | Construction Operations Building Information Exchange — operations handover |
 
 ## Practical Challenges
 
@@ -248,6 +272,7 @@ A **digital twin** goes beyond BIM: it is the BIM model **plus real-time sensor 
 ## Getting Started for BA Commissioning Engineers
 
 Even without a complete BIM model, BIM principles bring benefits:
+
 1. **Link devices with a unique ID** in the data point list
 2. **Maintain a room/zone reference** for every data point
 3. **Record as-built notes** digitally (instead of handwritten)

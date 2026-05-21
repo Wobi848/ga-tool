@@ -4,7 +4,22 @@ title_en: District Heating — Transfer Station and BA Integration
 slug: fernwaerme
 category: heizung
 subcategory: erzeuger
-tags: [fernwärme, übergabestation, primärkreis, sekundärkreis, wärmetauscher, übergabepunkt, heizkurve, differenzdruck, volumenstrom, wärmemengenzähler, fernwärme-anschluss, substationsregelung, leistungssteuerung]
+tags:
+  [
+    fernwärme,
+    übergabestation,
+    primärkreis,
+    sekundärkreis,
+    wärmetauscher,
+    übergabepunkt,
+    heizkurve,
+    differenzdruck,
+    volumenstrom,
+    wärmemengenzähler,
+    fernwärme-anschluss,
+    substationsregelung,
+    leistungssteuerung
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [heizung-grundlagen, waermemengenzaehler, hydraulische-schaltungen, pid-regler, heizkurve]
@@ -39,23 +54,25 @@ Fernwärmenetz (Primärseite)
 
 ### Primärseite (Fernwärmenetz)
 
-| Komponente           | Funktion                                       |
-|----------------------|------------------------------------------------|
-| Hauptabsperrventil   | Trennt Gebäude vom Netz                        |
-| Schmutzfänger        | Schutz der Armaturen                           |
+| Komponente             | Funktion                                     |
+| ---------------------- | -------------------------------------------- |
+| Hauptabsperrventil     | Trennt Gebäude vom Netz                      |
+| Schmutzfänger          | Schutz der Armaturen                         |
 | Primärdurchflussmesser | Abrechnung (geeichter WMZ)                   |
-| Regelventil (Primär) | Steuert Wärmeübertrag via Primärvolumenstrom   |
-| Rückflussbegrenzer   | Begrenzt RL-Temp (Vertragsanforderung!)        |
+| Regelventil (Primär)   | Steuert Wärmeübertrag via Primärvolumenstrom |
+| Rückflussbegrenzer     | Begrenzt RL-Temp (Vertragsanforderung!)      |
 
 ### Wärmetauscher
 
 Plattentauscher trennt Primär- von Sekundärnetz:
+
 - Primär und Sekundär sind nicht hydraulisch verbunden (kein Flüssigkeitsaustausch)
 - Leistung abhängig von: Primärvolumenstrom, Temperaturdifferenz, WT-Grösse
 
 ### Sekundärseite
 
 Ab dem Wärmetauscher ist alles "normale" Hausanlage:
+
 - Heizkreis-Pumpe, Mischventil, Heizkörper/FBH
 - Warmwasser-Speicher oder Durchlauferhitzer
 - Lüftungsanlage-Lufterhitzer
@@ -76,7 +93,7 @@ Typisch: Primär-RL ≤ 45–55 °C (je nach Vertrag)
 Primär-Regelventil steuert Primärvolumenstrom:
   → Mehr Primärflow = mehr Wärmeleistung
   → Aber: wenn Primär-RL zu warm → Flow reduzieren
-  
+
 Kaskade:
   Sekundär-VL-Regler (Heizkurve) → Primär-Sollflow
                                          ↓
@@ -88,18 +105,18 @@ Kaskade:
 
 ## GA-Datenpunkte Übergabestation
 
-| Datenpunkt                   | Typ | Einheit | Beschreibung                    |
-|------------------------------|-----|---------|---------------------------------|
-| Primär VL-Temperatur         | AI  | °C      | Fernwärme-Vorlauf               |
-| Primär RL-Temperatur         | AI  | °C      | Fernwärme-Rücklauf (Pflicht!)   |
-| Primär Volumenstrom          | AI  | m³/h    | Durchfluss Primär               |
-| Primär Wärmemenge            | AI  | kWh     | Zählerstand (M-Bus)             |
-| Primär Regelventil           | AO  | %       | 0–10 V Stellsignal              |
-| Sekundär VL-Temperatur       | AI  | °C      | Hausanlage Vorlauf              |
-| Sekundär RL-Temperatur       | AI  | °C      | Hausanlage Rücklauf             |
-| Sekundär Leistung            | AV  | kW      | Berechnete Sekundärleistung     |
-| Alarm RL-Temp überschritten  | BI  | —       | Primär-RL > Grenzwert           |
-| Alarm Durchfluss 0           | BI  | —       | Keine Wärmezufuhr               |
+| Datenpunkt                  | Typ | Einheit | Beschreibung                  |
+| --------------------------- | --- | ------- | ----------------------------- |
+| Primär VL-Temperatur        | AI  | °C      | Fernwärme-Vorlauf             |
+| Primär RL-Temperatur        | AI  | °C      | Fernwärme-Rücklauf (Pflicht!) |
+| Primär Volumenstrom         | AI  | m³/h    | Durchfluss Primär             |
+| Primär Wärmemenge           | AI  | kWh     | Zählerstand (M-Bus)           |
+| Primär Regelventil          | AO  | %       | 0–10 V Stellsignal            |
+| Sekundär VL-Temperatur      | AI  | °C      | Hausanlage Vorlauf            |
+| Sekundär RL-Temperatur      | AI  | °C      | Hausanlage Rücklauf           |
+| Sekundär Leistung           | AV  | kW      | Berechnete Sekundärleistung   |
+| Alarm RL-Temp überschritten | BI  | —       | Primär-RL > Grenzwert         |
+| Alarm Durchfluss 0          | BI  | —       | Keine Wärmezufuhr             |
 
 ---
 
@@ -164,23 +181,25 @@ District heating network (primary side)
 
 ### Primary Side (District Heating Network)
 
-| Component | Function |
-|-----------|---------|
-| Main shut-off valve | Isolates building from the network |
-| Y-strainer | Protects valves and fittings |
-| Primary flow meter | Billing (calibrated heat meter) |
-| Control valve (primary) | Controls heat transfer via primary flow rate |
+| Component                  | Function                                             |
+| -------------------------- | ---------------------------------------------------- |
+| Main shut-off valve        | Isolates building from the network                   |
+| Y-strainer                 | Protects valves and fittings                         |
+| Primary flow meter         | Billing (calibrated heat meter)                      |
+| Control valve (primary)    | Controls heat transfer via primary flow rate         |
 | Return temperature limiter | Limits return temperature (contractual requirement!) |
 
 ### Heat Exchanger
 
 Plate heat exchanger separates the primary and secondary network:
+
 - Primary and secondary are not hydraulically connected (no fluid exchange)
 - Output depends on: primary flow rate, temperature differential, heat exchanger size
 
 ### Secondary Side
 
 Everything downstream of the heat exchanger is a conventional building installation:
+
 - Heating circuit pump, mixing valve, radiators/underfloor heating
 - Domestic hot water storage or instantaneous heater
 - AHU air heater coil
@@ -201,7 +220,7 @@ Typical: primary return ≤ 45–55 °C (depending on contract)
 Primary control valve regulates primary flow rate:
   → More primary flow = more heat output
   → But: if primary return too warm → reduce flow
-  
+
 Cascade:
   Secondary flow temp controller (heating curve) → primary target flow
                                                          ↓
@@ -213,18 +232,18 @@ Cascade:
 
 ## BA Data Points — Transfer Station
 
-| Data point | Type | Unit | Description |
-|------------|------|------|-------------|
-| Primary supply temperature | AI | °C | District heating supply |
-| Primary return temperature | AI | °C | District heating return (mandatory!) |
-| Primary flow rate | AI | m³/h | Primary flow |
-| Primary heat energy | AI | kWh | Meter reading (M-Bus) |
-| Primary control valve | AO | % | 0–10 V control signal |
-| Secondary supply temperature | AI | °C | Building supply |
-| Secondary return temperature | AI | °C | Building return |
-| Secondary power | AV | kW | Calculated secondary output |
-| Alarm: return temp exceeded | BI | — | Primary return > limit |
-| Alarm: flow = 0 | BI | — | No heat supply |
+| Data point                   | Type | Unit | Description                          |
+| ---------------------------- | ---- | ---- | ------------------------------------ |
+| Primary supply temperature   | AI   | °C   | District heating supply              |
+| Primary return temperature   | AI   | °C   | District heating return (mandatory!) |
+| Primary flow rate            | AI   | m³/h | Primary flow                         |
+| Primary heat energy          | AI   | kWh  | Meter reading (M-Bus)                |
+| Primary control valve        | AO   | %    | 0–10 V control signal                |
+| Secondary supply temperature | AI   | °C   | Building supply                      |
+| Secondary return temperature | AI   | °C   | Building return                      |
+| Secondary power              | AV   | kW   | Calculated secondary output          |
+| Alarm: return temp exceeded  | BI   | —    | Primary return > limit               |
+| Alarm: flow = 0              | BI   | —    | No heat supply                       |
 
 ---
 

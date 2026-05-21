@@ -4,7 +4,23 @@ title_en: TAB Protocol — Technical Commissioning Acceptance
 slug: tab-protokoll
 category: dokumentation
 subcategory: ibn
-tags: [tab, technische-abnahme, abnahme, protokoll, inbetriebnahme, übergabe, mängel, prüfung, regelkreis, alarm, visualisierung, dokumentation, funktionstest, abnahmeliste]
+tags:
+  [
+    tab,
+    technische-abnahme,
+    abnahme,
+    protokoll,
+    inbetriebnahme,
+    übergabe,
+    mängel,
+    prüfung,
+    regelkreis,
+    alarm,
+    visualisierung,
+    dokumentation,
+    funktionstest,
+    abnahmeliste
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, glt-grundlagen, alarmmanagement]
@@ -50,45 +66,45 @@ Protokoll-Nr.:    TAB-2026-001
 
 Jeder DPL-Eintrag wird abgehakt:
 
-| ID              | Typ | Beschreibung                  | Messwert | OK | Bemerkung         |
-|-----------------|-----|-------------------------------|----------|----|-------------------|
-| HZG-K1-VL-T-IST | AI  | Vorlauftemp Heizkreis 1      | 45.3 °C  | ✓  |                   |
-| HZG-K1-P1-EIN   | DO  | Pumpe HK1 EIN/AUS            | EIN      | ✓  |                   |
-| HZG-K1-P1-LFG   | DI  | Pumpe HK1 Laufmeldung        | 1        | ✓  |                   |
-| HZG-K1-P1-STR   | DI  | Pumpe HK1 Störmeldung        | 0        | ✓  |                   |
-| LFT-RLT1-FA1-STR| DI  | Filter-Alarm RLT1            | 0        | ✗  | Filter neu, OK    |
+| ID               | Typ | Beschreibung            | Messwert | OK  | Bemerkung      |
+| ---------------- | --- | ----------------------- | -------- | --- | -------------- |
+| HZG-K1-VL-T-IST  | AI  | Vorlauftemp Heizkreis 1 | 45.3 °C  | ✓   |                |
+| HZG-K1-P1-EIN    | DO  | Pumpe HK1 EIN/AUS       | EIN      | ✓   |                |
+| HZG-K1-P1-LFG    | DI  | Pumpe HK1 Laufmeldung   | 1        | ✓   |                |
+| HZG-K1-P1-STR    | DI  | Pumpe HK1 Störmeldung   | 0        | ✓   |                |
+| LFT-RLT1-FA1-STR | DI  | Filter-Alarm RLT1       | 0        | ✗   | Filter neu, OK |
 
 ### Teil 3: Regelkreise
 
-| Regelkreis            | Sollwert  | Istwert   | Abweichung | OK | Bemerkung           |
-|-----------------------|-----------|-----------|------------|----|---------------------|
-| Raumtemperatur EG Ost | 22.0 °C   | 21.8 °C   | −0.2 K     | ✓  | Innerhalb Toleranz  |
-| Vorlauf HK1           | 45.0 °C   | 44.9 °C   | −0.1 K     | ✓  |                     |
-| Zuluft RLT1           | 18.0 °C   | 18.5 °C   | +0.5 K     | ✓  | OK                  |
-| Differenzdruck Lüftung| 100 Pa    | 98 Pa     | −2 Pa      | ✓  |                     |
+| Regelkreis             | Sollwert | Istwert | Abweichung | OK  | Bemerkung          |
+| ---------------------- | -------- | ------- | ---------- | --- | ------------------ |
+| Raumtemperatur EG Ost  | 22.0 °C  | 21.8 °C | −0.2 K     | ✓   | Innerhalb Toleranz |
+| Vorlauf HK1            | 45.0 °C  | 44.9 °C | −0.1 K     | ✓   |                    |
+| Zuluft RLT1            | 18.0 °C  | 18.5 °C | +0.5 K     | ✓   | OK                 |
+| Differenzdruck Lüftung | 100 Pa   | 98 Pa   | −2 Pa      | ✓   |                    |
 
 ### Teil 4: Alarmprüfung
 
 Jeder Alarm wird bewusst ausgelöst und geprüft:
 
-| Alarm                   | Auslösung         | Meldung in GLT | Eskalation | OK |
-|-------------------------|-------------------|----------------|------------|----|
-| Pumpe HK1 Störung       | Motorschutz ausgelöst | Kritisch → Email | −         | ✓  |
-| Frostschutz RLT1        | Zuluft T < 5 °C   | Kritisch        | SMS        | ✓  |
-| Filter verschmutzt RLT1 | Δp > 300 Pa       | Mittel          | −          | ✓  |
-| Kommunikation DDC-01    | LAN-Kabel ziehen  | Hoch → 60s      | −          | ✓  |
+| Alarm                   | Auslösung             | Meldung in GLT   | Eskalation | OK  |
+| ----------------------- | --------------------- | ---------------- | ---------- | --- |
+| Pumpe HK1 Störung       | Motorschutz ausgelöst | Kritisch → Email | −          | ✓   |
+| Frostschutz RLT1        | Zuluft T < 5 °C       | Kritisch         | SMS        | ✓   |
+| Filter verschmutzt RLT1 | Δp > 300 Pa           | Mittel           | −          | ✓   |
+| Kommunikation DDC-01    | LAN-Kabel ziehen      | Hoch → 60s       | −          | ✓   |
 
 ### Teil 5: Visualisierung
 
 Prüfung der GLT-Visualisierung:
 
-| Bild                    | Datenpunkte sichtbar | Aktuell | OK |
-|-------------------------|---------------------|---------|-----|
-| Übersicht Heizung       | ✓                   | ✓       | ✓  |
-| Detail Heizkreis 1      | ✓                   | ✓       | ✓  |
-| Alarmliste              | ✓                   | ✓       | ✓  |
-| Trendbilder             | ✓ (7 Trends)        | ✓       | ✓  |
-| Zeitprogramme           | ✓                   | ✓       | ✓  |
+| Bild               | Datenpunkte sichtbar | Aktuell | OK  |
+| ------------------ | -------------------- | ------- | --- |
+| Übersicht Heizung  | ✓                    | ✓       | ✓   |
+| Detail Heizkreis 1 | ✓                    | ✓       | ✓   |
+| Alarmliste         | ✓                    | ✓       | ✓   |
+| Trendbilder        | ✓ (7 Trends)         | ✓       | ✓   |
+| Zeitprogramme      | ✓                    | ✓       | ✓   |
 
 ### Teil 6: Dokumentation-Checkliste
 
@@ -102,11 +118,11 @@ Prüfung der GLT-Visualisierung:
 
 ### Teil 7: Mängelliste
 
-| Nr. | Mangel                        | Verantwortlich | Termin     | Status    |
-|-----|-------------------------------|----------------|------------|-----------|
-| 1   | Präsenzmelder Büro 205 falsch | GA-Firma AG    | 28.05.2026 | Offen     |
-| 2   | Trend Aussentemp fehlt in GLT | GA-Firma AG    | 21.05.2026 | Offen     |
-| 3   | Bedienungsanleitung ausstehend | GA-Firma AG   | 30.05.2026 | Offen     |
+| Nr. | Mangel                         | Verantwortlich | Termin     | Status |
+| --- | ------------------------------ | -------------- | ---------- | ------ |
+| 1   | Präsenzmelder Büro 205 falsch  | GA-Firma AG    | 28.05.2026 | Offen  |
+| 2   | Trend Aussentemp fehlt in GLT  | GA-Firma AG    | 21.05.2026 | Offen  |
+| 3   | Bedienungsanleitung ausstehend | GA-Firma AG    | 30.05.2026 | Offen  |
 
 ---
 
@@ -167,45 +183,45 @@ Protocol no.:       TAB-2026-001
 
 Each DPL entry is checked off:
 
-| ID | Type | Description | Reading | OK | Note |
-|----|------|-------------|---------|----|----|
-| HTG-C1-FL-T-ACT | AI | Flow temp heating circuit 1 | 45.3 °C | ✓ | |
-| HTG-C1-P1-ON | DO | Pump HC1 ON/OFF | ON | ✓ | |
-| HTG-C1-P1-RUN | DI | Pump HC1 run feedback | 1 | ✓ | |
-| HTG-C1-P1-FLT | DI | Pump HC1 fault | 0 | ✓ | |
-| AHU-RLT1-FA1-FLT | DI | Filter alarm AHU1 | 0 | ✗ | New filter, OK |
+| ID               | Type | Description                 | Reading | OK  | Note           |
+| ---------------- | ---- | --------------------------- | ------- | --- | -------------- |
+| HTG-C1-FL-T-ACT  | AI   | Flow temp heating circuit 1 | 45.3 °C | ✓   |                |
+| HTG-C1-P1-ON     | DO   | Pump HC1 ON/OFF             | ON      | ✓   |                |
+| HTG-C1-P1-RUN    | DI   | Pump HC1 run feedback       | 1       | ✓   |                |
+| HTG-C1-P1-FLT    | DI   | Pump HC1 fault              | 0       | ✓   |                |
+| AHU-RLT1-FA1-FLT | DI   | Filter alarm AHU1           | 0       | ✗   | New filter, OK |
 
 ### Part 3: Control Loops
 
-| Control Loop | Setpoint | Actual | Deviation | OK | Notes |
-|-------------|---------|--------|-----------|----|----|
-| Room temp GF East | 22.0 °C | 21.8 °C | −0.2 K | ✓ | Within tolerance |
-| Flow temp HC1 | 45.0 °C | 44.9 °C | −0.1 K | ✓ | |
-| Supply air AHU1 | 18.0 °C | 18.5 °C | +0.5 K | ✓ | OK |
-| Duct pressure ventilation | 100 Pa | 98 Pa | −2 Pa | ✓ | |
+| Control Loop              | Setpoint | Actual  | Deviation | OK  | Notes            |
+| ------------------------- | -------- | ------- | --------- | --- | ---------------- |
+| Room temp GF East         | 22.0 °C  | 21.8 °C | −0.2 K    | ✓   | Within tolerance |
+| Flow temp HC1             | 45.0 °C  | 44.9 °C | −0.1 K    | ✓   |                  |
+| Supply air AHU1           | 18.0 °C  | 18.5 °C | +0.5 K    | ✓   | OK               |
+| Duct pressure ventilation | 100 Pa   | 98 Pa   | −2 Pa     | ✓   |                  |
 
 ### Part 4: Alarm Testing
 
 Each alarm is deliberately triggered and verified:
 
-| Alarm | Trigger | Message in BMS | Escalation | OK |
-|-------|---------|----------------|------------|-----|
-| Pump HC1 fault | Motor protection tripped | Critical → Email | — | ✓ |
-| Frost protection AHU1 | Supply air T < 5 °C | Critical | SMS | ✓ |
-| Filter dirty AHU1 | Δp > 300 Pa | Medium | — | ✓ |
-| Communication DDC-01 | LAN cable unplugged | High → 60 s | — | ✓ |
+| Alarm                 | Trigger                  | Message in BMS   | Escalation | OK  |
+| --------------------- | ------------------------ | ---------------- | ---------- | --- |
+| Pump HC1 fault        | Motor protection tripped | Critical → Email | —          | ✓   |
+| Frost protection AHU1 | Supply air T < 5 °C      | Critical         | SMS        | ✓   |
+| Filter dirty AHU1     | Δp > 300 Pa              | Medium           | —          | ✓   |
+| Communication DDC-01  | LAN cable unplugged      | High → 60 s      | —          | ✓   |
 
 ### Part 5: Visualisation
 
 Check of BMS visualisation screens:
 
-| Screen | Data points visible | Up to date | OK |
-|--------|-------------------|------------|-----|
-| Heating overview | ✓ | ✓ | ✓ |
-| Heating circuit 1 detail | ✓ | ✓ | ✓ |
-| Alarm list | ✓ | ✓ | ✓ |
-| Trend displays | ✓ (7 trends) | ✓ | ✓ |
-| Time schedules | ✓ | ✓ | ✓ |
+| Screen                   | Data points visible | Up to date | OK  |
+| ------------------------ | ------------------- | ---------- | --- |
+| Heating overview         | ✓                   | ✓          | ✓   |
+| Heating circuit 1 detail | ✓                   | ✓          | ✓   |
+| Alarm list               | ✓                   | ✓          | ✓   |
+| Trend displays           | ✓ (7 trends)        | ✓          | ✓   |
+| Time schedules           | ✓                   | ✓          | ✓   |
 
 ### Part 6: Documentation Checklist
 
@@ -219,11 +235,11 @@ Check of BMS visualisation screens:
 
 ### Part 7: Defect List
 
-| No. | Defect | Responsible | Deadline | Status |
-|-----|--------|------------|---------|--------|
-| 1 | Presence detector office 205 incorrect | BA Company Ltd | 28.05.2026 | Open |
-| 2 | Outdoor temp trend missing in BMS | BA Company Ltd | 21.05.2026 | Open |
-| 3 | Operating manual outstanding | BA Company Ltd | 30.05.2026 | Open |
+| No. | Defect                                 | Responsible    | Deadline   | Status |
+| --- | -------------------------------------- | -------------- | ---------- | ------ |
+| 1   | Presence detector office 205 incorrect | BA Company Ltd | 28.05.2026 | Open   |
+| 2   | Outdoor temp trend missing in BMS      | BA Company Ltd | 21.05.2026 | Open   |
+| 3   | Operating manual outstanding           | BA Company Ltd | 30.05.2026 | Open   |
 
 ---
 

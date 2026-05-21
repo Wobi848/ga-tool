@@ -4,7 +4,25 @@ title_en: Signal Types in BA — AI, AO, DI, DO
 slug: signaltypen
 category: signale
 subcategory: grundlagen
-tags: [ai, ao, di, do, analog-input, analog-output, digital-input, digital-output, 0-10v, 4-20ma, pwm, potentialfrei, namur, signaltyp, verdrahtung, sensoranschluss]
+tags:
+  [
+    ai,
+    ao,
+    di,
+    do,
+    analog-input,
+    analog-output,
+    digital-input,
+    digital-output,
+    0-10v,
+    4-20ma,
+    pwm,
+    potentialfrei,
+    namur,
+    signaltyp,
+    verdrahtung,
+    sensoranschluss
+  ]
 difficulty: grundlagen
 area: [ga, elektro, hlk]
 related: [frequenzumrichter, pid-regler, modbus]
@@ -19,12 +37,12 @@ In der Gebäudeautomation kommunizieren Sensoren, Aktoren und DDCs über **stand
 
 ## Übersicht der 4 Grundtypen
 
-| Kürzel | Name            | Richtung          | Beispiele                                    |
-|--------|-----------------|-------------------|----------------------------------------------|
-| **AI** | Analog Input    | Sensor → DDC      | Temperaturfühler, Drucksensor, Feuchte       |
-| **AO** | Analog Output   | DDC → Aktor       | Ventilstellantrieb, FU-Drehzahlvorgabe       |
-| **DI** | Digital Input   | Sensor → DDC      | Störmeldung, Laufmeldung, Endschalter        |
-| **DO** | Digital Output  | DDC → Aktor       | Pumpe Ein/Aus, Klappe Auf/Zu, Relais         |
+| Kürzel | Name           | Richtung     | Beispiele                              |
+| ------ | -------------- | ------------ | -------------------------------------- |
+| **AI** | Analog Input   | Sensor → DDC | Temperaturfühler, Drucksensor, Feuchte |
+| **AO** | Analog Output  | DDC → Aktor  | Ventilstellantrieb, FU-Drehzahlvorgabe |
+| **DI** | Digital Input  | Sensor → DDC | Störmeldung, Laufmeldung, Endschalter  |
+| **DO** | Digital Output | DDC → Aktor  | Pumpe Ein/Aus, Klappe Auf/Zu, Relais   |
 
 ---
 
@@ -54,11 +72,11 @@ In der Gebäudeautomation kommunizieren Sensoren, Aktoren und DDCs über **stand
 
 Kein Strom/Spannungssignal — direkter Widerstandsanschluss an DDC-Eingang:
 
-| Typ    | Widerstand bei 0 °C | Typ. Einsatz                     |
-|--------|---------------------|----------------------------------|
-| PT100  | 100 Ω               | Industrie, Labor (genauer)       |
+| Typ    | Widerstand bei 0 °C | Typ. Einsatz                          |
+| ------ | ------------------- | ------------------------------------- |
+| PT100  | 100 Ω               | Industrie, Labor (genauer)            |
 | PT1000 | 1000 Ω              | **GA Standard** (Raum, Kanal, Aussen) |
-| NTC    | typisch 10 kΩ       | Einfache Raumfühler, Kostengünstig |
+| NTC    | typisch 10 kΩ       | Einfache Raumfühler, Kostengünstig    |
 
 - **PT1000 hat 10× mehr Widerstandsänderung** als PT100 → weniger empfindlich auf Leitungswiderstand → besser für GA-Feldverdrahtung
 - **4-Draht-Anschluss** (Kelvin) für höchste Genauigkeit (eliminiert Leitungswiderstand)
@@ -140,26 +158,26 @@ DDC +24V ──── Kontakt ──── DDC DI-Eingang
 
 ## Signalvergleich auf einen Blick
 
-| Eigenschaft           | 0–10 V | 4–20 mA | PT1000 | Potentialfrei |
-|-----------------------|--------|---------|--------|---------------|
-| Kabelbrucherkennung   | ❌      | ✅       | ❌      | ❌             |
-| EMV-Störfestigkeit    | Mittel | **Hoch** | Mittel | Mittel        |
-| Leitungslänge         | ~100 m | >500 m  | ~100 m | >500 m        |
-| Anschlussaufwand      | Gering | Mittel  | Mittel | Gering        |
-| Kosten Sensor         | Gering | Mittel  | Gering | Gering        |
+| Eigenschaft         | 0–10 V | 4–20 mA  | PT1000 | Potentialfrei |
+| ------------------- | ------ | -------- | ------ | ------------- |
+| Kabelbrucherkennung | ❌     | ✅       | ❌     | ❌            |
+| EMV-Störfestigkeit  | Mittel | **Hoch** | Mittel | Mittel        |
+| Leitungslänge       | ~100 m | >500 m   | ~100 m | >500 m        |
+| Anschlussaufwand    | Gering | Mittel   | Mittel | Gering        |
+| Kosten Sensor       | Gering | Mittel   | Gering | Gering        |
 
 ---
 
 ## Typische Verdrahtungsfehler
 
-| Fehler                          | Symptom                                       | Ursache                              |
-|---------------------------------|-----------------------------------------------|--------------------------------------|
-| 0–10 V statt 4–20 mA parametriert | Wert immer 0 oder falsch skaliert           | Falscher Eingangstyp an DDC          |
-| Kontakt an 230 V statt DDC-Hilfsspannung | DDC-Eingang zerstört              | Fremdpotenzial am DI                 |
-| PT100 statt PT1000 eingebaut   | Temperatur massiv falsch (Faktor ~10)         | Falscher Fühlertyp                   |
-| Schirmung beidseitig geerdet   | Brummschleife, Messwert schwankt              | Schirm nur einseitig erden!          |
-| FU direkt ans DDC-Relais       | Relais brennt durch (Anlaufstrom!)            | Motorschütz zwischenschalten         |
-| Fail-safe nicht projektiert    | Ventil bleibt offen bei Stromausfall          | Fail-safe-Stellung im Antrieb setzen |
+| Fehler                                   | Symptom                               | Ursache                              |
+| ---------------------------------------- | ------------------------------------- | ------------------------------------ |
+| 0–10 V statt 4–20 mA parametriert        | Wert immer 0 oder falsch skaliert     | Falscher Eingangstyp an DDC          |
+| Kontakt an 230 V statt DDC-Hilfsspannung | DDC-Eingang zerstört                  | Fremdpotenzial am DI                 |
+| PT100 statt PT1000 eingebaut             | Temperatur massiv falsch (Faktor ~10) | Falscher Fühlertyp                   |
+| Schirmung beidseitig geerdet             | Brummschleife, Messwert schwankt      | Schirm nur einseitig erden!          |
+| FU direkt ans DDC-Relais                 | Relais brennt durch (Anlaufstrom!)    | Motorschütz zwischenschalten         |
+| Fail-safe nicht projektiert              | Ventil bleibt offen bei Stromausfall  | Fail-safe-Stellung im Antrieb setzen |
 
 ## Normen
 
@@ -174,12 +192,12 @@ In building automation, sensors, actuators and DDCs communicate via **standardis
 
 ## Overview of the 4 Basic Types
 
-| Abbrev. | Name | Direction | Examples |
-|---------|------|---------|---------|
-| **AI** | Analogue Input | Sensor → DDC | Temperature sensor, pressure sensor, humidity |
-| **AO** | Analogue Output | DDC → actuator | Valve actuator, VSD speed setpoint |
-| **DI** | Digital Input | Sensor → DDC | Fault signal, run feedback, limit switch |
-| **DO** | Digital Output | DDC → actuator | Pump on/off, damper open/close, relay |
+| Abbrev. | Name            | Direction      | Examples                                      |
+| ------- | --------------- | -------------- | --------------------------------------------- |
+| **AI**  | Analogue Input  | Sensor → DDC   | Temperature sensor, pressure sensor, humidity |
+| **AO**  | Analogue Output | DDC → actuator | Valve actuator, VSD speed setpoint            |
+| **DI**  | Digital Input   | Sensor → DDC   | Fault signal, run feedback, limit switch      |
+| **DO**  | Digital Output  | DDC → actuator | Pump on/off, damper open/close, relay         |
 
 ---
 
@@ -209,11 +227,11 @@ In building automation, sensors, actuators and DDCs communicate via **standardis
 
 Not a current/voltage signal — direct resistance connection to DDC input:
 
-| Type | Resistance at 0 °C | Typical use |
-|------|------------------|------------|
-| PT100 | 100 Ω | Industry, laboratory (more accurate) |
-| PT1000 | 1000 Ω | **BA standard** (room, duct, outdoor) |
-| NTC | typically 10 kΩ | Simple room sensors, low cost |
+| Type   | Resistance at 0 °C | Typical use                           |
+| ------ | ------------------ | ------------------------------------- |
+| PT100  | 100 Ω              | Industry, laboratory (more accurate)  |
+| PT1000 | 1000 Ω             | **BA standard** (room, duct, outdoor) |
+| NTC    | typically 10 kΩ    | Simple room sensors, low cost         |
 
 - **PT1000 has 10× more resistance change** than PT100 → less sensitive to cable resistance → better for BA field wiring
 - **4-wire connection** (Kelvin) for highest accuracy (eliminates cable resistance)
@@ -295,26 +313,26 @@ DDC +24 V ──── Contact ──── DDC DI input
 
 ## Signal Comparison at a Glance
 
-| Property | 0–10 V | 4–20 mA | PT1000 | Volt-free |
-|---------|--------|---------|--------|----------|
-| Cable break detection | ❌ | ✅ | ❌ | ❌ |
-| EMC immunity | Medium | **High** | Medium | Medium |
-| Cable length | ~100 m | >500 m | ~100 m | >500 m |
-| Wiring effort | Low | Medium | Medium | Low |
-| Sensor cost | Low | Medium | Low | Low |
+| Property              | 0–10 V | 4–20 mA  | PT1000 | Volt-free |
+| --------------------- | ------ | -------- | ------ | --------- |
+| Cable break detection | ❌     | ✅       | ❌     | ❌        |
+| EMC immunity          | Medium | **High** | Medium | Medium    |
+| Cable length          | ~100 m | >500 m   | ~100 m | >500 m    |
+| Wiring effort         | Low    | Medium   | Medium | Low       |
+| Sensor cost           | Low    | Medium   | Low    | Low       |
 
 ---
 
 ## Typical Wiring Errors
 
-| Error | Symptom | Cause |
-|-------|---------|-------|
-| 0–10 V configured instead of 4–20 mA | Value always 0 or wrong scaling | Wrong input type at DDC |
-| Contact connected to 230 V instead of DDC auxiliary voltage | DDC input destroyed | External voltage on DI |
-| PT100 installed instead of PT1000 | Temperature massively wrong (factor ~10) | Wrong sensor type |
-| Shield earthed at both ends | Hum loop, measured value fluctuates | Earth shield at one end only! |
-| VSD connected directly to DDC relay | Relay burns out (inrush current!) | Insert motor contactor |
-| Fail-safe not configured | Valve stays open on power failure | Set fail-safe position in actuator |
+| Error                                                       | Symptom                                  | Cause                              |
+| ----------------------------------------------------------- | ---------------------------------------- | ---------------------------------- |
+| 0–10 V configured instead of 4–20 mA                        | Value always 0 or wrong scaling          | Wrong input type at DDC            |
+| Contact connected to 230 V instead of DDC auxiliary voltage | DDC input destroyed                      | External voltage on DI             |
+| PT100 installed instead of PT1000                           | Temperature massively wrong (factor ~10) | Wrong sensor type                  |
+| Shield earthed at both ends                                 | Hum loop, measured value fluctuates      | Earth shield at one end only!      |
+| VSD connected directly to DDC relay                         | Relay burns out (inrush current!)        | Insert motor contactor             |
+| Fail-safe not configured                                    | Valve stays open on power failure        | Set fail-safe position in actuator |
 
 ## Standards
 

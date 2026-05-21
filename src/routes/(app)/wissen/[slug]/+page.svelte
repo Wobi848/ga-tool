@@ -12,9 +12,7 @@
 
 	const article = $derived(data.article);
 	const related = $derived(data.related);
-	const tools = $derived(
-		(article.rechner ?? []).map((slug) => rechnerMap[slug]).filter(Boolean)
-	);
+	const tools = $derived((article.rechner ?? []).map((slug) => rechnerMap[slug]).filter(Boolean));
 
 	const isEn = $derived($locale === 'en');
 	const fallback = $derived(isEn && !article.hasEnBody);
@@ -30,15 +28,29 @@
 <article class="page">
 	<header class="article-header">
 		<a href="/wissen" class="back-link">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('wissen.backLink')}
 		</a>
 
 		<div class="meta-row">
-			<span class="cat">{article.category}{#if article.subcategory} · {article.subcategory}{/if}</span>
-			<span class="diff-badge" style:background={difficultyColors[article.difficulty] + '20'} style:color={difficultyColors[article.difficulty]}>
+			<span class="cat"
+				>{article.category}{#if article.subcategory}
+					· {article.subcategory}{/if}</span
+			>
+			<span
+				class="diff-badge"
+				style:background={difficultyColors[article.difficulty] + '20'}
+				style:color={difficultyColors[article.difficulty]}
+			>
 				{$_('difficulty.' + article.difficulty)}
 			</span>
 		</div>
@@ -85,15 +97,34 @@
 				{#each tools as t}
 					<a href="/rechner/{t.slug}" class="tool-card">
 						<span class="tool-icon" style="background:{t.color}20; color:{t.color}">
-							<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-								<path d="M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z" />
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="2"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							>
+								<path
+									d="M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z"
+								/>
 							</svg>
 						</span>
 						<div class="tool-body">
 							<span class="tool-name">{isEn && t.name_en ? t.name_en : t.name}</span>
 							<span class="tool-short">{isEn && t.short_en ? t.short_en : t.short}</span>
 						</div>
-						<svg class="tool-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<svg
+							class="tool-arrow"
+							width="14"
+							height="14"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+						>
 							<path d="M9 18l6-6-6-6" />
 						</svg>
 					</a>
@@ -475,7 +506,9 @@
 		border: 1px solid var(--border);
 		border-radius: 0.625rem;
 		text-decoration: none;
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 	}
 
 	.tool-card:hover {

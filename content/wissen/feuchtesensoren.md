@@ -4,7 +4,24 @@ title_en: Humidity Sensors — Measuring Air Humidity in BA
 slug: feuchtesensoren
 category: sensoren
 subcategory: feuchte
-tags: [feuchtesensor, relative-feuchte, absolute-feuchte, taupunktmessung, kapazitiv, psychrometer, chilled-mirror, feuchtewächter, kondensationsschutz, befeuchterregelung, entfeuchtung, sorptionsrotor, komfort, rh-sensor, feuchtigkeitsübertragung]
+tags:
+  [
+    feuchtesensor,
+    relative-feuchte,
+    absolute-feuchte,
+    taupunktmessung,
+    kapazitiv,
+    psychrometer,
+    chilled-mirror,
+    feuchtewächter,
+    kondensationsschutz,
+    befeuchterregelung,
+    entfeuchtung,
+    sorptionsrotor,
+    komfort,
+    rh-sensor,
+    feuchtigkeitsübertragung
+  ]
 difficulty: grundlagen
 area: [ga, hlk]
 related: [befeuchter, taupunkt, sensoren, rlt-anlage, thermische-behaglichkeit, raumluftqualitaet]
@@ -22,12 +39,12 @@ Luftfeuchte beeinflusst thermische Behaglichkeit, Schimmelrisiko, Materialschutz
 
 ## Messarten: Relative vs. Absolute Feuchte
 
-| Messart | Definition | Einheit | GA-Einsatz |
-|---------|-----------|---------|-----------|
-| **Relative Feuchte** (rF) | Verhältnis des Wasserdampf-Partialdrucks zum Sättigungsdampfdruck bei gleicher Temperatur | % rH | Standard: Behaglichkeit, Schimmelschutz |
-| **Absolute Feuchte** | Wasserdampfmasse pro Luftvolumen | g/m³ | Berechnet aus rF + T |
-| **Wassergehalt** | Wasserdampfmasse pro Masse trockener Luft | g/kg | Psychrometrie, Befeuchterauslegung |
-| **Taupunkt** | Temperatur, bei der Kondensation einsetzt | °C | Kondensationsschutz, Kühlung |
+| Messart                   | Definition                                                                                | Einheit | GA-Einsatz                              |
+| ------------------------- | ----------------------------------------------------------------------------------------- | ------- | --------------------------------------- |
+| **Relative Feuchte** (rF) | Verhältnis des Wasserdampf-Partialdrucks zum Sättigungsdampfdruck bei gleicher Temperatur | % rH    | Standard: Behaglichkeit, Schimmelschutz |
+| **Absolute Feuchte**      | Wasserdampfmasse pro Luftvolumen                                                          | g/m³    | Berechnet aus rF + T                    |
+| **Wassergehalt**          | Wasserdampfmasse pro Masse trockener Luft                                                 | g/kg    | Psychrometrie, Befeuchterauslegung      |
+| **Taupunkt**              | Temperatur, bei der Kondensation einsetzt                                                 | °C      | Kondensationsschutz, Kühlung            |
 
 ---
 
@@ -44,6 +61,7 @@ Polymer-Schicht absorbiert Wasserdampf
 ```
 
 **Eigenschaften:**
+
 - Messbereich: 0–100% rH
 - Genauigkeit: ±2–3% rH (Standard), ±1% rH (Präzision)
 - Reaktionszeit: 10–30 s
@@ -55,6 +73,7 @@ Polymer-Schicht absorbiert Wasserdampf
 ### Chilled Mirror (Taupunktspiegel)
 
 Hochpräzises Labormessgerät für Taupunktmessung:
+
 1. Optisch polierter Spiegel wird gekühlt
 2. Wenn Spiegeltemperatur = Taupunkt: Kondensation erscheint (Reflektion ändert sich)
 3. Regelung hält Spiegel exakt am Taupunkt → direkte Taupunktmessung
@@ -67,6 +86,7 @@ Hochpräzises Labormessgerät für Taupunktmessung:
 
 Zwei Thermometer: eines trocken, eines mit feuchtem Docht umwickelt.
 Verdunstungskälte senkt Temperatur des feuchten Thermometers:
+
 ```
 rF = f(T_trocken, T_feucht)   [Magnus-Formel + Psychrometerkonstante]
 ```
@@ -79,25 +99,25 @@ rF = f(T_trocken, T_feucht)   [Magnus-Formel + Psychrometerkonstante]
 
 ## Sensorbauformen für die GA
 
-| Bauform | Einbau | Einsatz |
-|---------|--------|---------|
-| **Wandaufbau** (Raumgerät) | Innenraum, 1,5 m Höhe | Komfortüberwachung, Regelung |
-| **Kanalfühler** (Lüftung) | In Zuluft-/Abluftkanal | Befeuchter, Wärmerückgewinnung |
-| **Aussenluftfühler** | Geschützt aussen | Witterungskompensation, Enthalpie-Tausch |
-| **Wanddurchführungsfühler** | Kelleraussenwand | Kondensations-/Schimmelschutz |
-| **Kombifühler** T + rF | Überall | Standard in GA-Raumgeräten |
+| Bauform                     | Einbau                 | Einsatz                                  |
+| --------------------------- | ---------------------- | ---------------------------------------- |
+| **Wandaufbau** (Raumgerät)  | Innenraum, 1,5 m Höhe  | Komfortüberwachung, Regelung             |
+| **Kanalfühler** (Lüftung)   | In Zuluft-/Abluftkanal | Befeuchter, Wärmerückgewinnung           |
+| **Aussenluftfühler**        | Geschützt aussen       | Witterungskompensation, Enthalpie-Tausch |
+| **Wanddurchführungsfühler** | Kelleraussenwand       | Kondensations-/Schimmelschutz            |
+| **Kombifühler** T + rF      | Überall                | Standard in GA-Raumgeräten               |
 
 ---
 
 ## Komfortwerte und Grenzwerte
 
-| Bereich | Relative Feuchte | Bemerkung |
-|---------|-----------------|-----------|
-| **Komfort** | 40–60% rH | ASHRAE 55, EN ISO 7726 |
-| Trockene Luft | < 30% rH | Reizung Schleimhäute, statische Aufladung |
-| Zu feucht | > 65% rH | Schimmelrisiko an kalten Oberflächen |
-| Schimmelgrenze | > 80% rH an Oberfläche | Pilzwachstum ab 72h |
-| Kondensation | 100% rH | Taupunkt erreicht |
+| Bereich        | Relative Feuchte       | Bemerkung                                 |
+| -------------- | ---------------------- | ----------------------------------------- |
+| **Komfort**    | 40–60% rH              | ASHRAE 55, EN ISO 7726                    |
+| Trockene Luft  | < 30% rH               | Reizung Schleimhäute, statische Aufladung |
+| Zu feucht      | > 65% rH               | Schimmelrisiko an kalten Oberflächen      |
+| Schimmelgrenze | > 80% rH an Oberfläche | Pilzwachstum ab 72h                       |
+| Kondensation   | 100% rH                | Taupunkt erreicht                         |
 
 **Kanalluft:** 10–95% rH möglich je nach Aussenluftbedingungen — keine Komfortwerte.
 
@@ -129,6 +149,7 @@ T_Oberfläche < T_Taupunkt_Raum?
 ```
 
 **DDC-Logik:**
+
 ```
 T_Taupunkt = berechnet aus T_Raum + rF_Raum
 Wenn T_Vorlauf_Kühlung < T_Taupunkt + 1 K:
@@ -139,13 +160,14 @@ Wenn T_Vorlauf_Kühlung < T_Taupunkt + 1 K:
 
 ## Kalibrierung und Wartung
 
-| Intervall | Massnahme |
-|-----------|----------|
-| Jährlich | Sichtkontrolle, Vergleichsmessung mit Referenzgerät |
+| Intervall    | Massnahme                                                  |
+| ------------ | ---------------------------------------------------------- |
+| Jährlich     | Sichtkontrolle, Vergleichsmessung mit Referenzgerät        |
 | Alle 2 Jahre | Kalibrierung gegen zertifiziertes Referenzgerät (VDI 6022) |
-| Bei Verdacht | Vergleich zweier Sensoren im selben Raum |
+| Bei Verdacht | Vergleich zweier Sensoren im selben Raum                   |
 
 **Kalibrierung im Feld:** Gesättigte Salzlösungen erzeugen definierte Feuchte:
+
 - LiCl: 11% rH | MgCl₂: 33% rH | NaCl: 75% rH | K₂SO₄: 97% rH
 
 <!-- EN -->
@@ -156,12 +178,12 @@ Air humidity influences thermal comfort, mould risk, material protection, and pr
 
 ## Measurement Types: Relative vs. Absolute Humidity
 
-| Type | Definition | Unit | BA application |
-|------|-----------|------|---------------|
+| Type                       | Definition                                                                            | Unit | BA application                      |
+| -------------------------- | ------------------------------------------------------------------------------------- | ---- | ----------------------------------- |
 | **Relative humidity** (RH) | Ratio of water vapour partial pressure to saturation pressure at the same temperature | % RH | Standard: comfort, mould protection |
-| **Absolute humidity** | Water vapour mass per volume of air | g/m³ | Calculated from RH + T |
-| **Moisture content** | Water vapour mass per mass of dry air | g/kg | Psychrometrics, humidifier sizing |
-| **Dew point** | Temperature at which condensation begins | °C | Condensation protection, cooling |
+| **Absolute humidity**      | Water vapour mass per volume of air                                                   | g/m³ | Calculated from RH + T              |
+| **Moisture content**       | Water vapour mass per mass of dry air                                                 | g/kg | Psychrometrics, humidifier sizing   |
+| **Dew point**              | Temperature at which condensation begins                                              | °C   | Condensation protection, cooling    |
 
 ---
 
@@ -178,6 +200,7 @@ Polymer layer absorbs water vapour
 ```
 
 **Properties:**
+
 - Measuring range: 0–100% RH
 - Accuracy: ±2–3% RH (standard), ±1% RH (precision)
 - Response time: 10–30 s
@@ -189,6 +212,7 @@ Polymer layer absorbs water vapour
 ### Chilled Mirror (Dew Point Mirror)
 
 High-precision laboratory instrument for dew point measurement:
+
 1. Optically polished mirror is cooled
 2. When mirror temperature = dew point: condensation appears (reflection changes)
 3. Control keeps mirror exactly at dew point → direct dew point measurement
@@ -201,6 +225,7 @@ High-precision laboratory instrument for dew point measurement:
 
 Two thermometers: one dry, one wrapped in a wet wick.
 Evaporative cooling lowers the temperature of the wet bulb:
+
 ```
 RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
 ```
@@ -213,25 +238,25 @@ RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
 
 ## Sensor Form Factors for BA
 
-| Form factor | Installation | Application |
-|-------------|------------|------------|
-| **Wall-mounted** (room device) | Indoors, 1.5 m height | Comfort monitoring, control |
-| **Duct probe** (ventilation) | In supply/return air duct | Humidifier, heat recovery |
-| **Outdoor air sensor** | Protected outdoors | Weather compensation, enthalpy exchange |
-| **Wall penetration probe** | Basement exterior wall | Condensation/mould protection |
-| **Combination T + RH** | Anywhere | Standard in BA room devices |
+| Form factor                    | Installation              | Application                             |
+| ------------------------------ | ------------------------- | --------------------------------------- |
+| **Wall-mounted** (room device) | Indoors, 1.5 m height     | Comfort monitoring, control             |
+| **Duct probe** (ventilation)   | In supply/return air duct | Humidifier, heat recovery               |
+| **Outdoor air sensor**         | Protected outdoors        | Weather compensation, enthalpy exchange |
+| **Wall penetration probe**     | Basement exterior wall    | Condensation/mould protection           |
+| **Combination T + RH**         | Anywhere                  | Standard in BA room devices             |
 
 ---
 
 ## Comfort and Limit Values
 
-| Range | Relative humidity | Note |
-|-------|-----------------|------|
-| **Comfort** | 40–60% RH | ASHRAE 55, EN ISO 7726 |
-| Dry air | < 30% RH | Irritation of mucous membranes, static charge |
-| Too humid | > 65% RH | Mould risk at cold surfaces |
-| Mould threshold | > 80% RH at surface | Fungal growth after 72 h |
-| Condensation | 100% RH | Dew point reached |
+| Range           | Relative humidity   | Note                                          |
+| --------------- | ------------------- | --------------------------------------------- |
+| **Comfort**     | 40–60% RH           | ASHRAE 55, EN ISO 7726                        |
+| Dry air         | < 30% RH            | Irritation of mucous membranes, static charge |
+| Too humid       | > 65% RH            | Mould risk at cold surfaces                   |
+| Mould threshold | > 80% RH at surface | Fungal growth after 72 h                      |
+| Condensation    | 100% RH             | Dew point reached                             |
 
 **Duct air:** 10–95% RH possible depending on outdoor conditions — no comfort values apply.
 
@@ -263,6 +288,7 @@ T_surface < T_dew_point_room?
 ```
 
 **DDC logic:**
+
 ```
 T_dew_point = calculated from T_room + RH_room
 If T_flow_cooling < T_dew_point + 1 K:
@@ -273,11 +299,12 @@ If T_flow_cooling < T_dew_point + 1 K:
 
 ## Calibration and Maintenance
 
-| Interval | Action |
-|----------|--------|
-| Annual | Visual inspection, comparison with reference instrument |
-| Every 2 years | Calibration against certified reference instrument (VDI 6022) |
-| When suspected | Compare two sensors in the same room |
+| Interval       | Action                                                        |
+| -------------- | ------------------------------------------------------------- |
+| Annual         | Visual inspection, comparison with reference instrument       |
+| Every 2 years  | Calibration against certified reference instrument (VDI 6022) |
+| When suspected | Compare two sensors in the same room                          |
 
 **Field calibration:** Saturated salt solutions generate defined humidity levels:
+
 - LiCl: 11% RH | MgCl₂: 33% RH | NaCl: 75% RH | K₂SO₄: 97% RH

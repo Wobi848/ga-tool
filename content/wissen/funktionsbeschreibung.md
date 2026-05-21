@@ -4,7 +4,21 @@ title_en: Functional Description — Structure, Language and Level of Detail
 slug: funktionsbeschreibung
 category: dokumentation
 subcategory: planung
-tags: [funktionsbeschreibung, funktionsliste, leistungsbeschreibung, planungsunterlage, ga-planung, ibno, übergabe, regelkreis, betriebsart, handsteuerung, sicherheitsfunktion, dokumentation]
+tags:
+  [
+    funktionsbeschreibung,
+    funktionsliste,
+    leistungsbeschreibung,
+    planungsunterlage,
+    ga-planung,
+    ibno,
+    übergabe,
+    regelkreis,
+    betriebsart,
+    handsteuerung,
+    sicherheitsfunktion,
+    dokumentation
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, tab-protokoll, glt-grundlagen, ddc-programmierung, alarmmanagement]
@@ -108,7 +122,7 @@ Fail-Safe:      Offen (bei Ausfall Signal → Ventil öffnet)
 Regler:         PID
   Kp = 2.0, Ti = 4 min, Td = 0
   Regelbeginn: wenn Betriebsart ≥ 1 (nicht bei Betriebsart 0)
-  
+
 Grenzen:
   Min. Stellwert: 0 % (ausser Frostschutz-Logik)
   Max. Stellwert: 100 %
@@ -147,13 +161,13 @@ Meldung: Alarm "Frostschutz RLT-01 ausgelöst" → Priorität KRITISCH
 
 **Richtlinien für guten Schreibstil:**
 
-| Was                    | Beispiel gut                                   | Beispiel schlecht               |
-|------------------------|------------------------------------------------|---------------------------------|
-| Konkrete Werte         | "Sollwert 22 °C ± 0.5 K"                      | "angemessene Temperatur"        |
-| Bedingungen klar       | "wenn T < 5 °C UND Ventilator EIN"            | "bei Frost"                     |
-| Ausgänge definieren    | "Heizventil öffnet auf 100 %"                  | "Heizung läuft"                 |
-| Prioritäten benennen   | "Frostschutz hat Vorrang vor allen anderen"   | "wird bei Frost unterbrochen"   |
-| Zeitverzögerungen      | "mit 30 s Einschaltverzögerung"                | "mit Verzögerung"               |
+| Was                  | Beispiel gut                                | Beispiel schlecht             |
+| -------------------- | ------------------------------------------- | ----------------------------- |
+| Konkrete Werte       | "Sollwert 22 °C ± 0.5 K"                    | "angemessene Temperatur"      |
+| Bedingungen klar     | "wenn T < 5 °C UND Ventilator EIN"          | "bei Frost"                   |
+| Ausgänge definieren  | "Heizventil öffnet auf 100 %"               | "Heizung läuft"               |
+| Prioritäten benennen | "Frostschutz hat Vorrang vor allen anderen" | "wird bei Frost unterbrochen" |
+| Zeitverzögerungen    | "mit 30 s Einschaltverzögerung"             | "mit Verzögerung"             |
 
 ---
 
@@ -272,7 +286,7 @@ Fail-safe:            Open (signal loss → valve opens)
 Controller:           PID
   Kp = 2.0, Ti = 4 min, Td = 0
   Active when: operating mode ≥ 1 (not in mode 0)
-  
+
 Limits:
   Min. output: 0 % (except frost-protection logic)
   Max. output: 100 %
@@ -311,13 +325,13 @@ Alarm: "Frost protection AHU-01 triggered" → priority CRITICAL
 
 **Guidelines for good writing style:**
 
-| What | Good example | Poor example |
-|------|-------------|--------------|
-| Concrete values | "Setpoint 22 °C ± 0.5 K" | "appropriate temperature" |
-| Clear conditions | "when T < 5 °C AND fan ON" | "on frost" |
-| Define outputs | "Heating valve opens to 100 %" | "heating runs" |
-| Name priorities | "Frost protection takes precedence over all others" | "interrupted on frost" |
-| Time delays | "with 30 s switch-on delay" | "with delay" |
+| What             | Good example                                        | Poor example              |
+| ---------------- | --------------------------------------------------- | ------------------------- |
+| Concrete values  | "Setpoint 22 °C ± 0.5 K"                            | "appropriate temperature" |
+| Clear conditions | "when T < 5 °C AND fan ON"                          | "on frost"                |
+| Define outputs   | "Heating valve opens to 100 %"                      | "heating runs"            |
+| Name priorities  | "Frost protection takes precedence over all others" | "interrupted on frost"    |
+| Time delays      | "with 30 s switch-on delay"                         | "with delay"              |
 
 ---
 

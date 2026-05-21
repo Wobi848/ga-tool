@@ -4,7 +4,20 @@ title_en: Dew Point and Surface Condensation
 slug: taupunkt
 category: lueftung
 subcategory: feuchtigkeit
-tags: [taupunkt, taupunkttemperatur, kondensation, relative-feuchte, absolute-feuchte, kühldecke, kondensatwanne, bauteiltemperatur, fensterkondensation, sommerlicher-wärmeschutz, mollier]
+tags:
+  [
+    taupunkt,
+    taupunkttemperatur,
+    kondensation,
+    relative-feuchte,
+    absolute-feuchte,
+    kühldecke,
+    kondensatwanne,
+    bauteiltemperatur,
+    fensterkondensation,
+    sommerlicher-wärmeschutz,
+    mollier
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [pid-regler, heizkurve]
@@ -61,7 +74,7 @@ $$T_d \approx T - \frac{100 - \varphi}{5}$$
 **Beispiele:**
 
 | T [°C] | φ [%] | T_d [°C] |
-|--------|-------|----------|
+| ------ | ----- | -------- |
 | 22     | 50    | ~11,1    |
 | 26     | 60    | ~17,6    |
 | 22     | 65    | ~15,0    |
@@ -75,13 +88,13 @@ Kondensation entsteht, wenn **T_Oberfläche ≤ T_Taupunkt**.
 
 ### Kritische Situationen in der HLK
 
-| Situation                      | Risiko                                           | Massnahme                                  |
-|--------------------------------|--------------------------------------------------|--------------------------------------------|
-| Kühldecke (Kaltwasser)         | Kondenswasser tropft auf Boden/Equipment         | Taupunktwächter, VL-Temperatur > T_d + 2 K |
-| Kaltwasserleitung ungedämmt    | Kondensation auf Rohrmantel, Schimmel            | Dampfdiffusionsdichte Dämmung              |
-| Fensterscheibe (einf. Verglasung) | Kondensation innen bei kalter Aussentemp.     | Mindest-U-Wert einhalten                   |
-| Aussenluftdurchlässe           | Kalte Zuluft unter Taupunkt der Raumluft         | Vorwärmregister, Mischung                  |
-| Kühlbalken (Induktionsgerät)   | Kondensation wenn Raumluft-RH zu hoch            | RH < 60 % sicherstellen                   |
+| Situation                         | Risiko                                    | Massnahme                                  |
+| --------------------------------- | ----------------------------------------- | ------------------------------------------ |
+| Kühldecke (Kaltwasser)            | Kondenswasser tropft auf Boden/Equipment  | Taupunktwächter, VL-Temperatur > T_d + 2 K |
+| Kaltwasserleitung ungedämmt       | Kondensation auf Rohrmantel, Schimmel     | Dampfdiffusionsdichte Dämmung              |
+| Fensterscheibe (einf. Verglasung) | Kondensation innen bei kalter Aussentemp. | Mindest-U-Wert einhalten                   |
+| Aussenluftdurchlässe              | Kalte Zuluft unter Taupunkt der Raumluft  | Vorwärmregister, Mischung                  |
+| Kühlbalken (Induktionsgerät)      | Kondensation wenn Raumluft-RH zu hoch     | RH < 60 % sicherstellen                    |
 
 ## Taupunktwächter — GA-Integration
 
@@ -108,12 +121,14 @@ T_VL,Ist ──── Vergleich ──── Falls T_VL,Ist < T_VL,min → Kühl
 ### Glaser-Verfahren (vereinfacht, EN ISO 13788)
 
 Prüft ob in einem Bauteilquerschnitt Kondensation entsteht:
+
 1. Temperaturverlauf durch Bauteil linear interpolieren (je nach Schichtdicke & λ-Wert)
 2. Sättigungsdampfdruckverlauf je Schichtgrenze berechnen
 3. Dampfdruckverlauf durch Bauteil (je nach μ-Wert der Schichten)
 4. Unterschreitet p_D den p_D,s → Kondensation in dieser Schicht
 
 **Wichtig für:**
+
 - Wärmedämmung Aussenwand (Dampfsperre richtig platzieren)
 - Flachdach
 - Bodenkonstruktionen bei Kühlräumen
@@ -121,6 +136,7 @@ Prüft ob in einem Bauteilquerschnitt Kondensation entsteht:
 ## Schimmelgefahr
 
 Schimmel wächst ab φ ≥ 80 % an der Oberfläche (nicht der Raumluft). Kritisch:
+
 - **Wärmebrücken** (Fensterrahmen, Rollladenkästen, Ecken): lokale Oberflächentemperatur weit unter Raumtemperatur
 - **Diffusionsdicht** sanierte Gebäude ohne ausreichende Lüftung
 
@@ -131,6 +147,7 @@ $$f_{Rsi} = \frac{T_{si} - T_e}{T_i - T_e} \geq 0{,}7$$
 ## Mollier-h,x-Diagramm
 
 Das **h,x-Diagramm** (psychrometrisches Diagramm) stellt alle Luftzustände grafisch dar:
+
 - x-Achse: Wassergehalt x [g/kg]
 - y-Achse: Enthalpie h [kJ/kg]
 - Isothermen, Isoenthalpen, φ-Kurven, Taupunktlinie (φ = 100 %)
@@ -139,13 +156,13 @@ Für den GA-Alltag reicht der **Taschenrechner** (Taupunkt-Rechner im GA-Tool), 
 
 ## Praktische Werte für den Alltag
 
-| Zustand                        | T [°C] | RH [%] | T_d [°C] |
-|--------------------------------|--------|--------|----------|
-| Winterluft aussen (CH Mittelland) | −2  | 85     | ~−4      |
-| Raumluft Komfort Winter         | 20     | 45     | ~7,8     |
-| Raumluft Komfort Sommer         | 24     | 55     | ~14,2    |
-| Büro Sommer (warm)              | 26     | 60     | ~17,6    |
-| Kritisch für Kühldecke (CH Sommer) | 28 | 65     | ~20,7    |
+| Zustand                            | T [°C] | RH [%] | T_d [°C] |
+| ---------------------------------- | ------ | ------ | -------- |
+| Winterluft aussen (CH Mittelland)  | −2     | 85     | ~−4      |
+| Raumluft Komfort Winter            | 20     | 45     | ~7,8     |
+| Raumluft Komfort Sommer            | 24     | 55     | ~14,2    |
+| Büro Sommer (warm)                 | 26     | 60     | ~17,6    |
+| Kritisch für Kühldecke (CH Sommer) | 28     | 65     | ~20,7    |
 
 ## Normen
 
@@ -202,11 +219,11 @@ $$T_d \approx T - \frac{100 - \varphi}{5}$$
 **Examples:**
 
 | T [°C] | φ [%] | T_d [°C] |
-|--------|-------|----------|
-| 22 | 50 | ~11.1 |
-| 26 | 60 | ~17.6 |
-| 22 | 65 | ~15.0 |
-| 28 | 70 | ~21.9 |
+| ------ | ----- | -------- |
+| 22     | 50    | ~11.1    |
+| 26     | 60    | ~17.6    |
+| 22     | 65    | ~15.0    |
+| 28     | 70    | ~21.9    |
 
 > ⚠️ **Summer office:** 26 °C / 60 % RH → dew point ~17.6 °C. Chilled ceiling supply temperature must stay **above** this value — otherwise the ceiling drips.
 
@@ -216,13 +233,13 @@ Condensation forms when **T_surface ≤ T_dew point**.
 
 ### Critical Situations in HVAC
 
-| Situation | Risk | Measure |
-|-----------|------|---------|
-| Chilled ceiling (cold water) | Condensate drips onto floor/equipment | Dew point monitor, supply temp > T_d + 2 K |
-| Uninsulated cold water pipe | Condensation on pipe jacket, mould | Vapour-diffusion-tight insulation |
-| Window pane (single glazing) | Internal condensation in cold weather | Minimum U-value must be met |
-| Outdoor air diffusers | Cold supply air below room air dew point | Pre-heat coil, mixing |
-| Chilled beam (induction unit) | Condensation when room RH too high | Ensure RH < 60 % |
+| Situation                     | Risk                                     | Measure                                    |
+| ----------------------------- | ---------------------------------------- | ------------------------------------------ |
+| Chilled ceiling (cold water)  | Condensate drips onto floor/equipment    | Dew point monitor, supply temp > T_d + 2 K |
+| Uninsulated cold water pipe   | Condensation on pipe jacket, mould       | Vapour-diffusion-tight insulation          |
+| Window pane (single glazing)  | Internal condensation in cold weather    | Minimum U-value must be met                |
+| Outdoor air diffusers         | Cold supply air below room air dew point | Pre-heat coil, mixing                      |
+| Chilled beam (induction unit) | Condensation when room RH too high       | Ensure RH < 60 %                           |
 
 ## Dew Point Monitor — BA Integration
 
@@ -249,12 +266,14 @@ T_supply,actual ─── comparison ─── if T_supply,actual < T_supply,min
 ### Glaser Method (simplified, EN ISO 13788)
 
 Checks whether condensation forms within a building component cross-section:
+
 1. Interpolate temperature profile through component linearly (based on layer thickness and λ-value)
 2. Calculate saturation vapour pressure at each layer boundary
 3. Calculate vapour pressure profile through component (based on µ-value of layers)
 4. If p_D drops below p_D,s → condensation in that layer
 
 **Relevant for:**
+
 - External wall thermal insulation (correct placement of vapour barrier)
 - Flat roof
 - Floor constructions in cold rooms
@@ -262,6 +281,7 @@ Checks whether condensation forms within a building component cross-section:
 ## Mould Risk
 
 Mould grows from φ ≥ 80 % at the surface (not in the room air). Critical:
+
 - **Thermal bridges** (window frames, roller blind boxes, corners): local surface temperature well below room temperature
 - **Vapour-tight** renovations without adequate ventilation
 
@@ -272,6 +292,7 @@ $$f_{Rsi} = \frac{T_{si} - T_e}{T_i - T_e} \geq 0{.}7$$
 ## Mollier h,x Diagram
 
 The **h,x diagram** (psychrometric chart) represents all air states graphically:
+
 - x-axis: moisture content x [g/kg]
 - y-axis: enthalpy h [kJ/kg]
 - Isotherms, isenthalpic lines, φ-curves, dew point line (φ = 100 %)
@@ -280,13 +301,13 @@ For everyday BA work, the **calculator** (dew point calculator in the GA tool) i
 
 ## Practical Values for Daily Use
 
-| State | T [°C] | RH [%] | T_d [°C] |
-|-------|--------|--------|----------|
-| Winter outdoor air (CH Midlands) | −2 | 85 | ~−4 |
-| Room air comfort winter | 20 | 45 | ~7.8 |
-| Room air comfort summer | 24 | 55 | ~14.2 |
-| Office summer (warm) | 26 | 60 | ~17.6 |
-| Critical for chilled ceiling (CH summer) | 28 | 65 | ~20.7 |
+| State                                    | T [°C] | RH [%] | T_d [°C] |
+| ---------------------------------------- | ------ | ------ | -------- |
+| Winter outdoor air (CH Midlands)         | −2     | 85     | ~−4      |
+| Room air comfort winter                  | 20     | 45     | ~7.8     |
+| Room air comfort summer                  | 24     | 55     | ~14.2    |
+| Office summer (warm)                     | 26     | 60     | ~17.6    |
+| Critical for chilled ceiling (CH summer) | 28     | 65     | ~20.7    |
 
 ## Standards
 

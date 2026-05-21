@@ -4,7 +4,21 @@ title_en: Feedforward Control and Disturbance Compensation
 slug: vorsteuerung-aufschaltung
 category: regelung
 subcategory: regelstrategien
-tags: [vorsteuerung, störgrössenaufschaltung, feedforward, aufschaltung, witterungsführung, aussentemperatur, heizkurve, pid-erweiterung, kompensation, vorhaltezeit, führungsgrösse, steuerung-regelung]
+tags:
+  [
+    vorsteuerung,
+    störgrössenaufschaltung,
+    feedforward,
+    aufschaltung,
+    witterungsführung,
+    aussentemperatur,
+    heizkurve,
+    pid-erweiterung,
+    kompensation,
+    vorhaltezeit,
+    führungsgrösse,
+    steuerung-regelung
+  ]
 difficulty: fortgeschritten
 area: [ga, hlk]
 related: [pid-regler, kaskadenregelung, heizkurve, sollwertfuehrung, regelkreise]
@@ -22,12 +36,13 @@ Reine PID-Regelung reagiert immer erst, **nachdem** eine Abweichung (Regelabweic
 
 ## Prinzip: Feedback vs. Feedforward
 
-| Ansatz | Reaktion | Voraussetzung |
-|--------|---------|--------------|
-| Feedback (PID) | Reagiert auf Regelabweichung | Keine — universell |
+| Ansatz                     | Reaktion                                 | Voraussetzung                          |
+| -------------------------- | ---------------------------------------- | -------------------------------------- |
+| Feedback (PID)             | Reagiert auf Regelabweichung             | Keine — universell                     |
 | Feedforward (Vorsteuerung) | Reagiert auf Stör-/Führungsgrösse direkt | Messung der Stör-/Führungsgrösse nötig |
 
 Beide Ansätze kombiniert ergeben das beste Ergebnis:
+
 ```
 Sollwert w(t)  ─────────────────────────────────► Σ
                                                    │
@@ -60,7 +75,9 @@ Aussentemperatur TA (Messung)
 **Mit Aufschaltung:** TA fällt → sofort Ventilöffnung erhöhen → Raum bleibt stabil → PID hat nur noch Feinkorrektur zu leisten.
 
 ### Dimensionierung der Aufschaltung
+
 Der Aufschaltfaktor bestimmt, wie stark die Stellgrösse auf die Störung reagiert:
+
 ```
 u_AS = K_AS × (TA_Nenn − TA)
 
@@ -135,12 +152,12 @@ Der Vorlaufregler übernimmt die schnelle, witterungsgeführte Grundregelung; ei
 
 ## Abgrenzung: Vorsteuerung vs. Kaskadenregelung
 
-| Merkmal | Vorsteuerung | Kaskadenregelung |
-|---------|-------------|-----------------|
+| Merkmal          | Vorsteuerung                         | Kaskadenregelung                                     |
+| ---------------- | ------------------------------------ | ---------------------------------------------------- |
 | Funktionsprinzip | Addiert Kompensation zur Stellgrösse | Übergeordneter Regler setzt Sollwert für Unterregler |
-| Rückkopplung | Keine (open loop) | Ja (geschlossener Kreis) |
-| Genauigkeit | Abhängig von Modellgüte | Selbstkorrigierend |
-| Einsatz | Bekannte, messbare Störgrössen | Mehrstufige Strecken |
+| Rückkopplung     | Keine (open loop)                    | Ja (geschlossener Kreis)                             |
+| Genauigkeit      | Abhängig von Modellgüte              | Selbstkorrigierend                                   |
+| Einsatz          | Bekannte, messbare Störgrössen       | Mehrstufige Strecken                                 |
 
 <!-- EN -->
 
@@ -150,12 +167,13 @@ Pure PID control always reacts **after** a deviation (control error e) has alrea
 
 ## Principle: Feedback vs. Feedforward
 
-| Approach | Reaction | Prerequisite |
-|----------|---------|--------------|
-| Feedback (PID) | Reacts to control error | None — universal |
-| Feedforward | Reacts directly to disturbance/reference variable | Measurement of disturbance/reference required |
+| Approach       | Reaction                                          | Prerequisite                                  |
+| -------------- | ------------------------------------------------- | --------------------------------------------- |
+| Feedback (PID) | Reacts to control error                           | None — universal                              |
+| Feedforward    | Reacts directly to disturbance/reference variable | Measurement of disturbance/reference required |
 
 Both approaches combined give the best result:
+
 ```
 Setpoint w(t)  ─────────────────────────────────► Σ
                                                    │
@@ -188,7 +206,9 @@ Outdoor temperature TA (measurement)
 **With feedforward:** TA drops → valve opening increased immediately → room stays stable → PID only needs fine correction.
 
 ### Sizing the Feedforward Gain
+
 The feedforward factor determines how strongly the control output reacts to the disturbance:
+
 ```
 u_FF = K_FF × (TA_design − TA)
 
@@ -263,9 +283,9 @@ The flow controller handles fast, weather-compensated base control; an outer roo
 
 ## Feedforward vs. Cascade Control
 
-| Feature | Feedforward | Cascade control |
-|---------|------------|----------------|
+| Feature             | Feedforward                         | Cascade control                                     |
+| ------------------- | ----------------------------------- | --------------------------------------------------- |
 | Operating principle | Adds compensation to control output | Outer controller sets setpoint for inner controller |
-| Feedback | None (open loop) | Yes (closed loop) |
-| Accuracy | Depends on model quality | Self-correcting |
-| Application | Known, measurable disturbances | Multi-stage plants |
+| Feedback            | None (open loop)                    | Yes (closed loop)                                   |
+| Accuracy            | Depends on model quality            | Self-correcting                                     |
+| Application         | Known, measurable disturbances      | Multi-stage plants                                  |

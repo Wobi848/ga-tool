@@ -4,7 +4,26 @@ title_en: Electrical Energy Measurement — Active Power, Reactive Power, cos φ
 slug: energiemessung
 category: energie
 subcategory: grundlagen
-tags: [wirkleistung, blindleistung, scheinleistung, cos-phi, leistungsfaktor, kwh, kvar, kva, energiezähler, mbus, modbus, oberwellen, thd, powerfactor, q, p, s]
+tags:
+  [
+    wirkleistung,
+    blindleistung,
+    scheinleistung,
+    cos-phi,
+    leistungsfaktor,
+    kwh,
+    kvar,
+    kva,
+    energiezähler,
+    mbus,
+    modbus,
+    oberwellen,
+    thd,
+    powerfactor,
+    q,
+    p,
+    s
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [ems-lastmanagement, waermemengenzaehler, mbus]
@@ -79,15 +98,16 @@ tan φ = Q / P
 
 Der **Leistungsfaktor** (auch λ oder PF = Power Factor) gibt an wie effizient Strom genutzt wird:
 
-| cos φ | Bedeutung                                    |
-|-------|----------------------------------------------|
-| 1.0   | Ideal — nur Wirkleistung                     |
-| 0.9   | Gut — 10 % Blindleistung                     |
-| 0.8   | Akzeptabel — Grenzwert vieler Versorger      |
-| 0.7   | Schlecht — Netz stark belastet               |
-| 0.5   | Sehr schlecht — typisch ungefilterte FUs     |
+| cos φ | Bedeutung                                |
+| ----- | ---------------------------------------- |
+| 1.0   | Ideal — nur Wirkleistung                 |
+| 0.9   | Gut — 10 % Blindleistung                 |
+| 0.8   | Akzeptabel — Grenzwert vieler Versorger  |
+| 0.7   | Schlecht — Netz stark belastet           |
+| 0.5   | Sehr schlecht — typisch ungefilterte FUs |
 
 **Praxiswerte:**
+
 - Glühlampe: cos φ = 1.0
 - Asynchronmotor (Vollast): cos φ = 0.85–0.95
 - Asynchronmotor (Leerlauf): cos φ = 0.2–0.4 (schlecht!)
@@ -116,27 +136,27 @@ THD = Total Harmonic Distortion (Gesamtklirr)
 
 ### Moderne elektronische Zähler (MID-konform)
 
-| Messgrösse         | Einheit | Beschreibung                        |
-|--------------------|---------|-------------------------------------|
-| Wirkenergie Bezug  | kWh     | Verbrauch                           |
-| Wirkenergie Einsp. | kWh     | Einspeisung (PV)                    |
-| Blindenergie kap.  | kvarh   | Kondensatoren, PV-Wechselrichter    |
-| Blindenergie ind.  | kvarh   | Motoren, Transformatoren            |
-| Scheinenergie      | kVAh    |                                     |
-| Leistungsfaktor    | —       | 0–1 (oder ±1 für Richtung)         |
-| Wirkleistung aktuell | kW    | Momentan                            |
-| Strom              | A       | Momentan (3 Phasen)                 |
-| Spannung           | V       | Momentan (3 Phasen)                 |
+| Messgrösse           | Einheit | Beschreibung                     |
+| -------------------- | ------- | -------------------------------- |
+| Wirkenergie Bezug    | kWh     | Verbrauch                        |
+| Wirkenergie Einsp.   | kWh     | Einspeisung (PV)                 |
+| Blindenergie kap.    | kvarh   | Kondensatoren, PV-Wechselrichter |
+| Blindenergie ind.    | kvarh   | Motoren, Transformatoren         |
+| Scheinenergie        | kVAh    |                                  |
+| Leistungsfaktor      | —       | 0–1 (oder ±1 für Richtung)       |
+| Wirkleistung aktuell | kW      | Momentan                         |
+| Strom                | A       | Momentan (3 Phasen)              |
+| Spannung             | V       | Momentan (3 Phasen)              |
 
 ### Kommunikationsschnittstellen
 
-| Schnittstelle | Einsatz                                    |
-|---------------|--------------------------------------------|
-| **M-Bus**     | Wohngebäude, mehrere Zähler                |
-| **Modbus RTU** | GA-Integration, DDC                       |
-| **Modbus TCP** | IP-Netzwerk, direkt an GLT               |
-| **S0-Puls**   | Einfache Impulszählung, 1 Impuls = x kWh  |
-| **SML (Smart Meter Language)** | Optische Schnittstelle Haus-Zähler |
+| Schnittstelle                  | Einsatz                                  |
+| ------------------------------ | ---------------------------------------- |
+| **M-Bus**                      | Wohngebäude, mehrere Zähler              |
+| **Modbus RTU**                 | GA-Integration, DDC                      |
+| **Modbus TCP**                 | IP-Netzwerk, direkt an GLT               |
+| **S0-Puls**                    | Einfache Impulszählung, 1 Impuls = x kWh |
+| **SML (Smart Meter Language)** | Optische Schnittstelle Haus-Zähler       |
 
 ---
 
@@ -154,6 +174,7 @@ Hauptzähler (Netz-Einspeisepunkt)
 ```
 
 **Submetering** ermöglicht:
+
 - Energiebilanz je Gewerk
 - Kostenstellen-Zuweisung
 - Verbrauchsanomalien erkennen (z.B. Lüftung 40 % Anteil → optimierbar?)
@@ -247,15 +268,16 @@ tan φ = Q / P
 
 The **power factor** (also λ or PF) indicates how efficiently current is used:
 
-| cos φ | Meaning |
-|-------|---------|
-| 1.0 | Ideal — active power only |
-| 0.9 | Good — 10 % reactive power |
-| 0.8 | Acceptable — limit of many utilities |
-| 0.7 | Poor — network heavily loaded |
-| 0.5 | Very poor — typical unfiltered VFDs |
+| cos φ | Meaning                              |
+| ----- | ------------------------------------ |
+| 1.0   | Ideal — active power only            |
+| 0.9   | Good — 10 % reactive power           |
+| 0.8   | Acceptable — limit of many utilities |
+| 0.7   | Poor — network heavily loaded        |
+| 0.5   | Very poor — typical unfiltered VFDs  |
 
 **Practical values:**
+
 - Incandescent lamp: cos φ = 1.0
 - Induction motor (full load): cos φ = 0.85–0.95
 - Induction motor (no load): cos φ = 0.2–0.4 (poor!)
@@ -284,27 +306,27 @@ THD = Total Harmonic Distortion
 
 ### Modern Electronic Meters (MID-compliant)
 
-| Measured variable | Unit | Description |
-|------------------|------|-------------|
-| Active energy import | kWh | Consumption |
-| Active energy export | kWh | Feed-in (PV) |
-| Reactive energy cap. | kvarh | Capacitors, PV inverters |
-| Reactive energy ind. | kvarh | Motors, transformers |
-| Apparent energy | kVAh | |
-| Power factor | — | 0–1 (or ±1 for direction) |
-| Active power instantaneous | kW | Current value |
-| Current | A | Instantaneous (3 phases) |
-| Voltage | V | Instantaneous (3 phases) |
+| Measured variable          | Unit  | Description               |
+| -------------------------- | ----- | ------------------------- |
+| Active energy import       | kWh   | Consumption               |
+| Active energy export       | kWh   | Feed-in (PV)              |
+| Reactive energy cap.       | kvarh | Capacitors, PV inverters  |
+| Reactive energy ind.       | kvarh | Motors, transformers      |
+| Apparent energy            | kVAh  |                           |
+| Power factor               | —     | 0–1 (or ±1 for direction) |
+| Active power instantaneous | kW    | Current value             |
+| Current                    | A     | Instantaneous (3 phases)  |
+| Voltage                    | V     | Instantaneous (3 phases)  |
 
 ### Communication Interfaces
 
-| Interface | Use |
-|-----------|-----|
-| **M-Bus** | Residential, multiple meters |
-| **Modbus RTU** | BA integration, DDC |
-| **Modbus TCP** | IP network, direct to BMS |
-| **S0 pulse** | Simple pulse counting, 1 pulse = x kWh |
-| **SML (Smart Meter Language)** | Optical interface on utility meter |
+| Interface                      | Use                                    |
+| ------------------------------ | -------------------------------------- |
+| **M-Bus**                      | Residential, multiple meters           |
+| **Modbus RTU**                 | BA integration, DDC                    |
+| **Modbus TCP**                 | IP network, direct to BMS              |
+| **S0 pulse**                   | Simple pulse counting, 1 pulse = x kWh |
+| **SML (Smart Meter Language)** | Optical interface on utility meter     |
 
 ---
 
@@ -322,6 +344,7 @@ Main meter (grid connection point)
 ```
 
 **Submetering** enables:
+
 - Energy balance per trade
 - Cost centre allocation
 - Identifying consumption anomalies (e.g. ventilation 40 % share → optimisable?)

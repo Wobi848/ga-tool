@@ -4,7 +4,23 @@ title_en: KNX — Fundamentals and Commissioning
 slug: knx
 category: protokolle
 subcategory: gebäudebus
-tags: [knx, ets, gruppenadresse, telegramm, topologie, linie, bereich, backbone, tp, ip, rf, powerline, ga-schnittstelle, knxip]
+tags:
+  [
+    knx,
+    ets,
+    gruppenadresse,
+    telegramm,
+    topologie,
+    linie,
+    bereich,
+    backbone,
+    tp,
+    ip,
+    rf,
+    powerline,
+    ga-schnittstelle,
+    knxip
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [bacnet, modbus, knxip-gateway]
@@ -19,12 +35,12 @@ lang: de
 
 ## Übertragungsmedien
 
-| Medium        | Kürzel | Kabel / Träger           | Einsatz                              |
-|---------------|--------|--------------------------|--------------------------------------|
-| Twisted Pair  | TP     | 2×0,8 mm Busleitung (YCYM) | Neubau, Standardanwendung           |
-| Powerline     | PL     | 230-V-Leitung             | Nachrüstung                          |
-| Funk          | RF     | 868 MHz                   | Nachrüstung, Sensoren ohne Kabel     |
-| IP            | IP     | Ethernet (UDP Port 3671)  | Backbone, GLT-Anbindung, KNXnet/IP   |
+| Medium       | Kürzel | Kabel / Träger             | Einsatz                            |
+| ------------ | ------ | -------------------------- | ---------------------------------- |
+| Twisted Pair | TP     | 2×0,8 mm Busleitung (YCYM) | Neubau, Standardanwendung          |
+| Powerline    | PL     | 230-V-Leitung              | Nachrüstung                        |
+| Funk         | RF     | 868 MHz                    | Nachrüstung, Sensoren ohne Kabel   |
+| IP           | IP     | Ethernet (UDP Port 3671)   | Backbone, GLT-Anbindung, KNXnet/IP |
 
 **Twisted Pair** ist die bei weitem häufigste Variante. Die Busleitung liefert gleichzeitig 29 V DC zur Versorgung der Geräte (max. 10 mA pro Gerät typisch).
 
@@ -52,10 +68,10 @@ Bereich 2
 
 ## Physikalische Adresse vs. Gruppenadresse
 
-| Typ                   | Format       | Bedeutung                                    |
-|-----------------------|--------------|----------------------------------------------|
-| Physikalische Adresse | `1.2.15`     | Bereich.Linie.Gerät — für ETS-Programmierung |
-| Gruppenadresse        | `1/2/50`     | Kommunikationsobjekt-Verknüpfung              |
+| Typ                   | Format   | Bedeutung                                    |
+| --------------------- | -------- | -------------------------------------------- |
+| Physikalische Adresse | `1.2.15` | Bereich.Linie.Gerät — für ETS-Programmierung |
+| Gruppenadresse        | `1/2/50` | Kommunikationsobjekt-Verknüpfung             |
 
 **Idee:** Ein Taster sendet auf Gruppenadresse `1/2/50`. Alle Aktoren, die diese GA abonniert haben, reagieren. Ein Gerät kann beliebig viele GAs haben.
 
@@ -72,6 +88,7 @@ Hauptgruppe / Mittelgruppe / Untergruppe
 ## Telegramm-Aufbau (Kurzfassung)
 
 Ein KNX-TP-Telegramm besteht aus:
+
 - **Steuerfeld** (Priorität, Repeat-Bit)
 - **Quelladresse** (physikalische Adresse des Senders)
 - **Zieladresse** (Gruppenadresse oder physikalische Adresse)
@@ -82,15 +99,15 @@ Max. Telegrammrate auf einer Linie: ca. **50 Telegramme/s**.
 
 ## Datenpunkt-Typen (DPT) — die wichtigsten
 
-| DPT   | Länge  | Daten                          | Beispiel                     |
-|-------|--------|--------------------------------|------------------------------|
-| 1.001 | 1 Bit  | Schalten (0/1)                 | Licht Ein/Aus                |
-| 1.008 | 1 Bit  | Auf/Ab                         | Jalousie                     |
-| 5.001 | 1 Byte | Prozentwert 0–100 %            | Helligkeit, Ventilstellung   |
-| 9.001 | 2 Byte | Gleitkomma −273…+670 °C        | Temperatur                   |
-| 9.006 | 2 Byte | Gleitkomma, Pa                 | Druck                        |
-| 14.x  | 4 Byte | IEEE 754 Float                 | Leistung, Energie            |
-| 16.001| 14 B   | ASCII-String                   | Anzeige                      |
+| DPT    | Länge  | Daten                   | Beispiel                   |
+| ------ | ------ | ----------------------- | -------------------------- |
+| 1.001  | 1 Bit  | Schalten (0/1)          | Licht Ein/Aus              |
+| 1.008  | 1 Bit  | Auf/Ab                  | Jalousie                   |
+| 5.001  | 1 Byte | Prozentwert 0–100 %     | Helligkeit, Ventilstellung |
+| 9.001  | 2 Byte | Gleitkomma −273…+670 °C | Temperatur                 |
+| 9.006  | 2 Byte | Gleitkomma, Pa          | Druck                      |
+| 14.x   | 4 Byte | IEEE 754 Float          | Leistung, Energie          |
+| 16.001 | 14 B   | ASCII-String            | Anzeige                    |
 
 > ⚠️ **DPT 9.x (2-Byte Float):** Kein IEEE 754! KNX verwendet ein eigenes Format mit Mantisse + Exponent. Beim Einlesen in GLT/BACnet auf korrekte Skalierung achten.
 
@@ -120,19 +137,20 @@ Das **ETS** (aktuell ETS6) ist das offizielle Konfigurations- und Programmierwer
 **Protokoll:** UDP Port **3671**, Multicast-Adresse `224.0.23.12`
 
 Gängige GLT-Anbindungen:
+
 - OPC DA/UA-Server mit KNX-Treiber
 - BACnet/IP-Gateway mit KNX-KNX-BACnet-Mapping
 - Direkte SDK-Anbindung (knxd, KNXIP-Python, Weinzierl SDK)
 
 ## Diagnose & Fehlersuche
 
-| Problem                          | Ursache / Massnahme                                         |
-|----------------------------------|-------------------------------------------------------------|
-| Gerät reagiert nicht             | Physikalische Adresse doppelt? Busversorgung ok?            |
-| Telegramme kommen nicht an       | Koppler-Filter prüfen — GA in Filtertabelle?                |
-| Sporadische Ausfälle             | Bus überlastet (>50 Telegramme/s), Terminierung fehlt       |
-| Gerät lässt sich nicht flashen   | Programmiertaste gedrückt halten? IP-Schnittstelle Tunnel-Limit erreicht? |
-| Kurzschluss auf Linie            | Busspeisung schaltet ab → Segment für Segment isolieren     |
+| Problem                        | Ursache / Massnahme                                                       |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| Gerät reagiert nicht           | Physikalische Adresse doppelt? Busversorgung ok?                          |
+| Telegramme kommen nicht an     | Koppler-Filter prüfen — GA in Filtertabelle?                              |
+| Sporadische Ausfälle           | Bus überlastet (>50 Telegramme/s), Terminierung fehlt                     |
+| Gerät lässt sich nicht flashen | Programmiertaste gedrückt halten? IP-Schnittstelle Tunnel-Limit erreicht? |
+| Kurzschluss auf Linie          | Busspeisung schaltet ab → Segment für Segment isolieren                   |
 
 **Telegrammmonitor im ETS:** Realtime-Sicht auf alle Telegramme — unverzichtbar zur Diagnose.
 
@@ -148,12 +166,12 @@ Gängige GLT-Anbindungen:
 
 ## Transmission Media
 
-| Medium | Code | Cable / carrier | Application |
-|--------|------|-----------------|------------|
-| Twisted Pair | TP | 2×0.8 mm bus cable (YCYM) | New construction, standard |
-| Powerline | PL | 230 V mains cable | Retrofit |
-| Radio | RF | 868 MHz | Retrofit, wireless sensors |
-| IP | IP | Ethernet (UDP port 3671) | Backbone, BMS integration, KNXnet/IP |
+| Medium       | Code | Cable / carrier           | Application                          |
+| ------------ | ---- | ------------------------- | ------------------------------------ |
+| Twisted Pair | TP   | 2×0.8 mm bus cable (YCYM) | New construction, standard           |
+| Powerline    | PL   | 230 V mains cable         | Retrofit                             |
+| Radio        | RF   | 868 MHz                   | Retrofit, wireless sensors           |
+| IP           | IP   | Ethernet (UDP port 3671)  | Backbone, BMS integration, KNXnet/IP |
 
 **Twisted Pair** is by far the most common variant. The bus cable simultaneously supplies 29 V DC to power devices (typically max. 10 mA per device).
 
@@ -181,10 +199,10 @@ Area 2
 
 ## Physical Address vs. Group Address
 
-| Type | Format | Meaning |
-|------|--------|---------|
+| Type             | Format   | Meaning                                |
+| ---------------- | -------- | -------------------------------------- |
 | Physical address | `1.2.15` | Area.Line.Device — for ETS programming |
-| Group address | `1/2/50` | Communication object linkage |
+| Group address    | `1/2/50` | Communication object linkage           |
 
 **Concept:** A push-button sends on group address `1/2/50`. All actuators that have subscribed to this GA respond. A device can have any number of GAs.
 
@@ -201,6 +219,7 @@ Main group / Middle group / Sub-group
 ## Telegram Structure (Summary)
 
 A KNX TP telegram consists of:
+
 - **Control field** (priority, repeat bit)
 - **Source address** (physical address of sender)
 - **Destination address** (group address or physical address)
@@ -211,15 +230,15 @@ Maximum telegram rate on one line: approx. **50 telegrams/s**.
 
 ## Data Point Types (DPT) — the Most Important
 
-| DPT | Length | Data | Example |
-|-----|--------|------|---------|
-| 1.001 | 1 bit | Switch (0/1) | Light on/off |
-| 1.008 | 1 bit | Up/down | Blinds |
-| 5.001 | 1 byte | Percentage 0–100% | Brightness, valve position |
-| 9.001 | 2 bytes | Float −273…+670 °C | Temperature |
-| 9.006 | 2 bytes | Float, Pa | Pressure |
-| 14.x | 4 bytes | IEEE 754 float | Power, energy |
-| 16.001 | 14 B | ASCII string | Display |
+| DPT    | Length  | Data               | Example                    |
+| ------ | ------- | ------------------ | -------------------------- |
+| 1.001  | 1 bit   | Switch (0/1)       | Light on/off               |
+| 1.008  | 1 bit   | Up/down            | Blinds                     |
+| 5.001  | 1 byte  | Percentage 0–100%  | Brightness, valve position |
+| 9.001  | 2 bytes | Float −273…+670 °C | Temperature                |
+| 9.006  | 2 bytes | Float, Pa          | Pressure                   |
+| 14.x   | 4 bytes | IEEE 754 float     | Power, energy              |
+| 16.001 | 14 B    | ASCII string       | Display                    |
 
 > ⚠️ **DPT 9.x (2-byte float):** Not IEEE 754! KNX uses its own format with mantissa + exponent. When reading into BMS/BACnet, ensure correct scaling.
 
@@ -249,19 +268,20 @@ Via a **KNXnet/IP router** or **IP interface**, the BMS can access the KNX bus:
 **Protocol:** UDP port **3671**, multicast address `224.0.23.12`
 
 Common BMS integrations:
+
 - OPC DA/UA server with KNX driver
 - BACnet/IP gateway with KNX–BACnet mapping
 - Direct SDK integration (knxd, KNXIP-Python, Weinzierl SDK)
 
 ## Diagnostics and Troubleshooting
 
-| Problem | Cause / remedy |
-|---------|---------------|
-| Device does not respond | Duplicate physical address? Bus supply OK? |
-| Telegrams not received | Check coupler filter — is GA in filter table? |
-| Sporadic failures | Bus overloaded (>50 telegrams/s), missing termination |
+| Problem                     | Cause / remedy                                              |
+| --------------------------- | ----------------------------------------------------------- |
+| Device does not respond     | Duplicate physical address? Bus supply OK?                  |
+| Telegrams not received      | Check coupler filter — is GA in filter table?               |
+| Sporadic failures           | Bus overloaded (>50 telegrams/s), missing termination       |
 | Device cannot be programmed | Hold programming button? IP interface tunnel limit reached? |
-| Short circuit on line | Bus supply shuts down → isolate segment by segment |
+| Short circuit on line       | Bus supply shuts down → isolate segment by segment          |
 
 **Telegram monitor in ETS:** Real-time view of all telegrams — essential for diagnostics.
 

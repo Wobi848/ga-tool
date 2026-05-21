@@ -19,7 +19,8 @@ export const en = {
 		close: 'Close',
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
-		updateText: 'PID Simulator, 16 new knowledge articles, RS-485/CAN/PROFIBUS/Matter, Changelog, Keyboard shortcuts'
+		updateText:
+			'PID Simulator, 16 new knowledge articles, RS-485/CAN/PROFIBUS/Matter, Changelog, Keyboard shortcuts'
 	},
 	auth: {
 		login: 'Sign In',
@@ -40,10 +41,16 @@ export const en = {
 		recentlyUsed: 'Most Visited',
 		removeFavorite: 'Remove from favourites',
 		modules: {
-			konverter: { name: 'Converter', desc: 'Unit converter — pressure, temperature, flow, humidity' },
+			konverter: {
+				name: 'Converter',
+				desc: 'Unit converter — pressure, temperature, flow, humidity'
+			},
 			rechner: { name: 'Calculator', desc: 'Heating curve, Kv value, dew point, psychrometrics' },
 			wissen: { name: 'Knowledge Base', desc: 'Articles on HVAC, BA, protocols' },
-			checklisten: { name: 'Checklists', desc: 'Interactive commissioning/handover checklists with CSV export' },
+			checklisten: {
+				name: 'Checklists',
+				desc: 'Interactive commissioning/handover checklists with CSV export'
+			},
 			referenz: { name: 'Reference', desc: 'Tables — DN, filters, glycol, refrigerants' },
 			abkuerzungen: { name: 'Abbreviations', desc: 'Acronyms — bilingual DE ↔ EN' }
 		}
@@ -86,10 +93,10 @@ export const en = {
 		results: 'Result',
 		resultsPlural: 'Results',
 		type: {
-			artikel:    'Article',
-			rechner:    'Calculator',
-			konverter:  'Converter',
-			referenz:   'Reference',
+			artikel: 'Article',
+			rechner: 'Calculator',
+			konverter: 'Converter',
+			referenz: 'Reference',
 			checkliste: 'Checklist'
 		},
 		addToFavorites: 'Add to favourites',
@@ -115,18 +122,18 @@ export const en = {
 
 	// ── Areas & Difficulty ───────────────────────────────────────────────────
 	area: {
-		hlk:      'HVAC',
+		hlk: 'HVAC',
 		sanitaer: 'Plumbing',
-		elektro:  'Electrical',
-		ga:       'BA',
-		it:       'IT',
-		normen:   'Standards'
+		elektro: 'Electrical',
+		ga: 'BA',
+		it: 'IT',
+		normen: 'Standards'
 	},
 
 	difficulty: {
-		grundlagen:      'Basics',
+		grundlagen: 'Basics',
 		fortgeschritten: 'Advanced',
-		experte:         'Expert'
+		experte: 'Expert'
 	},
 
 	// ── Knowledge Base ────────────────────────────────────────────────────────
@@ -168,7 +175,8 @@ export const en = {
 		allDoneText: 'You can now export the checklist as CSV and file it.',
 		resetBtn: 'Reset',
 		exportCSV: 'Export as CSV',
-		infoText: 'Checkmarks + notes are saved automatically in the browser (per checklist). CSV export for reports.',
+		infoText:
+			'Checkmarks + notes are saved automatically in the browser (per checklist). CSV export for reports.',
 		mustCriteria: 'Must criterion',
 		savedFlash: '✓ saved',
 		anlage: 'System',
@@ -198,7 +206,8 @@ export const en = {
 		copyRow: 'Copy entire row (TSV)',
 		noRowsMatch: 'No rows match the search.',
 		noteLabel: 'Note',
-		infoText: 'Click a cell to copy the value. Click the icon on the right to copy the row as TSV. Click a column heading to sort ascending/descending.'
+		infoText:
+			'Click a cell to copy the value. Click the icon on the right to copy the row as TSV. Click a column heading to sort ascending/descending.'
 	},
 
 	// ── Abbreviations ─────────────────────────────────────────────────────────
@@ -304,7 +313,8 @@ export const en = {
 		},
 		busIbn: {
 			name: 'Bus Commissioning Address Configurator',
-			short: 'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export'
+			short:
+				'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export'
 		},
 
 		// Shared UI strings across calculators
@@ -325,7 +335,8 @@ export const en = {
 
 		// Per-page strings
 		heizkurveUi: {
-			formulaNote: 'Formulas are approximations of the respective manufacturer algorithms — exact values may vary by firmware. For underfloor heating n ≈ 1.1, radiators n ≈ 1.3. Sources: SIA 384/2, manufacturer documentation.',
+			formulaNote:
+				'Formulas are approximations of the respective manufacturer algorithms — exact values may vary by firmware. For underfloor heating n ≈ 1.1, radiators n ≈ 1.3. Sources: SIA 384/2, manufacturer documentation.',
 			manufacturerSystem: 'Manufacturer / System',
 			heatEmitter: 'Heat emitter',
 			radiator: 'Radiator (n ≈ 1.3)',
@@ -350,7 +361,8 @@ export const en = {
 			minFlow: 'Min. flow',
 			maxFlow: 'Max. flow',
 			designFlow: 'Design flow at {t} °C',
-			maxFlowWarning: '⚠ Design temperature {tv} °C limited by max. flow {max} °C. Higher slope or level is ineffective. Heating surface possibly undersized.',
+			maxFlowWarning:
+				'⚠ Design temperature {tv} °C limited by max. flow {max} °C. Higher slope or level is ineffective. Heating surface possibly undersized.',
 			curve: 'Curve',
 			normOutdoorLegend: 'Design outdoor',
 			currentLegend: 'current',
@@ -363,9 +375,12 @@ export const en = {
 		},
 
 		ausdehnungsgefaessUi: {
-			warnPrePressureDetail: 'Pre-charge p₀ = {p0} bar is below the recommended minimum ({min} bar). At static height {h} m, p₀ must be ≥ {min} bar to avoid negative pressure zones.',
-			warnSpreadDetail: 'Spread pₑ − p₀ = {spread} bar too small. Typical ≥ 0.8 bar — otherwise the expansion vessel becomes very large.',
-			formulaNote: 'Formula: V_N = (V_e + V_wv) × (pₑ + 1) / (pₑ − p₀) · Water cushion V_wv = max(0.5 % × V_A, 3 l). Standard expansion vessel sizes per SWKI 91-1.',
+			warnPrePressureDetail:
+				'Pre-charge p₀ = {p0} bar is below the recommended minimum ({min} bar). At static height {h} m, p₀ must be ≥ {min} bar to avoid negative pressure zones.',
+			warnSpreadDetail:
+				'Spread pₑ − p₀ = {spread} bar too small. Typical ≥ 0.8 bar — otherwise the expansion vessel becomes very large.',
+			formulaNote:
+				'Formula: V_N = (V_e + V_wv) × (pₑ + 1) / (pₑ − p₀) · Water cushion V_wv = max(0.5 % × V_A, 3 l). Standard expansion vessel sizes per SWKI 91-1.',
 			plant: 'System',
 			plantContent: 'System volume',
 			plantContentHint: 'Water volume in the system',
@@ -388,7 +403,8 @@ export const en = {
 		},
 
 		luftbedarfUi: {
-			formulaNote: 'Calculation per SN EN 16798-1: the larger of the two values applies (person + area requirement vs. CO₂ mass balance). Outdoor CO₂ = 400 ppm assumed.',
+			formulaNote:
+				'Calculation per SN EN 16798-1: the larger of the two values applies (person + area requirement vs. CO₂ mass balance). Outdoor CO₂ = 400 ppm assumed.',
 			room: 'Room',
 			floorArea: 'Floor area',
 			roomHeight: 'Room height',
@@ -434,17 +450,20 @@ export const en = {
 		},
 
 		taupunktUi: {
-			formulaNote: 'Calculated using Magnus formula (constants a = 17.62, b = 243.12 °C). Valid in range −45 … +60 °C over water.',
+			formulaNote:
+				'Calculated using Magnus formula (constants a = 17.62, b = 243.12 °C). Valid in range −45 … +60 °C over water.',
 			airTemp: 'Air temperature',
 			relHumidity: 'Relative humidity',
 			dewpoint: 'Dew point',
 			absHumidity: 'Absolute humidity',
 			tempSpread: 'Spread T − dew point',
-			warnCondensation: 'Condensation risk: surface temperature below approx. {t} °C may cause condensation.'
+			warnCondensation:
+				'Condensation risk: surface temperature below approx. {t} °C may cause condensation.'
 		},
 
 		ventilautoritaetUi: {
-			formulaNote: 'Kv = Q / √(ΔpV) with ΔpV in bar, Q in m³/h — per EN 60534. Select Kvs ≥ Kv × 1.3 (control range + reserve).',
+			formulaNote:
+				'Kv = Q / √(ΔpV) with ΔpV in bar, Q in m³/h — per EN 60534. Select Kvs ≥ Kv × 1.3 (control range + reserve).',
 			tabAuthority: 'Valve authority α',
 			tabKvs: 'Kvs selection',
 			pressures: 'Pressure distribution',
@@ -469,7 +488,8 @@ export const en = {
 			kvsOverKv: 'Kvs / Kv',
 			kvsStandard: 'Standard Kvs series',
 			curveNote: 'Grey = ideal line (α = 1). The smaller α, the more the effective curve deviates.',
-			authorityFormulaNote: 'α = ΔpV,100 / (ΔpV,100 + ΔpSystem) — Recommendation: α ≥ 0.5 (min. 0.3). Low α → valve loses control influence → disproportionate flow increase at small lifts.'
+			authorityFormulaNote:
+				'α = ΔpV,100 / (ΔpV,100 + ΔpSystem) — Recommendation: α ≥ 0.5 (min. 0.3). Low α → valve loses control influence → disproportionate flow increase at small lifts.'
 		},
 
 		uWertUi: {
@@ -508,11 +528,13 @@ export const en = {
 			matGlassWool: 'Glass wool',
 			matPUR: 'PUR foam',
 			matAirGap: 'Air gap (still)',
-			formulaNoteWarnBridges: 'U = 1 / (Rsi + Σ(d/λ) + Rse) per SIA 180 / EN ISO 6946. Thermal bridges and fixings not included.'
+			formulaNoteWarnBridges:
+				'U = 1 / (Rsi + Σ(d/λ) + Rse) per SIA 180 / EN ISO 6946. Thermal bridges and fixings not included.'
 		},
 
 		waermerueckgewinnungUi: {
-			annualSavingNote: 'Annual cost saving: assumes 2000 heating hours, electricity/heat price 0.12 CHF/kWh.',
+			annualSavingNote:
+				'Annual cost saving: assumes 2000 heating hours, electricity/heat price 0.12 CHF/kWh.',
 			wrgType: 'HRV type',
 			enthalpyExchanger: 'Cross-counterflow (enthalpy exchanger)',
 			rotarySorption: 'Rotary sorption HRV',
@@ -534,9 +556,11 @@ export const en = {
 			supplyHumidity: 'Supply air moisture after HRV',
 			annualSaving: 'Annual energy saving (2000h, 0.12 CHF/kWh)',
 			typicalEtaHint: 'Typical {min}–{max}% for {type}',
-			noteEnthalpyExchanger: 'Moisture transfer possible (membrane). Very high efficiency, no leakage issues.',
+			noteEnthalpyExchanger:
+				'Moisture transfer possible (membrane). Very high efficiency, no leakage issues.',
 			noteRotarySorption: 'High moisture recovery. Note: slight leakage exhaust→supply (1–5%).',
-			notePlateHeatEx: 'No moisture transfer. Simple, robust, no leakage risk. Frost protection required.',
+			notePlateHeatEx:
+				'No moisture transfer. Simple, robust, no leakage risk. Frost protection required.',
 			noteRecirculation: 'Heat only, moderate efficiency. Used with separate supply/exhaust ducts.'
 		},
 
@@ -559,12 +583,15 @@ export const en = {
 			warnLowVelocity: 'Flow velocity very low.',
 			mediumWater: 'Water 20 °C',
 			mediumBrine: 'Brine 30 % @ 20 °C',
-			formulaNote: 'Pressure drop formula: Δp = (λ × L/d + Σζ) × ρ × v² / 2. Friction factor λ: laminar (Re < 2300) = 64/Re, turbulent: Swamee-Jain approx. with k = 0.045 mm (steel).'
+			formulaNote:
+				'Pressure drop formula: Δp = (λ × L/d + Σζ) × ρ × v² / 2. Friction factor λ: laminar (Re < 2300) = 64/Re, turbulent: Swamee-Jain approx. with k = 0.045 mm (steel).'
 		},
 
 		psychrometrieUi: {
-			warnSaturated: 'The calculated state is above the saturation line (φ > 100 %). At this temperature the air cannot hold this much moisture — condensation occurs.',
-			formulaNote: 'Calculation via Magnus over water. h = 1.006 × T + x × (2501 + 1.86 × T) [kJ/kg dry air]. Reference pressure p₀ = 101 325 Pa (sea level).',
+			warnSaturated:
+				'The calculated state is above the saturation line (φ > 100 %). At this temperature the air cannot hold this much moisture — condensation occurs.',
+			formulaNote:
+				'Calculation via Magnus over water. h = 1.006 × T + x × (2501 + 1.86 × T) [kJ/kg dry air]. Reference pressure p₀ = 101 325 Pa (sea level).',
 			stateDef: 'State definition',
 			inputVars: 'Input variables',
 			tRelHumidity: 'T + rel. humidity',
@@ -678,8 +705,10 @@ export const en = {
 			modeAuslegung: 'Design',
 			modeRaumverhalten: 'Room behaviour',
 			co2RiseTitle: 'CO₂ rise (full occupancy, start = {co2} ppm)',
-			infoAuslegung: 'q = G / (c_target − c_outdoor) × 10⁶ — decisive for DDC design at full occupancy. Time constant τ = V / q indicates room inertia (relevant for PID parameterisation).',
-			infoRaumverhalten: 'c(t) = c_SS − (c_SS − c₀) · e^(−t/τ) — rise at constant occupancy and constant flow. For PID parameterisation: plant has time constant τ and no integrating behaviour (PT1 plant).',
+			infoAuslegung:
+				'q = G / (c_target − c_outdoor) × 10⁶ — decisive for DDC design at full occupancy. Time constant τ = V / q indicates room inertia (relevant for PID parameterisation).',
+			infoRaumverhalten:
+				'c(t) = c_SS − (c_SS − c₀) · e^(−t/τ) — rise at constant occupancy and constant flow. For PID parameterisation: plant has time constant τ and no integrating behaviour (PT1 plant).',
 			actRest: 'Rest / sleeping',
 			actOffice: 'Office / light activity',
 			actPhysical: 'Physical work',
@@ -705,12 +734,14 @@ export const en = {
 			freeDeliveryLabel: 'Max. flow rate at H=0 (Q₀)',
 			designFlowLabel: 'Design flow rate',
 			networkPressureDrop: 'Pipe network pressure drop at design point',
-			noIntersection: 'No intersection in valid range — pump undersized or pipe network incorrectly configured.',
+			noIntersection:
+				'No intersection in valid range — pump undersized or pipe network incorrectly configured.',
 			pumpCurveLabel: 'Pump curve',
 			networkLabel: 'Pipe network',
 			operatingPointLabel: 'Operating point',
 			customPreset: 'Custom',
-			formulaNote: 'Pump curve: H(Q) = H₀ × (1 − (Q/Q₀)²) — parabolic approximation. Pipe network: H(Q) = R × Q² with R = ΔpDesign / Q²Design. Operating point = intersection of both curves.',
+			formulaNote:
+				'Pump curve: H(Q) = H₀ × (1 − (Q/Q₀)²) — parabolic approximation. Pipe network: H(Q) = R × Q² with R = ΔpDesign / Q²Design. Operating point = intersection of both curves.',
 			operatingPointTooltip: 'Operating point'
 		},
 
@@ -744,9 +775,11 @@ export const en = {
 			voltageAtDevice: 'Voltage at device',
 			voltDropPct: 'Voltage drop',
 			cableResistance: 'Cable resistance (fwd + return)',
-			warnVoltageLow: 'Voltage at device too low ({u} V < {umin} V) — increase cross-section or reduce length.',
+			warnVoltageLow:
+				'Voltage at device too low ({u} V < {umin} V) — increase cross-section or reduce length.',
 			warnCurrentHigh: 'Current capacity exceeded: {i} A > {imax} A (permitted for {cs} mm²)',
-			infoCalc: 'ΔU = 2 × L × ρ × I_eff / A · ρCu = {rho} Ω·mm²/m · Total length (fwd + return): {l} m · I_eff = {i} A ({placement})',
+			infoCalc:
+				'ΔU = 2 × L × ρ × I_eff / A · ρCu = {rho} Ω·mm²/m · Total length (fwd + return): {l} m · I_eff = {i} A ({placement})',
 			maxCableLength: 'Max. cable length ({cs} mm²)',
 			allowedDrop: 'Permitted voltage drop',
 			compareAll: 'Compare all cross-sections',
@@ -801,9 +834,12 @@ export const en = {
 			range: 'Range',
 			bitResolution: 'Bit resolution',
 			warnOutOfRange: 'Address outside valid range ({min}–{max})',
-			infoBacnetMstp: 'BACnet MS/TP uses MAC addresses 0–127 (7 bit). Each device on the bus needs a unique address. Addresses 0–127 for devices, 128+ reserved for routers/broadcasts.',
-			infoModbusRtu: 'Modbus RTU uses Slave IDs 1–247 (0 = Broadcast, 248–255 reserved). 8 DIP-Switches cover the full range. Address 0 is reserved for broadcast commands and must not be assigned to any device.',
-			infoKnx: 'KNX DIP-Switches typically encode the line number or device address within a line (0–255, 8 bit). The full physical address (Area.Line.Device) is assigned via ETS.',
+			infoBacnetMstp:
+				'BACnet MS/TP uses MAC addresses 0–127 (7 bit). Each device on the bus needs a unique address. Addresses 0–127 for devices, 128+ reserved for routers/broadcasts.',
+			infoModbusRtu:
+				'Modbus RTU uses Slave IDs 1–247 (0 = Broadcast, 248–255 reserved). 8 DIP-Switches cover the full range. Address 0 is reserved for broadcast commands and must not be assigned to any device.',
+			infoKnx:
+				'KNX DIP-Switches typically encode the line number or device address within a line (0–255, 8 bit). The full physical address (Area.Line.Device) is assigned via ETS.',
 			infoCustom: 'Custom configuration. Switch count and address range freely configurable.',
 			addressLabelKnx: 'Physical address (line)',
 			addressLabelCustom: 'Address'
@@ -836,7 +872,8 @@ export const en = {
 			benchmarkNew: 'New build: 30–60 W/m²',
 			benchmarkOld: 'Old building: 60–100 W/m²',
 			benchmarkUninsulated: 'Uninsulated: >100 W/m²',
-			calcNote: 'Simplified calculation per EN 12831 / SIA 384.201. External wall area via geometric approximation (square floor plan). For planning permission and standard calculations, a detailed heat load calculation with thermal bridges and exact component areas is required.',
+			calcNote:
+				'Simplified calculation per EN 12831 / SIA 384.201. External wall area via geometric approximation (square floor plan). For planning permission and standard calculations, a detailed heat load calculation with thermal bridges and exact component areas is required.',
 			roomWohnen: 'Living room',
 			roomSchlafen: 'Bedroom',
 			roomBad: 'Bathroom',
@@ -853,7 +890,8 @@ export const en = {
 			pressureDiff: 'Pressure difference Δp',
 			kvValue: 'Kv value',
 			recommendedKvs: 'Recommended Kvs (standard size)',
-			warnLowAuthority: 'Low valve authority (a ≈ {a}). For good control α ≥ 0.3 — valve may be oversized.',
+			warnLowAuthority:
+				'Low valve authority (a ≈ {a}). For good control α ≥ 0.3 — valve may be oversized.',
 			formulaNote: 'Formula: Kv = V̇ × √(1 / Δp), water at 20 °C.',
 			stdKvsSeries: 'Standard Kvs per DIN EN 1267:'
 		}
@@ -867,16 +905,16 @@ export const en = {
 		copy: 'Copy',
 		allConverters: 'All Converters',
 		resetAll: 'Reset all',
-		druck:      { name: 'Pressure' },
+		druck: { name: 'Pressure' },
 		durchfluss: { name: 'Flow rate' },
-		energie:    { name: 'Energy' },
-		feuchte:    { name: 'Humidity' },
-		leistung:   { name: 'Power' },
+		energie: { name: 'Energy' },
+		feuchte: { name: 'Humidity' },
+		leistung: { name: 'Power' },
 		luftmengen: { name: 'Air flow' },
 		temperatur: { name: 'Temperature' },
-		signal:     { name: 'Analog signal' },
+		signal: { name: 'Analog signal' },
 		beleuchtung: { name: 'Lighting' },
-		winkel:     { name: 'Angle / Valve position' }
+		winkel: { name: 'Angle / Valve position' }
 	},
 
 	// ── Changelog ─────────────────────────────────────────────────────────────
@@ -907,7 +945,8 @@ export const en = {
 		mfrPrefs: 'Preferred manufacturers',
 		mfrPrefsHint: 'Used as default in the heating curve calculator',
 		defaultCity: 'Default location',
-		defaultCityHint: 'Automatically sets the standard outdoor temperature in the heating curve calculator',
+		defaultCityHint:
+			'Automatically sets the standard outdoor temperature in the heating curve calculator',
 		cityLabel: 'City',
 		normTemp: 'Design outdoor temperature',
 		noDefault: '— no default —',
@@ -940,7 +979,8 @@ export const en = {
 	// ── Bus Commissioning ─────────────────────────────────────────────────────
 	busIbn: {
 		title: 'Bus Commissioning Address Configurator',
-		subtitle: 'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export',
+		subtitle:
+			'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export',
 		printTitle: 'Bus Commissioning Address Configuration',
 
 		// Toolbar
@@ -980,7 +1020,8 @@ export const en = {
 		nextFreeHint: 'next free ≥ {addr}',
 		modbusSettings: 'Baud: {baud} · Parity: {parity} · Stop bits: {stopBits}',
 		knxSettings: 'Topology: {topology} · Medium: {medium}',
-		addrHintMstp: 'MAC 1–127 · Controllers typically 1–31, sensors/actuators 32–127 · MAC 0 reserved for router/gateway',
+		addrHintMstp:
+			'MAC 1–127 · Controllers typically 1–31, sensors/actuators 32–127 · MAC 0 reserved for router/gateway',
 		addrHintIp: 'Device Instance 0–4,194,302 (unique across project)',
 		addrHintModbus: 'Slave ID 1–247 · 0 = Broadcast (reserved) · 248–255 reserved',
 		addrHintKnx: 'Line 1–255 (physical address via ETS)',
@@ -1112,7 +1153,8 @@ export const en = {
 		statusError: 'Error',
 
 		// CSV headers
-		csvHeaderAll: 'Segment;Protocol;MAC;Device name;Type;Manufacturer;Model;Group;Device Instance;Status;Notes',
+		csvHeaderAll:
+			'Segment;Protocol;MAC;Device name;Type;Manufacturer;Model;Group;Device Instance;Status;Notes',
 		csvHeaderSeg: 'MAC;Device name;Type;Manufacturer;Model;Group;Device Instance;Status;Notes',
 
 		// Device library — categories

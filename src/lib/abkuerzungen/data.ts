@@ -7,8 +7,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'PID',
 		long: 'Proportional–Integral–Derivative',
-		description: 'Standard-Reglertyp mit drei Anteilen: schnelle P-Reaktion, statische Genauigkeit durch I, Dämpfung durch D.',
-		descriptionEn: 'Standard controller type with three components: fast P response, static accuracy via I, damping via D.',
+		description:
+			'Standard-Reglertyp mit drei Anteilen: schnelle P-Reaktion, statische Genauigkeit durch I, Dämpfung durch D.',
+		descriptionEn:
+			'Standard controller type with three components: fast P response, static accuracy via I, damping via D.',
 		areas: ['hlk', 'ga'],
 		related: ['PI', 'P'],
 		wissenSlug: 'pid-regler'
@@ -50,8 +52,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'DDC',
 		long: 'Direct Digital Control',
-		description: 'Frei programmierbare Automationsstation in der GA — Übergang zwischen SPS und Gebäudeleittechnik.',
-		descriptionEn: 'Freely programmable automation station in BA — between PLC and building management.',
+		description:
+			'Frei programmierbare Automationsstation in der GA — Übergang zwischen SPS und Gebäudeleittechnik.',
+		descriptionEn:
+			'Freely programmable automation station in BA — between PLC and building management.',
 		areas: ['ga'],
 		related: ['SPS', 'GLT', 'MSR']
 	},
@@ -122,24 +126,30 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'OPC UA',
 		long: 'OPC Unified Architecture',
-		description: 'Industrie-Standard für Maschine-zu-Maschine-Kommunikation. Plattformunabhängig, verschlüsselt.',
-		descriptionEn: 'Industry standard for machine-to-machine communication. Platform-independent, encrypted.',
+		description:
+			'Industrie-Standard für Maschine-zu-Maschine-Kommunikation. Plattformunabhängig, verschlüsselt.',
+		descriptionEn:
+			'Industry standard for machine-to-machine communication. Platform-independent, encrypted.',
 		areas: ['ga', 'it'],
 		related: ['BACnet', 'Modbus']
 	},
 	{
 		short: 'MSR',
 		long: 'Messen, Steuern, Regeln',
-		description: 'Oberbegriff für die drei Kerndisziplinen der Automatisierungstechnik. In D/A/CH verbreitet.',
-		descriptionEn: 'Collective term for the three core disciplines of automation engineering (instrumentation & control). Common in German-speaking countries.',
+		description:
+			'Oberbegriff für die drei Kerndisziplinen der Automatisierungstechnik. In D/A/CH verbreitet.',
+		descriptionEn:
+			'Collective term for the three core disciplines of automation engineering (instrumentation & control). Common in German-speaking countries.',
 		areas: ['ga', 'hlk'],
 		related: ['DDC', 'SPS']
 	},
 	{
 		short: 'MPC',
 		long: 'Model Predictive Control',
-		description: 'Prädiktive Regelstrategie: optimiert Stellgrössen über einen Zeithorizont unter Berücksichtigung von Prognosen (Wetter, Belegung).',
-		descriptionEn: 'Predictive control strategy: optimises control variables over a time horizon using forecasts (weather, occupancy).',
+		description:
+			'Prädiktive Regelstrategie: optimiert Stellgrössen über einen Zeithorizont unter Berücksichtigung von Prognosen (Wetter, Belegung).',
+		descriptionEn:
+			'Predictive control strategy: optimises control variables over a time horizon using forecasts (weather, occupancy).',
 		areas: ['ga', 'hlk'],
 		related: ['PID']
 	},
@@ -183,7 +193,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'HLKSE',
 		long: 'Heizung, Lüftung, Klima, Sanitär, Elektro',
 		description: 'CH-Fachbereichs-Gliederung für die Haustechnik.',
-		descriptionEn: 'Swiss building services classification: Heating, Ventilation, AC, Plumbing, Electrical.',
+		descriptionEn:
+			'Swiss building services classification: Heating, Ventilation, AC, Plumbing, Electrical.',
 		areas: ['hlk', 'sanitaer', 'elektro'],
 		related: ['HLK', 'TGA']
 	},
@@ -206,8 +217,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'MEP',
 		long: 'Mechanical, Electrical, Plumbing',
-		description: 'Englisches Pendant zu TGA / HLKSE — international gebräuchlicher Sammelbegriff für Gebäudetechnik.',
-		descriptionEn: 'English equivalent of TGA/HLKSE — internationally common term for building services.',
+		description:
+			'Englisches Pendant zu TGA / HLKSE — international gebräuchlicher Sammelbegriff für Gebäudetechnik.',
+		descriptionEn:
+			'English equivalent of TGA/HLKSE — internationally common term for building services.',
 		areas: ['hlk', 'sanitaer', 'elektro', 'ga'],
 		related: ['TGA', 'HLKSE']
 	},
@@ -230,8 +243,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'ΔT',
 		long: 'Temperature Difference',
-		description: 'Spreizung zwischen Vor- und Rücklauf. Heizung typisch 10–20 K, Fernwärme oft 30–40 K.',
-		descriptionEn: 'Spread between flow and return. Heating typically 10–20 K, district heating often 30–40 K.',
+		description:
+			'Spreizung zwischen Vor- und Rücklauf. Heizung typisch 10–20 K, Fernwärme oft 30–40 K.',
+		descriptionEn:
+			'Spread between flow and return. Heating typically 10–20 K, district heating often 30–40 K.',
 		areas: ['hlk'],
 		related: ['VL', 'RL']
 	},
@@ -239,7 +254,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'HK',
 		long: 'Heizkreis',
 		description: 'Hydraulisch eigenständiger Heizkreislauf — meist mit eigener Pumpe und Mischer.',
-		descriptionEn: 'Hydraulically independent heating circuit — usually with its own pump and mixer.',
+		descriptionEn:
+			'Hydraulically independent heating circuit — usually with its own pump and mixer.',
 		areas: ['hlk'],
 		related: ['FBH']
 	},
@@ -270,8 +286,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'TWW',
 		long: 'Trinkwarmwasser',
-		description: 'Erwärmtes Trinkwasser für Dusche, Bad, Küche. Legionellenschutz nötig (> 60 °C im Speicher).',
-		descriptionEn: 'Heated drinking water for shower, bath, kitchen. Legionella protection required (> 60 °C in storage).',
+		description:
+			'Erwärmtes Trinkwasser für Dusche, Bad, Küche. Legionellenschutz nötig (> 60 °C im Speicher).',
+		descriptionEn:
+			'Heated drinking water for shower, bath, kitchen. Legionella protection required (> 60 °C in storage).',
 		areas: ['sanitaer', 'hlk'],
 		related: ['BWW', 'WW', 'DHW']
 	},
@@ -303,7 +321,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'MAG',
 		long: 'Membran-Ausdehnungsgefäss',
 		description: 'Druckhaltung für geschlossene Heizungs-/Kühlsysteme. Auslegung nach SWKI 91-1.',
-		descriptionEn: 'Pressure maintenance vessel for closed heating/cooling systems. Sizing per SWKI 91-1.',
+		descriptionEn:
+			'Pressure maintenance vessel for closed heating/cooling systems. Sizing per SWKI 91-1.',
 		areas: ['hlk'],
 		related: []
 	},
@@ -335,15 +354,18 @@ export const abbreviations: Abbreviation[] = [
 		short: 'LWP',
 		long: 'Luft-Wasser-Wärmepumpe',
 		description: 'Wärmepumpe mit Aussenluft als Quelle. Günstig, aber niedriger COP bei Frost.',
-		descriptionEn: 'Heat pump with outdoor air as source. Low cost, but lower COP at frost temperatures.',
+		descriptionEn:
+			'Heat pump with outdoor air as source. Low cost, but lower COP at frost temperatures.',
 		areas: ['hlk'],
 		related: ['WP', 'EWP']
 	},
 	{
 		short: 'EWP',
 		long: 'Erdsonden-Wärmepumpe',
-		description: 'Wärmepumpe mit Erdwärme als Quelle (Sonden 100–300 m tief). Hoher COP, höhere Investition.',
-		descriptionEn: 'Heat pump with geothermal energy as source (probes 100–300 m deep). High COP, higher investment.',
+		description:
+			'Wärmepumpe mit Erdwärme als Quelle (Sonden 100–300 m tief). Hoher COP, höhere Investition.',
+		descriptionEn:
+			'Heat pump with geothermal energy as source (probes 100–300 m deep). High COP, higher investment.',
 		areas: ['hlk'],
 		related: ['WP', 'LWP']
 	},
@@ -398,8 +420,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'HK-Charakteristik',
 		long: 'Heizkennlinie / Heizkurve',
-		description: 'Vorlauftemperatur als Funktion der Aussentemperatur. Mit Neigung und Niveau parametriert.',
-		descriptionEn: 'Flow temperature as a function of outdoor temperature. Parameterised with slope and level offset.',
+		description:
+			'Vorlauftemperatur als Funktion der Aussentemperatur. Mit Neigung und Niveau parametriert.',
+		descriptionEn:
+			'Flow temperature as a function of outdoor temperature. Parameterised with slope and level offset.',
 		areas: ['hlk'],
 		related: ['VL'],
 		wissenSlug: 'heizkurve'
@@ -417,32 +441,40 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'ΔP',
 		long: 'Pressure Difference',
-		description: 'Druckdifferenz zwischen zwei Messpunkten [Pa oder bar]. Basis für Durchflussmessung und Ventilauslegung.',
-		descriptionEn: 'Pressure difference between two measurement points [Pa or bar]. Basis for flow measurement and valve sizing.',
+		description:
+			'Druckdifferenz zwischen zwei Messpunkten [Pa oder bar]. Basis für Durchflussmessung und Ventilauslegung.',
+		descriptionEn:
+			'Pressure difference between two measurement points [Pa or bar]. Basis for flow measurement and valve sizing.',
 		areas: ['hlk'],
 		related: ['ΔT', 'Kv', 'DN']
 	},
 	{
 		short: 'DN',
 		long: 'Diameter Nominal',
-		description: 'Nennweite einer Rohrleitung. DN 25 ≈ 1". Bezeichnet die Rohrgrösse unabhängig von der Wanddicke.',
-		descriptionEn: 'Nominal pipe diameter. DN 25 ≈ 1". Designates pipe size independently of wall thickness.',
+		description:
+			'Nennweite einer Rohrleitung. DN 25 ≈ 1". Bezeichnet die Rohrgrösse unabhängig von der Wanddicke.',
+		descriptionEn:
+			'Nominal pipe diameter. DN 25 ≈ 1". Designates pipe size independently of wall thickness.',
 		areas: ['hlk', 'sanitaer'],
 		related: ['PN', 'Kv']
 	},
 	{
 		short: 'PN',
 		long: 'Pressure Nominal',
-		description: 'Nenndruck einer Rohrleitung oder Armatur in bar. PN 16 = max. 16 bar Betriebsdruck.',
-		descriptionEn: 'Nominal pressure of a pipe or fitting in bar. PN 16 = max. 16 bar operating pressure.',
+		description:
+			'Nenndruck einer Rohrleitung oder Armatur in bar. PN 16 = max. 16 bar Betriebsdruck.',
+		descriptionEn:
+			'Nominal pressure of a pipe or fitting in bar. PN 16 = max. 16 bar operating pressure.',
 		areas: ['hlk', 'sanitaer'],
 		related: ['DN']
 	},
 	{
 		short: 'Kv',
 		long: 'Flow Coefficient (Kv)',
-		description: 'Ventilkennwert: Volumenstrom [m³/h] bei 1 bar Druckabfall und Wasser (20 °C). Basis für Ventilauslegung.',
-		descriptionEn: 'Valve flow coefficient: volume flow [m³/h] at 1 bar pressure drop with water (20 °C). Basis for valve sizing.',
+		description:
+			'Ventilkennwert: Volumenstrom [m³/h] bei 1 bar Druckabfall und Wasser (20 °C). Basis für Ventilauslegung.',
+		descriptionEn:
+			'Valve flow coefficient: volume flow [m³/h] at 1 bar pressure drop with water (20 °C). Basis for valve sizing.',
 		areas: ['hlk'],
 		related: ['DN', 'ΔP'],
 		wissenSlug: 'ventilautoritaet'
@@ -462,32 +494,40 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'KWL',
 		long: 'Kontrollierte Wohnraumlüftung',
-		description: 'Dezentrale Lüftungsanlage mit WRG für Wohngebäude — typisch mit Gegen- oder Kreuzstromtauscher.',
-		descriptionEn: 'Decentralised ventilation with HRV for residential buildings — typically with counter- or cross-flow heat exchanger.',
+		description:
+			'Dezentrale Lüftungsanlage mit WRG für Wohngebäude — typisch mit Gegen- oder Kreuzstromtauscher.',
+		descriptionEn:
+			'Decentralised ventilation with HRV for residential buildings — typically with counter- or cross-flow heat exchanger.',
 		areas: ['hlk'],
 		related: ['RLT', 'WRG', 'ERV']
 	},
 	{
 		short: 'ULK',
 		long: 'Umluftkühlgeräte',
-		description: 'Gerätetyp zur Raumkühlung via Umluftprinzip — Luft wird über einen Kaltwasserregister oder DX-Verdampfer umgewälzt.',
-		descriptionEn: 'Room cooling devices using recirculation — air circulated over a chilled water coil or DX evaporator.',
+		description:
+			'Gerätetyp zur Raumkühlung via Umluftprinzip — Luft wird über einen Kaltwasserregister oder DX-Verdampfer umgewälzt.',
+		descriptionEn:
+			'Room cooling devices using recirculation — air circulated over a chilled water coil or DX evaporator.',
 		areas: ['hlk'],
 		related: ['FCU', 'VRF']
 	},
 	{
 		short: 'FCU',
 		long: 'Fan Coil Unit',
-		description: 'Gebläsekonvektor — Raumgerät mit Ventilator und Wasserregister (Heizen/Kühlen). Angeschlossen an CHW und HW.',
-		descriptionEn: 'Room unit with fan and water coil for heating and cooling. Connected to chilled water (CHW) and hot water (HW).',
+		description:
+			'Gebläsekonvektor — Raumgerät mit Ventilator und Wasserregister (Heizen/Kühlen). Angeschlossen an CHW und HW.',
+		descriptionEn:
+			'Room unit with fan and water coil for heating and cooling. Connected to chilled water (CHW) and hot water (HW).',
 		areas: ['hlk'],
 		related: ['ULK', 'CHW', 'VRF']
 	},
 	{
 		short: 'SFP',
 		long: 'Specific Fan Power',
-		description: 'Spezifische Ventilatorleistung [W/(m³/h) oder W/(l/s)]. Effizienz-Kennzahl für RLT-Anlagen nach EN 13779 / SWKI.',
-		descriptionEn: 'Specific fan power [W/(m³/h) or W/(l/s)]. Efficiency indicator for ventilation systems per EN 13779 / SWKI.',
+		description:
+			'Spezifische Ventilatorleistung [W/(m³/h) oder W/(l/s)]. Effizienz-Kennzahl für RLT-Anlagen nach EN 13779 / SWKI.',
+		descriptionEn:
+			'Specific fan power [W/(m³/h) or W/(l/s)]. Efficiency indicator for ventilation systems per EN 13779 / SWKI.',
 		areas: ['hlk', 'normen'],
 		related: ['AHU', 'RLT']
 	},
@@ -502,8 +542,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'WRG',
 		long: 'Wärmerückgewinnung',
-		description: 'Wärmeübertrag von Abluft auf Zuluft. Plattenwärmetauscher, Rotor, Kreislaufverbund.',
-		descriptionEn: 'Heat transfer from exhaust air to supply air. Plate heat exchanger, rotor, run-around coil.',
+		description:
+			'Wärmeübertrag von Abluft auf Zuluft. Plattenwärmetauscher, Rotor, Kreislaufverbund.',
+		descriptionEn:
+			'Heat transfer from exhaust air to supply air. Plate heat exchanger, rotor, run-around coil.',
 		areas: ['hlk'],
 		related: ['HRV', 'ERV']
 	},
@@ -519,7 +561,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ERV',
 		long: 'Energy Recovery Ventilation',
 		description: 'Lüftung mit Enthalpierückgewinnung (Temperatur + Feuchte) — Rotor oder Membran.',
-		descriptionEn: 'Ventilation with enthalpy recovery (temperature + humidity) — rotor or membrane.',
+		descriptionEn:
+			'Ventilation with enthalpy recovery (temperature + humidity) — rotor or membrane.',
 		areas: ['hlk'],
 		related: ['HRV', 'WRG']
 	},
@@ -614,7 +657,8 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'ePM10',
 		long: 'Filter ePM10 (ISO 16890)',
-		description: 'Filterklasse für Feinstaub ≤ 10 µm nach ISO 16890. Entspricht ehemaligen G-Klassen.',
+		description:
+			'Filterklasse für Feinstaub ≤ 10 µm nach ISO 16890. Entspricht ehemaligen G-Klassen.',
 		descriptionEn: 'Filter class for fine dust ≤ 10 µm per ISO 16890. Replaces former G classes.',
 		areas: ['hlk', 'normen'],
 		related: ['ePM1', 'ePM2.5']
@@ -631,7 +675,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'HEPA',
 		long: 'High Efficiency Particulate Air Filter',
 		description: 'Schwebstofffilter ab H13. Für Reinräume und kritische Bereiche.',
-		descriptionEn: 'High-efficiency particulate filter from H13 upwards. For clean rooms and critical areas.',
+		descriptionEn:
+			'High-efficiency particulate filter from H13 upwards. For clean rooms and critical areas.',
 		areas: ['hlk'],
 		related: ['ePM1']
 	},
@@ -658,8 +703,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'VRF',
 		long: 'Variable Refrigerant Flow',
-		description: 'Multi-Split-Kältesystem mit variablem Kältemittelfluss — eine Aussen-, mehrere Inneneinheiten.',
-		descriptionEn: 'Multi-split refrigerant system with variable flow — one outdoor, multiple indoor units.',
+		description:
+			'Multi-Split-Kältesystem mit variablem Kältemittelfluss — eine Aussen-, mehrere Inneneinheiten.',
+		descriptionEn:
+			'Multi-split refrigerant system with variable flow — one outdoor, multiple indoor units.',
 		areas: ['hlk'],
 		related: ['DX']
 	},
@@ -675,7 +722,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'TXV',
 		long: 'Thermostatic Expansion Valve',
 		description: 'Mechanisches Expansionsventil — Drosselt Kältemittel temperaturgesteuert.',
-		descriptionEn: 'Mechanical expansion valve — throttles refrigerant in a temperature-controlled manner.',
+		descriptionEn:
+			'Mechanical expansion valve — throttles refrigerant in a temperature-controlled manner.',
 		areas: ['hlk'],
 		related: ['EEV', 'DX']
 	},
@@ -691,7 +739,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'GWP',
 		long: 'Global Warming Potential',
 		description: 'Treibhauspotenzial relativ zu CO₂. R410A: 2088, R32: 675, R290 (Propan): 3.',
-		descriptionEn: 'Greenhouse warming potential relative to CO₂. R410A: 2088, R32: 675, R290 (propane): 3.',
+		descriptionEn:
+			'Greenhouse warming potential relative to CO₂. R410A: 2088, R32: 675, R290 (propane): 3.',
 		areas: ['hlk', 'normen'],
 		related: ['ODP']
 	},
@@ -714,7 +763,8 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'R290',
 		long: 'Refrigerant R290 (Propane)',
-		description: 'Natürliches Kältemittel. GWP 3, brennbar (A3). Hohe Effizienz, kleine Füllmengen.',
+		description:
+			'Natürliches Kältemittel. GWP 3, brennbar (A3). Hohe Effizienz, kleine Füllmengen.',
 		descriptionEn: 'Natural refrigerant. GWP 3, flammable (A3). High efficiency, small charge.',
 		areas: ['hlk'],
 		related: ['R32', 'GWP']
@@ -722,8 +772,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'R744',
 		long: 'Refrigerant R744 (CO₂)',
-		description: 'Natürliches Kältemittel CO₂. GWP 1, transkritischer Prozess. Häufig in Wärmepumpen + Gewerbekälte.',
-		descriptionEn: 'Natural refrigerant CO₂. GWP 1, transcritical process. Common in heat pumps and commercial refrigeration.',
+		description:
+			'Natürliches Kältemittel CO₂. GWP 1, transkritischer Prozess. Häufig in Wärmepumpen + Gewerbekälte.',
+		descriptionEn:
+			'Natural refrigerant CO₂. GWP 1, transcritical process. Common in heat pumps and commercial refrigeration.',
 		areas: ['hlk'],
 		related: ['GWP']
 	},
@@ -731,8 +783,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'CHW',
 		long: 'Chilled Water',
-		description: 'Kaltwasser-Kreislauf einer Kältemaschine. Typische Auslegung 6/12 °C. Verteilt Kälteenergie an FCU, Kühler, Klimageräte.',
-		descriptionEn: 'Chilled water circuit of a chiller. Typically designed at 6/12 °C. Distributes cooling energy to FCUs, coolers, and air conditioning units.',
+		description:
+			'Kaltwasser-Kreislauf einer Kältemaschine. Typische Auslegung 6/12 °C. Verteilt Kälteenergie an FCU, Kühler, Klimageräte.',
+		descriptionEn:
+			'Chilled water circuit of a chiller. Typically designed at 6/12 °C. Distributes cooling energy to FCUs, coolers, and air conditioning units.',
 		areas: ['hlk'],
 		related: ['FCU', 'EER', 'ΔT']
 	},
@@ -743,8 +797,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'KNX',
 		long: 'KNX Standard (ISO/IEC 14543-3)',
-		description: 'Gebäudeautomations-Bussystem nach ISO/IEC 14543-3. Standard in der Wohngebäudeautomation.',
-		descriptionEn: 'Building automation bus system per ISO/IEC 14543-3. Standard in residential building automation.',
+		description:
+			'Gebäudeautomations-Bussystem nach ISO/IEC 14543-3. Standard in der Wohngebäudeautomation.',
+		descriptionEn:
+			'Building automation bus system per ISO/IEC 14543-3. Standard in residential building automation.',
 		areas: ['ga', 'elektro'],
 		related: ['DALI', 'EIB']
 	},
@@ -767,8 +823,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'DALI-2',
 		long: 'DALI Version 2 (IEC 62386)',
-		description: 'Erweiterung von DALI um Notlicht, Sensoren, Tasterschnittstellen. Zertifizierungspflicht.',
-		descriptionEn: 'Extension of DALI adding emergency lighting, sensors, push button interfaces. Certification required.',
+		description:
+			'Erweiterung von DALI um Notlicht, Sensoren, Tasterschnittstellen. Zertifizierungspflicht.',
+		descriptionEn:
+			'Extension of DALI adding emergency lighting, sensors, push button interfaces. Certification required.',
 		areas: ['ga', 'elektro', 'normen'],
 		related: ['DALI']
 	},
@@ -810,7 +868,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'MQTT',
 		long: 'Message Queuing Telemetry Transport',
 		description: 'Publish/Subscribe-Protokoll für IoT. In der GA für leichte Sensor-Anbindungen.',
-		descriptionEn: 'Publish/subscribe protocol for IoT. Used in BA for lightweight sensor connections.',
+		descriptionEn:
+			'Publish/subscribe protocol for IoT. Used in BA for lightweight sensor connections.',
 		areas: ['ga', 'it'],
 		related: ['BACnet', 'OPC UA']
 	},
@@ -818,7 +877,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'LON',
 		long: 'LonWorks / LonTalk',
 		description: 'GA-Protokoll von Echelon. In der Schweiz vor allem Lüftung/Klima ab den 90ern.',
-		descriptionEn: 'BA protocol by Echelon. In Switzerland mainly ventilation/HVAC systems since the 1990s.',
+		descriptionEn:
+			'BA protocol by Echelon. In Switzerland mainly ventilation/HVAC systems since the 1990s.',
 		areas: ['ga'],
 		related: ['BACnet']
 	},
@@ -873,7 +933,8 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'PoE',
 		long: 'Power over Ethernet',
-		description: 'Stromversorgung über Ethernet-Kabel. Standards: 802.3af (15 W), at (30 W), bt (90 W).',
+		description:
+			'Stromversorgung über Ethernet-Kabel. Standards: 802.3af (15 W), at (30 W), bt (90 W).',
 		descriptionEn: 'Power over Ethernet cable. Standards: 802.3af (15 W), at (30 W), bt (90 W).',
 		areas: ['it', 'ga'],
 		related: ['LAN', 'TCP/IP']
@@ -889,24 +950,30 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'UDP',
 		long: 'User Datagram Protocol',
-		description: 'Verbindungsloser Transport — schneller als TCP, aber keine Garantien. Für Streaming, BACnet/IP.',
-		descriptionEn: 'Connectionless transport — faster than TCP but no guarantees. For streaming, BACnet/IP.',
+		description:
+			'Verbindungsloser Transport — schneller als TCP, aber keine Garantien. Für Streaming, BACnet/IP.',
+		descriptionEn:
+			'Connectionless transport — faster than TCP but no guarantees. For streaming, BACnet/IP.',
 		areas: ['it'],
 		related: ['TCP/IP', 'LAN']
 	},
 	{
 		short: 'LAN',
 		long: 'Local Area Network',
-		description: 'Lokales Netzwerk innerhalb eines Gebäudes oder Standorts. Basis für GA-Kommunikation via BACnet/IP, Modbus TCP etc.',
-		descriptionEn: 'Local area network within a building or site. Basis for BA communication via BACnet/IP, Modbus TCP etc.',
+		description:
+			'Lokales Netzwerk innerhalb eines Gebäudes oder Standorts. Basis für GA-Kommunikation via BACnet/IP, Modbus TCP etc.',
+		descriptionEn:
+			'Local area network within a building or site. Basis for BA communication via BACnet/IP, Modbus TCP etc.',
 		areas: ['it', 'ga'],
 		related: ['VLAN', 'VPN', 'TCP/IP']
 	},
 	{
 		short: 'DNS',
 		long: 'Domain Name System',
-		description: 'Übersetzt Hostnamen in IP-Adressen. Wichtig für Cloud-Anbindungen, Remote-Zugriff und MQTT-Broker.',
-		descriptionEn: 'Translates hostnames into IP addresses. Important for cloud connections, remote access and MQTT brokers.',
+		description:
+			'Übersetzt Hostnamen in IP-Adressen. Wichtig für Cloud-Anbindungen, Remote-Zugriff und MQTT-Broker.',
+		descriptionEn:
+			'Translates hostnames into IP addresses. Important for cloud connections, remote access and MQTT brokers.',
 		areas: ['it'],
 		related: ['DHCP', 'NTP']
 	},
@@ -922,7 +989,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'NTP',
 		long: 'Network Time Protocol',
 		description: 'Zeitsynchronisation übers Netz — wichtig für Logging und Authentifizierung.',
-		descriptionEn: 'Time synchronisation over the network — important for logging and authentication.',
+		descriptionEn:
+			'Time synchronisation over the network — important for logging and authentication.',
 		areas: ['it', 'ga'],
 		related: ['DHCP']
 	},
@@ -962,7 +1030,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'API',
 		long: 'Application Programming Interface',
 		description: 'Programmierschnittstelle — z.B. REST-API einer GLT zur Anbindung Drittsysteme.',
-		descriptionEn: 'Programming interface — e.g. REST API of a BMS for third-party system integration.',
+		descriptionEn:
+			'Programming interface — e.g. REST API of a BMS for third-party system integration.',
 		areas: ['it'],
 		related: ['REST', 'JSON']
 	},
@@ -985,40 +1054,50 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IoT',
 		long: 'Internet of Things',
-		description: 'Vernetzung physischer Geräte mit dem Internet. In der GA: Smart Meter, Sensoren, Gateways, Fernzugriff.',
-		descriptionEn: 'Networking of physical devices with the internet. In BA: smart meters, sensors, gateways, remote access.',
+		description:
+			'Vernetzung physischer Geräte mit dem Internet. In der GA: Smart Meter, Sensoren, Gateways, Fernzugriff.',
+		descriptionEn:
+			'Networking of physical devices with the internet. In BA: smart meters, sensors, gateways, remote access.',
 		areas: ['it', 'ga'],
 		related: ['MQTT', 'LoRaWAN', 'OT']
 	},
 	{
 		short: 'OT',
 		long: 'Operational Technology',
-		description: 'Hard- und Software zur Steuerung physischer Prozesse (Anlagen, Gebäude). Abgrenzung zur IT — sicherheitskritisch.',
-		descriptionEn: 'Hardware and software for controlling physical processes (plant, buildings). Distinct from IT — security-critical.',
+		description:
+			'Hard- und Software zur Steuerung physischer Prozesse (Anlagen, Gebäude). Abgrenzung zur IT — sicherheitskritisch.',
+		descriptionEn:
+			'Hardware and software for controlling physical processes (plant, buildings). Distinct from IT — security-critical.',
 		areas: ['ga', 'it'],
 		related: ['IoT', 'SCADA', 'DDC']
 	},
 	{
 		short: 'RTU',
 		long: 'Remote Terminal Unit',
-		description: 'Feldgerät zur Datenerfassung und Steuerung — kommuniziert über Modbus oder SCADA mit dem Leitsystem.',
-		descriptionEn: 'Field device for data acquisition and control — communicates with control system via Modbus or SCADA.',
+		description:
+			'Feldgerät zur Datenerfassung und Steuerung — kommuniziert über Modbus oder SCADA mit dem Leitsystem.',
+		descriptionEn:
+			'Field device for data acquisition and control — communicates with control system via Modbus or SCADA.',
 		areas: ['ga', 'it'],
 		related: ['SCADA', 'Modbus', 'DDC']
 	},
 	{
 		short: 'BIM',
 		long: 'Building Information Modelling',
-		description: 'Digitales Gebäudemodell mit Bau-, Technik- und Betriebsdaten. Basis für Planung, IBN und CAFM.',
-		descriptionEn: 'Digital building model with construction, technical and operational data. Basis for planning, commissioning and CAFM.',
+		description:
+			'Digitales Gebäudemodell mit Bau-, Technik- und Betriebsdaten. Basis für Planung, IBN und CAFM.',
+		descriptionEn:
+			'Digital building model with construction, technical and operational data. Basis for planning, commissioning and CAFM.',
 		areas: ['ga', 'normen'],
 		related: ['IFC', 'CAFM']
 	},
 	{
 		short: 'IFC',
 		long: 'Industry Foundation Classes',
-		description: 'Offenes BIM-Dateiformat nach ISO 16739. Ermöglicht Datenaustausch zwischen verschiedenen Planungssoftware.',
-		descriptionEn: 'Open BIM file format per ISO 16739. Enables data exchange between different planning software.',
+		description:
+			'Offenes BIM-Dateiformat nach ISO 16739. Ermöglicht Datenaustausch zwischen verschiedenen Planungssoftware.',
+		descriptionEn:
+			'Open BIM file format per ISO 16739. Enables data exchange between different planning software.',
 		areas: ['ga', 'normen'],
 		related: ['BIM']
 	},
@@ -1045,16 +1124,20 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'NTC',
 		long: 'Negative Temperature Coefficient',
-		description: 'Heissleiter — Widerstand sinkt bei steigender Temperatur. Häufiger Temperaturfühler.',
-		descriptionEn: 'Thermistor — resistance decreases with rising temperature. Common temperature sensor.',
+		description:
+			'Heissleiter — Widerstand sinkt bei steigender Temperatur. Häufiger Temperaturfühler.',
+		descriptionEn:
+			'Thermistor — resistance decreases with rising temperature. Common temperature sensor.',
 		areas: ['hlk', 'elektro'],
 		related: ['PTC', 'Pt100']
 	},
 	{
 		short: 'PTC',
 		long: 'Positive Temperature Coefficient',
-		description: 'Kaltleiter — Widerstand steigt bei steigender Temperatur. Motor-Schutz, Heizelemente.',
-		descriptionEn: 'PTC thermistor — resistance increases with rising temperature. Motor protection, heating elements.',
+		description:
+			'Kaltleiter — Widerstand steigt bei steigender Temperatur. Motor-Schutz, Heizelemente.',
+		descriptionEn:
+			'PTC thermistor — resistance increases with rising temperature. Motor protection, heating elements.',
 		areas: ['elektro'],
 		related: ['NTC']
 	},
@@ -1062,7 +1145,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'Pt100',
 		long: 'Platinum Resistance 100 Ω at 0 °C',
 		description: 'Präziser Temperaturfühler nach EN 60751. Linearer als NTC, teurer.',
-		descriptionEn: 'Precision temperature sensor per EN 60751. More linear than NTC, more expensive.',
+		descriptionEn:
+			'Precision temperature sensor per EN 60751. More linear than NTC, more expensive.',
 		areas: ['hlk', 'elektro'],
 		related: ['NTC', 'Pt1000']
 	},
@@ -1070,7 +1154,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'Pt1000',
 		long: 'Platinum Resistance 1000 Ω at 0 °C',
 		description: 'Wie Pt100 aber mit 10× höherem Widerstand → weniger Leitungsfehler-Einfluss.',
-		descriptionEn: 'Like Pt100 but with 10× higher resistance → less influence from line resistance.',
+		descriptionEn:
+			'Like Pt100 but with 10× higher resistance → less influence from line resistance.',
 		areas: ['hlk', 'elektro'],
 		related: ['Pt100', 'NTC']
 	},
@@ -1109,8 +1194,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: '0–10 V',
 		long: 'Analogue Control Signal 0–10 V',
-		description: 'Standard-Stellsignal für Ventilatoren, Regelventile, Dimmer. Auch 2–10 V (Drahtbruchüberwachung).',
-		descriptionEn: 'Standard control signal for fans, control valves, dimmers. Also 2–10 V (wire break monitoring).',
+		description:
+			'Standard-Stellsignal für Ventilatoren, Regelventile, Dimmer. Auch 2–10 V (Drahtbruchüberwachung).',
+		descriptionEn:
+			'Standard control signal for fans, control valves, dimmers. Also 2–10 V (wire break monitoring).',
 		areas: ['elektro', 'hlk'],
 		related: ['4–20 mA', 'PWM']
 	},
@@ -1118,15 +1205,18 @@ export const abbreviations: Abbreviation[] = [
 		short: '4–20 mA',
 		long: 'Analogue Current Signal 4–20 mA',
 		description: 'Industriestandard für Prozesssignale. Robust gegen Leitungslänge und Störungen.',
-		descriptionEn: 'Industrial standard for process signals. Robust against line length and interference.',
+		descriptionEn:
+			'Industrial standard for process signals. Robust against line length and interference.',
 		areas: ['elektro', 'hlk'],
 		related: ['0–10 V']
 	},
 	{
 		short: 'PWM',
 		long: 'Pulse Width Modulation',
-		description: 'Stellsignal: Tastverhältnis variiert. Für EC-Motoren, LED-Dimmung, kleine Aktoren.',
-		descriptionEn: 'Control signal: duty cycle varies. For EC motors, LED dimming, small actuators.',
+		description:
+			'Stellsignal: Tastverhältnis variiert. Für EC-Motoren, LED-Dimmung, kleine Aktoren.',
+		descriptionEn:
+			'Control signal: duty cycle varies. For EC motors, LED dimming, small actuators.',
 		areas: ['elektro', 'ga'],
 		related: ['FU', '0–10 V']
 	},
@@ -1170,7 +1260,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'FU',
 		long: 'Frequenzumrichter',
 		description: 'Drehzahlregelung für Drehstrommotoren. Steuersignal meist 0–10 V oder Modbus.',
-		descriptionEn: 'Speed control for three-phase motors. Control signal typically 0–10 V or Modbus.',
+		descriptionEn:
+			'Speed control for three-phase motors. Control signal typically 0–10 V or Modbus.',
 		areas: ['elektro', 'hlk'],
 		related: ['VFD', 'EC-Motor']
 	},
@@ -1186,7 +1277,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'EC-Motor',
 		long: 'Electronically Commutated Motor',
 		description: 'Bürstenloser Gleichstrommotor mit Elektronik. Sehr effizient, drehzahlsteuerbar.',
-		descriptionEn: 'Brushless DC motor with integrated electronics. Very efficient, speed-controllable.',
+		descriptionEn:
+			'Brushless DC motor with integrated electronics. Very efficient, speed-controllable.',
 		areas: ['elektro', 'hlk'],
 		related: ['FU', 'IE5']
 	},
@@ -1210,7 +1302,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'IE5',
 		long: 'Motor Efficiency Class IE5',
 		description: 'Ultra Premium Efficiency — meist nur mit EC- oder Synchron-Reluktanzmotoren.',
-		descriptionEn: 'Ultra Premium Efficiency — usually only achievable with EC or synchronous reluctance motors.',
+		descriptionEn:
+			'Ultra Premium Efficiency — usually only achievable with EC or synchronous reluctance motors.',
 		areas: ['elektro'],
 		related: ['IE4', 'EC-Motor']
 	},
@@ -1218,7 +1311,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'FI',
 		long: 'Fehlerstrom-Schutzschalter (RCD)',
 		description: 'Schutzschalter gegen Erdfehler. Auslösestrom typ. 30 mA für Personenschutz.',
-		descriptionEn: 'Residual current protection device. Trip current typically 30 mA for personal protection.',
+		descriptionEn:
+			'Residual current protection device. Trip current typically 30 mA for personal protection.',
 		areas: ['elektro'],
 		related: ['LS', 'RCBO']
 	},
@@ -1257,32 +1351,40 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'PELV',
 		long: 'Protective Extra Low Voltage',
-		description: 'Schutzkleinspannung ≤ 25 V AC / 60 V DC mit Schutzerde. Typisch für GA-Steuerstromkreise.',
-		descriptionEn: 'Protective extra low voltage ≤ 25 V AC / 60 V DC with protective earth. Typical for BA control circuits.',
+		description:
+			'Schutzkleinspannung ≤ 25 V AC / 60 V DC mit Schutzerde. Typisch für GA-Steuerstromkreise.',
+		descriptionEn:
+			'Protective extra low voltage ≤ 25 V AC / 60 V DC with protective earth. Typical for BA control circuits.',
 		areas: ['elektro'],
 		related: ['SELV', 'NIN']
 	},
 	{
 		short: 'SELV',
 		long: 'Safety Extra Low Voltage',
-		description: 'Sicherheitskleinspannung ≤ 25 V AC / 60 V DC ohne Schutzerde. Elektrisch getrennt vom Netz.',
-		descriptionEn: 'Safety extra low voltage ≤ 25 V AC / 60 V DC without protective earth. Electrically isolated from mains.',
+		description:
+			'Sicherheitskleinspannung ≤ 25 V AC / 60 V DC ohne Schutzerde. Elektrisch getrennt vom Netz.',
+		descriptionEn:
+			'Safety extra low voltage ≤ 25 V AC / 60 V DC without protective earth. Electrically isolated from mains.',
 		areas: ['elektro'],
 		related: ['PELV', 'NIN']
 	},
 	{
 		short: 'LDR',
 		long: 'Light Dependent Resistor',
-		description: 'Fotowiderstand — elektrischer Widerstand sinkt bei steigender Helligkeit. Einfacher analoger Helligkeitssensor.',
-		descriptionEn: 'Photoresistor — electrical resistance decreases with increasing light intensity. Simple analogue light sensor.',
+		description:
+			'Fotowiderstand — elektrischer Widerstand sinkt bei steigender Helligkeit. Einfacher analoger Helligkeitssensor.',
+		descriptionEn:
+			'Photoresistor — electrical resistance decreases with increasing light intensity. Simple analogue light sensor.',
 		areas: ['elektro', 'ga'],
 		related: ['PIR']
 	},
 	{
 		short: 'USV',
 		long: 'Unterbrechungsfreie Stromversorgung',
-		description: 'Akku-gepuffert, überbrückt Netzausfälle. Wichtig für GA-Server, Sicherheitsanlagen.',
-		descriptionEn: 'Battery-buffered, bridges power failures. Important for BA servers, safety systems.',
+		description:
+			'Akku-gepuffert, überbrückt Netzausfälle. Wichtig für GA-Server, Sicherheitsanlagen.',
+		descriptionEn:
+			'Battery-buffered, bridges power failures. Important for BA servers, safety systems.',
 		areas: ['elektro', 'it'],
 		related: ['UPS']
 	},
@@ -1305,8 +1407,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IP-Schutz',
 		long: 'Ingress Protection (IP-Code)',
-		description: 'Schutzart nach EN 60529. Z.B. IP54 = Spritzwasser, IP65 = Strahlwasser, IP67 = Untertauchen.',
-		descriptionEn: 'Protection class per EN 60529. E.g. IP54 = splash-proof, IP65 = jet-proof, IP67 = immersion.',
+		description:
+			'Schutzart nach EN 60529. Z.B. IP54 = Spritzwasser, IP65 = Strahlwasser, IP67 = Untertauchen.',
+		descriptionEn:
+			'Protection class per EN 60529. E.g. IP54 = splash-proof, IP65 = jet-proof, IP67 = immersion.',
 		areas: ['elektro', 'normen'],
 		related: []
 	},
@@ -1341,32 +1445,40 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'SG Ready',
 		long: 'SG Ready (Smart Grid Ready)',
-		description: 'Schnittstelle für Wärmepumpen und andere Verbraucher zur Reaktion auf Stromnetz-Signale. 4 Betriebsmodi (1 = Sperre bis 4 = Einschaltempfehlung).',
-		descriptionEn: 'Interface for heat pumps and other consumers to respond to power grid signals. 4 operating modes (1 = block to 4 = switch-on recommendation).',
+		description:
+			'Schnittstelle für Wärmepumpen und andere Verbraucher zur Reaktion auf Stromnetz-Signale. 4 Betriebsmodi (1 = Sperre bis 4 = Einschaltempfehlung).',
+		descriptionEn:
+			'Interface for heat pumps and other consumers to respond to power grid signals. 4 operating modes (1 = block to 4 = switch-on recommendation).',
 		areas: ['hlk', 'elektro'],
 		related: ['WP', 'PV', 'V2G']
 	},
 	{
 		short: 'V2G',
 		long: 'Vehicle to Grid',
-		description: 'Bidirektionales Laden: Elektrofahrzeug speist gespeicherten Strom ins Netz zurück. Flexibles Lastmanagement.',
-		descriptionEn: 'Bidirectional charging: electric vehicle feeds stored power back to the grid. Flexible load management.',
+		description:
+			'Bidirektionales Laden: Elektrofahrzeug speist gespeicherten Strom ins Netz zurück. Flexibles Lastmanagement.',
+		descriptionEn:
+			'Bidirectional charging: electric vehicle feeds stored power back to the grid. Flexible load management.',
 		areas: ['elektro'],
 		related: ['EMS', 'PV', 'SG Ready']
 	},
 	{
 		short: 'MPPT',
 		long: 'Maximum Power Point Tracking',
-		description: 'Algorithmus im PV-Wechselrichter zur kontinuierlichen Maximierung der Energieausbeute bei wechselnder Einstrahlung.',
-		descriptionEn: 'Algorithm in PV inverter to continuously maximise energy yield under varying irradiance.',
+		description:
+			'Algorithmus im PV-Wechselrichter zur kontinuierlichen Maximierung der Energieausbeute bei wechselnder Einstrahlung.',
+		descriptionEn:
+			'Algorithm in PV inverter to continuously maximise energy yield under varying irradiance.',
 		areas: ['elektro'],
 		related: ['PV']
 	},
 	{
 		short: 'ppm',
 		long: 'Parts per Million',
-		description: 'Einheit für sehr geringe Konzentrationen. CO₂-Aussenluft ≈ 420 ppm; Raumluft-Richtwert: < 1000 ppm (EN 16798 Kat. II).',
-		descriptionEn: 'Unit for very low concentrations. Outdoor CO₂ ≈ 420 ppm; indoor air guideline: < 1000 ppm (EN 16798 Cat. II).',
+		description:
+			'Einheit für sehr geringe Konzentrationen. CO₂-Aussenluft ≈ 420 ppm; Raumluft-Richtwert: < 1000 ppm (EN 16798 Kat. II).',
+		descriptionEn:
+			'Unit for very low concentrations. Outdoor CO₂ ≈ 420 ppm; indoor air guideline: < 1000 ppm (EN 16798 Cat. II).',
 		areas: ['hlk', 'ga'],
 		related: ['CO₂', 'VOC']
 	},
@@ -1426,7 +1538,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'SWKI',
 		long: 'Schweizerischer Verein von Wärme- und Klima-Ingenieuren',
 		description: 'CH-Fachverband mit eigenen Richtlinien (z.B. SWKI 91-1 für MAG).',
-		descriptionEn: 'Swiss professional association with own guidelines (e.g. SWKI 91-1 for expansion vessels).',
+		descriptionEn:
+			'Swiss professional association with own guidelines (e.g. SWKI 91-1 for expansion vessels).',
 		areas: ['normen', 'hlk'],
 		related: ['SIA']
 	},
@@ -1434,7 +1547,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'VDI',
 		long: 'Verein Deutscher Ingenieure',
 		description: 'DE-Richtlinien — VDI 3814 für GA-Hierarchie, VDI 6022 für Hygiene Lüftung.',
-		descriptionEn: 'German guidelines — VDI 3814 for BA hierarchy, VDI 6022 for ventilation hygiene.',
+		descriptionEn:
+			'German guidelines — VDI 3814 for BA hierarchy, VDI 6022 for ventilation hygiene.',
 		areas: ['normen'],
 		related: ['DIN']
 	},
@@ -1474,7 +1588,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'SEV',
 		long: 'Schweizerischer Elektrotechnischer Verein',
 		description: 'CH-Fachverband Elektrotechnik. Herausgeber NIN (SEV 1000).',
-		descriptionEn: 'Swiss electrical engineering professional association. Publisher of NIN (SEV 1000).',
+		descriptionEn:
+			'Swiss electrical engineering professional association. Publisher of NIN (SEV 1000).',
 		areas: ['elektro', 'normen'],
 		related: ['NIN', 'ESTI']
 	},
@@ -1490,15 +1605,18 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ASHRAE',
 		long: 'American Society of HVAC Engineers',
 		description: 'US-Fachverband mit international relevanten Standards (z.B. ASHRAE 90.1).',
-		descriptionEn: 'US professional association with internationally relevant standards (e.g. ASHRAE 90.1).',
+		descriptionEn:
+			'US professional association with internationally relevant standards (e.g. ASHRAE 90.1).',
 		areas: ['normen', 'hlk'],
 		related: []
 	},
 	{
 		short: 'LCC',
 		long: 'Life Cycle Cost',
-		description: 'Lebenszykluskosten einer Anlage: Investition + Betrieb + Instandhaltung + Entsorgung. Grundlage für Wirtschaftlichkeitsvergleiche.',
-		descriptionEn: 'Life cycle costs of a system: investment + operation + maintenance + disposal. Basis for economic comparisons.',
+		description:
+			'Lebenszykluskosten einer Anlage: Investition + Betrieb + Instandhaltung + Entsorgung. Grundlage für Wirtschaftlichkeitsvergleiche.',
+		descriptionEn:
+			'Life cycle costs of a system: investment + operation + maintenance + disposal. Basis for economic comparisons.',
 		areas: ['normen', 'ga'],
 		related: ['BIM', 'CAFM'],
 		wissenSlug: 'lebenszyklus-lcc'
@@ -1551,15 +1669,18 @@ export const abbreviations: Abbreviation[] = [
 		short: 'PPD',
 		long: 'Predicted Percentage Dissatisfied',
 		description: 'Anteil Unzufriedener — folgt aus PMV. Auslegung: PPD < 10 %.',
-		descriptionEn: 'Percentage of dissatisfied persons — derived from PMV. Design target: PPD < 10 %.',
+		descriptionEn:
+			'Percentage of dissatisfied persons — derived from PMV. Design target: PPD < 10 %.',
 		areas: ['hlk', 'normen'],
 		related: ['PMV']
 	},
 	{
 		short: 'LUX',
 		long: 'Illuminance (lx)',
-		description: 'Photometrische Einheit. Büro: 500 lx, Werkstatt fein: 750 lx, Pflegezimmer: 200 lx.',
-		descriptionEn: 'Photometric unit. Office: 500 lx, precision workshop: 750 lx, care room: 200 lx.',
+		description:
+			'Photometrische Einheit. Büro: 500 lx, Werkstatt fein: 750 lx, Pflegezimmer: 200 lx.',
+		descriptionEn:
+			'Photometric unit. Office: 500 lx, precision workshop: 750 lx, care room: 200 lx.',
 		areas: ['elektro', 'normen'],
 		related: ['LDR', 'UGR', 'CRI']
 	},
@@ -1570,16 +1691,20 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'LED',
 		long: 'Light Emitting Diode',
-		description: 'Halbleiter-Lichtquelle. Hoher Wirkungsgrad (≈ 150 lm/W), lange Lebensdauer (> 50 000 h), dimm- und farbsteuerbar.',
-		descriptionEn: 'Semiconductor light source. High efficacy (≈ 150 lm/W), long lifetime (> 50 000 h), dimmable and colour-controllable.',
+		description:
+			'Halbleiter-Lichtquelle. Hoher Wirkungsgrad (≈ 150 lm/W), lange Lebensdauer (> 50 000 h), dimm- und farbsteuerbar.',
+		descriptionEn:
+			'Semiconductor light source. High efficacy (≈ 150 lm/W), long lifetime (> 50 000 h), dimmable and colour-controllable.',
 		areas: ['elektro'],
 		related: ['DALI', 'EVG', 'PWM']
 	},
 	{
 		short: 'EVG',
 		long: 'Elektronisches Vorschaltgerät',
-		description: 'Betriebsgerät für Leuchtmittel — heute meist LED-Treiber. Dimmbar (DALI, 1–10 V, PWM).',
-		descriptionEn: 'Electronic control gear for lamps — today usually LED drivers. Dimmable (DALI, 1–10 V, PWM).',
+		description:
+			'Betriebsgerät für Leuchtmittel — heute meist LED-Treiber. Dimmbar (DALI, 1–10 V, PWM).',
+		descriptionEn:
+			'Electronic control gear for lamps — today usually LED drivers. Dimmable (DALI, 1–10 V, PWM).',
 		areas: ['elektro'],
 		related: ['LED', 'DALI', 'ECG']
 	},
@@ -1594,16 +1719,20 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'UGR',
 		long: 'Unified Glare Rating',
-		description: 'Bewertungssystem für psychologische Blendung in Innenräumen nach EN 12464-1. Büro typ. UGR ≤ 19, Bildschirmarbeit UGR ≤ 16.',
-		descriptionEn: 'Rating system for discomfort glare in interiors per EN 12464-1. Office typically UGR ≤ 19, screen work UGR ≤ 16.',
+		description:
+			'Bewertungssystem für psychologische Blendung in Innenräumen nach EN 12464-1. Büro typ. UGR ≤ 19, Bildschirmarbeit UGR ≤ 16.',
+		descriptionEn:
+			'Rating system for discomfort glare in interiors per EN 12464-1. Office typically UGR ≤ 19, screen work UGR ≤ 16.',
 		areas: ['elektro', 'normen'],
 		related: ['LUX', 'CRI']
 	},
 	{
 		short: 'CRI',
 		long: 'Colour Rendering Index',
-		description: 'Farbwiedergabeindex einer Lichtquelle (Skala 0–100). Büro/Wohnen ≥ 80, Verkaufs-/Pflegebereich ≥ 90.',
-		descriptionEn: 'Colour rendering index of a light source (scale 0–100). Office/residential ≥ 80, retail/care areas ≥ 90.',
+		description:
+			'Farbwiedergabeindex einer Lichtquelle (Skala 0–100). Büro/Wohnen ≥ 80, Verkaufs-/Pflegebereich ≥ 90.',
+		descriptionEn:
+			'Colour rendering index of a light source (scale 0–100). Office/residential ≥ 80, retail/care areas ≥ 90.',
 		areas: ['elektro', 'normen'],
 		related: ['Ra', 'CCT']
 	},
@@ -1611,23 +1740,28 @@ export const abbreviations: Abbreviation[] = [
 		short: 'Ra',
 		long: 'Allgemeiner Farbwiedergabeindex (Ra)',
 		description: 'Synonym CRI — gebräuchlich im DACH-Raum. Mittelwert über 8 Testfarben.',
-		descriptionEn: 'Synonym for CRI — common in German-speaking countries. Mean over 8 test colours.',
+		descriptionEn:
+			'Synonym for CRI — common in German-speaking countries. Mean over 8 test colours.',
 		areas: ['elektro', 'normen'],
 		related: ['CRI', 'CCT']
 	},
 	{
 		short: 'CCT',
 		long: 'Correlated Colour Temperature',
-		description: 'Ähnlichste Farbtemperatur einer Lichtquelle in Kelvin. Warmweiss < 3300 K, neutralweiss 3300–5300 K, tageslichtweiss > 5300 K.',
-		descriptionEn: 'Correlated colour temperature of a light source in Kelvin. Warm white < 3300 K, neutral white 3300–5300 K, daylight > 5300 K.',
+		description:
+			'Ähnlichste Farbtemperatur einer Lichtquelle in Kelvin. Warmweiss < 3300 K, neutralweiss 3300–5300 K, tageslichtweiss > 5300 K.',
+		descriptionEn:
+			'Correlated colour temperature of a light source in Kelvin. Warm white < 3300 K, neutral white 3300–5300 K, daylight > 5300 K.',
 		areas: ['elektro', 'normen'],
 		related: ['CRI', 'HCL']
 	},
 	{
 		short: 'HCL',
 		long: 'Human Centric Lighting',
-		description: 'Biologisch wirksame Beleuchtung — passt Farbtemperatur und Intensität dem Tagesverlauf an (circadianer Rhythmus).',
-		descriptionEn: 'Biologically effective lighting — adapts colour temperature and intensity to the daily cycle (circadian rhythm).',
+		description:
+			'Biologisch wirksame Beleuchtung — passt Farbtemperatur und Intensität dem Tagesverlauf an (circadianer Rhythmus).',
+		descriptionEn:
+			'Biologically effective lighting — adapts colour temperature and intensity to the daily cycle (circadian rhythm).',
 		areas: ['elektro'],
 		related: ['CCT', 'DALI-2']
 	},
@@ -1638,64 +1772,80 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'BMA',
 		long: 'Brandmeldeanlage',
-		description: 'Anlage zur frühzeitigen Branddetektion. Komponenten: Melder (Rauch/Wärme/Flamme), BMZ, Alarmierung. Normen: SN EN 54, VKF/VdS.',
-		descriptionEn: 'Fire detection system. Components: detectors (smoke/heat/flame), control panel, alarm. Standards: SN EN 54, VKF/VdS.',
+		description:
+			'Anlage zur frühzeitigen Branddetektion. Komponenten: Melder (Rauch/Wärme/Flamme), BMZ, Alarmierung. Normen: SN EN 54, VKF/VdS.',
+		descriptionEn:
+			'Fire detection system. Components: detectors (smoke/heat/flame), control panel, alarm. Standards: SN EN 54, VKF/VdS.',
 		areas: ['elektro', 'normen'],
 		related: ['BMZ', 'ELA', 'RWA']
 	},
 	{
 		short: 'BMZ',
 		long: 'Brandmeldezentrale',
-		description: 'Zentrale einer Brandmeldeanlage — wertet Meldersignale aus, alarmiert Feuerwehr (ÜE) und löst Anlagensteuerungen aus (BSK schliessen, RWA, Lift).',
-		descriptionEn: 'Fire alarm control panel — evaluates detector signals, alerts fire brigade and triggers building systems (fire dampers, smoke vents, lifts).',
+		description:
+			'Zentrale einer Brandmeldeanlage — wertet Meldersignale aus, alarmiert Feuerwehr (ÜE) und löst Anlagensteuerungen aus (BSK schliessen, RWA, Lift).',
+		descriptionEn:
+			'Fire alarm control panel — evaluates detector signals, alerts fire brigade and triggers building systems (fire dampers, smoke vents, lifts).',
 		areas: ['elektro', 'normen'],
 		related: ['BMA', 'BSK', 'RWA']
 	},
 	{
 		short: 'RWA',
 		long: 'Rauch- und Wärmeabzugsanlage',
-		description: 'Entrauchungsanlage für Treppenhäuser, Hallen, Atrien. Natürliche RWA (NRA) mit Öffnungsklappen oder maschinelle RWA (MRA) mit Ventilatoren.',
-		descriptionEn: 'Smoke and heat extraction system for staircases, halls, atria. Natural (NSHEV) with vents or mechanical (MSHEV) with fans.',
+		description:
+			'Entrauchungsanlage für Treppenhäuser, Hallen, Atrien. Natürliche RWA (NRA) mit Öffnungsklappen oder maschinelle RWA (MRA) mit Ventilatoren.',
+		descriptionEn:
+			'Smoke and heat extraction system for staircases, halls, atria. Natural (NSHEV) with vents or mechanical (MSHEV) with fans.',
 		areas: ['hlk', 'elektro', 'normen'],
 		related: ['BMA', 'BSK']
 	},
 	{
 		short: 'BSK',
 		long: 'Brandschutzklappe',
-		description: 'Lüftungs-Klappe, die im Brandfall automatisch schliesst (Schmelzlot oder Motor mit Federrücklauf). Feuerwiderstand EI 30 / 60 / 90.',
-		descriptionEn: 'Ventilation damper that automatically closes in case of fire (fusible link or motor with spring return). Fire resistance EI 30 / 60 / 90.',
+		description:
+			'Lüftungs-Klappe, die im Brandfall automatisch schliesst (Schmelzlot oder Motor mit Federrücklauf). Feuerwiderstand EI 30 / 60 / 90.',
+		descriptionEn:
+			'Ventilation damper that automatically closes in case of fire (fusible link or motor with spring return). Fire resistance EI 30 / 60 / 90.',
 		areas: ['hlk', 'normen'],
 		related: ['BMA', 'RWA', 'EI60']
 	},
 	{
 		short: 'ELA',
 		long: 'Elektroakustische Notfallwarnanlage',
-		description: 'Sprachalarmierungssystem — überwacht nach EN 54-16. Räumungsdurchsagen bei Brand oder anderen Notfällen.',
-		descriptionEn: 'Voice alarm system — monitored per EN 54-16. Evacuation announcements in case of fire or other emergencies.',
+		description:
+			'Sprachalarmierungssystem — überwacht nach EN 54-16. Räumungsdurchsagen bei Brand oder anderen Notfällen.',
+		descriptionEn:
+			'Voice alarm system — monitored per EN 54-16. Evacuation announcements in case of fire or other emergencies.',
 		areas: ['elektro', 'normen'],
 		related: ['BMA']
 	},
 	{
 		short: 'F90',
 		long: 'Feuerwiderstandsklasse F90 (DIN 4102)',
-		description: 'Bauteil hält 90 Minuten dem Brand stand (DE-Klassifizierung). EU-äquivalent: REI 90 nach EN 13501.',
-		descriptionEn: 'Component withstands fire for 90 minutes (German classification). EU equivalent: REI 90 per EN 13501.',
+		description:
+			'Bauteil hält 90 Minuten dem Brand stand (DE-Klassifizierung). EU-äquivalent: REI 90 nach EN 13501.',
+		descriptionEn:
+			'Component withstands fire for 90 minutes (German classification). EU equivalent: REI 90 per EN 13501.',
 		areas: ['normen'],
 		related: ['EI60']
 	},
 	{
 		short: 'EI60',
 		long: 'Feuerwiderstand EI 60 (EN 13501)',
-		description: 'Bauteil wahrt Integrität (E) und Isolation (I) für 60 Minuten. CH-/EU-Klassifizierung. R = Tragfähigkeit zusätzlich.',
-		descriptionEn: 'Component maintains integrity (E) and insulation (I) for 60 minutes. CH/EU classification. R = additional load-bearing capacity.',
+		description:
+			'Bauteil wahrt Integrität (E) und Isolation (I) für 60 Minuten. CH-/EU-Klassifizierung. R = Tragfähigkeit zusätzlich.',
+		descriptionEn:
+			'Component maintains integrity (E) and insulation (I) for 60 minutes. CH/EU classification. R = additional load-bearing capacity.',
 		areas: ['normen'],
 		related: ['F90', 'BSK']
 	},
 	{
 		short: 'VKF',
 		long: 'Vereinigung Kantonaler Feuerversicherungen',
-		description: 'CH-Brandschutz-Regelwerk. Brandschutznorm und -richtlinien sind in den Kantonen verbindlich.',
-		descriptionEn: 'Swiss fire protection regulations. Standards and guidelines are mandatory in the cantons.',
+		description:
+			'CH-Brandschutz-Regelwerk. Brandschutznorm und -richtlinien sind in den Kantonen verbindlich.',
+		descriptionEn:
+			'Swiss fire protection regulations. Standards and guidelines are mandatory in the cantons.',
 		areas: ['normen'],
 		related: ['BMA', 'RWA']
 	},
@@ -1706,24 +1856,30 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'ZKS',
 		long: 'Zutrittskontrollsystem',
-		description: 'Elektronische Zutrittssteuerung — Leser (RFID/NFC/Biometrie), Türcontroller, Verwaltungsserver. Integration in GA und EMA üblich.',
-		descriptionEn: 'Electronic access control system — readers (RFID/NFC/biometric), door controllers, management server. Integration with BA and intrusion systems common.',
+		description:
+			'Elektronische Zutrittssteuerung — Leser (RFID/NFC/Biometrie), Türcontroller, Verwaltungsserver. Integration in GA und EMA üblich.',
+		descriptionEn:
+			'Electronic access control system — readers (RFID/NFC/biometric), door controllers, management server. Integration with BA and intrusion systems common.',
 		areas: ['elektro', 'ga'],
 		related: ['EMA', 'RFID', 'NFC']
 	},
 	{
 		short: 'EMA',
 		long: 'Einbruchmeldeanlage',
-		description: 'Anlage zur Detektion unbefugten Eindringens. Klassen nach EN 50131 (Grad 1–4). Komponenten: Bewegungsmelder, Magnetkontakte, Zentrale, Alarmierung.',
-		descriptionEn: 'Intrusion detection system. Grades per EN 50131 (Grade 1–4). Components: motion detectors, magnetic contacts, control panel, alarm.',
+		description:
+			'Anlage zur Detektion unbefugten Eindringens. Klassen nach EN 50131 (Grad 1–4). Komponenten: Bewegungsmelder, Magnetkontakte, Zentrale, Alarmierung.',
+		descriptionEn:
+			'Intrusion detection system. Grades per EN 50131 (Grade 1–4). Components: motion detectors, magnetic contacts, control panel, alarm.',
 		areas: ['elektro', 'normen'],
 		related: ['ZKS', 'VSS', 'PIR']
 	},
 	{
 		short: 'VSS',
 		long: 'Videoüberwachungssystem',
-		description: 'Videoanlage zur Überwachung — IP-Kameras, NVR, Analyse-Software. CH-Begriff; international gebräuchlicher: CCTV / Video Surveillance.',
-		descriptionEn: 'Video surveillance system — IP cameras, NVR, analytics software. Swiss term; internationally: CCTV / video surveillance.',
+		description:
+			'Videoanlage zur Überwachung — IP-Kameras, NVR, Analyse-Software. CH-Begriff; international gebräuchlicher: CCTV / Video Surveillance.',
+		descriptionEn:
+			'Video surveillance system — IP cameras, NVR, analytics software. Swiss term; internationally: CCTV / video surveillance.',
 		areas: ['elektro', 'it'],
 		related: ['CCTV', 'EMA']
 	},
@@ -1731,23 +1887,28 @@ export const abbreviations: Abbreviation[] = [
 		short: 'CCTV',
 		long: 'Closed Circuit Television',
 		description: 'Englisch für Videoüberwachung. Heute fast immer IP-basiert über PoE.',
-		descriptionEn: 'Closed circuit television — video surveillance. Today almost always IP-based via PoE.',
+		descriptionEn:
+			'Closed circuit television — video surveillance. Today almost always IP-based via PoE.',
 		areas: ['elektro', 'it'],
 		related: ['VSS', 'PoE']
 	},
 	{
 		short: 'RFID',
 		long: 'Radio Frequency Identification',
-		description: 'Funkbasierte Identifikation (125 kHz, 13,56 MHz). Standard für Mitarbeiterausweise im ZKS.',
-		descriptionEn: 'Radio-frequency identification (125 kHz, 13.56 MHz). Standard for employee badges in access control.',
+		description:
+			'Funkbasierte Identifikation (125 kHz, 13,56 MHz). Standard für Mitarbeiterausweise im ZKS.',
+		descriptionEn:
+			'Radio-frequency identification (125 kHz, 13.56 MHz). Standard for employee badges in access control.',
 		areas: ['elektro', 'it'],
 		related: ['NFC', 'ZKS']
 	},
 	{
 		short: 'NFC',
 		long: 'Near Field Communication',
-		description: 'Kurzdistanz-Funk (13,56 MHz, < 10 cm). Erweiterung von RFID. Häufig in Smartphones, Smart-Locks.',
-		descriptionEn: 'Short-range radio (13.56 MHz, < 10 cm). Extension of RFID. Common in smartphones, smart locks.',
+		description:
+			'Kurzdistanz-Funk (13,56 MHz, < 10 cm). Erweiterung von RFID. Häufig in Smartphones, Smart-Locks.',
+		descriptionEn:
+			'Short-range radio (13.56 MHz, < 10 cm). Extension of RFID. Common in smartphones, smart locks.',
 		areas: ['elektro', 'it'],
 		related: ['RFID', 'BLE']
 	},
@@ -1758,40 +1919,50 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'TABS',
 		long: 'Thermoaktive Bauteilsysteme',
-		description: 'Heiz-/Kühlsystem in Betondecken oder -wänden integriert. Träge (Speichermasse), Niedrigtemperatur — ideal für Wärmepumpe und Free Cooling.',
-		descriptionEn: 'Heating/cooling system integrated in concrete slabs or walls. Sluggish (thermal mass), low temperature — ideal for heat pumps and free cooling.',
+		description:
+			'Heiz-/Kühlsystem in Betondecken oder -wänden integriert. Träge (Speichermasse), Niedrigtemperatur — ideal für Wärmepumpe und Free Cooling.',
+		descriptionEn:
+			'Heating/cooling system integrated in concrete slabs or walls. Sluggish (thermal mass), low temperature — ideal for heat pumps and free cooling.',
 		areas: ['hlk'],
 		related: ['BKA', 'FBH', 'WP']
 	},
 	{
 		short: 'BKA',
 		long: 'Betonkernaktivierung',
-		description: 'Synonym TABS — speziell die Variante mit Rohren im Beton-Kern (nicht im Estrich).',
-		descriptionEn: 'Synonym for TABS — specifically with pipes embedded in the concrete core (not in the screed).',
+		description:
+			'Synonym TABS — speziell die Variante mit Rohren im Beton-Kern (nicht im Estrich).',
+		descriptionEn:
+			'Synonym for TABS — specifically with pipes embedded in the concrete core (not in the screed).',
 		areas: ['hlk'],
 		related: ['TABS']
 	},
 	{
 		short: 'WT',
 		long: 'Wärmetauscher',
-		description: 'Sammelbegriff für Apparate zur Wärmeübertragung. Bauformen: Platten-, Rohrbündel-, Lamellen-, Spiral-WT.',
-		descriptionEn: 'General term for heat transfer apparatus. Forms: plate, shell-and-tube, finned, spiral.',
+		description:
+			'Sammelbegriff für Apparate zur Wärmeübertragung. Bauformen: Platten-, Rohrbündel-, Lamellen-, Spiral-WT.',
+		descriptionEn:
+			'General term for heat transfer apparatus. Forms: plate, shell-and-tube, finned, spiral.',
 		areas: ['hlk'],
 		related: ['PWT', 'WRG']
 	},
 	{
 		short: 'PWT',
 		long: 'Plattenwärmetauscher',
-		description: 'Kompakter WT mit dünnen Edelstahl-Platten. Hohe Leistungsdichte. Für hydraulische Trennung, Fernwärme-Übergabe.',
-		descriptionEn: 'Compact heat exchanger with thin stainless steel plates. High power density. For hydraulic separation, district heat transfer.',
+		description:
+			'Kompakter WT mit dünnen Edelstahl-Platten. Hohe Leistungsdichte. Für hydraulische Trennung, Fernwärme-Übergabe.',
+		descriptionEn:
+			'Compact heat exchanger with thin stainless steel plates. High power density. For hydraulic separation, district heat transfer.',
 		areas: ['hlk'],
 		related: ['WT']
 	},
 	{
 		short: '3WV',
 		long: '3-Wege-Ventil',
-		description: 'Mischventil oder Verteilventil. Zwei Eingänge / ein Ausgang (Mischen) oder umgekehrt. Stetig regelbar (0–10 V) oder schaltend.',
-		descriptionEn: '3-way valve — mixing or diverting. Two inputs / one output (mixing) or vice versa. Continuously controllable (0–10 V) or switching.',
+		description:
+			'Mischventil oder Verteilventil. Zwei Eingänge / ein Ausgang (Mischen) oder umgekehrt. Stetig regelbar (0–10 V) oder schaltend.',
+		descriptionEn:
+			'3-way valve — mixing or diverting. Two inputs / one output (mixing) or vice versa. Continuously controllable (0–10 V) or switching.',
 		areas: ['hlk'],
 		related: ['Kv', 'AO']
 	},
@@ -1802,24 +1973,30 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'EWS',
 		long: 'Erdwärmesonde',
-		description: 'Vertikales Sondenrohr (PE) im Erdreich (typ. 100–300 m tief) als Wärmequelle für Sole-Wasser-WP. Auslegung nach SIA 384/6.',
-		descriptionEn: 'Vertical PE probe in the ground (typ. 100–300 m deep) as a heat source for brine-water heat pumps. Sizing per SIA 384/6.',
+		description:
+			'Vertikales Sondenrohr (PE) im Erdreich (typ. 100–300 m tief) als Wärmequelle für Sole-Wasser-WP. Auslegung nach SIA 384/6.',
+		descriptionEn:
+			'Vertical PE probe in the ground (typ. 100–300 m deep) as a heat source for brine-water heat pumps. Sizing per SIA 384/6.',
 		areas: ['hlk'],
 		related: ['EWP', 'WP']
 	},
 	{
 		short: 'SVGW',
 		long: 'Schweizerischer Verein des Gas- und Wasserfaches',
-		description: 'CH-Fachverband. Herausgeber W3 (Trinkwasserinstallationen) und G1 (Gasinstallationen) — verbindliche Werke.',
-		descriptionEn: 'Swiss professional association for gas and water. Publisher of W3 (drinking water installations) and G1 (gas installations) — mandatory works.',
+		description:
+			'CH-Fachverband. Herausgeber W3 (Trinkwasserinstallationen) und G1 (Gasinstallationen) — verbindliche Werke.',
+		descriptionEn:
+			'Swiss professional association for gas and water. Publisher of W3 (drinking water installations) and G1 (gas installations) — mandatory works.',
 		areas: ['sanitaer', 'normen'],
 		related: ['SIA']
 	},
 	{
 		short: 'DM',
 		long: 'Druckminderer',
-		description: 'Reduziert den Eingangsdruck auf einen einstellbaren Ausgangsdruck. Pflicht für Hausinstallationen > 5 bar (W3).',
-		descriptionEn: 'Reduces inlet pressure to an adjustable outlet pressure. Mandatory for domestic installations > 5 bar (W3).',
+		description:
+			'Reduziert den Eingangsdruck auf einen einstellbaren Ausgangsdruck. Pflicht für Hausinstallationen > 5 bar (W3).',
+		descriptionEn:
+			'Reduces inlet pressure to an adjustable outlet pressure. Mandatory for domestic installations > 5 bar (W3).',
 		areas: ['sanitaer'],
 		related: ['MAG', 'PN']
 	},
@@ -1830,15 +2007,18 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'SPD',
 		long: 'Surge Protection Device',
-		description: 'Überspannungsschutz für Stromversorgung und Datenleitungen. Typen 1 / 2 / 3 nach IEC 61643 (Blitzstromableiter bis Endgeräteschutz).',
-		descriptionEn: 'Surge protection device for power and data lines. Types 1 / 2 / 3 per IEC 61643 (lightning current arrester to terminal device protection).',
+		description:
+			'Überspannungsschutz für Stromversorgung und Datenleitungen. Typen 1 / 2 / 3 nach IEC 61643 (Blitzstromableiter bis Endgeräteschutz).',
+		descriptionEn:
+			'Surge protection device for power and data lines. Types 1 / 2 / 3 per IEC 61643 (lightning current arrester to terminal device protection).',
 		areas: ['elektro', 'normen'],
 		related: ['ÜSS']
 	},
 	{
 		short: 'ÜSS',
 		long: 'Überspannungsschutz',
-		description: 'Deutsche Bezeichnung für SPD. In NIN 2020 / SIA für viele GA-Anlagen verbindlich.',
+		description:
+			'Deutsche Bezeichnung für SPD. In NIN 2020 / SIA für viele GA-Anlagen verbindlich.',
 		descriptionEn: 'German term for SPD. Mandatory under NIN 2020 / SIA for many BA installations.',
 		areas: ['elektro', 'normen'],
 		related: ['SPD']
@@ -1846,24 +2026,30 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'cos φ',
 		long: 'Leistungsfaktor (cos phi)',
-		description: 'Verhältnis Wirk- zu Scheinleistung. Ideal 1,0; induktive Lasten (Motoren) verschlechtern → Kompensation nötig. Industrie typ. ≥ 0,9.',
-		descriptionEn: 'Ratio of active to apparent power. Ideal 1.0; inductive loads (motors) worsen → compensation needed. Industrial typically ≥ 0.9.',
+		description:
+			'Verhältnis Wirk- zu Scheinleistung. Ideal 1,0; induktive Lasten (Motoren) verschlechtern → Kompensation nötig. Industrie typ. ≥ 0,9.',
+		descriptionEn:
+			'Ratio of active to apparent power. Ideal 1.0; inductive loads (motors) worsen → compensation needed. Industrial typically ≥ 0.9.',
 		areas: ['elektro'],
 		related: ['kVA']
 	},
 	{
 		short: 'kVA',
 		long: 'Kilovoltampere',
-		description: 'Einheit der Scheinleistung. 1 kVA = √(P² + Q²). Auslegungsgrösse für Trafos, USV, Schaltanlagen.',
-		descriptionEn: 'Unit of apparent power. 1 kVA = √(P² + Q²). Sizing variable for transformers, UPS, switchgear.',
+		description:
+			'Einheit der Scheinleistung. 1 kVA = √(P² + Q²). Auslegungsgrösse für Trafos, USV, Schaltanlagen.',
+		descriptionEn:
+			'Unit of apparent power. 1 kVA = √(P² + Q²). Sizing variable for transformers, UPS, switchgear.',
 		areas: ['elektro'],
 		related: ['cos φ']
 	},
 	{
 		short: 'TN-S',
 		long: 'TN-S-Netzform',
-		description: 'Niederspannungsnetz mit separat geführtem N- und PE-Leiter. Standard in CH/DE Neuanlagen — geringe EMV-Probleme.',
-		descriptionEn: 'Low-voltage network with separately routed N and PE conductors. Standard in CH/DE new installations — low EMC issues.',
+		description:
+			'Niederspannungsnetz mit separat geführtem N- und PE-Leiter. Standard in CH/DE Neuanlagen — geringe EMV-Probleme.',
+		descriptionEn:
+			'Low-voltage network with separately routed N and PE conductors. Standard in CH/DE new installations — low EMC issues.',
 		areas: ['elektro', 'normen'],
 		related: ['NIN', 'PELV']
 	},
@@ -1874,32 +2060,40 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IP',
 		long: 'Internet Protocol',
-		description: 'Vermittlungsprotokoll der TCP/IP-Familie. IPv4 (32 bit) und IPv6 (128 bit). Adressiert Teilnehmer im LAN/Internet.',
-		descriptionEn: 'Network layer protocol of the TCP/IP family. IPv4 (32 bit) and IPv6 (128 bit). Addresses participants in LAN/internet.',
+		description:
+			'Vermittlungsprotokoll der TCP/IP-Familie. IPv4 (32 bit) und IPv6 (128 bit). Adressiert Teilnehmer im LAN/Internet.',
+		descriptionEn:
+			'Network layer protocol of the TCP/IP family. IPv4 (32 bit) and IPv6 (128 bit). Addresses participants in LAN/internet.',
 		areas: ['it'],
 		related: ['TCP/IP', 'UDP', 'LAN']
 	},
 	{
 		short: 'HTTPS',
 		long: 'Hypertext Transfer Protocol Secure',
-		description: 'HTTP über TLS. Pflicht für GLT-Web-Visualisierungen mit Fernzugriff. Heute Standard, nicht mehr nur HTTP.',
-		descriptionEn: 'HTTP over TLS. Mandatory for BMS web visualisations with remote access. Today the standard, no longer plain HTTP.',
+		description:
+			'HTTP über TLS. Pflicht für GLT-Web-Visualisierungen mit Fernzugriff. Heute Standard, nicht mehr nur HTTP.',
+		descriptionEn:
+			'HTTP over TLS. Mandatory for BMS web visualisations with remote access. Today the standard, no longer plain HTTP.',
 		areas: ['it'],
 		related: ['TLS', 'API', 'REST']
 	},
 	{
 		short: 'SSH',
 		long: 'Secure Shell',
-		description: 'Verschlüsselter Fernzugriff auf Server / Embedded-Geräte. Ersatz für Telnet. Port 22.',
-		descriptionEn: 'Encrypted remote access to servers / embedded devices. Replacement for Telnet. Port 22.',
+		description:
+			'Verschlüsselter Fernzugriff auf Server / Embedded-Geräte. Ersatz für Telnet. Port 22.',
+		descriptionEn:
+			'Encrypted remote access to servers / embedded devices. Replacement for Telnet. Port 22.',
 		areas: ['it'],
 		related: ['TLS', 'VPN']
 	},
 	{
 		short: 'DMZ',
 		long: 'Demilitarized Zone',
-		description: 'Netzwerk-Zone zwischen LAN und Internet. Server mit externem Zugriff (z.B. GLT-Webserver) gehören hierher — schützt Innennetz bei Kompromittierung.',
-		descriptionEn: 'Network zone between LAN and internet. Servers with external access (e.g. BMS web server) belong here — protects internal network if compromised.',
+		description:
+			'Netzwerk-Zone zwischen LAN und Internet. Server mit externem Zugriff (z.B. GLT-Webserver) gehören hierher — schützt Innennetz bei Kompromittierung.',
+		descriptionEn:
+			'Network zone between LAN and internet. Servers with external access (e.g. BMS web server) belong here — protects internal network if compromised.',
 		areas: ['it'],
 		related: ['VLAN', 'VPN']
 	},
@@ -1910,40 +2104,50 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IEC',
 		long: 'International Electrotechnical Commission',
-		description: 'Internationale Normungsorganisation für Elektro- und Informationstechnik. Viele Normen werden 1:1 als EN übernommen (z.B. IEC 60364 = EN 60364).',
-		descriptionEn: 'International standards body for electrical and information technology. Many standards are adopted 1:1 as EN (e.g. IEC 60364 = EN 60364).',
+		description:
+			'Internationale Normungsorganisation für Elektro- und Informationstechnik. Viele Normen werden 1:1 als EN übernommen (z.B. IEC 60364 = EN 60364).',
+		descriptionEn:
+			'International standards body for electrical and information technology. Many standards are adopted 1:1 as EN (e.g. IEC 60364 = EN 60364).',
 		areas: ['normen', 'elektro'],
 		related: ['EN', 'ISO']
 	},
 	{
 		short: 'HOAI',
 		long: 'Honorarordnung für Architekten und Ingenieure (DE)',
-		description: 'DE-Verordnung zu Planerhonoraren. Leistungsphasen 1–9 — Grundlage für TGA-/HLK-Planungsverträge.',
-		descriptionEn: 'German regulation on architect and engineer fees. Service phases 1–9 — basis for MEP/HVAC planning contracts.',
+		description:
+			'DE-Verordnung zu Planerhonoraren. Leistungsphasen 1–9 — Grundlage für TGA-/HLK-Planungsverträge.',
+		descriptionEn:
+			'German regulation on architect and engineer fees. Service phases 1–9 — basis for MEP/HVAC planning contracts.',
 		areas: ['normen'],
 		related: ['SIA']
 	},
 	{
 		short: 'LCA',
 		long: 'Life Cycle Assessment',
-		description: 'Ökobilanz über den gesamten Lebenszyklus — Rohstoff, Herstellung, Betrieb, Entsorgung. Komplementär zu LCC (Kosten).',
-		descriptionEn: 'Life cycle assessment covering the entire life — raw material, manufacture, operation, disposal. Complementary to LCC (cost).',
+		description:
+			'Ökobilanz über den gesamten Lebenszyklus — Rohstoff, Herstellung, Betrieb, Entsorgung. Komplementär zu LCC (Kosten).',
+		descriptionEn:
+			'Life cycle assessment covering the entire life — raw material, manufacture, operation, disposal. Complementary to LCC (cost).',
 		areas: ['normen'],
 		related: ['LCC']
 	},
 	{
 		short: 'KPI',
 		long: 'Key Performance Indicator',
-		description: 'Kennzahl zur Bewertung von Anlagen oder Prozessen. GA-typische KPIs: SFP, JAZ, Energieverbrauch/m², Komfort-Compliance.',
-		descriptionEn: 'Performance metric for evaluating systems or processes. BA-typical KPIs: SFP, SCOP, energy consumption/m², comfort compliance.',
+		description:
+			'Kennzahl zur Bewertung von Anlagen oder Prozessen. GA-typische KPIs: SFP, JAZ, Energieverbrauch/m², Komfort-Compliance.',
+		descriptionEn:
+			'Performance metric for evaluating systems or processes. BA-typical KPIs: SFP, SCOP, energy consumption/m², comfort compliance.',
 		areas: ['ga'],
 		related: ['EMS', 'JAZ', 'SFP']
 	},
 	{
 		short: 'ROI',
 		long: 'Return on Investment',
-		description: 'Amortisationszeit einer Investition. Wichtige Kennzahl bei GA-/Effizienz-Massnahmen — typisch akzeptiert 5–10 Jahre.',
-		descriptionEn: 'Payback period of an investment. Important metric for BA/efficiency measures — typically 5–10 years accepted.',
+		description:
+			'Amortisationszeit einer Investition. Wichtige Kennzahl bei GA-/Effizienz-Massnahmen — typisch akzeptiert 5–10 Jahre.',
+		descriptionEn:
+			'Payback period of an investment. Important metric for BA/efficiency measures — typically 5–10 years accepted.',
 		areas: ['ga'],
 		related: ['LCC', 'LCA']
 	}

@@ -85,7 +85,9 @@
 		text-decoration: none;
 		border-bottom: 2px solid transparent;
 		margin-bottom: -1px;
-		transition: color 0.15s, border-color 0.15s;
+		transition:
+			color 0.15s,
+			border-color 0.15s;
 	}
 
 	.admin-nav-item:hover {

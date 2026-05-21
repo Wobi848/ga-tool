@@ -4,7 +4,23 @@ title_en: EnOcean — Battery-Free Wireless Sensors
 slug: enocean
 category: protokolle
 subcategory: funk
-tags: [enocean, batterielos, energy-harvesting, funk, 868mhz, esp3, eep, taster, temperatursensor, fensterkontakt, präsenz, teach-in, eltako, omnio]
+tags:
+  [
+    enocean,
+    batterielos,
+    energy-harvesting,
+    funk,
+    868mhz,
+    esp3,
+    eep,
+    taster,
+    temperatursensor,
+    fensterkontakt,
+    präsenz,
+    teach-in,
+    eltako,
+    omnio
+  ]
 difficulty: grundlagen
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen]
@@ -19,25 +35,25 @@ lang: de
 
 ## Energy Harvesting — Woher kommt der Strom?
 
-| Quelle              | Mechanismus                              | Typische Anwendung              |
-|---------------------|------------------------------------------|---------------------------------|
-| **Piezo (Druck)**   | Tastendruck erzeugt Spannung (~50 µJ)    | Lichtschalter, Taster           |
-| **Photovoltaik**    | Kleines Solarpanel (Innenraum reicht)    | Raumfühler, CO₂-Sensor          |
-| **Temperaturdifferenz (TEG)** | Peltier-Element auf Heizkörper | Heizkörperthermostat         |
-| **Induktion / Magnetfeld** | Bewegung in Magnetfeld          | Fensterkontakt (Magnetschalter) |
+| Quelle                        | Mechanismus                           | Typische Anwendung              |
+| ----------------------------- | ------------------------------------- | ------------------------------- |
+| **Piezo (Druck)**             | Tastendruck erzeugt Spannung (~50 µJ) | Lichtschalter, Taster           |
+| **Photovoltaik**              | Kleines Solarpanel (Innenraum reicht) | Raumfühler, CO₂-Sensor          |
+| **Temperaturdifferenz (TEG)** | Peltier-Element auf Heizkörper        | Heizkörperthermostat            |
+| **Induktion / Magnetfeld**    | Bewegung in Magnetfeld                | Fensterkontakt (Magnetschalter) |
 
 > Pro Tastendruck werden ~4 Funk-Telegramme gesendet. Die Energie reicht gerade für diese 4 Telegramme — dann ist der Kondensator leer bis zur nächsten Betätigung.
 
 ## Technische Spezifikationen
 
-| Parameter         | Wert                              |
-|-------------------|-----------------------------------|
-| Frequenz          | 868,3 MHz (Europa), 315/902 MHz (USA) |
-| Reichweite        | 30 m (innen), 300 m (freies Feld) |
-| Telegramm-Länge   | 14 Bytes (kurz und kompakt)       |
-| Protokoll-Stack   | ESP3 (EnOcean Serial Protocol v3) |
-| Verschlüsselung   | AES-128 (Security Profile)        |
-| ID-Länge          | 32 Bit (4 Milliarden Adressen)    |
+| Parameter       | Wert                                  |
+| --------------- | ------------------------------------- |
+| Frequenz        | 868,3 MHz (Europa), 315/902 MHz (USA) |
+| Reichweite      | 30 m (innen), 300 m (freies Feld)     |
+| Telegramm-Länge | 14 Bytes (kurz und kompakt)           |
+| Protokoll-Stack | ESP3 (EnOcean Serial Protocol v3)     |
+| Verschlüsselung | AES-128 (Security Profile)            |
+| ID-Länge        | 32 Bit (4 Milliarden Adressen)        |
 
 ## Teach-In (Anlernvorgang)
 
@@ -46,6 +62,7 @@ Jeder EnOcean-Sender hat eine einmalige **32-bit-ID** (auf Gerät aufgedruckt). 
 ### UTE (Universal Teach-In)
 
 Neueres Verfahren, bidirektional:
+
 1. Empfänger in Teach-In-Modus versetzen
 2. Sender betätigen (Taste drücken oder Teach-In-Taste)
 3. Empfänger bestätigt automatisch
@@ -63,30 +80,30 @@ Das **EEP** definiert das Datenformat eines Sensors. Jedes Gerät hat ein EEP-Pr
 
 ### Häufige EEP-Profile
 
-| EEP       | Beschreibung                                    |
-|-----------|-------------------------------------------------|
-| F6-02-01  | 2-Kanal-Taster (Rocker Switch)                  |
-| F6-10-00  | Fensterkontakt (offen/geschlossen)              |
-| A5-02-05  | Temperatursensor −40…+60 °C                     |
-| A5-04-01  | Temperatur + Feuchte                            |
-| A5-06-01  | Helligkeitssensor 300–30000 Lux                 |
-| A5-07-01  | Präsenzmelder                                   |
-| A5-09-04  | CO₂-Sensor + Temperatur                         |
-| D2-01-0E  | Schaltaktor mit Energiemessung (2-Wege!)        |
-| A5-20-01  | HVAC-Aktor (Stellantrieb, Raumtemperatur)       |
+| EEP      | Beschreibung                              |
+| -------- | ----------------------------------------- |
+| F6-02-01 | 2-Kanal-Taster (Rocker Switch)            |
+| F6-10-00 | Fensterkontakt (offen/geschlossen)        |
+| A5-02-05 | Temperatursensor −40…+60 °C               |
+| A5-04-01 | Temperatur + Feuchte                      |
+| A5-06-01 | Helligkeitssensor 300–30000 Lux           |
+| A5-07-01 | Präsenzmelder                             |
+| A5-09-04 | CO₂-Sensor + Temperatur                   |
+| D2-01-0E | Schaltaktor mit Energiemessung (2-Wege!)  |
+| A5-20-01 | HVAC-Aktor (Stellantrieb, Raumtemperatur) |
 
 ## Empfänger / Gateway
 
 EnOcean-Signale brauchen einen **Empfänger** der die Funk-Telegramme in ein verdrahtetes Protokoll übersetzt:
 
-| Typ                    | Beschreibung                                         |
-|------------------------|------------------------------------------------------|
-| **USB-Gateway**        | Empfänger als USB-Stick, PC/Server liest aus         |
-| **Serielle Schnittstelle** | RS-232/RS-485 Gateway, an DDC angeschlossen      |
-| **IP-Gateway**         | Ethernet-Empfänger, REST/MQTT API, an GLT            |
-| **KNX-Gateway**        | Übersetzt EnOcean → KNX-Telegramme                  |
-| **BACnet-Gateway**     | Übersetzt EnOcean → BACnet-Objekte                  |
-| **Integriert in DDC**  | Manche Automationsstationen haben EnOcean-Modul      |
+| Typ                        | Beschreibung                                    |
+| -------------------------- | ----------------------------------------------- |
+| **USB-Gateway**            | Empfänger als USB-Stick, PC/Server liest aus    |
+| **Serielle Schnittstelle** | RS-232/RS-485 Gateway, an DDC angeschlossen     |
+| **IP-Gateway**             | Ethernet-Empfänger, REST/MQTT API, an GLT       |
+| **KNX-Gateway**            | Übersetzt EnOcean → KNX-Telegramme              |
+| **BACnet-Gateway**         | Übersetzt EnOcean → BACnet-Objekte              |
+| **Integriert in DDC**      | Manche Automationsstationen haben EnOcean-Modul |
 
 **Hersteller:** Eltako (am häufigsten in CH/DE), Omnio, Weinzierl, PEHA, HORA
 
@@ -94,14 +111,14 @@ EnOcean-Signale brauchen einen **Empfänger** der die Funk-Telegramme in ein ver
 
 ### Typische Anwendungen
 
-| Anwendung               | EnOcean-Gerät             | Vorteil gegenüber Kabel          |
-|-------------------------|---------------------------|----------------------------------|
-| Raumtemperaturfühler    | Multisensor T/RH/CO₂      | Keine Verdrahtung in Altbau      |
-| Lichtschalter           | Taster (Piezo)            | Keine Unterputzdose nötig        |
-| Fensterkontakt          | Magnetkontakt             | Nachrüstung ohne Kabelkanal      |
-| Präsenzmelder           | PIR-Sender                | Flexibel platzierbar             |
-| Heizkörperthermostat    | Stellantrieb (TEG)        | Heizungsenergie = Eigenstrom     |
-| Beschattungssteuerung   | Sonnensensor              | Dach ohne Kabel                  |
+| Anwendung             | EnOcean-Gerät        | Vorteil gegenüber Kabel      |
+| --------------------- | -------------------- | ---------------------------- |
+| Raumtemperaturfühler  | Multisensor T/RH/CO₂ | Keine Verdrahtung in Altbau  |
+| Lichtschalter         | Taster (Piezo)       | Keine Unterputzdose nötig    |
+| Fensterkontakt        | Magnetkontakt        | Nachrüstung ohne Kabelkanal  |
+| Präsenzmelder         | PIR-Sender           | Flexibel platzierbar         |
+| Heizkörperthermostat  | Stellantrieb (TEG)   | Heizungsenergie = Eigenstrom |
+| Beschattungssteuerung | Sonnensensor         | Dach ohne Kabel              |
 
 ### Systemintegration
 
@@ -125,13 +142,13 @@ Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und 
 
 ## Reichweite & Probleme
 
-| Problem                        | Ursache                             | Massnahme                           |
-|--------------------------------|-------------------------------------|-------------------------------------|
-| Sensor wird nicht empfangen    | Entfernung, Wände, Metallhindernisse | Repeater einsetzen                  |
-| Sporadische Ausfälle           | Interferenzen 868 MHz (Zigbee, Z-Wave) | Frequenz-Scan, Position ändern   |
-| Teach-In schlägt fehl          | Empfänger zu weit weg               | Für Anlernvorgang näher heranführen |
-| Falsches EEP konfiguriert      | Werte werden falsch interpretiert    | EEP auf Geräteetikette prüfen      |
-| Helligkeitssensor funktioniert nicht | Zu dunkel (Solar-Harvesting!) | Mindesthelligkeit beachten (~200 Lux) |
+| Problem                              | Ursache                                | Massnahme                             |
+| ------------------------------------ | -------------------------------------- | ------------------------------------- |
+| Sensor wird nicht empfangen          | Entfernung, Wände, Metallhindernisse   | Repeater einsetzen                    |
+| Sporadische Ausfälle                 | Interferenzen 868 MHz (Zigbee, Z-Wave) | Frequenz-Scan, Position ändern        |
+| Teach-In schlägt fehl                | Empfänger zu weit weg                  | Für Anlernvorgang näher heranführen   |
+| Falsches EEP konfiguriert            | Werte werden falsch interpretiert      | EEP auf Geräteetikette prüfen         |
+| Helligkeitssensor funktioniert nicht | Zu dunkel (Solar-Harvesting!)          | Mindesthelligkeit beachten (~200 Lux) |
 
 ### EnOcean Repeater
 
@@ -151,25 +168,25 @@ Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und 
 
 ## Energy Harvesting — Where Does the Power Come From?
 
-| Source | Mechanism | Typical application |
-|--------|-----------|-------------------|
-| **Piezo (pressure)** | Button press generates voltage (~50 µJ) | Light switches, push-buttons |
-| **Photovoltaic** | Small solar panel (indoor light is sufficient) | Room sensors, CO₂ sensor |
-| **Temperature differential (TEG)** | Peltier element on radiator | Radiator thermostat |
-| **Induction / magnetic field** | Movement in magnetic field | Window contact (reed switch) |
+| Source                             | Mechanism                                      | Typical application          |
+| ---------------------------------- | ---------------------------------------------- | ---------------------------- |
+| **Piezo (pressure)**               | Button press generates voltage (~50 µJ)        | Light switches, push-buttons |
+| **Photovoltaic**                   | Small solar panel (indoor light is sufficient) | Room sensors, CO₂ sensor     |
+| **Temperature differential (TEG)** | Peltier element on radiator                    | Radiator thermostat          |
+| **Induction / magnetic field**     | Movement in magnetic field                     | Window contact (reed switch) |
 
 > Each button press sends ~4 radio telegrams. The energy is just sufficient for these 4 telegrams — then the capacitor is empty until the next actuation.
 
 ## Technical Specifications
 
-| Parameter | Value |
-|-----------|-------|
-| Frequency | 868.3 MHz (Europe), 315/902 MHz (USA) |
-| Range | 30 m (indoors), 300 m (open field) |
-| Telegram length | 14 bytes (short and compact) |
-| Protocol stack | ESP3 (EnOcean Serial Protocol v3) |
-| Encryption | AES-128 (Security Profile) |
-| ID length | 32 bit (4 billion addresses) |
+| Parameter       | Value                                 |
+| --------------- | ------------------------------------- |
+| Frequency       | 868.3 MHz (Europe), 315/902 MHz (USA) |
+| Range           | 30 m (indoors), 300 m (open field)    |
+| Telegram length | 14 bytes (short and compact)          |
+| Protocol stack  | ESP3 (EnOcean Serial Protocol v3)     |
+| Encryption      | AES-128 (Security Profile)            |
+| ID length       | 32 bit (4 billion addresses)          |
 
 ## Teach-In (Pairing)
 
@@ -178,6 +195,7 @@ Every EnOcean transmitter has a unique **32-bit ID** (printed on the device). Th
 ### UTE (Universal Teach-In)
 
 Newer method, bidirectional:
+
 1. Put receiver into teach-in mode
 2. Actuate transmitter (press button or teach-in key)
 3. Receiver confirms automatically
@@ -195,29 +213,29 @@ The **EEP** defines the data format of a sensor. Every device has an EEP profile
 
 ### Common EEP Profiles
 
-| EEP | Description |
-|-----|------------|
-| F6-02-01 | 2-channel push-button (rocker switch) |
-| F6-10-00 | Window contact (open/closed) |
-| A5-02-05 | Temperature sensor −40…+60 °C |
-| A5-04-01 | Temperature + humidity |
-| A5-06-01 | Light sensor 300–30,000 lux |
-| A5-07-01 | Presence detector |
-| A5-09-04 | CO₂ sensor + temperature |
+| EEP      | Description                                      |
+| -------- | ------------------------------------------------ |
+| F6-02-01 | 2-channel push-button (rocker switch)            |
+| F6-10-00 | Window contact (open/closed)                     |
+| A5-02-05 | Temperature sensor −40…+60 °C                    |
+| A5-04-01 | Temperature + humidity                           |
+| A5-06-01 | Light sensor 300–30,000 lux                      |
+| A5-07-01 | Presence detector                                |
+| A5-09-04 | CO₂ sensor + temperature                         |
 | D2-01-0E | Switching actuator with energy metering (2-way!) |
-| A5-20-01 | HVAC actuator (valve drive, room temperature) |
+| A5-20-01 | HVAC actuator (valve drive, room temperature)    |
 
 ## Receivers / Gateways
 
 EnOcean signals require a **receiver** that translates radio telegrams into a wired protocol:
 
-| Type | Description |
-|------|------------|
-| **USB gateway** | Receiver as USB stick, read by PC/server |
-| **Serial interface** | RS-232/RS-485 gateway, connected to DDC |
-| **IP gateway** | Ethernet receiver, REST/MQTT API, for BMS |
-| **KNX gateway** | Translates EnOcean → KNX telegrams |
-| **BACnet gateway** | Translates EnOcean → BACnet objects |
+| Type                  | Description                                     |
+| --------------------- | ----------------------------------------------- |
+| **USB gateway**       | Receiver as USB stick, read by PC/server        |
+| **Serial interface**  | RS-232/RS-485 gateway, connected to DDC         |
+| **IP gateway**        | Ethernet receiver, REST/MQTT API, for BMS       |
+| **KNX gateway**       | Translates EnOcean → KNX telegrams              |
+| **BACnet gateway**    | Translates EnOcean → BACnet objects             |
 | **Integrated in DDC** | Some automation stations have an EnOcean module |
 
 **Manufacturers:** Eltako (most common in CH/DE), Omnio, Weinzierl, PEHA, HORA
@@ -226,14 +244,14 @@ EnOcean signals require a **receiver** that translates radio telegrams into a wi
 
 ### Typical Applications
 
-| Application | EnOcean device | Advantage over cable |
-|-------------|---------------|---------------------|
+| Application             | EnOcean device        | Advantage over cable            |
+| ----------------------- | --------------------- | ------------------------------- |
 | Room temperature sensor | Multi-sensor T/RH/CO₂ | No wiring in existing buildings |
-| Light switch | Push-button (piezo) | No flush-mounted box required |
-| Window contact | Reed switch | Retrofit without cable trunking |
-| Presence detector | PIR transmitter | Flexible placement |
-| Radiator thermostat | Valve actuator (TEG) | Heating energy = self-powered |
-| Shading control | Sun sensor | Roof without cables |
+| Light switch            | Push-button (piezo)   | No flush-mounted box required   |
+| Window contact          | Reed switch           | Retrofit without cable trunking |
+| Presence detector       | PIR transmitter       | Flexible placement              |
+| Radiator thermostat     | Valve actuator (TEG)  | Heating energy = self-powered   |
+| Shading control         | Sun sensor            | Roof without cables             |
 
 ### System Integration
 
@@ -257,13 +275,13 @@ By default EnOcean transmits **unencrypted** — anyone can listen and theoretic
 
 ## Range and Issues
 
-| Problem | Cause | Remedy |
-|---------|-------|--------|
-| Sensor not received | Distance, walls, metal obstacles | Use repeater |
-| Sporadic dropouts | Interference at 868 MHz (Zigbee, Z-Wave) | Frequency scan, change position |
-| Teach-in fails | Receiver too far away | Bring closer for pairing |
-| Wrong EEP configured | Values interpreted incorrectly | Check EEP on device label |
-| Light sensor not working | Too dark (solar harvesting!) | Observe minimum illuminance (~200 lux) |
+| Problem                  | Cause                                    | Remedy                                 |
+| ------------------------ | ---------------------------------------- | -------------------------------------- |
+| Sensor not received      | Distance, walls, metal obstacles         | Use repeater                           |
+| Sporadic dropouts        | Interference at 868 MHz (Zigbee, Z-Wave) | Frequency scan, change position        |
+| Teach-in fails           | Receiver too far away                    | Bring closer for pairing               |
+| Wrong EEP configured     | Values interpreted incorrectly           | Check EEP on device label              |
+| Light sensor not working | Too dark (solar harvesting!)             | Observe minimum illuminance (~200 lux) |
 
 ### EnOcean Repeater
 

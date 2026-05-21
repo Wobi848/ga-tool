@@ -4,7 +4,21 @@ title_en: Humidifiers — Types, Control and Hygiene
 slug: befeuchter
 category: lueftung
 subcategory: befeuchtung
-tags: [befeuchter, luftbefeuchtung, dampfbefeuchter, verdunstungsbefeuchter, hochdruckbefeuchter, relative-feuchte, absolute-feuchte, hygiene, legionellen, kalibrierung, rlt, vdi6022]
+tags:
+  [
+    befeuchter,
+    luftbefeuchtung,
+    dampfbefeuchter,
+    verdunstungsbefeuchter,
+    hochdruckbefeuchter,
+    relative-feuchte,
+    absolute-feuchte,
+    hygiene,
+    legionellen,
+    kalibrierung,
+    rlt,
+    vdi6022
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vdi6022, legionellen, taupunkt, raumluftqualitaet]
@@ -25,7 +39,7 @@ Im Winter: Kalte Aussenluft enthält wenig Feuchte (geringe absolute Feuchte). W
 Aussenluft: −5 °C, 80 % rF → absolute Feuchte: ~1.9 g/kg
 Aufgeheizt auf 20 °C: dieselbe absolute Feuchte →  relative Feuchte: ~11 %!
 
-→ 11 % rF ist extrem trocken: 
+→ 11 % rF ist extrem trocken:
   - Schleimhäute austrocknen
   - Statische Aufladung
   - Holzmöbel, Parkett leiden
@@ -47,13 +61,13 @@ Wasser (Trinkwasserqualität)
 Sattdampf → in Luftstrom eingedüst → absorbiert in Luft
 ```
 
-| Eigenschaft     | Wert                                    |
-|-----------------|-----------------------------------------|
-| **Hygiene**     | Sehr gut (100 °C tötet alle Keime)     |
-| Energieverbrauch| Hoch (580 Wh/kg Dampf)                  |
-| Wartung         | Entkalkung nötig (alle 1–3 Monate)     |
-| Regelung        | Proportional (Leistung 0–100 %)        |
-| Einsatz         | Büro, Spital, kritische Anwendungen    |
+| Eigenschaft      | Wert                                |
+| ---------------- | ----------------------------------- |
+| **Hygiene**      | Sehr gut (100 °C tötet alle Keime)  |
+| Energieverbrauch | Hoch (580 Wh/kg Dampf)              |
+| Wartung          | Entkalkung nötig (alle 1–3 Monate)  |
+| Regelung         | Proportional (Leistung 0–100 %)     |
+| Einsatz          | Büro, Spital, kritische Anwendungen |
 
 **Steuerung GA:** 0–10 V Leistungsvorgabe (0 = aus, 10 V = 100 % Leistung).
 
@@ -65,13 +79,13 @@ Sattdampf → in Luftstrom eingedüst → absorbiert in Luft
 Umwälzpumpe → Wasser über Filterpads → Luft führt Feuchte mit
 ```
 
-| Eigenschaft     | Wert                                    |
-|-----------------|-----------------------------------------|
-| **Hygiene**     | **Problematisch** (stehendes Wasser → Legionellen!) |
-| Energieverbrauch| Niedrig (nur Pumpe/Ventilator)         |
-| Befeuchtungsgrad| Maximal 80–90 % rF (enthalpie-begrenzt) |
-| Wartung         | Intensiv! Wassertank regelmässig reinigen |
-| VDI 6022        | Klasse A: **Schwierig zu erfüllen**     |
+| Eigenschaft      | Wert                                                |
+| ---------------- | --------------------------------------------------- |
+| **Hygiene**      | **Problematisch** (stehendes Wasser → Legionellen!) |
+| Energieverbrauch | Niedrig (nur Pumpe/Ventilator)                      |
+| Befeuchtungsgrad | Maximal 80–90 % rF (enthalpie-begrenzt)             |
+| Wartung          | Intensiv! Wassertank regelmässig reinigen           |
+| VDI 6022         | Klasse A: **Schwierig zu erfüllen**                 |
 
 > ⚠️ Verdunstungsbefeuchter in RLT-Anlagen sind hygienisch kritisch. Bei unzureichender Wartung → Legionellen und Schimmelbildung. Für neue Anlagen **nicht empfohlen**.
 
@@ -83,13 +97,13 @@ Umwälzpumpe → Wasser über Filterpads → Luft führt Feuchte mit
 Umkehrosmose-Wasser (sehr rein) → Hochdruck-Pumpe → Düsen → Tröpfchennebel
 ```
 
-| Eigenschaft     | Wert                                    |
-|-----------------|-----------------------------------------|
-| **Hygiene**     | Gut bei RO-Wasser und regelmässiger Desinfektion |
-| Energieverbrauch| Niedrig–Mittel                          |
-| Befeuchtungsgrad| Hoch                                    |
-| Wartung         | Düsen verstopfen, regelmässige Reinigung|
-| Einsatz         | Komfort-Anlagen, wenn Hygiene gesichert |
+| Eigenschaft      | Wert                                             |
+| ---------------- | ------------------------------------------------ |
+| **Hygiene**      | Gut bei RO-Wasser und regelmässiger Desinfektion |
+| Energieverbrauch | Niedrig–Mittel                                   |
+| Befeuchtungsgrad | Hoch                                             |
+| Wartung          | Düsen verstopfen, regelmässige Reinigung         |
+| Einsatz          | Komfort-Anlagen, wenn Hygiene gesichert          |
 
 ### 4. Dampfbefeuchter via Dampfnetz
 
@@ -126,7 +140,7 @@ PID-Regler:
   Eingang: Ist-Feuchte
   Sollwert: 50 % rF
   Ausgang: Befeuchter-Leistung 0–100 %
-  
+
 Begrenzung: Zuluft-Taupunkt > Rohroberfläche (sonst Kondensation!)
 Sicherheit: Überfeuchte-Alarm wenn > 70 % rF (Kondensationsrisiko)
 ```
@@ -139,14 +153,14 @@ Feuchteänderungen in der Luft sind träge → Pi-Regler mit langer Nachstellzei
 
 ## GA-Datenpunkte Befeuchter
 
-| Datenpunkt                 | Typ | Einheit | Beschreibung              |
-|----------------------------|-----|---------|---------------------------|
-| Feuchte Zuluft Ist         | AI  | % rF    | Nach Befeuchter           |
-| Feuchte Sollwert           | AV  | % rF    | Vorgabe                   |
-| Befeuchter Leistung        | AO  | %       | 0–10 V Stellsignal        |
-| Befeuchter Betrieb         | DO  | —       | Freigabe EIN/AUS          |
-| Befeuchter Störung         | DI  | —       | Kein Wasser, Kalkschutz   |
-| Wasserverbrauch            | AI  | l/h     | Monitoring                |
+| Datenpunkt          | Typ | Einheit | Beschreibung            |
+| ------------------- | --- | ------- | ----------------------- |
+| Feuchte Zuluft Ist  | AI  | % rF    | Nach Befeuchter         |
+| Feuchte Sollwert    | AV  | % rF    | Vorgabe                 |
+| Befeuchter Leistung | AO  | %       | 0–10 V Stellsignal      |
+| Befeuchter Betrieb  | DO  | —       | Freigabe EIN/AUS        |
+| Befeuchter Störung  | DI  | —       | Kein Wasser, Kalkschutz |
+| Wasserverbrauch     | AI  | l/h     | Monitoring              |
 
 ## Normen
 
@@ -188,13 +202,13 @@ Water (drinking water quality)
 Saturated steam → injected into airflow → absorbed by air
 ```
 
-| Property | Value |
-|----------|-------|
-| **Hygiene** | Very good (100 °C kills all germs) |
-| Energy consumption | High (580 Wh/kg steam) |
-| Maintenance | Descaling required (every 1–3 months) |
-| Control | Proportional (output 0–100 %) |
-| Application | Office, hospital, critical applications |
+| Property           | Value                                   |
+| ------------------ | --------------------------------------- |
+| **Hygiene**        | Very good (100 °C kills all germs)      |
+| Energy consumption | High (580 Wh/kg steam)                  |
+| Maintenance        | Descaling required (every 1–3 months)   |
+| Control            | Proportional (output 0–100 %)           |
+| Application        | Office, hospital, critical applications |
 
 **BA control:** 0–10 V power setpoint (0 = off, 10 V = 100 % output).
 
@@ -206,13 +220,13 @@ Saturated steam → injected into airflow → absorbed by air
 Recirculating pump → water over filter pads → air carries moisture away
 ```
 
-| Property | Value |
-|----------|-------|
-| **Hygiene** | **Problematic** (standing water → Legionella!) |
-| Energy consumption | Low (pump/fan only) |
-| Humidification level | Maximum 80–90 % RH (enthalpy-limited) |
-| Maintenance | Intensive! Water tank requires regular cleaning |
-| VDI 6022 | Class A: **difficult to comply with** |
+| Property             | Value                                           |
+| -------------------- | ----------------------------------------------- |
+| **Hygiene**          | **Problematic** (standing water → Legionella!)  |
+| Energy consumption   | Low (pump/fan only)                             |
+| Humidification level | Maximum 80–90 % RH (enthalpy-limited)           |
+| Maintenance          | Intensive! Water tank requires regular cleaning |
+| VDI 6022             | Class A: **difficult to comply with**           |
 
 > ⚠️ Evaporative humidifiers in AHU systems are hygienically critical. With inadequate maintenance → Legionella and mould growth. **Not recommended** for new installations.
 
@@ -224,13 +238,13 @@ Recirculating pump → water over filter pads → air carries moisture away
 Reverse-osmosis water (very pure) → high-pressure pump → nozzles → droplet mist
 ```
 
-| Property | Value |
-|----------|-------|
-| **Hygiene** | Good with RO water and regular disinfection |
-| Energy consumption | Low to medium |
-| Humidification level | High |
-| Maintenance | Nozzles can clog; regular cleaning required |
-| Application | Comfort systems where hygiene is assured |
+| Property             | Value                                       |
+| -------------------- | ------------------------------------------- |
+| **Hygiene**          | Good with RO water and regular disinfection |
+| Energy consumption   | Low to medium                               |
+| Humidification level | High                                        |
+| Maintenance          | Nozzles can clog; regular cleaning required |
+| Application          | Comfort systems where hygiene is assured    |
 
 ### 4. Steam Humidifier via Steam Network
 
@@ -267,7 +281,7 @@ PID controller:
   Input: Actual humidity
   Setpoint: 50 % RH
   Output: Humidifier output 0–100 %
-  
+
 Limit: Supply air dew point > pipe surface temperature (otherwise condensation!)
 Safety: Over-humidity alarm if > 70 % RH (condensation risk)
 ```
@@ -280,14 +294,14 @@ Humidity changes in air are slow → use PI controller with long reset time (Ti 
 
 ## BA Data Points — Humidifier
 
-| Data point | Type | Unit | Description |
-|-----------|------|------|------------|
-| Supply air humidity actual | AI | % RH | After humidifier |
-| Humidity setpoint | AV | % RH | Command |
-| Humidifier output | AO | % | 0–10 V control signal |
-| Humidifier enable | DO | — | Run/stop |
-| Humidifier fault | DI | — | No water, scale protection |
-| Water consumption | AI | l/h | Monitoring |
+| Data point                 | Type | Unit | Description                |
+| -------------------------- | ---- | ---- | -------------------------- |
+| Supply air humidity actual | AI   | % RH | After humidifier           |
+| Humidity setpoint          | AV   | % RH | Command                    |
+| Humidifier output          | AO   | %    | 0–10 V control signal      |
+| Humidifier enable          | DO   | —    | Run/stop                   |
+| Humidifier fault           | DI   | —    | No water, scale protection |
+| Water consumption          | AI   | l/h  | Monitoring                 |
 
 ## Standards
 

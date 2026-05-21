@@ -4,7 +4,26 @@ title_en: DALI / DALI-2 — Lighting Control in BA
 slug: dali
 category: protokolle
 subcategory: licht
-tags: [dali, dali-2, lichtsteuerung, vorschaltgerät, evg, ballast, adressierung, gruppe, szene, broadcast, dimmen, arc-level, fade, notlicht, dt6, dt8, iec62386]
+tags:
+  [
+    dali,
+    dali-2,
+    lichtsteuerung,
+    vorschaltgerät,
+    evg,
+    ballast,
+    adressierung,
+    gruppe,
+    szene,
+    broadcast,
+    dimmen,
+    arc-level,
+    fade,
+    notlicht,
+    dt6,
+    dt8,
+    iec62386
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen, dmx512]
@@ -19,14 +38,14 @@ lang: de
 
 ## DALI vs. 0–10 V Dimmen
 
-| Merkmal               | 0–10 V (analog)         | DALI (digital)                         |
-|-----------------------|-------------------------|----------------------------------------|
-| Adressierung          | Nicht möglich (alle reagieren) | Individuell (64 Adressen)         |
-| Rückmeldung           | ❌                       | ✅ (Status, Fehlermeldung, Lampenfehler) |
-| Szenenspeicher        | Extern nötig             | Im Gerät (bis 16 Szenen)              |
-| Verkabelung           | Polungsabhängig          | Nicht polungskritisch                  |
-| Diagnose              | Keine                    | Lampenfehler, Konverterfehler meldbar  |
-| Aufwand               | Gering                   | Mittel (Adressierung nötig)            |
+| Merkmal        | 0–10 V (analog)                | DALI (digital)                           |
+| -------------- | ------------------------------ | ---------------------------------------- |
+| Adressierung   | Nicht möglich (alle reagieren) | Individuell (64 Adressen)                |
+| Rückmeldung    | ❌                             | ✅ (Status, Fehlermeldung, Lampenfehler) |
+| Szenenspeicher | Extern nötig                   | Im Gerät (bis 16 Szenen)                 |
+| Verkabelung    | Polungsabhängig                | Nicht polungskritisch                    |
+| Diagnose       | Keine                          | Lampenfehler, Konverterfehler meldbar    |
+| Aufwand        | Gering                         | Mittel (Adressierung nötig)              |
 
 ## DALI-Topologie
 
@@ -38,14 +57,14 @@ DALI-Controller (Master) ───── DALI-Bus (2-Draht)
                                   └── ... bis 64 Geräte
 ```
 
-| Parameter           | Wert                                   |
-|---------------------|----------------------------------------|
-| Busspannung         | 16 V (Leerlauf), Strom moduliert       |
-| Baudrate            | 1200 baud                              |
-| Max. Geräte         | **64 pro Bus-Segment**                 |
-| Kabellänge          | max. 300 m (Gesamtlänge des Segments)  |
+| Parameter           | Wert                                         |
+| ------------------- | -------------------------------------------- |
+| Busspannung         | 16 V (Leerlauf), Strom moduliert             |
+| Baudrate            | 1200 baud                                    |
+| Max. Geräte         | **64 pro Bus-Segment**                       |
+| Kabellänge          | max. 300 m (Gesamtlänge des Segments)        |
 | Verdrahtung         | Nicht polungskritisch, keine Schirmung nötig |
-| Kann auf SELV-Kabel | ✅ (kein eigener Kabeltyp nötig)       |
+| Kann auf SELV-Kabel | ✅ (kein eigener Kabeltyp nötig)             |
 
 > ⚠️ DALI-Bus kann auf bestehenden SELV-Steuerleitungen mitgeführt werden — aber: nicht auf denselben Adern wie 230 V oder andere Busse!
 
@@ -71,6 +90,7 @@ DALI-Controller (Master) ───── DALI-Bus (2-Draht)
 ## Szenen
 
 Jedes DALI-Gerät speichert bis zu **16 Szenen (0–15)** intern:
+
 - Szene = gespeicherter Dimm-Level (0–254) + Fade-Zeit
 - Aufruf: `Recall Scene X` → alle Geräte der adressierten Gruppe setzen gespeicherten Wert
 - Typisch: Szene 0 = Präsenz (100 %), Szene 1 = Konstantlicht (60 %), Szene 2 = Abend (30 %), Szene 15 = Aus
@@ -79,14 +99,14 @@ Jedes DALI-Gerät speichert bis zu **16 Szenen (0–15)** intern:
 
 DALI verwendet eine **logarithmische Skalierung** (ARC Level):
 
-| ARC Level | Helligkeit | Entspricht |
-|-----------|-----------|------------|
-| 0         | Aus       |            |
-| 1         | ~0,1 %    | Minimalwert |
-| 128       | ~10 %     | Logarithmisch |
-| 200       | ~40 %     | Logarithmisch |
-| 254       | 100 %     | Maximalwert |
-| 255       | Letzter gespeicherter Wert | Sonderfall |
+| ARC Level | Helligkeit                 | Entspricht    |
+| --------- | -------------------------- | ------------- |
+| 0         | Aus                        |               |
+| 1         | ~0,1 %                     | Minimalwert   |
+| 128       | ~10 %                      | Logarithmisch |
+| 200       | ~40 %                      | Logarithmisch |
+| 254       | 100 %                      | Maximalwert   |
+| 255       | Letzter gespeicherter Wert | Sonderfall    |
 
 > Die logarithmische Skalierung entspricht der menschlichen Wahrnehmung (Fechner'sches Gesetz) — gleichmässige Helligkeitsänderung beim Dimmen.
 
@@ -96,26 +116,26 @@ DALI verwendet eine **logarithmische Skalierung** (ARC Level):
 
 DALI gibt dem Master Informationen zurück — das macht es gegenüber 0–10 V überlegen:
 
-| Abfrage              | Antwort                                  |
-|----------------------|------------------------------------------|
+| Abfrage              | Antwort                                                      |
+| -------------------- | ------------------------------------------------------------ |
 | Query Status         | Lampenfehler, Konverterfehler, Notlicht aktiv, Dimmer-Fehler |
-| Query Actual Level   | Aktueller Dimm-Level                     |
-| Query Power On Level | Einschalthelligkeit                      |
-| Query Groups         | In welchen Gruppen ist das Gerät?        |
-| Query Scene          | Gespeicherter Szenen-Level               |
+| Query Actual Level   | Aktueller Dimm-Level                                         |
+| Query Power On Level | Einschalthelligkeit                                          |
+| Query Groups         | In welchen Gruppen ist das Gerät?                            |
+| Query Scene          | Gespeicherter Szenen-Level                                   |
 
 ## Gerätetypen (Device Types, DT)
 
 DALI definiert verschiedene Gerätetypen für unterschiedliche Anwendungen:
 
-| DT  | Gerätetyp                    | Anwendung                               |
-|-----|------------------------------|-----------------------------------------|
-| DT0 | Fluoreszenz-Vorschaltgerät   | Klassisches EVG, T8/T5                  |
-| DT1 | Notlicht-EVG                 | Sicherheitsbeleuchtung                  |
-| DT4 | Niedervolt-Halogen-Dimmer    | Halogen-Trafo                           |
-| DT5 | Konverter (0–10 V Ausgang)   | Retrofit für 0–10 V Geräte             |
-| **DT6** | LED-Treiber (dimmen)   | **Standard für moderne LED**            |
-| **DT8** | Farbe / Farbtemperatur | **Tunable White, RGB, RGBW**            |
+| DT      | Gerätetyp                  | Anwendung                    |
+| ------- | -------------------------- | ---------------------------- |
+| DT0     | Fluoreszenz-Vorschaltgerät | Klassisches EVG, T8/T5       |
+| DT1     | Notlicht-EVG               | Sicherheitsbeleuchtung       |
+| DT4     | Niedervolt-Halogen-Dimmer  | Halogen-Trafo                |
+| DT5     | Konverter (0–10 V Ausgang) | Retrofit für 0–10 V Geräte   |
+| **DT6** | LED-Treiber (dimmen)       | **Standard für moderne LED** |
+| **DT8** | Farbe / Farbtemperatur     | **Tunable White, RGB, RGBW** |
 
 ## DALI-2 — Was ist neu?
 
@@ -136,19 +156,20 @@ GLT (BACnet/Modbus/KNX) ← DALI-Gateway → DALI-Bus → EVGs
 ```
 
 Gängige Gateways (z.B. Lunatone, Osram DALI-Gateway, Schneider):
+
 - Bilden DALI-Gruppen/Szenen/Geräte auf BACnet-Objekte oder Modbus-Register ab
 - Ermöglichen Lastmanagement, Energiemessung, Fehlerdiagnose in der GLT
 
 **Typische GA-Datenpunkte:**
 
-| Datenpunkt          | Typ  | Beschreibung                          |
-|---------------------|------|---------------------------------------|
-| Gruppe X Dimm-Level | Soll | 0–100 % → Gateway setzt DALI ARC     |
-| Gruppe X Szene      | Soll | Szene 0–15 abrufen                    |
-| Gruppe X Ein/Aus    | Soll | Broadcast Ein oder Aus                |
-| Gerät Y Status      | Ist  | Lampenfehler, Konverterfehler         |
-| Gerät Y Ist-Level   | Ist  | Tatsächliche Helligkeit               |
-| Anzahl Lampenfehler | Ist  | Wartungsalarm                         |
+| Datenpunkt          | Typ  | Beschreibung                     |
+| ------------------- | ---- | -------------------------------- |
+| Gruppe X Dimm-Level | Soll | 0–100 % → Gateway setzt DALI ARC |
+| Gruppe X Szene      | Soll | Szene 0–15 abrufen               |
+| Gruppe X Ein/Aus    | Soll | Broadcast Ein oder Aus           |
+| Gerät Y Status      | Ist  | Lampenfehler, Konverterfehler    |
+| Gerät Y Ist-Level   | Ist  | Tatsächliche Helligkeit          |
+| Anzahl Lampenfehler | Ist  | Wartungsalarm                    |
 
 ## Notlichtfunktion (DT1)
 
@@ -187,14 +208,14 @@ DALI-Notlicht-EVGs (DT1) sind komplex — vollständige Selbsttests:
 
 ## DALI vs. 0–10 V Dimming
 
-| Feature | 0–10 V (analogue) | DALI (digital) |
-|---------|-------------------|----------------|
-| Addressing | Not possible (all respond) | Individual (64 addresses) |
-| Feedback | No | Yes (status, fault, lamp failure) |
-| Scene memory | External required | In device (up to 16 scenes) |
-| Wiring | Polarity-sensitive | Polarity-independent |
-| Diagnostics | None | Lamp failure, driver fault reportable |
-| Effort | Low | Medium (addressing required) |
+| Feature      | 0–10 V (analogue)          | DALI (digital)                        |
+| ------------ | -------------------------- | ------------------------------------- |
+| Addressing   | Not possible (all respond) | Individual (64 addresses)             |
+| Feedback     | No                         | Yes (status, fault, lamp failure)     |
+| Scene memory | External required          | In device (up to 16 scenes)           |
+| Wiring       | Polarity-sensitive         | Polarity-independent                  |
+| Diagnostics  | None                       | Lamp failure, driver fault reportable |
+| Effort       | Low                        | Medium (addressing required)          |
 
 ## DALI Topology
 
@@ -206,14 +227,14 @@ DALI controller (master) ───── DALI bus (2-wire)
                                   └── ... up to 64 devices
 ```
 
-| Parameter | Value |
-|-----------|-------|
-| Bus voltage | 16 V (open circuit), current modulated |
-| Baud rate | 1200 baud |
-| Max. devices | **64 per bus segment** |
-| Cable length | max. 300 m (total segment length) |
-| Wiring | Polarity-independent, no shielding required |
-| Can share SELV cable | Yes (no special cable type needed) |
+| Parameter            | Value                                       |
+| -------------------- | ------------------------------------------- |
+| Bus voltage          | 16 V (open circuit), current modulated      |
+| Baud rate            | 1200 baud                                   |
+| Max. devices         | **64 per bus segment**                      |
+| Cable length         | max. 300 m (total segment length)           |
+| Wiring               | Polarity-independent, no shielding required |
+| Can share SELV cable | Yes (no special cable type needed)          |
 
 > DALI bus can share existing SELV control cables — but not on the same conductors as 230 V or other bus systems!
 
@@ -239,6 +260,7 @@ DALI controller (master) ───── DALI bus (2-wire)
 ## Scenes
 
 Each DALI device stores up to **16 scenes (0–15)** internally:
+
 - Scene = stored dim level (0–254) + fade time
 - Recall: `Recall Scene X` → all addressed group devices set their stored value
 - Typical: scene 0 = presence (100 %), scene 1 = constant light (60 %), scene 2 = evening (30 %), scene 15 = off
@@ -247,14 +269,14 @@ Each DALI device stores up to **16 scenes (0–15)** internally:
 
 DALI uses a **logarithmic scale** (ARC level):
 
-| ARC Level | Brightness | Note |
-|-----------|-----------|------|
-| 0 | Off | |
-| 1 | ~0.1 % | Minimum value |
-| 128 | ~10 % | Logarithmic |
-| 200 | ~40 % | Logarithmic |
-| 254 | 100 % | Maximum value |
-| 255 | Last stored value | Special case |
+| ARC Level | Brightness        | Note          |
+| --------- | ----------------- | ------------- |
+| 0         | Off               |               |
+| 1         | ~0.1 %            | Minimum value |
+| 128       | ~10 %             | Logarithmic   |
+| 200       | ~40 %             | Logarithmic   |
+| 254       | 100 %             | Maximum value |
+| 255       | Last stored value | Special case  |
 
 > The logarithmic scale matches human perception (Fechner's law) — even brightness change during dimming.
 
@@ -264,25 +286,25 @@ DALI uses a **logarithmic scale** (ARC level):
 
 DALI returns information to the master — this makes it superior to 0–10 V:
 
-| Query | Response |
-|-------|---------|
-| Query Status | Lamp failure, driver fault, emergency light active, dimmer fault |
-| Query Actual Level | Current dim level |
-| Query Power On Level | Switch-on brightness |
-| Query Groups | Which groups does the device belong to? |
-| Query Scene | Stored scene level |
+| Query                | Response                                                         |
+| -------------------- | ---------------------------------------------------------------- |
+| Query Status         | Lamp failure, driver fault, emergency light active, dimmer fault |
+| Query Actual Level   | Current dim level                                                |
+| Query Power On Level | Switch-on brightness                                             |
+| Query Groups         | Which groups does the device belong to?                          |
+| Query Scene          | Stored scene level                                               |
 
 ## Device Types (DT)
 
 DALI defines various device types for different applications:
 
-| DT | Device type | Application |
-|----|------------|-------------|
-| DT0 | Fluorescent ballast | Classic ballast, T8/T5 |
-| DT1 | Emergency light ballast | Safety lighting |
-| DT4 | Low-voltage halogen dimmer | Halogen transformer |
-| DT5 | Converter (0–10 V output) | Retrofit for 0–10 V devices |
-| **DT6** | LED driver (dimming) | **Standard for modern LED** |
+| DT      | Device type                 | Application                  |
+| ------- | --------------------------- | ---------------------------- |
+| DT0     | Fluorescent ballast         | Classic ballast, T8/T5       |
+| DT1     | Emergency light ballast     | Safety lighting              |
+| DT4     | Low-voltage halogen dimmer  | Halogen transformer          |
+| DT5     | Converter (0–10 V output)   | Retrofit for 0–10 V devices  |
+| **DT6** | LED driver (dimming)        | **Standard for modern LED**  |
 | **DT8** | Colour / colour temperature | **Tunable White, RGB, RGBW** |
 
 ## DALI-2 — What's New?
@@ -304,19 +326,20 @@ BMS (BACnet/Modbus/KNX) ← DALI gateway → DALI bus → ballasts
 ```
 
 Common gateways (e.g. Lunatone, Osram DALI gateway, Schneider):
+
 - Map DALI groups/scenes/devices to BACnet objects or Modbus registers
 - Enable load management, energy measurement, fault diagnostics in the BMS
 
 **Typical BA data points:**
 
-| Data point | Type | Description |
-|-----------|------|-------------|
-| Group X dim level | Setpoint | 0–100 % → gateway sets DALI ARC |
-| Group X scene | Setpoint | Recall scene 0–15 |
-| Group X on/off | Setpoint | Broadcast on or off |
-| Device Y status | Actual | Lamp failure, driver fault |
-| Device Y actual level | Actual | Current brightness |
-| Lamp fault count | Actual | Maintenance alarm |
+| Data point            | Type     | Description                     |
+| --------------------- | -------- | ------------------------------- |
+| Group X dim level     | Setpoint | 0–100 % → gateway sets DALI ARC |
+| Group X scene         | Setpoint | Recall scene 0–15               |
+| Group X on/off        | Setpoint | Broadcast on or off             |
+| Device Y status       | Actual   | Lamp failure, driver fault      |
+| Device Y actual level | Actual   | Current brightness              |
+| Lamp fault count      | Actual   | Maintenance alarm               |
 
 ## Emergency Lighting (DT1)
 

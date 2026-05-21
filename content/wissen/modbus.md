@@ -19,37 +19,37 @@ lang: de
 
 ## Varianten
 
-| Variante      | Transport             | Verbreitung in der GA                          |
-|---------------|-----------------------|------------------------------------------------|
-| **Modbus RTU**| RS-485 (seriell)      | Feldgeräte, Zähler, FU — häufigste Variante    |
-| **Modbus TCP**| Ethernet (Port 502)   | Energiemessung, PLC-Kopplungen, Gateways       |
-| Modbus ASCII  | RS-232/485 (klartext) | Selten, Legacy                                 |
+| Variante       | Transport             | Verbreitung in der GA                       |
+| -------------- | --------------------- | ------------------------------------------- |
+| **Modbus RTU** | RS-485 (seriell)      | Feldgeräte, Zähler, FU — häufigste Variante |
+| **Modbus TCP** | Ethernet (Port 502)   | Energiemessung, PLC-Kopplungen, Gateways    |
+| Modbus ASCII   | RS-232/485 (klartext) | Selten, Legacy                              |
 
 Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag".
 
 ## Datenmodell — 4 Speicherbereiche
 
-| Bereich                | Bezeichnung      | Lesen | Schreiben | Typ      |
-|------------------------|------------------|-------|-----------|----------|
-| Coils (0xxxx)          | Discrete Output  | ja    | ja        | Bit      |
-| Discrete Inputs (1xxxx)| Discrete Input   | ja    | nein      | Bit      |
-| Input Registers (3xxxx)| Read-only Reg.   | ja    | nein      | 16 bit   |
-| Holding Registers (4xxxx)| Read/Write Reg.| ja    | ja        | 16 bit   |
+| Bereich                   | Bezeichnung     | Lesen | Schreiben | Typ    |
+| ------------------------- | --------------- | ----- | --------- | ------ |
+| Coils (0xxxx)             | Discrete Output | ja    | ja        | Bit    |
+| Discrete Inputs (1xxxx)   | Discrete Input  | ja    | nein      | Bit    |
+| Input Registers (3xxxx)   | Read-only Reg.  | ja    | nein      | 16 bit |
+| Holding Registers (4xxxx) | Read/Write Reg. | ja    | ja        | 16 bit |
 
 > ⚠️ **Stolperfalle:** Die Adress-Offsets. Manche Hersteller dokumentieren `40001` (1-basiert), andere `0` (Register-Offset). Immer prüfen!
 
 ## Wichtige Function Codes
 
-| FC   | Funktion                          |
-|------|-----------------------------------|
-| 0x01 | Read Coils                        |
-| 0x02 | Read Discrete Inputs              |
-| 0x03 | Read Holding Registers (häufig!)  |
-| 0x04 | Read Input Registers              |
-| 0x05 | Write Single Coil                 |
-| 0x06 | Write Single Register             |
-| 0x0F | Write Multiple Coils              |
-| 0x10 | Write Multiple Registers          |
+| FC   | Funktion                         |
+| ---- | -------------------------------- |
+| 0x01 | Read Coils                       |
+| 0x02 | Read Discrete Inputs             |
+| 0x03 | Read Holding Registers (häufig!) |
+| 0x04 | Read Input Registers             |
+| 0x05 | Write Single Coil                |
+| 0x06 | Write Single Register            |
+| 0x0F | Write Multiple Coils             |
+| 0x10 | Write Multiple Registers         |
 
 ## RTU-Verkabelung (RS-485)
 
@@ -63,13 +63,13 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 
 ## Typische Baudraten
 
-| Baud   | Anwendung                          |
-|--------|------------------------------------|
-| 9600   | Standard für viele Wärmezähler     |
-| 19200  | FU, Energiemesser                  |
-| 38400  | Energiemesser, schnelle Updates    |
-| 57600  | Selten                             |
-| 115200 | Eher Punkt-zu-Punkt                |
+| Baud   | Anwendung                       |
+| ------ | ------------------------------- |
+| 9600   | Standard für viele Wärmezähler  |
+| 19200  | FU, Energiemesser               |
+| 38400  | Energiemesser, schnelle Updates |
+| 57600  | Selten                          |
+| 115200 | Eher Punkt-zu-Punkt             |
 
 **Achtung:** Alle Geräte am Bus müssen gleiche Baudrate, Parität (E/O/N) und Stoppbits haben.
 
@@ -108,37 +108,37 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 
 ## Variants
 
-| Variant | Transport | Usage in BA |
-|---------|-----------|-------------|
-| **Modbus RTU** | RS-485 (serial) | Field devices, meters, VFDs — most common |
-| **Modbus TCP** | Ethernet (port 502) | Energy metering, PLC couplings, gateways |
-| Modbus ASCII | RS-232/485 (plaintext) | Rare, legacy |
+| Variant        | Transport              | Usage in BA                               |
+| -------------- | ---------------------- | ----------------------------------------- |
+| **Modbus RTU** | RS-485 (serial)        | Field devices, meters, VFDs — most common |
+| **Modbus TCP** | Ethernet (port 502)    | Energy metering, PLC couplings, gateways  |
+| Modbus ASCII   | RS-232/485 (plaintext) | Rare, legacy                              |
 
 Both use the same data model. TCP is just a different "envelope".
 
 ## Data Model — 4 Memory Areas
 
-| Area | Designation | Read | Write | Type |
-|------|-------------|------|-------|------|
-| Coils (0xxxx) | Discrete Output | yes | yes | Bit |
-| Discrete Inputs (1xxxx) | Discrete Input | yes | no | Bit |
-| Input Registers (3xxxx) | Read-only Reg. | yes | no | 16 bit |
-| Holding Registers (4xxxx) | Read/Write Reg. | yes | yes | 16 bit |
+| Area                      | Designation     | Read | Write | Type   |
+| ------------------------- | --------------- | ---- | ----- | ------ |
+| Coils (0xxxx)             | Discrete Output | yes  | yes   | Bit    |
+| Discrete Inputs (1xxxx)   | Discrete Input  | yes  | no    | Bit    |
+| Input Registers (3xxxx)   | Read-only Reg.  | yes  | no    | 16 bit |
+| Holding Registers (4xxxx) | Read/Write Reg. | yes  | yes   | 16 bit |
 
 > ⚠️ **Pitfall:** Address offsets. Some manufacturers document `40001` (1-based), others `0` (register offset). Always verify!
 
 ## Important Function Codes
 
-| FC | Function |
-|----|----------|
-| 0x01 | Read Coils |
-| 0x02 | Read Discrete Inputs |
+| FC   | Function                              |
+| ---- | ------------------------------------- |
+| 0x01 | Read Coils                            |
+| 0x02 | Read Discrete Inputs                  |
 | 0x03 | Read Holding Registers (most common!) |
-| 0x04 | Read Input Registers |
-| 0x05 | Write Single Coil |
-| 0x06 | Write Single Register |
-| 0x0F | Write Multiple Coils |
-| 0x10 | Write Multiple Registers |
+| 0x04 | Read Input Registers                  |
+| 0x05 | Write Single Coil                     |
+| 0x06 | Write Single Register                 |
+| 0x0F | Write Multiple Coils                  |
+| 0x10 | Write Multiple Registers              |
 
 ## RTU Wiring (RS-485)
 
@@ -152,13 +152,13 @@ Both use the same data model. TCP is just a different "envelope".
 
 ## Typical Baud Rates
 
-| Baud | Application |
-|------|-------------|
-| 9600 | Standard for most heat meters |
-| 19200 | VFDs, power analyzers |
-| 38400 | Power analyzers, fast updates |
-| 57600 | Rare |
-| 115200 | Point-to-point mainly |
+| Baud   | Application                   |
+| ------ | ----------------------------- |
+| 9600   | Standard for most heat meters |
+| 19200  | VFDs, power analyzers         |
+| 38400  | Power analyzers, fast updates |
+| 57600  | Rare                          |
+| 115200 | Point-to-point mainly         |
 
 **Note:** All devices on the bus must use the same baud rate, parity (E/O/N) and stop bits.
 

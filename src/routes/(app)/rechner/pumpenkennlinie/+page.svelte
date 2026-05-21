@@ -5,21 +5,21 @@
 
 	// Pumpen-Presets: [H0 (m), Q0 (m³/h)] — Förderhöhe bei Q=0, Nullförderstrom bei H=0
 	const pumpPresets = [
-		{ label: 'Grundfos UPS 25-60',  h0: 6.0,  q0: 3.2 },
-		{ label: 'Grundfos UP 20-14',   h0: 2.0,  q0: 1.5 },
-		{ label: 'Wilo Stratos 25/1-8', h0: 8.0,  q0: 4.5 },
+		{ label: 'Grundfos UPS 25-60', h0: 6.0, q0: 3.2 },
+		{ label: 'Grundfos UP 20-14', h0: 2.0, q0: 1.5 },
+		{ label: 'Wilo Stratos 25/1-8', h0: 8.0, q0: 4.5 },
 		{ label: 'Wilo Yonos Pico 25/1-6', h0: 6.0, q0: 3.5 },
-		{ label: 'Benutzerdefiniert',   h0: 6.0,  q0: 3.0 },
+		{ label: 'Benutzerdefiniert', h0: 6.0, q0: 3.0 }
 	];
 
 	let presetIdx = $state(0);
-	let h0 = $state(pumpPresets[0].h0);   // Förderhöhe bei Q=0 [m]
-	let q0 = $state(pumpPresets[0].q0);   // Volumenstrom bei H=0 [m³/h]
+	let h0 = $state(pumpPresets[0].h0); // Förderhöhe bei Q=0 [m]
+	let q0 = $state(pumpPresets[0].q0); // Volumenstrom bei H=0 [m³/h]
 
 	// Rohrnetz-Kennlinie: R = ΔpNetz / QNetz²
 	// Auslegungspunkt definiert R
-	let qDesign = $state(1.5);    // m³/h Auslegungsdurchfluss
-	let hDesign = $state(3.0);    // m WS Auslegungsförderhöhe (= Druckverlust Rohrnetz)
+	let qDesign = $state(1.5); // m³/h Auslegungsdurchfluss
+	let hDesign = $state(3.0); // m WS Auslegungsförderhöhe (= Druckverlust Rohrnetz)
 
 	$effect(() => {
 		const p = pumpPresets[presetIdx];
@@ -71,27 +71,41 @@
 	});
 
 	// Für Balken-Normierung
-	const maxH = $derived(Math.max(...chartPoints.map(p => p.hp), ...chartPoints.map(p => p.hr), 0.1));
+	const maxH = $derived(
+		Math.max(...chartPoints.map((p) => p.hp), ...chartPoints.map((p) => p.hr), 0.1)
+	);
 
 	// Spezifische Pumpendrehzahl (Orientierung)
 	const nq = $derived.by(() => {
 		if (!operatingPoint || operatingPoint.h <= 0) return null;
 		// nq = n × sqrt(Q) / H^(3/4) — Orientierungswert mit n=1450 rpm
-		return 1450 * Math.sqrt(operatingPoint.q / 3600) / Math.pow(operatingPoint.h * 9.81, 0.75);
+		return (1450 * Math.sqrt(operatingPoint.q / 3600)) / Math.pow(operatingPoint.h * 9.81, 0.75);
 	});
 </script>
 
 <div class="calc-page">
 	<header class="calc-header">
 		<a href="/rechner" class="calc-back">
-			<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+			<svg
+				width="16"
+				height="16"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+			>
 				<path d="M15 18l-6-6 6-6" />
 			</svg>
 			{$_('common.allCalculators')}
 		</a>
 		<div class="calc-title-row">
 			<h1 class="calc-title">{$_('rechner.pumpenkennlinie.name')}</h1>
-			<FavButton type="rechner" slug="pumpenkennlinie" title={$_('rechner.pumpenkennlinie.name')} size={20} />
+			<FavButton
+				type="rechner"
+				slug="pumpenkennlinie"
+				title={$_('rechner.pumpenkennlinie.name')}
+				size={20}
+			/>
 		</div>
 	</header>
 
@@ -99,10 +113,16 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.pumpenkennlinieUi.pump')}</h2>
 		<div class="calc-field">
-			<label class="calc-field-label" for="preset-sel">{$_('rechner.pumpenkennlinieUi.preset')}</label>
+			<label class="calc-field-label" for="preset-sel"
+				>{$_('rechner.pumpenkennlinieUi.preset')}</label
+			>
 			<select id="preset-sel" bind:value={presetIdx} class="calc-select">
 				{#each pumpPresets as p, i}
-					<option value={i}>{i === pumpPresets.length - 1 ? $_('rechner.pumpenkennlinieUi.customPreset') : p.label}</option>
+					<option value={i}
+						>{i === pumpPresets.length - 1
+							? $_('rechner.pumpenkennlinieUi.customPreset')
+							: p.label}</option
+					>
 				{/each}
 			</select>
 		</div>
@@ -136,7 +156,14 @@
 				{$_('rechner.pumpenkennlinieUi.designFlowLabel')}
 			</label>
 			<div class="calc-input-wrap">
-				<input id="qd-in" type="number" step="0.1" min="0.01" bind:value={qDesign} class="calc-input" />
+				<input
+					id="qd-in"
+					type="number"
+					step="0.1"
+					min="0.01"
+					bind:value={qDesign}
+					class="calc-input"
+				/>
 				<span class="calc-input-unit">m³/h</span>
 			</div>
 		</div>
@@ -146,7 +173,14 @@
 				<span class="calc-field-hint">{$_('rechner.pumpenkennlinieUi.designPointHint')}</span>
 			</label>
 			<div class="calc-input-wrap">
-				<input id="hd-in" type="number" step="0.5" min="0.1" bind:value={hDesign} class="calc-input" />
+				<input
+					id="hd-in"
+					type="number"
+					step="0.5"
+					min="0.1"
+					bind:value={hDesign}
+					class="calc-input"
+				/>
 				<span class="calc-input-unit">m</span>
 			</div>
 		</div>
@@ -154,29 +188,39 @@
 
 	<!-- Ergebnis Betriebspunkt -->
 	{#if operatingPoint}
-	<div class="calc-result-section">
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingQ')}</span>
-			<span class="calc-result-value primary">{fmt(operatingPoint.q, 2)}<span class="calc-result-unit">m³/h</span></span>
+		<div class="calc-result-section">
+			<div class="calc-result">
+				<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingQ')}</span>
+				<span class="calc-result-value primary"
+					>{fmt(operatingPoint.q, 2)}<span class="calc-result-unit">m³/h</span></span
+				>
+			</div>
+			<div class="calc-result">
+				<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingH')}</span>
+				<span class="calc-result-value primary"
+					>{fmt(operatingPoint.h, 2)}<span class="calc-result-unit">m</span></span
+				>
+			</div>
+			<div class="calc-result">
+				<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingH')}</span>
+				<span class="calc-result-value"
+					>{fmt((operatingPoint.h * 9810) / 1000, 1)}<span class="calc-result-unit">kPa</span></span
+				>
+			</div>
+			<div class="calc-result">
+				<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingVsDesign')}</span>
+				<span
+					class="calc-result-value"
+					style="color: {Math.abs(operatingPoint.q - qDesign) / qDesign < 0.05
+						? '#16a34a'
+						: '#ca8a04'}"
+				>
+					{fmt((operatingPoint.q / qDesign) * 100, 0)}<span class="calc-result-unit">%</span>
+				</span>
+			</div>
 		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingH')}</span>
-			<span class="calc-result-value primary">{fmt(operatingPoint.h, 2)}<span class="calc-result-unit">m</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingH')}</span>
-			<span class="calc-result-value">{fmt(operatingPoint.h * 9810 / 1000, 1)}<span class="calc-result-unit">kPa</span></span>
-		</div>
-		<div class="calc-result">
-			<span class="calc-result-label">{$_('rechner.pumpenkennlinieUi.operatingVsDesign')}</span>
-			<span class="calc-result-value"
-				style="color: {Math.abs(operatingPoint.q - qDesign) / qDesign < 0.05 ? '#16a34a' : '#ca8a04'}">
-				{fmt((operatingPoint.q / qDesign) * 100, 0)}<span class="calc-result-unit">%</span>
-			</span>
-		</div>
-	</div>
 	{:else}
-	<div class="no-intersection">{$_('rechner.pumpenkennlinieUi.noIntersection')}</div>
+		<div class="no-intersection">{$_('rechner.pumpenkennlinieUi.noIntersection')}</div>
 	{/if}
 
 	<!-- H-Q Diagramm (Balken-Approximation) -->
@@ -186,36 +230,43 @@
 			<div class="chart-y-label">H [m]</div>
 			<div class="chart-body">
 				{#each chartPoints as pt, i}
-				<div class="chart-col">
-					<div class="chart-bars">
-						<!-- Rohrnetz bar (bottom) -->
-						<div
-							class="bar bar--rohrnetz"
-							style="height: {(pt.hr / maxH) * 100}%"
-							title="Rohrnetz: {fmt(pt.hr,2)} m"
-						></div>
-						<!-- Pumpe bar -->
-						<div
-							class="bar bar--pumpe"
-							style="height: {Math.max(0, (pt.hp - pt.hr) / maxH) * 100}%"
-							title="Pumpe: {fmt(pt.hp,2)} m"
-						></div>
-						<!-- Betriebspunkt Marker -->
-						{#if operatingPoint && i === Math.round((operatingPoint.q / (q0 * 1.05)) * 10)}
-						<div class="bp-marker" title={$_('rechner.pumpenkennlinieUi.operatingPointTooltip')}></div>
+					<div class="chart-col">
+						<div class="chart-bars">
+							<!-- Rohrnetz bar (bottom) -->
+							<div
+								class="bar bar--rohrnetz"
+								style="height: {(pt.hr / maxH) * 100}%"
+								title="Rohrnetz: {fmt(pt.hr, 2)} m"
+							></div>
+							<!-- Pumpe bar -->
+							<div
+								class="bar bar--pumpe"
+								style="height: {Math.max(0, (pt.hp - pt.hr) / maxH) * 100}%"
+								title="Pumpe: {fmt(pt.hp, 2)} m"
+							></div>
+							<!-- Betriebspunkt Marker -->
+							{#if operatingPoint && i === Math.round((operatingPoint.q / (q0 * 1.05)) * 10)}
+								<div
+									class="bp-marker"
+									title={$_('rechner.pumpenkennlinieUi.operatingPointTooltip')}
+								></div>
+							{/if}
+						</div>
+						{#if i % 2 === 0}
+							<div class="chart-label">{fmt(pt.q, 1)}</div>
 						{/if}
 					</div>
-					{#if i % 2 === 0}
-					<div class="chart-label">{fmt(pt.q, 1)}</div>
-					{/if}
-				</div>
 				{/each}
 			</div>
 		</div>
 		<div class="chart-legend">
-			<span class="legend-dot legend-dot--pumpe"></span> {$_('rechner.pumpenkennlinieUi.pumpCurveLabel')}
-			<span class="legend-dot legend-dot--rohrnetz" style="margin-left:1rem"></span> {$_('rechner.pumpenkennlinieUi.networkLabel')}
-			{#if operatingPoint}<span style="margin-left:1rem">● {$_('rechner.pumpenkennlinieUi.operatingPointLabel')}</span>{/if}
+			<span class="legend-dot legend-dot--pumpe"></span>
+			{$_('rechner.pumpenkennlinieUi.pumpCurveLabel')}
+			<span class="legend-dot legend-dot--rohrnetz" style="margin-left:1rem"></span>
+			{$_('rechner.pumpenkennlinieUi.networkLabel')}
+			{#if operatingPoint}<span style="margin-left:1rem"
+					>● {$_('rechner.pumpenkennlinieUi.operatingPointLabel')}</span
+				>{/if}
 		</div>
 		<p class="chart-xlabel">Q [m³/h]</p>
 	</div>
@@ -280,8 +331,14 @@
 		transition: height 0.2s;
 	}
 
-	.bar--rohrnetz { background: #0891b2; border-radius: 2px 2px 0 0; }
-	.bar--pumpe    { background: var(--color-primary); border-radius: 2px 2px 0 0; }
+	.bar--rohrnetz {
+		background: #0891b2;
+		border-radius: 2px 2px 0 0;
+	}
+	.bar--pumpe {
+		background: var(--color-primary);
+		border-radius: 2px 2px 0 0;
+	}
 
 	.bp-marker {
 		position: absolute;
@@ -328,6 +385,10 @@
 		margin-right: 0.25rem;
 	}
 
-	.legend-dot--pumpe    { background: var(--color-primary); }
-	.legend-dot--rohrnetz { background: #0891b2; }
+	.legend-dot--pumpe {
+		background: var(--color-primary);
+	}
+	.legend-dot--rohrnetz {
+		background: #0891b2;
+	}
 </style>

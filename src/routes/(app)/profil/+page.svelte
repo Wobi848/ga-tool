@@ -18,16 +18,30 @@
 
 	const disciplines = ['HLK', 'Sanitär', 'Elektro', 'GA', 'IT', 'Normen'];
 	const disciplineLabelEn: Record<string, string> = {
-		'HLK': 'HVAC', 'Sanitär': 'Plumbing', 'Elektro': 'Electrical', 'GA': 'BA', 'IT': 'IT', 'Normen': 'Standards'
+		HLK: 'HVAC',
+		Sanitär: 'Plumbing',
+		Elektro: 'Electrical',
+		GA: 'BA',
+		IT: 'IT',
+		Normen: 'Standards'
 	};
-	const manufacturers = ['Siemens', 'Viessmann', 'Buderus', 'Honeywell', 'Sauter', 'Schneider Electric', 'Saia/Beckhoff', 'WAGO'];
+	const manufacturers = [
+		'Siemens',
+		'Viessmann',
+		'Buderus',
+		'Honeywell',
+		'Sauter',
+		'Schneider Electric',
+		'Saia/Beckhoff',
+		'WAGO'
+	];
 	const roles = [
-		{ value: 'Servicetechniker',   label_de: 'Servicetechniker',   label_en: 'Service Technician' },
-		{ value: 'Projektleiter',      label_de: 'Projektleiter',      label_en: 'Project Manager' },
-		{ value: 'Inbetriebnehmer',    label_de: 'Inbetriebnehmer',    label_en: 'Commissioning Engineer' },
+		{ value: 'Servicetechniker', label_de: 'Servicetechniker', label_en: 'Service Technician' },
+		{ value: 'Projektleiter', label_de: 'Projektleiter', label_en: 'Project Manager' },
+		{ value: 'Inbetriebnehmer', label_de: 'Inbetriebnehmer', label_en: 'Commissioning Engineer' },
 		{ value: 'Planer / Ingenieur', label_de: 'Planer / Ingenieur', label_en: 'Planner / Engineer' },
-		{ value: 'Lernender',          label_de: 'Lernender',          label_en: 'Apprentice' },
-		{ value: 'Andere',             label_de: 'Andere',             label_en: 'Other' }
+		{ value: 'Lernender', label_de: 'Lernender', label_en: 'Apprentice' },
+		{ value: 'Andere', label_de: 'Andere', label_en: 'Other' }
 	];
 	const themeIds: Theme[] = ['auto', 'light', 'dark', 'oled'];
 
@@ -38,7 +52,9 @@
 	let editDisciplines: string[] = $state([...initial.disciplines]);
 	let editMfrPrefs: string[] = $state([...initial.mfrPrefs]);
 	let editDefaultCity = $state(initial.defaultCity ?? '');
-	let editDefaultTemp = $state<string>(initial.defaultTemp !== null ? String(initial.defaultTemp) : '');
+	let editDefaultTemp = $state<string>(
+		initial.defaultTemp !== null ? String(initial.defaultTemp) : ''
+	);
 	let editNotes = $state(initial.notes);
 
 	let savedFlash = $state(false);
@@ -58,7 +74,9 @@
 		if ((form as { pwSuccess?: boolean } | null)?.pwSuccess) {
 			pwFlash = true;
 			showPwModal = false;
-			pwCurrent = ''; pwNew = ''; pwConfirm = '';
+			pwCurrent = '';
+			pwNew = '';
+			pwConfirm = '';
 			setTimeout(() => (pwFlash = false), 2500);
 		}
 	});
@@ -153,7 +171,9 @@
 			<p class="profile-email">{data.profile.email}</p>
 			{#if editProfileRole || editCompany}
 				<p class="profile-meta">
-					{#if editProfileRole}{editProfileRole}{/if}{#if editProfileRole && editCompany} · {/if}{#if editCompany}{editCompany}{/if}
+					{#if editProfileRole}{editProfileRole}{/if}{#if editProfileRole && editCompany}
+						·
+					{/if}{#if editCompany}{editCompany}{/if}
 				</p>
 			{/if}
 			{#if data.profile.role === 'admin'}
@@ -184,7 +204,7 @@
 					<p class="pw-hint">{$_('profil.currentPassword')}</p>
 				{/if}
 			</div>
-			<button type="button" class="btn-secondary btn-sm" onclick={() => showPwModal = true}>
+			<button type="button" class="btn-secondary btn-sm" onclick={() => (showPwModal = true)}>
 				{$_('profil.changePassword')}
 			</button>
 		</div>
@@ -204,7 +224,10 @@
 			<div class="recent-list">
 				{#each recents as item}
 					<a href={urlFor(item)} class="recent-item">
-						<span class="recent-type" style="background: {typeColor[item.type]}20; color: {typeColor[item.type]}">
+						<span
+							class="recent-type"
+							style="background: {typeColor[item.type]}20; color: {typeColor[item.type]}"
+						>
 							{typeLabel[item.type]}
 						</span>
 						<span class="recent-name">{resolveRecentTitle(item)}</span>
@@ -216,13 +239,17 @@
 	</section>
 
 	<!-- Profile form -->
-	<form method="POST" action="?/save" use:enhance={() => {
-		saving = true;
-		return async ({ update }) => {
-			await update({ reset: false });
-			saving = false;
-		};
-	}}>
+	<form
+		method="POST"
+		action="?/save"
+		use:enhance={() => {
+			saving = true;
+			return async ({ update }) => {
+				await update({ reset: false });
+				saving = false;
+			};
+		}}
+	>
 		<section class="section">
 			<h2 class="section-title">{$_('profil.personalData')}</h2>
 			<div class="form-grid">
@@ -295,11 +322,24 @@
 			<div class="form-grid">
 				<label class="form-field">
 					<span class="form-label">{$_('profil.cityLabel')}</span>
-					<input name="defaultCity" type="text" bind:value={editDefaultCity} placeholder="z.B. Rapperswil" class="form-input" />
+					<input
+						name="defaultCity"
+						type="text"
+						bind:value={editDefaultCity}
+						placeholder="z.B. Rapperswil"
+						class="form-input"
+					/>
 				</label>
 				<label class="form-field">
 					<span class="form-label">{$_('profil.normTemp')} (°C)</span>
-					<input name="defaultTemp" type="number" step="0.5" bind:value={editDefaultTemp} placeholder="z.B. -10" class="form-input" />
+					<input
+						name="defaultTemp"
+						type="number"
+						step="0.5"
+						bind:value={editDefaultTemp}
+						placeholder="z.B. -10"
+						class="form-input"
+					/>
 				</label>
 			</div>
 		</section>
@@ -308,7 +348,8 @@
 			<h2 class="section-title">{$_('profil.notesLabel')}</h2>
 			<label class="form-field">
 				<span class="form-hint">{$_('profil.notesHint')}</span>
-				<textarea name="notes" bind:value={editNotes} rows="5" class="form-input form-textarea"></textarea>
+				<textarea name="notes" bind:value={editNotes} rows="5" class="form-input form-textarea"
+				></textarea>
 			</label>
 		</section>
 
@@ -324,44 +365,98 @@
 			</button>
 		</div>
 	</form>
-
 </div>
 
 <!-- Password Modal -->
 {#if showPwModal}
 	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-	<div class="modal-backdrop" role="dialog" aria-modal="true" onkeydown={e => e.key === 'Escape' && (showPwModal = false)}>
-		<div class="modal" onclick={e => e.stopPropagation()}>
+	<div
+		class="modal-backdrop"
+		role="dialog"
+		aria-modal="true"
+		onkeydown={(e) => e.key === 'Escape' && (showPwModal = false)}
+	>
+		<div class="modal" onclick={(e) => e.stopPropagation()}>
 			<div class="modal-header">
 				<h3>{$_('profil.changePassword')}</h3>
-				<button class="modal-close" onclick={() => showPwModal = false} aria-label="Schliessen">
-					<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+				<button class="modal-close" onclick={() => (showPwModal = false)} aria-label="Schliessen">
+					<svg
+						width="18"
+						height="18"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"><path d="M18 6 6 18M6 6l12 12" /></svg
+					>
 				</button>
 			</div>
-			<form method="post" action="?/changePassword" use:enhance={() => {
-				pwSaving = true;
-				return async ({ update }) => { pwSaving = false; update(); };
-			}}>
+			<form
+				method="post"
+				action="?/changePassword"
+				use:enhance={() => {
+					pwSaving = true;
+					return async ({ update }) => {
+						pwSaving = false;
+						update();
+					};
+				}}
+			>
 				<div class="modal-body">
 					<div class="form-field">
 						<label class="form-label" for="cp-current">{$_('profil.currentPassword')}</label>
-						<input id="cp-current" name="currentPassword" type="password" autocomplete="current-password" required class="form-input" bind:value={pwCurrent} />
+						<input
+							id="cp-current"
+							name="currentPassword"
+							type="password"
+							autocomplete="current-password"
+							required
+							class="form-input"
+							bind:value={pwCurrent}
+						/>
 					</div>
 					<div class="form-field">
 						<label class="form-label" for="cp-new">{$_('profil.newPassword')}</label>
-						<input id="cp-new" name="newPassword" type="password" autocomplete="new-password" minlength="8" required class="form-input" bind:value={pwNew} />
+						<input
+							id="cp-new"
+							name="newPassword"
+							type="password"
+							autocomplete="new-password"
+							minlength="8"
+							required
+							class="form-input"
+							bind:value={pwNew}
+						/>
 					</div>
 					<div class="form-field">
 						<label class="form-label" for="cp-confirm">{$_('profil.confirmPassword')}</label>
-						<input id="cp-confirm" name="confirmPassword" type="password" autocomplete="new-password" minlength="8" required class="form-input" bind:value={pwConfirm} />
+						<input
+							id="cp-confirm"
+							name="confirmPassword"
+							type="password"
+							autocomplete="new-password"
+							minlength="8"
+							required
+							class="form-input"
+							bind:value={pwConfirm}
+						/>
 					</div>
 					{#if (form as { pwError?: string } | null)?.pwError}
-						<p class="form-error">{$_('profil.errors.' + (form as { pwError: string }).pwError, { default: (form as { pwError: string }).pwError })}</p>
+						<p class="form-error">
+							{$_('profil.errors.' + (form as { pwError: string }).pwError, {
+								default: (form as { pwError: string }).pwError
+							})}
+						</p>
 					{/if}
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn-secondary btn-sm" onclick={() => showPwModal = false}>Abbrechen</button>
-					<button type="submit" class="btn-primary btn-sm" disabled={pwSaving || pwNew.length < 8 || pwNew !== pwConfirm}>
+					<button type="button" class="btn-secondary btn-sm" onclick={() => (showPwModal = false)}
+						>Abbrechen</button
+					>
+					<button
+						type="submit"
+						class="btn-primary btn-sm"
+						disabled={pwSaving || pwNew.length < 8 || pwNew !== pwConfirm}
+					>
 						{pwSaving ? $_('profil.changing') : $_('profil.changePassword')}
 					</button>
 				</div>
@@ -744,7 +839,9 @@
 		font-weight: 600;
 		cursor: pointer;
 		font-family: inherit;
-		transition: border-color 0.15s, color 0.15s;
+		transition:
+			border-color 0.15s,
+			color 0.15s;
 	}
 
 	.btn-secondary:hover {
@@ -841,7 +938,9 @@
 		transition: color 0.15s;
 	}
 
-	.modal-close:hover { color: var(--text); }
+	.modal-close:hover {
+		color: var(--text);
+	}
 
 	.modal-body {
 		padding: 1.25rem;

@@ -4,7 +4,25 @@ title_en: DDC Programming — IEC 61131-3 Fundamentals
 slug: ddc-programmierung
 category: ga
 subcategory: programmierung
-tags: [ddc-programmierung, iec61131, fbd, ld, st, structured-text, funktionsbausteindiagramm, leiterdiagramm, sps, pid-baustein, timer, zähler, fb, fc, programm, zyklus]
+tags:
+  [
+    ddc-programmierung,
+    iec61131,
+    fbd,
+    ld,
+    st,
+    structured-text,
+    funktionsbausteindiagramm,
+    leiterdiagramm,
+    sps,
+    pid-baustein,
+    timer,
+    zähler,
+    fb,
+    fc,
+    programm,
+    zyklus
+  ]
 difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, pid-regler, signaltypen, steuern-regeln]
@@ -19,13 +37,13 @@ DDC-Steuerungen werden nach **IEC 61131-3** programmiert — dem internationalen
 
 ## IEC 61131-3 — Fünf Programmiersprachen
 
-| Sprache                | Kürzel | Art                    | Stärke                        |
-|------------------------|--------|------------------------|-------------------------------|
-| **Funktionsbausteindiagramm** | FBD | Grafisch (Blöcke) | Regelschleifen, GA-Logiken |
-| **Kontaktplan**        | LD     | Grafisch (Relais-ähnlich) | Schaltlogiken, Verriegelungen |
-| **Strukturierter Text** | ST    | Textuell (Pascal-ähnlich) | Berechnungen, komplexe Logik |
-| Anweisungsliste        | IL     | Textuell (Assembler-ähnlich) | Veraltet, selten noch genutzt |
-| Ablaufsprache          | SFC    | Grafisch (Zustandsmaschine) | Sequenzielle Abläufe      |
+| Sprache                       | Kürzel | Art                          | Stärke                        |
+| ----------------------------- | ------ | ---------------------------- | ----------------------------- |
+| **Funktionsbausteindiagramm** | FBD    | Grafisch (Blöcke)            | Regelschleifen, GA-Logiken    |
+| **Kontaktplan**               | LD     | Grafisch (Relais-ähnlich)    | Schaltlogiken, Verriegelungen |
+| **Strukturierter Text**       | ST     | Textuell (Pascal-ähnlich)    | Berechnungen, komplexe Logik  |
+| Anweisungsliste               | IL     | Textuell (Assembler-ähnlich) | Veraltet, selten noch genutzt |
+| Ablaufsprache                 | SFC    | Grafisch (Zustandsmaschine)  | Sequenzielle Abläufe          |
 
 ---
 
@@ -37,12 +55,13 @@ In der GA am häufigsten. Verbindet vorgefertigte Bausteine mit "Drähten":
 [AI_T_VL] ──► [PID_Regler]──► [AO_Ventil]
 [AV_T_SOLL]──►   Kp=2.5
                Ti=5min
-               
+
 [DI_Pumpe_LFG]──► [TON Timer]──► [DO_Alarm_Pumpe]
                    Delay=30s
 ```
 
 **Vorgefertigte Bausteine (FB = Function Block):**
+
 - `PID` — Proportional-Integral-Differential Regler
 - `TON` — Timer On-Delay (Einschaltverzögerung)
 - `TOF` — Timer Off-Delay (Ausschaltverzögerung)
@@ -108,7 +127,7 @@ Zyklus 1 (z.B. 1 Sekunde):
   1. Eingänge lesen (AI, DI)
   2. Programme ausführen (Bausteine, Logiken)
   3. Ausgänge setzen (AO, DO)
-  
+
 Zyklus 2 (1 Sekunde später):
   1. Eingänge lesen (neue Werte)
   2. Programme ausführen
@@ -134,6 +153,7 @@ Freigabe ──────►│   Td: 0 s     │
 ```
 
 Parameter:
+
 - **Kp** (Verstärkung): Wie stark reagiert der Regler auf Abweichung
 - **Ti** (Nachstellzeit): Wie lange integriert der I-Anteil
 - **Td** (Vorhaltezeit): Wie weit schaut der D-Anteil voraus
@@ -152,13 +172,13 @@ Viele DDC-Plattformen bieten fertige Heizkurven-FBs mit Steilheit, Parallelversc
 
 ## Hersteller-Spezifika
 
-| Hersteller    | Plattform          | Sprache / Tool                 |
-|---------------|--------------------|-------------------------------|
-| Siemens       | PXC / Desigo CC    | PPCL / CPS (proprietär)       |
-| Sauter        | modu8 / EY-modulo  | EY-modulo Studio (IEC 61131-3)|
-| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3 |
-| Beckhoff      | CX / TwinCAT       | IEC 61131-3 (ST, FBD, LD)     |
-| CODESYS       | Viele Hersteller   | CODESYS (IEC 61131-3 Standard)|
+| Hersteller         | Plattform               | Sprache / Tool                 |
+| ------------------ | ----------------------- | ------------------------------ |
+| Siemens            | PXC / Desigo CC         | PPCL / CPS (proprietär)        |
+| Sauter             | modu8 / EY-modulo       | EY-modulo Studio (IEC 61131-3) |
+| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3            |
+| Beckhoff           | CX / TwinCAT            | IEC 61131-3 (ST, FBD, LD)      |
+| CODESYS            | Viele Hersteller        | CODESYS (IEC 61131-3 Standard) |
 
 **Wichtig:** Programme sind meist **nicht portierbar** zwischen Herstellern. Auch wenn IEC 61131-3 Standard ist, gibt es herstellerspezifische Erweiterungen und Bibliotheken.
 
@@ -174,13 +194,13 @@ DDC controllers are programmed to **IEC 61131-3** — the international standard
 
 ## IEC 61131-3 — Five Programming Languages
 
-| Language | Abbrev. | Type | Strength |
-|---------|---------|------|---------|
-| **Function Block Diagram** | FBD | Graphical (blocks) | Control loops, BA logic |
-| **Ladder Diagram** | LD | Graphical (relay-like) | Switching logic, interlocks |
-| **Structured Text** | ST | Textual (Pascal-like) | Calculations, complex logic |
-| Instruction List | IL | Textual (assembler-like) | Obsolete, rarely used |
-| Sequential Function Chart | SFC | Graphical (state machine) | Sequential processes |
+| Language                   | Abbrev. | Type                      | Strength                    |
+| -------------------------- | ------- | ------------------------- | --------------------------- |
+| **Function Block Diagram** | FBD     | Graphical (blocks)        | Control loops, BA logic     |
+| **Ladder Diagram**         | LD      | Graphical (relay-like)    | Switching logic, interlocks |
+| **Structured Text**        | ST      | Textual (Pascal-like)     | Calculations, complex logic |
+| Instruction List           | IL      | Textual (assembler-like)  | Obsolete, rarely used       |
+| Sequential Function Chart  | SFC     | Graphical (state machine) | Sequential processes        |
 
 ---
 
@@ -192,12 +212,13 @@ Most common in BA. Connects pre-built blocks with "wires":
 [AI_T_SUP] ──► [PID_Controller]──► [AO_Valve]
 [AV_T_SP]  ──►   Kp=2.5
                Ti=5min
-               
+
 [DI_Pump_RUN]──► [TON Timer]──► [DO_Alarm_Pump]
                    Delay=30s
 ```
 
 **Pre-built blocks (FB = Function Block):**
+
 - `PID` — Proportional-Integral-Derivative controller
 - `TON` — Timer On-Delay
 - `TOF` — Timer Off-Delay
@@ -263,7 +284,7 @@ Cycle 1 (e.g. 1 second):
   1. Read inputs (AI, DI)
   2. Execute programs (blocks, logic)
   3. Set outputs (AO, DO)
-  
+
 Cycle 2 (1 second later):
   1. Read inputs (new values)
   2. Execute programs
@@ -289,6 +310,7 @@ Enable ────────►│   Td: 0 s     │
 ```
 
 Parameters:
+
 - **Kp** (gain): How strongly the controller reacts to deviation
 - **Ti** (reset time): How long the I-component integrates
 - **Td** (derivative time): How far ahead the D-component looks
@@ -307,13 +329,13 @@ Many DDC platforms offer ready-made heating curve FBs with slope, parallel shift
 
 ## Manufacturer Specifics
 
-| Manufacturer | Platform | Language / tool |
-|------------|---------|---------------|
-| Siemens | PXC / Desigo CC | PPCL / CPS (proprietary) |
-| Sauter | modu8 / EY-modulo | EY-modulo Studio (IEC 61131-3) |
-| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3 |
-| Beckhoff | CX / TwinCAT | IEC 61131-3 (ST, FBD, LD) |
-| CODESYS | Many manufacturers | CODESYS (IEC 61131-3 standard) |
+| Manufacturer       | Platform                | Language / tool                |
+| ------------------ | ----------------------- | ------------------------------ |
+| Siemens            | PXC / Desigo CC         | PPCL / CPS (proprietary)       |
+| Sauter             | modu8 / EY-modulo       | EY-modulo Studio (IEC 61131-3) |
+| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3            |
+| Beckhoff           | CX / TwinCAT            | IEC 61131-3 (ST, FBD, LD)      |
+| CODESYS            | Many manufacturers      | CODESYS (IEC 61131-3 standard) |
 
 **Important:** Programs are usually **not portable** between manufacturers. Even though IEC 61131-3 is the standard, there are manufacturer-specific extensions and libraries.
 

@@ -4,7 +4,27 @@ title_en: AHU — Construction and Components
 slug: rlt-anlage
 category: lueftung
 subcategory: grundlagen
-tags: [rlt, raumlufttechnische-anlage, ahu, air-handling-unit, filter, erhitzer, kühler, befeuchter, entfeuchter, wärmerückgewinnung, ventilator, zuluft, abluft, aussenluft, fortluft, wrg, zulufttemperatur, volumenstrom]
+tags:
+  [
+    rlt,
+    raumlufttechnische-anlage,
+    ahu,
+    air-handling-unit,
+    filter,
+    erhitzer,
+    kühler,
+    befeuchter,
+    entfeuchter,
+    wärmerückgewinnung,
+    ventilator,
+    zuluft,
+    abluft,
+    aussenluft,
+    fortluft,
+    wrg,
+    zulufttemperatur,
+    volumenstrom
+  ]
 difficulty: grundlagen
 area: [hlk, ga]
 related: [vav-cav, vdi6022, frequenzumrichter, kaelteanlagen, waermepumpe, pid-regler]
@@ -33,13 +53,13 @@ Fortluft (ODA = exhaust)
 
 ### Luftbezeichnungen (EN 13779 / EN 16798)
 
-| Kürzel | Deutsch       | Englisch       | Quelle/Ziel                     |
-|--------|---------------|----------------|---------------------------------|
-| **ODA** | Aussenluft   | Outdoor Air    | Kommt von aussen                |
-| **SUP** | Zuluft       | Supply Air     | Geht in den Raum                |
-| **ETA** | Abluft       | Extract Air    | Kommt aus dem Raum              |
-| **EHA** | Fortluft     | Exhaust Air    | Geht nach aussen                |
-| **RCA** | Umluft       | Recirculation Air | Interne Rezirkulation        |
+| Kürzel  | Deutsch    | Englisch          | Quelle/Ziel           |
+| ------- | ---------- | ----------------- | --------------------- |
+| **ODA** | Aussenluft | Outdoor Air       | Kommt von aussen      |
+| **SUP** | Zuluft     | Supply Air        | Geht in den Raum      |
+| **ETA** | Abluft     | Extract Air       | Kommt aus dem Raum    |
+| **EHA** | Fortluft   | Exhaust Air       | Geht nach aussen      |
+| **RCA** | Umluft     | Recirculation Air | Interne Rezirkulation |
 
 ---
 
@@ -54,12 +74,12 @@ Fortluft (ODA = exhaust)
 
 ### 2. Filter
 
-| Filterklasse | Norm     | Druckverlust neu | Wechseldruck | Einsatz                    |
-|--------------|----------|------------------|--------------|----------------------------|
-| Coarse (G)   | EN ISO 16890 | 20–50 Pa    | 150–200 Pa   | Vorfilter, Grobstaub       |
-| ePM10 (F5/F6)| EN ISO 16890 | 50–100 Pa   | 200–250 Pa   | Aussenluftfilter           |
-| ePM2.5 (F7)  | EN ISO 16890 | 80–150 Pa   | 250–300 Pa   | Zuluftfilter Büro          |
-| ePM1 (F9)    | EN ISO 16890 | 100–200 Pa  | 300–400 Pa   | Reinraum-Vorstufe, Spital  |
+| Filterklasse  | Norm         | Druckverlust neu | Wechseldruck | Einsatz                   |
+| ------------- | ------------ | ---------------- | ------------ | ------------------------- |
+| Coarse (G)    | EN ISO 16890 | 20–50 Pa         | 150–200 Pa   | Vorfilter, Grobstaub      |
+| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa        | 200–250 Pa   | Aussenluftfilter          |
+| ePM2.5 (F7)   | EN ISO 16890 | 80–150 Pa        | 250–300 Pa   | Zuluftfilter Büro         |
+| ePM1 (F9)     | EN ISO 16890 | 100–200 Pa       | 300–400 Pa   | Reinraum-Vorstufe, Spital |
 
 **Filterwächter:** Differenzdrucksensor über dem Filter → Alarm wenn Schmutzgrenze erreicht.
 
@@ -67,12 +87,12 @@ Fortluft (ODA = exhaust)
 
 Nutzt die Wärme der Abluft um Aussenluft vorzuwärmen (Winter) oder vorzukühlen (Sommer).
 
-| Typ                  | Wirkungsgrad | Befeuchtung | Besonderheit               |
-|----------------------|--------------|-------------|----------------------------|
-| **Rotationstauscher** | 70–85 %     | Ja (Feuchte WT) | Hygiene-Anforderungen prüfen! |
-| **Plattentauscher**   | 60–75 %     | Nein        | Keine Überströmung, hygienisch |
-| **Kreislaufverbund**  | 45–60 %     | Nein        | Erzeuger und Verbraucher weit getrennt |
-| **Wärmerohr**         | 55–65 %     | Nein        | Kein bewegliches Teil, wartungsarm |
+| Typ                   | Wirkungsgrad | Befeuchtung     | Besonderheit                           |
+| --------------------- | ------------ | --------------- | -------------------------------------- |
+| **Rotationstauscher** | 70–85 %      | Ja (Feuchte WT) | Hygiene-Anforderungen prüfen!          |
+| **Plattentauscher**   | 60–75 %      | Nein            | Keine Überströmung, hygienisch         |
+| **Kreislaufverbund**  | 45–60 %      | Nein            | Erzeuger und Verbraucher weit getrennt |
+| **Wärmerohr**         | 55–65 %      | Nein            | Kein bewegliches Teil, wartungsarm     |
 
 **Frostschutz WRG:** Bei tiefen Aussentemperaturen kann der WRG einfrieren → Bypassklappe oder Vorwärmung nötig.
 
@@ -94,12 +114,12 @@ Nutzt die Wärme der Abluft um Aussenluft vorzuwärmen (Winter) oder vorzukühle
 
 Typen:
 
-| Typ                  | Hygiene | Energie | Befeuchtungsgrad | Einsatz             |
-|----------------------|---------|---------|------------------|---------------------|
-| **Dampfbefeuchter (elektrisch)** | Sehr gut | Hoch | Hoch | Büro, Spital |
-| **Dampf aus Dampfnetz** | Gut  | Mittel  | Hoch             | Industrie           |
-| **Umlaufverdunstung** | Problematisch | Niedrig | Mittel   | Einfache Anlagen    |
-| **Hochdruck-Wasser** | Gut (Filtration) | Niedrig | Mittel | Komfortanlagen    |
+| Typ                              | Hygiene          | Energie | Befeuchtungsgrad | Einsatz          |
+| -------------------------------- | ---------------- | ------- | ---------------- | ---------------- |
+| **Dampfbefeuchter (elektrisch)** | Sehr gut         | Hoch    | Hoch             | Büro, Spital     |
+| **Dampf aus Dampfnetz**          | Gut              | Mittel  | Hoch             | Industrie        |
+| **Umlaufverdunstung**            | Problematisch    | Niedrig | Mittel           | Einfache Anlagen |
+| **Hochdruck-Wasser**             | Gut (Filtration) | Niedrig | Mittel           | Komfortanlagen   |
 
 > ⚠️ Luftbefeuchter sind Legionellen-Risiko wenn nicht korrekt betrieben! Temperatur und Desinfektion regelmässig prüfen (VDI 6022).
 
@@ -123,7 +143,7 @@ Zuluft-Sollwert (z.B. 22 °C)
 Zuluft-Regler (PI)
     ├── > Soll: Kühler aufmachen
     └── < Soll: Erhitzer aufmachen
-    
+
 Totband zwischen Heizen und Kühlen (z.B. ±1 K)
 → Verhindert gleichzeitiges Heizen + Kühlen (Energieverschwendung!)
 ```
@@ -134,45 +154,45 @@ Totband zwischen Heizen und Kühlen (z.B. ±1 K)
 
 Statt fixer Zulufttemperatur: Sollwert abhängig von Aussentemperatur oder Raumtemperatur:
 
-| Aussentemperatur | Zuluft-Sollwert    |
-|------------------|--------------------|
+| Aussentemperatur | Zuluft-Sollwert     |
+| ---------------- | ------------------- |
 | −10 °C           | 22 °C (max. Heizen) |
-| 0 °C             | 20 °C              |
+| 0 °C             | 20 °C               |
 | 15 °C            | 18 °C (Neutralzone) |
-| 30 °C            | 16 °C (Kühlen)     |
+| 30 °C            | 16 °C (Kühlen)      |
 
 ---
 
 ## Betriebsarten
 
-| Betriebsart    | Volumenstrom | Temperatur   | Typisch wann                |
-|----------------|--------------|--------------|------------------------------|
-| **Komfort**    | 100 %        | Normal       | Gebäude besetzt              |
-| **Nacht / Abwesend** | 30–50 % | Abgesenkt | Gebäude leer              |
-| **Nachtlüftung** | 100 %      | Kühlen (Sommer) | Freie Kühlung                |
-| **Frostschutz** | 0 %         | WW-Ventil auf | Aussentemp < 2 °C, Anlage aus |
-| **Störung**    | 0 %          | Klappe zu    | Sicherheitsabschaltung       |
+| Betriebsart          | Volumenstrom | Temperatur      | Typisch wann                  |
+| -------------------- | ------------ | --------------- | ----------------------------- |
+| **Komfort**          | 100 %        | Normal          | Gebäude besetzt               |
+| **Nacht / Abwesend** | 30–50 %      | Abgesenkt       | Gebäude leer                  |
+| **Nachtlüftung**     | 100 %        | Kühlen (Sommer) | Freie Kühlung                 |
+| **Frostschutz**      | 0 %          | WW-Ventil auf   | Aussentemp < 2 °C, Anlage aus |
+| **Störung**          | 0 %          | Klappe zu       | Sicherheitsabschaltung        |
 
 ---
 
 ## Typische GA-Datenpunkte RLT
 
-| Datenpunkt                  | Typ | Einheit | Beschreibung                     |
-|-----------------------------|-----|---------|----------------------------------|
-| Zuluft-Temperatur-Ist       | AI  | °C      | Fühler nach letzter Komponente   |
-| Zuluft-Temperatur-Soll      | AV  | °C      | Vorgabe von GLT                  |
-| Aussenluft-Temperatur       | AI  | °C      | Für gleitenden Sollwert          |
-| Heizregister-Ventil         | AO  | %       | 0–10 V Stellsignal               |
-| Kühlregister-Ventil         | AO  | %       | 0–10 V Stellsignal               |
-| Befeuchter Ein/Aus          | DO  | —       | Dampf-Befeuchter                 |
-| Zuluft-FU-Drehzahl-Soll     | AO  | %       | Frequenzumrichter Zuluft         |
-| Abluft-FU-Drehzahl-Soll     | AO  | %       | Frequenzumrichter Abluft         |
-| Aussenluft-Klappe           | AO/DO | % / EIN | Stellsignal Klappe            |
-| Filter-Differenzdruck       | AI  | Pa      | Filterwächter                    |
-| Frostschutz-Alarm           | DI  | —       | < 5 °C Zuluft → kritischer Alarm |
-| Ventilator-Laufmeldung      | DI  | —       | Betriebsrückmeldung              |
-| Ventilator-Störung          | DI  | —       | Motorschutz ausgelöst            |
-| WRG-Bypass                  | AO  | %       | Klappe um WRG zu umgehen         |
+| Datenpunkt              | Typ   | Einheit | Beschreibung                     |
+| ----------------------- | ----- | ------- | -------------------------------- |
+| Zuluft-Temperatur-Ist   | AI    | °C      | Fühler nach letzter Komponente   |
+| Zuluft-Temperatur-Soll  | AV    | °C      | Vorgabe von GLT                  |
+| Aussenluft-Temperatur   | AI    | °C      | Für gleitenden Sollwert          |
+| Heizregister-Ventil     | AO    | %       | 0–10 V Stellsignal               |
+| Kühlregister-Ventil     | AO    | %       | 0–10 V Stellsignal               |
+| Befeuchter Ein/Aus      | DO    | —       | Dampf-Befeuchter                 |
+| Zuluft-FU-Drehzahl-Soll | AO    | %       | Frequenzumrichter Zuluft         |
+| Abluft-FU-Drehzahl-Soll | AO    | %       | Frequenzumrichter Abluft         |
+| Aussenluft-Klappe       | AO/DO | % / EIN | Stellsignal Klappe               |
+| Filter-Differenzdruck   | AI    | Pa      | Filterwächter                    |
+| Frostschutz-Alarm       | DI    | —       | < 5 °C Zuluft → kritischer Alarm |
+| Ventilator-Laufmeldung  | DI    | —       | Betriebsrückmeldung              |
+| Ventilator-Störung      | DI    | —       | Motorschutz ausgelöst            |
+| WRG-Bypass              | AO    | %       | Klappe um WRG zu umgehen         |
 
 ## Normen
 
@@ -204,12 +224,12 @@ Exhaust air (EHA)
 
 ### Air Designations (EN 13779 / EN 16798)
 
-| Code | English | Source/destination |
-|------|---------|-------------------|
-| **ODA** | Outdoor Air | Comes from outside |
-| **SUP** | Supply Air | Goes into the room |
-| **ETA** | Extract Air | Comes from the room |
-| **EHA** | Exhaust Air | Goes to outside |
+| Code    | English           | Source/destination     |
+| ------- | ----------------- | ---------------------- |
+| **ODA** | Outdoor Air       | Comes from outside     |
+| **SUP** | Supply Air        | Goes into the room     |
+| **ETA** | Extract Air       | Comes from the room    |
+| **EHA** | Exhaust Air       | Goes to outside        |
 | **RCA** | Recirculation Air | Internal recirculation |
 
 ---
@@ -225,12 +245,12 @@ Exhaust air (EHA)
 
 ### 2. Filters
 
-| Filter class | Standard | New pressure drop | Change pressure | Application |
-|-------------|---------|-----------------|----------------|------------|
-| Coarse (G) | EN ISO 16890 | 20–50 Pa | 150–200 Pa | Pre-filter, coarse dust |
-| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa | 200–250 Pa | Outdoor air filter |
-| ePM2.5 (F7) | EN ISO 16890 | 80–150 Pa | 250–300 Pa | Supply air filter office |
-| ePM1 (F9) | EN ISO 16890 | 100–200 Pa | 300–400 Pa | Cleanroom pre-stage, hospital |
+| Filter class  | Standard     | New pressure drop | Change pressure | Application                   |
+| ------------- | ------------ | ----------------- | --------------- | ----------------------------- |
+| Coarse (G)    | EN ISO 16890 | 20–50 Pa          | 150–200 Pa      | Pre-filter, coarse dust       |
+| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa         | 200–250 Pa      | Outdoor air filter            |
+| ePM2.5 (F7)   | EN ISO 16890 | 80–150 Pa         | 250–300 Pa      | Supply air filter office      |
+| ePM1 (F9)     | EN ISO 16890 | 100–200 Pa        | 300–400 Pa      | Cleanroom pre-stage, hospital |
 
 **Filter monitor:** differential pressure sensor across the filter → alarm when dirty limit reached.
 
@@ -238,12 +258,12 @@ Exhaust air (EHA)
 
 Uses the heat from extract air to pre-heat outdoor air (winter) or pre-cool it (summer).
 
-| Type | Efficiency | Humidification | Special feature |
-|------|-----------|---------------|----------------|
-| **Rotary heat exchanger** | 70–85 % | Yes (moisture transfer) | Check hygiene requirements! |
-| **Plate heat exchanger** | 60–75 % | No | No cross-contamination, hygienic |
-| **Run-around coil** | 45–60 % | No | Source and load far apart |
-| **Heat pipe** | 55–65 % | No | No moving parts, low maintenance |
+| Type                      | Efficiency | Humidification          | Special feature                  |
+| ------------------------- | ---------- | ----------------------- | -------------------------------- |
+| **Rotary heat exchanger** | 70–85 %    | Yes (moisture transfer) | Check hygiene requirements!      |
+| **Plate heat exchanger**  | 60–75 %    | No                      | No cross-contamination, hygienic |
+| **Run-around coil**       | 45–60 %    | No                      | Source and load far apart        |
+| **Heat pipe**             | 55–65 %    | No                      | No moving parts, low maintenance |
 
 **HRC frost protection:** in low outdoor temperatures the HRC can freeze → bypass damper or pre-heating required.
 
@@ -265,12 +285,12 @@ Uses the heat from extract air to pre-heat outdoor air (winter) or pre-cool it (
 
 Types:
 
-| Type | Hygiene | Energy | Humidification level | Application |
-|------|---------|--------|---------------------|------------|
-| **Steam humidifier (electric)** | Very good | High | High | Office, hospital |
-| **Steam from steam network** | Good | Medium | High | Industry |
-| **Recirculating evaporation** | Problematic | Low | Medium | Simple systems |
-| **High-pressure water** | Good (filtration) | Low | Medium | Comfort systems |
+| Type                            | Hygiene           | Energy | Humidification level | Application      |
+| ------------------------------- | ----------------- | ------ | -------------------- | ---------------- |
+| **Steam humidifier (electric)** | Very good         | High   | High                 | Office, hospital |
+| **Steam from steam network**    | Good              | Medium | High                 | Industry         |
+| **Recirculating evaporation**   | Problematic       | Low    | Medium               | Simple systems   |
+| **High-pressure water**         | Good (filtration) | Low    | Medium               | Comfort systems  |
 
 > Air humidifiers are a Legionella risk if not operated correctly! Regularly check temperature and disinfection (VDI 6022).
 
@@ -294,7 +314,7 @@ Supply air setpoint (e.g. 22 °C)
 Supply air controller (PI)
     ├── > setpoint: open cooler
     └── < setpoint: open heater
-    
+
 Dead band between heating and cooling (e.g. ±1 K)
 → Prevents simultaneous heating + cooling (energy waste!)
 ```
@@ -305,45 +325,45 @@ Dead band between heating and cooling (e.g. ±1 K)
 
 Instead of fixed supply air temperature: setpoint depending on outdoor or room temperature:
 
-| Outdoor temperature | Supply air setpoint |
-|---------------------|---------------------|
-| −10 °C | 22 °C (max. heating) |
-| 0 °C | 20 °C |
-| 15 °C | 18 °C (neutral zone) |
-| 30 °C | 16 °C (cooling) |
+| Outdoor temperature | Supply air setpoint  |
+| ------------------- | -------------------- |
+| −10 °C              | 22 °C (max. heating) |
+| 0 °C                | 20 °C                |
+| 15 °C               | 18 °C (neutral zone) |
+| 30 °C               | 16 °C (cooling)      |
 
 ---
 
 ## Operating Modes
 
-| Mode | Volume flow | Temperature | Typical when |
-|------|------------|-------------|-------------|
-| **Comfort** | 100 % | Normal | Building occupied |
-| **Night / Unoccupied** | 30–50 % | Setback | Building empty |
-| **Night cooling** | 100 % | Cooling (summer) | Free cooling |
-| **Frost protection** | 0 % | HW valve open | Outdoor temp < 2 °C, plant off |
-| **Fault** | 0 % | Damper closed | Safety shutdown |
+| Mode                   | Volume flow | Temperature      | Typical when                   |
+| ---------------------- | ----------- | ---------------- | ------------------------------ |
+| **Comfort**            | 100 %       | Normal           | Building occupied              |
+| **Night / Unoccupied** | 30–50 %     | Setback          | Building empty                 |
+| **Night cooling**      | 100 %       | Cooling (summer) | Free cooling                   |
+| **Frost protection**   | 0 %         | HW valve open    | Outdoor temp < 2 °C, plant off |
+| **Fault**              | 0 %         | Damper closed    | Safety shutdown                |
 
 ---
 
 ## Typical BA Data Points AHU
 
-| Data point | Type | Unit | Description |
-|-----------|------|------|-------------|
-| Supply air temp actual | AI | °C | Sensor after last component |
-| Supply air temp setpoint | AV | °C | Set by BMS |
-| Outdoor air temperature | AI | °C | For sliding setpoint |
-| Heating coil valve | AO | % | 0–10 V control signal |
-| Cooling coil valve | AO | % | 0–10 V control signal |
-| Humidifier on/off | DO | — | Steam humidifier |
-| Supply fan VFD speed setpoint | AO | % | Variable frequency drive supply |
-| Extract fan VFD speed setpoint | AO | % | Variable frequency drive extract |
-| Outdoor air damper | AO/DO | % / ON | Damper control signal |
-| Filter differential pressure | AI | Pa | Filter monitor |
-| Frost protection alarm | DI | — | < 5 °C supply air → critical alarm |
-| Fan run status | DI | — | Operating feedback |
-| Fan fault | DI | — | Motor protection tripped |
-| HRC bypass | AO | % | Damper to bypass HRC |
+| Data point                     | Type  | Unit   | Description                        |
+| ------------------------------ | ----- | ------ | ---------------------------------- |
+| Supply air temp actual         | AI    | °C     | Sensor after last component        |
+| Supply air temp setpoint       | AV    | °C     | Set by BMS                         |
+| Outdoor air temperature        | AI    | °C     | For sliding setpoint               |
+| Heating coil valve             | AO    | %      | 0–10 V control signal              |
+| Cooling coil valve             | AO    | %      | 0–10 V control signal              |
+| Humidifier on/off              | DO    | —      | Steam humidifier                   |
+| Supply fan VFD speed setpoint  | AO    | %      | Variable frequency drive supply    |
+| Extract fan VFD speed setpoint | AO    | %      | Variable frequency drive extract   |
+| Outdoor air damper             | AO/DO | % / ON | Damper control signal              |
+| Filter differential pressure   | AI    | Pa     | Filter monitor                     |
+| Frost protection alarm         | DI    | —      | < 5 °C supply air → critical alarm |
+| Fan run status                 | DI    | —      | Operating feedback                 |
+| Fan fault                      | DI    | —      | Motor protection tripped           |
+| HRC bypass                     | AO    | %      | Damper to bypass HRC               |
 
 ## Standards
 

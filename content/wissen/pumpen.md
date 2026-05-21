@@ -4,10 +4,28 @@ title_en: Pumps — Characteristic Curve, Control and EC Pumps
 slug: pumpen
 category: hydraulik
 subcategory: pumpen
-tags: [pumpe, pumpenkennlinie, arbeitspunkt, volumenstrom, förderhöhe, differenzdruck, ec-pumpe, nassläufer, trockenläufer, proportionaldruck, konstantdruck, frequenzumrichter, leistungszahl, cavitation, npsh]
+tags:
+  [
+    pumpe,
+    pumpenkennlinie,
+    arbeitspunkt,
+    volumenstrom,
+    förderhöhe,
+    differenzdruck,
+    ec-pumpe,
+    nassläufer,
+    trockenläufer,
+    proportionaldruck,
+    konstantdruck,
+    frequenzumrichter,
+    leistungszahl,
+    cavitation,
+    npsh
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [hydraulische-schaltungen, hydraulischer-abgleich, ec-motoren, frequenzumrichter, pid-regler]
+related:
+  [hydraulische-schaltungen, hydraulischer-abgleich, ec-motoren, frequenzumrichter, pid-regler]
 norm: [EN ISO 9906, ErP 2012/622/EU]
 updated: 2026-05-14
 lang: de
@@ -105,62 +123,62 @@ Manche EC-Pumpen regeln ihre Drehzahl direkt nach der Systemtemperatur (kälter 
 
 Moderne Heizungsumwälzpumpen sind fast ausschliesslich **EC-Pumpen** (Electronically Commutated):
 
-| Parameter              | Alte AC-Pumpe     | EC-Pumpe           |
-|------------------------|-------------------|--------------------|
-| Wirkungsgrad (nominal) | 40–60 %           | 70–90 %            |
-| Stromaufnahme (20 % Last) | 80 % von Nenn   | 15–25 % von Nenn  |
-| Jahresverbrauch (typ.) | 500–1500 kWh/a    | 50–200 kWh/a       |
-| ErP 2015 Pflicht       | ❌                | ✅                 |
-| Integrierte Regelung   | ❌                | ✅                 |
+| Parameter                 | Alte AC-Pumpe  | EC-Pumpe         |
+| ------------------------- | -------------- | ---------------- |
+| Wirkungsgrad (nominal)    | 40–60 %        | 70–90 %          |
+| Stromaufnahme (20 % Last) | 80 % von Nenn  | 15–25 % von Nenn |
+| Jahresverbrauch (typ.)    | 500–1500 kWh/a | 50–200 kWh/a     |
+| ErP 2015 Pflicht          | ❌             | ✅               |
+| Integrierte Regelung      | ❌             | ✅               |
 
 **ErP 2015:** In EU/CH müssen neue Nassläufer-Umwälzpumpen (1–200 kW) EC-Pumpen sein (Effizienzindex EEI ≤ 0.23).
 
 ### EC-Pumpen Schnittstellen für GA
 
-| Signal          | Beschreibung                          |
-|-----------------|---------------------------------------|
-| 0–10 V (Eingang) | Drehzahl / Δp-Sollwert von DDC       |
-| 0–10 V (Ausgang) | Istwert zurückmelden                 |
-| Modbus RTU      | Vollständige Parametrierung + Diagnose|
-| Analoge Störmeldung | DI auf Störkontakt                |
+| Signal              | Beschreibung                           |
+| ------------------- | -------------------------------------- |
+| 0–10 V (Eingang)    | Drehzahl / Δp-Sollwert von DDC         |
+| 0–10 V (Ausgang)    | Istwert zurückmelden                   |
+| Modbus RTU          | Vollständige Parametrierung + Diagnose |
+| Analoge Störmeldung | DI auf Störkontakt                     |
 
 ---
 
 ## Pumpentypen im Überblick
 
-| Typ               | Beschreibung                          | GA-Einsatz               |
-|-------------------|---------------------------------------|--------------------------|
+| Typ               | Beschreibung                                | GA-Einsatz                  |
+| ----------------- | ------------------------------------------- | --------------------------- |
 | **Nassläufer**    | Motor läuft in Wasser (Permanentschmierung) | Heizung, Kühlung (Standard) |
-| **Trockenläufer** | Motor getrennt vom Fördermedium       | Grosse Anlagen, Industrie |
-| **Inline-Pumpe**  | Im Rohr integriert (Flanschanschluss) | Heizung, Kühlung         |
-| **Blockpumpe**    | Pumpe + Motor als Block              | Grosse Anlagen            |
-| **Tauchpumpe**    | Im Medium eingetaucht                 | Entwässerung, Druckhaltung|
+| **Trockenläufer** | Motor getrennt vom Fördermedium             | Grosse Anlagen, Industrie   |
+| **Inline-Pumpe**  | Im Rohr integriert (Flanschanschluss)       | Heizung, Kühlung            |
+| **Blockpumpe**    | Pumpe + Motor als Block                     | Grosse Anlagen              |
+| **Tauchpumpe**    | Im Medium eingetaucht                       | Entwässerung, Druckhaltung  |
 
 ---
 
 ## Pumpen-Überwachung in der GA
 
-| Datenpunkt              | Typ | Beschreibung                         |
-|-------------------------|-----|--------------------------------------|
-| Pumpe EIN/AUS           | DO  | Schaltbefehl                         |
-| Laufmeldung             | DI  | Bestätigung läuft (Strömungswächter) |
-| Störmeldung             | DI  | Motorschutz ausgelöst                |
-| Differenzdruck          | AI  | Über Pumpe (optional)                |
-| Drehzahl / Δp Ist       | AI  | Von EC-Pumpe (0–10V oder Modbus)     |
-| Drehzahl Soll           | AO  | Vorgabe an EC-Pumpe (0–10V)          |
-| Betriebsstunden         | AV  | Aus Laufmeldung zählen               |
+| Datenpunkt        | Typ | Beschreibung                         |
+| ----------------- | --- | ------------------------------------ |
+| Pumpe EIN/AUS     | DO  | Schaltbefehl                         |
+| Laufmeldung       | DI  | Bestätigung läuft (Strömungswächter) |
+| Störmeldung       | DI  | Motorschutz ausgelöst                |
+| Differenzdruck    | AI  | Über Pumpe (optional)                |
+| Drehzahl / Δp Ist | AI  | Von EC-Pumpe (0–10V oder Modbus)     |
+| Drehzahl Soll     | AO  | Vorgabe an EC-Pumpe (0–10V)          |
+| Betriebsstunden   | AV  | Aus Laufmeldung zählen               |
 
 ---
 
 ## Typische Fehler
 
-| Fehler                        | Symptom                          | Ursache / Lösung              |
-|-------------------------------|----------------------------------|-------------------------------|
-| Pumpe läuft, kein Durchfluss  | T-Differenz = 0, Anlage kalt    | Luftblase, Rückschlagventil klemmt |
-| Pump-Geräusche                | Pfeifendes/Zischendes Geräusch  | Kavitation, Differenzdruck zu hoch |
-| Pumpe vibriert                | Mechanische Schwingung           | Arbeitspunkt zu weit rechts der Kennlinie |
-| Motorschutz löst aus          | Pumpe schaltet ab                | Überlast, Wicklung heiss      |
-| Zu hoher Energieverbrauch     | Betriebsstunden × kW = viel      | Drehzahl zu hoch, Δp-Soll zu hoch |
+| Fehler                       | Symptom                        | Ursache / Lösung                          |
+| ---------------------------- | ------------------------------ | ----------------------------------------- |
+| Pumpe läuft, kein Durchfluss | T-Differenz = 0, Anlage kalt   | Luftblase, Rückschlagventil klemmt        |
+| Pump-Geräusche               | Pfeifendes/Zischendes Geräusch | Kavitation, Differenzdruck zu hoch        |
+| Pumpe vibriert               | Mechanische Schwingung         | Arbeitspunkt zu weit rechts der Kennlinie |
+| Motorschutz löst aus         | Pumpe schaltet ab              | Überlast, Wicklung heiss                  |
+| Zu hoher Energieverbrauch    | Betriebsstunden × kW = viel    | Drehzahl zu hoch, Δp-Soll zu hoch         |
 
 ## Normen
 
@@ -260,62 +278,62 @@ Some EC pumps regulate their speed directly based on system temperature (colder 
 
 Modern heating circulation pumps are almost exclusively **EC pumps** (Electronically Commutated):
 
-| Parameter | Old AC pump | EC pump |
-|---------|-----------|--------|
-| Efficiency (nominal) | 40–60 % | 70–90 % |
-| Current draw (20 % load) | 80 % of rated | 15–25 % of rated |
-| Annual consumption (typical) | 500–1500 kWh/a | 50–200 kWh/a |
-| ErP 2015 mandatory | ❌ | ✅ |
-| Integrated control | ❌ | ✅ |
+| Parameter                    | Old AC pump    | EC pump          |
+| ---------------------------- | -------------- | ---------------- |
+| Efficiency (nominal)         | 40–60 %        | 70–90 %          |
+| Current draw (20 % load)     | 80 % of rated  | 15–25 % of rated |
+| Annual consumption (typical) | 500–1500 kWh/a | 50–200 kWh/a     |
+| ErP 2015 mandatory           | ❌             | ✅               |
+| Integrated control           | ❌             | ✅               |
 
 **ErP 2015:** In the EU/CH, new wet-rotor circulation pumps (1–200 kW) must be EC pumps (energy efficiency index EEI ≤ 0.23).
 
 ### EC Pump Interfaces for BA
 
-| Signal | Description |
-|-------|------------|
-| 0–10 V (input) | Speed / Δp setpoint from DDC |
-| 0–10 V (output) | Actual value feedback |
-| Modbus RTU | Full parameterisation + diagnostics |
-| Analogue fault signal | DI on fault contact |
+| Signal                | Description                         |
+| --------------------- | ----------------------------------- |
+| 0–10 V (input)        | Speed / Δp setpoint from DDC        |
+| 0–10 V (output)       | Actual value feedback               |
+| Modbus RTU            | Full parameterisation + diagnostics |
+| Analogue fault signal | DI on fault contact                 |
 
 ---
 
 ## Pump Types Overview
 
-| Type | Description | BA application |
-|------|------------|--------------|
-| **Wet-rotor** | Motor runs in water (permanent lubrication) | Heating, cooling (standard) |
-| **Dry-rotor** | Motor separated from fluid | Large systems, industry |
-| **Inline pump** | Integrated in pipe (flanged) | Heating, cooling |
-| **Block pump** | Pump + motor as one unit | Large systems |
-| **Submersible pump** | Immersed in medium | Drainage, pressure maintenance |
+| Type                 | Description                                 | BA application                 |
+| -------------------- | ------------------------------------------- | ------------------------------ |
+| **Wet-rotor**        | Motor runs in water (permanent lubrication) | Heating, cooling (standard)    |
+| **Dry-rotor**        | Motor separated from fluid                  | Large systems, industry        |
+| **Inline pump**      | Integrated in pipe (flanged)                | Heating, cooling               |
+| **Block pump**       | Pump + motor as one unit                    | Large systems                  |
+| **Submersible pump** | Immersed in medium                          | Drainage, pressure maintenance |
 
 ---
 
 ## Pump Monitoring in BA
 
-| Data point | Type | Description |
-|-----------|------|------------|
-| Pump ON/OFF | DO | Switch command |
-| Run feedback | DI | Confirmation running (flow switch) |
-| Fault signal | DI | Motor protection tripped |
-| Differential pressure | AI | Across pump (optional) |
-| Speed / Δp actual | AI | From EC pump (0–10 V or Modbus) |
-| Speed setpoint | AO | Command to EC pump (0–10 V) |
-| Operating hours | AV | Counted from run feedback |
+| Data point            | Type | Description                        |
+| --------------------- | ---- | ---------------------------------- |
+| Pump ON/OFF           | DO   | Switch command                     |
+| Run feedback          | DI   | Confirmation running (flow switch) |
+| Fault signal          | DI   | Motor protection tripped           |
+| Differential pressure | AI   | Across pump (optional)             |
+| Speed / Δp actual     | AI   | From EC pump (0–10 V or Modbus)    |
+| Speed setpoint        | AO   | Command to EC pump (0–10 V)        |
+| Operating hours       | AV   | Counted from run feedback          |
 
 ---
 
 ## Typical Errors
 
-| Error | Symptom | Cause / solution |
-|-------|---------|----------------|
-| Pump runs, no flow | ΔT = 0, system cold | Air pocket, check valve stuck |
-| Pump noise | Whistling/hissing | Cavitation, differential pressure too high |
-| Pump vibrates | Mechanical oscillation | Operating point too far right of curve |
-| Motor protection trips | Pump shuts off | Overload, winding hot |
-| Excessive energy consumption | Operating hours × kW = high | Speed too high, Δp setpoint too high |
+| Error                        | Symptom                     | Cause / solution                           |
+| ---------------------------- | --------------------------- | ------------------------------------------ |
+| Pump runs, no flow           | ΔT = 0, system cold         | Air pocket, check valve stuck              |
+| Pump noise                   | Whistling/hissing           | Cavitation, differential pressure too high |
+| Pump vibrates                | Mechanical oscillation      | Operating point too far right of curve     |
+| Motor protection trips       | Pump shuts off              | Overload, winding hot                      |
+| Excessive energy consumption | Operating hours × kW = high | Speed too high, Δp setpoint too high       |
 
 ## Standards
 

@@ -4,7 +4,23 @@ title_en: Night Cooling — Free Thermal Cooling
 slug: nachtauskuehlung
 category: lueftung
 subcategory: kühlung
-tags: [nachtauskühlung, freie-kühlung, nachtlüftung, speichermasse, kühlbedarf, aussentemperatur, enthalpie, sommer, klimatisierung, energieeffizienz, kühlenergie, fensterlüftung, rlt, bypass]
+tags:
+  [
+    nachtauskühlung,
+    freie-kühlung,
+    nachtlüftung,
+    speichermasse,
+    kühlbedarf,
+    aussentemperatur,
+    enthalpie,
+    sommer,
+    klimatisierung,
+    energieeffizienz,
+    kühlenergie,
+    fensterlüftung,
+    rlt,
+    bypass
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vav-cav, thermische-behaglichkeit, kaelteanlagen, beschattungssteuerung]
@@ -25,7 +41,7 @@ Tagestemperaturverlauf Sommer:
   14:00: 33 °C (Nachmittag, Spitze)
   22:00: 22 °C (Abend)
   03:00: 17 °C (Nacht, optimal)
-  
+
 Strategie:
   Nachts: Aussenluft 17–21 °C → durch Gebäude leiten
   → Decken, Böden, Wände kühlen sich auf 19–21 °C ab
@@ -71,12 +87,12 @@ Sensoren: Kombisensor Aussenluft (T + rF) und Raumluft-Referenz (T + rF) → Ent
 
 Nachtauskühlung kann in Mitteleuropa bis zu **30 % des Kühlenergieverbrauchs** ersetzen:
 
-| Gebäudetyp              | Potenzial           | Bedingung                      |
-|-------------------------|---------------------|-------------------------------|
-| Massivbau (Beton, Stein) | Hoch (5–7 K)       | Hohe thermische Masse           |
-| Leichtbau (Stahl, Holz)  | Niedrig (1–2 K)    | Wenig Speichermasse            |
-| Bürogebäude              | Mittel–Hoch         | Interne Lasten, Fensterflächen |
-| Hotel                    | Mittel              | Belegungsvarianz               |
+| Gebäudetyp               | Potenzial       | Bedingung                      |
+| ------------------------ | --------------- | ------------------------------ |
+| Massivbau (Beton, Stein) | Hoch (5–7 K)    | Hohe thermische Masse          |
+| Leichtbau (Stahl, Holz)  | Niedrig (1–2 K) | Wenig Speichermasse            |
+| Bürogebäude              | Mittel–Hoch     | Interne Lasten, Fensterflächen |
+| Hotel                    | Mittel          | Belegungsvarianz               |
 
 ---
 
@@ -89,16 +105,16 @@ DDC Nachtauskühlung:
   AI: rF_Aussenluft (Kombi)
   AI: rF_Raum (Kombi)
   AI: Windgeschwindigkeit
-  
+
   AO: Lüftungs-FU Drehzahl (erhöht auf 100 %)
   AO: Klappe Aussenluft (100 %)
   AO: Umluft-Klappe (0 %)
-  
+
   Berechnung:
     h_Aussen = f(T_Aussen, rF_Aussen)
     h_Raum   = f(T_Raum, rF_Raum)
     DeltaH   = h_Raum - h_Aussen
-    
+
   Freigabe wenn DeltaH > 3 kJ/kg AND 22:00–07:00
 ```
 
@@ -106,13 +122,13 @@ DDC Nachtauskühlung:
 
 ## Grenzen und Probleme
 
-| Problem                        | Massnahme                          |
-|--------------------------------|------------------------------------|
-| Zu feuchte Aussenluft          | Enthalpie-Logik statt reine Temperatur |
-| Sicherheitsbedenken (offene Klappen nachts) | Einbruchschutz, Windwächter |
-| Schallimmissionen              | Volumenstrom begrenzen, Schalldämpfer |
-| Pollen-Allergie-Problematik    | In Kliniken / Spitälern einschränken |
-| Nachtfrost (Frühling/Herbst)  | Frostschutz-Logik überschreibt       |
+| Problem                                     | Massnahme                              |
+| ------------------------------------------- | -------------------------------------- |
+| Zu feuchte Aussenluft                       | Enthalpie-Logik statt reine Temperatur |
+| Sicherheitsbedenken (offene Klappen nachts) | Einbruchschutz, Windwächter            |
+| Schallimmissionen                           | Volumenstrom begrenzen, Schalldämpfer  |
+| Pollen-Allergie-Problematik                 | In Kliniken / Spitälern einschränken   |
+| Nachtfrost (Frühling/Herbst)                | Frostschutz-Logik überschreibt         |
 
 ## Normen
 
@@ -178,12 +194,12 @@ Sensors: combination sensor outdoor (T + RH) and room reference (T + RH) → ent
 
 Night cooling can replace up to **30% of cooling energy consumption** in Central Europe:
 
-| Building type | Potential | Condition |
-|---------------|-----------|-----------|
-| Solid construction (concrete, stone) | High (5–7 K) | High thermal mass |
-| Lightweight construction (steel, timber) | Low (1–2 K) | Little thermal storage |
-| Office building | Medium–High | Internal gains, glazing |
-| Hotel | Medium | Variable occupancy |
+| Building type                            | Potential    | Condition               |
+| ---------------------------------------- | ------------ | ----------------------- |
+| Solid construction (concrete, stone)     | High (5–7 K) | High thermal mass       |
+| Lightweight construction (steel, timber) | Low (1–2 K)  | Little thermal storage  |
+| Office building                          | Medium–High  | Internal gains, glazing |
+| Hotel                                    | Medium       | Variable occupancy      |
 
 ---
 
@@ -213,13 +229,13 @@ DDC Night Cooling:
 
 ## Limitations and Issues
 
-| Problem | Measure |
-|---------|---------|
-| Outdoor air too humid | Enthalpy logic instead of pure temperature |
-| Security concerns (open dampers at night) | Burglar protection, wind monitor |
-| Noise intrusion | Limit airflow, fit silencers |
-| Pollen allergy issues | Restrict use in clinics / hospitals |
-| Night frost (spring/autumn) | Frost protection logic overrides |
+| Problem                                   | Measure                                    |
+| ----------------------------------------- | ------------------------------------------ |
+| Outdoor air too humid                     | Enthalpy logic instead of pure temperature |
+| Security concerns (open dampers at night) | Burglar protection, wind monitor           |
+| Noise intrusion                           | Limit airflow, fit silencers               |
+| Pollen allergy issues                     | Restrict use in clinics / hospitals        |
+| Night frost (spring/autumn)               | Frost protection logic overrides           |
 
 ## Standards
 

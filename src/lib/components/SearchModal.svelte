@@ -4,7 +4,9 @@
 	import { _, locale } from 'svelte-i18n';
 
 	const isEn = $derived($locale === 'en');
-	function t(de: string, en?: string) { return isEn && en ? en : de; }
+	function t(de: string, en?: string) {
+		return isEn && en ? en : de;
+	}
 	import { search, groupByType, typeColors, type SearchItem, type SearchType } from '$lib/search';
 
 	let { open = $bindable(false) }: { open?: boolean } = $props();
@@ -15,13 +17,20 @@
 
 	const results = $derived(search(query, 20));
 	const grouped = $derived(groupByType(results));
-	const orderedTypes: SearchType[] = ['wissen', 'rechner', 'konverter', 'referenz', 'checkliste', 'abkuerzung'];
+	const orderedTypes: SearchType[] = [
+		'wissen',
+		'rechner',
+		'konverter',
+		'referenz',
+		'checkliste',
+		'abkuerzung'
+	];
 
 	const typeLabels = $derived<Record<SearchType, string>>({
-		wissen:     $_('nav.knowledge'),
-		rechner:    $_('nav.calculator'),
-		konverter:  $_('nav.converter'),
-		referenz:   $_('nav.reference'),
+		wissen: $_('nav.knowledge'),
+		rechner: $_('nav.calculator'),
+		konverter: $_('nav.converter'),
+		referenz: $_('nav.reference'),
 		checkliste: $_('nav.checklists'),
 		abkuerzung: $_('nav.abbreviations')
 	});
@@ -102,7 +111,16 @@
 	></div>
 	<div class="modal" role="dialog" aria-label={$_('search.ariaModal')}>
 		<div class="search-bar">
-			<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<svg
+				class="search-icon"
+				width="18"
+				height="18"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+			>
 				<circle cx="11" cy="11" r="8" />
 				<line x1="21" y1="21" x2="16.65" y2="16.65" />
 			</svg>
@@ -146,7 +164,15 @@
 											<div class="item-subtitle">{t(item.subtitle ?? '', item.subtitle_en)}</div>
 										{/if}
 									</div>
-									<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="item-arrow">
+									<svg
+										width="14"
+										height="14"
+										viewBox="0 0 24 24"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										class="item-arrow"
+									>
 										<path d="M9 18l6-6-6-6" />
 									</svg>
 								</button>

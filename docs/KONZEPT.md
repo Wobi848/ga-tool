@@ -8,17 +8,17 @@ Schnell, durchsuchbar, nachschlagbar — die GA-Referenz.
 
 ## Stack
 
-| Schicht       | Tool                                        |
-|---------------|---------------------------------------------|
-| Fullstack     | SvelteKit + Vite (kein separates Express)   |
-| Datenbank     | better-sqlite3 + Drizzle ORM (SQLite)       |
-| Auth          | better-auth                                 |
-| UI-Komponenten| shadcn-svelte (headless, copy-paste)        |
-| Styling       | Tailwind CSS v4                             |
-| i18n          | svelte-i18n (DE + EN, erweiterbar)          |
-| Search        | Fuse.js (clientseitig, fuzzy)               |
-| Schemen       | SVG (statisch in `/static/schematics/`)     |
-| Deploy        | systemd (gleich wie ottos-monitor)          |
+| Schicht        | Tool                                      |
+| -------------- | ----------------------------------------- |
+| Fullstack      | SvelteKit + Vite (kein separates Express) |
+| Datenbank      | better-sqlite3 + Drizzle ORM (SQLite)     |
+| Auth           | better-auth                               |
+| UI-Komponenten | shadcn-svelte (headless, copy-paste)      |
+| Styling        | Tailwind CSS v4                           |
+| i18n           | svelte-i18n (DE + EN, erweiterbar)        |
+| Search         | Fuse.js (clientseitig, fuzzy)             |
+| Schemen        | SVG (statisch in `/static/schematics/`)   |
+| Deploy         | systemd (gleich wie ottos-monitor)        |
 
 ---
 
@@ -27,7 +27,7 @@ Schnell, durchsuchbar, nachschlagbar — die GA-Referenz.
 ### Farben
 
 | Token                   | Wert      | Verwendung                          |
-|-------------------------|-----------|-------------------------------------|
+| ----------------------- | --------- | ----------------------------------- |
 | `--color-primary`       | `#ea580c` | Orange — Buttons, Links, Highlights |
 | `--color-primary-hover` | `#c2410c` | Orange dunkler für Hover            |
 | `--color-secondary`     | `#0d9488` | Teal — Icons, Badges, Status-Tags   |
@@ -39,12 +39,12 @@ Schnell, durchsuchbar, nachschlagbar — die GA-Referenz.
 
 **Dark-Mode** (`prefers-color-scheme: dark` / Klasse `dark`):
 
-| Token            | Wert        |
-|------------------|-------------|
-| `--color-bg`     | `#0f172a`   |
-| `--color-surface`| `#1e293b`   |
-| `--color-border` | `#334155`   |
-| `--color-text`   | `#f1f5f9`   |
+| Token             | Wert      |
+| ----------------- | --------- |
+| `--color-bg`      | `#0f172a` |
+| `--color-surface` | `#1e293b` |
+| `--color-border`  | `#334155` |
+| `--color-text`    | `#f1f5f9` |
 
 **OLED**: `--color-bg: #000000`, `--color-surface: #0a0a0a`
 
@@ -169,10 +169,10 @@ slug: pid-regler
 category: regelung
 subcategory: regler
 tags: [pid, p-regler, i-regler, d-regler, regelkreis, tuning]
-difficulty: grundlagen        # grundlagen | fortgeschritten | experte
-area: [hlk, ga]               # hlk | sanitaer | elektro | ga | it | normen
+difficulty: grundlagen # grundlagen | fortgeschritten | experte
+area: [hlk, ga] # hlk | sanitaer | elektro | ga | it | normen
 related: [regelkreise, frequenzumrichter, raumautomation]
-norm: []                      # referenzierte Normen
+norm: [] # referenzierte Normen
 updated: 2026-05-14
 lang: de
 ---
@@ -180,17 +180,17 @@ lang: de
 
 **Pflicht-Keys für jeden Artikel:**
 
-| Key          | Typ      | Beschreibung                              |
-|--------------|----------|-------------------------------------------|
-| `title`      | string   | Titel des Artikels                        |
-| `slug`       | string   | URL-Pfad (`/wissen/pid-regler`)           |
-| `category`   | string   | Hauptkategorie                            |
-| `tags`       | string[] | Suchbegriffe, Synonyme, Abkürzungen       |
-| `difficulty` | enum     | grundlagen / fortgeschritten / experte    |
+| Key          | Typ      | Beschreibung                             |
+| ------------ | -------- | ---------------------------------------- |
+| `title`      | string   | Titel des Artikels                       |
+| `slug`       | string   | URL-Pfad (`/wissen/pid-regler`)          |
+| `category`   | string   | Hauptkategorie                           |
+| `tags`       | string[] | Suchbegriffe, Synonyme, Abkürzungen      |
+| `difficulty` | enum     | grundlagen / fortgeschritten / experte   |
 | `area`       | string[] | Fachbereich (HLK, Sanitaer, Elektro, IT) |
-| `related`    | string[] | Verwandte Artikel (Slugs)                 |
-| `updated`    | date     | Letzte Änderung                           |
-| `lang`       | string   | Sprache der Datei                         |
+| `related`    | string[] | Verwandte Artikel (Slugs)                |
+| `updated`    | date     | Letzte Änderung                          |
+| `lang`       | string   | Sprache der Datei                        |
 
 ---
 
@@ -517,7 +517,7 @@ Durchsuchbar, filterbar, verlinkt mit Artikeln.
 **Bilinguales Konzept-Gruppen-System:**
 
 - Jede Abkürzung hat eine optionale Sprache: `de` (default), `en`, `intl`
-- Eine separate Datenstruktur `conceptGroups: string[][]` gruppiert Kürzel die *dieselbe* Sache meinen
+- Eine separate Datenstruktur `conceptGroups: string[][]` gruppiert Kürzel die _dieselbe_ Sache meinen
   - Beispiel: `['GLT', 'BMS']` — die deutsche Abkürzung GLT und die englische BMS stehen für Building Management System
   - Beispiel: `['BHKW', 'KWK', 'CHP']` — drei Kürzel, ein Konzept
 - Helper `equivalentShorts(short)` liefert automatisch alle anderen Mitglieder einer Gruppe — **bidirektional ohne doppelte Pflege**
@@ -531,22 +531,22 @@ Durchsuchbar, filterbar, verlinkt mit Artikeln.
 type AbbrLang = 'de' | 'en' | 'intl';
 
 interface Abbreviation {
-  short: string;        // 'GLT' / 'BMS'
-  long: string;         // 'Gebäudeleittechnik' / 'Building Management System'
-  lang?: AbbrLang;      // default 'de'
-  description?: string;
-  areas: Area[];        // ['ga', 'it']
-  related?: string[];   // lose Beziehung (nicht Übersetzung)
-  wissenSlug?: string;  // Link zu Wissensartikel
+	short: string; // 'GLT' / 'BMS'
+	long: string; // 'Gebäudeleittechnik' / 'Building Management System'
+	lang?: AbbrLang; // default 'de'
+	description?: string;
+	areas: Area[]; // ['ga', 'it']
+	related?: string[]; // lose Beziehung (nicht Übersetzung)
+	wissenSlug?: string; // Link zu Wissensartikel
 }
 
 const conceptGroups: string[][] = [
-  ['GLT', 'BMS'],
-  ['SPS', 'PLC'],
-  ['HLK', 'HVAC'],
-  ['FU', 'VFD'],
-  ['FBH', 'UFH'],
-  // ...
+	['GLT', 'BMS'],
+	['SPS', 'PLC'],
+	['HLK', 'HVAC'],
+	['FU', 'VFD'],
+	['FBH', 'UFH']
+	// ...
 ];
 ```
 
@@ -556,12 +556,12 @@ Ingenieurstechnische Berechnungen — Eingabe rein, Ergebnis raus, deep-linkbar.
 Alles clientseitig. Zwischenschritte sichtbar (nachvollziehbar).
 
 - **Heizkurven-Rechner** — Vorlauftemp aus Aussentemp, Hersteller wählbar:
-  - *Siemens DESIGO / RVS / RVA*: Neigung (0.2–3.5) + Niveau ± 15 K + Normaussentemp
-  - *Viessmann (Vitotronic)*: Neigung + Niveau, eigene Kurvencharakteristik
-  - *Buderus / Bosch*: Steilheit (0.2–4.0) + Niveau
-  - *Honeywell / Resideo*: 2-Punkte-Methode (TA₁→TV₁, TA₂→TV₂) — kein Steigungswert
-  - *Sauter*: Neigung + Fußpunkt
-  - *Generisch / Physikalisch*: `TV = T_Raum + (T_Raum − T_Norm_A) × s`
+  - _Siemens DESIGO / RVS / RVA_: Neigung (0.2–3.5) + Niveau ± 15 K + Normaussentemp
+  - _Viessmann (Vitotronic)_: Neigung + Niveau, eigene Kurvencharakteristik
+  - _Buderus / Bosch_: Steilheit (0.2–4.0) + Niveau
+  - _Honeywell / Resideo_: 2-Punkte-Methode (TA₁→TV₁, TA₂→TV₂) — kein Steigungswert
+  - _Sauter_: Neigung + Fußpunkt
+  - _Generisch / Physikalisch_: `TV = T_Raum + (T_Raum − T_Norm_A) × s`
   - Einstellhilfe: Grenztemperatur (Heizbeginn), Max/Min Vorlauf, Parallelverschiebung
   - Grafische Kurvenanzeige (SVG), Normaussentemp nach CH-Ort wählbar
 - **Kv-Wert Rechner** — Kv aus Δp + Durchfluss; oder Δp bei gegebenem Kv + Q
@@ -590,7 +590,7 @@ Eigene Seite mit Profil-Daten und Übersicht — **kein Profilbild**, fachlich o
 ### Profil-Felder (alle optional, in DB gespeichert)
 
 | Feld          | Typ      | Zweck / Effekt im Tool                                                                                |
-|---------------|----------|-------------------------------------------------------------------------------------------------------|
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------- |
 | `name`        | string   | Anzeigename (von Auth, editierbar)                                                                    |
 | `role`        | enum     | Servicetechniker / Projektleiter / Inbetriebnehmer / Planer / Lernender / Andere                      |
 | `company`     | string   | Firma / Arbeitgeber                                                                                   |
@@ -675,17 +675,17 @@ Kein Banner nötig (CH nDSG), aber kleiner Hinweis beim ersten Login.
 
 ## Keyboard Shortcuts
 
-| Shortcut   | Aktion                                          |
-|------------|-------------------------------------------------|
-| `Ctrl+K`   | Globale Suche öffnen                            |
-| `Esc`      | Modal / Suche schliessen                        |
-| `1`        | Home                                            |
-| `2`        | Konverter                                       |
-| `3`        | Rechner                                         |
-| `4`        | Wissensbasis                                    |
-| `5`        | Checklisten                                     |
-| `6`        | Referenz                                        |
-| `7`        | Abkürzungen                                     |
+| Shortcut | Aktion                   |
+| -------- | ------------------------ |
+| `Ctrl+K` | Globale Suche öffnen     |
+| `Esc`    | Modal / Suche schliessen |
+| `1`      | Home                     |
+| `2`      | Konverter                |
+| `3`      | Rechner                  |
+| `4`      | Wissensbasis             |
+| `5`      | Checklisten              |
+| `6`      | Referenz                 |
+| `7`      | Abkürzungen              |
 
 ---
 

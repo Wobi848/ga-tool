@@ -4,7 +4,9 @@
 	import { _, locale } from 'svelte-i18n';
 
 	const isEn = $derived($locale === 'en');
-	function t(de: string, en?: string) { return isEn && en ? en : de; }
+	function t(de: string, en?: string) {
+		return isEn && en ? en : de;
+	}
 
 	let query = $state('');
 	let selectedAreas: Area[] = $state([]);
@@ -26,7 +28,12 @@
 			const title = t(tbl.title, tbl.title_en).toLowerCase();
 			const subtitle = t(tbl.subtitle ?? '', tbl.subtitle_en).toLowerCase();
 			const desc = t(tbl.description ?? '', tbl.description_en).toLowerCase();
-			return title.includes(q) || subtitle.includes(q) || desc.includes(q) || tbl.category.toLowerCase().includes(q);
+			return (
+				title.includes(q) ||
+				subtitle.includes(q) ||
+				desc.includes(q) ||
+				tbl.category.toLowerCase().includes(q)
+			);
 		});
 	});
 
@@ -46,12 +53,22 @@
 	<header class="page-header">
 		<h1>{$_('referenz.title')}</h1>
 		<p class="subtitle">
-			{referenceTables.length} {$_('referenz.subtitle')}
+			{referenceTables.length}
+			{$_('referenz.subtitle')}
 		</p>
 	</header>
 
 	<div class="search-row">
-		<svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+		<svg
+			class="search-icon"
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+		>
 			<circle cx="11" cy="11" r="8" />
 			<line x1="21" y1="21" x2="16.65" y2="16.65" />
 		</svg>
@@ -75,8 +92,8 @@
 				<button
 					class="chip"
 					class:active={selectedAreas.includes(a)}
-					onclick={() => (selectedAreas = toggle(selectedAreas, a))}
-				>{$_('area.' + a)}</button>
+					onclick={() => (selectedAreas = toggle(selectedAreas, a))}>{$_('area.' + a)}</button
+				>
 			{/each}
 		</div>
 	</div>
@@ -88,7 +105,16 @@
 			{#each filtered as tbl}
 				<a href="/referenz/{tbl.slug}" class="card">
 					<div class="card-icon" style="background: {tbl.color}20; color: {tbl.color}">
-						<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<svg
+							width="22"
+							height="22"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
 							<path d={iconPaths[tbl.icon ?? ''] ?? 'M3 3h18v18H3z'} />
 						</svg>
 					</div>
@@ -98,14 +124,27 @@
 							<p class="card-subtitle">{t(tbl.subtitle, tbl.subtitle_en)}</p>
 						{/if}
 						<div class="card-meta">
-							<span class="cat-chip">{$_('cat.' + tbl.category.toLowerCase(), { default: tbl.category })}</span>
+							<span class="cat-chip"
+								>{$_('cat.' + tbl.category.toLowerCase(), { default: tbl.category })}</span
+							>
 							<span class="row-count">{tbl.rows.length} {$_('referenz.rows')}</span>
 							{#if tbl.norm && tbl.norm.length}
-								<span class="norm-chip">{tbl.norm[0]}{#if tbl.norm.length > 1} +{tbl.norm.length - 1}{/if}</span>
+								<span class="norm-chip"
+									>{tbl.norm[0]}{#if tbl.norm.length > 1}
+										+{tbl.norm.length - 1}{/if}</span
+								>
 							{/if}
 						</div>
 					</div>
-					<svg class="card-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<svg
+						class="card-arrow"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
 						<path d="M9 18l6-6-6-6" />
 					</svg>
 				</a>
@@ -232,7 +271,9 @@
 		border-radius: 0.75rem;
 		text-decoration: none;
 		color: var(--text);
-		transition: border-color 0.15s, box-shadow 0.15s;
+		transition:
+			border-color 0.15s,
+			box-shadow 0.15s;
 	}
 
 	.card:hover {

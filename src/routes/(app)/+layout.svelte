@@ -114,9 +114,19 @@
 		{ href: '/konverter', label: () => $_('nav.converter'), icon: 'refresh-cw', key: 'konverter' },
 		{ href: '/rechner', label: () => $_('nav.calculator'), icon: 'calculator', key: 'rechner' },
 		{ href: '/wissen', label: () => $_('nav.knowledge'), icon: 'book-open', key: 'wissen' },
-		{ href: '/checklisten', label: () => $_('nav.checklists'), icon: 'clipboard-list', key: 'checklisten' },
+		{
+			href: '/checklisten',
+			label: () => $_('nav.checklists'),
+			icon: 'clipboard-list',
+			key: 'checklisten'
+		},
 		{ href: '/referenz', label: () => $_('nav.reference'), icon: 'table', key: 'referenz' },
-		{ href: '/abkuerzungen', label: () => $_('nav.abbreviations'), icon: 'type', key: 'abkuerzungen' }
+		{
+			href: '/abkuerzungen',
+			label: () => $_('nav.abbreviations'),
+			icon: 'type',
+			key: 'abkuerzungen'
+		}
 	];
 
 	const bottomItems = navItems.slice(0, 5);
@@ -133,7 +143,14 @@
 		<div class="sidebar-header">
 			<a href="/" class="logo-link">
 				<div class="logo-icon">
-					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+					<svg
+						width="20"
+						height="20"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="white"
+						stroke-width="2.5"
+					>
 						<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
 						<polyline points="9 22 9 12 15 12 15 22" />
 					</svg>
@@ -158,33 +175,53 @@
 
 		<!-- ── Favoriten Dropdown ── -->
 		{#if $favorites.length > 0}
-		<div class="fav-section">
-			<button type="button" class="fav-toggle" onclick={() => favsOpen = !favsOpen}>
-				<svg width="14" height="14" viewBox="0 0 24 24" fill={favsOpen ? 'currentColor' : 'none'} stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-				</svg>
-				<span>{$_('dashboard.favorites')}</span>
-				<span class="fav-count">{$favorites.length}</span>
-				<svg class="fav-chevron" class:fav-chevron--open={favsOpen} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-					<path d="M6 9l6 6 6-6"/>
-				</svg>
-			</button>
-			{#if favsOpen}
-			<div class="fav-list">
-				{#each $favorites.slice().reverse() as fav}
-				<a
-					href="{favTypeHref[fav.type]}/{fav.slug}"
-					class="fav-item"
-					class:active={isActive(`${favTypeHref[fav.type]}/${fav.slug}`)}
-					title={fav.title}
-				>
-					<span class="fav-type-dot" data-type={fav.type}></span>
-					<span class="fav-item-title">{fav.title}</span>
-				</a>
-				{/each}
+			<div class="fav-section">
+				<button type="button" class="fav-toggle" onclick={() => (favsOpen = !favsOpen)}>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill={favsOpen ? 'currentColor' : 'none'}
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+					>
+						<polygon
+							points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+						/>
+					</svg>
+					<span>{$_('dashboard.favorites')}</span>
+					<span class="fav-count">{$favorites.length}</span>
+					<svg
+						class="fav-chevron"
+						class:fav-chevron--open={favsOpen}
+						width="12"
+						height="12"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+					>
+						<path d="M6 9l6 6 6-6" />
+					</svg>
+				</button>
+				{#if favsOpen}
+					<div class="fav-list">
+						{#each $favorites.slice().reverse() as fav}
+							<a
+								href="{favTypeHref[fav.type]}/{fav.slug}"
+								class="fav-item"
+								class:active={isActive(`${favTypeHref[fav.type]}/${fav.slug}`)}
+								title={fav.title}
+							>
+								<span class="fav-type-dot" data-type={fav.type}></span>
+								<span class="fav-item-title">{fav.title}</span>
+							</a>
+						{/each}
+					</div>
+				{/if}
 			</div>
-			{/if}
-		</div>
 		{/if}
 
 		<div class="sidebar-footer">
@@ -237,8 +274,20 @@
 				</span>
 			</div>
 			<div class="top-bar-right">
-				<button class="search-trigger" onclick={() => (searchOpen = true)} aria-label={$_('nav.searchOpen')}>
-					<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+				<button
+					class="search-trigger"
+					onclick={() => (searchOpen = true)}
+					aria-label={$_('nav.searchOpen')}
+				>
+					<svg
+						width="14"
+						height="14"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+					>
 						<circle cx="11" cy="11" r="8" />
 						<line x1="21" y1="21" x2="16.65" y2="16.65" />
 					</svg>
@@ -261,7 +310,12 @@
 					{$_('nav.updateText')}
 				</span>
 				<a href="/changelog" class="update-link" onclick={dismissBanner}>{$_('nav.changelog')}</a>
-				<button type="button" class="update-close" onclick={dismissBanner} aria-label={$_('nav.close')}>×</button>
+				<button
+					type="button"
+					class="update-close"
+					onclick={dismissBanner}
+					aria-label={$_('nav.close')}>×</button
+				>
 			</div>
 		{/if}
 
@@ -336,7 +390,9 @@
 			<line x1="12" y1="4" x2="12" y2="20" />
 		{:else if name === 'settings'}
 			<circle cx="12" cy="12" r="3" />
-			<path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+			<path
+				d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"
+			/>
 		{:else if name === 'log-out'}
 			<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
 			<polyline points="16 17 21 12 16 7" />
@@ -467,7 +523,9 @@
 		padding: 0.375rem 0.75rem;
 		border-radius: 0.375rem;
 		letter-spacing: 0.03em;
-		transition: color 0.15s, background 0.15s;
+		transition:
+			color 0.15s,
+			background 0.15s;
 		margin-top: 2px;
 	}
 
@@ -498,7 +556,9 @@
 		font-family: inherit;
 	}
 
-	.fav-toggle:hover { color: #ca8a04; }
+	.fav-toggle:hover {
+		color: #ca8a04;
+	}
 
 	.fav-count {
 		background: color-mix(in srgb, #eab308 20%, transparent);
@@ -516,7 +576,9 @@
 		transition: transform 0.2s;
 	}
 
-	.fav-chevron--open { transform: rotate(180deg); }
+	.fav-chevron--open {
+		transform: rotate(180deg);
+	}
 
 	.fav-list {
 		display: flex;
@@ -535,11 +597,14 @@
 		text-decoration: none;
 		color: var(--muted);
 		font-size: 0.8rem;
-		transition: background 0.15s, color 0.15s;
+		transition:
+			background 0.15s,
+			color 0.15s;
 		overflow: hidden;
 	}
 
-	.fav-item:hover, .fav-item.active {
+	.fav-item:hover,
+	.fav-item.active {
 		background: var(--surface-hover);
 		color: var(--text);
 	}
@@ -557,11 +622,21 @@
 		flex-shrink: 0;
 	}
 
-	.fav-type-dot[data-type='artikel']    { background: #2563eb; }
-	.fav-type-dot[data-type='rechner']    { background: #0d9488; }
-	.fav-type-dot[data-type='konverter']  { background: #ea580c; }
-	.fav-type-dot[data-type='referenz']   { background: #0891b2; }
-	.fav-type-dot[data-type='checkliste'] { background: #7c3aed; }
+	.fav-type-dot[data-type='artikel'] {
+		background: #2563eb;
+	}
+	.fav-type-dot[data-type='rechner'] {
+		background: #0d9488;
+	}
+	.fav-type-dot[data-type='konverter'] {
+		background: #ea580c;
+	}
+	.fav-type-dot[data-type='referenz'] {
+		background: #0891b2;
+	}
+	.fav-type-dot[data-type='checkliste'] {
+		background: #7c3aed;
+	}
 
 	/* ── Main ── */
 	.main-wrapper {
@@ -597,7 +672,9 @@
 		text-decoration: none;
 		padding: 0.3rem 0.6rem;
 		border-radius: 0.375rem;
-		transition: background 0.15s, color 0.15s;
+		transition:
+			background 0.15s,
+			color 0.15s;
 	}
 
 	.user-badge:hover {
@@ -617,7 +694,8 @@
 	.nav-item--admin {
 		color: #7c3aed;
 	}
-	.nav-item--admin:hover, .nav-item--admin.active {
+	.nav-item--admin:hover,
+	.nav-item--admin.active {
 		background: color-mix(in srgb, #7c3aed 12%, transparent);
 		color: #7c3aed;
 	}
@@ -640,7 +718,9 @@
 		font-family: inherit;
 		font-size: 0.8125rem;
 		cursor: pointer;
-		transition: border-color 0.15s, color 0.15s;
+		transition:
+			border-color 0.15s,
+			color 0.15s;
 	}
 
 	.search-trigger:hover {
@@ -671,7 +751,9 @@
 	}
 
 	@media (max-width: 480px) {
-		.main-content { padding: 0.875rem 0.75rem; }
+		.main-content {
+			padding: 0.875rem 0.75rem;
+		}
 	}
 
 	/* ── Bottom Nav (Mobile) ── */
@@ -791,12 +873,22 @@
 		.sidebar,
 		.top-bar,
 		.bottom-nav,
-		.update-banner { display: none !important; }
+		.update-banner {
+			display: none !important;
+		}
 
 		.app-shell,
-		.main-wrapper { min-height: 0 !important; height: auto !important; }
+		.main-wrapper {
+			min-height: 0 !important;
+			height: auto !important;
+		}
 
-		.main-wrapper { margin-left: 0 !important; padding-bottom: 0 !important; }
-		.main-content { padding: 0 !important; }
+		.main-wrapper {
+			margin-left: 0 !important;
+			padding-bottom: 0 !important;
+		}
+		.main-content {
+			padding: 0 !important;
+		}
 	}
 </style>

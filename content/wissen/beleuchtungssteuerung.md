@@ -4,10 +4,37 @@ title_en: Lighting Control via BA — Constant Light, Occupancy and Daylight Cur
 slug: beleuchtungssteuerung
 category: gebaeude
 subcategory: beleuchtung
-tags: [beleuchtungssteuerung, konstantlichtregelung, präsenzmelder, tageslichtsensor, lux, dali, knx, 1-10v, dimmen, energieeinsparung, tageslicht, helligkeitssensor, büro, beleuchtung, ga]
+tags:
+  [
+    beleuchtungssteuerung,
+    konstantlichtregelung,
+    präsenzmelder,
+    tageslichtsensor,
+    lux,
+    dali,
+    knx,
+    1-10v,
+    dimmen,
+    energieeinsparung,
+    tageslicht,
+    helligkeitssensor,
+    büro,
+    beleuchtung,
+    ga
+  ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [dali, knx, beschattungssteuerung, raumautomation, en15232, thermische-behaglichkeit, praesenzsensoren, helligkeitssensoren]
+related:
+  [
+    dali,
+    knx,
+    beschattungssteuerung,
+    raumautomation,
+    en15232,
+    thermische-behaglichkeit,
+    praesenzsensoren,
+    helligkeitssensoren
+  ]
 norm: [EN 12464-1, EN 15232, DIN 5035, SIA 380/4]
 updated: 2026-05-15
 lang: de
@@ -19,12 +46,12 @@ Beleuchtungssteuerung über die GA (GLT / DDC) kombiniert Licht-Komfort mit Ener
 
 ## Steuerungsstrategien im Überblick
 
-| Strategie              | Energieeinsparung | Komfort | Typischer Einsatz          |
-|------------------------|------------------:|---------|----------------------------|
-| Zeitsteuerung          | 20–30 %           | ★★☆     | Einfachste Lösung, Flure   |
-| Präsenzsteuerung       | 30–50 %           | ★★★     | Einzelbüros, WC, Korridor  |
-| Konstantlichtregelung  | 40–60 %           | ★★★     | Büros, Schulzimmer         |
-| Tageslicht + Präsenz   | 60–70 %           | ★★★     | Best Practice Büro         |
+| Strategie             | Energieeinsparung | Komfort | Typischer Einsatz         |
+| --------------------- | ----------------: | ------- | ------------------------- |
+| Zeitsteuerung         |           20–30 % | ★★☆     | Einfachste Lösung, Flure  |
+| Präsenzsteuerung      |           30–50 % | ★★★     | Einzelbüros, WC, Korridor |
+| Konstantlichtregelung |           40–60 % | ★★★     | Büros, Schulzimmer        |
+| Tageslicht + Präsenz  |           60–70 % | ★★★     | Best Practice Büro        |
 
 ---
 
@@ -36,7 +63,7 @@ Ziel: Beleuchtungsstärke im Raum konstant halten, unabhängig vom Tageslicht:
 Helligkeitssensor (Luxmeter) im Raum:
   Ist-Wert: 420 lux (Tageslicht + künstlich)
   Sollwert: 500 lux (Arbeitsplatz nach EN 12464)
-  
+
   PID-Regler → DALI-Dimmsignal erhöhen
     ↓
   Dimmwert Leuchte: 30 % → 55 %
@@ -45,14 +72,14 @@ Helligkeitssensor (Luxmeter) im Raum:
 
 **Lux-Sollwerte nach EN 12464-1:**
 
-| Bereich                    | Empfohlene Beleuchtungsstärke |
-|----------------------------|-------------------------------|
-| Büro (Bildschirmarbeit)    | 500 lux                       |
-| Schulzimmer                | 300–500 lux                   |
-| Empfang / Foyer            | 200–300 lux                   |
-| Korridor, Treppenhaus      | 100 lux                       |
-| Parking                    | 75 lux                        |
-| Lager                      | 100–200 lux                   |
+| Bereich                 | Empfohlene Beleuchtungsstärke |
+| ----------------------- | ----------------------------- |
+| Büro (Bildschirmarbeit) | 500 lux                       |
+| Schulzimmer             | 300–500 lux                   |
+| Empfang / Foyer         | 200–300 lux                   |
+| Korridor, Treppenhaus   | 100 lux                       |
+| Parking                 | 75 lux                        |
+| Lager                   | 100–200 lux                   |
 
 ---
 
@@ -62,7 +89,7 @@ Helligkeitssensor (Luxmeter) im Raum:
 PIR / Radar-Melder:
   Bewegung erkannt → Licht EIN
   Keine Bewegung für X Minuten → Licht dimmen → ausschalten
-  
+
 Typische Nachlaufzeiten:
   WC: 5–10 min
   Einzelbüro: 15–30 min
@@ -71,6 +98,7 @@ Typische Nachlaufzeiten:
 ```
 
 **PIR vs. Radar:**
+
 - PIR (Passiv-Infrarot): Erkennt Wärmebewegung, günstiger, reagiert nicht auf sehr langsame Bewegungen
 - Radar (HF, Microwave): Erkennt auch minimale Bewegungen (z.B. tippende Person), teurer, durchdringt Wände leicht
 
@@ -97,20 +125,21 @@ Erfordert DALI-2 (Farbtemperatur-Steuerung, Device Type 8) und Farbtemperatur-f�
 DDC oder KNX definiert Lichtszenen für verschiedene Nutzungen:
 
 ```
-Szene 1 "Präsentation": 
+Szene 1 "Präsentation":
   Beamer-Bereich dunkel (0 %), Wandbeleuchtung 30 %
-  
+
 Szene 2 "Normal Büro":
   Alle Leuchten Konstantlicht 500 lux
 
 Szene 3 "Reinigung":
   Alle Leuchten 100 %
-  
+
 Szene 4 "Nacht/Sicherheit":
   Notbeleuchtungspegel 10 lux an definierten Punkten
 ```
 
 Auslösung via:
+
 - Taster (KNX Gruppenadresse)
 - Zeitprogramm (GLT)
 - Präsenzmelder + Szenenlogik im DDC
@@ -119,15 +148,16 @@ Auslösung via:
 
 ## Schnittstellen und Protokolle
 
-| Schnittstelle | Typischer Einsatz                           |
-|---------------|---------------------------------------------|
-| **DALI**      | Einzelleuchten, Gruppen, Statusrückmeldung  |
-| **KNX**       | Raumautomation, Szenen, Taster-Integration  |
-| **1–10 V**    | Einfaches Dimmen (kein Feedback)            |
-| **Modbus**    | DALI-Gateway → DDC, Multizonen-Controller   |
-| **EnOcean**   | Batterielose Taster (Wandschalter ohne Kabel)|
+| Schnittstelle | Typischer Einsatz                             |
+| ------------- | --------------------------------------------- |
+| **DALI**      | Einzelleuchten, Gruppen, Statusrückmeldung    |
+| **KNX**       | Raumautomation, Szenen, Taster-Integration    |
+| **1–10 V**    | Einfaches Dimmen (kein Feedback)              |
+| **Modbus**    | DALI-Gateway → DDC, Multizonen-Controller     |
+| **EnOcean**   | Batterielose Taster (Wandschalter ohne Kabel) |
 
 **Abgrenzung DALI ↔ GA:**
+
 - DALI: steuert einzelne Leuchten (Dimmen, Ein/Aus, Gruppen, Szenen im Betriebsgerät)
 - GA/DDC: koordiniert DALI-Kreise mit Präsenz, Zeit, Beschattung, HVAC-Betriebsarten
 
@@ -135,14 +165,14 @@ Auslösung via:
 
 ## GA-Datenpunkte Beleuchtung
 
-| Datenpunkt               | Typ | Einheit | Beschreibung              |
-|--------------------------|-----|---------|---------------------------|
-| Beleuchtung Ist          | AI  | lux     | Helligkeitssensor Raum    |
-| Beleuchtung Sollwert     | AV  | lux     | Vorgabe (z.B. 500 lux)    |
-| DALI-Dimmwert            | AO  | %       | 0–100 % Dimmsignal        |
-| Präsenz erkannt          | DI  | —       | PIR/Radar-Signal          |
-| Beleuchtung Betriebsart  | AV  | —       | Normal / Szene / Manuell  |
-| Beleuchtung Energie      | AI  | kWh     | Zähler (Submetering)      |
+| Datenpunkt              | Typ | Einheit | Beschreibung             |
+| ----------------------- | --- | ------- | ------------------------ |
+| Beleuchtung Ist         | AI  | lux     | Helligkeitssensor Raum   |
+| Beleuchtung Sollwert    | AV  | lux     | Vorgabe (z.B. 500 lux)   |
+| DALI-Dimmwert           | AO  | %       | 0–100 % Dimmsignal       |
+| Präsenz erkannt         | DI  | —       | PIR/Radar-Signal         |
+| Beleuchtung Betriebsart | AV  | —       | Normal / Szene / Manuell |
+| Beleuchtung Energie     | AI  | kWh     | Zähler (Submetering)     |
 
 ---
 
@@ -150,12 +180,12 @@ Auslösung via:
 
 Beleuchtungssteuerung trägt stark zur GA-Effizienzklasse A (EN 15232) bei:
 
-| GA-Klasse | Beleuchtungsfunktion                              | Einsparung vs. D |
-|-----------|---------------------------------------------------|-----------------|
-| D         | Manuell EIN/AUS                                   | Referenz        |
-| C         | Zeitsteuerung + manuelle Steuerung                | 10 %            |
-| B         | Präsenz + manuelle Korrektur                      | 25 %            |
-| A         | Präsenz + Konstantlicht + Tageslichtkopplung      | 35–50 %         |
+| GA-Klasse | Beleuchtungsfunktion                         | Einsparung vs. D |
+| --------- | -------------------------------------------- | ---------------- |
+| D         | Manuell EIN/AUS                              | Referenz         |
+| C         | Zeitsteuerung + manuelle Steuerung           | 10 %             |
+| B         | Präsenz + manuelle Korrektur                 | 25 %             |
+| A         | Präsenz + Konstantlicht + Tageslichtkopplung | 35–50 %          |
 
 ---
 
@@ -172,12 +202,12 @@ Lighting control through the BA system (BMS / DDC) combines lighting comfort wit
 
 ## Control Strategies Overview
 
-| Strategy | Energy saving | Comfort | Typical application |
-|----------|-------------|---------|-------------------|
-| Time scheduling | 20–30 % | ★★☆ | Simplest solution, corridors |
-| Occupancy control | 30–50 % | ★★★ | Private offices, WC, corridors |
-| Constant light control | 40–60 % | ★★★ | Offices, classrooms |
-| Daylight + occupancy | 60–70 % | ★★★ | Best practice office |
+| Strategy               | Energy saving | Comfort | Typical application            |
+| ---------------------- | ------------- | ------- | ------------------------------ |
+| Time scheduling        | 20–30 %       | ★★☆     | Simplest solution, corridors   |
+| Occupancy control      | 30–50 %       | ★★★     | Private offices, WC, corridors |
+| Constant light control | 40–60 %       | ★★★     | Offices, classrooms            |
+| Daylight + occupancy   | 60–70 %       | ★★★     | Best practice office           |
 
 ---
 
@@ -189,7 +219,7 @@ Goal: maintain constant illuminance in the room regardless of daylight:
 Illuminance sensor (lux meter) in room:
   Actual: 420 lux (daylight + artificial)
   Setpoint: 500 lux (workstation per EN 12464)
-  
+
   PID controller → increase DALI dimming signal
     ↓
   Luminaire dimming level: 30 % → 55 %
@@ -198,14 +228,14 @@ Illuminance sensor (lux meter) in room:
 
 **Lux setpoints per EN 12464-1:**
 
-| Area | Recommended illuminance |
-|------|------------------------|
-| Office (screen work) | 500 lux |
-| Classroom | 300–500 lux |
-| Reception / lobby | 200–300 lux |
-| Corridor, stairwell | 100 lux |
-| Car park | 75 lux |
-| Storage | 100–200 lux |
+| Area                 | Recommended illuminance |
+| -------------------- | ----------------------- |
+| Office (screen work) | 500 lux                 |
+| Classroom            | 300–500 lux             |
+| Reception / lobby    | 200–300 lux             |
+| Corridor, stairwell  | 100 lux                 |
+| Car park             | 75 lux                  |
+| Storage              | 100–200 lux             |
 
 ---
 
@@ -215,7 +245,7 @@ Illuminance sensor (lux meter) in room:
 PIR / radar detector:
   Movement detected → lights ON
   No movement for X minutes → dim lights → switch off
-  
+
 Typical hold-on times:
   WC: 5–10 min
   Private office: 15–30 min
@@ -224,6 +254,7 @@ Typical hold-on times:
 ```
 
 **PIR vs. radar:**
+
 - PIR (passive infrared): detects heat movement, lower cost, does not detect very slow movements
 - Radar (HF, microwave): detects even minimal movement (e.g. person typing), higher cost, slightly penetrates walls
 
@@ -252,18 +283,19 @@ DDC or KNX defines lighting scenes for different uses:
 ```
 Scene 1 "Presentation":
   Projector area dark (0 %), wall lighting 30 %
-  
+
 Scene 2 "Normal office":
   All luminaires constant light 500 lux
 
 Scene 3 "Cleaning":
   All luminaires 100 %
-  
+
 Scene 4 "Night/security":
   Emergency lighting level 10 lux at defined points
 ```
 
 Triggering via:
+
 - Push-button (KNX group address)
 - Time schedule (BMS)
 - Occupancy detector + scene logic in DDC
@@ -272,15 +304,16 @@ Triggering via:
 
 ## Interfaces and Protocols
 
-| Interface | Typical application |
-|----------|-------------------|
-| **DALI** | Individual luminaires, groups, status feedback |
-| **KNX** | Room automation, scenes, push-button integration |
-| **1–10 V** | Simple dimming (no feedback) |
-| **Modbus** | DALI gateway → DDC, multi-zone controller |
+| Interface   | Typical application                                |
+| ----------- | -------------------------------------------------- |
+| **DALI**    | Individual luminaires, groups, status feedback     |
+| **KNX**     | Room automation, scenes, push-button integration   |
+| **1–10 V**  | Simple dimming (no feedback)                       |
+| **Modbus**  | DALI gateway → DDC, multi-zone controller          |
 | **EnOcean** | Battery-free push-buttons (wireless wall switches) |
 
 **Distinction DALI ↔ BA:**
+
 - DALI: controls individual luminaires (dimming, on/off, groups, scenes in the ballast)
 - BA/DDC: coordinates DALI circuits with occupancy, scheduling, shading, HVAC operating modes
 
@@ -288,14 +321,14 @@ Triggering via:
 
 ## BA Data Points — Lighting
 
-| Data point | Type | Unit | Description |
-|-----------|------|------|------------|
-| Illuminance actual | AI | lux | Room illuminance sensor |
-| Illuminance setpoint | AV | lux | Target (e.g. 500 lux) |
-| DALI dimming value | AO | % | 0–100 % dimming signal |
-| Occupancy detected | DI | — | PIR/radar signal |
-| Lighting operating mode | AV | — | Normal / scene / manual |
-| Lighting energy | AI | kWh | Sub-metering counter |
+| Data point              | Type | Unit | Description             |
+| ----------------------- | ---- | ---- | ----------------------- |
+| Illuminance actual      | AI   | lux  | Room illuminance sensor |
+| Illuminance setpoint    | AV   | lux  | Target (e.g. 500 lux)   |
+| DALI dimming value      | AO   | %    | 0–100 % dimming signal  |
+| Occupancy detected      | DI   | —    | PIR/radar signal        |
+| Lighting operating mode | AV   | —    | Normal / scene / manual |
+| Lighting energy         | AI   | kWh  | Sub-metering counter    |
 
 ---
 
@@ -303,12 +336,12 @@ Triggering via:
 
 Lighting control contributes strongly to BA efficiency class A (EN 15232):
 
-| BA class | Lighting function | Saving vs. D |
-|---------|-----------------|-------------|
-| D | Manual on/off | Reference |
-| C | Time scheduling + manual control | 10 % |
-| B | Occupancy + manual correction | 25 % |
-| A | Occupancy + constant light + daylight coupling | 35–50 % |
+| BA class | Lighting function                              | Saving vs. D |
+| -------- | ---------------------------------------------- | ------------ |
+| D        | Manual on/off                                  | Reference    |
+| C        | Time scheduling + manual control               | 10 %         |
+| B        | Occupancy + manual correction                  | 25 %         |
+| A        | Occupancy + constant light + daylight coupling | 35–50 %      |
 
 ---
 

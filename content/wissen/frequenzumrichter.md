@@ -4,7 +4,24 @@ title_en: Variable Speed Drives (VSD) in HVAC
 slug: frequenzumrichter
 category: regelung
 subcategory: antriebe
-tags: [frequenzumrichter, fu, vfd, umrichter, drehzahlregelung, u-f-kennlinie, pid, motordrehzahl, pumpe, ventilator, emv, modbus, bacnet, anlaufstrom, energiesparen]
+tags:
+  [
+    frequenzumrichter,
+    fu,
+    vfd,
+    umrichter,
+    drehzahlregelung,
+    u-f-kennlinie,
+    pid,
+    motordrehzahl,
+    pumpe,
+    ventilator,
+    emv,
+    modbus,
+    bacnet,
+    anlaufstrom,
+    energiesparen
+  ]
 difficulty: fortgeschritten
 area: [hlk, elektro, ga]
 related: [pid-regler, modbus, bacnet, profibus, can-bus]
@@ -33,11 +50,11 @@ Der Wechselrichter erzeugt durch **Pulsweitenmodulation (PWM)** eine quasi-sinus
 
 Für Kreiselpumpen und Ventilatoren gelten die Ähnlichkeitsgesetze:
 
-| Grösse        | Relation       | Bedeutung                                      |
-|---------------|----------------|------------------------------------------------|
-| Volumenstrom  | V̇ ~ n          | Halbierung Drehzahl → halber Durchfluss        |
-| Förderhöhe    | H ~ n²         | Halbierung Drehzahl → Viertel Förderhöhe       |
-| **Leistung**  | **P ~ n³**     | **Halbierung Drehzahl → 1/8 Leistung!**        |
+| Grösse       | Relation   | Bedeutung                                |
+| ------------ | ---------- | ---------------------------------------- |
+| Volumenstrom | V̇ ~ n      | Halbierung Drehzahl → halber Durchfluss  |
+| Förderhöhe   | H ~ n²     | Halbierung Drehzahl → Viertel Förderhöhe |
+| **Leistung** | **P ~ n³** | **Halbierung Drehzahl → 1/8 Leistung!**  |
 
 > 💡 **Praxisbeispiel:** Ventilator bei 100 % Drehzahl: 7,5 kW. Bei 75 % Drehzahl: 7,5 × 0,75³ = **3,2 kW**. Energieeinsparung: 57 %!
 
@@ -54,11 +71,13 @@ Das macht FU-Regelung bei Ventilatoren und Pumpen so wirkungsvoll.
 ### Integrierter PID-Regler
 
 Die meisten modernen FU haben einen eiggebauten PID-Regler:
+
 - **Istwert-Eingang:** Druckgeber, Temperatursensor (analog oder Bus)
 - **Sollwert:** Fest parametriert oder über Analogeingang / Bus vorgegeben
 - **Ausgang:** Interne Drehzahlregelung
 
 Beispiel: Pumpendruckregelung ohne externe SPS:
+
 ```
 Drucksensor (4–20 mA) → FU-Analogeingang
 Drucksollwert (z.B. 2,5 bar) → FU-Parameter
@@ -67,12 +86,12 @@ FU regelt Drehzahl selbst, sodass p_ist = p_soll
 
 ### Motorsteuerungs-Varianten (U/f vs. Feldorientiert)
 
-| Verfahren             | Beschreibung                                  | Einsatz                    |
-|-----------------------|-----------------------------------------------|----------------------------|
-| **U/f (linear)**      | Spannung proportional zur Frequenz            | Pumpen, Ventilatoren       |
-| **U/f (quadratisch)** | Spannung ~ f²: energieoptimiert für Lüfter   | Ventilatoren, hohe Einsparung |
-| **Sensorlose Vektorregelung** | Rechenmodell für Motor-Fluss      | Präzisere Drehmomentregelung |
-| **Closed-Loop-Vektor** | Mit Encoder-Rückführung                      | Aufzüge, Präzisionsantriebe |
+| Verfahren                     | Beschreibung                               | Einsatz                       |
+| ----------------------------- | ------------------------------------------ | ----------------------------- |
+| **U/f (linear)**              | Spannung proportional zur Frequenz         | Pumpen, Ventilatoren          |
+| **U/f (quadratisch)**         | Spannung ~ f²: energieoptimiert für Lüfter | Ventilatoren, hohe Einsparung |
+| **Sensorlose Vektorregelung** | Rechenmodell für Motor-Fluss               | Präzisere Drehmomentregelung  |
+| **Closed-Loop-Vektor**        | Mit Encoder-Rückführung                    | Aufzüge, Präzisionsantriebe   |
 
 Für HLK-Anwendungen reicht **U/f** in der Regel vollkommen aus.
 
@@ -90,14 +109,14 @@ Für HLK-Anwendungen reicht **U/f** in der Regel vollkommen aus.
 
 ## Schutzfunktionen
 
-| Schutz                    | Beschreibung                                             |
-|---------------------------|----------------------------------------------------------|
-| Überstromschutz           | Abschaltung bei I > I_max                                |
-| Überspannungsschutz       | DC-Bus zu hoch (z.B. bei generatorischem Betrieb)        |
-| Unterspannungsschutz      | Netzausfall, zu niedrige Versorgung                      |
-| Übertemperaturschutz      | FU-Innentemperatur, Motorthermistor (PTC)                |
-| Blockierschutz            | Motor dreht nicht → Überstrom ohne Drehzahl              |
-| Kurzschlussschutz         | Phasenkurzschluss am Ausgang                             |
+| Schutz               | Beschreibung                                      |
+| -------------------- | ------------------------------------------------- |
+| Überstromschutz      | Abschaltung bei I > I_max                         |
+| Überspannungsschutz  | DC-Bus zu hoch (z.B. bei generatorischem Betrieb) |
+| Unterspannungsschutz | Netzausfall, zu niedrige Versorgung               |
+| Übertemperaturschutz | FU-Innentemperatur, Motorthermistor (PTC)         |
+| Blockierschutz       | Motor dreht nicht → Überstrom ohne Drehzahl       |
+| Kurzschlussschutz    | Phasenkurzschluss am Ausgang                      |
 
 ## EMV — Elektromagnetische Verträglichkeit
 
@@ -115,30 +134,30 @@ FU erzeugen durch PWM erhebliche **leitungsgebundene und abgestrahlte Störungen
 
 Die meisten FU-Hersteller (Danfoss, ABB, Siemens, Schneider) bieten Modbus RTU:
 
-| Datenpunkt               | Typ    | Typisches Register       |
-|--------------------------|--------|--------------------------|
-| Drehzahl-Sollwert        | Soll   | Holding Register         |
-| Drehzahl-Istwert         | Ist    | Input Register           |
-| Ausgangsfrequenz [Hz]    | Ist    | Input Register           |
-| Ausgangsstrom [A]        | Ist    | Input Register           |
-| Ausgangsleistung [kW]    | Ist    | Input Register           |
-| Betriebsstunden [h]      | Ist    | Input Register           |
-| Statuswort               | Ist    | Input Register           |
-| Fehlercode               | Ist    | Input Register           |
-| Steuerung Start/Stop     | Soll   | Holding Register         |
+| Datenpunkt            | Typ  | Typisches Register |
+| --------------------- | ---- | ------------------ |
+| Drehzahl-Sollwert     | Soll | Holding Register   |
+| Drehzahl-Istwert      | Ist  | Input Register     |
+| Ausgangsfrequenz [Hz] | Ist  | Input Register     |
+| Ausgangsstrom [A]     | Ist  | Input Register     |
+| Ausgangsleistung [kW] | Ist  | Input Register     |
+| Betriebsstunden [h]   | Ist  | Input Register     |
+| Statuswort            | Ist  | Input Register     |
+| Fehlercode            | Ist  | Input Register     |
+| Steuerung Start/Stop  | Soll | Holding Register   |
 
 > **Statuswort** auswerten: Enthält typisch Betrieb, Drehzahl erreicht, Fehler, Handsteuerung aktiv — wichtig für Betriebsmeldung in der GLT.
 
 ## Häufige Fehler & Diagnose
 
-| Fehlermeldung           | Ursache                                           | Massnahme                              |
-|-------------------------|---------------------------------------------------|----------------------------------------|
-| Überstrom (OC)          | Rampe zu kurz, Motor blockiert, Kabelkurzschluss  | Rampenzeit erhöhen, Motor prüfen       |
-| Überspannung (OV)       | Auslaufzeit zu kurz (Generator-Betrieb), Netzspike| Bremsrampe verlängern, Bremswiderstand |
-| Übertemperatur (OH)     | Lüftung blockiert, Umgebung zu heiss, FU zu klein | Reinigen, Lüfter prüfen, FU ersetzen   |
-| Motorübertemperatur     | PTC-Signal: Motor zu heiss                        | Belastung reduzieren, Kühlung prüfen   |
-| Netzausfall (UV)        | Netzspannung zu gering                            | USV? Netz prüfen                       |
-| Kommunikationsfehler    | Busverbindung unterbrochen                        | Verdrahtung, Adresse, Terminierung     |
+| Fehlermeldung        | Ursache                                            | Massnahme                              |
+| -------------------- | -------------------------------------------------- | -------------------------------------- |
+| Überstrom (OC)       | Rampe zu kurz, Motor blockiert, Kabelkurzschluss   | Rampenzeit erhöhen, Motor prüfen       |
+| Überspannung (OV)    | Auslaufzeit zu kurz (Generator-Betrieb), Netzspike | Bremsrampe verlängern, Bremswiderstand |
+| Übertemperatur (OH)  | Lüftung blockiert, Umgebung zu heiss, FU zu klein  | Reinigen, Lüfter prüfen, FU ersetzen   |
+| Motorübertemperatur  | PTC-Signal: Motor zu heiss                         | Belastung reduzieren, Kühlung prüfen   |
+| Netzausfall (UV)     | Netzspannung zu gering                             | USV? Netz prüfen                       |
+| Kommunikationsfehler | Busverbindung unterbrochen                         | Verdrahtung, Adresse, Terminierung     |
 
 ## Normen
 
@@ -166,11 +185,11 @@ The inverter uses **pulse width modulation (PWM)** to generate a quasi-sinusoida
 
 For centrifugal pumps and fans the affinity laws apply:
 
-| Quantity | Relationship | Meaning |
-|----------|-------------|---------|
-| Flow rate | Q̇ ~ n | Halving speed → half flow |
-| Head | H ~ n² | Halving speed → quarter head |
-| **Power** | **P ~ n³** | **Halving speed → 1/8 power!** |
+| Quantity  | Relationship | Meaning                        |
+| --------- | ------------ | ------------------------------ |
+| Flow rate | Q̇ ~ n        | Halving speed → half flow      |
+| Head      | H ~ n²       | Halving speed → quarter head   |
+| **Power** | **P ~ n³**   | **Halving speed → 1/8 power!** |
 
 > 💡 **Practical example:** Fan at 100% speed: 7.5 kW. At 75% speed: 7.5 × 0.75³ = **3.2 kW**. Energy saving: 57%!
 
@@ -187,11 +206,13 @@ This is what makes VSD control so effective for fans and pumps.
 ### Integrated PID Controller
 
 Most modern VSDs have a built-in PID controller:
+
 - **Actual value input:** Pressure transmitter, temperature sensor (analogue or bus)
 - **Setpoint:** Fixed parameter or via analogue input / bus
 - **Output:** Internal speed control
 
 Example: pump pressure control without external PLC:
+
 ```
 Pressure sensor (4–20 mA) → VSD analogue input
 Pressure setpoint (e.g. 2.5 bar) → VSD parameter
@@ -200,12 +221,12 @@ VSD controls speed so that p_actual = p_setpoint
 
 ### Motor Control Variants (V/f vs. Field-Oriented)
 
-| Method | Description | Application |
-|--------|------------|------------|
-| **V/f (linear)** | Voltage proportional to frequency | Pumps, fans |
-| **V/f (quadratic)** | Voltage ~ f²: energy-optimised for fans | Fans, high savings |
-| **Sensorless vector** | Computational model for motor flux | More precise torque control |
-| **Closed-loop vector** | With encoder feedback | Lifts, precision drives |
+| Method                 | Description                             | Application                 |
+| ---------------------- | --------------------------------------- | --------------------------- |
+| **V/f (linear)**       | Voltage proportional to frequency       | Pumps, fans                 |
+| **V/f (quadratic)**    | Voltage ~ f²: energy-optimised for fans | Fans, high savings          |
+| **Sensorless vector**  | Computational model for motor flux      | More precise torque control |
+| **Closed-loop vector** | With encoder feedback                   | Lifts, precision drives     |
 
 For HVAC applications **V/f** is generally fully adequate.
 
@@ -223,14 +244,14 @@ For HVAC applications **V/f** is generally fully adequate.
 
 ## Protection Functions
 
-| Protection | Description |
-|-----------|------------|
-| Overcurrent | Shutdown when I > I_max |
-| Overvoltage | DC link too high (e.g. during regenerative braking) |
-| Undervoltage | Mains failure, supply too low |
-| Overtemperature | VSD internal temperature, motor thermistor (PTC) |
-| Stall protection | Motor not rotating → overcurrent without speed |
-| Short-circuit protection | Phase short circuit at output |
+| Protection               | Description                                         |
+| ------------------------ | --------------------------------------------------- |
+| Overcurrent              | Shutdown when I > I_max                             |
+| Overvoltage              | DC link too high (e.g. during regenerative braking) |
+| Undervoltage             | Mains failure, supply too low                       |
+| Overtemperature          | VSD internal temperature, motor thermistor (PTC)    |
+| Stall protection         | Motor not rotating → overcurrent without speed      |
+| Short-circuit protection | Phase short circuit at output                       |
 
 ## EMC — Electromagnetic Compatibility
 
@@ -248,30 +269,30 @@ VSDs generate significant **conducted and radiated interference** through PWM:
 
 Most VSD manufacturers (Danfoss, ABB, Siemens, Schneider) offer Modbus RTU:
 
-| Data point | Type | Typical register |
-|------------|------|-----------------|
-| Speed setpoint | Output | Holding register |
-| Actual speed | Input | Input register |
-| Output frequency [Hz] | Input | Input register |
-| Output current [A] | Input | Input register |
-| Output power [kW] | Input | Input register |
-| Operating hours [h] | Input | Input register |
-| Status word | Input | Input register |
-| Fault code | Input | Input register |
-| Start/stop command | Output | Holding register |
+| Data point            | Type   | Typical register |
+| --------------------- | ------ | ---------------- |
+| Speed setpoint        | Output | Holding register |
+| Actual speed          | Input  | Input register   |
+| Output frequency [Hz] | Input  | Input register   |
+| Output current [A]    | Input  | Input register   |
+| Output power [kW]     | Input  | Input register   |
+| Operating hours [h]   | Input  | Input register   |
+| Status word           | Input  | Input register   |
+| Fault code            | Input  | Input register   |
+| Start/stop command    | Output | Holding register |
 
 > **Status word:** Typically contains running, speed reached, fault, manual override active — important for operating status in the BMS.
 
 ## Common Faults and Diagnostics
 
-| Fault message | Cause | Remedy |
-|--------------|-------|--------|
-| Overcurrent (OC) | Ramp too short, motor blocked, cable short | Increase ramp time, check motor |
-| Overvoltage (OV) | Deceleration too short (regenerative), mains spike | Extend braking ramp, add braking resistor |
-| Overtemperature (OH) | Ventilation blocked, ambient too hot, VSD undersized | Clean, check fan, replace VSD |
-| Motor overtemperature | PTC signal: motor too hot | Reduce load, check cooling |
-| Mains failure (UV) | Supply voltage too low | UPS? Check mains |
-| Communication fault | Bus connection interrupted | Wiring, address, termination |
+| Fault message         | Cause                                                | Remedy                                    |
+| --------------------- | ---------------------------------------------------- | ----------------------------------------- |
+| Overcurrent (OC)      | Ramp too short, motor blocked, cable short           | Increase ramp time, check motor           |
+| Overvoltage (OV)      | Deceleration too short (regenerative), mains spike   | Extend braking ramp, add braking resistor |
+| Overtemperature (OH)  | Ventilation blocked, ambient too hot, VSD undersized | Clean, check fan, replace VSD             |
+| Motor overtemperature | PTC signal: motor too hot                            | Reduce load, check cooling                |
+| Mains failure (UV)    | Supply voltage too low                               | UPS? Check mains                          |
+| Communication fault   | Bus connection interrupted                           | Wiring, address, termination              |
 
 ## Standards
 

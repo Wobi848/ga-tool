@@ -19,8 +19,8 @@ export interface ArticleMeta {
 }
 
 export interface Article extends ArticleMeta {
-	body: string;    // full raw markdown (kept for search compat)
-	bodyDe: string;  // German section
+	body: string; // full raw markdown (kept for search compat)
+	bodyDe: string; // German section
 	bodyEn?: string; // English section (if <!-- EN --> marker present)
 }
 

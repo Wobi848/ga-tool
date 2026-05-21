@@ -4,7 +4,25 @@ title_en: Smoke Extraction and SHEV — Smoke and Heat Exhaust Systems
 slug: entrauchung-rwa
 category: lueftung
 subcategory: brandschutz
-tags: [entrauchung, rwa, rauchabzug, rauchabzugsanlage, nrwa, mrwa, überdruck, unterdruck, brandschutz, feuerwehr, freigabe, verriegelung, bsk, lüftungsanlage, sicherheitsbeleuchtung, vds2098]
+tags:
+  [
+    entrauchung,
+    rwa,
+    rauchabzug,
+    rauchabzugsanlage,
+    nrwa,
+    mrwa,
+    überdruck,
+    unterdruck,
+    brandschutz,
+    feuerwehr,
+    freigabe,
+    verriegelung,
+    bsk,
+    lüftungsanlage,
+    sicherheitsbeleuchtung,
+    vds2098
+  ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [brandschutzklappen, rlt-anlage, zonendruckhaltung, glt-grundlagen, alarmmanagement]
@@ -48,14 +66,14 @@ Gleichzeitig: Zuluft durch separate Anlage oder Öffnungen
 
 ## Komponenten
 
-| Komponente                 | Funktion                                        |
-|----------------------------|-------------------------------------------------|
-| Rauchklappen (RKL)         | Öffnen für Rauchabzug (NC = Normally Closed)   |
-| Zuluftelemente             | Nachströmöffnungen unten                        |
-| Brandschutzklappen (BSK)   | Verhindern Rauchausbreitung im Kanal (NC)       |
-| RWA-Zentrale               | Auslösung, Überwachung, Meldung an GLT          |
-| Hochtemperatur-Ventilator  | Nur MRWA: fördert Rauch/Heissgas                |
-| Handauslösetaster (HAT)    | Manuelle Auslösung an jeder Zone                |
+| Komponente                | Funktion                                     |
+| ------------------------- | -------------------------------------------- |
+| Rauchklappen (RKL)        | Öffnen für Rauchabzug (NC = Normally Closed) |
+| Zuluftelemente            | Nachströmöffnungen unten                     |
+| Brandschutzklappen (BSK)  | Verhindern Rauchausbreitung im Kanal (NC)    |
+| RWA-Zentrale              | Auslösung, Überwachung, Meldung an GLT       |
+| Hochtemperatur-Ventilator | Nur MRWA: fördert Rauch/Heissgas             |
+| Handauslösetaster (HAT)   | Manuelle Auslösung an jeder Zone             |
 
 ---
 
@@ -87,7 +105,7 @@ Brand-Auslösung:
     → Umluft SPERREN (kein Rauchkreislauf)
     → Lüftungs-FU auf 0 (Abschaltung)
     → Entrauchungsventilator STARTEN (wenn vorhanden)
-    
+
   AUSNAHME: Überdruckanlagen Treppenhaus
     → Zuluft-Ventilator WEITERLÄUFT (hält Überdruck aufrecht)
 ```
@@ -114,15 +132,15 @@ Andere Zonen: bleiben im Normalbetrieb (Verhinderung Rauchausbreitung)
 
 ## GA-Datenpunkte RWA / Entrauchung
 
-| Datenpunkt                 | Typ | Einheit | Beschreibung                      |
-|----------------------------|-----|---------|-----------------------------------|
-| Brand-Alarm Zone 1         | DI  | —       | BMZ / RWA-Zentrale Auslösung      |
-| Entrauchung aktiv Zone 1   | DI  | —       | Rückmeldung RWA läuft             |
-| Lüftung Betriebsart        | AV  | —       | Normal / Brand / Aus              |
-| RWA-Zentrale Störung       | DI  | —       | Zentrale defekt / Netzausfall     |
-| Rauchklappe RKL-01 Status  | DI  | —       | Auf / Zu Rückmeldung              |
-| Entrauchungsventilator      | DO  | —       | Ein/Aus                           |
-| Entrauchungsventilator Laufmeldung | DI | — | Motorschutz-Rückmeldung         |
+| Datenpunkt                         | Typ | Einheit | Beschreibung                  |
+| ---------------------------------- | --- | ------- | ----------------------------- |
+| Brand-Alarm Zone 1                 | DI  | —       | BMZ / RWA-Zentrale Auslösung  |
+| Entrauchung aktiv Zone 1           | DI  | —       | Rückmeldung RWA läuft         |
+| Lüftung Betriebsart                | AV  | —       | Normal / Brand / Aus          |
+| RWA-Zentrale Störung               | DI  | —       | Zentrale defekt / Netzausfall |
+| Rauchklappe RKL-01 Status          | DI  | —       | Auf / Zu Rückmeldung          |
+| Entrauchungsventilator             | DO  | —       | Ein/Aus                       |
+| Entrauchungsventilator Laufmeldung | DI  | —       | Motorschutz-Rückmeldung       |
 
 > ⚠️ RWA-Datenpunkte müssen in der GLT **im Alarm-Kanal "Kritisch"** konfiguriert sein. Keine Unterdrückung, keine Zeitverzögerung.
 
@@ -137,7 +155,7 @@ Treppenhaus-Überdruckanlage:
   Sollwert: 50 Pa Überdruck gegenüber Brandabschnitt
   Ventilator: Zuluft von aussen → Treppenhaus
   Regelung: Druckdifferenzsensor Treppenhaus / Korridor
-  
+
   Türöffnung: Druck fällt kurz → Regelung erhöht Volumenstrom
   Max. Druck: 80 Pa (sonst Türe nicht mehr öffenbar → max. 100 N Öffnungskraft)
 ```
@@ -146,15 +164,15 @@ Treppenhaus-Überdruckanlage:
 
 ## Normen und Anforderungen
 
-| Norm              | Inhalt                                          |
-|-------------------|-------------------------------------------------|
-| **EN 12101-1**    | Schlauchabschlüsse, Anforderungen RWA           |
-| **EN 12101-2**    | NRWA — natürliche Entrauchungsklappen           |
-| **EN 12101-3**    | MRWA — maschinelle Entrauchungsventilatoren     |
-| **EN 12101-6**    | Druckdifferenz-Systeme (Überdruck Fluchtwege)  |
-| **VDI 6019**      | Maschinelle Entrauchung — Planung und Betrieb   |
-| **MBO § 35**      | Notwendige Treppenhäuser (Rauchschutz)          |
-| **VKF (CH)**      | Brandschutzrichtlinien Schweiz — Entrauchung    |
+| Norm           | Inhalt                                        |
+| -------------- | --------------------------------------------- |
+| **EN 12101-1** | Schlauchabschlüsse, Anforderungen RWA         |
+| **EN 12101-2** | NRWA — natürliche Entrauchungsklappen         |
+| **EN 12101-3** | MRWA — maschinelle Entrauchungsventilatoren   |
+| **EN 12101-6** | Druckdifferenz-Systeme (Überdruck Fluchtwege) |
+| **VDI 6019**   | Maschinelle Entrauchung — Planung und Betrieb |
+| **MBO § 35**   | Notwendige Treppenhäuser (Rauchschutz)        |
+| **VKF (CH)**   | Brandschutzrichtlinien Schweiz — Entrauchung  |
 
 ---
 
@@ -200,14 +218,14 @@ Simultaneously: fresh air via separate system or openings
 
 ## Components
 
-| Component | Function |
-|----------|---------|
-| Smoke vents (SV) | Open for smoke extraction (NC = Normally Closed) |
-| Make-up air inlets | Underfloor supply openings |
-| Fire dampers (FD) | Prevent smoke spread in duct (NC) |
-| SHEV control panel | Triggering, monitoring, reporting to BMS |
-| High-temperature fan | MSHEV only: extracts smoke/hot gas |
-| Manual release button (MRB) | Manual activation at each zone |
+| Component                   | Function                                         |
+| --------------------------- | ------------------------------------------------ |
+| Smoke vents (SV)            | Open for smoke extraction (NC = Normally Closed) |
+| Make-up air inlets          | Underfloor supply openings                       |
+| Fire dampers (FD)           | Prevent smoke spread in duct (NC)                |
+| SHEV control panel          | Triggering, monitoring, reporting to BMS         |
+| High-temperature fan        | MSHEV only: extracts smoke/hot gas               |
+| Manual release button (MRB) | Manual activation at each zone                   |
 
 ---
 
@@ -239,7 +257,7 @@ Fire activation:
     → Disable recirculation (no smoke recirculation)
     → VSD to 0 (shutdown)
     → Start smoke extraction fan (if present)
-    
+
   EXCEPTION: Stairwell pressurisation systems
     → Supply fan CONTINUES RUNNING (maintains positive pressure)
 ```
@@ -266,15 +284,15 @@ Other zones: remain in normal operation (prevent smoke spread)
 
 ## BA Data Points — SHEV / Smoke Extraction
 
-| Data point | Type | Unit | Description |
-|-----------|------|------|------------|
-| Fire alarm zone 1 | DI | — | FAP / SHEV panel activation |
-| Smoke extraction active zone 1 | DI | — | SHEV running feedback |
-| Ventilation operating mode | AV | — | Normal / fire / off |
-| SHEV panel fault | DI | — | Panel defective / power failure |
-| Smoke vent SV-01 status | DI | — | Open / closed feedback |
-| Smoke extraction fan | DO | — | On/off |
-| Smoke extraction fan run | DI | — | Motor protection feedback |
+| Data point                     | Type | Unit | Description                     |
+| ------------------------------ | ---- | ---- | ------------------------------- |
+| Fire alarm zone 1              | DI   | —    | FAP / SHEV panel activation     |
+| Smoke extraction active zone 1 | DI   | —    | SHEV running feedback           |
+| Ventilation operating mode     | AV   | —    | Normal / fire / off             |
+| SHEV panel fault               | DI   | —    | Panel defective / power failure |
+| Smoke vent SV-01 status        | DI   | —    | Open / closed feedback          |
+| Smoke extraction fan           | DO   | —    | On/off                          |
+| Smoke extraction fan run       | DI   | —    | Motor protection feedback       |
 
 > ⚠️ SHEV data points must be configured in the BMS **in the "Critical" alarm channel**. No suppression, no time delay.
 
@@ -289,7 +307,7 @@ Stairwell pressurisation system:
   Setpoint: 50 Pa positive pressure relative to fire compartment
   Fan: fresh air from outside → stairwell
   Control: differential pressure sensor stairwell / corridor
-  
+
   Door opening: pressure drops briefly → control increases volume flow
   Max. pressure: 80 Pa (otherwise door cannot be opened → max. 100 N opening force)
 ```
@@ -298,15 +316,15 @@ Stairwell pressurisation system:
 
 ## Standards and Requirements
 
-| Standard | Content |
-|---------|---------|
-| **EN 12101-1** | Hose assemblies, SHEV requirements |
-| **EN 12101-2** | NSHEV — natural smoke vents |
-| **EN 12101-3** | MSHEV — mechanical smoke extraction fans |
-| **EN 12101-6** | Differential pressure systems (stairwell pressurisation) |
-| **VDI 6019** | Mechanical smoke extraction — planning and operation |
-| **MBO § 35** (DE) | Required stairwells (smoke protection) |
-| **VKF** (CH) | Swiss fire protection guidelines — smoke extraction |
+| Standard          | Content                                                  |
+| ----------------- | -------------------------------------------------------- |
+| **EN 12101-1**    | Hose assemblies, SHEV requirements                       |
+| **EN 12101-2**    | NSHEV — natural smoke vents                              |
+| **EN 12101-3**    | MSHEV — mechanical smoke extraction fans                 |
+| **EN 12101-6**    | Differential pressure systems (stairwell pressurisation) |
+| **VDI 6019**      | Mechanical smoke extraction — planning and operation     |
+| **MBO § 35** (DE) | Required stairwells (smoke protection)                   |
+| **VKF** (CH)      | Swiss fire protection guidelines — smoke extraction      |
 
 ---
 

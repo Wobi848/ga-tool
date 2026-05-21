@@ -4,7 +4,25 @@ title_en: Proxmox — Virtualisation for BA Servers
 slug: proxmox
 category: it
 subcategory: infrastruktur
-tags: [proxmox, virtualisierung, vm, lxc, container, hypervisor, kvm, ha, hochverfügbarkeit, snapshot, backup, ga-server, glt-server, iot, linux, debian]
+tags:
+  [
+    proxmox,
+    virtualisierung,
+    vm,
+    lxc,
+    container,
+    hypervisor,
+    kvm,
+    ha,
+    hochverfügbarkeit,
+    snapshot,
+    backup,
+    ga-server,
+    glt-server,
+    iot,
+    linux,
+    debian
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [docker-ga, backup-ga, netzwerk-ga, remote-zugriff, cybersecurity-ot, glt-grundlagen]
@@ -49,13 +67,13 @@ Proxmox Host (Bare Metal)
 
 ### VMs vs. LXC Container
 
-| Merkmal          | VM (KVM)                    | LXC Container            |
-|------------------|-----------------------------|--------------------------|
-| Betriebssystem   | Vollständig (Windows/Linux) | Nur Linux                |
-| Isolation        | Sehr stark                  | Mittel                   |
-| Performance      | Overhead ~5–10 %            | Minimal (fast nativ)     |
-| Ressourcen       | Mehr RAM/CPU nötig          | Wenig Overhead           |
-| Einsatz          | Windows-Anwendungen         | Linux-Dienste            |
+| Merkmal        | VM (KVM)                    | LXC Container        |
+| -------------- | --------------------------- | -------------------- |
+| Betriebssystem | Vollständig (Windows/Linux) | Nur Linux            |
+| Isolation      | Sehr stark                  | Mittel               |
+| Performance    | Overhead ~5–10 %            | Minimal (fast nativ) |
+| Ressourcen     | Mehr RAM/CPU nötig          | Wenig Overhead       |
+| Einsatz        | Windows-Anwendungen         | Linux-Dienste        |
 
 ---
 
@@ -68,7 +86,7 @@ Vor Systemupdates / Softwareänderungen:
   1. Snapshot erstellen (30 Sekunden)
   2. Update durchführen
   3. Bei Fehler: Snapshot zurückspielen (5 Minuten)
-  
+
 CLI:
   qm snapshot <VMID> <snapname> --description "vor Update 2026-05"
   qm rollback <VMID> <snapname>
@@ -80,10 +98,10 @@ CLI:
 Backup-Strategie (3-2-1 Regel):
   Täglich: Inkrementelles Backup aller VMs → PBS (lokal)
   Wöchentlich: PBS → Offsite (NAS, Cloud)
-  
+
   Backup-Kommando (CLI):
   vzdump <VMID> --storage PBS --compress zstd --mode snapshot
-  
+
   Retention:
     Täglich: 7 Kopien
     Wöchentlich: 4 Kopien
@@ -99,7 +117,7 @@ Proxmox-Cluster (3 Nodes):
   Node 1: VM läuft hier
   Node 2: Warm-Standby
   Node 3: Quorum (Tie-Breaker)
-  
+
   Bei Ausfall Node 1:
     → VM wird automatisch auf Node 2 gestartet
     → Downtime: 30–120 Sekunden
@@ -115,13 +133,13 @@ Kleine Anlage (< 5000 Datenpunkte):
   RAM: 32 GB ECC
   SSD: 500 GB NVMe (System + VMs)
   HDD: 2 TB SATA RAID1 (Daten / Backups)
-  
+
 Mittlere Anlage (5.000–50.000 Datenpunkte):
   CPU: Xeon E-2300 oder AMD EPYC
   RAM: 64–128 GB ECC
   SSD: 2 × 1 TB NVMe (RAID1 für VMs)
   HDD: 4 × 4 TB RAID5 (Historian-Daten)
-  
+
 Betriebsumgebung:
   Lüftung: mind. 20 dB(A) ruhig (Serverraum)
   USV (UPS): mindestens 30 min Laufzeit
@@ -141,7 +159,7 @@ Proxmox Netzwerk-Setup GA:
   vmbr0: VLAN 10 (IT-Netz, GLT-Web-Interface)
   vmbr1: VLAN 20 (OT-Netz, DDC-Kommunikation BACnet)
   vmbr2: VLAN 30 (Management, Proxmox-GUI)
-  
+
   Firewall Proxmox:
     VM GLT darf nur VLAN 20 (OT) und VLAN 10 (IT mit Restriktionen)
     Kein direkter Internet-Zugang aus VLAN 20 (OT)
@@ -151,15 +169,15 @@ Proxmox Netzwerk-Setup GA:
 
 ## Typische GA-Dienste auf Proxmox
 
-| Container / VM     | Software                    | Ressourcen      |
-|--------------------|----------------------------|-----------------|
-| GLT-Server         | Desigo CC / Niagara / EBI  | 4 vCPU, 16 GB  |
-| Historian          | InfluxDB 2.x               | 2 vCPU, 8 GB   |
-| Dashboard          | Grafana                    | 1 vCPU, 2 GB   |
-| MQTT-Broker        | Mosquitto                  | 1 vCPU, 512 MB |
-| IoT-Gateway        | Node-RED                   | 1 vCPU, 1 GB   |
-| VPN                | WireGuard                  | 1 vCPU, 256 MB |
-| DNS / DHCP         | Pi-hole + dnsmasq          | 1 vCPU, 512 MB |
+| Container / VM | Software                  | Ressourcen     |
+| -------------- | ------------------------- | -------------- |
+| GLT-Server     | Desigo CC / Niagara / EBI | 4 vCPU, 16 GB  |
+| Historian      | InfluxDB 2.x              | 2 vCPU, 8 GB   |
+| Dashboard      | Grafana                   | 1 vCPU, 2 GB   |
+| MQTT-Broker    | Mosquitto                 | 1 vCPU, 512 MB |
+| IoT-Gateway    | Node-RED                  | 1 vCPU, 1 GB   |
+| VPN            | WireGuard                 | 1 vCPU, 256 MB |
+| DNS / DHCP     | Pi-hole + dnsmasq         | 1 vCPU, 512 MB |
 
 <!-- EN -->
 
@@ -197,13 +215,13 @@ Proxmox host (bare metal)
 
 ### VMs vs. LXC Containers
 
-| Feature | VM (KVM) | LXC container |
-|---------|---------|--------------|
-| Operating system | Full (Windows/Linux) | Linux only |
-| Isolation | Very strong | Medium |
-| Performance | ~5–10 % overhead | Minimal (near-native) |
-| Resources | More RAM/CPU needed | Low overhead |
-| Application | Windows applications | Linux services |
+| Feature          | VM (KVM)             | LXC container         |
+| ---------------- | -------------------- | --------------------- |
+| Operating system | Full (Windows/Linux) | Linux only            |
+| Isolation        | Very strong          | Medium                |
+| Performance      | ~5–10 % overhead     | Minimal (near-native) |
+| Resources        | More RAM/CPU needed  | Low overhead          |
+| Application      | Windows applications | Linux services        |
 
 ---
 
@@ -216,7 +234,7 @@ Before system updates / software changes:
   1. Create snapshot (30 seconds)
   2. Perform update
   3. On failure: roll back snapshot (5 minutes)
-  
+
 CLI:
   qm snapshot <VMID> <snapname> --description "before update 2026-05"
   qm rollback <VMID> <snapname>
@@ -228,10 +246,10 @@ CLI:
 Backup strategy (3-2-1 rule):
   Daily: incremental backup of all VMs → PBS (local)
   Weekly: PBS → offsite (NAS, cloud)
-  
+
   Backup command (CLI):
   vzdump <VMID> --storage PBS --compress zstd --mode snapshot
-  
+
   Retention:
     Daily: 7 copies
     Weekly: 4 copies
@@ -247,7 +265,7 @@ Proxmox cluster (3 nodes):
   Node 1: VM running here
   Node 2: warm standby
   Node 3: quorum (tie-breaker)
-  
+
   On Node 1 failure:
     → VM is automatically started on Node 2
     → Downtime: 30–120 seconds
@@ -263,13 +281,13 @@ Small installation (< 5,000 data points):
   RAM: 32 GB ECC
   SSD: 500 GB NVMe (system + VMs)
   HDD: 2 TB SATA RAID1 (data / backups)
-  
+
 Medium installation (5,000–50,000 data points):
   CPU: Xeon E-2300 or AMD EPYC
   RAM: 64–128 GB ECC
   SSD: 2 × 1 TB NVMe (RAID1 for VMs)
   HDD: 4 × 4 TB RAID5 (historian data)
-  
+
 Operating environment:
   Ventilation: min. 20 dB(A) quiet (server room)
   UPS: at least 30 min runtime
@@ -289,7 +307,7 @@ Proxmox network setup — BA:
   vmbr0: VLAN 10 (IT network, BMS web interface)
   vmbr1: VLAN 20 (OT network, DDC communication BACnet)
   vmbr2: VLAN 30 (management, Proxmox GUI)
-  
+
   Proxmox firewall:
     BMS VM may only access VLAN 20 (OT) and VLAN 10 (IT with restrictions)
     No direct internet access from VLAN 20 (OT)
@@ -299,12 +317,12 @@ Proxmox network setup — BA:
 
 ## Typical BA Services on Proxmox
 
-| Container / VM | Software | Resources |
-|--------------|---------|---------|
-| BMS server | Desigo CC / Niagara / EBI | 4 vCPU, 16 GB |
-| Historian | InfluxDB 2.x | 2 vCPU, 8 GB |
-| Dashboard | Grafana | 1 vCPU, 2 GB |
-| MQTT broker | Mosquitto | 1 vCPU, 512 MB |
-| IoT gateway | Node-RED | 1 vCPU, 1 GB |
-| VPN | WireGuard | 1 vCPU, 256 MB |
-| DNS / DHCP | Pi-hole + dnsmasq | 1 vCPU, 512 MB |
+| Container / VM | Software                  | Resources      |
+| -------------- | ------------------------- | -------------- |
+| BMS server     | Desigo CC / Niagara / EBI | 4 vCPU, 16 GB  |
+| Historian      | InfluxDB 2.x              | 2 vCPU, 8 GB   |
+| Dashboard      | Grafana                   | 1 vCPU, 2 GB   |
+| MQTT broker    | Mosquitto                 | 1 vCPU, 512 MB |
+| IoT gateway    | Node-RED                  | 1 vCPU, 1 GB   |
+| VPN            | WireGuard                 | 1 vCPU, 256 MB |
+| DNS / DHCP     | Pi-hole + dnsmasq         | 1 vCPU, 512 MB |

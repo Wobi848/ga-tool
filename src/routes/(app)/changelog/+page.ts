@@ -12,6 +12,6 @@ export const load: PageLoad = () => {
 	const en = idx >= 0 ? changelogRaw.slice(idx + EN_MARKER.length).trim() : '';
 	return {
 		htmlDe: marked.parse(de) as string,
-		htmlEn: en ? marked.parse(en) as string : ''
+		htmlEn: en ? (marked.parse(en) as string) : ''
 	};
 };

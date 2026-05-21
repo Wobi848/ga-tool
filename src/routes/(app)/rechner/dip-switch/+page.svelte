@@ -64,18 +64,25 @@
 	};
 	const presets = $derived(
 		Object.fromEntries(
-			Object.entries(presetsBase).map(([k, v]) => [k, {
-				...v,
-				label: k === 'custom' ? $_('rechner.dipSwitchUi.custom') : v.label,
-				addressLabel: v.addressLabelKey ? $_(v.addressLabelKey) : v.addressLabel,
-				info: $_(v.infoKey)
-			}])
+			Object.entries(presetsBase).map(([k, v]) => [
+				k,
+				{
+					...v,
+					label: k === 'custom' ? $_('rechner.dipSwitchUi.custom') : v.label,
+					addressLabel: v.addressLabelKey ? $_(v.addressLabelKey) : v.addressLabel,
+					info: $_(v.infoKey)
+				}
+			])
 		) as unknown as Record<Protocol, ProtocolPreset>
 	);
 
 	function loadPrefs() {
 		if (!browser) return {};
-		try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); } catch { return {}; }
+		try {
+			return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}');
+		} catch {
+			return {};
+		}
 	}
 
 	const saved = loadPrefs();
@@ -89,9 +96,17 @@
 
 	$effect(() => {
 		if (!browser) return;
-		localStorage.setItem(STORAGE_KEY, JSON.stringify({
-			protocol, customMin, customMax, customSwitches, invertedLogic, msbLeft
-		}));
+		localStorage.setItem(
+			STORAGE_KEY,
+			JSON.stringify({
+				protocol,
+				customMin,
+				customMax,
+				customSwitches,
+				invertedLogic,
+				msbLeft
+			})
+		);
 	});
 
 	const preset = $derived(presets[protocol]);
@@ -134,13 +149,25 @@
 	}
 
 	const binary = $derived(address.toString(2).padStart(switchCount, '0'));
-	const hex = $derived(address.toString(16).toUpperCase().padStart(Math.ceil(switchCount / 4), '0'));
+	const hex = $derived(
+		address
+			.toString(16)
+			.toUpperCase()
+			.padStart(Math.ceil(switchCount / 4), '0')
+	);
 	const addressInRange = $derived(address >= rangeMin && address <= rangeMax);
 </script>
 
 <div class="page">
 	<a href="/rechner" class="calc-back">
-		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+		<svg
+			width="16"
+			height="16"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+		>
 			<path d="M15 18l-6-6 6-6" />
 		</svg>
 		{$_('common.allCalculators')}
@@ -154,7 +181,6 @@
 	<div class="layout">
 		<!-- ── Left: Config ── -->
 		<div class="config-panel">
-
 			<!-- Protocol -->
 			<div class="card">
 				<div class="card-label">{$_('rechner.dipSwitchUi.protocol')}</div>
@@ -164,8 +190,11 @@
 							type="button"
 							class="seg-btn"
 							class:active={protocol === key}
-							onclick={() => { protocol = key as Protocol; setAddress(presets[key as Protocol].min); }}
-						>{p.label}</button>
+							onclick={() => {
+								protocol = key as Protocol;
+								setAddress(presets[key as Protocol].min);
+							}}>{p.label}</button
+						>
 					{/each}
 				</div>
 			</div>
@@ -176,17 +205,40 @@
 					<div class="card-label">{$_('rechner.dipSwitchUi.custom')}</div>
 					<div class="custom-grid">
 						<div class="field">
-							<label class="field-label" for="inp-sw-count">{$_('rechner.dipSwitchUi.switchCount')}</label>
-							<input id="inp-sw-count" type="number" class="input" min="4" max="10" bind:value={customSwitches}
-								onchange={() => setAddress(customMin)} />
+							<label class="field-label" for="inp-sw-count"
+								>{$_('rechner.dipSwitchUi.switchCount')}</label
+							>
+							<input
+								id="inp-sw-count"
+								type="number"
+								class="input"
+								min="4"
+								max="10"
+								bind:value={customSwitches}
+								onchange={() => setAddress(customMin)}
+							/>
 						</div>
 						<div class="field">
 							<label class="field-label" for="inp-min">Min</label>
-							<input id="inp-min" type="number" class="input" min="0" max="1023" bind:value={customMin} />
+							<input
+								id="inp-min"
+								type="number"
+								class="input"
+								min="0"
+								max="1023"
+								bind:value={customMin}
+							/>
 						</div>
 						<div class="field">
 							<label class="field-label" for="inp-max">Max</label>
-							<input id="inp-max" type="number" class="input" min="1" max="1023" bind:value={customMax} />
+							<input
+								id="inp-max"
+								type="number"
+								class="input"
+								min="1"
+								max="1023"
+								bind:value={customMax}
+							/>
 						</div>
 					</div>
 				</div>
@@ -199,10 +251,18 @@
 				<div class="option-row">
 					<span class="option-label">{$_('rechner.dipSwitchUi.numbering')}</span>
 					<div class="seg-group seg-group--sm">
-						<button type="button" class="seg-btn" class:active={msbLeft}
-							onclick={() => msbLeft = true}>MSB links (1 → {switchCount})</button>
-						<button type="button" class="seg-btn" class:active={!msbLeft}
-							onclick={() => msbLeft = false}>MSB rechts ({switchCount} → 1)</button>
+						<button
+							type="button"
+							class="seg-btn"
+							class:active={msbLeft}
+							onclick={() => (msbLeft = true)}>MSB links (1 → {switchCount})</button
+						>
+						<button
+							type="button"
+							class="seg-btn"
+							class:active={!msbLeft}
+							onclick={() => (msbLeft = false)}>MSB rechts ({switchCount} → 1)</button
+						>
 					</div>
 				</div>
 
@@ -235,9 +295,12 @@
 					<span class="dip-title">{$_('rechner.dipSwitchUi.dipSwitchPositions')}</span>
 					<span class="dip-range-badge">{rangeMin}–{rangeMax}</span>
 					<div class="dip-stepper">
-						<button type="button" class="step-btn step-btn--minus"
+						<button
+							type="button"
+							class="step-btn step-btn--minus"
 							onclick={() => setAddress(address - 1)}
-							disabled={address <= rangeMin}>−</button>
+							disabled={address <= rangeMin}>−</button
+						>
 						<input
 							type="number"
 							class="step-input"
@@ -247,9 +310,12 @@
 							max={rangeMax}
 							oninput={(e) => setAddress(parseInt((e.target as HTMLInputElement).value) || 0)}
 						/>
-						<button type="button" class="step-btn step-btn--plus"
+						<button
+							type="button"
+							class="step-btn step-btn--plus"
 							onclick={() => setAddress(address + 1)}
-							disabled={address >= rangeMax}>+</button>
+							disabled={address >= rangeMax}>+</button
+						>
 					</div>
 				</div>
 
@@ -300,15 +366,30 @@
 
 				<!-- Result bar -->
 				<div class="result-bar">
-					<span class="result-item"><span class="result-lbl">B:</span> <span class="result-val result-val--mono">{binary}</span></span>
+					<span class="result-item"
+						><span class="result-lbl">B:</span>
+						<span class="result-val result-val--mono">{binary}</span></span
+					>
 					<span class="result-sep">·</span>
-					<span class="result-item"><span class="result-lbl">{preset.addressLabel}:</span> <span class="result-val result-val--big" class:out-of-range={!addressInRange}>{address}</span></span>
+					<span class="result-item"
+						><span class="result-lbl">{preset.addressLabel}:</span>
+						<span class="result-val result-val--big" class:out-of-range={!addressInRange}
+							>{address}</span
+						></span
+					>
 					<span class="result-sep">·</span>
-					<span class="result-item"><span class="result-lbl">H:</span> <span class="result-val result-val--mono">0x{hex}</span></span>
+					<span class="result-item"
+						><span class="result-lbl">H:</span>
+						<span class="result-val result-val--mono">0x{hex}</span></span
+					>
 				</div>
 
 				{#if !addressInRange}
-					<div class="range-warning">⚠ {$_('rechner.dipSwitchUi.warnOutOfRange', { values: { min: rangeMin, max: rangeMax } })}</div>
+					<div class="range-warning">
+						⚠ {$_('rechner.dipSwitchUi.warnOutOfRange', {
+							values: { min: rangeMin, max: rangeMax }
+						})}
+					</div>
 				{/if}
 			</div>
 
@@ -665,8 +746,12 @@
 		letter-spacing: 0.05em;
 	}
 
-	.state-label--on { color: #16a34a; }
-	.state-label--off { color: var(--muted); }
+	.state-label--on {
+		color: #16a34a;
+	}
+	.state-label--off {
+		color: var(--muted);
+	}
 
 	/* ── DIP Switch ── */
 	.dip-switch {
@@ -693,7 +778,9 @@
 		background: color-mix(in srgb, var(--muted) 50%, var(--surface));
 		border-radius: 3px;
 		top: calc(100% - 34px);
-		transition: top 0.15s ease, background 0.15s;
+		transition:
+			top 0.15s ease,
+			background 0.15s;
 	}
 
 	.dip-switch.dip-on .dip-thumb {
@@ -792,7 +879,9 @@
 		border-radius: 0.375rem;
 		padding: 0.35rem 0.5rem;
 		min-width: 48px;
-		transition: background 0.15s, border-color 0.15s;
+		transition:
+			background 0.15s,
+			border-color 0.15s;
 	}
 
 	.qr-item.qr-active {
@@ -823,9 +912,19 @@
 	}
 
 	@media (max-width: 540px) {
-		.switch-col { width: 40px; }
-		.dip-switch { width: 34px; height: 58px; }
-		.dip-thumb { height: 22px; top: calc(100% - 28px); }
-		.dip-switch.dip-on .dip-thumb { top: 5px; }
+		.switch-col {
+			width: 40px;
+		}
+		.dip-switch {
+			width: 34px;
+			height: 58px;
+		}
+		.dip-thumb {
+			height: 22px;
+			top: calc(100% - 28px);
+		}
+		.dip-switch.dip-on .dip-thumb {
+			top: 5px;
+		}
 	}
 </style>

@@ -4,7 +4,25 @@ title_en: Remote Access — VPN and Secure Remote Maintenance in BA
 slug: remote-zugriff
 category: it
 subcategory: fernwartung
-tags: [remote-zugriff, vpn, fernwartung, wireguard, openvpn, ipsec, teamviewer, anydesk, rdp, mfa, sicherheit, ga, ot, glt, ddc, jump-server]
+tags:
+  [
+    remote-zugriff,
+    vpn,
+    fernwartung,
+    wireguard,
+    openvpn,
+    ipsec,
+    teamviewer,
+    anydesk,
+    rdp,
+    mfa,
+    sicherheit,
+    ga,
+    ot,
+    glt,
+    ddc,
+    jump-server
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [cybersecurity-ot, netzwerk-ga, glt-grundlagen]
@@ -19,13 +37,13 @@ Fernzugriff auf GA-Systeme ist heute Standard — Störungsbehebung von unterweg
 
 ## Risiken des Fernzugriffs
 
-| Risiko                        | Häufigkeit | Schaden                        |
-|-------------------------------|------------|--------------------------------|
-| Schwaches/Default-Passwort    | Sehr hoch  | Vollzugriff auf Anlage         |
-| Direkt erreichbare Ports (RDP, BACnet) | Hoch | Scan → Exploit            |
-| Kein MFA                      | Sehr hoch  | Brute-Force-Angriff möglich    |
-| Unverschlüsselte Verbindung   | Mittel     | Man-in-the-Middle              |
-| Shared Credentials            | Hoch       | Nicht nachvollziehbar wer eingeloggt |
+| Risiko                                 | Häufigkeit | Schaden                              |
+| -------------------------------------- | ---------- | ------------------------------------ |
+| Schwaches/Default-Passwort             | Sehr hoch  | Vollzugriff auf Anlage               |
+| Direkt erreichbare Ports (RDP, BACnet) | Hoch       | Scan → Exploit                       |
+| Kein MFA                               | Sehr hoch  | Brute-Force-Angriff möglich          |
+| Unverschlüsselte Verbindung            | Mittel     | Man-in-the-Middle                    |
+| Shared Credentials                     | Hoch       | Nicht nachvollziehbar wer eingeloggt |
 
 **Realität:** Viele GA-Systeme haben Teamviewer oder RDP direkt ans Internet — mit dem Werk-Passwort. Diese werden regelmässig missbraucht.
 
@@ -63,7 +81,7 @@ Server (Standort):
   [Interface]
   Address = 10.100.0.1/24
   PrivateKey = <server-key>
-  
+
   [Peer] # Techniker 1
   PublicKey = <tech1-pubkey>
   AllowedIPs = 10.100.0.2/32
@@ -72,7 +90,7 @@ Client (Techniker):
   [Interface]
   Address = 10.100.0.2/24
   PrivateKey = <tech1-privkey>
-  
+
   [Peer] # Server
   PublicKey = <server-pubkey>
   Endpoint = meinstandort.dyndns.org:51820
@@ -125,11 +143,13 @@ VPN → Jump-Server → OT-Geräte (nur von Jump-Server erreichbar)
 ```
 
 **Vorteile:**
+
 - Alles läuft durch einen Punkt → vollständiges Logging
 - OT-Geräte haben keinen Internetzugang
 - Kompromittierter Techniker-Laptop = noch kein direkter OT-Zugriff
 
 **Variante mit RDP-Gateway** (Windows Server):
+
 - Techniker verbindet RDP auf Gateway
 - Gateway erlaubt nur definierte Weiterverbindungen
 - Alle Sessions protokolliert
@@ -138,16 +158,16 @@ VPN → Jump-Server → OT-Geräte (nur von Jump-Server erreichbar)
 
 ## Fernwartungs-Tools — Risikobewertung
 
-| Tool             | Sicherheit      | Empfehlung                        |
-|------------------|-----------------|-----------------------------------|
-| **WireGuard VPN**| Sehr hoch       | ✅ Empfohlen                       |
-| **OpenVPN**      | Hoch            | ✅ Gut                             |
-| **Cisco AnyConnect** | Hoch        | ✅ Für Enterprise                  |
-| **Teamviewer**   | Mittel          | ⚠️ Nur mit MFA, eigene Passwörter  |
-| **AnyDesk**      | Mittel          | ⚠️ Wie Teamviewer                  |
-| **RDP direkt**   | Niedrig         | ❌ Niemals direkt ans Internet      |
-| **VNC direkt**   | Sehr niedrig    | ❌ Niemals ohne VPN                 |
-| **Telnet / HTTP** | Keine          | ❌ Absolutes Nein                  |
+| Tool                 | Sicherheit   | Empfehlung                        |
+| -------------------- | ------------ | --------------------------------- |
+| **WireGuard VPN**    | Sehr hoch    | ✅ Empfohlen                      |
+| **OpenVPN**          | Hoch         | ✅ Gut                            |
+| **Cisco AnyConnect** | Hoch         | ✅ Für Enterprise                 |
+| **Teamviewer**       | Mittel       | ⚠️ Nur mit MFA, eigene Passwörter |
+| **AnyDesk**          | Mittel       | ⚠️ Wie Teamviewer                 |
+| **RDP direkt**       | Niedrig      | ❌ Niemals direkt ans Internet    |
+| **VNC direkt**       | Sehr niedrig | ❌ Niemals ohne VPN               |
+| **Telnet / HTTP**    | Keine        | ❌ Absolutes Nein                 |
 
 ---
 
@@ -195,13 +215,13 @@ Remote access to BA systems is standard practice today — fault resolution on t
 
 ## Remote Access Risks
 
-| Risk | Frequency | Damage |
-|------|-----------|--------|
-| Weak/default password | Very high | Full access to system |
-| Directly reachable ports (RDP, BACnet) | High | Scan → exploit |
-| No MFA | Very high | Brute-force attack possible |
-| Unencrypted connection | Medium | Man-in-the-middle |
-| Shared credentials | High | Cannot trace who was logged in |
+| Risk                                   | Frequency | Damage                         |
+| -------------------------------------- | --------- | ------------------------------ |
+| Weak/default password                  | Very high | Full access to system          |
+| Directly reachable ports (RDP, BACnet) | High      | Scan → exploit                 |
+| No MFA                                 | Very high | Brute-force attack possible    |
+| Unencrypted connection                 | Medium    | Man-in-the-middle              |
+| Shared credentials                     | High      | Cannot trace who was logged in |
 
 **Reality:** Many BA systems have Teamviewer or RDP directly on the internet — with the factory password. These are regularly exploited.
 
@@ -239,7 +259,7 @@ Server (site):
   [Interface]
   Address = 10.100.0.1/24
   PrivateKey = <server-key>
-  
+
   [Peer] # Technician 1
   PublicKey = <tech1-pubkey>
   AllowedIPs = 10.100.0.2/32
@@ -248,7 +268,7 @@ Client (technician):
   [Interface]
   Address = 10.100.0.2/24
   PrivateKey = <tech1-privkey>
-  
+
   [Peer] # Server
   PublicKey = <server-pubkey>
   Endpoint = mysite.dyndns.org:51820
@@ -301,11 +321,13 @@ VPN → Jump server → OT devices (only reachable from jump server)
 ```
 
 **Advantages:**
+
 - Everything passes through one point → complete logging
 - OT devices have no internet access
 - Compromised technician laptop ≠ direct OT access
 
 **Variant with RDP gateway** (Windows Server):
+
 - Technician connects RDP to gateway
 - Gateway only allows defined onward connections
 - All sessions logged
@@ -314,16 +336,16 @@ VPN → Jump server → OT devices (only reachable from jump server)
 
 ## Remote Maintenance Tools — Risk Assessment
 
-| Tool | Security | Recommendation |
-|------|---------|---------------|
-| **WireGuard VPN** | Very high | Recommended |
-| **OpenVPN** | High | Good |
-| **Cisco AnyConnect** | High | For enterprise |
-| **Teamviewer** | Medium | Only with MFA, own passwords |
-| **AnyDesk** | Medium | As Teamviewer |
-| **RDP direct** | Low | Never directly on internet |
-| **VNC direct** | Very low | Never without VPN |
-| **Telnet / HTTP** | None | Absolutely not |
+| Tool                 | Security  | Recommendation               |
+| -------------------- | --------- | ---------------------------- |
+| **WireGuard VPN**    | Very high | Recommended                  |
+| **OpenVPN**          | High      | Good                         |
+| **Cisco AnyConnect** | High      | For enterprise               |
+| **Teamviewer**       | Medium    | Only with MFA, own passwords |
+| **AnyDesk**          | Medium    | As Teamviewer                |
+| **RDP direct**       | Low       | Never directly on internet   |
+| **VNC direct**       | Very low  | Never without VPN            |
+| **Telnet / HTTP**    | None      | Absolutely not               |
 
 ---
 

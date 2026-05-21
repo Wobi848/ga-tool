@@ -42,18 +42,42 @@ export const auth = betterAuth({
 			const base = env.ORIGIN ?? 'https://ga-tool.app';
 			const name = user.name?.split(' ')[0] || 'Hallo';
 			const topLinks = [
-				{ label: 'Bus-IBN Adressrechner', url: `${base}/rechner/bus-ibn`, desc: 'BACnet / Modbus / KNX Geräteadressen planen' },
-				{ label: 'KNX Gruppenadress-Schema', url: `${base}/referenz/knx-gruppenadresse`, desc: 'Strukturierte GA nach DIN EN 60617' },
-				{ label: 'CO₂-Regelung', url: `${base}/rechner/co2-regelung`, desc: 'Volumenstrom & Raumverhalten berechnen' },
-				{ label: 'PID-Simulator', url: `${base}/rechner/pid-simulator`, desc: 'Regler interaktiv einstellen & verstehen' },
-				{ label: 'Abkürzungen', url: `${base}/abkuerzungen`, desc: '500+ GA/HLK-Begriffe auf einen Blick' },
+				{
+					label: 'Bus-IBN Adressrechner',
+					url: `${base}/rechner/bus-ibn`,
+					desc: 'BACnet / Modbus / KNX Geräteadressen planen'
+				},
+				{
+					label: 'KNX Gruppenadress-Schema',
+					url: `${base}/referenz/knx-gruppenadresse`,
+					desc: 'Strukturierte GA nach DIN EN 60617'
+				},
+				{
+					label: 'CO₂-Regelung',
+					url: `${base}/rechner/co2-regelung`,
+					desc: 'Volumenstrom & Raumverhalten berechnen'
+				},
+				{
+					label: 'PID-Simulator',
+					url: `${base}/rechner/pid-simulator`,
+					desc: 'Regler interaktiv einstellen & verstehen'
+				},
+				{
+					label: 'Abkürzungen',
+					url: `${base}/abkuerzungen`,
+					desc: '500+ GA/HLK-Begriffe auf einen Blick'
+				}
 			];
-			const linksHtml = topLinks.map(l => `
+			const linksHtml = topLinks
+				.map(
+					(l) => `
 				<a href="${l.url}" style="display:block;padding:0.75rem 1rem;margin-bottom:0.5rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:0.5rem;text-decoration:none;color:#1e293b">
 					<span style="font-weight:600;font-size:0.9375rem">${l.label}</span><br/>
 					<span style="font-size:0.8125rem;color:#64748b">${l.desc}</span>
 				</a>
-			`).join('');
+			`
+				)
+				.join('');
 			await resend.emails.send({
 				from: FROM,
 				to: user.email,

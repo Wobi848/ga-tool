@@ -349,15 +349,15 @@ static/
 
 ## Namenskonventionen
 
-| Was                    | Konvention              | Beispiel                     |
-|------------------------|-------------------------|------------------------------|
-| Svelte-Komponenten     | PascalCase              | `ArticleCard.svelte`         |
-| TS-Dateien             | camelCase               | `formatDate.ts`              |
-| Routen-Ordner          | kebab-case              | `pid-regler/`                |
-| Markdown-Artikel       | kebab-case              | `pid-regler.md`              |
-| Stores                 | camelCase + `Store`     | `themeStore.ts`              |
-| Interfaces / Types     | PascalCase              | `interface ArticleMeta`      |
-| Konstanten             | SCREAMING_SNAKE_CASE    | `DEFAULT_LANG`               |
+| Was                | Konvention           | Beispiel                |
+| ------------------ | -------------------- | ----------------------- |
+| Svelte-Komponenten | PascalCase           | `ArticleCard.svelte`    |
+| TS-Dateien         | camelCase            | `formatDate.ts`         |
+| Routen-Ordner      | kebab-case           | `pid-regler/`           |
+| Markdown-Artikel   | kebab-case           | `pid-regler.md`         |
+| Stores             | camelCase + `Store`  | `themeStore.ts`         |
+| Interfaces / Types | PascalCase           | `interface ArticleMeta` |
+| Konstanten         | SCREAMING_SNAKE_CASE | `DEFAULT_LANG`          |
 
 ---
 
@@ -380,8 +380,8 @@ Mit SvelteKit entfällt der separate Express-Server.
 SvelteKit übernimmt Routing, SSR und API-Endpoints (`+server.ts`).
 SQLite läuft in `$lib/server/` — nur server-seitig, nie im Browser.
 
-| Vorher (ottos-monitor) | GA Tool              |
-|------------------------|----------------------|
+| Vorher (ottos-monitor) | GA Tool                |
+| ---------------------- | ---------------------- |
 | Express Router         | SvelteKit `+server.ts` |
-| `src/routes/*.ts`      | `src/routes/api/**`  |
-| `ts-node src/index.ts` | `vite build` + Node  |
+| `src/routes/*.ts`      | `src/routes/api/**`    |
+| `ts-node src/index.ts` | `vite build` + Node    |

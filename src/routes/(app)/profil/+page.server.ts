@@ -49,8 +49,14 @@ export const actions: Actions = {
 		const defaultCity = encodeLocation(defaultCityRaw, defaultTempRaw);
 		const notes = (data.get('notes') as string | null)?.trim() || null;
 
-		const disciplines = data.getAll('disciplines').map((v) => String(v)).filter(Boolean);
-		const mfrPrefs = data.getAll('mfrPrefs').map((v) => String(v)).filter(Boolean);
+		const disciplines = data
+			.getAll('disciplines')
+			.map((v) => String(v))
+			.filter(Boolean);
+		const mfrPrefs = data
+			.getAll('mfrPrefs')
+			.map((v) => String(v))
+			.filter(Boolean);
 
 		if (!name) return fail(400, { error: 'nameRequired' });
 

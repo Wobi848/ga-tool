@@ -4,7 +4,26 @@ title_en: Network Fundamentals for BA — VLANs, OT/IT
 slug: netzwerk-ga
 category: it
 subcategory: netzwerk
-tags: [netzwerk, vlan, ot, it, ot-netzwerk, firewall, segmentierung, bacnet-ip, modbus-tcp, switch, router, ip-adresse, subnet, dmz, managed-switch, trunk, access-port]
+tags:
+  [
+    netzwerk,
+    vlan,
+    ot,
+    it,
+    ot-netzwerk,
+    firewall,
+    segmentierung,
+    bacnet-ip,
+    modbus-tcp,
+    switch,
+    router,
+    ip-adresse,
+    subnet,
+    dmz,
+    managed-switch,
+    trunk,
+    access-port
+  ]
 difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, opc-ua, mqtt, cybersecurity-ot, remote-zugriff]
@@ -19,14 +38,14 @@ GA-Systeme laufen heute fast ausnahmslos auf IP-Netzwerken. Wer BACnet/IP oder M
 
 ## OT vs. IT — Zwei Welten
 
-| Kriterium          | IT-Netzwerk                    | OT-Netzwerk (GA/ICS)            |
-|--------------------|-------------------------------|----------------------------------|
-| Priorität          | Vertraulichkeit, Integrität   | Verfügbarkeit, Echtzeit         |
-| Update-Zyklen      | Regelmässig, automatisch      | Selten, getestet (System läuft!) |
-| Betriebszeit       | Wartungsfenster möglich       | 24/7, kein Ausfall möglich       |
-| Lebenszeit Geräte  | 3–5 Jahre                     | 10–25 Jahre                     |
-| Protokolle         | TCP/IP, HTTP, TLS              | BACnet, Modbus TCP, KNX/IP       |
-| Sicherheitsdenken  | CIA-Modell                    | Verfügbarkeit zuerst             |
+| Kriterium         | IT-Netzwerk                 | OT-Netzwerk (GA/ICS)             |
+| ----------------- | --------------------------- | -------------------------------- |
+| Priorität         | Vertraulichkeit, Integrität | Verfügbarkeit, Echtzeit          |
+| Update-Zyklen     | Regelmässig, automatisch    | Selten, getestet (System läuft!) |
+| Betriebszeit      | Wartungsfenster möglich     | 24/7, kein Ausfall möglich       |
+| Lebenszeit Geräte | 3–5 Jahre                   | 10–25 Jahre                      |
+| Protokolle        | TCP/IP, HTTP, TLS           | BACnet, Modbus TCP, KNX/IP       |
+| Sicherheitsdenken | CIA-Modell                  | Verfügbarkeit zuerst             |
 
 **Wichtig:** OT und IT **müssen getrennt** sein — unterschiedliche Anforderungen, unterschiedliche Risiken.
 
@@ -36,12 +55,12 @@ GA-Systeme laufen heute fast ausnahmslos auf IP-Netzwerken. Wer BACnet/IP oder M
 
 ### Typisches IP-Schema für ein Gebäude
 
-| Netz               | Subnet           | Geräte                          |
-|--------------------|------------------|---------------------------------|
-| GLT / Management   | 10.10.1.0/24     | GLT-Server, Workstations        |
-| Automationsebene   | 10.10.2.0/24     | DDC-Controller (BACnet/IP)      |
-| Feldebene (IP)     | 10.10.3.0/24     | IP-Gateways, Raumregler          |
-| IoT / MQTT         | 10.10.4.0/24     | Sensoren, MQTT-Broker           |
+| Netz             | Subnet       | Geräte                     |
+| ---------------- | ------------ | -------------------------- |
+| GLT / Management | 10.10.1.0/24 | GLT-Server, Workstations   |
+| Automationsebene | 10.10.2.0/24 | DDC-Controller (BACnet/IP) |
+| Feldebene (IP)   | 10.10.3.0/24 | IP-Gateways, Raumregler    |
+| IoT / MQTT       | 10.10.4.0/24 | Sensoren, MQTT-Broker      |
 
 **Subnetzgrössen:** /24 = 254 Geräte; /16 = 65534 Geräte. Für GA meist /24 ausreichend.
 
@@ -122,14 +141,14 @@ BBMD-A und BBMD-B kennen sich (Peer-Liste) → leiten Broadcasts weiter
 
 Für GA-Netzwerke immer **Managed Switches** verwenden:
 
-| Funktion        | Unmanaged    | Managed        |
-|-----------------|--------------|----------------|
-| VLAN            | ❌           | ✅             |
-| Port-Statistiken | ❌          | ✅             |
-| SNMP-Monitoring | ❌           | ✅             |
-| Port-Mirroring  | ❌           | ✅             |
-| Loop-Schutz (STP) | Nein       | ✅ (wichtig!)  |
-| PoE (Power over Ethernet) | Nein | ✅ Optional |
+| Funktion                  | Unmanaged | Managed       |
+| ------------------------- | --------- | ------------- |
+| VLAN                      | ❌        | ✅            |
+| Port-Statistiken          | ❌        | ✅            |
+| SNMP-Monitoring           | ❌        | ✅            |
+| Port-Mirroring            | ❌        | ✅            |
+| Loop-Schutz (STP)         | Nein      | ✅ (wichtig!) |
+| PoE (Power over Ethernet) | Nein      | ✅ Optional   |
 
 **Empfohlene Hersteller:** Cisco, HP/Aruba, Hirschmann (Industrie), Siemens SCALANCE, Moxa.
 
@@ -148,6 +167,7 @@ Internet
 ```
 
 **Firewall-Regeln (Beispiel):**
+
 - GLT → DDC: Erlaube UDP 47808 (BACnet)
 - DDC → GLT: Erlaube UDP 47808 (BACnet-Antworten)
 - IT → OT: BLOCKIERT (ausser Wartungsrechner via VPN)
@@ -157,13 +177,13 @@ Internet
 
 ## Typische GA-Netzwerk-Fehler
 
-| Fehler                         | Symptom                         | Lösung                          |
-|--------------------------------|----------------------------------|---------------------------------|
-| Kein BBMD konfiguriert         | DDC in anderem Subnet nicht gefunden | BBMD in GLT und DDC einrichten |
-| Falscher Subnet-Mask           | Keine Kommunikation             | /24 auf allen Geräten                |
-| Broadcast-Storm (Loop)         | Netzwerk hängt                  | STP aktivieren auf Switches     |
-| IP-Konflikt                    | Gerät erreichbar aber falsch    | Statische IPs oder DHCP-Reservierung |
-| OT-Port direkt am Internet     | Sicherheitsrisiko               | Firewall, VPN, nie direkt!      |
+| Fehler                     | Symptom                              | Lösung                               |
+| -------------------------- | ------------------------------------ | ------------------------------------ |
+| Kein BBMD konfiguriert     | DDC in anderem Subnet nicht gefunden | BBMD in GLT und DDC einrichten       |
+| Falscher Subnet-Mask       | Keine Kommunikation                  | /24 auf allen Geräten                |
+| Broadcast-Storm (Loop)     | Netzwerk hängt                       | STP aktivieren auf Switches          |
+| IP-Konflikt                | Gerät erreichbar aber falsch         | Statische IPs oder DHCP-Reservierung |
+| OT-Port direkt am Internet | Sicherheitsrisiko                    | Firewall, VPN, nie direkt!           |
 
 ## Normen
 
@@ -177,14 +197,14 @@ BA systems today run almost exclusively on IP networks. Anyone installing BACnet
 
 ## OT vs. IT — Two Worlds
 
-| Criterion | IT network | OT network (BA/ICS) |
-|----------|-----------|-------------------|
-| Priority | Confidentiality, integrity | Availability, real-time |
-| Update cycles | Regular, automatic | Rare, tested (system is running!) |
-| Operating time | Maintenance windows possible | 24/7, no failure tolerated |
-| Device lifetime | 3–5 years | 10–25 years |
-| Protocols | TCP/IP, HTTP, TLS | BACnet, Modbus TCP, KNX/IP |
-| Security thinking | CIA model | Availability first |
+| Criterion         | IT network                   | OT network (BA/ICS)               |
+| ----------------- | ---------------------------- | --------------------------------- |
+| Priority          | Confidentiality, integrity   | Availability, real-time           |
+| Update cycles     | Regular, automatic           | Rare, tested (system is running!) |
+| Operating time    | Maintenance windows possible | 24/7, no failure tolerated        |
+| Device lifetime   | 3–5 years                    | 10–25 years                       |
+| Protocols         | TCP/IP, HTTP, TLS            | BACnet, Modbus TCP, KNX/IP        |
+| Security thinking | CIA model                    | Availability first                |
 
 **Important:** OT and IT **must be separated** — different requirements, different risks.
 
@@ -194,12 +214,12 @@ BA systems today run almost exclusively on IP networks. Anyone installing BACnet
 
 ### Typical IP Schema for a Building
 
-| Network | Subnet | Devices |
-|---------|--------|--------|
-| BMS / management | 10.10.1.0/24 | BMS server, workstations |
-| Automation level | 10.10.2.0/24 | DDC controllers (BACnet/IP) |
+| Network          | Subnet       | Devices                       |
+| ---------------- | ------------ | ----------------------------- |
+| BMS / management | 10.10.1.0/24 | BMS server, workstations      |
+| Automation level | 10.10.2.0/24 | DDC controllers (BACnet/IP)   |
 | Field level (IP) | 10.10.3.0/24 | IP gateways, room controllers |
-| IoT / MQTT | 10.10.4.0/24 | Sensors, MQTT broker |
+| IoT / MQTT       | 10.10.4.0/24 | Sensors, MQTT broker          |
 
 **Subnet sizes:** /24 = 254 devices; /16 = 65,534 devices. For BA, /24 is usually sufficient.
 
@@ -280,14 +300,14 @@ BBMD-A and BBMD-B know each other (peer list) → forward broadcasts
 
 Always use **managed switches** for BA networks:
 
-| Function | Unmanaged | Managed |
-|---------|---------|--------|
-| VLAN | ❌ | ✅ |
-| Port statistics | ❌ | ✅ |
-| SNMP monitoring | ❌ | ✅ |
-| Port mirroring | ❌ | ✅ |
-| Loop protection (STP) | No | ✅ (important!) |
-| PoE (Power over Ethernet) | No | ✅ optional |
+| Function                  | Unmanaged | Managed         |
+| ------------------------- | --------- | --------------- |
+| VLAN                      | ❌        | ✅              |
+| Port statistics           | ❌        | ✅              |
+| SNMP monitoring           | ❌        | ✅              |
+| Port mirroring            | ❌        | ✅              |
+| Loop protection (STP)     | No        | ✅ (important!) |
+| PoE (Power over Ethernet) | No        | ✅ optional     |
 
 **Recommended manufacturers:** Cisco, HP/Aruba, Hirschmann (industrial), Siemens SCALANCE, Moxa.
 
@@ -306,6 +326,7 @@ Internet
 ```
 
 **Firewall rules (example):**
+
 - BMS → DDC: permit UDP 47808 (BACnet)
 - DDC → BMS: permit UDP 47808 (BACnet responses)
 - IT → OT: BLOCKED (except maintenance PC via VPN)
@@ -315,13 +336,13 @@ Internet
 
 ## Typical BA Network Errors
 
-| Error | Symptom | Solution |
-|-------|---------|---------|
-| No BBMD configured | DDC on other subnet not found | Set up BBMD in BMS and DDC |
-| Wrong subnet mask | No communication | /24 on all devices |
-| Broadcast storm (loop) | Network hangs | Enable STP on switches |
-| IP conflict | Device reachable but wrong | Static IPs or DHCP reservation |
-| OT port directly on internet | Security risk | Firewall, VPN, never direct! |
+| Error                        | Symptom                       | Solution                       |
+| ---------------------------- | ----------------------------- | ------------------------------ |
+| No BBMD configured           | DDC on other subnet not found | Set up BBMD in BMS and DDC     |
+| Wrong subnet mask            | No communication              | /24 on all devices             |
+| Broadcast storm (loop)       | Network hangs                 | Enable STP on switches         |
+| IP conflict                  | Device reachable but wrong    | Static IPs or DHCP reservation |
+| OT port directly on internet | Security risk                 | Firewall, VPN, never direct!   |
 
 ## Standards
 

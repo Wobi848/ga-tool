@@ -4,7 +4,23 @@ title_en: Energy Performance Certificates and Building Metrics — GEAK, Minergi
 slug: energieausweis-kennzahlen
 category: energie
 subcategory: kennzahlen
-tags: [energieausweis, geak, minergie, kwh-m2, energiebezugsfläche, heizenergiebedarf, gesamtenergiebedarf, primärenergie, co2-emissionen, gebäudeenergieeffizienz, iso50001, energiekennzahl, eki, sia-380-1]
+tags:
+  [
+    energieausweis,
+    geak,
+    minergie,
+    kwh-m2,
+    energiebezugsfläche,
+    heizenergiebedarf,
+    gesamtenergiebedarf,
+    primärenergie,
+    co2-emissionen,
+    gebäudeenergieeffizienz,
+    iso50001,
+    energiekennzahl,
+    eki,
+    sia-380-1
+  ]
 difficulty: grundlagen
 area: [hlk, ga, normen]
 related: [ems-lastmanagement, energiemessung, en15232, en12831, waermepumpe]
@@ -27,7 +43,7 @@ Heizenergiebedarf / Energiebezugsfläche (EBF) = kWh/m²a
 Energiebezugsfläche (EBF):
   = beheizte Bruttogeschossfläche
   (NICHT Nettofläche / Wohnfläche!)
-  
+
 Typische Werte Schweiz (SIA 380/1):
   Minergie-P:      ≤ 15 kWh/m²a
   Minergie:        ≤ 38 kWh/m²a  (Wohnen)
@@ -64,14 +80,14 @@ Zwei Bewertungen:
 ### GEAK-Klassen
 
 | Klasse | Heizenergiebedarf [kWh/m²a] |
-|--------|----------------------------|
-| A      | ≤ 35                       |
-| B      | 35–65                      |
-| C      | 65–95                      |
-| D      | 95–130                     |
-| E      | 130–175                    |
-| F      | 175–235                    |
-| G      | > 235                      |
+| ------ | --------------------------- |
+| A      | ≤ 35                        |
+| B      | 35–65                       |
+| C      | 65–95                       |
+| D      | 95–130                      |
+| E      | 130–175                     |
+| F      | 175–235                     |
+| G      | > 235                       |
 
 ---
 
@@ -79,14 +95,15 @@ Zwei Bewertungen:
 
 Minergie ist ein Qualitätslabel für Gebäude mit tiefem Energieverbrauch:
 
-| Label          | Anforderung Wärme | Besonderheit                      |
-|----------------|-------------------|-----------------------------------|
-| **Minergie**   | ≤ 38 kWh/m²a      | Kontrollierte Lüftung Pflicht     |
-| **Minergie-P** | ≤ 15 kWh/m²a      | Passivhaus-Standard               |
-| **Minergie-A** | Plusenergie        | Mehr Energie produziert als verbraucht |
-| **Minergie-ECO**| + Minergie        | Zusätzlich Ökologie + Gesundheit  |
+| Label            | Anforderung Wärme | Besonderheit                           |
+| ---------------- | ----------------- | -------------------------------------- |
+| **Minergie**     | ≤ 38 kWh/m²a      | Kontrollierte Lüftung Pflicht          |
+| **Minergie-P**   | ≤ 15 kWh/m²a      | Passivhaus-Standard                    |
+| **Minergie-A**   | Plusenergie       | Mehr Energie produziert als verbraucht |
+| **Minergie-ECO** | + Minergie        | Zusätzlich Ökologie + Gesundheit       |
 
 **GA-Anforderungen für Minergie:**
+
 - EN 15232 GA-Klasse B oder besser
 - Energiemonitoring / Submetering
 - Kontrollierte Wohnungslüftung mit WRG
@@ -98,13 +115,13 @@ Minergie ist ein Qualitätslabel für Gebäude mit tiefem Energieverbrauch:
 ```
 GEG (Gebäudeenergiegesetz, seit 2020):
   Ersetzt EnEV + EEWärmeG
-  
+
 Primärenergiebedarf [kWh/(m²a)]:
   Neubau: ≤ 75 % des Referenzgebäudes (2023)
-  
+
   GEG 2024 (geplante Verschärfung):
   Neue Heizungsanlagen: mind. 65 % erneuerbare Energien
-  
+
 Energieausweis (DE):
   Bedarfsausweis: berechnet (Pflicht bei schlechten Gebäuden)
   Verbrauchsausweis: gemessen (3 Jahre Verbrauchsdaten nötig)
@@ -123,11 +140,11 @@ GLT / EMS berechnet laufend:
     ÷ Energiebezugsfläche [m²]
     ÷ Heiztage (HGT, Heizgradtage)
   = Witterungsbereinigter Energiekennzahl [kWh/(m²HGT)]
-  
+
 Vergleich:
   Dieser Monat vs. Vorjahr (gleiche Periode)
   Dieses Gebäude vs. Benchmark (Gebäudekategorie)
-  
+
 Alarm: Verbrauch > 20 % über Vorjahr → Untersuchung
 ```
 
@@ -156,7 +173,7 @@ Für aussagekräftige Kennzahlen:
   Wärmezähler Warmwasser → kWh/a
   Stromzähler je Gewerk → kWh/a
   Gaszähler → m³/a → kWh/a (× Heizwert)
-  
+
 Aufteilung:
   Heizung: Wärmemenge-Zähler
   Lüftung: Strom-Teilzähler (FU-Ventilatoren)
@@ -190,7 +207,7 @@ Heating energy demand / Energy reference area (ERA) = kWh/m²a
 Energy reference area (ERA):
   = heated gross floor area
   (NOT net area / living area!)
-  
+
 Typical values Switzerland (SIA 380/1):
   Minergie-P:      ≤ 15 kWh/m²a
   Minergie:        ≤ 38 kWh/m²a  (residential)
@@ -227,14 +244,14 @@ Two assessments:
 ### GEAK Classes
 
 | Class | Heating energy demand [kWh/m²a] |
-|-------|----------------------------------|
-| A | ≤ 35 |
-| B | 35–65 |
-| C | 65–95 |
-| D | 95–130 |
-| E | 130–175 |
-| F | 175–235 |
-| G | > 235 |
+| ----- | ------------------------------- |
+| A     | ≤ 35                            |
+| B     | 35–65                           |
+| C     | 65–95                           |
+| D     | 95–130                          |
+| E     | 130–175                         |
+| F     | 175–235                         |
+| G     | > 235                           |
 
 ---
 
@@ -242,14 +259,15 @@ Two assessments:
 
 Minergie is a quality label for buildings with low energy consumption:
 
-| Label | Heat requirement | Special feature |
-|-------|-----------------|-----------------|
-| **Minergie** | ≤ 38 kWh/m²a | Controlled ventilation mandatory |
-| **Minergie-P** | ≤ 15 kWh/m²a | Passive house standard |
-| **Minergie-A** | Plus energy | Produces more energy than consumed |
-| **Minergie-ECO** | + Minergie | Additionally ecology + health |
+| Label            | Heat requirement | Special feature                    |
+| ---------------- | ---------------- | ---------------------------------- |
+| **Minergie**     | ≤ 38 kWh/m²a     | Controlled ventilation mandatory   |
+| **Minergie-P**   | ≤ 15 kWh/m²a     | Passive house standard             |
+| **Minergie-A**   | Plus energy      | Produces more energy than consumed |
+| **Minergie-ECO** | + Minergie       | Additionally ecology + health      |
 
 **BA requirements for Minergie:**
+
 - EN 15232 BA class B or better
 - Energy monitoring / submetering
 - Controlled residential ventilation with heat recovery
@@ -261,13 +279,13 @@ Minergie is a quality label for buildings with low energy consumption:
 ```
 GEG (Building Energy Act, since 2020):
   Replaces EnEV + EEWärmeG
-  
+
 Primary energy demand [kWh/(m²a)]:
   New builds: ≤ 75 % of reference building (2023)
-  
+
   GEG 2024 (planned tightening):
   New heating systems: min. 65 % renewable energy
-  
+
 Energy certificate (DE):
   Demand certificate: calculated (mandatory for poor buildings)
   Consumption certificate: measured (3 years consumption data required)
@@ -286,11 +304,11 @@ BMS / EMS continuously calculates:
     ÷ Energy reference area [m²]
     ÷ Heating degree days (HDD)
   = Weather-corrected energy index [kWh/(m²·HDD)]
-  
+
 Comparison:
   This month vs. prior year (same period)
   This building vs. benchmark (building category)
-  
+
 Alert: consumption > 20 % above prior year → investigation
 ```
 
@@ -319,7 +337,7 @@ For meaningful metrics:
   Heat meter DHW → kWh/a
   Sub-electricity meter per system → kWh/a
   Gas meter → m³/a → kWh/a (× calorific value)
-  
+
 Breakdown:
   Heating: heat quantity meter
   Ventilation: sub-electricity meter (VFD fans)

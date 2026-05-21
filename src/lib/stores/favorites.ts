@@ -17,12 +17,18 @@ function load(): Favorite[] {
 	try {
 		const raw = localStorage.getItem(KEY);
 		return raw ? JSON.parse(raw) : [];
-	} catch { return []; }
+	} catch {
+		return [];
+	}
 }
 
 function save(list: Favorite[]) {
 	if (!browser) return;
-	try { localStorage.setItem(KEY, JSON.stringify(list)); } catch { /* ignore */ }
+	try {
+		localStorage.setItem(KEY, JSON.stringify(list));
+	} catch {
+		/* ignore */
+	}
 }
 
 async function pushToServer(list: Favorite[]) {
@@ -32,7 +38,9 @@ async function pushToServer(list: Favorite[]) {
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(list)
 		});
-	} catch { /* offline — localStorage is the fallback */ }
+	} catch {
+		/* offline — localStorage is the fallback */
+	}
 }
 
 function createStore() {
@@ -56,14 +64,16 @@ function createStore() {
 				// Server wins — replace local
 				save(serverList);
 				set(serverList);
-			} catch { /* offline — keep local */ }
+			} catch {
+				/* offline — keep local */
+			}
 		},
 
 		toggle(item: Omit<Favorite, 'addedAt'>) {
-			update(list => {
-				const exists = list.some(f => f.type === item.type && f.slug === item.slug);
+			update((list) => {
+				const exists = list.some((f) => f.type === item.type && f.slug === item.slug);
 				const next = exists
-					? list.filter(f => !(f.type === item.type && f.slug === item.slug))
+					? list.filter((f) => !(f.type === item.type && f.slug === item.slug))
 					: [...list, { ...item, addedAt: Date.now() }];
 				save(next);
 				pushToServer(next);
@@ -72,12 +82,12 @@ function createStore() {
 		},
 
 		isFav(type: FavType, slug: string, list: Favorite[]): boolean {
-			return list.some(f => f.type === type && f.slug === slug);
+			return list.some((f) => f.type === type && f.slug === slug);
 		},
 
 		remove(type: FavType, slug: string) {
-			update(list => {
-				const next = list.filter(f => !(f.type === type && f.slug === slug));
+			update((list) => {
+				const next = list.filter((f) => !(f.type === type && f.slug === slug));
 				save(next);
 				pushToServer(next);
 				return next;
@@ -89,25 +99,25 @@ function createStore() {
 export const favorites = createStore();
 
 export const favTypeLabel: Record<FavType, string> = {
-	artikel:    'Artikel',
-	rechner:    'Rechner',
-	konverter:  'Konverter',
-	referenz:   'Referenz',
+	artikel: 'Artikel',
+	rechner: 'Rechner',
+	konverter: 'Konverter',
+	referenz: 'Referenz',
 	checkliste: 'Checkliste'
 };
 
 export const favTypeColor: Record<FavType, string> = {
-	artikel:    '#2563eb',
-	rechner:    '#0d9488',
-	konverter:  '#ea580c',
-	referenz:   '#0891b2',
+	artikel: '#2563eb',
+	rechner: '#0d9488',
+	konverter: '#ea580c',
+	referenz: '#0891b2',
 	checkliste: '#7c3aed'
 };
 
 export const favTypeHref: Record<FavType, string> = {
-	artikel:    '/wissen',
-	rechner:    '/rechner',
-	konverter:  '/konverter',
-	referenz:   '/referenz',
+	artikel: '/wissen',
+	rechner: '/rechner',
+	konverter: '/konverter',
+	referenz: '/referenz',
 	checkliste: '/checklisten'
 };
