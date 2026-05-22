@@ -1,5 +1,8 @@
 <script lang="ts">
-	let { data } = $props();
+	import { enhance } from '$app/forms';
+
+	let { data, form } = $props();
+	let rollupRunning = $state(false);
 
 	const moduleLabels: Record<string, string> = {
 		dashboard: 'Dashboard',
@@ -97,6 +100,48 @@
 			<div class="card-value">{data.totalUsers}</div>
 			<div class="card-label">Registrierte User</div>
 		</div>
+	</div>
+
+	<!-- Rollup status + trigger -->
+	<div class="rollup-panel">
+		<div class="rollup-info">
+			<div class="rollup-label">Datenbank-Hygiene</div>
+			<div class="rollup-stats">
+				<span
+					><strong>{data.rollup.pendingRows.toLocaleString('de-CH')}</strong> Roh-Events &gt; 30 Tage
+					alt</span
+				>
+				<span>·</span>
+				<span><strong>{data.rollup.dailyRows.toLocaleString('de-CH')}</strong> Tagesaggregate</span>
+			</div>
+		</div>
+		<form
+			method="post"
+			action="?/rollup"
+			use:enhance={() => {
+				rollupRunning = true;
+				return async ({ update }) => {
+					await update();
+					rollupRunning = false;
+				};
+			}}
+		>
+			<button
+				type="button"
+				class="rollup-btn"
+				disabled={rollupRunning || data.rollup.pendingRows === 0}
+				onclick={(e) =>
+					(e.currentTarget.closest('form') as HTMLFormElement | null)?.requestSubmit()}
+			>
+				{rollupRunning ? 'Läuft…' : 'Jetzt aggregieren'}
+			</button>
+		</form>
+		{#if form?.success && form?.rollup}
+			<div class="rollup-result">
+				✓ {form.rollup.aggregateRowsWritten} Aggregate geschrieben,
+				{form.rollup.rawRowsDeleted} Rohzeilen gelöscht (Cutoff: {form.rollup.cutoffDate})
+			</div>
+		{/if}
 	</div>
 
 	<div class="two-col">
@@ -549,6 +594,56 @@
 		font-size: 0.75rem;
 		color: var(--muted);
 		text-align: right;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.rollup-panel {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem;
+		padding: 1rem 1.25rem;
+		margin: 1rem 0 1.5rem;
+		background: var(--card);
+		border: 1px solid var(--border);
+		border-radius: 0.5rem;
+	}
+	.rollup-info {
+		flex: 1;
+		min-width: 12rem;
+	}
+	.rollup-label {
+		font-size: 0.75rem;
+		color: var(--muted);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		margin-bottom: 0.25rem;
+	}
+	.rollup-stats {
+		font-size: 0.875rem;
+		color: var(--text);
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+	}
+	.rollup-btn {
+		padding: 0.5rem 1rem;
+		background: var(--color-primary);
+		color: white;
+		border: none;
+		border-radius: 0.375rem;
+		font-size: 0.875rem;
+		cursor: pointer;
+		font-family: inherit;
+	}
+	.rollup-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+	.rollup-result {
+		flex-basis: 100%;
+		font-size: 0.8125rem;
+		color: #16a34a;
 		font-variant-numeric: tabular-nums;
 	}
 </style>

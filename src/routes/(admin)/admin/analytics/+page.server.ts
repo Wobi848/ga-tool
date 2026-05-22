@@ -1,9 +1,11 @@
 import { db } from '$lib/server/db';
 import { analyticsEvent } from '$lib/server/db/analytics.schema';
+import { analyticsDaily } from '$lib/server/db/analytics-rollup.schema';
 import { user as userTable } from '$lib/server/db/auth.schema';
 import { userFavorites } from '$lib/server/db/favorites.schema';
 import { sql, gte, lt, and, isNotNull, desc, count, countDistinct } from 'drizzle-orm';
-import type { PageServerLoad } from './$types';
+import { rollupAnalytics, pendingRollupCount } from '$lib/server/analytics-rollup';
+import type { Actions, PageServerLoad } from './$types';
 
 const DAY_MS = 86_400_000;
 const now = () => Date.now();
@@ -148,6 +150,12 @@ export const load: PageServerLoad = async () => {
 	}
 	const topFavorites = [...favCounts.values()].sort((a, b) => b.count - a.count).slice(0, 15);
 
+	// Rollup-Status
+	const [{ pendingRows }, [{ dailyRows }]] = await Promise.all([
+		Promise.resolve({ pendingRows: pendingRollupCount() }),
+		db.select({ dailyRows: count() }).from(analyticsDaily)
+	]);
+
 	return {
 		total,
 		last30d,
@@ -160,6 +168,17 @@ export const load: PageServerLoad = async () => {
 		daily,
 		regDaily,
 		topUsers,
-		topFavorites
+		topFavorites,
+		rollup: {
+			pendingRows,
+			dailyRows
+		}
 	};
+};
+
+export const actions: Actions = {
+	rollup: async () => {
+		const result = rollupAnalytics();
+		return { success: true, rollup: result };
+	}
 };
