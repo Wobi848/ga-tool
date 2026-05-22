@@ -371,13 +371,18 @@
 {#if showPwModal}
 	<div
 		class="modal-backdrop"
-		role="dialog"
-		aria-modal="true"
 		onkeydown={(e) => e.key === 'Escape' && (showPwModal = false)}
+		role="presentation"
 	>
-		<div class="modal" onclick={(e) => e.stopPropagation()}>
+		<div
+			class="modal"
+			role="dialog"
+			aria-modal="true"
+			aria-labelledby="pw-modal-title"
+			tabindex="-1"
+		>
 			<div class="modal-header">
-				<h3>{$_('profil.changePassword')}</h3>
+				<h3 id="pw-modal-title">{$_('profil.changePassword')}</h3>
 				<button class="modal-close" onclick={() => (showPwModal = false)} aria-label="Schliessen">
 					<svg
 						width="18"

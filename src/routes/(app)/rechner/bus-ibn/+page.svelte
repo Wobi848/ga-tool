@@ -1614,7 +1614,7 @@
 </div>
 
 <!-- ── Page ──────────────────────────────────────────────────────────────── -->
-<div class="page" onclick={() => {}}>
+<div class="page">
 	<a href="/rechner" class="calc-back no-print">
 		<svg
 			width="16"
@@ -1798,7 +1798,7 @@
 				/>
 			</div>
 			<div class="project-field">
-				<label class="project-label">{$_('busIbn.date')}</label>
+				<span class="project-label">{$_('busIbn.date')}</span>
 				<span class="project-date">{formatDate(project.createdAt)}</span>
 			</div>
 		</div>
@@ -1918,14 +1918,14 @@
 					{#if seg.type === 'bacnet-mstp'}
 						{@const s = asMstp(seg.settings)}
 						<div class="settings-grid">
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.baudrate')}</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.baudrate')}</span>
 								<select class="settings-select" bind:value={s.baud}
 									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
 								>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.maxMasters')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.maxMasters')}</span>
 								<input
 									class="settings-input"
 									type="number"
@@ -1933,9 +1933,9 @@
 									max="127"
 									bind:value={s.maxMasters}
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.maxInfoFrames')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.maxInfoFrames')}</span>
 								<input
 									class="settings-input"
 									type="number"
@@ -1943,9 +1943,9 @@
 									max="255"
 									bind:value={s.maxInfoFrames}
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.apduTimeout')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.apduTimeout')}</span>
 								<input
 									class="settings-input"
 									type="number"
@@ -1954,9 +1954,9 @@
 									step="100"
 									bind:value={s.apduTimeout}
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.apduRetries')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.apduRetries')}</span>
 								<input
 									class="settings-input"
 									type="number"
@@ -1964,22 +1964,22 @@
 									max="10"
 									bind:value={s.apduRetries}
 								/>
-							</div>
+							</label>
 						</div>
 					{:else if seg.type === 'bacnet-ip'}
 						{@const s = asIp(seg.settings)}
 						<div class="settings-grid">
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.subnet')}</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.subnet')}</span>
 								<input
 									class="settings-input"
 									type="text"
 									bind:value={s.subnet}
 									placeholder={$_('busIbn.subnetPlaceholder')}
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.udpPort')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.udpPort')}</span>
 								<input
 									class="settings-input"
 									type="number"
@@ -1987,65 +1987,65 @@
 									max="65535"
 									bind:value={s.port}
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.broadcast')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.broadcast')}</span>
 								<input class="settings-input" type="text" bind:value={s.broadcastAddr} />
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.bbmd')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.bbmd')}</span>
 								<input
 									class="settings-input"
 									type="text"
 									bind:value={s.bbmd}
 									placeholder={$_('busIbn.bbmdPlaceholder')}
 								/>
-							</div>
+							</label>
 						</div>
 					{:else if seg.type === 'modbus-rtu'}
 						{@const s = asModbus(seg.settings)}
 						<div class="settings-grid">
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.baudrate')}</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.baudrate')}</span>
 								<select class="settings-select" bind:value={s.baud}
 									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
 								>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.parity')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.parity')}</span>
 								<select class="settings-select" bind:value={s.parity}
 									><option value="N">{$_('busIbn.parityNone')}</option><option value="E"
 										>{$_('busIbn.parityEven')}</option
 									><option value="O">{$_('busIbn.parityOdd')}</option></select
 								>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.stopBits')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.stopBits')}</span>
 								<select class="settings-select" bind:value={s.stopBits}
 									><option value={1}>1</option><option value={2}>2</option></select
 								>
-							</div>
+							</label>
 						</div>
 					{:else if seg.type === 'knx'}
 						{@const s = asKnx(seg.settings)}
 						<div class="settings-grid">
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.topology')}</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.topology')}</span>
 								<input
 									class="settings-input"
 									type="text"
 									bind:value={s.topology}
 									placeholder="1.1"
 								/>
-							</div>
-							<div class="settings-field">
-								<label class="settings-label">{$_('busIbn.medium')}</label>
+							</label>
+							<label class="settings-field">
+								<span class="settings-label">{$_('busIbn.medium')}</span>
 								<select class="settings-select" bind:value={s.medium}
 									><option value="TP">{$_('busIbn.mediumTP')}</option><option value="IP"
 										>{$_('busIbn.mediumIP')}</option
 									></select
 								>
-							</div>
+							</label>
 						</div>
 					{/if}
 				</div>
@@ -2275,11 +2275,14 @@
 					<thead>
 						<tr>
 							<th class="col-check no-print">
-								<div
+								<button
+									type="button"
 									class="row-check"
 									class:row-check--on={isAllSelected(seg)}
+									aria-label={$_('busIbn.selectAll', { default: 'Select all' })}
+									aria-pressed={isAllSelected(seg)}
 									onclick={() => (isAllSelected(seg) ? clearSel(seg.id) : selectAll(seg))}
-								></div>
+								></button>
 							</th>
 							<th class="col-addr col-sortable" onclick={() => toggleSort(seg.id, 'address')}>
 								{ADDR_RANGE[seg.type].label}
@@ -2328,11 +2331,14 @@
 								{@const devStatus = dev.status ?? 'planned'}
 								<tr class:row-selected={isSelected(seg.id, dev.id)}>
 									<td class="col-check no-print">
-										<div
+										<button
+											type="button"
 											class="row-check"
 											class:row-check--on={isSelected(seg.id, dev.id)}
+											aria-label={$_('busIbn.selectRow', { default: 'Select row' })}
+											aria-pressed={isSelected(seg.id, dev.id)}
 											onclick={() => toggleSel(seg.id, dev.id)}
-										></div>
+										></button>
 									</td>
 									<td class="col-addr">
 										<div class="mac-cell">
@@ -2841,8 +2847,20 @@
 
 <!-- ── Import Modal ──────────────────────────────────────────────────────── -->
 {#if importState.open}
-	<div class="modal-overlay no-print" onclick={() => (importState.open = false)}>
-		<div class="modal" onclick={(e) => e.stopPropagation()}>
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
+	<div
+		class="modal-overlay no-print"
+		role="presentation"
+		onclick={() => (importState.open = false)}
+	>
+		<!-- svelte-ignore a11y_click_events_have_key_events -->
+		<div
+			class="modal"
+			role="dialog"
+			aria-modal="true"
+			tabindex="-1"
+			onclick={(e) => e.stopPropagation()}
+		>
 			<div class="modal-head">
 				<div>
 					<div class="modal-title">{$_('busIbn.importTitle')}</div>
@@ -2851,7 +2869,12 @@
 						{$_('common.rows')}
 					</div>
 				</div>
-				<button type="button" class="btn-icon" onclick={() => (importState.open = false)}>
+				<button
+					type="button"
+					class="btn-icon"
+					aria-label={$_('common.close')}
+					onclick={() => (importState.open = false)}
+				>
 					<svg
 						width="14"
 						height="14"
@@ -2866,7 +2889,7 @@
 			<div class="modal-body">
 				{#if project.segments.length > 1}
 					<div class="modal-field">
-						<label class="settings-label">{$_('busIbn.importTargetSegment')}</label>
+						<span class="settings-label">{$_('busIbn.importTargetSegment')}</span>
 						<select class="settings-select" bind:value={importState.targetSegId}>
 							{#each project.segments as s (s)}
 								<option value={s.id}>{s.name}</option>
@@ -2937,12 +2960,17 @@
 
 <!-- ── Library Drawer ─────────────────────────────────────────────────────── -->
 {#if libraryOpen}
-	<div class="lib-overlay" onclick={() => (libraryOpen = false)}></div>
+	<div class="lib-overlay" role="presentation" onclick={() => (libraryOpen = false)}></div>
 {/if}
 <div class="lib-drawer" class:lib-drawer--open={libraryOpen}>
 	<div class="lib-head">
 		<span>{$_('busIbn.libraryTitle')}</span>
-		<button type="button" class="btn-icon" onclick={() => (libraryOpen = false)}>
+		<button
+			type="button"
+			class="btn-icon"
+			aria-label={$_('common.close')}
+			onclick={() => (libraryOpen = false)}
+		>
 			<svg
 				width="14"
 				height="14"
@@ -3008,7 +3036,8 @@
 		{#each filteredLibrary as grp, _grp_i (_grp_i)}
 			<div class="lib-cat">{grp.cat}</div>
 			{#each grp.items as item (item.vendor + '|' + item.model)}
-				<div class="lib-item" onclick={() => addFromLibrary(item)}>
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<div class="lib-item" role="button" tabindex="0" onclick={() => addFromLibrary(item)}>
 					<div class="lib-item-short">{item.short}</div>
 					<div class="lib-item-meta">
 						<div class="lib-item-name">{item.vendor} {item.model}</div>
