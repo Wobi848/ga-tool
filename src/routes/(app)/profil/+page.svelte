@@ -670,42 +670,6 @@
 		color: var(--color-primary);
 	}
 
-	/* Setting row */
-	.setting-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
-	}
-
-	.setting-label {
-		font-size: 0.875rem;
-		color: var(--text);
-	}
-
-	.theme-buttons {
-		display: flex;
-		gap: 0.25rem;
-		flex-wrap: wrap;
-	}
-
-	.theme-btn {
-		font-size: 0.75rem;
-		padding: 0.3rem 0.6rem;
-		border-radius: 0.375rem;
-		border: 1px solid var(--border);
-		background: transparent;
-		color: var(--text);
-		font-family: inherit;
-		cursor: pointer;
-	}
-
-	.theme-btn.active {
-		background: var(--color-primary);
-		color: white;
-		border-color: var(--color-primary);
-	}
-
 	/* Form grid */
 	.form-grid {
 		display: grid;

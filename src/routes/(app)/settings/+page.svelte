@@ -110,12 +110,6 @@
 		border-top: 1px solid var(--border);
 	}
 
-	.setting-row label {
-		font-size: 0.9375rem;
-		color: var(--text);
-		flex-shrink: 0;
-	}
-
 	.theme-options {
 		display: flex;
 		gap: 0.375rem;

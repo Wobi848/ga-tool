@@ -6,7 +6,9 @@
 	let { children, data } = $props();
 
 	// Set locale from cookie (server-readable) before first render — prevents flash
-	locale.set(data.lang);
+	$effect(() => {
+		locale.set(data.lang);
+	});
 
 	// Apply theme to <html> whenever it changes
 	$effect(() => {

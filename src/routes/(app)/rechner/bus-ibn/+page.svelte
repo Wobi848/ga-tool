@@ -995,7 +995,9 @@
 	});
 
 	// Keep bulkState in sync with segments
+	// Initialer Snapshot beim Component-Mount — Aenderungen werden via $effect unten getrackt
 	const initBulk: Record<string, BulkState> = {};
+	// svelte-ignore state_referenced_locally
 	for (const seg of project.segments) initBulk[seg.id] = defaultBulkState();
 	let bulkState = $state<Record<string, BulkState>>(initBulk);
 	$effect(() => {
@@ -4380,14 +4382,6 @@
 		align-items: center;
 		gap: 0.75rem;
 	}
-	.modal-info {
-		font-size: 0.8125rem;
-		color: var(--muted);
-		background: var(--bg);
-		border: 1px solid var(--border);
-		border-radius: 0.5rem;
-		padding: 0.5rem 0.75rem;
-	}
 	.modal-foot {
 		display: flex;
 		align-items: center;
@@ -4473,7 +4467,7 @@
 			widows: 3;
 		}
 
-		body {
+		:global(body) {
 			font-size: 11pt;
 		}
 

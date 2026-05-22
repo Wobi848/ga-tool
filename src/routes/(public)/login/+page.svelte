@@ -5,7 +5,9 @@
 	let { form }: { form: ActionData } = $props();
 	let loading = $state(false);
 	let mode = $state<'login' | 'register'>('login');
-	if ((form as { mode?: string } | null)?.mode === 'register') mode = 'register';
+	$effect(() => {
+		if ((form as { mode?: string } | null)?.mode === 'register') mode = 'register';
+	});
 
 	const verifyPending = $derived(!!(form as { verifyPending?: boolean } | null)?.verifyPending);
 	const verifyEmail = $derived((form as { email?: string } | null)?.email ?? '');

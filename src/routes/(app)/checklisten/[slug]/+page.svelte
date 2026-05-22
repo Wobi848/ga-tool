@@ -748,8 +748,7 @@
 		.item-hint {
 			display: block !important;
 		}
-		.context-box,
-		.progress-bar-wrap {
+		.context-box {
 			border: 1px solid #ccc;
 		}
 		.item.done .item-title {
@@ -769,11 +768,13 @@
 			background: #f5f5f5 !important;
 			color: #000 !important;
 			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
 		}
 		.critical-badge {
 			background: #fee2e2 !important;
 			color: #b91c1c !important;
 			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
 		}
 		a[href]::after {
 			content: '';
