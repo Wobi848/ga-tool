@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { roomLoad, type Raum } from '$lib/rechner/heizlast';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -37,20 +38,6 @@
 		buero: { ti: 20, i18nKey: 'rechner.heizlastUi.roomBuero' },
 		treppenhaus: { ti: 15, i18nKey: 'rechner.heizlastUi.roomTreppenhaus' },
 		keller: { ti: 10, i18nKey: 'rechner.heizlastUi.roomKeller' }
-	};
-
-	type Raum = {
-		id: number;
-		label: string;
-		ti: number; // Raumsolltemperatur °C
-		area: number; // m²
-		height: number; // m
-		uWall: number; // W/(m²K)
-		uRoof: number; // W/(m²K)
-		uFloor: number; // W/(m²K)
-		uWindow: number; // W/(m²K)
-		windowArea: number; // m²
-		ach: number; // Luftwechsel 1/h (Infiltration)
 	};
 
 	let rooms: Raum[] = $state([
@@ -121,30 +108,7 @@
 		rooms = rooms.filter((r) => r.id !== id);
 	}
 
-	// Heizlast pro Raum [W]
-	function roomLoad(r: Raum): number {
-		const dt = r.ti - te;
-		if (dt <= 0) return 0;
-
-		// Aussenwand: Fläche = Grundfläche × 4 × Faktor − Fensterfläche (vereinfacht: Hüllflächenanteil)
-		// Vereinfachung: Aussenwand = Umfang × Höhe, Umfang ≈ 4 × sqrt(Fläche)
-		const perimeter = 4 * Math.sqrt(r.area);
-		const wallArea = perimeter * r.height - r.windowArea;
-
-		const qTrans =
-			wallArea * r.uWall * dt +
-			r.area * r.uRoof * dt +
-			r.area * r.uFloor * dt * 0.5 + // Boden gegen Erdreich: 50% Abschlag
-			r.windowArea * r.uWindow * dt;
-
-		// Lüftungswärmeverlust: Q = V̇ × ρ × cp × ΔT = ACH × V × 0.34 × ΔT
-		const volume = r.area * r.height;
-		const qVent = r.ach * volume * 0.34 * dt;
-
-		return qTrans + qVent;
-	}
-
-	const results = $derived(rooms.map((r) => ({ ...r, load: roomLoad(r) })));
+	const results = $derived(rooms.map((r) => ({ ...r, load: roomLoad(r, te) })));
 	const totalLoad = $derived(results.reduce((s, r) => s + r.load, 0));
 	const totalArea = $derived(rooms.reduce((s, r) => s + r.area, 0));
 	const spezifisch = $derived(totalArea > 0 ? totalLoad / totalArea : 0);

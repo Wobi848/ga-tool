@@ -1,42 +1,25 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		computeKv,
+		recommendKvs,
+		authority as computeAuthority,
+		STANDARD_KVS,
+		type KvMode
+	} from '$lib/rechner/kvWert';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	type Mode = 'kv-from-qdp' | 'dp-from-qkv' | 'q-from-kvdp';
+	const stdKvs = STANDARD_KVS;
 
-	let mode: Mode = $state('kv-from-qdp');
+	let mode: KvMode = $state('kv-from-qdp');
 	let flow = $state(1.0); // m³/h
 	let dp = $state(0.2); // bar
 	let kv = $state(2.5); // m³/h @ 1 bar
 
-	// Kv [m³/h] = Q [m³/h] × √(1 / Δp [bar])  →  Q = Kv × √Δp  →  Δp = (Q/Kv)²
-	const result = $derived.by(() => {
-		if (mode === 'kv-from-qdp') {
-			const kvCalc = flow / Math.sqrt(dp);
-			return { kv: kvCalc, q: flow, dp };
-		}
-		if (mode === 'dp-from-qkv') {
-			const dpCalc = Math.pow(flow / kv, 2);
-			return { kv, q: flow, dp: dpCalc };
-		}
-		// q-from-kvdp
-		const qCalc = kv * Math.sqrt(dp);
-		return { kv, q: qCalc, dp };
-	});
-
-	// Standard Kvs sizes for valve selection
-	const stdKvs = [0.25, 0.4, 0.63, 1.0, 1.6, 2.5, 4.0, 6.3, 10, 16, 25, 40, 63, 100];
-
-	const recommendedKvs = $derived.by(() => {
-		const target = result.kv;
-		return stdKvs.find((k) => k >= target * 1.1) ?? stdKvs[stdKvs.length - 1];
-	});
-
-	const authority = $derived.by(() => {
-		const dpRef = 0.5;
-		return result.dp / dpRef;
-	});
+	const result = $derived.by(() => computeKv({ mode, flow, dp, kv }));
+	const recommendedKvs = $derived(recommendKvs(result.kv));
+	const authority = $derived(computeAuthority(result.dp));
 </script>
 
 <div class="calc-page">

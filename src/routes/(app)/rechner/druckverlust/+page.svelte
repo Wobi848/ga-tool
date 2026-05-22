@@ -1,54 +1,30 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { pressureLoss, pipes, mediaProps, type DN, type Medium } from '$lib/rechner/druckverlust';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Inputs
+	const mediaLabelKey: Record<Medium, string> = {
+		wasser: 'rechner.druckverlustUi.mediumWater',
+		sole30: 'rechner.druckverlustUi.mediumBrine'
+	};
+
 	let flow = $state(1.0); // m³/h
 	let length = $state(20); // m (Rohrlänge gesamt Vor- + Rücklauf)
-	let dn = $state<'DN15' | 'DN20' | 'DN25' | 'DN32' | 'DN40' | 'DN50'>('DN20');
+	let dn = $state<DN>('DN20');
 	let zetaSum = $state(15); // Σζ Einzelwiderstände
-	let medium = $state<'wasser' | 'sole30'>('wasser');
+	let medium = $state<Medium>('wasser');
 
-	// Innendurchmesser + Rauhigkeit
-	const pipes: Record<string, { di: number; label: string }> = {
-		DN15: { di: 16, label: 'DN 15 (Innen-Ø 16 mm)' },
-		DN20: { di: 21.6, label: 'DN 20 (21.6 mm)' },
-		DN25: { di: 27.2, label: 'DN 25 (27.2 mm)' },
-		DN32: { di: 35.9, label: 'DN 32 (35.9 mm)' },
-		DN40: { di: 41.8, label: 'DN 40 (41.8 mm)' },
-		DN50: { di: 53, label: 'DN 50 (53 mm)' }
-	};
-
-	const mediaProps: Record<string, { rho: number; nu: number; labelKey: string }> = {
-		wasser: { rho: 998, nu: 1.0e-6, labelKey: 'rechner.druckverlustUi.mediumWater' },
-		sole30: { rho: 1050, nu: 3.5e-6, labelKey: 'rechner.druckverlustUi.mediumBrine' }
-	};
-
-	const result = $derived.by(() => {
-		const { di } = pipes[dn];
-		const { rho, nu } = mediaProps[medium];
-		const k = 0.045e-3; // Rauhigkeit Stahl (m)
-
-		const A = (Math.PI * Math.pow(di / 1000, 2)) / 4; // m²
-		const v = flow / 3600 / A; // m/s
-		const Re = (v * (di / 1000)) / nu;
-
-		// Colebrook-White, approximation by Swamee-Jain
-		const term = k / (3.7 * (di / 1000)) + 5.74 / Math.pow(Re, 0.9);
-		const lambda =
-			Re < 2300
-				? 64 / Re // laminar
-				: 0.25 / Math.pow(Math.log10(term), 2);
-
-		// Druckverlust pro m: R [Pa/m] = λ × (1/d) × (ρ × v²)/2
-		const R = (lambda / (di / 1000)) * ((rho * v * v) / 2);
-		const dpL = R * length; // Pa (Reibung)
-		const dpZ = zetaSum * ((rho * v * v) / 2); // Pa (Einzelwid.)
-		const dpTotal = dpL + dpZ;
-
-		return { v, Re, lambda, R, dpL, dpZ, dpTotal };
-	});
+	const result = $derived.by(() =>
+		pressureLoss({
+			flow,
+			length,
+			di: pipes[dn].di,
+			zetaSum,
+			rho: mediaProps[medium].rho,
+			nu: mediaProps[medium].nu
+		})
+	);
 
 	const vTooHigh = $derived(result.v > 1.5);
 </script>
@@ -92,8 +68,8 @@
 		<div class="calc-field">
 			<label class="calc-field-label" for="med-sel">{$_('rechner.ui.medium')}</label>
 			<select id="med-sel" bind:value={medium} class="calc-select">
-				{#each Object.entries(mediaProps) as [k, v] (k)}
-					<option value={k}>{$_(v.labelKey)}</option>
+				{#each Object.entries(mediaProps) as [k] (k)}
+					<option value={k}>{$_(mediaLabelKey[k as Medium])}</option>
 				{/each}
 			</select>
 		</div>
