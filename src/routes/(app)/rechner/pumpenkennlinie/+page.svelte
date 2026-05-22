@@ -110,7 +110,7 @@
 				>{$_('rechner.pumpenkennlinieUi.preset')}</label
 			>
 			<select id="preset-sel" bind:value={presetIdx} class="calc-select">
-				{#each pumpPresets as p, i}
+				{#each pumpPresets as p, i (i)}
 					<option value={i}
 						>{i === pumpPresets.length - 1
 							? $_('rechner.pumpenkennlinieUi.customPreset')
@@ -222,7 +222,7 @@
 		<div class="chart">
 			<div class="chart-y-label">H [m]</div>
 			<div class="chart-body">
-				{#each chartPoints as pt, i}
+				{#each chartPoints as pt, i (i)}
 					<div class="chart-col">
 						<div class="chart-bars">
 							<!-- Rohrnetz bar (bottom) -->

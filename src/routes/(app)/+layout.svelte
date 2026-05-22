@@ -158,7 +158,7 @@
 		</div>
 
 		<nav class="sidebar-nav">
-			{#each navItems as item}
+			{#each navItems as item (item.href)}
 				<a
 					href={item.href}
 					class="nav-item"
@@ -206,7 +206,7 @@
 				</button>
 				{#if favsOpen}
 					<div class="fav-list">
-						{#each $favorites.slice().reverse() as fav}
+						{#each $favorites.slice().reverse() as fav, _fav_i (_fav_i)}
 							<a
 								href="{favTypeHref[fav.type]}/{fav.slug}"
 								class="fav-item"
@@ -324,7 +324,7 @@
 
 	<!-- ── Bottom Nav (Mobile) ────────────────────── -->
 	<nav class="bottom-nav">
-		{#each bottomItems as item}
+		{#each bottomItems as item (item.href)}
 			<a href={item.href} class="bottom-nav-item" class:active={isActive(item.href)}>
 				{@render Icon({ name: item.icon, size: 20 })}
 				<span>{item.label()}</span>

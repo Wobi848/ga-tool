@@ -83,12 +83,12 @@
 	<div class="filter-row">
 		<select bind:value={selectedCategory} class="cat-select">
 			<option value="">{$_('referenz.allCategories')}</option>
-			{#each categories as c}
+			{#each categories as c (c)}
 				<option value={c}>{c}</option>
 			{/each}
 		</select>
 		<div class="chips">
-			{#each allAreas as a}
+			{#each allAreas as a (a)}
 				<button
 					class="chip"
 					class:active={selectedAreas.includes(a)}
@@ -102,7 +102,7 @@
 		{#if filtered.length === 0}
 			<p class="empty">{$_('referenz.noTables')}</p>
 		{:else}
-			{#each filtered as tbl}
+			{#each filtered as tbl, _tbl_i (_tbl_i)}
 				<a href="/referenz/{tbl.slug}" class="card">
 					<div class="card-icon" style="background: {tbl.color}20; color: {tbl.color}">
 						<svg

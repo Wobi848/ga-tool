@@ -185,7 +185,7 @@
 			<div class="card">
 				<div class="card-label">{$_('rechner.dipSwitchUi.protocol')}</div>
 				<div class="seg-group">
-					{#each Object.entries(presets) as [key, p]}
+					{#each Object.entries(presets) as [key, p] (key)}
 						<button
 							type="button"
 							class="seg-btn"
@@ -321,7 +321,7 @@
 
 				<!-- Switch labels top -->
 				<div class="switch-row">
-					{#each Array(switchCount) as _, i}
+					{#each Array(switchCount) as _, i (i)}
 						<div class="switch-col">
 							<span class="switch-num">{i + 1}</span>
 							<span class="switch-val">{bitValue(i)}</span>
@@ -340,7 +340,7 @@
 
 				<!-- Switches -->
 				<div class="switch-row">
-					{#each Array(switchCount) as _, i}
+					{#each Array(switchCount) as _, i (i)}
 						<div class="switch-col">
 							<button
 								type="button"
@@ -397,7 +397,7 @@
 			<div class="quick-ref">
 				<div class="qr-title">{$_('rechner.dipSwitchUi.bitWeight')}</div>
 				<div class="qr-grid">
-					{#each Array(switchCount) as _, i}
+					{#each Array(switchCount) as _, i (i)}
 						<div class="qr-item" class:qr-active={switches[i]}>
 							<span class="qr-sw">SW{i + 1}</span>
 							<span class="qr-bv">{bitValue(i)}</span>

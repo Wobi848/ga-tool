@@ -102,10 +102,10 @@
 
 		<div class="meta-chips">
 			<span class="cat-chip">{table.category}</span>
-			{#each table.areas as a}
+			{#each table.areas as a (a)}
 				<span class="area-chip">{$_('area.' + a)}</span>
 			{/each}
-			{#each table.norm ?? [] as n}
+			{#each table.norm ?? [] as n (n)}
 				<span class="norm-chip">{n}</span>
 			{/each}
 			{#if table.updated}
@@ -147,7 +147,7 @@
 		<table>
 			<thead>
 				<tr>
-					{#each table.columns as col}
+					{#each table.columns as col, _col_i (_col_i)}
 						<th
 							class:sortable={true}
 							class:highlight={col.highlight}
@@ -173,9 +173,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each filteredRows as row, rowIdx}
+				{#each filteredRows as row, rowIdx (rowIdx)}
 					<tr>
-						{#each table.columns as col}
+						{#each table.columns as col, _col_i (_col_i)}
 							{@const cellId = `${rowIdx}-${col.key}`}
 							{@const val = row[col.key]}
 							<td

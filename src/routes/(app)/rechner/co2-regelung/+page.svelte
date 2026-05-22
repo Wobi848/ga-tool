@@ -157,7 +157,7 @@
 				>{$_('rechner.co2RegelungUi.activityLevel')}</label
 			>
 			<select id="act-sel" bind:value={activity} class="calc-select">
-				{#each Object.entries(activityCO2) as [k, v]}
+				{#each Object.entries(activityCO2) as [k, v] (k)}
 					<option value={k}>{v.label} — {v.lph} l/h·P</option>
 				{/each}
 			</select>
@@ -186,7 +186,7 @@
 		<div class="calc-section">
 			<h2 class="calc-section-title">{$_('rechner.co2RegelungUi.co2Target')}</h2>
 			<div class="preset-grid">
-				{#each co2Presets as p}
+				{#each co2Presets as p (p)}
 					<button
 						class="preset-btn"
 						class:active={co2Target === p.ppm}
@@ -299,7 +299,7 @@
 					{$_('rechner.co2RegelungUi.co2RiseTitle', { values: { co2: co2Outside } })}
 				</h2>
 				<div class="curve-table">
-					{#each curve as pt}
+					{#each curve as pt (pt)}
 						<div class="curve-row">
 							<span class="curve-t">{pt.t} min</span>
 							<div class="curve-bar-wrap">

@@ -177,7 +177,7 @@
 			<div class="curve-grid">
 				<div class="curve-axis-y">q/q<sub>max</sub></div>
 				<div class="curve-chart">
-					{#each curve.slice().reverse() as pt}
+					{#each curve.slice().reverse() as pt (pt)}
 						<div class="curve-row">
 							<span class="curve-label">{pt.h}%</span>
 							<div class="curve-bar-wrap">
@@ -257,7 +257,7 @@
 		<div class="calc-section">
 			<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.kvsStandard')}</h2>
 			<div class="kvs-grid">
-				{#each kvsOptions as v}
+				{#each kvsOptions as v (v)}
 					<div
 						class="kvs-chip"
 						class:kvs-selected={v === kvResult.kvs}

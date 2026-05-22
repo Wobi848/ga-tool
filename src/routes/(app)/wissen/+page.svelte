@@ -107,7 +107,7 @@
 		<div class="filter-group">
 			<span class="filter-label">{$_('wissen.fachbereich')}</span>
 			<div class="chips">
-				{#each allAreas as a}
+				{#each allAreas as a (a)}
 					<button
 						class="chip"
 						class:active={selectedAreas.includes(a)}
@@ -119,7 +119,7 @@
 		<div class="filter-group">
 			<span class="filter-label">{$_('wissen.schwierigkeit')}</span>
 			<div class="chips">
-				{#each allDifficulties as d}
+				{#each allDifficulties as d (d)}
 					<button
 						class="chip"
 						class:active={selectedDifficulties.includes(d)}
@@ -149,7 +149,7 @@
 				{filtered.length === 1 ? $_('common.results') : $_('common.resultsPlural')}
 			</p>
 			<div class="list">
-				{#each filtered as a}
+				{#each filtered as a (a)}
 					<a href="/wissen/{a.slug}" class="article-card">
 						<div class="card-main">
 							<div class="card-header">
@@ -170,10 +170,10 @@
 									· {$_('cat.' + a.subcategory, { default: a.subcategory })}{/if}
 							</p>
 							<div class="card-chips">
-								{#each a.area as ar}
+								{#each a.area as ar (ar)}
 									<span class="area-chip">{$_('area.' + ar)}</span>
 								{/each}
-								{#each a.tags.slice(0, 3) as t}
+								{#each a.tags.slice(0, 3) as t (t)}
 									<span class="tag-chip">#{t}</span>
 								{/each}
 								{#if a.tags.length > 3}

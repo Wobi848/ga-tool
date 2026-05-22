@@ -92,7 +92,7 @@
 		<div class="calc-field">
 			<label class="calc-field-label" for="med-sel">{$_('rechner.ui.medium')}</label>
 			<select id="med-sel" bind:value={medium} class="calc-select">
-				{#each Object.entries(mediaProps) as [k, v]}
+				{#each Object.entries(mediaProps) as [k, v] (k)}
 					<option value={k}>{$_(v.labelKey)}</option>
 				{/each}
 			</select>
@@ -105,7 +105,7 @@
 			<label class="calc-field-label" for="dn-sel">{$_('rechner.druckverlustUi.nominalSize')}</label
 			>
 			<select id="dn-sel" bind:value={dn} class="calc-select">
-				{#each Object.entries(pipes) as [k, v]}
+				{#each Object.entries(pipes) as [k, v] (k)}
 					<option value={k}>{v.label}</option>
 				{/each}
 			</select>

@@ -143,7 +143,7 @@
 				<span class="calc-field-hint">{categories[cat].desc}</span>
 			</label>
 			<select id="cat-sel" bind:value={cat} class="calc-select">
-				{#each Object.entries(categories) as [k, v]}
+				{#each Object.entries(categories) as [k, v] (k)}
 					<option value={k}>{v.label}</option>
 				{/each}
 			</select>
@@ -153,7 +153,7 @@
 				>{$_('rechner.luftbedarfUi.activityLevel')}</label
 			>
 			<select id="act-sel" bind:value={activity} class="calc-select">
-				{#each Object.entries(activityFactors) as [k, v]}
+				{#each Object.entries(activityFactors) as [k, v] (k)}
 					<option value={k}>{v.label}</option>
 				{/each}
 			</select>

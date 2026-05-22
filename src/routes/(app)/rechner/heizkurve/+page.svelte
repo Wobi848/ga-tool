@@ -140,7 +140,7 @@
 				<span class="calc-field-hint">{info.family}</span>
 			</label>
 			<select id="man-sel" bind:value={manufacturer} class="calc-select">
-				{#each Object.entries(manufacturerInfo) as [k, v]}
+				{#each Object.entries(manufacturerInfo) as [k, v] (k)}
 					<option value={k}>{v.label}</option>
 				{/each}
 			</select>
@@ -158,11 +158,11 @@
 	<div class="plot-section">
 		<svg viewBox="0 0 {W} {H}" class="plot">
 			<!-- grid -->
-			{#each xTicks as t}
+			{#each xTicks as t (t)}
 				<line x1={x(t)} y1={padT} x2={x(t)} y2={padT + plotH} class="grid" />
 				<text x={x(t)} y={H - 8} class="tick-label" text-anchor="middle">{t}</text>
 			{/each}
-			{#each yTicks as t}
+			{#each yTicks as t (t)}
 				<line x1={padL} y1={y(t)} x2={padL + plotW} y2={y(t)} class="grid" />
 				<text x={padL - 6} y={y(t) + 3} class="tick-label" text-anchor="end">{t}</text>
 			{/each}

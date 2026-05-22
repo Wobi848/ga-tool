@@ -44,7 +44,7 @@
 	</header>
 
 	<div class="grid">
-		{#each rechner as r}
+		{#each rechner as r (r)}
 			<a href="/rechner/{r.slug}" class="card">
 				<div class="card-icon" style="background: {r.color}20; color: {r.color}">
 					<svg

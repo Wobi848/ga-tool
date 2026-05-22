@@ -167,7 +167,7 @@
 	{/if}
 
 	<div class="fields">
-		{#each converter.units as unit}
+		{#each converter.units as unit, _unit_i (_unit_i)}
 			<div class="field">
 				<div class="field-header">
 					<span class="field-label">{t(unit.label, unit.labelEn)}</span>

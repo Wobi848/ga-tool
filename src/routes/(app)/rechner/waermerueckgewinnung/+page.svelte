@@ -124,7 +124,7 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.waermerueckgewinnungUi.wrgType')}</h2>
 		<div class="type-grid">
-			{#each Object.entries(wrgInfo) as [k, v]}
+			{#each Object.entries(wrgInfo) as [k, v] (k)}
 				<button
 					class="type-btn"
 					class:active={wrgType === k}

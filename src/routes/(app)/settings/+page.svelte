@@ -33,7 +33,7 @@
 			<div class="setting-row">
 				<span class="setting-label">{$_('settings.theme')}</span>
 				<div class="theme-options">
-					{#each themeValues as tv}
+					{#each themeValues as tv (tv)}
 						<button class="theme-btn" class:active={$theme === tv} onclick={() => theme.set(tv)}>
 							{$_(`settings.theme${tv.charAt(0).toUpperCase() + tv.slice(1)}`)}
 						</button>
@@ -44,7 +44,7 @@
 			<div class="setting-row">
 				<span class="setting-label">{$_('settings.language')}</span>
 				<div class="theme-options">
-					{#each langValues as lv}
+					{#each langValues as lv (lv)}
 						<button
 							class="theme-btn"
 							class:active={currentLang === lv.value}

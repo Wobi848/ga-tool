@@ -22,7 +22,7 @@
 	</header>
 
 	<div class="grid">
-		{#each converters as c}
+		{#each converters as c (c)}
 			<a href="/konverter/{c.slug}" class="card">
 				<div class="card-icon" style="background: {c.color}20; color: {c.color}">
 					<svg

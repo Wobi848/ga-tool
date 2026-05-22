@@ -177,8 +177,8 @@
 			<span class="cat-chip" style:background={template.color + '20'} style:color={template.color}
 				>{$_('cat.' + template.category.toLowerCase(), { default: template.category })}</span
 			>
-			{#each template.areas as a}<span class="area-chip">{$_('area.' + a)}</span>{/each}
-			{#each template.norm ?? [] as n}<span class="norm-chip">{n}</span>{/each}
+			{#each template.areas as a (a)}<span class="area-chip">{$_('area.' + a)}</span>{/each}
+			{#each template.norm ?? [] as n (n)}<span class="norm-chip">{n}</span>{/each}
 		</div>
 
 		{#if template.description}<p class="description">
@@ -240,7 +240,7 @@
 	</div>
 
 	<!-- Sections -->
-	{#each template.sections as section, _sIdx}
+	{#each template.sections as section, _sIdx (_sIdx)}
 		{@const sectionDone = section.items.filter((i) => status[i.id]).length}
 		<section class="section">
 			<header class="section-header">
@@ -248,7 +248,7 @@
 				<span class="section-count">{sectionDone}/{section.items.length}</span>
 			</header>
 			<ul class="items">
-				{#each section.items as item}
+				{#each section.items as item (item.id)}
 					<li class="item" class:done={status[item.id]} class:critical={item.critical}>
 						<label class="item-main">
 							<input

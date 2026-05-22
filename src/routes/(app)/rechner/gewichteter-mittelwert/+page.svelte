@@ -157,7 +157,7 @@
 		{#if contributions.length > 1}
 			<div class="calc-section">
 				<h2 class="calc-section-title">Anteile</h2>
-				{#each contributions as c}
+				{#each contributions as c (c)}
 					<div class="contrib-row">
 						<span class="contrib-label">{c.label || '—'}</span>
 						<div class="contrib-bar-wrap">

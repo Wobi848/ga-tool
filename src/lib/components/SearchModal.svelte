@@ -140,7 +140,7 @@
 			{#if flatList.length === 0}
 				<p class="empty">{$_('search.noResults', { values: { query } })}</p>
 			{:else}
-				{#each orderedTypes as type}
+				{#each orderedTypes as type, _type_i (_type_i)}
 					{@const items = grouped[type] ?? []}
 					{#if items.length}
 						<div class="group">
@@ -148,7 +148,7 @@
 								{typeLabels[type]}
 								<span class="group-count">{items.length}</span>
 							</div>
-							{#each items as item}
+							{#each items as item (item.url)}
 								{@const idx = indexOf(item)}
 								<button
 									class="item"

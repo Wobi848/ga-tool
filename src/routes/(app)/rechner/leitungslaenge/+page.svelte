@@ -121,7 +121,7 @@
 			</span>
 		</div>
 		<div class="preset-wrap">
-			{#each presets as p}
+			{#each presets as p (p)}
 				<button type="button" class="preset-btn" onclick={() => applyPreset(p)}>{p.label}</button>
 			{/each}
 		</div>
@@ -271,7 +271,7 @@
 				>
 				<div class="calc-input-wrap">
 					<select id="sect" class="calc-select" bind:value={crossSection}>
-						{#each stdSections as s}
+						{#each stdSections as s (s)}
 							<option value={s}>{s} mm²</option>
 						{/each}
 					</select>
@@ -363,7 +363,7 @@
 
 		<div class="calc-section">
 			<h2 class="calc-section-title">{$_('rechner.leitungslaengeUi.compareAll')}</h2>
-			{#each stdSections as s, idx}
+			{#each stdSections as s, idx (idx)}
 				{@const lMax = I > 0 ? (uDropMax * s) / (2 * RHO_CU * I) : 0}
 				{@const iOk = I <= (ampacity[s] ?? 99)}
 				<div class="calc-field" style={idx === 0 ? 'border-top:none' : ''}>

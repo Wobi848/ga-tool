@@ -263,7 +263,7 @@
 									>★ {u.favorites.length}</span
 								>
 								<div class="fav-pills">
-									{#each u.favorites.slice(0, 4) as f}
+									{#each u.favorites.slice(0, 4) as f (f)}
 										<span
 											class="fav-pill"
 											style:background="color-mix(in srgb, {typeColor[f.type] ?? '#64748b'} 15%, transparent)"

@@ -89,12 +89,12 @@
 	<div class="filter-row">
 		<select bind:value={selectedCategory} class="cat-select">
 			<option value="">{$_('checklisten.allCategories')}</option>
-			{#each categories as c}
+			{#each categories as c (c)}
 				<option value={c}>{c}</option>
 			{/each}
 		</select>
 		<div class="chips">
-			{#each allAreas as a}
+			{#each allAreas as a (a)}
 				<button
 					class="chip"
 					class:active={selectedAreas.includes(a)}
@@ -108,7 +108,7 @@
 		{#if filtered.length === 0}
 			<p class="empty">{$_('checklisten.noChecklists')}</p>
 		{:else}
-			{#each filtered as c}
+			{#each filtered as c (c)}
 				{@const total = countItems(c)}
 				{@const critical = countCritical(c)}
 				{@const progress = progressMap[c.slug] ?? 0}

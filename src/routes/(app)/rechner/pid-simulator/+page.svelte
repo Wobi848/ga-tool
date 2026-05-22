@@ -207,7 +207,7 @@
 			<div class="section">
 				<h3 class="section-title">{$_('rechner.pidSimulatorUi.direction')}</h3>
 				<div class="seg">
-					{#each MODES as m}
+					{#each MODES as m (m)}
 						<button
 							class="seg-btn"
 							class:active={sim.mode === m.value}
@@ -255,7 +255,7 @@
 					/>
 				</div>
 				<div class="seg" style="margin-top:8px">
-					{#each UNITS as u}
+					{#each UNITS as u (u)}
 						<button
 							class="seg-btn"
 							class:active={sim.unit === u.value}
@@ -269,7 +269,7 @@
 			<div class="section">
 				<h3 class="section-title">{$_('rechner.pidSimulatorUi.theory')}</h3>
 				<div class="theory-links">
-					{#each [['pid-regler', 'PID-Regler', $_('rechner.pidSimulatorUi.theoryBasics')], ['regelkreise', 'Regelkreise & Totzeit', $_('rechner.pidSimulatorUi.theoryBasics')], ['steuern-regeln', 'Steuern vs. Regeln', $_('rechner.pidSimulatorUi.theoryBasics')], ['kaskadenregelung', 'Kaskadenregelung', $_('rechner.pidSimulatorUi.theoryAdvanced')], ['druckregelung-lueftung', 'Druckregelung Lüftung', $_('rechner.pidSimulatorUi.theoryAdvanced')]] as [slug, title, level]}
+					{#each [['pid-regler', 'PID-Regler', $_('rechner.pidSimulatorUi.theoryBasics')], ['regelkreise', 'Regelkreise & Totzeit', $_('rechner.pidSimulatorUi.theoryBasics')], ['steuern-regeln', 'Steuern vs. Regeln', $_('rechner.pidSimulatorUi.theoryBasics')], ['kaskadenregelung', 'Kaskadenregelung', $_('rechner.pidSimulatorUi.theoryAdvanced')], ['druckregelung-lueftung', 'Druckregelung Lüftung', $_('rechner.pidSimulatorUi.theoryAdvanced')]] as [slug, title, level] (slug)}
 						<a href="/wissen/{slug}" class="theory-link">
 							<span class="theory-title">{title}</span>
 							<span class="theory-level">{level}</span>
@@ -282,7 +282,7 @@
 			<div class="section">
 				<h3 class="section-title">{$_('rechner.pidSimulatorUi.hvacPresets')}</h3>
 				<div class="preset-grid">
-					{#each [['raum-heizung', $_('rechner.pidSimulatorUi.presetRaumHeizung')], ['vorlauf', $_('rechner.pidSimulatorUi.presetVorlauf')], ['kaelte', $_('rechner.pidSimulatorUi.presetKaelte')], ['druck', $_('rechner.pidSimulatorUi.presetDruck')], ['feuchte', $_('rechner.pidSimulatorUi.presetFeuchte')], ['pid-demo', $_('rechner.pidSimulatorUi.presetDemo')]] as [key, label]}
+					{#each [['raum-heizung', $_('rechner.pidSimulatorUi.presetRaumHeizung')], ['vorlauf', $_('rechner.pidSimulatorUi.presetVorlauf')], ['kaelte', $_('rechner.pidSimulatorUi.presetKaelte')], ['druck', $_('rechner.pidSimulatorUi.presetDruck')], ['feuchte', $_('rechner.pidSimulatorUi.presetFeuchte')], ['pid-demo', $_('rechner.pidSimulatorUi.presetDemo')]] as [key, label] (key)}
 						<button class="btn btn-preset" onclick={() => sim.loadPreset(key)}>{label}</button>
 					{/each}
 				</div>
@@ -668,7 +668,7 @@
 					</div>
 					{#if sim.autoDistActive}
 						<div class="seg" style="margin:8px 0 10px">
-							{#each [['sin', `∿ ${$_('rechner.pidSimulatorUi.sine')}`], ['square', `⊓ ${$_('rechner.pidSimulatorUi.square')}`], ['noise', `≈ ${$_('rechner.pidSimulatorUi.noise')}`]] as [v, l]}
+							{#each [['sin', `∿ ${$_('rechner.pidSimulatorUi.sine')}`], ['square', `⊓ ${$_('rechner.pidSimulatorUi.square')}`], ['noise', `≈ ${$_('rechner.pidSimulatorUi.noise')}`]] as [v, l] (v)}
 								<button
 									class="seg-btn"
 									class:active={sim.autoDistType === v}

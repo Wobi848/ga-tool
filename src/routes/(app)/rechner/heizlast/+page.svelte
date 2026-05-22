@@ -185,7 +185,7 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.heizlastUi.locationNorm')}</h2>
 		<div class="standort-grid">
-			{#each standorte as s, i}
+			{#each standorte as s, i (i)}
 				<button
 					class="standort-btn"
 					class:active={standortIdx === i}
@@ -214,7 +214,7 @@
 	<!-- Räume Liste -->
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.heizlastUi.rooms')}</h2>
-		{#each results as r}
+		{#each results as r (r)}
 			<div class="room-row" class:selected={selectedId === r.id}>
 				<button class="room-main" onclick={() => (selectedId = selectedId === r.id ? null : r.id)}>
 					<span class="room-label">{r.label}</span>
@@ -416,7 +416,7 @@
 		<!-- Add room -->
 		<div class="add-room-row">
 			<span class="add-room-label">{$_('rechner.heizlastUi.addRoom')}</span>
-			{#each Object.entries(roomTypeKeys) as [k, v]}
+			{#each Object.entries(roomTypeKeys) as [k, v] (k)}
 				{@const label = $_(v.i18nKey)}
 				<button class="add-room-btn" onclick={() => addRoom(k as RoomType, label)}
 					>{label.split(' ')[0]}</button

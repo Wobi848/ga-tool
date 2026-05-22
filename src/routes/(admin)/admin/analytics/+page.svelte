@@ -105,7 +105,7 @@
 			<h2 class="section-title">Tägliche Aufrufe — letzte 30 Tage</h2>
 			<div class="chart-wrap">
 				<div class="bar-chart">
-					{#each data.daily as d}
+					{#each data.daily as d (d)}
 						<div class="bar-col" title="{fmtDay(d.day)}: {d.cnt} Events">
 							<div
 								class="bar"
@@ -127,7 +127,7 @@
 		<div class="section">
 			<h2 class="section-title">Module — Gesamtaufrufe</h2>
 			<div class="module-list">
-				{#each data.byModule as m}
+				{#each data.byModule as m (m)}
 					<div class="module-row">
 						<div class="module-name" style:color={moduleColors[m.module] ?? '#6b7280'}>
 							{moduleLabels[m.module] ?? m.module}
@@ -155,7 +155,7 @@
 			<h2 class="section-title">Neue Registrierungen — letzte 30 Tage</h2>
 			<div class="chart-wrap">
 				<div class="bar-chart bar-chart--sm">
-					{#each data.regDaily as d}
+					{#each data.regDaily as d (d)}
 						<div class="bar-col" title="{fmtDay(d.day)}: {d.cnt} Registrierungen">
 							<div
 								class="bar"
@@ -178,7 +178,7 @@
 			<h2 class="section-title">Aktivste User (30d)</h2>
 			{#if data.topUsers.length}
 				<div class="user-list">
-					{#each data.topUsers as u, i}
+					{#each data.topUsers as u, i (i)}
 						<div class="user-row">
 							<span class="user-rank">{i + 1}</span>
 							<span class="user-email-txt">{u.email}</span>
@@ -204,7 +204,7 @@
 		<h2 class="section-title">Meist gemerkte Inhalte (Favoriten)</h2>
 		{#if data.topFavorites.length}
 			<div class="fav-list">
-				{#each data.topFavorites as f}
+				{#each data.topFavorites as f (f)}
 					<div class="fav-row">
 						<span
 							class="fav-badge"
@@ -232,13 +232,13 @@
 	<div class="section">
 		<h2 class="section-title">Top Inhalte</h2>
 		<div class="top-grid">
-			{#each Object.entries(slugsByModule) as [mod, items]}
+			{#each Object.entries(slugsByModule) as [mod, items] (mod)}
 				<div class="top-card">
 					<div class="top-card-header" style:color={moduleColors[mod] ?? '#6b7280'}>
 						{moduleLabels[mod] ?? mod}
 					</div>
 					<ol class="top-list">
-						{#each items.slice(0, 5) as item, i}
+						{#each items.slice(0, 5) as item, i (i)}
 							<li class="top-item">
 								<span class="top-rank">{i + 1}</span>
 								<span class="top-slug">{item.slug}</span>

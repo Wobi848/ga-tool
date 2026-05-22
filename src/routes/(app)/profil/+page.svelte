@@ -184,10 +184,10 @@
 
 	{#if editDisciplines.length || editMfrPrefs.length}
 		<div class="chips-row">
-			{#each editDisciplines as d}
+			{#each editDisciplines as d (d)}
 				<span class="chip chip-discipline">{d}</span>
 			{/each}
-			{#each editMfrPrefs as m}
+			{#each editMfrPrefs as m (m)}
 				<span class="chip chip-mfr">{m}</span>
 			{/each}
 		</div>
@@ -222,7 +222,7 @@
 			<p class="empty">{$_('profil.emptyRecent')}</p>
 		{:else}
 			<div class="recent-list">
-				{#each recents as item}
+				{#each recents as item (item.type + '/' + item.slug)}
 					<a href={urlFor(item)} class="recent-item">
 						<span
 							class="recent-type"
@@ -266,7 +266,7 @@
 					<span class="form-label">{$_('profil.roleLabel')}</span>
 					<select name="profileRole" bind:value={editProfileRole} class="form-input">
 						<option value="">{$_('profil.rolePlaceholder')}</option>
-						{#each roles as r}
+						{#each roles as r (r)}
 							<option value={r.value}>{isEn ? r.label_en : r.label_de}</option>
 						{/each}
 					</select>
@@ -282,7 +282,7 @@
 			<h2 class="section-title">{$_('profil.disciplines')}</h2>
 			<p class="section-hint">{$_('profil.disciplinesHint')}</p>
 			<div class="chips-edit">
-				{#each disciplines as d}
+				{#each disciplines as d (d)}
 					<label class="chip-toggle">
 						<input
 							type="checkbox"
@@ -301,7 +301,7 @@
 			<h2 class="section-title">{$_('profil.mfrPrefs')}</h2>
 			<p class="section-hint">{$_('profil.mfrPrefsHint')}</p>
 			<div class="chips-edit">
-				{#each manufacturers as m}
+				{#each manufacturers as m (m)}
 					<label class="chip-toggle">
 						<input
 							type="checkbox"

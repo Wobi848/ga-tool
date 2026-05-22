@@ -65,17 +65,17 @@
 		</div>
 
 		<div class="badges">
-			{#each article.area as a}
+			{#each article.area as a (a)}
 				<span class="area-chip">{$_('area.' + a)}</span>
 			{/each}
-			{#each article.norm as n}
+			{#each article.norm as n (n)}
 				<span class="norm-chip">{n}</span>
 			{/each}
 		</div>
 
 		{#if article.tags.length}
 			<div class="tags">
-				{#each article.tags as t}
+				{#each article.tags as t (t)}
 					<span class="tag-chip">#{t}</span>
 				{/each}
 			</div>
@@ -95,7 +95,7 @@
 		<aside class="tools-section">
 			<h2>{$_('wissen.relatedTools')}</h2>
 			<div class="tools-list">
-				{#each tools as t}
+				{#each tools as t (t)}
 					<a href="/rechner/{t.slug}" class="tool-card">
 						<span class="tool-icon" style="background:{t.color}20; color:{t.color}">
 							<svg
@@ -138,7 +138,7 @@
 		<aside class="related">
 			<h2>{$_('wissen.relatedArticles')}</h2>
 			<div class="related-list">
-				{#each related as r}
+				{#each related as r (r)}
 					<a href="/wissen/{r.slug}" class="related-card">
 						<span class="related-title">{isEn && r.title_en ? r.title_en : r.title}</span>
 						<span class="related-cat">{r.category}</span>

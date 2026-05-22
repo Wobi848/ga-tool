@@ -114,7 +114,7 @@
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.uWertUi.surfaceType')}</h2>
 		<div class="surface-grid">
-			{#each Object.entries(surfacePresets) as [k, v]}
+			{#each Object.entries(surfacePresets) as [k, v] (k)}
 				<button class="surface-btn" class:active={surfaceKey === k} onclick={() => (surfaceKey = k)}
 					>{$_(v.labelKey)}</button
 				>
@@ -159,7 +159,7 @@
 	<!-- Schichten -->
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.uWertUi.layers')}</h2>
-		{#each layers as layer, i}
+		{#each layers as layer, i (i)}
 			<div class="layer-row">
 				<div class="layer-index">{i + 1}</div>
 				<div class="layer-fields">
@@ -177,7 +177,7 @@
 								onchange={(e) => setMaterial(i, parseFloat((e.target as HTMLSelectElement).value))}
 							>
 								<option value="">{$_('rechner.uWertUi.presetPlaceholder')}</option>
-								{#each materialPresets as m}
+								{#each materialPresets as m (m)}
 									<option value={m.lambda}>{m.label}</option>
 								{/each}
 							</select>
@@ -242,7 +242,7 @@
 	<!-- Vergleich SIA 380/1 -->
 	<div class="calc-section">
 		<h2 class="calc-section-title">{$_('rechner.uWertUi.comparison')}</h2>
-		{#each limits as lim}
+		{#each limits as lim, _lim_i (_lim_i)}
 			<div class="limit-row">
 				<span class="limit-label">{lim.label}</span>
 				<span class="limit-val">{lim.u} W/(m²K)</span>

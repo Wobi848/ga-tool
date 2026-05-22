@@ -163,7 +163,7 @@
 	</div>
 
 	<div class="filter-row">
-		{#each allAreas as a}
+		{#each allAreas as a (a)}
 			<button
 				class="chip"
 				class:active={selectedAreas.includes(a)}
@@ -171,7 +171,7 @@
 			>
 		{/each}
 		<span class="filter-sep">|</span>
-		{#each ['de', 'en'] as AbbrLang[] as lg}
+		{#each ['de', 'en'] as AbbrLang[] as lg (lg)}
 			<button
 				class="chip chip-lang"
 				class:active={selectedLangs.includes(lg)}
@@ -184,7 +184,7 @@
 
 	<!-- A-Z quick nav -->
 	<nav class="az-nav" aria-label={$_('abkuerzungen.navAZ')}>
-		{#each letters as l}
+		{#each letters as l (l)}
 			<button
 				class="az-btn"
 				class:disabled={!visibleLetters.includes(l)}
@@ -199,11 +199,11 @@
 			<p class="empty">{$_('abkuerzungen.noResults')}</p>
 		{:else}
 			<p class="count">{filtered.length} {$_('abkuerzungen.results')}</p>
-			{#each visibleLetters as letter}
+			{#each visibleLetters as letter, _letter_i (_letter_i)}
 				<div class="letter-group" id="letter-{letter}">
 					<h2 class="letter-heading">{letter}</h2>
 					<div class="list">
-						{#each filteredByLetter[letter] as a}
+						{#each filteredByLetter[letter] as a (a)}
 							{@const equivalents = getEquivalents(a.short, abbreviations)}
 							{@const lang = langOf(a.short)}
 							<svelte:element
@@ -249,7 +249,7 @@
 								{#if equivalents.length}
 									<div class="equivalents">
 										<span class="equivalents-label">{$_('abkuerzungen.also')}</span>
-										{#each equivalents as eq}
+										{#each equivalents as eq (eq)}
 											{@const eqLang = langOf(eq.short)}
 											<button
 												type="button"
@@ -276,7 +276,7 @@
 								{/if}
 								<div class="abbr-foot">
 									<div class="abbr-areas">
-										{#each a.areas as ar}
+										{#each a.areas as ar (ar)}
 											<span class="area-chip">{$_('area.' + ar)}</span>
 										{/each}
 									</div>

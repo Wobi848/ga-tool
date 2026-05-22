@@ -19,7 +19,7 @@
 			<a href="/" class="back-link">← App</a>
 		</div>
 		<nav class="admin-nav">
-			{#each adminNav as item}
+			{#each adminNav as item (item.href)}
 				<a href={item.href} class="admin-nav-item" class:active={isActive(item.href)}>
 					{item.label}
 				</a>

@@ -154,7 +154,7 @@
 				{$_('dashboard.favorites')}
 			</h2>
 			<div class="fav-strip">
-				{#each $favorites.slice().reverse() as fav}
+				{#each $favorites.slice().reverse() as fav, _fav_i (_fav_i)}
 					<a href="{favTypeHref[fav.type]}/{fav.slug}" class="fav-pill">
 						<span class="fav-pill-dot" style="background:{favTypeColor[fav.type]}"></span>
 						<span class="fav-pill-type" style="color:{favTypeColor[fav.type]}"
@@ -205,7 +205,7 @@
 				{$_('dashboard.recentlyUsed')}
 			</h2>
 			<div class="top-list">
-				{#each data.topItems as item, i}
+				{#each data.topItems as item, i (i)}
 					{#if moduleHref[item.module]}
 						<a href="{moduleHref[item.module]}/{item.slug}" class="top-item">
 							<span class="top-accent" style="background:{moduleColor[item.module]}"></span>
@@ -229,7 +229,7 @@
 	<section class="section">
 		<h2 class="section-title">{$_('dashboard.quickAccess')}</h2>
 		<div class="module-grid">
-			{#each moduleKeys as mod}
+			{#each moduleKeys as mod, _mod_i (_mod_i)}
 				<a href={mod.href} class="module-card" style="--mod-color:{mod.color}">
 					<div class="module-icon" style="background:{mod.color}18; color:{mod.color}">
 						{@render ModuleIcon({ name: mod.icon })}

@@ -116,7 +116,7 @@
 				<span class="calc-field-hint">{props.note}</span>
 			</label>
 			<select id="med-sel" bind:value={medium} class="calc-select">
-				{#each Object.entries(mediaProps) as [k, v]}
+				{#each Object.entries(mediaProps) as [k, v] (k)}
 					<option value={k}>{v.label}</option>
 				{/each}
 			</select>

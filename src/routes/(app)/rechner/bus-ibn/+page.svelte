@@ -1919,7 +1919,7 @@
 							<div class="settings-field">
 								<label class="settings-label">{$_('busIbn.baudrate')}</label>
 								<select class="settings-select" bind:value={s.baud}
-									>{#each BAUD_OPTIONS as b}<option value={b}>{b}</option>{/each}</select
+									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
 								>
 							</div>
 							<div class="settings-field">
@@ -2006,7 +2006,7 @@
 							<div class="settings-field">
 								<label class="settings-label">{$_('busIbn.baudrate')}</label>
 								<select class="settings-select" bind:value={s.baud}
-									>{#each BAUD_OPTIONS as b}<option value={b}>{b}</option>{/each}</select
+									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
 								>
 							</div>
 							<div class="settings-field">
@@ -2178,7 +2178,7 @@
 						</div>
 					</div>
 					<div class="addr-grid">
-						{#each Array.from({ length: 128 }, (_, i) => i) as mac}
+						{#each Array.from({ length: 128 }, (_, i) => i) as mac, _mac_i (_mac_i)}
 							{@const isGateway = mac === 0}
 							{@const isConflict = dupAddr.has(mac)}
 							{@const isUsed = usedMacs.has(mac)}
@@ -2314,7 +2314,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{#each getGroups(seg) as grp}
+						{#each getGroups(seg) as grp, _grp_i (_grp_i)}
 							{#if grp.key !== null}
 								<tr class="group-row">
 									<td colspan={colCount(seg)} class="group-cell">
@@ -2698,7 +2698,7 @@
 								>{$_('busIbn.bulkPreviewTitle', { values: { count: preview.length } })}</span
 							>
 							<div class="bulk-preview-list">
-								{#each preview as p}
+								{#each preview as p (p)}
 									<span class="bulk-preview-item" class:bulk-preview-item--conflict={p.conflict}>
 										<span class="bulk-addr">{p.addr}</span>
 										{#if p.name}<span class="bulk-name">{p.name}</span>{/if}
@@ -2802,7 +2802,7 @@
 		{#if showAddSegment}
 			<div class="add-seg-panel">
 				<span class="add-seg-label">{$_('busIbn.chooseProtocol')}</span>
-				{#each ['bacnet-mstp', 'bacnet-ip', 'modbus-rtu', 'knx'] as BusType[] as type}
+				{#each ['bacnet-mstp', 'bacnet-ip', 'modbus-rtu', 'knx'] as BusType[] as type (type)}
 					<button
 						type="button"
 						class="btn-bus-type"
@@ -2866,7 +2866,7 @@
 					<div class="modal-field">
 						<label class="settings-label">{$_('busIbn.importTargetSegment')}</label>
 						<select class="settings-select" bind:value={importState.targetSegId}>
-							{#each project.segments as s}
+							{#each project.segments as s (s)}
 								<option value={s.id}>{s.name}</option>
 							{/each}
 						</select>
@@ -2885,7 +2885,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							{#each importState.rows as row}
+							{#each importState.rows as row, _row_i (_row_i)}
 								<tr class:import-row-invalid={!row.valid}>
 									<td class="import-mac">{row.mac}</td>
 									<td>{row.name || '—'}</td>
@@ -2956,7 +2956,7 @@
 		<div class="lib-target">
 			<span class="settings-label">{$_('busIbn.libraryInsertIn')}</span>
 			<select class="settings-select" bind:value={libraryTargetSegId} style="flex:1">
-				{#each project.segments as s}
+				{#each project.segments as s (s)}
 					<option value={s.id}>{s.name}</option>
 				{/each}
 			</select>
@@ -3003,9 +3003,9 @@
 		/>
 	</div>
 	<div class="lib-list">
-		{#each filteredLibrary as grp}
+		{#each filteredLibrary as grp, _grp_i (_grp_i)}
 			<div class="lib-cat">{grp.cat}</div>
-			{#each grp.items as item}
+			{#each grp.items as item (item.vendor + '|' + item.model)}
 				<div class="lib-item" onclick={() => addFromLibrary(item)}>
 					<div class="lib-item-short">{item.short}</div>
 					<div class="lib-item-meta">
