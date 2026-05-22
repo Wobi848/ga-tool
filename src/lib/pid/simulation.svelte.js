@@ -1,4 +1,9 @@
-// @ts-nocheck
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck — Interne sim-Variablen sind absichtlich nicht reaktiv
+//               (RAF-Loop mutiert mit hoher Frequenz). Volle TS-Pruefung
+//               wuerde noisy implicit-any/never[]-Fehler erzwingen ohne
+//               echten Nutzen — Logik ist via Tests abgedeckt.
+
 /* PID-Regler-Simulation als Svelte-5-Klasse mit Runes.
  *
  * Reaktive Felder (xp, tn, tv, sp, …) per `$state`.

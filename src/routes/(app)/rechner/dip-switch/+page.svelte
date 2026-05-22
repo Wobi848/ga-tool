@@ -114,10 +114,10 @@
 	const rangeMin = $derived(protocol === 'custom' ? customMin : preset.min);
 	const rangeMax = $derived(protocol === 'custom' ? customMax : preset.max);
 
-	// address is the single source of truth
+	// address is the single source of truth — writable but resets when protocol changes
+	// eslint-disable-next-line svelte/prefer-writable-derived
 	let address = $state(0);
 
-	// Reset address when protocol changes
 	$effect(() => {
 		address = presets[protocol].min;
 	});

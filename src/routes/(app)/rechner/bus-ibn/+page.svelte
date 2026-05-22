@@ -846,6 +846,8 @@
 		}
 	}
 
+	// Akzeptiert unvalidiertes JSON aus localStorage/Import
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function normalizeDevice(d: any): BusDevice {
 		return {
 			id: d.id ?? crypto.randomUUID(),
@@ -863,6 +865,8 @@
 		};
 	}
 
+	// Akzeptiert unvalidiertes JSON aus localStorage/Import
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	function normalizeProject(p: any): BusProject {
 		return {
 			id: p.id ?? crypto.randomUUID(),
@@ -871,6 +875,7 @@
 			engineer: p.engineer ?? '',
 			version: p.version ?? '1.0',
 			createdAt: p.createdAt ?? Date.now(),
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			segments: (p.segments ?? []).map((s: any) => ({
 				id: s.id ?? crypto.randomUUID(),
 				name: s.name ?? 'Segment',
@@ -1038,6 +1043,8 @@
 	function getGroups(seg: BusSegment): { key: string | null; devices: BusDevice[] }[] {
 		const sorted = sortedDevices(seg);
 		if (groupBy === 'none') return [{ key: null, devices: sorted }];
+		// Lokales Map, Ergebnis wird zu Array konvertiert — keine Reaktivitaet noetig
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const map = new Map<string, BusDevice[]>();
 		for (const dev of sorted) {
 			const k =
@@ -1084,7 +1091,7 @@
 		if (!first) return;
 		const val = first[key];
 		for (const dev of seg.devices) {
-			if (ids.includes(dev.id) && dev.id !== first.id) (dev as any)[key] = val;
+			if (ids.includes(dev.id) && dev.id !== first.id) dev[key] = val;
 		}
 	}
 	function bulkDeleteSelected(seg: BusSegment) {
@@ -1115,6 +1122,8 @@
 		return `${ss}${bb}${mmm}`;
 	}
 	const dupDeviceInstances = $derived.by(() => {
+		// Lokale Map nur innerhalb dieser derived-Berechnung — Mutation wird nicht extern beobachtet
+		/* eslint-disable svelte/prefer-svelte-reactivity */
 		const seen = new Map<number, number>();
 		for (const seg of project.segments) {
 			if (!isBacnet(seg.type)) continue;
@@ -1126,13 +1135,16 @@
 		}
 		const dups = new Set<number>();
 		for (const [inst, cnt] of seen) if (cnt > 1) dups.add(inst);
+		/* eslint-enable svelte/prefer-svelte-reactivity */
 		return dups;
 	});
 	function dupAddressesInSegment(seg: BusSegment): Set<number> {
+		/* eslint-disable svelte/prefer-svelte-reactivity */
 		const seen = new Map<number, number>();
 		for (const dev of seg.devices) seen.set(dev.address, (seen.get(dev.address) ?? 0) + 1);
 		const dups = new Set<number>();
 		for (const [addr, count] of seen) if (count > 1) dups.add(addr);
+		/* eslint-enable svelte/prefer-svelte-reactivity */
 		return dups;
 	}
 	const hasConflicts = $derived.by(() => {
@@ -1211,6 +1223,7 @@
 			items = items.filter((d) =>
 				`${d.vendor} ${d.model} ${d.type} ${d.cat}`.toLowerCase().includes(q)
 			);
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const map = new Map<string, LibraryItem[]>();
 		for (const item of items) {
 			if (!map.has(item.cat)) map.set(item.cat, []);
@@ -1380,7 +1393,7 @@
 		const reader = new FileReader();
 		reader.onload = (ev) => {
 			try {
-				const text = (ev.target!.result as string).replace(/^﻿/, ''); // strip BOM
+				const text = (ev.target!.result as string).replace(/^\uFEFF/, ''); // strip BOM
 				const lines = text.split(/\r?\n/).filter((l) => l.trim());
 				if (lines.length < 2) {
 					importState.error = get(_)('busIbn.importFileEmpty');
@@ -1529,6 +1542,7 @@
 		seg: BusSegment
 	): { addr: number; name: string; di: number; conflict: boolean }[] {
 		const b = getBulk(seg.id);
+		// eslint-disable-next-line svelte/prefer-svelte-reactivity
 		const used = new Set(seg.devices.map((d) => d.address));
 		const range = ADDR_RANGE[seg.type];
 		const preview: { addr: number; name: string; di: number; conflict: boolean }[] = [];
