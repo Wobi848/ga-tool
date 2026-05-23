@@ -21,23 +21,19 @@
 	import ImportModal from '$lib/bus-ibn/components/ImportModal.svelte';
 	import LibraryDrawer from '$lib/bus-ibn/components/LibraryDrawer.svelte';
 	import AddSegmentPanel from '$lib/bus-ibn/components/AddSegmentPanel.svelte';
+	import SegmentSettings from '$lib/bus-ibn/components/SegmentSettings.svelte';
 	import {
 		STORAGE_KEY,
 		PREFS_KEY,
 		BUS_LABELS,
 		BUS_COLORS,
 		ADDR_RANGE,
-		BAUD_OPTIONS,
 		STATUS_LABEL_KEYS,
 		STATUS_COLORS,
 		STATUS_ORDER
 	} from '$lib/bus-ibn/constants';
 	import {
 		isBacnet,
-		asMstp,
-		asIp,
-		asModbus,
-		asKnx,
 		defaultSettings,
 		normalizeProject,
 		newProject,
@@ -930,165 +926,7 @@
 				</div>
 			</div>
 
-			<!-- Settings panel -->
-			{#if seg.settingsOpen}
-				<div class="seg-settings no-print">
-					{#if seg.type === 'bacnet-mstp'}
-						{@const s = asMstp(seg.settings)}
-						<div class="settings-grid">
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.baudrate')}</span>
-								<select class="settings-select" bind:value={s.baud}
-									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
-								>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.maxMasters')}</span>
-								<input
-									class="settings-input"
-									type="number"
-									min="1"
-									max="127"
-									bind:value={s.maxMasters}
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.maxInfoFrames')}</span>
-								<input
-									class="settings-input"
-									type="number"
-									min="1"
-									max="255"
-									bind:value={s.maxInfoFrames}
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.apduTimeout')}</span>
-								<input
-									class="settings-input"
-									type="number"
-									min="100"
-									max="60000"
-									step="100"
-									bind:value={s.apduTimeout}
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.apduRetries')}</span>
-								<input
-									class="settings-input"
-									type="number"
-									min="0"
-									max="10"
-									bind:value={s.apduRetries}
-								/>
-							</label>
-						</div>
-					{:else if seg.type === 'bacnet-ip'}
-						{@const s = asIp(seg.settings)}
-						<div class="settings-grid">
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.subnet')}</span>
-								<input
-									class="settings-input"
-									type="text"
-									bind:value={s.subnet}
-									placeholder={$_('busIbn.subnetPlaceholder')}
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.udpPort')}</span>
-								<input
-									class="settings-input"
-									type="number"
-									min="1"
-									max="65535"
-									bind:value={s.port}
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.broadcast')}</span>
-								<input class="settings-input" type="text" bind:value={s.broadcastAddr} />
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.bbmd')}</span>
-								<input
-									class="settings-input"
-									type="text"
-									bind:value={s.bbmd}
-									placeholder={$_('busIbn.bbmdPlaceholder')}
-								/>
-							</label>
-						</div>
-					{:else if seg.type === 'modbus-rtu'}
-						{@const s = asModbus(seg.settings)}
-						<div class="settings-grid">
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.baudrate')}</span>
-								<select class="settings-select" bind:value={s.baud}
-									>{#each BAUD_OPTIONS as b (b)}<option value={b}>{b}</option>{/each}</select
-								>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.parity')}</span>
-								<select class="settings-select" bind:value={s.parity}
-									><option value="N">{$_('busIbn.parityNone')}</option><option value="E"
-										>{$_('busIbn.parityEven')}</option
-									><option value="O">{$_('busIbn.parityOdd')}</option></select
-								>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.stopBits')}</span>
-								<select class="settings-select" bind:value={s.stopBits}
-									><option value={1}>1</option><option value={2}>2</option></select
-								>
-							</label>
-						</div>
-					{:else if seg.type === 'knx'}
-						{@const s = asKnx(seg.settings)}
-						<div class="settings-grid">
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.topology')}</span>
-								<input
-									class="settings-input"
-									type="text"
-									bind:value={s.topology}
-									placeholder="1.1"
-								/>
-							</label>
-							<label class="settings-field">
-								<span class="settings-label">{$_('busIbn.medium')}</span>
-								<select class="settings-select" bind:value={s.medium}
-									><option value="TP">{$_('busIbn.mediumTP')}</option><option value="IP"
-										>{$_('busIbn.mediumIP')}</option
-									></select
-								>
-							</label>
-						</div>
-					{/if}
-				</div>
-			{/if}
-
-			<!-- Settings print summary -->
-			<div class="print-only seg-settings-print">
-				{#if seg.type === 'bacnet-mstp'}{@const s = asMstp(seg.settings)}
-					Baud: {s.baud} · Max Masters: {s.maxMasters} · APDU Timeout: {s.apduTimeout} ms ·
-					{#if seg.diAuto && seg.diSchema}DI-Schema: {String(
-							Math.max(0, Math.min(99, seg.diSS))
-						).padStart(2, '0')}·{String(Math.max(0, Math.min(99, seg.diBB))).padStart(
-							2,
-							'0'
-						)}·MMM{:else}DI-Offset: {seg.diOffset}{/if}
-				{:else if seg.type === 'bacnet-ip'}{@const s = asIp(seg.settings)}
-					Subnet: {s.subnet} · Port: {s.port}{s.bbmd ? ` · BBMD: ${s.bbmd}` : ''}
-				{:else if seg.type === 'modbus-rtu'}{@const s = asModbus(seg.settings)}
-					{$_('busIbn.modbusSettings', {
-						values: { baud: s.baud, parity: s.parity, stopBits: s.stopBits }
-					})}
-				{:else if seg.type === 'knx'}{@const s = asKnx(seg.settings)}
-					{$_('busIbn.knxSettings', { values: { topology: s.topology, medium: s.medium } })}
-				{/if}
-			</div>
+			<SegmentSettings bind:seg={project.segments[project.segments.indexOf(seg)]} />
 
 			<!-- Address config bar -->
 			<div class="di-config no-print">
@@ -2086,22 +1924,6 @@
 	}
 
 	/* ── Settings panel ── */
-	.seg-settings {
-		padding: 0.875rem 1rem;
-		border-bottom: 1px solid var(--border);
-		background: color-mix(in srgb, var(--color-primary) 3%, var(--surface));
-	}
-	.settings-grid {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-	}
-	.settings-field {
-		display: flex;
-		flex-direction: column;
-		gap: 0.2rem;
-		min-width: 140px;
-	}
 	.settings-label {
 		font-size: 0.7rem;
 		font-weight: 600;
@@ -2110,20 +1932,7 @@
 		color: var(--muted);
 	}
 	.settings-input,
-	.settings-select {
-		background: var(--bg);
-		border: 1px solid var(--border);
-		border-radius: 0.375rem;
-		padding: 0.35rem 0.55rem;
-		font-size: 0.8125rem;
-		color: var(--text);
-		font-family: inherit;
-	}
 	.settings-input:focus,
-	.settings-select:focus {
-		outline: none;
-		border-color: var(--color-primary);
-	}
 
 	/* ── DI config bar ── */
 	.di-config {
@@ -2885,11 +2694,6 @@
 		font-size: 0.75rem;
 		font-weight: 500;
 	}
-	.seg-settings-print {
-		font-size: 0.75rem;
-		color: #555;
-		padding: 0.25rem 0;
-	}
 
 	@media print {
 		.no-print {
@@ -2944,11 +2748,6 @@
 			background: #f8f8f8;
 			padding: 3pt 8pt;
 			font-size: 8pt;
-		}
-		.seg-settings-print {
-			padding: 3pt 8pt;
-			font-size: 8pt;
-			border-bottom: 0.5pt solid #ddd;
 		}
 		.addr-hint {
 			display: none;
