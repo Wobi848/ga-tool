@@ -1,9 +1,17 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		voltageDrop,
+		maxLength as calcMaxLength,
+		recommendCrossSection,
+		isCurrentOk,
+		RHO_CU,
+		AMPACITY as ampacity,
+		STD_SECTIONS,
+		type Placement
+	} from '$lib/rechner/leitungslaenge';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
-
-	const RHO_CU = 0.0178; // Ω·mm²/m bei 20°C
 
 	type Mode = 'spannungsfall' | 'max-laenge' | 'querschnitt';
 	let mode = $state<Mode>('spannungsfall');
@@ -16,35 +24,30 @@
 	let powerW = $state(0);
 	let useWatt = $state(false);
 
-	const stdSections = [0.5, 0.75, 1.0, 1.5, 2.5, 4.0];
-	const ampacity: Record<number, number> = { 0.5: 8, 0.75: 12, 1.0: 15, 1.5: 17, 2.5: 23, 4.0: 31 };
+	const stdSections = STD_SECTIONS;
 
 	let deviceCount = $state(1);
-	// 'end' = alle am Ende (worst case), 'dist' = gleichmässig verteilt (Faktor 0.5)
-	type Placement = 'end' | 'dist';
 	let placement = $state<Placement>('end');
 
 	const IperDevice = $derived(useWatt ? powerW / uSource : current);
 	const I = $derived(IperDevice * deviceCount);
-	// Effektiver Strom für Spannungsfall je nach Verteilung
-	const Ieff = $derived(placement === 'end' ? I : I * 0.5);
 
-	const deltaU = $derived((2 * length * RHO_CU * Ieff) / crossSection);
-	const uEnd = $derived(uSource - deltaU);
-	const dropPct = $derived((deltaU / uSource) * 100);
-	const rTotal = $derived((2 * length * RHO_CU) / crossSection);
+	const drop = $derived(voltageDrop({ uSource, length, crossSection, current: I, placement }));
+	const Ieff = $derived(drop.Ieff);
+	const deltaU = $derived(drop.deltaU);
+	const uEnd = $derived(drop.uEnd);
+	const dropPct = $derived(drop.dropPct);
+	const rTotal = $derived(drop.rTotal);
 
 	const uDropMax = $derived(uSource - uMinDevice);
-	// Max Länge: Ieff abhängig von placement → löse nach L auf
-	const maxLength = $derived(Ieff > 0 ? (uDropMax * crossSection) / (2 * RHO_CU * Ieff) : 0);
+	const maxLength = $derived(calcMaxLength(uSource, uMinDevice, crossSection, I, placement));
 
-	const reqSection = $derived(Ieff > 0 ? (2 * length * RHO_CU * Ieff) / uDropMax : 0);
-	const recSection = $derived(
-		stdSections.find((s) => s >= reqSection) ?? stdSections[stdSections.length - 1]
-	);
+	const section = $derived(recommendCrossSection(uSource, uMinDevice, length, I, placement));
+	const reqSection = $derived(section.required);
+	const recSection = $derived(section.recommended);
 
 	const voltOk = $derived(uEnd >= uMinDevice);
-	const currentOk = $derived(I <= (ampacity[crossSection] ?? 99));
+	const currentOk = $derived(isCurrentOk(crossSection, I));
 
 	interface Preset {
 		labelKey: string;

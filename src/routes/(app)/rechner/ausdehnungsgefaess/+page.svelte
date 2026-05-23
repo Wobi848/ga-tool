@@ -1,57 +1,17 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { sizeMag, minP0 as calcMinP0 } from '$lib/rechner/ausdehnungsgefaess';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Inputs
 	let vA = $state(500); // Anlageninhalt [l]
 	let tVorlauf = $state(70); // °C (max. Auslegungstemperatur)
 	let p0 = $state(1.5); // Vordruck (statisch + 0.3 bar Reserve) [bar]
 	let pE = $state(2.5); // Enddruck (Sicherheitsventil − 0.5 bar) [bar]
 	let staticHeight = $state(10); // m (Gebäudehöhe statisch)
 
-	// Wasser-Ausdehnungskoeffizient bei verschiedenen Temperaturen
-	// Approximation nach SWKI: e [%] = 0.0008 × t² + 0.0064 × t − 0.34 (für t in °C, ab 10°C)
-	function expansionPct(t: number): number {
-		// More accurate table-based for t ∈ [40, 110]
-		const table: Array<[number, number]> = [
-			[40, 0.79],
-			[50, 1.21],
-			[60, 1.71],
-			[70, 2.28],
-			[80, 2.9],
-			[90, 3.59],
-			[100, 4.34],
-			[110, 5.15]
-		];
-		if (t <= table[0][0]) return table[0][1];
-		if (t >= table[table.length - 1][0]) return table[table.length - 1][1];
-		for (let i = 0; i < table.length - 1; i++) {
-			const [t1, e1] = table[i];
-			const [t2, e2] = table[i + 1];
-			if (t >= t1 && t <= t2) return e1 + ((e2 - e1) * (t - t1)) / (t2 - t1);
-		}
-		return 0;
-	}
-
-	const result = $derived.by(() => {
-		const ePct = expansionPct(tVorlauf);
-		const ve = vA * (ePct / 100); // Ausdehnungsvolumen [l]
-		const vWv = Math.max(vA * 0.005, 3); // Wasservorlage min. 0.5% oder 3 l
-		const vBruttoNeeded = ve + vWv;
-		// Druckfaktor: f = (pE + 1) / (pE − p0)
-		const druckfaktor = (pE + 1) / (pE - p0);
-		const vN = vBruttoNeeded * druckfaktor; // Nennvolumen MAG [l]
-
-		// Standard MAG sizes
-		const stdSizes = [8, 12, 18, 25, 35, 50, 80, 100, 140, 200, 300, 400, 500, 600, 800, 1000];
-		const recommended = stdSizes.find((s) => s >= vN) ?? stdSizes[stdSizes.length - 1];
-
-		return { ePct, ve, vWv, druckfaktor, vN, recommended };
-	});
-
-	// Mindest-Vordruck Hinweis (statische Höhe + 0.3 bar Reserve)
-	const minP0 = $derived(staticHeight / 10 + 0.3);
+	const result = $derived(sizeMag({ vA, tVorlauf, p0, pE }));
+	const minP0 = $derived(calcMinP0(staticHeight));
 	const p0TooLow = $derived(p0 < minP0 - 0.05);
 </script>
 

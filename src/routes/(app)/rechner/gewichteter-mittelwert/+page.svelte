@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { weightedMean } from '$lib/rechner/gewichteterMittelwert';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -25,22 +26,24 @@
 		rows = rows.filter((r) => r.id !== id);
 	}
 
-	const validRows = $derived(
-		rows.filter((r) => r.value !== null && !isNaN(r.value as number) && r.weight > 0)
+	const aggregate = $derived(
+		weightedMean(
+			rows
+				.filter((r) => r.value !== null)
+				.map((r) => ({ value: r.value as number, weight: r.weight }))
+		)
 	);
-	const weightSum = $derived(validRows.reduce((s, r) => s + r.weight, 0));
-	const result = $derived(
-		weightSum > 0
-			? validRows.reduce((s, r) => s + (r.value as number) * r.weight, 0) / weightSum
-			: null
-	);
+	const result = $derived(aggregate.mean);
+	const weightSum = $derived(aggregate.weightSum);
 
+	// Reattach labels for UI display (lib version doesn't carry labels)
 	const contributions = $derived(
-		validRows.map((r) => ({
-			...r,
-			share: weightSum > 0 ? (r.weight / weightSum) * 100 : 0,
-			contribution: weightSum > 0 ? ((r.value as number) * r.weight) / weightSum : 0
-		}))
+		aggregate.contributions.map((c, i) => {
+			const matched = rows.filter(
+				(r) => r.value !== null && r.weight > 0 && !isNaN(r.value as number)
+			)[i];
+			return { ...c, label: matched?.label ?? '' };
+		})
 	);
 </script>
 
@@ -150,7 +153,7 @@
 			</div>
 			<div class="calc-result">
 				<span class="calc-result-label">Anzahl Werte</span>
-				<span class="calc-result-value">{validRows.length}</span>
+				<span class="calc-result-value">{contributions.length}</span>
 			</div>
 		</div>
 
