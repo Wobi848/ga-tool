@@ -1,40 +1,37 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		luftbedarf,
+		CATEGORIES,
+		ACTIVITY_CO2_LPH,
+		type LuftCat,
+		type LuftActivity
+	} from '$lib/rechner/luftbedarf';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// EN 16798-1 Kategorien (Aussenluftvolumenstrom pro Person + pro m² Boden)
-	type Cat = 'I' | 'II' | 'III' | 'IV';
 	const categoriesData: Record<
-		Cat,
+		LuftCat,
 		{ labelKey: string; perPerson: number; perArea: number; co2: number; descKey: string }
 	> = {
 		I: {
 			labelKey: 'rechner.luftbedarfUi.cat1',
-			perPerson: 10,
-			perArea: 1.0,
-			co2: 550,
+			...CATEGORIES.I,
 			descKey: 'rechner.luftbedarfUi.cat1desc'
 		},
 		II: {
 			labelKey: 'rechner.luftbedarfUi.cat2',
-			perPerson: 7,
-			perArea: 0.7,
-			co2: 800,
+			...CATEGORIES.II,
 			descKey: 'rechner.luftbedarfUi.cat2desc'
 		},
 		III: {
 			labelKey: 'rechner.luftbedarfUi.cat3',
-			perPerson: 4,
-			perArea: 0.4,
-			co2: 1350,
+			...CATEGORIES.III,
 			descKey: 'rechner.luftbedarfUi.cat3desc'
 		},
 		IV: {
 			labelKey: 'rechner.luftbedarfUi.cat4',
-			perPerson: 2.5,
-			perArea: 0.3,
-			co2: 1500,
+			...CATEGORIES.IV,
 			descKey: 'rechner.luftbedarfUi.cat4desc'
 		}
 	};
@@ -45,7 +42,7 @@
 				{ ...v, label: $_(v.labelKey), desc: $_(v.descKey) }
 			])
 		) as unknown as Record<
-			Cat,
+			LuftCat,
 			{ label: string; desc: string; perPerson: number; perArea: number; co2: number }
 		>
 	);
@@ -53,40 +50,21 @@
 	let area = $state(25); // m²
 	let height = $state(2.7); // m
 	let persons = $state(2);
-	let cat: Cat = $state('II');
-	let activity = $state<'rest' | 'office' | 'physical'>('office');
+	let cat: LuftCat = $state('II');
+	let activity = $state<LuftActivity>('office');
 
-	const activityFactorsData: Record<string, { co2: number; labelKey: string }> = {
-		rest: { co2: 17, labelKey: 'rechner.luftbedarfUi.actRest' },
-		office: { co2: 19, labelKey: 'rechner.luftbedarfUi.actOffice' },
-		physical: { co2: 35, labelKey: 'rechner.luftbedarfUi.actPhysical' }
+	const activityFactorsData: Record<LuftActivity, { co2: number; labelKey: string }> = {
+		rest: { co2: ACTIVITY_CO2_LPH.rest, labelKey: 'rechner.luftbedarfUi.actRest' },
+		office: { co2: ACTIVITY_CO2_LPH.office, labelKey: 'rechner.luftbedarfUi.actOffice' },
+		physical: { co2: ACTIVITY_CO2_LPH.physical, labelKey: 'rechner.luftbedarfUi.actPhysical' }
 	};
 	const activityFactors = $derived(
 		Object.fromEntries(
 			Object.entries(activityFactorsData).map(([k, v]) => [k, { ...v, label: $_(v.labelKey) }])
-		) as unknown as Record<string, { co2: number; label: string }>
+		) as unknown as Record<LuftActivity, { co2: number; label: string }>
 	);
 
-	const result = $derived.by(() => {
-		const c = categories[cat];
-		const perPerson = c.perPerson * 3.6; // l/s → m³/h
-		const perArea = c.perArea * 3.6;
-		const flowEN = persons * perPerson + area * perArea; // m³/h
-
-		// CO₂-Bilanz: V̇ = n × CO₂_Person / (c_innen − c_aussen) (in m³/h)
-		// Atmungs-CO₂-Produktion in l/h ≈ activity.co2 (typisch 17–35 l/h pro Person)
-		const co2Out = 400; // ppm Aussenluft
-		const co2In = c.co2; // ppm Zielwert
-		const co2ProdLh = persons * activityFactors[activity].co2;
-		const flowCO2 = (co2ProdLh * 1000) / (co2In - co2Out); // m³/h
-
-		const volume = area * height;
-		const ach = Math.max(flowEN, flowCO2) / volume; // air changes per hour
-
-		const recommended = Math.max(flowEN, flowCO2);
-
-		return { flowEN, flowCO2, recommended, ach, volume, co2Target: c.co2 };
-	});
+	const result = $derived(luftbedarf({ area, height, persons, cat, activity }));
 </script>
 
 <div class="calc-page">

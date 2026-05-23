@@ -1,32 +1,35 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		co2Design,
+		co2RoomBehavior,
+		co2Curve,
+		ACTIVITY_CO2_LPH,
+		type Co2Activity
+	} from '$lib/rechner/co2Regelung';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
 	type Mode = 'auslegung' | 'raumverhalten';
 	let mode: Mode = $state('auslegung');
 
-	// Shared inputs
 	let volume = $state(75); // m³
 	let persons = $state(10);
-	let activity = $state<'rest' | 'office' | 'physical'>('office');
+	let activity = $state<Co2Activity>('office');
 	let co2Outside = $state(420); // ppm
 
-	// Mode 1: Auslegung
 	let co2Target = $state(1000); // ppm
-
-	// Mode 2: Raumverhalten
 	let flowRate = $state(300); // m³/h
 
-	const activityCO2Base: Record<string, { lph: number; labelKey: string }> = {
-		rest: { lph: 12, labelKey: 'rechner.co2RegelungUi.actRest' },
-		office: { lph: 18, labelKey: 'rechner.co2RegelungUi.actOffice' },
-		physical: { lph: 35, labelKey: 'rechner.co2RegelungUi.actPhysical' }
+	const activityCO2Base: Record<Co2Activity, { lph: number; labelKey: string }> = {
+		rest: { lph: ACTIVITY_CO2_LPH.rest, labelKey: 'rechner.co2RegelungUi.actRest' },
+		office: { lph: ACTIVITY_CO2_LPH.office, labelKey: 'rechner.co2RegelungUi.actOffice' },
+		physical: { lph: ACTIVITY_CO2_LPH.physical, labelKey: 'rechner.co2RegelungUi.actPhysical' }
 	};
 	const activityCO2 = $derived(
 		Object.fromEntries(
 			Object.entries(activityCO2Base).map(([k, v]) => [k, { ...v, label: $_(v.labelKey) }])
-		) as Record<string, { lph: number; label: string }>
+		) as unknown as Record<Co2Activity, { lph: number; label: string }>
 	);
 
 	const co2PresetKeys = [
@@ -40,41 +43,13 @@
 		co2PresetKeys.map((p) => ({ label: $_(p.labelKey), ppm: p.ppmFn() }))
 	);
 
-	const result = $derived.by(() => {
-		const g = activityCO2[activity].lph * persons; // l/h total CO₂ production
-		const gM3 = g / 1000; // m³/h CO₂
+	const result = $derived(
+		mode === 'auslegung'
+			? co2Design({ volume, persons, activity, co2Outside, co2Target })
+			: co2RoomBehavior({ volume, persons, activity, co2Outside, flowRate })
+	);
 
-		if (mode === 'auslegung') {
-			if (co2Target <= co2Outside) return null;
-			// q = G / (c_ziel - c_aussen)
-			const q = (gM3 * 1e6) / (co2Target - co2Outside); // m³/h
-			const ach = q / volume;
-			const tau = volume / q; // h
-			const steadyState = co2Outside + (gM3 * 1e6) / q;
-			return { q, ach, tau: tau * 60, steadyState, t90: tau * 60 * 2.3 };
-		} else {
-			if (flowRate <= 0) return null;
-			// Steady-state: c = c_aussen + G/q * 1e6
-			const steadyState = co2Outside + (gM3 * 1e6) / flowRate;
-			const tau = (volume / flowRate) * 60; // min
-			const t90 = tau * 2.3;
-			const ach = flowRate / volume;
-			return { q: flowRate, ach, tau, steadyState, t90 };
-		}
-	});
-
-	// CO₂-Kurve für Raumverhalten (6 Punkte, Start = co2Outside)
-	const curve = $derived.by(() => {
-		if (!result) return [];
-		const tau = result.tau; // min
-		const ss = result.steadyState;
-		const start = co2Outside;
-		const points = [0, 0.5, 1, 1.5, 2, 2.5, 3].map((t) => ({
-			t: Math.round(t * tau),
-			co2: Math.round(ss - (ss - start) * Math.exp(-t))
-		}));
-		return points;
-	});
+	const curve = $derived(result ? co2Curve(co2Outside, result.steadyState, result.tau) : []);
 
 	function co2Color(ppm: number): string {
 		if (ppm < 800) return '#16a34a';

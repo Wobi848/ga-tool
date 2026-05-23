@@ -1,10 +1,9 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { wrgBilanz, WRG_TYPES, type WrgType } from '$lib/rechner/waermerueckgewinnung';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Typ WRG-System
-	type WrgType = 'kreuzgegenstrom' | 'rotations' | 'platte' | 'laufrad';
 	let wrgType: WrgType = $state('kreuzgegenstrom');
 
 	const wrgInfoBase: Record<
@@ -13,26 +12,22 @@
 	> = {
 		kreuzgegenstrom: {
 			labelKey: 'rechner.waermerueckgewinnungUi.enthalpyExchanger',
-			etaH: [0.7, 0.9],
-			etaF: [0.5, 0.8],
+			...WRG_TYPES.kreuzgegenstrom,
 			noteKey: 'rechner.waermerueckgewinnungUi.noteEnthalpyExchanger'
 		},
 		rotations: {
 			labelKey: 'rechner.waermerueckgewinnungUi.rotarySorption',
-			etaH: [0.7, 0.85],
-			etaF: [0.6, 0.85],
+			...WRG_TYPES.rotations,
 			noteKey: 'rechner.waermerueckgewinnungUi.noteRotarySorption'
 		},
 		platte: {
 			labelKey: 'rechner.waermerueckgewinnungUi.plateHeatEx',
-			etaH: [0.5, 0.8],
-			etaF: [0.0, 0.0],
+			...WRG_TYPES.platte,
 			noteKey: 'rechner.waermerueckgewinnungUi.notePlateHeatEx'
 		},
 		laufrad: {
 			labelKey: 'rechner.waermerueckgewinnungUi.recirculationSystem',
-			etaH: [0.4, 0.65],
-			etaF: [0.0, 0.0],
+			...WRG_TYPES.laufrad,
 			noteKey: 'rechner.waermerueckgewinnungUi.noteRecirculation'
 		}
 	};
@@ -48,44 +43,15 @@
 		>
 	);
 
-	// Eingaben
-	let q = $state(3000); // m³/h Volumenstrom
-	let tAbluft = $state(22); // °C Ablufttemperatur (innen, warm)
-	let tAussenluft = $state(-5); // °C Aussenlufttemperatur (kalt im Winter)
-	let rhAbluft = $state(50); // % rel. Feuchte Abluft
-	let etaT = $state(0.8); // Temperaturrückgewinnungsgrad
-	let etaF = $state(0.7); // Feuchtewirkungsgrad (wenn vorhanden)
+	let q = $state(3000); // m³/h
+	let tAbluft = $state(22); // °C
+	let tAussenluft = $state(-5); // °C
+	let rhAbluft = $state(50); // %
+	let etaT = $state(0.8);
+	let etaF = $state(0.7);
 
 	const sys = $derived(wrgInfo[wrgType]);
-
-	// Zulufttemperatur nach WRG
-	const result = $derived.by(() => {
-		const dt = tAbluft - tAussenluft;
-		const tZuluft = tAussenluft + etaT * dt;
-
-		// Wärmeleistung [W] = q/3600 * rhocp * dt_gewonnen * 1000
-		const qRecovered = (q / 3600) * 1.2 * 1005 * (tZuluft - tAussenluft); // W
-		const qMax = (q / 3600) * 1.2 * 1005 * dt;
-
-		// Feuchtegehalt Abluft (Magnus-Näherung)
-		const pSatAb = 610.78 * Math.exp((17.27 * tAbluft) / (tAbluft + 237.3));
-		const xAb = (0.622 * ((rhAbluft / 100) * pSatAb)) / (101325 - (rhAbluft / 100) * pSatAb); // kg/kg
-		const xAussen = 0.002; // Typisch -5°C, ~80% RH ≈ 2g/kg
-
-		// Zuluft-Feuchtegehalt nach Feuchte-WRG
-		const xZuluft = xAussen + etaF * (xAb - xAussen);
-
-		// Energieersparnis vs. keine WRG (Heizen von tAussenluft auf tAbluft)
-		const qOhneWrg = qMax;
-		const savings = qRecovered;
-		const savingsPercent = qMax > 0 ? (savings / qOhneWrg) * 100 : 0;
-
-		// Betriebskosten-Ersparnis: 2000h/a, 0.12 CHF/kWh
-		const annualKwh = (savings / 1000) * 2000;
-		const annualChf = annualKwh * 0.12;
-
-		return { tZuluft, qRecovered, qMax, savingsPercent, xAb, xZuluft, annualKwh, annualChf };
-	});
+	const result = $derived(wrgBilanz({ q, tAbluft, tAussenluft, rhAbluft, etaT, etaF }));
 
 	function co2Color(eta: number): string {
 		if (eta >= 0.7) return '#16a34a';

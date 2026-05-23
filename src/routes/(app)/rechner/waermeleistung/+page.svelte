@@ -1,38 +1,37 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		waermeleistung,
+		MEDIA_PROPS,
+		type WaermeMode,
+		type WaermeMedium
+	} from '$lib/rechner/waermeleistung';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	type Mode = 'q-from-flow' | 'flow-from-q' | 'dt-from-q';
-	type Medium = 'wasser' | 'sole30' | 'sole40' | 'luft';
-
 	const mediaPropsBase: Record<
-		Medium,
+		WaermeMedium,
 		{ labelKey: string; noteKey: string; cp: number; rho: number }
 	> = {
 		wasser: {
 			labelKey: 'rechner.waermeleistungUi.water',
 			noteKey: 'rechner.waermeleistungUi.waterNote',
-			cp: 4.182,
-			rho: 1000
+			...MEDIA_PROPS.wasser
 		},
 		sole30: {
 			labelKey: 'rechner.waermeleistungUi.brine30',
 			noteKey: 'rechner.waermeleistungUi.brine30Note',
-			cp: 3.78,
-			rho: 1050
+			...MEDIA_PROPS.sole30
 		},
 		sole40: {
 			labelKey: 'rechner.waermeleistungUi.brine40',
 			noteKey: 'rechner.waermeleistungUi.brine40Note',
-			cp: 3.6,
-			rho: 1065
+			...MEDIA_PROPS.sole40
 		},
 		luft: {
 			labelKey: 'rechner.waermeleistungUi.air',
 			noteKey: 'rechner.waermeleistungUi.airNote',
-			cp: 1.006,
-			rho: 1.2
+			...MEDIA_PROPS.luft
 		}
 	};
 	const mediaProps = $derived(
@@ -41,35 +40,17 @@
 				k,
 				{ ...v, label: $_(v.labelKey), note: $_(v.noteKey) }
 			])
-		) as unknown as Record<Medium, { label: string; note: string; cp: number; rho: number }>
+		) as unknown as Record<WaermeMedium, { label: string; note: string; cp: number; rho: number }>
 	);
 
-	let mode: Mode = $state('q-from-flow');
-	let medium: Medium = $state('wasser');
+	let mode: WaermeMode = $state('q-from-flow');
+	let medium: WaermeMedium = $state('wasser');
 	let flow = $state(1.0); // m³/h
 	let dt = $state(10); // K
 	let q = $state(11.6); // kW (for inverse modes)
 
 	const props = $derived(mediaProps[medium]);
-
-	const result = $derived.by(() => {
-		// Q [kW] = (V̇ [m³/s] × ρ [kg/m³]) × cp [kJ/(kg·K)] × ΔT [K]
-		// V̇ [m³/s] = V̇ [m³/h] / 3600
-		const mDot = (flow / 3600) * props.rho; // kg/s
-		if (mode === 'q-from-flow') {
-			const Q = mDot * props.cp * dt;
-			return { Q, flow, dt, mDot };
-		}
-		if (mode === 'flow-from-q') {
-			// flow = Q / (ρ × cp × ΔT) × 3600
-			const flowCalc = (q / (props.rho * props.cp * dt)) * 3600;
-			const mDotCalc = (flowCalc / 3600) * props.rho;
-			return { Q: q, flow: flowCalc, dt, mDot: mDotCalc };
-		}
-		// dt-from-q
-		const dtCalc = q / (mDot * props.cp);
-		return { Q: q, flow, dt: dtCalc, mDot };
-	});
+	const result = $derived(waermeleistung({ mode, medium, flow, dt, q }));
 </script>
 
 <div class="calc-page">

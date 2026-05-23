@@ -1,69 +1,42 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		valveAuthority,
+		selectKvs,
+		linearValveCurve,
+		KVS_OPTIONS
+	} from '$lib/rechner/ventilautoritaet';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Betriebsart
 	type Mode = 'authority' | 'kvs-select';
 	let mode: Mode = $state('authority');
 
-	// Eingaben
-	let dpv100 = $state(3000); // Pa — Druckverlust Ventil bei 100% Hub (Ventilkennwert)
-	let dpSystem = $state(8000); // Pa — Druckverlust des restlichen Kreises (Wärmetauscher + Rohre + Fittings)
-	let flow = $state(1.2); // m³/h — Auslegungsdurchfluss
-	let dp100 = $state(0.3); // bar — Druckverlust Ventil vollgeöffnet (für Kv-Select)
+	let dpv100 = $state(3000); // Pa — Druckverlust Ventil bei 100% Hub
+	let dpSystem = $state(8000); // Pa — Druckverlust des restlichen Kreises
+	let flow = $state(1.2); // m³/h
+	let dp100 = $state(0.3); // bar (für Kv-Select)
 
-	// Für Kv-Auswahl
-	let kvsOptions = [0.16, 0.25, 0.4, 0.63, 1.0, 1.6, 2.5, 4.0, 6.3, 10, 16, 25, 40, 63, 100];
+	const kvsOptions = KVS_OPTIONS;
 
-	const result = $derived.by(() => {
-		// Ventilautorität α = ΔpV,100 / (ΔpV,100 + ΔpSystem)
-		const dpTotal = dpv100 + dpSystem;
-		const alpha = dpv100 / dpTotal;
+	const ratingLabels = {
+		'very-good': { label: 'Sehr gut (α ≥ 0.5)', color: '#16a34a' },
+		good: { label: 'Gut (α 0.3–0.5)', color: '#ca8a04' },
+		acceptable: { label: 'Akzeptabel (α 0.2–0.3)', color: '#ea580c' },
+		poor: { label: 'Schlecht (α < 0.2)', color: '#dc2626' }
+	} as const;
 
-		// Bewertung
-		let rating: string;
-		let ratingColor: string;
-		if (alpha >= 0.5) {
-			rating = 'Sehr gut (α ≥ 0.5)';
-			ratingColor = '#16a34a';
-		} else if (alpha >= 0.3) {
-			rating = 'Gut (α 0.3–0.5)';
-			ratingColor = '#ca8a04';
-		} else if (alpha >= 0.2) {
-			rating = 'Akzeptabel (α 0.2–0.3)';
-			ratingColor = '#ea580c';
-		} else {
-			rating = 'Schlecht (α < 0.2)';
-			ratingColor = '#dc2626';
-		}
-
-		return { alpha, dpTotal, rating, ratingColor };
+	const authority = $derived(valveAuthority({ dpv100, dpSystem }));
+	const result = $derived({
+		alpha: authority.alpha,
+		dpTotal: authority.dpTotal,
+		rating: ratingLabels[authority.rating].label,
+		ratingColor: ratingLabels[authority.rating].color
 	});
 
-	const kvResult = $derived.by(() => {
-		// Kv bei Auslegung: Kv = Q / sqrt(ΔpV / 1bar)  → Q in m³/h, Δp in bar
-		const dpBar = dpv100 / 100000; // Pa → bar
-		const kv = flow / Math.sqrt(dpBar);
+	const kvResult = $derived(selectKvs({ flow, dpv100 }));
 
-		// Empfohlenes Kvs (nächste Stufe über Kv × 1.3 — Sicherheitsfaktor)
-		const kvMin = kv * 1.3;
-		const kvs = kvsOptions.find((v) => v >= kvMin) ?? kvsOptions[kvsOptions.length - 1];
-		const kvsFactor = kvs / kv;
-
-		return { kv, kvs, kvsFactor };
-	});
-
-	// Kennlinienpunkte: Durchfluss als Funktion vom Hub (linear Ventil, α-Einfluss)
-	const curve = $derived.by(() => {
-		const alpha = result.alpha;
-		// Relativer Durchfluss q = h / sqrt(1 - alpha + alpha*h²) — Näherung für Linearventil
-		return Array.from({ length: 11 }, (_, i) => {
-			const h = i / 10;
-			const q = h / Math.sqrt(1 - alpha + alpha * h * h);
-			return { h: Math.round(h * 100), q: Math.min(1, q) };
-		});
-	});
+	const curve = $derived(linearValveCurve(authority.alpha));
 </script>
 
 <div class="calc-page">
