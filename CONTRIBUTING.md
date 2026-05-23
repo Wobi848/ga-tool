@@ -17,20 +17,22 @@ App läuft auf `http://localhost:5173`.
 
 ## Skripte
 
-| Befehl                  | Zweck                                    |
-| ----------------------- | ---------------------------------------- |
-| `npm run dev`           | Dev-Server mit HMR                       |
-| `npm run build`         | Produktions-Build (Node-Adapter)         |
-| `npm run preview`       | Build lokal serven                       |
-| `npm run check`         | svelte-check + TS-Check                  |
-| `npm run lint`          | prettier --check && eslint               |
-| `npm run format`        | prettier --write                         |
-| `npm run test`          | Vitest einmal durchlaufen                |
-| `npm run test:watch`    | Vitest im Watch-Modus                    |
-| `npm run test:coverage` | mit Coverage-Report                      |
-| `npm run db:push`       | Drizzle-Schema in DB pushen (dev)        |
-| `npm run db:studio`     | Drizzle-Studio öffnen (Tabellen ansehen) |
-| `npm run auth:schema`   | Better-Auth-Schemas regenerieren         |
+| Befehl                  | Zweck                                         |
+| ----------------------- | --------------------------------------------- |
+| `npm run dev`           | Dev-Server mit HMR                            |
+| `npm run build`         | Produktions-Build (Node-Adapter)              |
+| `npm run preview`       | Build lokal serven                            |
+| `npm run check`         | svelte-check + TS-Check                       |
+| `npm run lint`          | prettier --check && eslint                    |
+| `npm run format`        | prettier --write                              |
+| `npm run test`          | Vitest einmal durchlaufen (Logic + Component) |
+| `npm run test:watch`    | Vitest im Watch-Modus                         |
+| `npm run test:coverage` | mit Coverage-Report                           |
+| `npm run test:e2e`      | Playwright E2E gegen lokalen Build            |
+| `npm run test:e2e:ui`   | Playwright UI-Mode (interaktiv)               |
+| `npm run db:push`       | Drizzle-Schema in DB pushen (dev)             |
+| `npm run db:studio`     | Drizzle-Studio öffnen (Tabellen ansehen)      |
+| `npm run auth:schema`   | Better-Auth-Schemas regenerieren              |
 
 ## Workflow
 
@@ -44,7 +46,7 @@ App läuft auf `http://localhost:5173`.
 
 Beobachtetes Muster in `git log`:
 
-```
+```text
 feat(scope): Was Neues
 fix(scope): Bug-Fix
 refactor(scope): Strukturänderung ohne Verhaltensänderung
@@ -61,7 +63,7 @@ a11y(scope): Accessibility
 
 Beispiel:
 
-```
+```text
 fix(dashboard): Checklisten-Count dynamisch aus checklists.length
 
 Zeigte hardcodiert '4' an, obwohl 10 Checklisten existieren. Andere
@@ -129,9 +131,13 @@ Bei mehrsprachigen Begriffen (DE+EN-Variante): in `src/lib/abkuerzungen/groups.t
 
 ## Tests
 
-- Frameworks: Vitest. JSDOM ist **nicht** konfiguriert — Tests sind aktuell rein für Logik-Module (`src/lib/**/*.test.ts`).
-- Komponenten-Tests via `@testing-library/svelte` wären sinnvoll, sind aber noch nicht eingerichtet.
-- **Mindeststandard für neue Logik:** Tests die _Verhalten_ beschreiben, nicht _Implementierung_. Nutze Referenzwerte aus Normen wo möglich (Recknagel, ASHRAE, SIA).
+Drei Test-Ebenen:
+
+- **Logik-Tests** (`src/**/*.test.ts`) — Vitest in Node-Environment, kein DOM. Für pure functions (Rechner, bus-ibn logic, analytics-rollup-util).
+- **Komponenten-Tests** (`src/**/*.svelte.test.ts`) — Vitest in jsdom mit `@testing-library/svelte`. Setup in `src/test-setup.ts` initialisiert svelte-i18n.
+- **E2E-Tests** (`e2e/*.spec.ts`) — Playwright gegen `npm run preview` (Build erforderlich). `playwright.config.ts` startet den Server automatisch.
+
+**Mindeststandard für neue Logik:** Tests die _Verhalten_ beschreiben, nicht _Implementierung_. Nutze Referenzwerte aus Normen wo möglich (Recknagel, ASHRAE, SIA).
 
 ## Datenbank-Schema ändern
 

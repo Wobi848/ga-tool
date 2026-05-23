@@ -9,3 +9,5 @@ bun.lockb
 /static/
 /drizzle/
 /.claude/
+/test-results/
+/playwright-report/
