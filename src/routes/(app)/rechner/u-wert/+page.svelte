@@ -1,10 +1,8 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { uWert, SURFACE_PRESETS, SIA_LIMITS, type Layer } from '$lib/rechner/uWert';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
-
-	// Schicht-Aufbau
-	type Layer = { label: string; lambda: number; thickness: number };
 
 	const materialPresetsData: { labelKey: string; lambda: number }[] = [
 		{ labelKey: 'rechner.uWertUi.matConcrete', lambda: 2.1 },
@@ -29,15 +27,21 @@
 		materialPresetsData.map((m) => ({ label: $_(m.labelKey), lambda: m.lambda }))
 	);
 
-	// Rsi / Rse Presets
-	type Surface = { labelKey: string; rsi: number; rse: number };
-	const surfacePresets: Record<string, Surface> = {
-		'wand-aussen': { labelKey: 'rechner.uWertUi.outerWall', rsi: 0.13, rse: 0.04 },
-		'wand-innen': { labelKey: 'rechner.uWertUi.innerWall', rsi: 0.13, rse: 0.13 },
-		'dach-aussen': { labelKey: 'rechner.uWertUi.roofOutside', rsi: 0.1, rse: 0.04 },
-		'boden-erdreich': { labelKey: 'rechner.uWertUi.floorGround', rsi: 0.17, rse: 0.0 },
-		'boden-aussen': { labelKey: 'rechner.uWertUi.floorOutside', rsi: 0.17, rse: 0.04 },
-		custom: { labelKey: 'rechner.uWertUi.custom', rsi: 0.13, rse: 0.04 }
+	// Rsi / Rse Presets: labels separat (i18n), Werte aus lib/rechner/uWert
+	type SurfaceUI = { labelKey: string; rsi: number; rse: number };
+	const surfacePresets: Record<string, SurfaceUI> = {
+		'wand-aussen': { labelKey: 'rechner.uWertUi.outerWall', ...SURFACE_PRESETS['wand-aussen'] },
+		'wand-innen': { labelKey: 'rechner.uWertUi.innerWall', ...SURFACE_PRESETS['wand-innen'] },
+		'dach-aussen': { labelKey: 'rechner.uWertUi.roofOutside', ...SURFACE_PRESETS['dach-aussen'] },
+		'boden-erdreich': {
+			labelKey: 'rechner.uWertUi.floorGround',
+			...SURFACE_PRESETS['boden-erdreich']
+		},
+		'boden-aussen': {
+			labelKey: 'rechner.uWertUi.floorOutside',
+			...SURFACE_PRESETS['boden-aussen']
+		},
+		custom: { labelKey: 'rechner.uWertUi.custom', ...SURFACE_PRESETS.custom }
 	};
 
 	let surfaceKey = $state('wand-aussen');
@@ -71,22 +75,16 @@
 		layers = layers.map((l, idx) => (idx === i ? { ...l, lambda } : l));
 	}
 
-	const result = $derived.by(() => {
-		const rt = layers.reduce((sum, l) => sum + l.thickness / 1000 / l.lambda, 0);
-		const r_total = rsi + rt + rse;
-		const u = r_total > 0 ? 1 / r_total : 0;
-		const d_total = layers.reduce((sum, l) => sum + l.thickness, 0);
-		return { rt, r_total, u, d_total };
+	const baseResult = $derived(uWert(layers, rsi, rse));
+	// Backward-compat alias: page template uses r_total / d_total
+	const result = $derived({
+		rt: baseResult.rt,
+		r_total: baseResult.rTotal,
+		u: baseResult.u,
+		d_total: baseResult.dTotal
 	});
 
-	// SIA 380/1 Grenzwerte
-	const limits = [
-		{ label: 'Aussenwand Neubau (SIA 380/1)', u: 0.17 },
-		{ label: 'Flachdach Neubau', u: 0.15 },
-		{ label: 'Estrichboden/Kellerdecke', u: 0.2 },
-		{ label: 'Fenster (empfohlen)', u: 0.9 },
-		{ label: 'Minergie-Standard Wand', u: 0.12 }
-	];
+	const limits = SIA_LIMITS;
 </script>
 
 <div class="calc-page">

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import { operatingPoint as calcOperatingPoint, pumpCurve } from '$lib/rechner/pumpenkennlinie';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Pumpen-Presets: [H0 (m), Q0 (m³/h)] — Förderhöhe bei Q=0, Nullförderstrom bei H=0
 	const pumpPresets = [
 		{ label: 'Grundfos UPS 25-60', h0: 6.0, q0: 3.2 },
 		{ label: 'Grundfos UP 20-14', h0: 2.0, q0: 1.5 },
@@ -13,13 +13,11 @@
 	];
 
 	let presetIdx = $state(0);
-	let h0 = $state(pumpPresets[0].h0); // Förderhöhe bei Q=0 [m]
-	let q0 = $state(pumpPresets[0].q0); // Volumenstrom bei H=0 [m³/h]
+	let h0 = $state(pumpPresets[0].h0);
+	let q0 = $state(pumpPresets[0].q0);
 
-	// Rohrnetz-Kennlinie: R = ΔpNetz / QNetz²
-	// Auslegungspunkt definiert R
-	let qDesign = $state(1.5); // m³/h Auslegungsdurchfluss
-	let hDesign = $state(3.0); // m WS Auslegungsförderhöhe (= Druckverlust Rohrnetz)
+	let qDesign = $state(1.5);
+	let hDesign = $state(3.0);
 
 	$effect(() => {
 		const p = pumpPresets[presetIdx];
@@ -29,46 +27,8 @@
 		}
 	});
 
-	// Pumpenkennlinie: H_P(Q) = H0 × (1 − (Q/Q0)²) — Parabel-Näherung
-	function hPump(q: number): number {
-		return h0 * (1 - Math.pow(q / q0, 2));
-	}
-
-	// Rohrnetz-Kennlinie: H_R(Q) = R × Q²  mit R = hDesign / qDesign²
-	function hRohrnetz(q: number): number {
-		if (qDesign <= 0) return 0;
-		const r = hDesign / (qDesign * qDesign);
-		return r * q * q;
-	}
-
-	// Betriebspunkt: Schnittpunkt H_P(Q) = H_R(Q)
-	// H0*(1-(Q/Q0)²) = R*Q²
-	// H0 - H0/Q0²*Q² = R*Q²
-	// H0 = Q²*(R + H0/Q0²)
-	// Q_B = sqrt(H0 / (R + H0/Q0²))
-	const operatingPoint = $derived.by(() => {
-		if (qDesign <= 0 || hDesign <= 0 || q0 <= 0 || h0 <= 0) return null;
-		const r = hDesign / (qDesign * qDesign);
-		const denominator = r + h0 / (q0 * q0);
-		if (denominator <= 0) return null;
-		const qB = Math.sqrt(h0 / denominator);
-		const hB = hPump(qB);
-		if (qB <= 0 || hB <= 0 || qB > q0 * 1.05) return null;
-		return { q: qB, h: hB };
-	});
-
-	// Kurvenberechnung für Anzeige (11 Punkte)
-	const chartPoints = $derived.by(() => {
-		const pts = [];
-		const qMax = q0 * 1.05;
-		for (let i = 0; i <= 10; i++) {
-			const q = (i / 10) * qMax;
-			const hp = Math.max(0, hPump(q));
-			const hr = hRohrnetz(q);
-			pts.push({ q, hp, hr });
-		}
-		return pts;
-	});
+	const operatingPoint = $derived(calcOperatingPoint({ h0, q0 }, { qDesign, hDesign }));
+	const chartPoints = $derived(pumpCurve({ h0, q0 }, { qDesign, hDesign }));
 
 	// Für Balken-Normierung
 	const maxH = $derived(

@@ -1,85 +1,18 @@
 <script lang="ts">
-	import { pSat, dewPoint, absHumidity, enthalpy, airDensity, fmt } from '$lib/rechner/_shared';
+	import { fmt } from '$lib/rechner/_shared';
+	import { psychroState, type PsychroMode } from '$lib/rechner/psychrometrie';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	// Input mode: define state by 2 of (T, RH, x, Tdp)
-	type InputMode = 't-rh' | 't-x' | 't-tdp' | 't-h';
-
-	let mode: InputMode = $state('t-rh');
+	let mode: PsychroMode = $state('t-rh');
 	let temperature = $state(22); // °C
 	let rh = $state(50); // %
 	let x = $state(8.2); // g/kg
-	let tdp = $state(11.1); // °C dew point
+	let tdp = $state(11.1); // °C
 	let h = $state(43); // kJ/kg
 	let pressure = $state(101325); // Pa
 
-	const result = $derived.by(() => {
-		let t = temperature;
-		let phi: number; // 0..1
-		let xVal: number; // g/kg
-
-		if (mode === 't-rh') {
-			phi = rh / 100;
-			xVal = absHumidity(t, rh, pressure);
-		} else if (mode === 't-x') {
-			xVal = x;
-			// rh from x: pw = x·p / (0.622 + x); phi = pw / pSat
-			const xKg = xVal / 1000;
-			const pw = (xKg * pressure) / (0.622 + xKg);
-			phi = pw / pSat(t);
-		} else if (mode === 't-tdp') {
-			// at dew point, RH = 100%, so pw = pSat(tdp)
-			const pw = pSat(tdp);
-			phi = pw / pSat(t);
-			xVal = ((0.622 * pw) / (pressure - pw)) * 1000;
-		} else {
-			// t-h: solve for x from h = 1.006·t + x·(2501 + 1.86·t)
-			xVal = (h - 1.006 * t) / (2501 + 1.86 * t); // kg/kg
-			const xKg = xVal;
-			xVal = xKg * 1000;
-			const pw = (xKg * pressure) / (0.622 + xKg);
-			phi = pw / pSat(t);
-		}
-
-		const ps = pSat(t);
-		const pw = phi * ps;
-		const hCalc = enthalpy(t, xVal);
-		const tdpCalc = dewPoint(t, phi * 100);
-		const rho = airDensity(t, pressure);
-		const v = (1 / rho) * (1 + 1.609 * (xVal / 1000)); // spec. volume
-
-		// Wet-bulb (approximation: iterate Newton)
-		let tWb = t;
-		for (let i = 0; i < 30; i++) {
-			const xSatWb = (0.622 * pSat(tWb)) / (pressure - pSat(tWb));
-			const fx = 1.006 * (t - tWb) - (xSatWb - xVal / 1000) * (2501 - 2.381 * tWb);
-			const dfx =
-				-1.006 -
-				xSatWb * (1 + (17.62 * 243.12) / Math.pow(243.12 + tWb, 2)) * (2501 - 2.381 * tWb) -
-				-2.381 * (xSatWb - xVal / 1000);
-			const next = tWb - fx / dfx;
-			if (Math.abs(next - tWb) < 0.001) {
-				tWb = next;
-				break;
-			}
-			tWb = next;
-		}
-
-		return {
-			t,
-			rh: phi * 100,
-			x: xVal,
-			h: hCalc,
-			tdp: tdpCalc,
-			tWb,
-			pSat: ps,
-			pw,
-			rho,
-			v
-		};
-	});
-
+	const result = $derived(psychroState({ mode, t: temperature, rh, x, tdp, h, pressure }));
 	const saturated = $derived(result.rh > 100);
 </script>
 

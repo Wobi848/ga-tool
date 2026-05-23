@@ -1,57 +1,45 @@
 <script lang="ts">
 	import { fmt } from '$lib/rechner/_shared';
+	import {
+		ohmsLaw,
+		dcPower,
+		acPower,
+		currentFromPower as calcI,
+		recommendFuse,
+		type OhmMode,
+		type PowerMode,
+		type CurrentMode
+	} from '$lib/rechner/elektro';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
-	type OhmMode = 'R' | 'U' | 'I';
 	let ohmMode = $state<OhmMode>('R');
 	let ohmU = $state(24);
 	let ohmI = $state(0.5);
 	let ohmR = $state(100);
 
-	const ohm = $derived.by(() => {
-		if (ohmMode === 'R') return { R: ohmU / ohmI, U: ohmU, I: ohmI };
-		if (ohmMode === 'U') return { R: ohmR, U: ohmR * ohmI, I: ohmI };
-		return { R: ohmR, U: ohmU, I: ohmU / ohmR };
-	});
+	const ohm = $derived(ohmsLaw({ mode: ohmMode, U: ohmU, I: ohmI, R: ohmR }));
 
-	type PMode = 'P' | 'U' | 'I';
-	let pMode = $state<PMode>('P');
+	let pMode = $state<PowerMode>('P');
 	let pU = $state(24);
 	let pI = $state(2);
 	let pP = $state(100);
 
-	const power = $derived.by(() => {
-		if (pMode === 'P') return { P: pU * pI, U: pU, I: pI };
-		if (pMode === 'U') return { P: pP, U: pP / pI, I: pI };
-		return { P: pP, U: pU, I: pP / pU };
-	});
+	const power = $derived(dcPower({ mode: pMode, U: pU, I: pI, P: pP }));
 
 	let acU = $state(230);
 	let acI = $state(1);
 	let acCos = $state(0.9);
 
-	const ac = $derived.by(() => {
-		const S = acU * acI;
-		const P = S * acCos;
-		const Q = Math.sqrt(Math.max(0, S * S - P * P));
-		return { S, P, Q };
-	});
+	const ac = $derived(acPower({ U: acU, I: acI, cos: acCos }));
 
-	type IMode = 'dc' | 'ac1' | 'ac3';
-	let iMode = $state<IMode>('dc');
+	let iMode = $state<CurrentMode>('dc');
 	let iP = $state(1000);
 	let iU = $state(230);
 	let iCos = $state(0.9);
 
-	const currentFromPower = $derived.by(() => {
-		if (iMode === 'dc') return iP / iU;
-		if (iMode === 'ac1') return iP / (iU * iCos);
-		return iP / (Math.sqrt(3) * iU * iCos);
-	});
-
-	const stdFuse = [6, 10, 13, 16, 20, 25, 32];
-	const recommendedFuse = $derived(stdFuse.find((v) => v >= currentFromPower * 1.25) ?? null);
+	const currentFromPower = $derived(calcI(iMode, iP, iU, iCos));
+	const recommendedFuse = $derived(recommendFuse(currentFromPower));
 </script>
 
 <div class="calc-page">

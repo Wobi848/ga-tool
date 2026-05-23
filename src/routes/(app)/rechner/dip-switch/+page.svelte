@@ -2,6 +2,14 @@
 	import { browser } from '$app/environment';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
+	import {
+		switchStates,
+		toggleBit,
+		bitValue as libBitValue,
+		toBinary,
+		toHex,
+		clampAddress
+	} from '$lib/rechner/dipSwitch';
 
 	type Protocol = 'bacnet-mstp' | 'modbus-rtu' | 'knx' | 'custom';
 
@@ -122,39 +130,24 @@
 		address = presets[protocol].min;
 	});
 
+	const dipOpts = $derived({ switchCount, msbLeft, invertedLogic });
+
 	function setAddress(val: number) {
-		address = Math.max(rangeMin, Math.min(rangeMax, val));
+		address = clampAddress(val, rangeMin, rangeMax);
 	}
 
-	// Derive switch visual states from address
-	// invertedLogic: ON visually = bit 0, OFF visually = bit 1
-	const switches = $derived.by(() => {
-		const result: boolean[] = [];
-		for (let i = 0; i < switchCount; i++) {
-			const bitPos = msbLeft ? switchCount - 1 - i : i;
-			const bit = (address >> bitPos) & 1;
-			result.push(invertedLogic ? bit === 0 : bit === 1);
-		}
-		return result;
-	});
+	const switches = $derived(switchStates(address, dipOpts));
 
 	function toggleSwitch(i: number) {
-		const bitPos = msbLeft ? switchCount - 1 - i : i;
-		setAddress(address ^ (1 << bitPos));
+		setAddress(toggleBit(address, i, dipOpts));
 	}
 
 	function bitValue(i: number): number {
-		const bitPos = msbLeft ? switchCount - 1 - i : i;
-		return 1 << bitPos;
+		return libBitValue(i, dipOpts);
 	}
 
-	const binary = $derived(address.toString(2).padStart(switchCount, '0'));
-	const hex = $derived(
-		address
-			.toString(16)
-			.toUpperCase()
-			.padStart(Math.ceil(switchCount / 4), '0')
-	);
+	const binary = $derived(toBinary(address, switchCount));
+	const hex = $derived(toHex(address, switchCount));
 	const addressInRange = $derived(address >= rangeMin && address <= rangeMax);
 </script>
 
