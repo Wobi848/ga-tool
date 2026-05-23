@@ -12,8 +12,15 @@
 		BusDevice,
 		BusSegment,
 		BusProject,
-		LibraryItem
+		LibraryItem,
+		ImportRow,
+		ImportState
 	} from '$lib/bus-ibn/types';
+	import PrintHeader from '$lib/bus-ibn/components/PrintHeader.svelte';
+	import ProjectHeader from '$lib/bus-ibn/components/ProjectHeader.svelte';
+	import ImportModal from '$lib/bus-ibn/components/ImportModal.svelte';
+	import LibraryDrawer from '$lib/bus-ibn/components/LibraryDrawer.svelte';
+	import AddSegmentPanel from '$lib/bus-ibn/components/AddSegmentPanel.svelte';
 	import {
 		STORAGE_KEY,
 		PREFS_KEY,
@@ -435,26 +442,7 @@
 		);
 	}
 
-	// CSV import
-	interface ImportRow {
-		mac: number;
-		name: string;
-		deviceType: string;
-		manufacturer: string;
-		model: string;
-		group: string;
-		deviceInstance: number;
-		status: DeviceStatus;
-		notes: string;
-		valid: boolean;
-	}
-	interface ImportState {
-		open: boolean;
-		targetSegId: string;
-		rows: ImportRow[];
-		filename: string;
-		error: string;
-	}
+	// CSV import (Types in $lib/bus-ibn/types)
 	let importState = $state<ImportState>({
 		open: false,
 		targetSegId: '',
@@ -690,17 +678,7 @@
 	}
 </script>
 
-<!-- ── Print header ──────────────────────────────────────────────────────── -->
-<div class="print-only print-header">
-	<div class="print-title">{project.name}</div>
-	<div class="print-meta">
-		<span>{$_('busIbn.site')}: {project.site || '—'}</span>
-		<span>{$_('busIbn.engineer')}: {project.engineer || '—'}</span>
-		<span>{$_('busIbn.version')}: {project.version}</span>
-		<span>{$_('busIbn.date')}: {formatDate(project.createdAt)}</span>
-	</div>
-	<div class="print-subtitle">{$_('busIbn.printTitle')}</div>
-</div>
+<PrintHeader {project} {formatDate} />
 
 <!-- ── Page ──────────────────────────────────────────────────────────────── -->
 <div class="page">
@@ -842,56 +820,7 @@
 		</button>
 	</div>
 
-	<!-- ── Project header ── -->
-	<div class="project-header">
-		<div class="project-fields">
-			<div class="project-field">
-				<label class="project-label" for="proj-name">{$_('busIbn.projectName')}</label>
-				<input
-					id="proj-name"
-					class="project-input"
-					type="text"
-					bind:value={project.name}
-					placeholder={$_('busIbn.projectNamePlaceholder')}
-				/>
-			</div>
-			<div class="project-field">
-				<label class="project-label" for="proj-site">{$_('busIbn.site')}</label>
-				<input
-					id="proj-site"
-					class="project-input"
-					type="text"
-					bind:value={project.site}
-					placeholder={$_('busIbn.sitePlaceholder')}
-				/>
-			</div>
-			<div class="project-field">
-				<label class="project-label" for="proj-eng">{$_('busIbn.engineer')}</label>
-				<input
-					id="proj-eng"
-					class="project-input"
-					type="text"
-					bind:value={project.engineer}
-					placeholder={$_('busIbn.engineerPlaceholder')}
-				/>
-			</div>
-			<div class="project-field">
-				<label class="project-label" for="proj-ver">{$_('busIbn.version')}</label>
-				<input
-					id="proj-ver"
-					class="project-input"
-					type="text"
-					bind:value={project.version}
-					placeholder="1.0"
-					style="width:70px"
-				/>
-			</div>
-			<div class="project-field">
-				<span class="project-label">{$_('busIbn.date')}</span>
-				<span class="project-date">{formatDate(project.createdAt)}</span>
-			</div>
-		</div>
-	</div>
+	<ProjectHeader bind:project {formatDate} />
 
 	<!-- ── Segments ── -->
 	{#each project.segments as seg (seg.id)}
@@ -1894,150 +1823,16 @@
 		</div>
 	{/each}
 
-	<!-- ── Add segment ── -->
-	<div class="add-seg-area no-print">
-		{#if showAddSegment}
-			<div class="add-seg-panel">
-				<span class="add-seg-label">{$_('busIbn.chooseProtocol')}</span>
-				{#each ['bacnet-mstp', 'bacnet-ip', 'modbus-rtu', 'knx'] as BusType[] as type (type)}
-					<button
-						type="button"
-						class="btn-bus-type"
-						class:btn-bus-type--active={addSegType === type}
-						style="--bus-color:{BUS_COLORS[type]}"
-						onclick={() => (addSegType = type)}
-					>
-						{BUS_LABELS[type]}
-					</button>
-				{/each}
-				<button type="button" class="btn-confirm" onclick={addSegment}
-					>{$_('busIbn.addSegmentBtn')}</button
-				>
-				<button type="button" class="btn-cancel" onclick={() => (showAddSegment = false)}
-					>{$_('common.cancel')}</button
-				>
-			</div>
-		{:else}
-			<button type="button" class="btn-add-seg" onclick={() => (showAddSegment = true)}>
-				<svg
-					width="16"
-					height="16"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					><line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" /></svg
-				>
-				{$_('busIbn.addSegment')}
-			</button>
-		{/if}
-	</div>
+	<AddSegmentPanel bind:show={showAddSegment} bind:segType={addSegType} onAdd={addSegment} />
 </div>
 
 <!-- ── Import Modal ──────────────────────────────────────────────────────── -->
-{#if importState.open}
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
-	<div
-		class="modal-overlay no-print"
-		role="presentation"
-		onclick={() => (importState.open = false)}
-	>
-		<!-- svelte-ignore a11y_click_events_have_key_events -->
-		<div
-			class="modal"
-			role="dialog"
-			aria-modal="true"
-			tabindex="-1"
-			onclick={(e) => e.stopPropagation()}
-		>
-			<div class="modal-head">
-				<div>
-					<div class="modal-title">{$_('busIbn.importTitle')}</div>
-					<div class="modal-sub">
-						{importState.filename} · {importState.rows.length}
-						{$_('common.rows')}
-					</div>
-				</div>
-				<button
-					type="button"
-					class="btn-icon"
-					aria-label={$_('common.close')}
-					onclick={() => (importState.open = false)}
-				>
-					<svg
-						width="14"
-						height="14"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-						><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg
-					>
-				</button>
-			</div>
-			<div class="modal-body">
-				{#if project.segments.length > 1}
-					<div class="modal-field">
-						<span class="settings-label">{$_('busIbn.importTargetSegment')}</span>
-						<select class="settings-select" bind:value={importState.targetSegId}>
-							{#each project.segments as s (s)}
-								<option value={s.id}>{s.name}</option>
-							{/each}
-						</select>
-					</div>
-				{/if}
-				<div class="import-preview-wrap">
-					<table class="import-table">
-						<thead>
-							<tr>
-								<th>{$_('busIbn.importColMac')}</th><th>{$_('busIbn.importColName')}</th><th
-									>{$_('busIbn.importColType')}</th
-								>
-								<th>{$_('busIbn.importColMfr')}</th><th>{$_('busIbn.importColModel')}</th><th
-									>{$_('busIbn.importColGroup')}</th
-								><th>{$_('busIbn.importColStatus')}</th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each importState.rows as row, _row_i (_row_i)}
-								<tr class:import-row-invalid={!row.valid}>
-									<td class="import-mac">{row.mac}</td>
-									<td>{row.name || '—'}</td>
-									<td>{row.deviceType || '—'}</td>
-									<td>{row.manufacturer || '—'}</td>
-									<td>{row.model || '—'}</td>
-									<td>{row.group || '—'}</td>
-									<td>
-										<span
-											class="status-pill"
-											style="--sc:{STATUS_COLORS[
-												row.status
-											]}; font-size:0.7rem; padding:0.15rem 0.45rem;"
-										>
-											<i class="status-dot"></i>{statusLabel(row.status)}
-										</span>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-				</div>
-			</div>
-			<div class="modal-foot">
-				<span class="modal-foot-info"
-					>{importState.rows.filter((r) => r.valid).length} von {importState.rows.length} Zeilen werden
-					importiert</span
-				>
-				<button type="button" class="btn-cancel" onclick={() => (importState.open = false)}
-					>{$_('common.cancel')}</button
-				>
-				<button type="button" class="btn-confirm" onclick={confirmImport}>
-					{$_('busIbn.importConfirm')} ({importState.rows.filter((r) => r.valid).length})
-				</button>
-			</div>
-		</div>
-	</div>
-{/if}
+<ImportModal
+	bind:state={importState}
+	segments={project.segments}
+	{statusLabel}
+	onConfirm={confirmImport}
+/>
 
 <!-- ── Conflict Toast ─────────────────────────────────────────────────────── -->
 {#if hasConflicts}
@@ -2047,108 +1842,15 @@
 	</div>
 {/if}
 
-<!-- ── Library Drawer ─────────────────────────────────────────────────────── -->
-{#if libraryOpen}
-	<div class="lib-overlay" role="presentation" onclick={() => (libraryOpen = false)}></div>
-{/if}
-<div class="lib-drawer" class:lib-drawer--open={libraryOpen}>
-	<div class="lib-head">
-		<span>{$_('busIbn.libraryTitle')}</span>
-		<button
-			type="button"
-			class="btn-icon"
-			aria-label={$_('common.close')}
-			onclick={() => (libraryOpen = false)}
-		>
-			<svg
-				width="14"
-				height="14"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="currentColor"
-				stroke-width="2"
-				><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg
-			>
-		</button>
-	</div>
-	{#if project.segments.length > 1}
-		<div class="lib-target">
-			<span class="settings-label">{$_('busIbn.libraryInsertIn')}</span>
-			<select class="settings-select" bind:value={libraryTargetSegId} style="flex:1">
-				{#each project.segments as s (s)}
-					<option value={s.id}>{s.name}</option>
-				{/each}
-			</select>
-		</div>
-	{/if}
-	<div class="lib-bus-chips">
-		<button
-			type="button"
-			class="lib-chip"
-			class:lib-chip--active={libraryFilterBus === 'all'}
-			onclick={() => (libraryFilterBus = 'all')}>Alle</button
-		>
-		<button
-			type="button"
-			class="lib-chip"
-			class:lib-chip--active={libraryFilterBus === 'bacnet-mstp'}
-			onclick={() => (libraryFilterBus = 'bacnet-mstp')}>BACnet MSTP</button
-		>
-		<button
-			type="button"
-			class="lib-chip"
-			class:lib-chip--active={libraryFilterBus === 'modbus-rtu'}
-			onclick={() => (libraryFilterBus = 'modbus-rtu')}>Modbus RTU</button
-		>
-		<button
-			type="button"
-			class="lib-chip"
-			class:lib-chip--active={libraryFilterBus === 'knx'}
-			onclick={() => (libraryFilterBus = 'knx')}>KNX</button
-		>
-		<button
-			type="button"
-			class="lib-chip"
-			class:lib-chip--active={libraryFilterBus === 'analog'}
-			onclick={() => (libraryFilterBus = 'analog')}>Analog</button
-		>
-	</div>
-	<div class="lib-search-wrap">
-		<input
-			type="search"
-			class="lib-search"
-			placeholder={$_('busIbn.librarySearchPlaceholder')}
-			bind:value={libraryQuery}
-		/>
-	</div>
-	<div class="lib-list">
-		{#each filteredLibrary as grp, _grp_i (_grp_i)}
-			<div class="lib-cat">{grp.cat}</div>
-			{#each grp.items as item (item.vendor + '|' + item.model)}
-				<!-- svelte-ignore a11y_click_events_have_key_events -->
-				<div class="lib-item" role="button" tabindex="0" onclick={() => addFromLibrary(item)}>
-					<div class="lib-item-short">{item.short}</div>
-					<div class="lib-item-meta">
-						<div class="lib-item-name">{item.vendor} {item.model}</div>
-						<div class="lib-item-desc">{item.desc}</div>
-					</div>
-					<button
-						type="button"
-						class="lib-item-add"
-						onclick={(e) => {
-							e.stopPropagation();
-							addFromLibrary(item);
-						}}
-						title={$_('busIbn.libraryAddDevice')}>+</button
-					>
-				</div>
-			{/each}
-		{/each}
-		{#if filteredLibrary.length === 0}
-			<div class="lib-empty">{$_('busIbn.libraryNoResults')}</div>
-		{/if}
-	</div>
-</div>
+<LibraryDrawer
+	bind:open={libraryOpen}
+	bind:targetSegId={libraryTargetSegId}
+	bind:filterBus={libraryFilterBus}
+	bind:query={libraryQuery}
+	segments={project.segments}
+	{filteredLibrary}
+	onAdd={addFromLibrary}
+/>
 
 <style>
 	/* ── Page ── */
@@ -2274,50 +1976,6 @@
 	}
 
 	/* ── Project header ── */
-	.project-header {
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 0.75rem;
-		padding: 1rem 1.25rem;
-		margin-bottom: 1.25rem;
-	}
-	.project-fields {
-		display: flex;
-		gap: 1rem;
-		flex-wrap: wrap;
-	}
-	.project-field {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-		min-width: 140px;
-	}
-	.project-label {
-		font-size: 0.7rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--muted);
-	}
-	.project-input {
-		background: var(--bg);
-		border: 1px solid var(--border);
-		border-radius: 0.375rem;
-		padding: 0.4rem 0.6rem;
-		font-size: 0.875rem;
-		color: var(--text);
-		font-family: inherit;
-		min-width: 0;
-	}
-	.project-input:focus {
-		outline: none;
-		border-color: var(--color-primary);
-	}
-	.project-date {
-		font-size: 0.875rem;
-		color: var(--text);
-		padding: 0.4rem 0;
-	}
 
 	/* ── Buttons ── */
 	.btn-print {
@@ -3179,65 +2837,6 @@
 	}
 
 	/* ── Add segment ── */
-	.add-seg-area {
-		margin-top: 0.5rem;
-	}
-	.btn-add-seg {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.6rem 1.25rem;
-		background: transparent;
-		border: 1px dashed var(--border);
-		border-radius: 0.5rem;
-		color: var(--muted);
-		font-size: 0.875rem;
-		font-family: inherit;
-		cursor: pointer;
-		width: 100%;
-		justify-content: center;
-		transition: all 0.15s;
-	}
-	.btn-add-seg:hover {
-		border-color: var(--color-primary);
-		color: var(--color-primary);
-	}
-	.add-seg-panel {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		flex-wrap: wrap;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 0.5rem;
-		padding: 0.75rem 1rem;
-	}
-	.add-seg-label {
-		font-size: 0.8125rem;
-		color: var(--muted);
-		margin-right: 0.25rem;
-	}
-	.btn-bus-type {
-		padding: 0.35rem 0.75rem;
-		border-radius: 0.375rem;
-		border: 1px solid var(--border);
-		background: transparent;
-		color: var(--muted);
-		font-size: 0.8125rem;
-		font-family: inherit;
-		cursor: pointer;
-		transition: all 0.15s;
-	}
-	.btn-bus-type:hover {
-		border-color: var(--bus-color);
-		color: var(--bus-color);
-	}
-	.btn-bus-type--active {
-		background: color-mix(in srgb, var(--bus-color) 15%, transparent);
-		border-color: var(--bus-color);
-		color: var(--bus-color);
-		font-weight: 600;
-	}
 	.btn-confirm {
 		padding: 0.35rem 0.9rem;
 		background: var(--color-primary);
@@ -3275,286 +2874,8 @@
 	}
 
 	/* ── Library Drawer ── */
-	.lib-overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 40;
-		background: rgba(0, 0, 0, 0.15);
-	}
-	.lib-drawer {
-		position: fixed;
-		top: 0;
-		right: 0;
-		bottom: 0;
-		width: 320px;
-		z-index: 50;
-		background: var(--surface);
-		border-left: 1px solid var(--border);
-		transform: translateX(100%);
-		transition: transform 0.25s ease;
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-	}
-	.lib-drawer--open {
-		transform: translateX(0);
-	}
-	.lib-head {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		padding: 0.875rem 1rem;
-		border-bottom: 1px solid var(--border);
-		font-size: 0.875rem;
-		font-weight: 600;
-		color: var(--text);
-		flex-shrink: 0;
-	}
-	.lib-target {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding: 0.5rem 0.75rem;
-		border-bottom: 1px solid var(--border);
-		flex-shrink: 0;
-	}
-	.lib-bus-chips {
-		display: flex;
-		gap: 0.375rem;
-		padding: 0.5rem 0.75rem;
-		border-bottom: 1px solid var(--border);
-		flex-shrink: 0;
-		flex-wrap: wrap;
-	}
-	.lib-chip {
-		padding: 0.2rem 0.6rem;
-		border-radius: 999px;
-		border: 1px solid var(--border);
-		background: transparent;
-		color: var(--muted);
-		font-size: 0.7rem;
-		font-weight: 600;
-		cursor: pointer;
-		transition: all 0.1s;
-		white-space: nowrap;
-	}
-	.lib-chip:hover {
-		border-color: var(--color-primary);
-		color: var(--color-primary);
-	}
-	.lib-chip--active {
-		background: var(--color-primary);
-		border-color: var(--color-primary);
-		color: #fff;
-	}
-	.lib-search-wrap {
-		padding: 0.5rem 0.75rem;
-		border-bottom: 1px solid var(--border);
-		flex-shrink: 0;
-	}
-	.lib-search {
-		width: 100%;
-		background: var(--bg);
-		border: 1px solid var(--border);
-		border-radius: 0.375rem;
-		padding: 0.4rem 0.6rem;
-		font-size: 0.8125rem;
-		color: var(--text);
-		font-family: inherit;
-	}
-	.lib-search:focus {
-		outline: none;
-		border-color: var(--color-primary);
-	}
-	.lib-list {
-		flex: 1;
-		overflow-y: auto;
-		padding: 0.5rem 0;
-	}
-	.lib-cat {
-		padding: 0.4rem 0.875rem 0.25rem;
-		font-size: 0.65rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.05em;
-		color: var(--muted);
-	}
-	.lib-item {
-		display: flex;
-		align-items: center;
-		gap: 0.625rem;
-		padding: 0.4rem 0.875rem;
-		cursor: pointer;
-		transition: background 0.1s;
-	}
-	.lib-item:hover {
-		background: var(--surface-hover);
-	}
-	.lib-item-short {
-		width: 34px;
-		height: 34px;
-		border-radius: 0.375rem;
-		background: color-mix(in srgb, var(--color-primary) 10%, var(--bg));
-		color: var(--color-primary);
-		font-size: 0.65rem;
-		font-weight: 700;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-	.lib-item-meta {
-		flex: 1;
-		min-width: 0;
-	}
-	.lib-item-name {
-		font-size: 0.8125rem;
-		color: var(--text);
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-	}
-	.lib-item-desc {
-		font-size: 0.725rem;
-		color: var(--muted);
-	}
-	.lib-item-add {
-		margin-left: auto;
-		width: 24px;
-		height: 24px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		border-radius: 0.25rem;
-		border: 1px solid var(--border);
-		background: transparent;
-		color: var(--muted);
-		font-size: 1rem;
-		cursor: pointer;
-		flex-shrink: 0;
-		transition: all 0.1s;
-		line-height: 1;
-	}
-	.lib-item-add:hover {
-		border-color: var(--color-primary);
-		color: var(--color-primary);
-	}
-	.lib-empty {
-		padding: 1rem;
-		text-align: center;
-		color: var(--muted);
-		font-size: 0.8125rem;
-		font-style: italic;
-	}
 
 	/* ── Modal ── */
-	.modal-overlay {
-		position: fixed;
-		inset: 0;
-		z-index: 300;
-		background: rgba(0, 0, 0, 0.35);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem;
-	}
-	.modal {
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 0.75rem;
-		width: 100%;
-		max-width: 760px;
-		max-height: 85vh;
-		display: flex;
-		flex-direction: column;
-		box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-	}
-	.modal-head {
-		display: flex;
-		align-items: flex-start;
-		justify-content: space-between;
-		padding: 1rem 1.25rem;
-		border-bottom: 1px solid var(--border);
-		flex-shrink: 0;
-	}
-	.modal-title {
-		font-size: 1rem;
-		font-weight: 600;
-		color: var(--text);
-	}
-	.modal-sub {
-		font-size: 0.8125rem;
-		color: var(--muted);
-		margin-top: 2px;
-	}
-	.modal-body {
-		padding: 1rem 1.25rem;
-		overflow-y: auto;
-		flex: 1;
-		display: flex;
-		flex-direction: column;
-		gap: 0.75rem;
-	}
-	.modal-field {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-	}
-	.modal-foot {
-		display: flex;
-		align-items: center;
-		gap: 0.75rem;
-		padding: 0.875rem 1.25rem;
-		border-top: 1px solid var(--border);
-		flex-shrink: 0;
-	}
-	.modal-foot-info {
-		font-size: 0.8125rem;
-		color: var(--muted);
-		flex: 1;
-	}
-	.import-preview-wrap {
-		overflow-x: auto;
-		border: 1px solid var(--border);
-		border-radius: 0.5rem;
-	}
-	.import-table {
-		width: 100%;
-		border-collapse: collapse;
-		font-size: 0.8125rem;
-	}
-	.import-table thead th {
-		background: var(--bg);
-		padding: 0.4rem 0.6rem;
-		font-size: 0.7rem;
-		font-weight: 600;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		color: var(--muted);
-		border-bottom: 1px solid var(--border);
-		text-align: left;
-		white-space: nowrap;
-	}
-	.import-table tbody tr {
-		border-bottom: 1px solid var(--border);
-	}
-	.import-table tbody tr:last-child {
-		border-bottom: none;
-	}
-	.import-table tbody td {
-		padding: 0.3rem 0.6rem;
-		color: var(--text);
-	}
-	.import-mac {
-		font-weight: 700;
-		font-variant-numeric: tabular-nums;
-		color: var(--color-primary);
-		width: 50px;
-	}
-	.import-row-invalid {
-		opacity: 0.4;
-		text-decoration: line-through;
-	}
 
 	/* ── Print ── */
 	.print-only {
@@ -3589,50 +2910,10 @@
 			font-size: 11pt;
 		}
 
-		.print-header {
-			margin-bottom: 12pt;
-			padding-bottom: 8pt;
-			border-bottom: 2pt solid #000;
-			display: grid;
-			grid-template-columns: 1fr auto;
-			gap: 4pt;
-		}
-		.print-title {
-			font-size: 16pt;
-			font-weight: 700;
-			color: #000;
-			grid-column: 1;
-		}
-		.print-subtitle {
-			font-size: 9pt;
-			color: #555;
-			margin-top: 2pt;
-			grid-column: 1;
-		}
-		.print-meta {
-			grid-column: 1 / -1;
-			display: flex;
-			gap: 20pt;
-			flex-wrap: wrap;
-			font-size: 9pt;
-			color: #333;
-			margin-top: 4pt;
-			border-top: 0.5pt solid #ccc;
-			padding-top: 4pt;
-		}
-		.print-meta span::before {
-			content: attr(data-label) ': ';
-			font-weight: 600;
-		}
-
 		.page {
 			max-width: 100%;
 			padding: 0;
 		}
-
-		.project-header {
-			display: none;
-		} /* replaced by print-header */
 
 		.segment {
 			background: #fff;
@@ -3725,14 +3006,8 @@
 		}
 
 		.seg-footer,
-		.bulk-panel,
-		.add-seg-area {
+		.bulk-panel {
 			display: none;
-		}
-		.lib-drawer,
-		.conflict-toast,
-		.modal-overlay {
-			display: none !important;
 		}
 	}
 </style>

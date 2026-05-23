@@ -90,3 +90,25 @@ export interface LibraryItem {
 	desc: string;
 	busType: BusType | 'analog';
 }
+
+/** Eine geparste CSV-/JSON-Zeile beim Import. */
+export interface ImportRow {
+	mac: number;
+	name: string;
+	deviceType: string;
+	manufacturer: string;
+	model: string;
+	group: string;
+	deviceInstance: number;
+	status: DeviceStatus;
+	notes: string;
+	valid: boolean;
+}
+
+export interface ImportState {
+	open: boolean;
+	targetSegId: string;
+	rows: ImportRow[];
+	filename: string;
+	error: string;
+}
