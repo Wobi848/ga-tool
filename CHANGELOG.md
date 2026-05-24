@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.9.5 — 2026-05-24
+
+### Neue Rechner
+
+- **k-Faktor-Rechner (Luft)** — Volumenstrom aus Wirkdruck: `Q = k·√ΔP`. Vier Modi (Q aus k+ΔP, ΔP aus Q+k, k aus Q+ΔP, k aus zwei Messpunkten). Optional Dichtekorrektur. Kennlinien-Chart mit Arbeitspunkt-Marker und gestrichelten Hilfslinien zu den Achsen.
+- **Zeit-Konverter** — ms / s / min / h / d / Wo / Mt / a, mit Tests.
+
+### Neue Wissens-Artikel
+
+- **Luftfeuchtigkeit — Grundlagen für die GA** — rF vs absolute vs spezifische Feuchte, h-x-Diagramm-Operationen als Pfeile, Behaglichkeit nach EN 16798-1 / ISO 7730 / SIA 382/1, Symptome zu trocken/zu feucht und GA-Gegenmassnahmen.
+- **k-Faktor — Volumenstrom aus Wirkdruck** — Bernoulli-Herleitung, typische k-Werte, IBN-Schritte, Filter-Hinweise gegen springende Werte.
+
+### Psychrometrie-Rechner
+
+- **Interaktives h-x-Diagramm** (Carrier-Style: x horizontal, T vertikal) — rF-Kurven 20 / 40 / 60 / 80 / 100 %, Arbeitspunkt wandert live mit deinen Eingaben, Taupunkt-Marker auf der Sättigungslinie.
+
+### Dashboard
+
+- **Neueste Einträge** — neue Sektion zwischen Favoriten und "Meist aufgerufen". Listet die 5 jüngsten Einträge quer über Wissensbasis, Referenz, Checklisten, Rechner und Konverter (sortiert nach `updated`-Datum, mit Typ-Badge + relativem Datum „heute / gestern / vor X Tagen").
+
+### UI-Fixes
+
+- **Referenz-Karten-Icons** — fünf fehlende Icons ergänzt (sun, code, bell, list, layers). Alarm-Richtwerte, BACnet-Objekttypen, DALI-Gerätetypen, KNX-DPT und Modbus-Codes zeigen jetzt eigene Icons statt Fallback-Quadrat.
+- **Konverter-Karten-Icons** — clock + rotate-cw ergänzt, Zeit + Winkel hatten vorher den generischen Fallback.
+
+---
+
 ## v0.9.4 — 2026-05-24
 
 ### Auth & Rollen

@@ -6,4 +6,6 @@ export interface RechnerMeta {
 	short_en?: string;
 	icon: string;
 	color: string;
+	/** ISO-Datum (YYYY-MM-DD) wann der Rechner hinzugefügt/zuletzt überarbeitet wurde */
+	updated?: string;
 }

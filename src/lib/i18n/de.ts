@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'System-Admin-Rolle, neuer Temperaturfühler-Artikel (PT/NI/LMx35), fehlende Checklisten-Icons ergänzt'
+			'k-Faktor-Rechner + Wissens-Artikel, h-x-Diagramm in Psychrometrie, Zeit-Konverter, Luftfeuchtigkeit-Grundlagen, Dashboard "Neueste Einträge"'
 	},
 	auth: {
 		login: 'Anmelden',
@@ -39,6 +39,11 @@ export const de = {
 		quickAccess: 'Schnellzugriff',
 		favorites: 'Favoriten',
 		recentlyUsed: 'Meist aufgerufen',
+		recentEntries: 'Neueste Einträge',
+		relativeToday: 'heute',
+		relativeYesterday: 'gestern',
+		relativeDaysAgo: 'vor {d} Tagen',
+		relativeWeeksAgo: 'vor {w} Wochen',
 		removeFavorite: 'Aus Favoriten entfernen',
 		modules: {
 			konverter: {
@@ -321,6 +326,13 @@ export const de = {
 			short: 'Sensor-Linearisierung: Kennlinie aus Messpunkten als Polynom',
 			intro:
 				'Fitte ein Polynom (Grad 1–5) durch deine Messpunkte mit der Methode der kleinsten Quadrate. Anwendung: Sensor-Kennlinien linearisieren, Datenblatt-Tabellen in DDC/SPS-taugliche Polynome umrechnen.'
+		},
+
+		kFaktor: {
+			name: 'k-Faktor (Luft)',
+			short: 'Volumenstrom aus Wirkdruck: Q = k·√ΔP (VAV-Boxen, Düsen)',
+			intro:
+				'Aus dem Hersteller-k-Faktor und gemessenem Wirkdruck ΔP den Luftvolumenstrom Q berechnen. Funktioniert für VAV-Boxen, Drall-Auslässe, Blenden und Düsen. Optional Rückwärtsrechnung, k-Bestimmung aus zwei Messpunkten und Dichtekorrektur für abweichende Luftbedingungen.'
 		},
 
 		// Shared UI strings across calculators
@@ -624,7 +636,9 @@ export const de = {
 			satPressure: 'Wasserdampf-Sättigungsdruck p_s',
 			partialPressure: 'Wasserdampf-Partialdruck p_w',
 			density: 'Luftdichte ρ',
-			specVolume: 'Spez. Volumen v'
+			specVolume: 'Spez. Volumen v',
+			operatingPoint: 'Arbeitspunkt',
+			rhCurves: 'rel. Feuchte'
 		},
 
 		pidSimulatorUi: {
@@ -893,6 +907,22 @@ export const de = {
 			roomKeller: 'Keller (unbeheizt → 0)'
 		},
 
+		kFaktorUi: {
+			mode: 'Berechnungs-Modus',
+			qFromKdp: 'Q aus k + ΔP',
+			dpFromQk: 'ΔP aus Q + k',
+			kFromQdp: 'k aus Q + ΔP',
+			kFromPoints: 'k aus 2 Messpunkten',
+			inputs: 'Eingaben',
+			kFactor: 'k-Faktor',
+			densityCorrection: 'Dichtekorrektur',
+			densityHint: 'Aktivieren bei Luft deutlich abweichend von 20 °C / 1.013 bar',
+			airTemp: 'Lufttemperatur',
+			pressure: 'Luftdruck',
+			kCorrected: 'k (dichtekorrigiert)',
+			curve: 'Kennlinie Q über ΔP'
+		},
+
 		polynomFitUi: {
 			dataPoints: 'Messpunkte (x, y)',
 			addRow: 'Punkt hinzufügen',
@@ -948,7 +978,8 @@ export const de = {
 		temperatur: { name: 'Temperatur' },
 		signal: { name: 'Analogsignal' },
 		beleuchtung: { name: 'Beleuchtung' },
-		winkel: { name: 'Winkel / Ventilstellung' }
+		winkel: { name: 'Winkel / Ventilstellung' },
+		zeit: { name: 'Zeit' }
 	},
 
 	// ── Changelog ─────────────────────────────────────────────────────────────

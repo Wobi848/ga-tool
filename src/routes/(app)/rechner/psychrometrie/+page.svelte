@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { fmt } from '$lib/rechner/_shared';
+	import { fmt, absHumidity } from '$lib/rechner/_shared';
 	import { psychroState, type PsychroMode } from '$lib/rechner/psychrometrie';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
@@ -14,6 +14,47 @@
 
 	const result = $derived(psychroState({ mode, t: temperature, rh, x, tdp, h, pressure }));
 	const saturated = $derived(result.rh > 100);
+
+	// ─── h-x-Diagramm (Carrier-Style: x horizontal, T vertikal) ───────────────
+	const CHART = { w: 380, h: 260, padL: 38, padR: 16, padT: 16, padB: 34 };
+	const PLOT_W = CHART.w - CHART.padL - CHART.padR;
+	const PLOT_H = CHART.h - CHART.padT - CHART.padB;
+
+	const X_MIN = 0;
+	const X_MAX = 25; // g/kg
+	const T_MIN = -10;
+	const T_MAX = 40;
+
+	function sx(xGkg: number): number {
+		return CHART.padL + ((xGkg - X_MIN) / (X_MAX - X_MIN)) * PLOT_W;
+	}
+	function sy(tC: number): number {
+		return CHART.h - CHART.padB - ((tC - T_MIN) / (T_MAX - T_MIN)) * PLOT_H;
+	}
+
+	const RH_CURVES = [
+		{ rh: 20, opacity: 0.35 },
+		{ rh: 40, opacity: 0.4 },
+		{ rh: 60, opacity: 0.45 },
+		{ rh: 80, opacity: 0.5 },
+		{ rh: 100, opacity: 0.7 } // Sättigungslinie
+	];
+
+	function curvePath(rhPct: number): string {
+		const pts: string[] = [];
+		for (let t = T_MIN; t <= T_MAX; t += 1) {
+			const xVal = absHumidity(t, rhPct, pressure);
+			if (xVal > X_MAX * 1.2) continue;
+			const cx = sx(Math.min(xVal, X_MAX));
+			const cy = sy(t);
+			pts.push(`${pts.length === 0 ? 'M' : 'L'} ${cx.toFixed(1)} ${cy.toFixed(1)}`);
+		}
+		return pts.join(' ');
+	}
+
+	const opInChart = $derived(
+		result.x >= X_MIN && result.x <= X_MAX && result.t >= T_MIN && result.t <= T_MAX
+	);
 </script>
 
 <div class="calc-page">
@@ -192,5 +233,204 @@
 		</div>
 	{/if}
 
+	<!-- h-x-Diagramm -->
+	<div class="calc-section">
+		<h2 class="calc-section-title">h-x-Diagramm (Carrier)</h2>
+		<svg viewBox="0 0 {CHART.w} {CHART.h}" class="hx-chart" preserveAspectRatio="xMidYMid meet">
+			<!-- Achsenrahmen -->
+			<rect
+				x={CHART.padL}
+				y={CHART.padT}
+				width={PLOT_W}
+				height={PLOT_H}
+				fill="none"
+				stroke="currentColor"
+				stroke-width="0.5"
+				opacity="0.4"
+			/>
+
+			<!-- Gitter horizontal (T) -->
+			{#each [0, 10, 20, 30] as t (t)}
+				<line
+					x1={CHART.padL}
+					y1={sy(t)}
+					x2={CHART.w - CHART.padR}
+					y2={sy(t)}
+					stroke="currentColor"
+					stroke-width="0.3"
+					opacity="0.15"
+					stroke-dasharray="2 2"
+				/>
+				<text
+					x={CHART.padL - 4}
+					y={sy(t) + 3}
+					font-size="9"
+					fill="currentColor"
+					opacity="0.6"
+					text-anchor="end">{t}</text
+				>
+			{/each}
+			<text
+				x={CHART.padL - 4}
+				y={sy(T_MIN) + 3}
+				font-size="9"
+				fill="currentColor"
+				opacity="0.6"
+				text-anchor="end">{T_MIN}</text
+			>
+			<text
+				x={CHART.padL - 4}
+				y={sy(T_MAX) + 3}
+				font-size="9"
+				fill="currentColor"
+				opacity="0.6"
+				text-anchor="end">{T_MAX}</text
+			>
+			<text x={6} y={CHART.padT + 4} font-size="9" fill="currentColor" opacity="0.7">°C</text>
+
+			<!-- Gitter vertikal (x) -->
+			{#each [5, 10, 15, 20] as xg (xg)}
+				<line
+					x1={sx(xg)}
+					y1={CHART.padT}
+					x2={sx(xg)}
+					y2={CHART.h - CHART.padB}
+					stroke="currentColor"
+					stroke-width="0.3"
+					opacity="0.15"
+					stroke-dasharray="2 2"
+				/>
+				<text
+					x={sx(xg)}
+					y={CHART.h - CHART.padB + 12}
+					font-size="9"
+					fill="currentColor"
+					opacity="0.6"
+					text-anchor="middle">{xg}</text
+				>
+			{/each}
+			<text
+				x={sx(0)}
+				y={CHART.h - CHART.padB + 12}
+				font-size="9"
+				fill="currentColor"
+				opacity="0.6"
+				text-anchor="middle">0</text
+			>
+			<text
+				x={sx(X_MAX)}
+				y={CHART.h - CHART.padB + 12}
+				font-size="9"
+				fill="currentColor"
+				opacity="0.6"
+				text-anchor="end">g/kg</text
+			>
+
+			<!-- rF-Kurven -->
+			{#each RH_CURVES as c (c.rh)}
+				<path
+					d={curvePath(c.rh)}
+					fill="none"
+					stroke="#0d9488"
+					stroke-width={c.rh === 100 ? 1.5 : 0.8}
+					opacity={c.opacity}
+				/>
+				{@const labelT = c.rh === 100 ? 32 : c.rh >= 60 ? 32 - (100 - c.rh) * 0.15 : 30}
+				{@const labelX = Math.min(absHumidity(labelT, c.rh, pressure), X_MAX - 0.5)}
+				<text x={sx(labelX) + 3} y={sy(labelT) - 2} font-size="8" fill="#0d9488" opacity={c.opacity}
+					>{c.rh}%</text
+				>
+			{/each}
+
+			<!-- Operating Point + Hilfslinien -->
+			{#if opInChart}
+				<line
+					x1={sx(result.x)}
+					y1={sy(result.t)}
+					x2={sx(result.x)}
+					y2={CHART.h - CHART.padB}
+					stroke="#ea580c"
+					stroke-width="0.5"
+					stroke-dasharray="2 2"
+					opacity="0.6"
+				/>
+				<line
+					x1={CHART.padL}
+					y1={sy(result.t)}
+					x2={sx(result.x)}
+					y2={sy(result.t)}
+					stroke="#ea580c"
+					stroke-width="0.5"
+					stroke-dasharray="2 2"
+					opacity="0.6"
+				/>
+				<!-- Taupunkt-Linie: vom OP nach links auf Sättigungskurve -->
+				{#if result.tdp >= T_MIN && result.tdp <= T_MAX}
+					<line
+						x1={sx(result.x)}
+						y1={sy(result.t)}
+						x2={sx(result.x)}
+						y2={sy(result.tdp)}
+						stroke="#dc2626"
+						stroke-width="0.5"
+						stroke-dasharray="3 3"
+						opacity="0.5"
+					/>
+					<circle cx={sx(result.x)} cy={sy(result.tdp)} r="2.5" fill="#dc2626" opacity="0.7" />
+				{/if}
+				<circle
+					cx={sx(result.x)}
+					cy={sy(result.t)}
+					r="4.5"
+					fill="#ea580c"
+					stroke="white"
+					stroke-width="1.2"
+				/>
+			{/if}
+		</svg>
+		<p class="chart-legend">
+			<span class="lg-dot" style="background:#ea580c"></span>
+			{$_('rechner.psychrometrieUi.operatingPoint')}
+			&nbsp;·&nbsp;
+			<span class="lg-dot" style="background:#dc2626"></span>
+			{$_('rechner.psychrometrieUi.dewpointTd')}
+			&nbsp;·&nbsp;
+			<span class="lg-line" style="background:#0d9488"></span>
+			{$_('rechner.psychrometrieUi.rhCurves')}
+		</p>
+	</div>
+
 	<p class="calc-info">{$_('rechner.psychrometrieUi.formulaNote')}</p>
 </div>
+
+<style>
+	.hx-chart {
+		width: 100%;
+		height: auto;
+		color: var(--muted);
+		max-width: 480px;
+		display: block;
+		margin: 0 auto;
+	}
+	.chart-legend {
+		font-size: 0.7rem;
+		color: var(--muted);
+		margin: 0.5rem 0 0;
+		text-align: center;
+	}
+	.lg-dot {
+		display: inline-block;
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		vertical-align: middle;
+		margin-right: 3px;
+	}
+	.lg-line {
+		display: inline-block;
+		width: 14px;
+		height: 2px;
+		vertical-align: middle;
+		margin-right: 3px;
+	}
+</style>

@@ -190,7 +190,18 @@ export const rechner: RechnerMeta[] = [
 		short: 'Sensor-Linearisierung: Kennlinie aus Messpunkten als Polynom',
 		short_en: 'Sensor linearization: characteristic curve from measurement points as polynomial',
 		icon: 'chart-line',
-		color: '#7c3aed'
+		color: '#7c3aed',
+		updated: '2026-05-24'
+	},
+	{
+		slug: 'k-faktor',
+		name: 'k-Faktor (Luft)',
+		name_en: 'k-Factor (Air)',
+		short: 'Volumenstrom aus Wirkdruck: Q = k·√ΔP (VAV-Boxen, Düsen)',
+		short_en: 'Volume flow from differential pressure: Q = k·√ΔP (VAV boxes, nozzles)',
+		icon: 'wind',
+		color: '#0d9488',
+		updated: '2026-05-24'
 	}
 ];
 

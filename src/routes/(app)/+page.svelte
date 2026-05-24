@@ -59,6 +59,78 @@
 		'bus-ibn': 'busIbn'
 	};
 
+	type RecentEntry = {
+		type: 'wissen' | 'referenz' | 'checkliste' | 'rechner' | 'konverter';
+		slug: string;
+		title: string;
+		updated: string;
+	};
+
+	const recentEntries: RecentEntry[] = $derived.by(() => {
+		const all: RecentEntry[] = [];
+		for (const a of articles) {
+			if (a.updated)
+				all.push({
+					type: 'wissen',
+					slug: a.slug,
+					title: isEn && a.title_en ? a.title_en : a.title,
+					updated: a.updated
+				});
+		}
+		for (const r of referenceTables) {
+			if (r.updated)
+				all.push({
+					type: 'referenz',
+					slug: r.slug,
+					title: isEn && r.title_en ? r.title_en : r.title,
+					updated: r.updated
+				});
+		}
+		for (const c of checklists) {
+			if (c.updated)
+				all.push({
+					type: 'checkliste',
+					slug: c.slug,
+					title: isEn && c.title_en ? c.title_en : c.title,
+					updated: c.updated
+				});
+		}
+		for (const r of rechner) {
+			if (r.updated)
+				all.push({
+					type: 'rechner',
+					slug: r.slug,
+					title: resolveTitle('rechner', r.slug),
+					updated: r.updated
+				});
+		}
+		for (const c of converters) {
+			if (c.updated)
+				all.push({
+					type: 'konverter',
+					slug: c.slug,
+					title: resolveTitle('konverter', c.slug),
+					updated: c.updated
+				});
+		}
+		return all.sort((a, b) => (a.updated < b.updated ? 1 : -1)).slice(0, 5);
+	});
+
+	function formatRelative(dateStr: string): string {
+		const date = new Date(dateStr);
+		if (isNaN(date.getTime())) return dateStr;
+		const days = Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24));
+		if (days < 0) return dateStr;
+		if (days === 0) return $_('dashboard.relativeToday');
+		if (days === 1) return $_('dashboard.relativeYesterday');
+		if (days < 7) return $_('dashboard.relativeDaysAgo', { values: { d: days } });
+		if (days < 30) {
+			const w = Math.floor(days / 7);
+			return $_('dashboard.relativeWeeksAgo', { values: { w } });
+		}
+		return dateStr;
+	}
+
 	function resolveTitle(module: string, slug: string): string {
 		if (module === 'konverter')
 			return $_('konverter.' + slug + '.name', { default: converterMap[slug]?.name ?? slug });
@@ -181,6 +253,43 @@
 								><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg
 							>
 						</button>
+					</a>
+				{/each}
+			</div>
+		</section>
+	{/if}
+
+	{#if recentEntries.length > 0}
+		<section class="section">
+			<h2 class="section-title">
+				<svg
+					width="13"
+					height="13"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.5"
+					class="section-icon"
+					style="color:var(--color-secondary)"
+				>
+					<circle cx="12" cy="12" r="9" />
+					<polyline points="12 7 12 12 15 14" />
+				</svg>
+				{$_('dashboard.recentEntries')}
+			</h2>
+			<div class="top-list">
+				{#each recentEntries as item (item.type + '/' + item.slug)}
+					<a href="{moduleHref[item.type]}/{item.slug}" class="top-item">
+						<span class="top-accent" style="background:{moduleColor[item.type]}"></span>
+						<span
+							class="top-badge"
+							style:color={moduleColor[item.type]}
+							style:background="{moduleColor[item.type]}18"
+						>
+							{moduleLabel[item.type] ?? item.type}
+						</span>
+						<span class="top-title">{item.title}</span>
+						<span class="top-cnt">{formatRelative(item.updated)}</span>
 					</a>
 				{/each}
 			</div>

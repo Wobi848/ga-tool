@@ -23,7 +23,8 @@
 		heizlast: 'heizlast',
 		'bus-ibn': 'busIbn',
 		'gewichteter-mittelwert': 'gewichteterMittelwert',
-		'polynom-fit': 'polynomFit'
+		'polynom-fit': 'polynomFit',
+		'k-faktor': 'kFaktor'
 	};
 
 	const iconPaths: Record<string, string> = {

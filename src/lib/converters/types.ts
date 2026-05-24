@@ -23,6 +23,8 @@ export interface ConverterMeta {
 	name_en?: string;
 	icon: string;
 	color: string;
+	/** ISO-Datum (YYYY-MM-DD) wann der Konverter hinzugefügt/zuletzt überarbeitet wurde */
+	updated?: string;
 	units: Unit[];
 	contextInput?: ContextInput; // e.g. temperature for humidity
 	toBase: (value: number, fromUnit: string, context?: number) => number;

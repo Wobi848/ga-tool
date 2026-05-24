@@ -8,6 +8,7 @@ import { temperatur } from './temperatur';
 import { signal } from './signal';
 import { beleuchtung } from './beleuchtung';
 import { winkel } from './winkel';
+import { zeit } from './zeit';
 import type { ConverterMeta } from './types';
 
 export const converters: ConverterMeta[] = [
@@ -20,7 +21,8 @@ export const converters: ConverterMeta[] = [
 	temperatur,
 	signal,
 	beleuchtung,
-	winkel
+	winkel,
+	zeit
 ];
 
 export const converterMap = Object.fromEntries(converters.map((c) => [c.slug, c]));

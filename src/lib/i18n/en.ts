@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'System-Admin role, new temperature sensor article (PT/NI/LMx35), missing checklist icons added'
+			'k-factor calculator + knowledge article, h-x chart in psychrometrics, time converter, humidity fundamentals, "Latest entries" on dashboard'
 	},
 	auth: {
 		login: 'Sign In',
@@ -39,6 +39,11 @@ export const en = {
 		quickAccess: 'Quick Access',
 		favorites: 'Favourites',
 		recentlyUsed: 'Most Visited',
+		recentEntries: 'Latest entries',
+		relativeToday: 'today',
+		relativeYesterday: 'yesterday',
+		relativeDaysAgo: '{d} days ago',
+		relativeWeeksAgo: '{w} weeks ago',
 		removeFavorite: 'Remove from favourites',
 		modules: {
 			konverter: {
@@ -321,6 +326,13 @@ export const en = {
 			short: 'Sensor linearization: characteristic curve from measurement points as polynomial',
 			intro:
 				'Fit a polynomial (degree 1–5) through your measurement points using least squares. Application: linearize sensor characteristics, convert datasheet tables into DDC/PLC-friendly polynomials.'
+		},
+
+		kFaktor: {
+			name: 'k-Factor (Air)',
+			short: 'Volume flow from differential pressure: Q = k·√ΔP (VAV boxes, nozzles)',
+			intro:
+				'Calculate air volume flow Q from the manufacturer k-factor and a measured differential pressure ΔP. Works for VAV boxes, swirl diffusers, orifices and nozzles. Optional reverse calculation, k determination from two measurement points, and density correction for off-standard air conditions.'
 		},
 
 		// Shared UI strings across calculators
@@ -621,7 +633,9 @@ export const en = {
 			satPressure: 'Saturation pressure p_s',
 			partialPressure: 'Partial pressure p_w',
 			density: 'Air density ρ',
-			specVolume: 'Specific volume v'
+			specVolume: 'Specific volume v',
+			operatingPoint: 'Operating point',
+			rhCurves: 'rel. humidity'
 		},
 
 		pidSimulatorUi: {
@@ -889,6 +903,22 @@ export const en = {
 			roomKeller: 'Basement (unheated → 0)'
 		},
 
+		kFaktorUi: {
+			mode: 'Calculation mode',
+			qFromKdp: 'Q from k + ΔP',
+			dpFromQk: 'ΔP from Q + k',
+			kFromQdp: 'k from Q + ΔP',
+			kFromPoints: 'k from 2 measurement points',
+			inputs: 'Inputs',
+			kFactor: 'k-factor',
+			densityCorrection: 'Density correction',
+			densityHint: 'Enable when air conditions differ significantly from 20 °C / 1.013 bar',
+			airTemp: 'Air temperature',
+			pressure: 'Air pressure',
+			kCorrected: 'k (density-corrected)',
+			curve: 'Curve Q over ΔP'
+		},
+
 		polynomFitUi: {
 			dataPoints: 'Measurement points (x, y)',
 			addRow: 'Add point',
@@ -944,7 +974,8 @@ export const en = {
 		temperatur: { name: 'Temperature' },
 		signal: { name: 'Analog signal' },
 		beleuchtung: { name: 'Lighting' },
-		winkel: { name: 'Angle / Valve position' }
+		winkel: { name: 'Angle / Valve position' },
+		zeit: { name: 'Time' }
 	},
 
 	// ── Changelog ─────────────────────────────────────────────────────────────
