@@ -10,6 +10,19 @@
 	--color-secondary-hover: #0f766e;
 }
 
+/* ── Mobile-Input-Anti-Zoom ─────────────────────────
+ * iOS Safari zoomt automatisch rein, wenn ein Input/Select/Textarea
+ * font-size < 16px hat. Globale Untergrenze bei 16px verhindert das,
+ * ohne die optische Groesse zu sehr aufzublasen.
+ */
+@media (max-width: 640px) {
+	input,
+	select,
+	textarea {
+		font-size: 16px !important;
+	}
+}
+
 /* Display utility — for big headings & logo */
 .display {
 	font-family: var(--font-display);
@@ -166,9 +179,18 @@
 
 /* ── Shared calculator page styles ───────────────── */
 .calc-page {
-	max-width: 480px;
+	max-width: 640px;
 	margin: 0 auto;
 	padding: 1.5rem 1rem;
+}
+
+@media (max-width: 480px) {
+	.calc-page {
+		padding: 1rem 0.75rem;
+	}
+	.calc-section {
+		padding: 0.875rem 0.75rem;
+	}
 }
 
 .calc-header {
