@@ -13,6 +13,7 @@
 	import PwaStatus from '$lib/components/PwaStatus.svelte';
 	import { onMount } from 'svelte';
 	import { APP_VERSION } from '$lib/version';
+	import { installDevtools } from '$lib/devtools';
 
 	let { children, data } = $props();
 
@@ -27,6 +28,7 @@
 		const seen = localStorage.getItem(STORAGE_KEY);
 		if (seen !== CURRENT_VERSION) showUpdateBanner = true;
 		if (data.user) favorites.syncFromServer();
+		installDevtools();
 	});
 
 	function dismissBanner() {
