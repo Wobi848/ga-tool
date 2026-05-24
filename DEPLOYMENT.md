@@ -79,6 +79,27 @@ node build/index.js
 
 Lauscht auf `0.0.0.0:3000` (Port via `PORT=` änderbar). Mit `curl http://localhost:3000/api/health` verifizieren.
 
+### 6. Ersten Admin-User anlegen
+
+Per Default ist jede Registrierung ein normaler User. Den ersten Admin musst du manuell setzen, sonst kommt niemand an `/admin/**`:
+
+1. **Im Browser registrieren** mit deiner Mail + Passwort
+2. **In der DB die Rolle setzen**:
+
+```bash
+apt install -y sqlite3   # falls noch nicht da
+sqlite3 /var/lib/ga-tool/local.db \
+  "UPDATE user SET role='admin' WHERE email='deine@email.ch';"
+
+# Verifizieren:
+sqlite3 /var/lib/ga-tool/local.db "SELECT email, role FROM user;"
+# erwartet: deine@email.ch|admin
+```
+
+3. **Ausloggen + neu einloggen** — die Rolle wird beim Login in die Session gelegt.
+
+Danach ist `/admin/analytics` für diesen User sichtbar.
+
 ## Systemd-Unit (Production)
 
 `/etc/systemd/system/ga-tool.service`:
@@ -260,16 +281,9 @@ Bestehende DB wurde nie über Migrations versioniert. Erste Migration als baseli
 DATABASE_URL=/var/lib/ga-tool/local.db npm run db:baseline
 ```
 
-### Admin-User erstellen
+### Weitere Admin-User nachträglich
 
-Per Default ist die erste Registrierung ein normaler User. Admin manuell setzen:
-
-```bash
-sqlite3 /var/lib/ga-tool/local.db \
-  "UPDATE user SET role='admin' WHERE email='deine@email.ch';"
-```
-
-Danach erscheint `/admin/analytics` für diesen User.
+Gleiches Pattern wie beim Erststart, siehe [Schritt 6](#6-ersten-admin-user-anlegen).
 
 ## Sicherheits-Checkliste vor Go-Live
 
