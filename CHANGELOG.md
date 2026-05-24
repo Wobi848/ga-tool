@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.8.1 — 2026-05-24
+
+### Fixes
+
+- **Mobile iOS-Autozoom verhindert** — Inputs mit font-size < 16px lösten auf iPhones automatisches Reinzoomen aus. Globale Untergrenze von 16px unter 640px Viewport
+- **Konsistente Seiten-Breite** — Rechner-Detailseiten waren auf 480px begrenzt während Listen 640px nutzten → Sprung beim Navigieren. Jetzt durchgehend 640px
+- **Engere Mobile-Paddings** — `.calc-page` und `.calc-section` haben unter 480px reduziertes Padding für mehr horizontalen Platz
+
+### Server-Deployment
+
+- **`GET /api/health`** — Endpoint für Loadbalancer/Monitoring
+- **`npm run db:migrate` / `db:baseline`** — TTY-freie DB-Migrationen
+- **DEPLOYMENT.md** — Vollständige Server-Anleitung (systemd, Reverse-Proxy, Backups)
+- **`window.gaTool`** — Browser-Console-Devtools für Power-User (`gaTool.help()`)
+
+---
+
 ## v0.8.0 — 2026-05-17
 
 ### Neu
