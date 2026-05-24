@@ -1,18 +1,17 @@
 // Migration-Runner fuer Produktion: wendet alle SQL-Migrationen aus drizzle/
 // auf die DB an. Idempotent (drizzle pflegt eine __drizzle_migrations-Tabelle).
 //
-// Aufruf: npm run db:migrate
+// Plain ESM-JS — laeuft ohne tsx/ts-node. Aufruf: npm run db:migrate
 //
-// Vorbestehende DBs (vor Einfuehrung der Migrations): einmalig die Migration
-// als "applied" markieren, ohne sie auszufuehren, mit DRIZZLE_BASELINE=1.
+// DRIZZLE_BASELINE=1: bestehende DBs (vor Einfuehrung der Migrations) als
+// "applied" markieren ohne sie auszufuehren.
 
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import Database from 'better-sqlite3';
-import { existsSync, mkdirSync, readdirSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
 
 const url = process.env.DATABASE_URL;
 if (!url) {
@@ -27,7 +26,7 @@ if (!existsSync(migrationsFolder)) {
 	process.exit(1);
 }
 
-// Ensure parent dir exists (for DBs in subdirs)
+// Parent dir anlegen falls noetig (DB in Unterordner)
 const dbDir = url.includes('/') ? url.substring(0, url.lastIndexOf('/')) : '';
 if (dbDir && !existsSync(dbDir)) {
 	mkdirSync(dbDir, { recursive: true });
@@ -36,9 +35,7 @@ if (dbDir && !existsSync(dbDir)) {
 const sqlite = new Database(url);
 const db = drizzle(sqlite);
 
-// Baseline-Modus: bestehende DB als migriert markieren ohne SQL auszufuehren.
-// Verhindert "table already exists" wenn die DB vor Einfuehrung der Migrations
-// existierte (z.B. mit drizzle-kit push erstellt).
+// Baseline-Modus: vorhandene DB als migriert markieren, ohne SQL auszufuehren.
 if (process.env.DRIZZLE_BASELINE === '1') {
 	console.log('🔧 Baseline mode: marking existing migrations as applied');
 	sqlite.exec(`
@@ -48,9 +45,7 @@ if (process.env.DRIZZLE_BASELINE === '1') {
 			created_at NUMERIC
 		)
 	`);
-	const journal = JSON.parse(
-		readFileSync(join(migrationsFolder, 'meta', '_journal.json'), 'utf8')
-	) as { entries: { idx: number; when: number; tag: string }[] };
+	const journal = JSON.parse(readFileSync(join(migrationsFolder, 'meta', '_journal.json'), 'utf8'));
 	const insert = sqlite.prepare(
 		'INSERT OR IGNORE INTO __drizzle_migrations (hash, created_at) VALUES (?, ?)'
 	);
