@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'Polynom-Fit: Notation A·x² + B·x + C zuschaltbar, Praxis-Beispiel Sollwertversteller im Wissens-Artikel'
+			'Abkürzungen: Sprach-Filter funktioniert wieder korrekt (DE/EN abwählen zeigt jetzt nur INT)'
 	},
 	auth: {
 		login: 'Anmelden',

@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'Polynomial-Fit: notation A·x² + B·x + C selectable, practical example for setpoint adjuster in the knowledge article'
+			'Abbreviations: language filter works correctly again (deselecting DE/EN now shows only INT)'
 	},
 	auth: {
 		login: 'Sign In',

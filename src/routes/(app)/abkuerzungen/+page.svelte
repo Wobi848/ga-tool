@@ -6,7 +6,6 @@
 	import { langLabels, type AbbrLang } from '$lib/abkuerzungen/types';
 	import { type Area } from '$lib/wissen/types';
 	import { untrack } from 'svelte';
-	import { onMount } from 'svelte';
 
 	const initialQuery = untrack(() => $page.url.searchParams.get('q') ?? '');
 
@@ -17,10 +16,8 @@
 		return $locale === 'en' ? ['en'] : ['de'];
 	}
 
-	let selectedLangs = $state<AbbrLang[]>([]);
-	onMount(() => {
-		selectedLangs = defaultLangs();
-	});
+	// Synchron initialisieren statt onMount → kein FOUC beim Hydration-Wechsel
+	let selectedLangs = $state<AbbrLang[]>(untrack(defaultLangs));
 
 	function slugifyShort(s: string): string {
 		return s
@@ -80,12 +77,11 @@
 		const q = query.trim().toLowerCase();
 		return abbreviations.filter((a) => {
 			if (selectedAreas.length && !a.areas.some((x) => selectedAreas.includes(x))) return false;
-			if (
-				selectedLangs.length &&
-				langOf(a.short) !== 'intl' &&
-				!selectedLangs.includes(langOf(a.short))
-			)
-				return false;
+			const lang = langOf(a.short);
+			// INT-Eintraege sind sprachneutral und werden immer gezeigt;
+			// bei DE/EN-Eintraegen muss die Sprache in selectedLangs sein.
+			// selectedLangs leer = nur INT bleibt sichtbar (User hat aktiv alles abgewaehlt).
+			if (lang !== 'intl' && !selectedLangs.includes(lang)) return false;
 			if (!q) return true;
 			return haystackByShort[a.short]?.includes(q) ?? false;
 		});

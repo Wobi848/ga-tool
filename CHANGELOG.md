@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.9.3 — 2026-05-24
+
+### Abkürzungen
+
+- **Sprach-Filter ist jetzt strikt** — DE und EN abwählen liess vorher den Filter komplett kippen und zeigte ALLE Einträge (DE+EN+INT). Jetzt: keine Sprache gewählt → nur sprachneutrale INT-Einträge (z.B. "0–10 V") bleiben. Default beim Öffnen folgt weiterhin der UI-Sprache.
+- **Kein FOUC bei Hydration** — `selectedLangs` wird synchron beim Initialisieren auf die UI-Sprache gesetzt statt in `onMount`. Verhindert das kurze Aufblitzen einer falsch gefilterten Liste beim Seitenwechsel.
+
+### CI
+
+- **DB-Migration vor E2E-Tests** — Playwright-Server scheiterte an "no such table: analytics_event" weil die CI-DB nie migriert wurde. Migrate-Script läuft jetzt vor den E2E-Tests.
+
+---
+
 ## v0.9.2 — 2026-05-24
 
 ### Polynom-Fit-Rechner
