@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.8.3 — 2026-05-24
+
+### Mobile + UX
+
+- **Version-Badge in Top-Bar** — Versionsnummer ist jetzt auf allen Bildschirmgrössen sichtbar (vorher nur in der Sidebar, die auf Mobile versteckt ist). Klick öffnet Changelog.
+- **Konsistente Seiten-Breite (720px)** — vorher: Dashboard 800, Wissen/Referenz/Abk 720, Rechner/Konverter 640, Konverter-Detail 480. Jetzt durchgängig 720px für alle Listen + Details → keine Layout-Sprünge beim Navigieren.
+
+### Server-Tooling
+
+- **`scripts/server-update.sh`** — Update-Script mit DB-Backup, `npm ci`, Migration, Build, Restart und Health-Check. `cd /opt/ga-tool && ./scripts/server-update.sh` ersetzt die manuelle Befehlskette.
+
+---
+
 ## v0.8.2 — 2026-05-24
 
 ### Docs

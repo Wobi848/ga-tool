@@ -48,6 +48,14 @@ node build/index.js    # spaeter via systemd
 
 ### Updates
 
+**Empfohlen — Update-Script** (mit DB-Backup + Health-Check):
+
+```sh
+cd /opt/ga-tool && ./scripts/server-update.sh
+```
+
+**Manuell:**
+
 ```sh
 cd /opt/ga-tool
 git pull

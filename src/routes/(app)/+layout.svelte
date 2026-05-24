@@ -294,6 +294,7 @@
 					<span class="search-trigger-text">{$_('nav.search')}</span>
 					<kbd class="search-kbd">⌘K</kbd>
 				</button>
+				<a href="/changelog" class="version-badge" title="Changelog">v{APP_VERSION}</a>
 				{#if data.user}
 					<a href="/profil" class="user-badge">{data.user.email}</a>
 				{:else}
@@ -664,6 +665,27 @@
 		font-weight: 600;
 		font-size: 0.9375rem;
 		color: var(--text);
+	}
+
+	.version-badge {
+		font-size: 0.6875rem;
+		font-weight: 600;
+		color: var(--muted);
+		text-decoration: none;
+		padding: 0.2rem 0.5rem;
+		border-radius: 999px;
+		border: 1px solid var(--border);
+		background: var(--surface);
+		font-family: ui-monospace, monospace;
+		white-space: nowrap;
+		transition:
+			background 0.15s,
+			color 0.15s,
+			border-color 0.15s;
+	}
+	.version-badge:hover {
+		color: var(--color-primary);
+		border-color: var(--color-primary);
 	}
 
 	.user-badge {
