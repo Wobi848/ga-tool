@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'PID-Simulator, 16 neue Wissensartikel, RS-485/CAN/PROFIBUS/Matter, Changelog, Tastaturkürzel'
+			'Polynom-Fit-Rechner (Least-Squares, R²), neuer Wissens-Artikel zu Sensor-Linearisierung, Mobile-Overflow-Fix auf Wissens-Seiten'
 	},
 	auth: {
 		login: 'Anmelden',

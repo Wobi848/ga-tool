@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'PID Simulator, 16 new knowledge articles, RS-485/CAN/PROFIBUS/Matter, Changelog, Keyboard shortcuts'
+			'Polynomial-Fit calculator (least-squares, R²), new knowledge article on sensor linearization, mobile overflow fix on knowledge pages'
 	},
 	auth: {
 		login: 'Sign In',
