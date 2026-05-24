@@ -43,6 +43,11 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps chromium
 
+      - name: DB-Migrationen fuer E2E-Server
+        run: node scripts/migrate.mjs
+        env:
+          DATABASE_URL: local.db
+
       - name: E2E Tests
         run: npm run test:e2e
         env:
