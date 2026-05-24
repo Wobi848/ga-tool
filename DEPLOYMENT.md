@@ -83,8 +83,9 @@ Lauscht auf `0.0.0.0:3000` (Port via `PORT=` änderbar). Mit `curl http://localh
 
 Per Default ist jede Registrierung ein normaler User. Den ersten Admin musst du manuell setzen, sonst kommt niemand an `/admin/**`:
 
-1. **Im Browser registrieren** mit deiner Mail + Passwort
-2. **In der DB die Rolle setzen**:
+**1.** Im Browser registrieren mit deiner Mail + Passwort.
+
+**2.** In der DB die Rolle setzen:
 
 ```bash
 apt install -y sqlite3   # falls noch nicht da
@@ -96,7 +97,7 @@ sqlite3 /var/lib/ga-tool/local.db "SELECT email, role FROM user;"
 # erwartet: deine@email.ch|admin
 ```
 
-3. **Ausloggen + neu einloggen** — die Rolle wird beim Login in die Session gelegt.
+**3.** Ausloggen + neu einloggen — die Rolle wird beim Login in die Session gelegt.
 
 Danach ist `/admin/analytics` für diesen User sichtbar.
 
