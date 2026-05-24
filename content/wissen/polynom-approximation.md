@@ -4,7 +4,7 @@ title_en: Polynomial Approximation for Sensor Characteristic Curves
 slug: polynom-approximation
 category: regelung
 subcategory: signalverarbeitung
-tags: [polynom, fit, kleinste-quadrate, ntc, sensor, linearisierung, kennlinie, ddc]
+tags: [polynom, fit, kleinste-quadrate, ntc, sensor, linearisierung, kennlinie, ddc, sollwertversteller]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
 related: [pid-regler, signaltypen, ntc-ptc]
@@ -85,6 +85,52 @@ Wenn dein Sensor 4–20 mA → 0–10 bar liefert, lege fest: x = mA (Roh-Signal
 **Im DDC-Code:**
 
 Die meisten DDC-Hersteller (Siemens DESIGO, Sauter, Saia) erlauben Polynome bis Grad 3 oder 4 als Block. Die Koeffizienten aus dem Rechner lassen sich direkt eintragen. Bei höheren Graden Stützstellen-Tabellen mit linearer Interpolation als Alternative.
+
+## Praxis-Beispiel: Sollwertversteller mit Widerstands-Signal
+
+Ein typischer Drehknopf-Sollwertversteller (Wandgerät) verschiebt den Raumtemperatur-Sollwert um ±3 K. Der Knopf liefert keinen Temperatur-Offset direkt, sondern einen **Widerstandswert von 1000–1175 Ω**. Die DDC muss daraus den Kelvin-Offset rechnen — Schema `y = A·x² + B·x + C`, bei diesem Sensor reicht `A = 0` (linear).
+
+### Signalbereich
+
+| Widerstand | Stellung       | Offset |
+| ---------- | -------------- | ------ |
+| 1000 Ω     | Linksanschlag  | −3 K   |
+| 1091 Ω     | Mittelstellung | 0 K    |
+| 1175 Ω     | Rechtsanschlag | +3 K   |
+
+### Mit dem Polynom-Fit-Rechner berechnen
+
+1. Im Rechner die 3 Punkte eingeben: `(1000, -3)`, `(1091, 0)`, `(1175, 3)`
+2. **Grad: 1** (linear — die 3 Punkte liegen praktisch auf einer Geraden)
+3. **Notation: A·x² + B·x + C** im Dropdown wählen
+4. Ergebnis: `B ≈ 0.03427`, `C ≈ -37.31`, `A = 0`
+5. R² ≈ 0.9999 (sehr gut)
+
+### Einstellwerte
+
+| Parameter | Wert      | Bedeutung                         |
+| --------- | --------- | --------------------------------- |
+| A         | 0         | nicht gebraucht (lineares Signal) |
+| B         | 0.03427   | Steigung (K pro Ω)                |
+| C         | −37.31    | Verschiebung (Offset)             |
+
+### Feinkorrektur über C
+
+Wenn die Anzeige nach Inbetriebnahme einen kleinen Offset hat (z.B. zeigt −3.2 K statt −3.0 K am Linksanschlag), nur den **C-Wert** in 0.1er Schritten anpassen:
+
+| Problem                            | Lösung             |
+| ---------------------------------- | ------------------ |
+| Anzeige zu tief (−3.2 statt −3.0)  | C um +0.2 erhöhen  |
+| Anzeige zu hoch (−2.8 statt −3.0)  | C um −0.2 senken   |
+
+**B nie anfassen** — der bestimmt die Spreizung (±3 K), die stimmt rechnerisch. Nur C verschiebt den ganzen Bereich gleichmässig.
+
+### Wert-Springen verhindern (Filter)
+
+Wenn der angezeigte Offset unruhig springt:
+
+- **Filterzeit am AI-Objekt** (Analogeingang) auf 30–60 s setzen — die Station mittelt den Widerstand über diese Zeit. Empfohlen, weil ein Sollwertversteller nicht schnell reagieren muss.
+- Falls am AI-Objekt kein Filter verfügbar: Mittelwert-Block zwischen AI und Polynom schalten.
 
 ## Grenzen der Methode
 

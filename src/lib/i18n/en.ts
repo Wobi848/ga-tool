@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'Version badge now only in the top bar (previously duplicated on desktop)'
+			'Polynomial-Fit: notation A·x² + B·x + C selectable, practical example for setpoint adjuster in the knowledge article'
 	},
 	auth: {
 		login: 'Sign In',
@@ -902,7 +902,14 @@ export const en = {
 			evaluate: 'Evaluate polynomial',
 			needMorePoints: 'Please enter at least 2 data points.',
 			degreeReduced:
-				'Note: degree reduced to {effective} — not enough points for the requested degree.'
+				'Note: degree reduced to {effective} — not enough points for the requested degree.',
+			notation: 'Coefficient notation',
+			notationHint: 'Standard or block notation A·x² + B·x + C',
+			notationStandard: 'Standard (a₀, a₁, a₂ …)',
+			notationF001: 'A·x² + B·x + C',
+			f001LinearHint: 'not needed at degree 1',
+			f001DegreeWarning:
+				'Schema A·x² + B·x + C only supports degree ≤ 2. For higher degrees, implement additional coefficients as a lookup table.'
 		},
 
 		kvWertUi: {

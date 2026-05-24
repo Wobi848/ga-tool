@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'Versions-Badge nur noch in der Top-Bar (vorher auf Desktop doppelt)'
+			'Polynom-Fit: Notation A·x² + B·x + C zuschaltbar, Praxis-Beispiel Sollwertversteller im Wissens-Artikel'
 	},
 	auth: {
 		login: 'Anmelden',
@@ -906,7 +906,14 @@ export const de = {
 			evaluate: 'Polynom auswerten',
 			needMorePoints: 'Bitte mindestens 2 Datenpunkte eingeben.',
 			degreeReduced:
-				'Hinweis: Grad auf {effective} reduziert — nicht genug Punkte für gewünschten Grad.'
+				'Hinweis: Grad auf {effective} reduziert — nicht genug Punkte für gewünschten Grad.',
+			notation: 'Koeffizienten-Notation',
+			notationHint: 'Standard oder Block-Notation A·x² + B·x + C',
+			notationStandard: 'Standard (a₀, a₁, a₂ …)',
+			notationF001: 'A·x² + B·x + C',
+			f001LinearHint: 'bei Grad 1 nicht gebraucht',
+			f001DegreeWarning:
+				'Schema A·x² + B·x + C unterstützt nur Grad ≤ 2. Bei höherem Grad zusätzliche Koeffizienten als Stützstellen-Tabelle umsetzen.'
 		},
 
 		kvWertUi: {

@@ -26,6 +26,7 @@
 	]);
 	let degree = $state(3);
 	let evalX = $state(25);
+	let notation = $state<'standard' | 'f001'>('standard');
 
 	function addRow() {
 		rows = [...rows, { id: nextId++, x: null, y: null }];
@@ -120,9 +121,26 @@
 			.join('');
 	}
 
+	// F001-Namenskonvention: a₀ → C, a₁ → B, a₂ → A (DESIGO/Saia/Sauter Block-Parameter)
+	function coefLabel(i: number): string {
+		if (notation === 'f001') {
+			if (i === 0) return 'C';
+			if (i === 1) return 'B';
+			if (i === 2) return 'A';
+		}
+		return 'a' + subscript(i);
+	}
+
 	function copyCoefficients() {
 		if (!success || !fitResult || !('coefficients' in fitResult)) return;
-		const csv = fitResult.coefficients.map((c, i) => `a${i}\t${c}`).join('\n');
+		const coeffs = fitResult.coefficients;
+		const csv =
+			notation === 'f001'
+				? coeffs
+						.map((c, i) => `${coefLabel(i)}\t${c}`)
+						.reverse()
+						.join('\n')
+				: coeffs.map((c, i) => `a${i}\t${c}`).join('\n');
 		navigator.clipboard.writeText(csv);
 	}
 </script>
@@ -204,7 +222,7 @@
 		</button>
 	</div>
 
-	<!-- Grad-Wahl -->
+	<!-- Grad-Wahl + Notation -->
 	<div class="calc-section">
 		<div class="calc-field" style="border-top: none">
 			<label class="calc-field-label" for="degree-sel">
@@ -217,6 +235,16 @@
 				<option value={3}>3 — {$_('rechner.polynomFitUi.cubic')}</option>
 				<option value={4}>4</option>
 				<option value={5}>5</option>
+			</select>
+		</div>
+		<div class="calc-field">
+			<label class="calc-field-label" for="notation-sel">
+				{$_('rechner.polynomFitUi.notation')}
+				<span class="calc-field-hint">{$_('rechner.polynomFitUi.notationHint')}</span>
+			</label>
+			<select id="notation-sel" bind:value={notation} class="calc-select">
+				<option value="standard">{$_('rechner.polynomFitUi.notationStandard')}</option>
+				<option value="f001">{$_('rechner.polynomFitUi.notationF001')}</option>
 			</select>
 		</div>
 	</div>
@@ -263,13 +291,33 @@
 				</button>
 			</div>
 			<div class="coef-grid">
-				{#each fitResult.coefficients as c, i (i)}
-					<div class="coef-row">
-						<span class="coef-name">a{subscript(i)}</span>
-						<span class="coef-value">{c.toPrecision(8)}</span>
-					</div>
-				{/each}
+				{#if notation === 'f001'}
+					{#each [...fitResult.coefficients].map((c, i) => ({ c, i })).reverse() as { c, i } (i)}
+						<div class="coef-row">
+							<span class="coef-name">{coefLabel(i)}</span>
+							<span class="coef-value">{c.toPrecision(8)}</span>
+						</div>
+					{/each}
+					{#if fitResult.degree === 1}
+						<div class="coef-row coef-row--hint">
+							<span class="coef-name">A</span>
+							<span class="coef-value">0 ({$_('rechner.polynomFitUi.f001LinearHint')})</span>
+						</div>
+					{/if}
+				{:else}
+					{#each fitResult.coefficients as c, i (i)}
+						<div class="coef-row">
+							<span class="coef-name">a{subscript(i)}</span>
+							<span class="coef-value">{c.toPrecision(8)}</span>
+						</div>
+					{/each}
+				{/if}
 			</div>
+			{#if notation === 'f001' && fitResult.degree > 2}
+				<p class="calc-warning" style="margin-top: 0.75rem">
+					⚠ {$_('rechner.polynomFitUi.f001DegreeWarning')}
+				</p>
+			{/if}
 		</div>
 
 		<!-- Chart -->
@@ -489,6 +537,11 @@
 	.coef-value {
 		color: var(--text);
 		word-break: break-all;
+	}
+	.coef-row--hint .coef-name,
+	.coef-row--hint .coef-value {
+		color: var(--muted);
+		opacity: 0.7;
 	}
 	.chart-svg {
 		width: 100%;

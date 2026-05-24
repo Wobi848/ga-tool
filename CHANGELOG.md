@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.9.2 — 2026-05-24
+
+### Polynom-Fit-Rechner
+
+- **Notation umschaltbar** — neuer Dropdown zwischen Standard (`a₀, a₁, a₂ …`) und Block-Notation (`A·x² + B·x + C`). Bei Grad 1 wird `A = 0` als Hinweis gegraut angezeigt, bei Grad > 2 erscheint eine Warnung, dass das Schema nur Grad ≤ 2 abbildet. Copy-Button kopiert in der gewählten Notation und Reihenfolge.
+
+### Wissens-Artikel: Polynom-Approximation
+
+- **Praxis-Beispiel ergänzt** — Sollwertversteller mit Widerstands-Signal (1000–1175 Ω → ±3 K). Schritt-für-Schritt: Punkte eingeben, Grad 1, Notation umstellen, Werte ablesen. Inkl. Feinkorrektur-Tabelle für C und Filter-Hinweise gegen springende Werte.
+
+---
+
 ## v0.9.1 — 2026-05-24
 
 ### UX
