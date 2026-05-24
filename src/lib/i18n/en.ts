@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'Polynomial-Fit calculator (least-squares, R²), new knowledge article on sensor linearization, mobile overflow fix on knowledge pages'
+			'Version badge now only in the top bar (previously duplicated on desktop)'
 	},
 	auth: {
 		login: 'Sign In',

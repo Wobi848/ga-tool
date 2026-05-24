@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.9.1 — 2026-05-24
+
+### UX
+
+- **Versions-Badge nur noch in Top-Bar** — vorher erschien die Version auf Desktop doppelt (Sidebar-Footer + Top-Bar-Badge), auf Mobile nur in der Top-Bar. Sidebar-Link entfernt, einheitlich nur noch oben rechts.
+
+---
+
 ## v0.9.0 — 2026-05-24
 
 ### Neue Features

@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'Polynom-Fit-Rechner (Least-Squares, R²), neuer Wissens-Artikel zu Sensor-Linearisierung, Mobile-Overflow-Fix auf Wissens-Seiten'
+			'Versions-Badge nur noch in der Top-Bar (vorher auf Desktop doppelt)'
 	},
 	auth: {
 		login: 'Anmelden',

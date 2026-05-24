@@ -259,9 +259,6 @@
 					<span>{$_('auth.logout')}</span>
 				</button>
 			{/if}
-			<a href="/changelog" class="version-link" class:active={isActive('/changelog')}>
-				v{APP_VERSION}
-			</a>
 		</div>
 	</aside>
 
@@ -513,27 +510,6 @@
 
 	.nav-item--btn {
 		color: var(--muted);
-	}
-
-	.version-link {
-		display: block;
-		text-align: center;
-		font-size: 0.6875rem;
-		color: var(--muted);
-		text-decoration: none;
-		padding: 0.375rem 0.75rem;
-		border-radius: 0.375rem;
-		letter-spacing: 0.03em;
-		transition:
-			color 0.15s,
-			background 0.15s;
-		margin-top: 2px;
-	}
-
-	.version-link:hover,
-	.version-link.active {
-		color: var(--color-primary);
-		background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 	}
 
 	/* ── Favoriten Sidebar ── */
