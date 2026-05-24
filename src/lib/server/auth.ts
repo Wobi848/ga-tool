@@ -5,6 +5,8 @@ import { admin } from 'better-auth/plugins';
 import { env } from '$env/dynamic/private';
 import { getRequestEvent } from '$app/server';
 import { db } from '$lib/server/db';
+import { user as userTable } from '$lib/server/db/auth.schema';
+import { sql } from 'drizzle-orm';
 import { Resend } from 'resend';
 
 const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null;
@@ -106,6 +108,21 @@ export const auth = betterAuth({
 			mfrPrefs: { type: 'string', required: false },
 			defaultCity: { type: 'string', required: false },
 			notes: { type: 'string', required: false }
+		}
+	},
+	databaseHooks: {
+		user: {
+			create: {
+				before: async (user) => {
+					// Erster registrierter User wird systemadmin (Bootstrap).
+					// Recovery falls Account verloren: siehe DEPLOYMENT.md.
+					const [{ c }] = await db.select({ c: sql<number>`count(*)` }).from(userTable);
+					if (c === 0) {
+						return { data: { ...user, role: 'systemadmin' } };
+					}
+					return { data: user };
+				}
+			}
 		}
 	},
 	plugins: [

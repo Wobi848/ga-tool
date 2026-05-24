@@ -176,7 +176,9 @@
 					{/if}{#if editCompany}{editCompany}{/if}
 				</p>
 			{/if}
-			{#if data.profile.role === 'admin'}
+			{#if data.profile.role === 'systemadmin'}
+				<span class="badge badge-admin">System Admin</span>
+			{:else if data.profile.role === 'admin'}
 				<span class="badge badge-admin">{$_('profil.admin')}</span>
 			{/if}
 		</div>

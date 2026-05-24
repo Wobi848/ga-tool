@@ -20,7 +20,7 @@ export const de = {
 		changelog: 'Changelog',
 		updateNew: 'Neu in v{version}:',
 		updateText:
-			'Abkürzungen: Sprach-Filter funktioniert wieder korrekt (DE/EN abwählen zeigt jetzt nur INT)'
+			'System-Admin-Rolle, neuer Temperaturfühler-Artikel (PT/NI/LMx35), fehlende Checklisten-Icons ergänzt'
 	},
 	auth: {
 		login: 'Anmelden',

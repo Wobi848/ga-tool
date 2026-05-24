@@ -240,10 +240,10 @@
 				{@render Icon({ name: 'settings', size: 18 })}
 				<span>{$_('nav.settings')}</span>
 			</a>
-			{#if data.user?.role === 'admin'}
+			{#if data.user?.role === 'admin' || data.user?.role === 'systemadmin'}
 				<a href="/admin" class="nav-item nav-item--admin" class:active={isActive('/admin')}>
 					{@render Icon({ name: 'shield', size: 18 })}
-					<span>Admin</span>
+					<span>{data.user.role === 'systemadmin' ? 'System Admin' : 'Admin'}</span>
 				</a>
 			{/if}
 			{#if data.user}

@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.9.4 — 2026-05-24
+
+### Auth & Rollen
+
+- **System-Admin-Rolle eingeführt** — Erster registrierter User wird automatisch `systemadmin`. Kann nicht geändert, gesperrt oder gelöscht werden (Schutz vor versehentlichem Selbst-Aussperren).
+- **Self-Healing für bestehende Deployments** — Beim Server-Start wird automatisch der älteste Admin auf `systemadmin` hochgestuft, falls noch keiner existiert. Log-Eintrag: `[bootstrap] Promoted <email> to systemadmin`.
+- **Admin-UI** — Systemadmin-Zeile zeigt roten Lock-Badge statt Dropdown, alle destruktiven Aktionen ausgeblendet. Sidebar-Link "System Admin" für die Rolle, Profile-Badge entsprechend.
+- **Recovery-Pfad dokumentiert** in [DEPLOYMENT.md](DEPLOYMENT.md) — SQL-Varianten falls Account verloren.
+
+### Wissensbasis
+
+- **Neuer Artikel: Temperaturfühler** — RTD (PT100/PT1000/NI1000 mit TK6180 vs TK5000), aktive Spannungsfühler (LMx35-Familie 10 mV/K, K&P KP10), NTC + andere gängige Signaltypen. Mit Querverweis zum Polynom-Fit für NI1000-Linearisierung. Im Übersichts-Artikel `sensoren.md` ist jetzt ein Link auf das neue Detail.
+
+### Checklisten
+
+- **Fehlende Icons ergänzt** — DALI-2 (sun), Datenpunktlisten-Review (table), Funktionstest-Protokoll (check-square), plus droplets/snowflake/network — vorher zeigten 3 Checklisten den Fallback-Kasten statt eigenes Icon.
+
+---
+
 ## v0.9.3 — 2026-05-24
 
 ### Abkürzungen

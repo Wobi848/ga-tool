@@ -183,16 +183,18 @@
 			</thead>
 			<tbody>
 				{#each filteredUsers as u (u.id)}
-					<tr class:row--banned={u.banned}>
+					<tr class:row--banned={u.banned} class:row--sysadmin={u.role === 'systemadmin'}>
 						<td>
 							<div class="user-cell">
 								<div
 									class="avatar"
 									style:background={u.banned
 										? '#6b7280'
-										: u.role === 'admin'
-											? '#7c3aed'
-											: '#0891b2'}
+										: u.role === 'systemadmin'
+											? '#dc2626'
+											: u.role === 'admin'
+												? '#7c3aed'
+												: '#0891b2'}
 								>
 									{initials(u.email)}
 								</div>
@@ -210,38 +212,44 @@
 							</div>
 						</td>
 						<td>
-							<form
-								method="POST"
-								action="?/setRole"
-								use:enhance={({ formData }) => {
-									return async ({ result, update }) => {
-										if (result.type === 'success') {
-											const idx = users.findIndex((x) => x.id === u.id);
-											if (idx !== -1)
-												users[idx] = { ...users[idx], role: formData.get('role') as string };
-											showToast('Rolle geändert');
-										} else {
-											showToast(
-												(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
-												false
-											);
-										}
-										await update({ reset: false });
-									};
-								}}
-							>
-								<input type="hidden" name="userId" value={u.id} />
-								<select
-									name="role"
-									class="role-select"
-									class:role-select--admin={u.role === 'admin'}
-									onchange={(e) =>
-										(e.currentTarget.closest('form') as HTMLFormElement).requestSubmit()}
+							{#if u.role === 'systemadmin'}
+								<span class="role-locked" title="System Admin kann nicht geändert werden">
+									{@render Lock()} System Admin
+								</span>
+							{:else}
+								<form
+									method="POST"
+									action="?/setRole"
+									use:enhance={({ formData }) => {
+										return async ({ result, update }) => {
+											if (result.type === 'success') {
+												const idx = users.findIndex((x) => x.id === u.id);
+												if (idx !== -1)
+													users[idx] = { ...users[idx], role: formData.get('role') as string };
+												showToast('Rolle geändert');
+											} else {
+												showToast(
+													(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
+													false
+												);
+											}
+											await update({ reset: false });
+										};
+									}}
 								>
-									<option value="user" selected={u.role !== 'admin'}>User</option>
-									<option value="admin" selected={u.role === 'admin'}>Admin</option>
-								</select>
-							</form>
+									<input type="hidden" name="userId" value={u.id} />
+									<select
+										name="role"
+										class="role-select"
+										class:role-select--admin={u.role === 'admin'}
+										onchange={(e) =>
+											(e.currentTarget.closest('form') as HTMLFormElement).requestSubmit()}
+									>
+										<option value="user" selected={u.role !== 'admin'}>User</option>
+										<option value="admin" selected={u.role === 'admin'}>Admin</option>
+									</select>
+								</form>
+							{/if}
 						</td>
 						<td>
 							{#if u.banned}
@@ -282,148 +290,152 @@
 							{/if}
 						</td>
 						<td>
-							<div class="actions">
-								{#if u.banned}
-									<form
-										method="POST"
-										action="?/unban"
-										use:enhance={() => {
-											return async ({ result, update }) => {
-												if (result.type === 'success') {
-													const idx = users.findIndex((x) => x.id === u.id);
-													if (idx !== -1)
-														users[idx] = { ...users[idx], banned: false, banReason: null };
-													showToast('Entsperrt');
-												}
-												await update({ reset: false });
-											};
-										}}
-									>
-										<input type="hidden" name="userId" value={u.id} />
-										<button type="submit" class="btn btn--sm btn--ghost" title="Entsperren"
-											>{@render LockOpen()}</button
+							{#if u.role === 'systemadmin'}
+								<span class="actions-locked" title="System Admin geschützt">{@render Lock()}</span>
+							{:else}
+								<div class="actions">
+									{#if u.banned}
+										<form
+											method="POST"
+											action="?/unban"
+											use:enhance={() => {
+												return async ({ result, update }) => {
+													if (result.type === 'success') {
+														const idx = users.findIndex((x) => x.id === u.id);
+														if (idx !== -1)
+															users[idx] = { ...users[idx], banned: false, banReason: null };
+														showToast('Entsperrt');
+													}
+													await update({ reset: false });
+												};
+											}}
 										>
-									</form>
-								{:else}
-									<form
-										method="POST"
-										action="?/ban"
-										use:enhance={({ formData }) => {
-											formData.set('reason', banReason || 'Gesperrt durch Admin');
-											return async ({ result, update }) => {
-												if (result.type === 'success') {
-													const idx = users.findIndex((x) => x.id === u.id);
-													if (idx !== -1)
-														users[idx] = {
-															...users[idx],
-															banned: true,
-															banReason: banReason || 'Gesperrt durch Admin'
-														};
-													showToast('User gesperrt');
-												} else {
-													showToast(
-														(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
-														false
-													);
-												}
-												await update({ reset: false });
-											};
-										}}
-									>
-										<input type="hidden" name="userId" value={u.id} />
-										<button type="submit" class="btn btn--sm btn--ghost btn--warn" title="Sperren"
-											>{@render Lock()}</button
+											<input type="hidden" name="userId" value={u.id} />
+											<button type="submit" class="btn btn--sm btn--ghost" title="Entsperren"
+												>{@render LockOpen()}</button
+											>
+										</form>
+									{:else}
+										<form
+											method="POST"
+											action="?/ban"
+											use:enhance={({ formData }) => {
+												formData.set('reason', banReason || 'Gesperrt durch Admin');
+												return async ({ result, update }) => {
+													if (result.type === 'success') {
+														const idx = users.findIndex((x) => x.id === u.id);
+														if (idx !== -1)
+															users[idx] = {
+																...users[idx],
+																banned: true,
+																banReason: banReason || 'Gesperrt durch Admin'
+															};
+														showToast('User gesperrt');
+													} else {
+														showToast(
+															(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
+															false
+														);
+													}
+													await update({ reset: false });
+												};
+											}}
 										>
-									</form>
-								{/if}
+											<input type="hidden" name="userId" value={u.id} />
+											<button type="submit" class="btn btn--sm btn--ghost btn--warn" title="Sperren"
+												>{@render Lock()}</button
+											>
+										</form>
+									{/if}
 
-								{#if resetTarget === u.id}
-									<form
-										method="POST"
-										action="?/resetPassword"
-										use:enhance={() => {
-											return async ({ result, update }) => {
-												resetTarget = null;
-												resetPw = '';
-												if (result.type === 'success') showToast('Passwort zurückgesetzt');
-												else
-													showToast(
-														(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
-														false
-													);
-												await update({ reset: false });
-											};
-										}}
-									>
-										<input type="hidden" name="userId" value={u.id} />
-										<input
-											type="password"
-											name="newPassword"
-											bind:value={resetPw}
-											placeholder="Neues PW (min. 8)"
-											minlength="8"
-											required
-											class="pw-input"
-										/>
-										<button
-											type="submit"
-											class="btn btn--sm btn--warn"
-											disabled={resetPw.length < 8}>Setzen</button
+									{#if resetTarget === u.id}
+										<form
+											method="POST"
+											action="?/resetPassword"
+											use:enhance={() => {
+												return async ({ result, update }) => {
+													resetTarget = null;
+													resetPw = '';
+													if (result.type === 'success') showToast('Passwort zurückgesetzt');
+													else
+														showToast(
+															(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
+															false
+														);
+													await update({ reset: false });
+												};
+											}}
 										>
+											<input type="hidden" name="userId" value={u.id} />
+											<input
+												type="password"
+												name="newPassword"
+												bind:value={resetPw}
+												placeholder="Neues PW (min. 8)"
+												minlength="8"
+												required
+												class="pw-input"
+											/>
+											<button
+												type="submit"
+												class="btn btn--sm btn--warn"
+												disabled={resetPw.length < 8}>Setzen</button
+											>
+											<button
+												type="button"
+												class="btn btn--sm btn--ghost"
+												onclick={() => {
+													resetTarget = null;
+													resetPw = '';
+												}}>Abbrechen</button
+											>
+										</form>
+									{:else}
 										<button
 											type="button"
 											class="btn btn--sm btn--ghost"
-											onclick={() => {
-												resetTarget = null;
-												resetPw = '';
-											}}>Abbrechen</button
+											title="Passwort zurücksetzen"
+											onclick={() => (resetTarget = u.id)}>🔑</button
 										>
-									</form>
-								{:else}
-									<button
-										type="button"
-										class="btn btn--sm btn--ghost"
-										title="Passwort zurücksetzen"
-										onclick={() => (resetTarget = u.id)}>🔑</button
-									>
-								{/if}
+									{/if}
 
-								{#if confirmDelete === u.id}
-									<form
-										method="POST"
-										action="?/deleteUser"
-										use:enhance={() => {
-											return async ({ result, update }) => {
-												confirmDelete = null;
-												if (result.type === 'success') {
-													users = users.filter((x) => x.id !== u.id);
-													showToast('User gelöscht');
-												} else
-													showToast(
-														(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
-														false
-													);
-												await update({ reset: false });
-											};
-										}}
-									>
-										<input type="hidden" name="userId" value={u.id} />
-										<button type="submit" class="btn btn--sm btn--danger">Löschen?</button>
-									</form>
-									<button
-										type="button"
-										class="btn btn--sm btn--ghost"
-										onclick={() => (confirmDelete = null)}>Abbrechen</button
-									>
-								{:else}
-									<button
-										type="button"
-										class="btn btn--sm btn--ghost btn--danger-ghost"
-										title="Löschen"
-										onclick={() => (confirmDelete = u.id)}>{@render Trash()}</button
-									>
-								{/if}
-							</div>
+									{#if confirmDelete === u.id}
+										<form
+											method="POST"
+											action="?/deleteUser"
+											use:enhance={() => {
+												return async ({ result, update }) => {
+													confirmDelete = null;
+													if (result.type === 'success') {
+														users = users.filter((x) => x.id !== u.id);
+														showToast('User gelöscht');
+													} else
+														showToast(
+															(result as { data?: { error?: string } }).data?.error ?? 'Fehler',
+															false
+														);
+													await update({ reset: false });
+												};
+											}}
+										>
+											<input type="hidden" name="userId" value={u.id} />
+											<button type="submit" class="btn btn--sm btn--danger">Löschen?</button>
+										</form>
+										<button
+											type="button"
+											class="btn btn--sm btn--ghost"
+											onclick={() => (confirmDelete = null)}>Abbrechen</button
+										>
+									{:else}
+										<button
+											type="button"
+											class="btn btn--sm btn--ghost btn--danger-ghost"
+											title="Löschen"
+											onclick={() => (confirmDelete = u.id)}>{@render Trash()}</button
+										>
+									{/if}
+								</div>
+							{/if}
 						</td>
 					</tr>
 				{/each}
@@ -645,6 +657,30 @@
 		background: color-mix(in srgb, #7c3aed 15%, transparent);
 		border-color: #7c3aed;
 		color: #7c3aed;
+	}
+	.role-locked {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: #dc2626;
+		background: color-mix(in srgb, #dc2626 12%, transparent);
+		border: 1px solid color-mix(in srgb, #dc2626 35%, transparent);
+		border-radius: 0.375rem;
+		padding: 0.25rem 0.5rem;
+		cursor: default;
+		user-select: none;
+	}
+	.actions-locked {
+		display: inline-flex;
+		color: #dc2626;
+		opacity: 0.7;
+		padding: 0.25rem;
+		cursor: default;
+	}
+	.row--sysadmin td {
+		background: color-mix(in srgb, #dc2626 4%, transparent);
 	}
 
 	.badge {

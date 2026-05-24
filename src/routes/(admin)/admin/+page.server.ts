@@ -10,10 +10,22 @@ import { fail, redirect } from '@sveltejs/kit';
 import { hashPassword } from 'better-auth/crypto';
 import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
+import { isAdminOrAbove, isSystemAdmin, isAssignableRole } from '$lib/server/roles';
 import type { PageServerLoad, Actions } from './$types';
 
+const PROTECTED = 'System-Admin kann nicht geändert werden';
+
+async function isTargetSystemAdmin(userId: string): Promise<boolean> {
+	const rows = await db
+		.select({ role: userTable.role })
+		.from(userTable)
+		.where(eq(userTable.id, userId))
+		.limit(1);
+	return isSystemAdmin(rows[0]?.role);
+}
+
 export const load: PageServerLoad = async ({ locals }) => {
-	if (!locals.user || locals.user.role !== 'admin') redirect(302, '/');
+	if (!locals.user || !isAdminOrAbove(locals.user.role)) redirect(302, '/');
 	const [users, favRows, lastLoginRows] = await Promise.all([
 		db
 			.select({
@@ -68,6 +80,7 @@ export const actions: Actions = {
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
 		if (userId === locals.user?.id)
 			return fail(400, { error: 'Eigener Account kann nicht gesperrt werden' });
+		if (await isTargetSystemAdmin(userId)) return fail(403, { error: PROTECTED });
 
 		await db
 			.update(userTable)
@@ -101,7 +114,8 @@ export const actions: Actions = {
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
 		if (userId === locals.user?.id)
 			return fail(400, { error: 'Eigene Rolle kann nicht geändert werden' });
-		if (role !== 'admin' && role !== 'user') return fail(400, { error: 'Ungültige Rolle' });
+		if (!isAssignableRole(role)) return fail(400, { error: 'Ungültige Rolle' });
+		if (await isTargetSystemAdmin(userId)) return fail(403, { error: PROTECTED });
 
 		await db.update(userTable).set({ role }).where(eq(userTable.id, userId));
 
@@ -115,6 +129,7 @@ export const actions: Actions = {
 		if (!userId) return fail(400, { error: 'Keine User-ID' });
 		if (userId === locals.user?.id)
 			return fail(400, { error: 'Eigener Account kann nicht gelöscht werden' });
+		if (await isTargetSystemAdmin(userId)) return fail(403, { error: PROTECTED });
 
 		await db.delete(userTable).where(eq(userTable.id, userId));
 
@@ -131,6 +146,7 @@ export const actions: Actions = {
 			return fail(400, { error: 'Passwort min. 8 Zeichen' });
 		if (userId === locals.user?.id)
 			return fail(400, { error: 'Eigenes Passwort hier nicht ändern — Profil verwenden' });
+		if (await isTargetSystemAdmin(userId)) return fail(403, { error: PROTECTED });
 
 		const hashed = await hashPassword(newPassword);
 

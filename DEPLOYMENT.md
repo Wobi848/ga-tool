@@ -81,27 +81,47 @@ node build/index.js
 
 Lauscht auf `0.0.0.0:3000` (Port via `PORT=` änderbar). Mit `curl http://localhost:3000/api/health` verifizieren.
 
-### 6. Ersten Admin-User anlegen
+### 6. Ersten System-Admin anlegen
 
-Per Default ist jede Registrierung ein normaler User. Den ersten Admin musst du manuell setzen, sonst kommt niemand an `/admin/**`:
+System-Admin wird automatisch vergeben:
 
-**1.** Im Browser registrieren mit deiner Mail + Passwort.
+- **Frische Instanz** (DB leer): der erste registrierte User wird `systemadmin` — Bootstrap-Hook in [src/lib/server/auth.ts](src/lib/server/auth.ts).
+- **Bestehende Instanz** (schon Admins, aber noch kein systemadmin): beim nächsten Server-Start wird der **älteste Admin** automatisch hochgestuft — Self-Healing in [src/lib/server/bootstrap.ts](src/lib/server/bootstrap.ts). Sichtbar im Service-Log: `[bootstrap] Promoted <email> to systemadmin`.
 
-**2.** In der DB die Rolle setzen:
+**Frische Instanz — Schritte:**
+
+1. Im Browser registrieren → wird zum System-Admin.
+
+2. Verifizieren:
+
+   ```bash
+   apt install -y sqlite3   # falls noch nicht da
+   sqlite3 /var/lib/ga-tool/local.db "SELECT email, role FROM user;"
+   # erwartet: deine@email.ch|systemadmin
+   ```
+
+3. Weitere User können sich normal registrieren und werden vom System-Admin im `/admin`-Panel zu `admin` hochgestuft.
+
+### Recovery: System-Admin verloren
+
+Der System-Admin lässt sich aus der App heraus **nicht** ändern, sperren oder löschen — Schutz gegen versehentliches Selbst-Aussperren. Wenn du den Account aber wirklich verloren hast (Passwort weg + kein Email-Reset konfiguriert):
 
 ```bash
-apt install -y sqlite3   # falls noch nicht da
+# Variante A — bestehendem User systemadmin geben
 sqlite3 /var/lib/ga-tool/local.db \
-  "UPDATE user SET role='admin' WHERE email='deine@email.ch';"
+  "UPDATE user SET role='systemadmin' WHERE email='neue@email.ch';"
 
-# Verifizieren:
-sqlite3 /var/lib/ga-tool/local.db "SELECT email, role FROM user;"
-# erwartet: deine@email.ch|admin
+# Variante B — alten Account neutralisieren, dann frisch registrieren
+sqlite3 /var/lib/ga-tool/local.db \
+  "DELETE FROM user WHERE email='alte@email.ch';"
+# danach im Browser neu registrieren → bekommt systemadmin automatisch,
+# falls keine anderen User mehr existieren
+
+# Variante C — Passwort direkt zuruecksetzen (Hash via Better-Auth-CLI generieren)
+# bevorzugt ueber die "Passwort zuruecksetzen"-Funktion eines zweiten Admins
 ```
 
-**3.** Ausloggen + neu einloggen — die Rolle wird beim Login in die Session gelegt.
-
-Danach ist `/admin/analytics` für diesen User sichtbar.
+Backup vorher empfohlen: `cp /var/lib/ga-tool/local.db /var/lib/ga-tool/local.db.bak`
 
 ## Systemd-Unit (Production)
 

@@ -20,7 +20,7 @@ export const en = {
 		changelog: 'Changelog',
 		updateNew: 'New in v{version}:',
 		updateText:
-			'Abbreviations: language filter works correctly again (deselecting DE/EN now shows only INT)'
+			'System-Admin role, new temperature sensor article (PT/NI/LMx35), missing checklist icons added'
 	},
 	auth: {
 		login: 'Sign In',

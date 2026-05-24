@@ -51,6 +51,8 @@ Sensoren sind die Sinnesorgane der Gebäudeautomation. Ohne korrekte Messungen g
 
 ## Temperatursensoren
 
+> Detaillierter Vertiefungs-Artikel: **[Temperaturfühler — RTD, NTC und aktive Spannungsfühler](/wissen/temperaturfuehler)** (inkl. NI1000-Varianten TK6180/TK5000 und LMx35-Familie 10 mV/K).
+
 ### PT100 vs. PT1000
 
 Beide sind **Widerstandstemperaturfühler** (RTD = Resistance Temperature Detector) aus Platin:
