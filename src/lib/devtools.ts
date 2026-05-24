@@ -168,19 +168,8 @@ export const gaTool = {
 
 export function installDevtools(): void {
 	if (typeof window === 'undefined') return;
+	// gaTool wird still installiert — kein Banner. Power-User finden es per
+	// Tab-Completion oder gaTool.help() wenn sie wissen, dass es existiert.
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	(window as any).gaTool = gaTool;
-
-	const intro = [
-		'%c GA Tool %c v' + VERSION + ' ',
-		'background:#0d9488;color:white;padding:2px 6px;border-radius:3px 0 0 3px;font-weight:600',
-		'background:#1f2937;color:#a7f3d0;padding:2px 6px;border-radius:0 3px 3px 0'
-	];
-	console.log(...intro);
-	console.log(
-		'%cTipp: %cgaTool.help()%c für Browser-Console-Befehle.',
-		'color:#666',
-		'font-family:ui-monospace,monospace;color:#7c3aed',
-		'color:#666'
-	);
 }
