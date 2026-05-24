@@ -21,7 +21,9 @@
 		waermerueckgewinnung: 'waermerueckgewinnung',
 		pumpenkennlinie: 'pumpenkennlinie',
 		heizlast: 'heizlast',
-		'bus-ibn': 'busIbn'
+		'bus-ibn': 'busIbn',
+		'gewichteter-mittelwert': 'gewichteterMittelwert',
+		'polynom-fit': 'polynomFit'
 	};
 
 	const iconPaths: Record<string, string> = {
@@ -33,7 +35,8 @@
 		droplet: 'M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z',
 		zap: 'M13 2L3 14h9l-1 8 10-12h-9l1-8z',
 		thermometer: 'M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z',
-		cpu: 'M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z'
+		cpu: 'M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z',
+		'chart-line': 'M3 3v18h18M7 14l4-4 4 4 5-7'
 	};
 </script>
 

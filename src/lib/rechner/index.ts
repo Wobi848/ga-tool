@@ -182,6 +182,15 @@ export const rechner: RechnerMeta[] = [
 			'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export',
 		icon: 'cpu',
 		color: '#2563eb'
+	},
+	{
+		slug: 'polynom-fit',
+		name: 'Polynom-Fit',
+		name_en: 'Polynomial Fit',
+		short: 'Sensor-Linearisierung: Kennlinie aus Messpunkten als Polynom',
+		short_en: 'Sensor linearization: characteristic curve from measurement points as polynomial',
+		icon: 'chart-line',
+		color: '#7c3aed'
 	}
 ];
 

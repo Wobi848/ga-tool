@@ -10,11 +10,18 @@
 	--color-secondary-hover: #0f766e;
 }
 
-/* ── Mobile-Input-Anti-Zoom ─────────────────────────
- * iOS Safari zoomt automatisch rein, wenn ein Input/Select/Textarea
- * font-size < 16px hat. Globale Untergrenze bei 16px verhindert das,
- * ohne die optische Groesse zu sehr aufzublasen.
+/* ── Global Mobile-Fixes ─────────────────────────
+ * 1. iOS Safari zoomt rein bei Input font-size < 16px.
+ * 2. Verhindere horizontalen Overflow: Wenn irgendein Element breiter als
+ *    Viewport ist (z.B. lange URL, breite Tabelle), wird's geclipt statt
+ *    die ganze Page zu verschieben.
  */
+html,
+body {
+	overflow-x: clip;
+	max-width: 100vw;
+}
+
 @media (max-width: 640px) {
 	input,
 	select,
@@ -40,6 +47,21 @@
 	letter-spacing: 0.03em;
 	line-height: 1.05;
 	font-size: 2rem;
+	min-width: 0;
+	overflow-wrap: anywhere;
+	word-break: break-word;
+	hyphens: auto;
+}
+
+/* Mobile: smaller display headings to prevent overflow with long German compound words */
+@media (max-width: 480px) {
+	.page-header h1,
+	.article-header h1,
+	.calc-title,
+	.profile-header h1 {
+		font-size: 1.5rem;
+		letter-spacing: 0.02em;
+	}
 }
 
 /* ── Light (default) ─────────────────────────────── */

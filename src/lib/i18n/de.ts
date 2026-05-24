@@ -316,6 +316,12 @@ export const de = {
 			name: 'Bus-IBN Adresskonfigurator',
 			short: 'BACnet MSTP/IP · Modbus RTU · KNX — Adressverwaltung mit IBN-Dokument-Export'
 		},
+		polynomFit: {
+			name: 'Polynom-Fit',
+			short: 'Sensor-Linearisierung: Kennlinie aus Messpunkten als Polynom',
+			intro:
+				'Fitte ein Polynom (Grad 1–5) durch deine Messpunkte mit der Methode der kleinsten Quadrate. Anwendung: Sensor-Kennlinien linearisieren, Datenblatt-Tabellen in DDC/SPS-taugliche Polynome umrechnen.'
+		},
 
 		// Shared UI strings across calculators
 		ui: {
@@ -330,7 +336,8 @@ export const de = {
 			city: 'Ort (CH)',
 			manufacturer: 'Hersteller',
 			system: 'System',
-			warning: 'Warnung'
+			warning: 'Warnung',
+			wikiLink: 'Mehr erfahren →'
 		},
 
 		// Per-page strings
@@ -884,6 +891,22 @@ export const de = {
 			roomBuero: 'Büro',
 			roomTreppenhaus: 'Treppenhaus',
 			roomKeller: 'Keller (unbeheizt → 0)'
+		},
+
+		polynomFitUi: {
+			dataPoints: 'Messpunkte (x, y)',
+			addRow: 'Punkt hinzufügen',
+			degree: 'Polynom-Grad',
+			degreeHint: '1 = linear, 2 = Parabel, 3 = kubisch …',
+			linear: 'Linear',
+			quadratic: 'Quadratisch',
+			cubic: 'Kubisch',
+			coefficients: 'Koeffizienten',
+			chart: 'Verlauf',
+			evaluate: 'Polynom auswerten',
+			needMorePoints: 'Bitte mindestens 2 Datenpunkte eingeben.',
+			degreeReduced:
+				'Hinweis: Grad auf {effective} reduziert — nicht genug Punkte für gewünschten Grad.'
 		},
 
 		kvWertUi: {

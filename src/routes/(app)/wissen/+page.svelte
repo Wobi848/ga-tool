@@ -204,6 +204,8 @@
 		max-width: 720px;
 		margin: 0 auto;
 		padding: 1.5rem 1rem;
+		width: 100%;
+		min-width: 0;
 	}
 
 	.page-header {
@@ -290,6 +292,7 @@
 		gap: 0.75rem;
 		padding: 0.375rem 0;
 		flex-wrap: wrap;
+		min-width: 0;
 	}
 
 	.filter-group + .filter-group {
@@ -303,12 +306,22 @@
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
 		min-width: 5.5rem;
+		flex-shrink: 0;
 	}
 
 	.chips {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.3rem;
+		flex: 1 1 0;
+		min-width: 0;
+	}
+
+	@media (max-width: 480px) {
+		.filter-label {
+			min-width: 0;
+			flex-basis: 100%;
+		}
 	}
 
 	.chip {
@@ -373,6 +386,8 @@
 		padding: 1rem;
 		text-decoration: none;
 		color: var(--text);
+		max-width: 100%;
+		min-width: 0;
 		transition:
 			border-color 0.15s,
 			box-shadow 0.15s;
@@ -394,6 +409,8 @@
 		align-items: flex-start;
 		gap: 0.5rem;
 		margin-bottom: 0.25rem;
+		flex-wrap: wrap;
+		min-width: 0;
 	}
 
 	.card-title {
@@ -401,6 +418,10 @@
 		font-weight: 600;
 		color: var(--text);
 		margin: 0;
+		flex: 1 1 60%;
+		min-width: 0;
+		overflow-wrap: anywhere;
+		word-break: break-word;
 	}
 
 	.diff-badge {
@@ -431,12 +452,22 @@
 		color: var(--muted);
 		margin: 0 0 0.5rem;
 		text-transform: capitalize;
+		overflow-wrap: anywhere;
 	}
 
 	.card-chips {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.25rem;
+		min-width: 0;
+		max-width: 100%;
+	}
+
+	.tag-chip,
+	.area-chip {
+		overflow-wrap: anywhere;
+		word-break: break-word;
+		max-width: 100%;
 	}
 
 	.area-chip {

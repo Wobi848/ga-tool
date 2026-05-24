@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.9.0 — 2026-05-24
+
+### Neue Features
+
+- **Polynom-Fit-Rechner** — Least-Squares-Polynom-Approximation (Grad 1–5) aus Messpunkten. Eingabe von (x, y)-Paaren, Live-Plot, Koeffizienten-Tabelle mit Copy-Button, R²-Bestimmtheitsmass, Sub-Tool zum Auswerten an beliebigen x-Stellen. Default-Daten zeigen NTC-10k-Kennlinie. Erreichbar unter `/rechner/polynom-fit`.
+- **Wissens-Artikel: Polynom-Approximation für Sensor-Kennlinien** — Theorie + Praxis: Wahl des Grades, R²-Interpretation, Anwendungen (NTC-Linearisierung, Differenzdruck → Volumenstrom, 4–20 mA Kalibrierung, Heizkurven), Overfitting-Vermeidung, Grenzen (Steinhart-Hart für extreme NTC-Bereiche). Direkt mit dem Rechner verknüpft.
+
+### Mobile-Fixes (Wissensbasis)
+
+- **Detail-Seiten überlaufen nicht mehr** — `.main-wrapper` mit `flex: 1` ohne `min-width: 0` liess sich vom Content nach rechts pushen, egal welche per-Page-Constraints. Jetzt `min-width: 0` + `overflow-x: clip` als sichere Untergrenze.
+- **Display-Headings auf Mobile** — lange deutsche Komposita wie "ADIABATISCHE KÜHLUNG – PRINZIP UND GRENZEN" blieben in einer Zeile und überliefen. Jetzt `overflow-wrap: anywhere` + `hyphens: auto`, dazu auf ≤480 px Font-Size von 2 rem → 1.5 rem.
+- **Code-Blöcke, Tabellen, Cards** — `<pre>` mit `max-width: 100%` (war nur `overflow-x: auto`, hat parent trotzdem geweitet), `<table>` als `display: block; overflow-x: auto` für wide tables, `.article-card` / `.tool-card` / `.related-card` mit `max-width: 100%` + `min-width: 0`.
+- **Filter-Chips** — `.filter-label` belegt auf ≤480 px eine volle Zeile, Chips wrappen sauber drunter statt rechts geclippt zu werden.
+
+---
+
 ## v0.8.3 — 2026-05-24
 
 ### Mobile + UX

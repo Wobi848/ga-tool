@@ -316,6 +316,12 @@ export const en = {
 			short:
 				'BACnet MSTP/IP · Modbus RTU · KNX — address management with commissioning document export'
 		},
+		polynomFit: {
+			name: 'Polynomial Fit',
+			short: 'Sensor linearization: characteristic curve from measurement points as polynomial',
+			intro:
+				'Fit a polynomial (degree 1–5) through your measurement points using least squares. Application: linearize sensor characteristics, convert datasheet tables into DDC/PLC-friendly polynomials.'
+		},
 
 		// Shared UI strings across calculators
 		ui: {
@@ -330,7 +336,8 @@ export const en = {
 			city: 'City (CH)',
 			manufacturer: 'Manufacturer',
 			system: 'System',
-			warning: 'Warning'
+			warning: 'Warning',
+			wikiLink: 'Learn more →'
 		},
 
 		// Per-page strings
@@ -880,6 +887,22 @@ export const en = {
 			roomBuero: 'Office',
 			roomTreppenhaus: 'Stairwell',
 			roomKeller: 'Basement (unheated → 0)'
+		},
+
+		polynomFitUi: {
+			dataPoints: 'Measurement points (x, y)',
+			addRow: 'Add point',
+			degree: 'Polynomial degree',
+			degreeHint: '1 = linear, 2 = parabola, 3 = cubic …',
+			linear: 'Linear',
+			quadratic: 'Quadratic',
+			cubic: 'Cubic',
+			coefficients: 'Coefficients',
+			chart: 'Curve',
+			evaluate: 'Evaluate polynomial',
+			needMorePoints: 'Please enter at least 2 data points.',
+			degreeReduced:
+				'Note: degree reduced to {effective} — not enough points for the requested degree.'
 		},
 
 		kvWertUi: {

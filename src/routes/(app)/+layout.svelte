@@ -646,6 +646,8 @@
 		display: flex;
 		flex-direction: column;
 		min-height: 100vh;
+		min-width: 0;
+		overflow-x: clip;
 	}
 
 	.top-bar {
@@ -659,6 +661,27 @@
 		position: sticky;
 		top: 0;
 		z-index: 30;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	.top-bar-left,
+	.top-bar-right {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-width: 0;
+	}
+
+	@media (max-width: 640px) {
+		.top-bar {
+			padding: 0 0.75rem;
+		}
+		.page-title {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
 	}
 
 	.page-title {
@@ -697,6 +720,16 @@
 		transition:
 			background 0.15s,
 			color 0.15s;
+		max-width: 10rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 480px) {
+		.user-badge {
+			max-width: 5rem;
+		}
 	}
 
 	.user-badge:hover {
@@ -770,6 +803,8 @@
 	.main-content {
 		flex: 1;
 		padding: 1.5rem;
+		min-width: 0;
+		max-width: 100%;
 	}
 
 	@media (max-width: 480px) {
@@ -813,13 +848,29 @@
 		flex-direction: column;
 		align-items: center;
 		gap: 2px;
-		padding: 0.375rem 0.5rem;
+		padding: 0.375rem 0.25rem;
 		color: var(--muted);
 		text-decoration: none;
 		font-size: 0.6875rem;
 		font-weight: 500;
 		border-radius: 0.5rem;
 		transition: color 0.15s;
+		flex: 1;
+		min-width: 0;
+		text-align: center;
+	}
+
+	.bottom-nav-item span {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		max-width: 100%;
+	}
+
+	@media (max-width: 400px) {
+		.bottom-nav-item {
+			font-size: 0.625rem;
+		}
 	}
 
 	.bottom-nav-item.active {
