@@ -1,42 +1,93 @@
-# sv
+# GA Tool
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Deutschsprachige Wissensbasis und interaktive Rechner für Gebäudeautomation (HLK, BACnet, KNX, Modbus, DALI, Elektro, Normen).
 
-## Creating a project
+- **118+ Wissens-Artikel** zu GA-Themen
+- **20 Rechner** (Heizkurve, Druckverlust, Kv-Wert, Psychrometrie, U-Wert, Heizlast, …)
+- **10 IBN-/Übergabe-Checklisten** mit CSV-Export
+- **17 Referenz-Tabellen** (DN, Filter, Glykol, Kältemittel …)
+- **233 Abkürzungen** bilingual DE ↔ EN
+- **Bus-IBN-Adresskonfigurator** für BACnet MSTP/IP, Modbus RTU, KNX
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Stack
 
-```sh
-# create a new project
-npx sv create my-app
-```
+SvelteKit 2 · Svelte 5 (Runes) · TypeScript · SQLite (Drizzle ORM) · Better-Auth · PWA
 
-To recreate this project with the same configuration:
+## Installation
 
-```sh
-# recreate this project
-npx sv@0.15.3 create --template minimal --types ts --add prettier eslint tailwindcss="plugins:none" sveltekit-adapter="adapter:node" better-auth="demo:password" drizzle="database:sqlite+sqlite:better-sqlite3" --no-download-check --install npm .
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Lokal entwickeln
 
 ```sh
+git clone https://github.com/Wobi848/ga-tool.git
+cd ga-tool
+npm install
+cp .env.example .env   # BETTER_AUTH_SECRET ausfüllen (openssl rand -hex 32)
+npm run db:migrate     # SQLite-Schema initialisieren
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+Dev-Server läuft auf `http://localhost:5173`.
 
-To create a production version of your app:
+### Auf eigenem Server deployen
+
+**Vollständige Anleitung in [DEPLOYMENT.md](DEPLOYMENT.md)** — inkl. systemd-Unit, nginx/Caddy + Reverse-Proxy, Backups, Updates, Troubleshooting.
+
+Kurzfassung für Linux-Server mit Node 20+:
 
 ```sh
+git clone https://github.com/Wobi848/ga-tool.git /opt/ga-tool
+cd /opt/ga-tool
+npm ci --omit=dev
+cp .env.example .env   # ORIGIN, BETTER_AUTH_SECRET, DATABASE_URL setzen
+DATABASE_URL=/var/lib/ga-tool/local.db npm run db:migrate
 npm run build
+node build/index.js    # spaeter via systemd
 ```
 
-You can preview the production build with `npm run preview`.
+### Updates
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+```sh
+cd /opt/ga-tool
+git pull
+npm ci --omit=dev
+npm run db:migrate
+npm run build
+sudo systemctl restart ga-tool
+```
+
+## Skripte
+
+| Befehl                | Zweck                                |
+| --------------------- | ------------------------------------ |
+| `npm run dev`         | Dev-Server mit HMR                   |
+| `npm run build`       | Produktions-Build (Node-Adapter)     |
+| `npm run preview`     | Build lokal serven                   |
+| `npm run check`       | svelte-check + TypeScript            |
+| `npm run lint`        | prettier --check && eslint           |
+| `npm run format`      | prettier --write                     |
+| `npm run test`        | Vitest (Logic + Component)           |
+| `npm run test:e2e`    | Playwright E2E gegen lokalen Build   |
+| `npm run db:migrate`  | DB-Migrationen anwenden (TTY-frei)   |
+| `npm run db:baseline` | Bestehende DB als migriert markieren |
+| `npm run db:studio`   | Drizzle-Studio öffnen                |
+
+## Dokumentation
+
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — Modul-Aufbau, Daten-Modelle, i18n-Konvention
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** — Workflow, Code-Konventionen, neue Rechner/Artikel hinzufügen
+- **[DEPLOYMENT.md](DEPLOYMENT.md)** — Produktiv-Setup auf eigenem Server (systemd, Reverse-Proxy, Backups)
+- **[CHANGELOG.md](CHANGELOG.md)** — Versionshistorie
+
+## Tests
+
+Drei Ebenen:
+
+- **Logic** (`src/**/*.test.ts`) — Pure Funktionen in Node-Environment
+- **Component** (`src/**/*.svelte.test.ts`) — Vitest + jsdom + @testing-library/svelte
+- **E2E** (`e2e/*.spec.ts`) — Playwright gegen `npm run preview`
+
+CI läuft alle drei per GitHub Action (`.github/workflows/ci.yml`).
+
+## Lizenz
+
+Privat — kein öffentliches Lizenz-Statement.
