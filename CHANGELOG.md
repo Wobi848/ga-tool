@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.8.2 — 2026-05-24
+
+### Docs
+
+- **Deployment-Befehle korrigiert** — `npm ci --omit=dev` würde `vite` + `@sveltejs/kit` weglassen, dann scheitert `npm run build` mit `vite: not found`. README und DEPLOYMENT.md nutzen jetzt `npm ci` (mit devDeps), optional `npm prune --omit=dev` nach erfolgreichem Build.
+
+---
+
 ## v0.8.1 — 2026-05-24
 
 ### Fixes
