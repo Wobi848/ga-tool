@@ -37,19 +37,21 @@ Kurzfassung für Linux-Server mit Node 20+:
 ```sh
 git clone https://github.com/Wobi848/ga-tool.git /opt/ga-tool
 cd /opt/ga-tool
-npm ci --omit=dev
+npm ci                 # devDeps werden fuer den Build gebraucht (vite, svelte-kit)
 cp .env.example .env   # ORIGIN, BETTER_AUTH_SECRET, DATABASE_URL setzen
 DATABASE_URL=/var/lib/ga-tool/local.db npm run db:migrate
 npm run build
 node build/index.js    # spaeter via systemd
 ```
 
+> **Hinweis:** `--omit=dev` würde `vite` und `@sveltejs/kit` weglassen — die werden zum Build benötigt. Optional kannst du nach erfolgreichem Build `npm prune --omit=dev` ausführen, um devDeps zu entfernen.
+
 ### Updates
 
 ```sh
 cd /opt/ga-tool
 git pull
-npm ci --omit=dev
+npm ci
 npm run db:migrate
 npm run build
 sudo systemctl restart ga-tool

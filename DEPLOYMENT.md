@@ -16,8 +16,10 @@ Anleitung zum Deployen des GA-Tools auf einem eigenen Server (Linux, Node 20+).
 ```bash
 git clone <repo> /opt/ga-tool
 cd /opt/ga-tool
-npm ci --omit=dev
+npm ci   # devDeps werden zum Build gebraucht (vite, @sveltejs/kit)
 ```
+
+> Optional: nach erfolgreichem Build mit `npm prune --omit=dev` die devDeps wieder entfernen, um Platz zu sparen. Vor dem nächsten Update dann wieder `npm ci`.
 
 ### 2. Env-Variablen
 
@@ -251,7 +253,7 @@ Bei Produktivnutzung wachsen `analytics_event`-Rohdaten unbegrenzt. Der Admin-UI
 cd /opt/ga-tool
 sudo systemctl stop ga-tool
 git pull
-npm ci --omit=dev
+npm ci
 DATABASE_URL=/var/lib/ga-tool/local.db npm run db:migrate
 npm run build
 sudo systemctl start ga-tool
