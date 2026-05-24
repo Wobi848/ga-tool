@@ -4,7 +4,8 @@ title_en: Polynomial Approximation for Sensor Characteristic Curves
 slug: polynom-approximation
 category: regelung
 subcategory: signalverarbeitung
-tags: [polynom, fit, kleinste-quadrate, ntc, sensor, linearisierung, kennlinie, ddc, sollwertversteller]
+tags:
+  [polynom, fit, kleinste-quadrate, ntc, sensor, linearisierung, kennlinie, ddc, sollwertversteller]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
 related: [pid-regler, signaltypen, ntc-ptc]
@@ -108,20 +109,20 @@ Ein typischer Drehknopf-Sollwertversteller (Wandgerät) verschiebt den Raumtempe
 
 ### Einstellwerte
 
-| Parameter | Wert      | Bedeutung                         |
-| --------- | --------- | --------------------------------- |
-| A         | 0         | nicht gebraucht (lineares Signal) |
-| B         | 0.03427   | Steigung (K pro Ω)                |
-| C         | −37.31    | Verschiebung (Offset)             |
+| Parameter | Wert    | Bedeutung                         |
+| --------- | ------- | --------------------------------- |
+| A         | 0       | nicht gebraucht (lineares Signal) |
+| B         | 0.03427 | Steigung (K pro Ω)                |
+| C         | −37.31  | Verschiebung (Offset)             |
 
 ### Feinkorrektur über C
 
 Wenn die Anzeige nach Inbetriebnahme einen kleinen Offset hat (z.B. zeigt −3.2 K statt −3.0 K am Linksanschlag), nur den **C-Wert** in 0.1er Schritten anpassen:
 
-| Problem                            | Lösung             |
-| ---------------------------------- | ------------------ |
-| Anzeige zu tief (−3.2 statt −3.0)  | C um +0.2 erhöhen  |
-| Anzeige zu hoch (−2.8 statt −3.0)  | C um −0.2 senken   |
+| Problem                           | Lösung            |
+| --------------------------------- | ----------------- |
+| Anzeige zu tief (−3.2 statt −3.0) | C um +0.2 erhöhen |
+| Anzeige zu hoch (−2.8 statt −3.0) | C um −0.2 senken  |
 
 **B nie anfassen** — der bestimmt die Spreizung (±3 K), die stimmt rechnerisch. Nur C verschiebt den ganzen Bereich gleichmässig.
 
