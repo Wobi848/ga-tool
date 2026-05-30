@@ -20,6 +20,10 @@ BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
 SERVICE="${SERVICE:-ga-tool}"
 HEALTH_URL="${HEALTH_URL:-http://localhost:3700/api/health}"
 
+# --auto: kein interaktiver Prompt, beendet sich still wenn kein Update verfuegbar
+AUTO=0
+if [ "${1:-}" = "--auto" ]; then AUTO=1; fi
+
 cd "$APP_DIR"
 
 echo "═════════════════════════════════════════════"
@@ -32,22 +36,14 @@ OLD_VERSION=$(grep "APP_VERSION" src/lib/version.ts | sed -E "s/.*'([0-9.]+)'.*/
 echo "Aktuelle Version: v$OLD_VERSION"
 echo
 
-# Schritt 2: DB-Backup ziehen
-echo "▸ DB-Backup vor Update..."
-mkdir -p "$BACKUP_DIR"
-BACKUP_FILE="$BACKUP_DIR/pre-update-$(date +%Y%m%d-%H%M%S).db"
-sqlite3 "$DB_PATH" ".backup '$BACKUP_FILE'"
-echo "  ✓ Backup gespeichert: $BACKUP_FILE"
-echo
-
-# Schritt 3: git pull
+# Schritt 2: git fetch + pruefen ob Update vorhanden
 echo "▸ Code-Update von GitHub..."
 git fetch origin
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse @{u})
 if [ "$LOCAL" = "$REMOTE" ]; then
-	echo "  ✓ Bereits auf neuestem Stand."
-	# Trotzdem rebuilden, falls .env oder System-Pakete geaendert wurden
+	echo "  ✓ Bereits auf neuestem Stand (v$OLD_VERSION) — kein Update noetig."
+	if [ "$AUTO" = "1" ]; then exit 0; fi
 	echo
 	echo "Trotzdem rebuilden? [y/N]"
 	read -r CONFIRM
@@ -58,6 +54,14 @@ if [ "$LOCAL" = "$REMOTE" ]; then
 else
 	git pull --ff-only
 fi
+echo
+
+# Schritt 3: DB-Backup ziehen
+echo "▸ DB-Backup vor Update..."
+mkdir -p "$BACKUP_DIR"
+BACKUP_FILE="$BACKUP_DIR/pre-update-$(date +%Y%m%d-%H%M%S).db"
+sqlite3 "$DB_PATH" ".backup '$BACKUP_FILE'"
+echo "  ✓ Backup gespeichert: $BACKUP_FILE"
 echo
 
 # Schritt 4: Install + Migrate + Build
