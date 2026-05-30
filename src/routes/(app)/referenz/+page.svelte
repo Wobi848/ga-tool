@@ -132,7 +132,7 @@
 							<span class="cat-chip"
 								>{$_('cat.' + tbl.category.toLowerCase(), { default: tbl.category })}</span
 							>
-							<span class="row-count">{tbl.rows.length} {$_('referenz.rows')}</span>
+							<span class="row-count">{tbl.rowCount} {$_('referenz.rows')}</span>
 							{#if tbl.norm && tbl.norm.length}
 								<span class="norm-chip"
 									>{tbl.norm[0]}{#if tbl.norm.length > 1}

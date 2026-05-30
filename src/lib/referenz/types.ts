@@ -35,3 +35,21 @@ export interface ReferenceTable {
 	notes?: string;
 	notes_en?: string;
 }
+
+/** Meta-only Variante für Listen-/Index-Seiten (ohne columns + rows). */
+export interface ReferenceTableMeta {
+	slug: string;
+	title: string;
+	title_en?: string;
+	subtitle?: string;
+	subtitle_en?: string;
+	description?: string;
+	description_en?: string;
+	category: string;
+	icon?: string;
+	color: string;
+	areas: Area[];
+	norm: string[];
+	updated?: string;
+	rowCount: number;
+}

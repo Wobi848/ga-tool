@@ -7,7 +7,14 @@
 	function t(de: string, en?: string) {
 		return isEn && en ? en : de;
 	}
-	import { search, groupByType, typeColors, type SearchItem, type SearchType } from '$lib/search';
+	import {
+		search,
+		groupByType,
+		typeColors,
+		ensureSearchCorpus,
+		type SearchItem,
+		type SearchType
+	} from '$lib/search';
 
 	let { open = $bindable(false) }: { open?: boolean } = $props();
 
@@ -49,9 +56,19 @@
 		activeIndex = 0;
 	});
 
+	let corpusReady = $state(false);
+
 	$effect(() => {
 		if (open) {
 			tick().then(() => inputEl?.focus());
+			// Volltext-Korpus lazy nachladen — beim ersten Öffnen
+			if (!corpusReady) {
+				ensureSearchCorpus().then(() => {
+					corpusReady = true;
+					// Trigger Re-eval falls Query schon eingetippt war
+					query = query;
+				});
+			}
 		} else {
 			query = '';
 			activeIndex = 0;

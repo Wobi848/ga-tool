@@ -150,8 +150,8 @@
 							{#if critical > 0}
 								<span class="critical">{critical} {$_('checklisten.critical')}</span>
 							{/if}
-							{#if c.sections.length}
-								<span class="sections">{c.sections.length} {$_('checklisten.sections')}</span>
+							{#if c.sectionCount}
+								<span class="sections">{c.sectionCount} {$_('checklisten.sections')}</span>
 							{/if}
 						</div>
 						{#if progress > 0}

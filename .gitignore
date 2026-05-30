@@ -26,3 +26,9 @@ vite.config.ts.timestamp-*
 dev-dist/
 # SQLite
 *.db
+# Build-time generierte Metadaten (von scripts/build-content-meta.mjs)
+src/lib/wissen/articles.generated.json
+bundle-stats.html
+src/lib/referenz/referenz.generated.json
+src/lib/checklisten/checklisten.generated.json
+src/lib/search/corpus.generated.json

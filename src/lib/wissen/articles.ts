@@ -1,45 +1,60 @@
 import type { Article, ArticleMeta, Area, Difficulty } from './types';
+import metaJson from './articles.generated.json';
 
-// Vite glob — loads all markdown files as raw strings at build time
-const modules = import.meta.glob('/content/wissen/*.md', {
-	query: '?raw',
-	import: 'default',
-	eager: true
-}) as Record<string, string>;
+// ── Metadata kommt aus dem build-time generierten JSON ──
+// Bodies werden NICHT eagerly gebundelt, sondern bei Bedarf per
+// loadArticleBody(slug) lazy nachgeladen.
 
-/** Tiny browser-safe frontmatter parser for our limited subset (no Node Buffer needed). */
-function parseFrontmatter(raw: string): { data: Record<string, unknown>; content: string } {
-	const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(raw);
-	if (!m) return { data: {}, content: raw };
-	const yaml = m[1];
-	const content = m[2] ?? '';
-	const data: Record<string, unknown> = {};
-	for (const line of yaml.split(/\r?\n/)) {
-		const trimmed = line.trim();
-		if (!trimmed || trimmed.startsWith('#')) continue;
-		const colon = trimmed.indexOf(':');
-		if (colon < 0) continue;
-		const key = trimmed.slice(0, colon).trim();
-		const valueRaw = trimmed.slice(colon + 1).trim();
-		if (valueRaw.startsWith('[') && valueRaw.endsWith(']')) {
-			const inner = valueRaw.slice(1, -1).trim();
-			data[key] =
-				inner === '' ? [] : inner.split(',').map((s) => s.trim().replace(/^['"]|['"]$/g, ''));
-		} else if (
-			(valueRaw.startsWith('"') && valueRaw.endsWith('"')) ||
-			(valueRaw.startsWith("'") && valueRaw.endsWith("'"))
-		) {
-			data[key] = valueRaw.slice(1, -1);
-		} else {
-			data[key] = valueRaw;
-		}
-	}
-	return { data, content };
+interface RawMeta {
+	title: string;
+	title_en?: string;
+	slug: string;
+	category: string;
+	subcategory?: string;
+	tags: string[];
+	difficulty: string;
+	area: string[];
+	related: string[];
+	rechner: string[];
+	norm: string[];
+	updated: string;
+	lang: string;
+	hasEnBody: boolean;
+	file: string;
 }
 
-const asArr = (v: unknown): string[] =>
-	Array.isArray(v) ? v.filter((x): x is string => typeof x === 'string') : [];
-const asStr = (v: unknown, def = ''): string => (typeof v === 'string' ? v : def);
+const rawMeta = metaJson as RawMeta[];
+
+export const articles: ArticleMeta[] = rawMeta.map((m) => ({
+	title: m.title,
+	title_en: m.title_en,
+	slug: m.slug,
+	category: m.category,
+	subcategory: m.subcategory,
+	tags: m.tags,
+	difficulty: m.difficulty as Difficulty,
+	area: m.area as Area[],
+	related: m.related,
+	rechner: m.rechner,
+	norm: m.norm,
+	updated: m.updated,
+	lang: m.lang,
+	hasEnBody: m.hasEnBody
+}));
+
+export const articleMap: Record<string, ArticleMeta> = Object.fromEntries(
+	articles.map((a) => [a.slug, a])
+);
+
+const fileBySlug: Record<string, string> = Object.fromEntries(rawMeta.map((m) => [m.slug, m.file]));
+
+// ── Lazy Body Loader ──
+// Vite-Glob ohne eager → einzelne dynamische Chunks pro Markdown.
+// Erst beim Aufruf von loadArticleBody() wird der jeweilige Body geladen.
+const bodyLoaders = import.meta.glob('/content/wissen/*.md', {
+	query: '?raw',
+	import: 'default'
+}) as Record<string, () => Promise<string>>;
 
 const EN_MARKER = '<!-- EN -->';
 
@@ -52,39 +67,37 @@ function splitBody(content: string): { bodyDe: string; bodyEn?: string } {
 	};
 }
 
-function parseArticle(raw: string, path: string): Article {
-	const { data, content } = parseFrontmatter(raw);
-	const fallbackSlug = path.split('/').pop()?.replace(/\.md$/, '') ?? 'unknown';
-	const { bodyDe, bodyEn } = splitBody(content);
-	return {
-		title: asStr(data.title, fallbackSlug),
-		title_en: asStr(data.title_en) || undefined,
-		slug: asStr(data.slug, fallbackSlug),
-		category: asStr(data.category, 'sonstiges'),
-		subcategory: asStr(data.subcategory) || undefined,
-		tags: asArr(data.tags),
-		difficulty: asStr(data.difficulty, 'grundlagen') as Difficulty,
-		area: asArr(data.area) as Area[],
-		related: asArr(data.related),
-		rechner: asArr(data.rechner),
-		norm: asArr(data.norm),
-		updated: asStr(data.updated),
-		lang: asStr(data.lang, 'de'),
-		hasEnBody: !!bodyEn,
-		body: content,
-		bodyDe,
-		bodyEn
-	};
+function stripFrontmatter(raw: string): string {
+	const m = /^---\r?\n[\s\S]*?\r?\n---\r?\n?([\s\S]*)$/.exec(raw);
+	return m ? m[1] : raw;
 }
 
-export const articles: Article[] = Object.entries(modules)
-	.map(([path, raw]) => parseArticle(raw, path))
-	.sort((a, b) => a.title.localeCompare(b.title, 'de'));
+/** Lädt den Body-Text eines Artikels lazy. Returns null wenn slug unbekannt. */
+export async function loadArticleBody(
+	slug: string
+): Promise<{ body: string; bodyDe: string; bodyEn?: string } | null> {
+	const file = fileBySlug[slug];
+	if (!file) return null;
+	const loader = bodyLoaders[`/content/wissen/${file}`];
+	if (!loader) return null;
+	const raw = await loader();
+	const content = stripFrontmatter(raw);
+	const { bodyDe, bodyEn } = splitBody(content);
+	return { body: content, bodyDe, bodyEn };
+}
 
-export const articleMap: Record<string, Article> = Object.fromEntries(
-	articles.map((a) => [a.slug, a])
-);
+/**
+ * Convenience: vollständiges Article-Objekt mit Body. Nur für Detail-Seiten
+ * verwenden — auf Listen/Index-Seiten reicht `articles` (nur Meta).
+ */
+export async function loadFullArticle(slug: string): Promise<Article | null> {
+	const meta = articleMap[slug];
+	if (!meta) return null;
+	const bodies = await loadArticleBody(slug);
+	if (!bodies) return null;
+	return { ...meta, ...bodies };
+}
 
 export function listMeta(): ArticleMeta[] {
-	return articles.map(({ body, ...meta }) => meta);
+	return articles;
 }

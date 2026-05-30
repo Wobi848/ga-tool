@@ -4,6 +4,9 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"build:meta": "tsx scripts/build-content-meta.ts",
+		"predev": "npm run build:meta",
+		"prebuild": "npm run build:meta",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
@@ -50,6 +53,7 @@
 		"prettier": "^3.8.1",
 		"prettier-plugin-svelte": "^3.5.1",
 		"prettier-plugin-tailwindcss": "^0.7.2",
+		"rollup-plugin-visualizer": "^5.14.0",
 		"svelte": "^5.55.2",
 		"svelte-check": "^4.4.6",
 		"tailwindcss": "^4.2.2",

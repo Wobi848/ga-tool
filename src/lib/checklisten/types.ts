@@ -32,3 +32,20 @@ export interface ChecklistTemplate {
 	norm?: string[];
 	updated?: string;
 }
+
+/** Meta-only Variante für Listen-/Dashboard-Seiten (ohne sections). */
+export interface ChecklistTemplateMeta {
+	slug: string;
+	title: string;
+	title_en?: string;
+	subtitle?: string;
+	subtitle_en?: string;
+	category: string;
+	icon: string;
+	color: string;
+	areas: Area[];
+	updated?: string;
+	sectionCount: number;
+	itemCount: number;
+	criticalCount: number;
+}

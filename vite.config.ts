@@ -2,11 +2,20 @@ import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
 	plugins: [
 		tailwindcss(),
 		sveltekit(),
+		// nur on-demand mit ANALYZE=1 npm run build aktivieren
+		process.env.ANALYZE === '1' &&
+			visualizer({
+				filename: 'bundle-stats.html',
+				gzipSize: true,
+				brotliSize: true,
+				template: 'treemap'
+			}),
 		VitePWA({
 			registerType: 'autoUpdate',
 			devOptions: { enabled: false },
