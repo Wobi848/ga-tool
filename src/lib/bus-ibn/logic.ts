@@ -1,5 +1,6 @@
 // Pure Bus-IBN Logik (testbar, framework-frei)
 import { ADDR_RANGE } from './constants';
+import { randomUUID } from '$lib/uuid';
 import type {
 	BusType,
 	SegmentSettings,
@@ -39,7 +40,7 @@ export function defaultSettings(type: BusType): SegmentSettings {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeDevice(d: any): BusDevice {
 	return {
-		id: d.id ?? crypto.randomUUID(),
+		id: d.id ?? randomUUID(),
 		name: d.name ?? '',
 		deviceType: d.deviceType ?? '',
 		manufacturer: d.manufacturer ?? '',
@@ -57,7 +58,7 @@ export function normalizeDevice(d: any): BusDevice {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function normalizeProject(p: any): BusProject {
 	return {
-		id: p.id ?? crypto.randomUUID(),
+		id: p.id ?? randomUUID(),
 		name: p.name ?? 'Neues Projekt',
 		site: p.site ?? '',
 		engineer: p.engineer ?? '',
@@ -65,7 +66,7 @@ export function normalizeProject(p: any): BusProject {
 		createdAt: p.createdAt ?? Date.now(),
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		segments: (p.segments ?? []).map((s: any) => ({
-			id: s.id ?? crypto.randomUUID(),
+			id: s.id ?? randomUUID(),
 			name: s.name ?? 'Segment',
 			description: s.description ?? '',
 			type: s.type ?? 'bacnet-mstp',
@@ -84,7 +85,7 @@ export function normalizeProject(p: any): BusProject {
 
 export function newProject(): BusProject {
 	return {
-		id: crypto.randomUUID(),
+		id: randomUUID(),
 		name: 'Neues Projekt',
 		site: '',
 		engineer: '',
@@ -105,7 +106,7 @@ export function nextFreeAddress(seg: BusSegment): number {
 export function newDevice(seg: BusSegment): BusDevice {
 	const addr = nextFreeAddress(seg);
 	return {
-		id: crypto.randomUUID(),
+		id: randomUUID(),
 		name: '',
 		deviceType: '',
 		manufacturer: '',

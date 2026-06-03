@@ -47,6 +47,7 @@
 		hasAnyConflicts
 	} from '$lib/bus-ibn/logic';
 	import { DEVICE_LIBRARY_RAW } from '$lib/bus-ibn/library';
+	import { randomUUID } from '$lib/uuid';
 
 	function statusLabel(s: DeviceStatus): string {
 		return $_(STATUS_LABEL_KEYS[s]);
@@ -252,7 +253,7 @@
 	function addSegment() {
 		const idx = project.segments.length + 1;
 		project.segments.push({
-			id: crypto.randomUUID(),
+			id: randomUUID(),
 			name: `${BUS_LABELS[addSegType]} Segment ${idx}`,
 			description: '',
 			type: addSegType,
@@ -287,7 +288,7 @@
 		const addr = nextFreeAddress(seg);
 		seg.devices.push({
 			...src,
-			id: crypto.randomUUID(),
+			id: randomUUID(),
 			address: addr,
 			macLocked: false,
 			deviceInstance: seg.diAuto && isBacnet(seg.type) ? seg.diOffset + addr : 0,
@@ -333,7 +334,7 @@
 		if (!seg) return;
 		const addr = nextFreeAddress(seg);
 		seg.devices.push({
-			id: crypto.randomUUID(),
+			id: randomUUID(),
 			name: '',
 			deviceType: item.type,
 			manufacturer: item.vendor,
@@ -546,7 +547,7 @@
 			} else {
 				const di = seg.diAuto && isBacnet(seg.type) ? seg.diOffset + row.mac : row.deviceInstance;
 				seg.devices.push({
-					id: crypto.randomUUID(),
+					id: randomUUID(),
 					name: row.name,
 					deviceType: row.deviceType,
 					manufacturer: row.manufacturer,
@@ -648,7 +649,7 @@
 		if (!b) return;
 		for (const p of bulkPreview(seg)) {
 			seg.devices.push({
-				id: crypto.randomUUID(),
+				id: randomUUID(),
 				name: p.name,
 				deviceType: b.deviceType,
 				manufacturer: b.manufacturer,
