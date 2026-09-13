@@ -33,6 +33,7 @@ related:
     pufferspeicher,
     fussbodenheizung
   ]
+
 norm: [EN 12828, VDI 2035, SIA 384.201]
 updated: 2026-05-14
 lang: de

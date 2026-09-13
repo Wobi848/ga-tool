@@ -26,6 +26,7 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related:
   [heizkurve, druckverlust, hydraulischer-abgleich, sg-ready, pv-integration, ems-lastmanagement]
+
 norm: [EN 14511, EN 14825, VDI 4645]
 updated: 2026-05-14
 lang: de

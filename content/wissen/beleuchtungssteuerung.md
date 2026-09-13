@@ -35,6 +35,7 @@ related:
     praesenzsensoren,
     helligkeitssensoren
   ]
+
 norm: [EN 12464-1, EN 15232, DIN 5035, SIA 380/4]
 updated: 2026-05-15
 lang: de

@@ -33,6 +33,7 @@ related:
     glt-grundlagen,
     ddc-programmierung
   ]
+
 norm: [VDI 3814, SIA 386.110, AMEV IBN 2014]
 updated: 2026-05-15
 lang: de

@@ -26,6 +26,7 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related:
   [hydraulische-schaltungen, hydraulischer-abgleich, ec-motoren, frequenzumrichter, pid-regler]
+
 norm: [EN ISO 9906, ErP 2012/622/EU]
 updated: 2026-05-14
 lang: de

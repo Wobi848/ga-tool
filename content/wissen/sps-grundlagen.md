@@ -23,6 +23,7 @@ difficulty: grundlagen
 area: [ga, hlk]
 related:
   [ddc-programmierung, signaltypen, steuern-regeln, kaskadenregelung, pid-regler, profibus, modbus]
+
 norm: [IEC 61131-1, IEC 61131-3]
 updated: 2026-05-15
 lang: de

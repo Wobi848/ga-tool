@@ -8,7 +8,8 @@ tags:
   [druckverlust, rohrnetz, reibung, einzelwiderstand, zeta, lambda, reynolds, dimensionierung, dn]
 difficulty: fortgeschritten
 area: [hlk]
-related: [kv-wert, pumpe, hydraulischer-abgleich]
+related: [motorventile, pumpen, hydraulischer-abgleich]
+
 norm: [SIA 384/2, SIA 384/3]
 updated: 2026-05-14
 lang: de

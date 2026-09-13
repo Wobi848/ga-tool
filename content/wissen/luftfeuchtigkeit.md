@@ -29,6 +29,7 @@ related:
     en16798,
     raumluftqualitaet
   ]
+
 rechner: [psychrometrie, taupunkt]
 norm: [DIN EN 13779, DIN EN 16798-1, DIN ISO 7730, SIA 382/1]
 updated: 2026-05-24

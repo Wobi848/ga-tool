@@ -34,6 +34,7 @@ related:
     glt-grundlagen,
     raumluftqualitaet
   ]
+
 norm: [EN 15232, SIA 380/1, DIN 1946-4, VDI 6022, EN 16798]
 updated: 2026-05-15
 lang: de

@@ -37,6 +37,7 @@ related:
     e-mobility-lademanagement,
     iso50001
   ]
+
 norm: [ISO 50001, EN 50160, IEC 61851, SIA 2024]
 updated: 2026-05-14
 lang: de

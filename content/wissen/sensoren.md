@@ -40,6 +40,7 @@ related:
     praesenzsensoren,
     helligkeitssensoren
   ]
+
 norm: [IEC 60751, EN ISO 16890, EN 14511]
 updated: 2026-05-14
 lang: de

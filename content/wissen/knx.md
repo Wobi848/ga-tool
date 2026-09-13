@@ -23,7 +23,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [bacnet, modbus, knxip-gateway]
+related: [bacnet, modbus]
+
 norm: [EN 50090, ISO/IEC 14543-3]
 updated: 2026-05-14
 lang: de

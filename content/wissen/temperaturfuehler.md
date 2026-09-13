@@ -22,7 +22,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
-related: [sensoren, signaltypen, polynom-approximation, ntc-ptc]
+related: [sensoren, signaltypen, polynom-approximation]
+
 rechner: [polynom-fit]
 norm: [IEC 60751, DIN EN 60751, DIN 43760]
 updated: 2026-05-24

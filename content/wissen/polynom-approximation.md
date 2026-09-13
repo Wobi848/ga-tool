@@ -8,7 +8,8 @@ tags:
   [polynom, fit, kleinste-quadrate, ntc, sensor, linearisierung, kennlinie, ddc, sollwertversteller]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
-related: [pid-regler, signaltypen, ntc-ptc]
+related: [pid-regler, signaltypen, temperaturfuehler]
+
 rechner: [polynom-fit]
 norm: []
 updated: 2026-05-24

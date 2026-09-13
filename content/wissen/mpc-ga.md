@@ -30,6 +30,7 @@ related:
     batteriespeicher,
     thermische-behaglichkeit
   ]
+
 norm: [ISO 52016, EN 15232]
 updated: 2026-05-15
 lang: de

@@ -7,7 +7,8 @@ subcategory: regler
 tags: [pid, p-regler, i-regler, d-regler, regelkreis, tuning, sprungantwort, ziegler-nichols]
 difficulty: grundlagen
 area: [hlk, ga]
-related: [regelkreise, heizkurve, kv-wert]
+related: [regelkreise, heizkurve, motorventile]
+
 rechner: [pid-simulator]
 norm: []
 updated: 2026-05-14

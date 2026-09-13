@@ -20,7 +20,8 @@ tags:
   ]
 difficulty: grundlagen
 area: [hlk, ga]
-related: [motorventile, ventil-schaltungen, druckverlust, kv-wert]
+related: [motorventile, ventil-schaltungen, druckverlust]
+
 rechner: [ventilautoritaet, kv-wert]
 norm: [EN 60534, EN 215]
 updated: 2026-05-15

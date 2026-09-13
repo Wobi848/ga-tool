@@ -21,7 +21,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [hydraulische-schaltungen, motorventile, pid-regler, temperaturspreizungen]
+related: [hydraulische-schaltungen, motorventile, pid-regler, hydraulischer-abgleich]
+
 norm: [EN 14336, VDI 3814]
 updated: 2026-05-15
 lang: de
