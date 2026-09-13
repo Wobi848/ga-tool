@@ -13,7 +13,10 @@ set -e
 
 DB_PATH="${DB_PATH:-/var/lib/ga-tool/local.db}"
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
-BEHALTEN="${BEHALTEN:-14}"
+# 30 Tage — so lange hielt es der abgeloeste cron.daily auch. Bei rund 260 kB
+# je Kopie kostet das nichts, und eine kuerzere Frist haette beim ersten Lauf
+# die Haelfte des vorhandenen Bestands weggeraeumt.
+BEHALTEN="${BEHALTEN:-30}"
 
 mkdir -p "$BACKUP_DIR"
 ZIEL="$BACKUP_DIR/daily-$(date +%Y%m%d-%H%M%S).db"

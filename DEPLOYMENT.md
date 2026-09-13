@@ -123,6 +123,61 @@ sqlite3 /var/lib/ga-tool/local.db \
 
 Backup vorher empfohlen: `cp /var/lib/ga-tool/local.db /var/lib/ga-tool/local.db.bak`
 
+## Sicherung und Restore
+
+Der Timer `ga-tool-backup.timer` zieht täglich eine Kopie nach
+`/var/backups/ga-tool/daily-*.db` und hält sie 30 Tage. Das Skript liegt als
+[`deploy/ga-tool-backup.sh`](deploy/ga-tool-backup.sh) im Repo.
+
+Es nimmt `.backup` statt `cp`: SQLite darf währenddessen weiter beschrieben
+werden, und die Kopie ist in sich schlüssig. Ein `cp` auf eine offene Datenbank
+liefert im Zweifel eine Datei, die erst beim Zurückspielen als kaputt auffällt.
+Danach wird die Kopie geöffnet — `integrity_check` **und** die Tabellenzahl,
+denn eine formal heile, aber leere Datei bestünde die erste Prüfung allein.
+
+Einrichten:
+
+```bash
+sudo install -m 644 /opt/ga-tool/deploy/ga-tool-backup.service \
+                    /opt/ga-tool/deploy/ga-tool-backup.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now ga-tool-backup.timer
+sudo systemctl start ga-tool-backup.service   # erster Lauf, nicht bis morgen warten
+journalctl -u ga-tool-backup -n 5
+```
+
+### Zurückspielen
+
+```bash
+sudo systemctl stop ga-tool
+sudo cp -a /var/lib/ga-tool/local.db /root/vor-restore.db        # Rückweg
+sudo cp /var/backups/ga-tool/daily-JJJJMMTT-HHMMSS.db /var/lib/ga-tool/local.db
+sudo chown ga-tool:ga-tool /var/lib/ga-tool/local.db
+sudo chmod 640 /var/lib/ga-tool/local.db
+sudo systemctl start ga-tool
+curl -s localhost:3700/api/health
+```
+
+Der `chown` ist keine Kosmetik: als root zurückgespielt gehört die Datei danach
+root, und der unprivilegierte Dienst kann nicht mehr schreiben. Lesen kann er
+noch — `/api/health` meldet also weiter `ok`, während jedes Speichern still
+fehlschlägt.
+
+### Was am 13.09.2026 tatsächlich geprüft wurde
+
+Nicht nur, dass die Datei zurückkopierbar ist:
+
+1. Zeilenstand notiert (573), eine Markierungszeile eingefügt (574)
+2. Dienst gestoppt, Sicherung über die Live-Datenbank gespielt, Dienst gestartet
+3. Nachgesehen: Markierung weg, wieder 573 Zeilen, Benutzerkonto vorhanden,
+   `/api/health` 200 — der Dienst lief also wirklich auf der zurückgespielten
+   Datei und nicht weiter auf der alten
+4. Livestand aus der Sicherheitskopie zurückgeholt, Markierung gelöscht,
+   wieder 573 Zeilen
+
+Der dritte Punkt ist der eigentliche: ohne Markierung hätte derselbe Ablauf
+auch dann bestanden, wenn gar nichts ersetzt worden wäre.
+
 ## Systemd-Unit (Production)
 
 Die Unit liegt als [`deploy/ga-tool.service`](deploy/ga-tool.service) im Repo —
@@ -238,22 +293,16 @@ Status 200 wenn alles ok, 503 bei DB-Problemen. Geeignet für:
 
 ## Backups
 
-SQLite ist eine einzelne Datei — Backup ist ein `cp`:
+Siehe [Sicherung und Restore](#sicherung-und-restore).
 
-```bash
-#!/bin/sh
-# /etc/cron.daily/ga-tool-backup
-set -e
-DB=/var/lib/ga-tool/local.db
-DEST=/var/backups/ga-tool
-mkdir -p "$DEST"
-# SQLite-Online-Backup (Konsistent bei laufendem Server)
-sqlite3 "$DB" ".backup '$DEST/ga-tool-$(date +%F).db'"
-# Behalte 30 Tage
-find "$DEST" -name 'ga-tool-*.db' -mtime +30 -delete
-```
+Hier stand vorher ein zweiter, abweichender Vorschlag als `/etc/cron.daily`-
+Skript. Auf CT 101 lief er auch wirklich — seit dem 31.08.2026, täglich um
+06:35, ohne Prüfung der Kopie. Abgelöst am 13.09.2026; seine Sicherungen wurden
+auf das neue Namensmuster gebracht und bleiben erhalten.
 
-`sudo chmod +x /etc/cron.daily/ga-tool-backup`
+Er musste weg, nicht nur der Ordnung halber: sein Aufräumbefehl lautete
+`find /var/backups/ga-tool -name '*.db' -mtime +30 -delete` und hätte damit
+auch die `pre-update-*`-Sicherungen und die des neuen Timers mitgenommen.
 
 ## Analytics-Rollup (optional)
 
@@ -336,9 +385,10 @@ Automatisch geprüft:
 Von Hand zu erledigen, weil es am Zielsystem hängt:
 
 - [ ] Reverse Proxy terminiert HTTPS (Let's Encrypt o.ä.)
-- [ ] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
+- [x] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
       wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
-      wurde, ist eine Vermutung
+      wurde, ist eine Vermutung. Am 13.09.2026 auf CT 101 durchgespielt, siehe
+      [Sicherung und Restore](#sicherung-und-restore)
 - [x] systemd-Unit hat `ProtectSystem=strict`, läuft als unprivilegierter User
       — seit 13.09.2026 auf CT 101. Nachgeprüft: der Prozess läuft als
       `ga-tool`, und ein `POST /api/track` erzeugt weiterhin eine Zeile in
