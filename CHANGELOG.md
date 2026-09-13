@@ -1,5 +1,29 @@
 # Changelog
 
+## v0.10.1 — 2026-09-13
+
+### Favoriten und zuletzt Gelesenes sind jetzt auch offline da
+
+Die Vorwärmung holte die sieben Einstiegsseiten und die 21 Rechner. Die 122
+Wissensartikel blieben aussen vor — alle vorzuhalten wären 122 Anfragen bei
+jedem Start. Was jemand aber **markiert oder gerade gelesen** hat, ist genau
+das, was er im Keller wieder braucht.
+
+- Dritte Stufe der Vorwärmung: Favoriten zuerst, dann zuletzt Benutztes,
+  höchstens 30 Seiten, ohne Dubletten. Läuft wie die zweite Stufe erst, wenn
+  der Browser Luft hat, und nicht im Sparmodus
+- Favoriten vor zuletzt Gelesenem: wer etwas markiert hat, will es
+  zuverlässiger haben als das, was er zufällig zuletzt offen hatte
+- Die beiden Stores benennen dieselbe Sache verschieden — Favoriten kennen
+  `artikel`, zuletzt Benutztes `wissen`, beide führen nach `/wissen`. Das
+  steht jetzt in **einer** Zuordnung statt in zwei Sonderfällen, und ein Test
+  prüft, dass sie jeden Typ abdeckt, den die Favoriten kennen
+
+`npm run offline-check` deckt den Fall ab, auf den es ankommt: ein Artikel
+wird als Favorit markiert und **nie geöffnet**, danach geht der Server aus —
+der Artikel ist trotzdem da. Gegengeprüft, dass die Prüfung anschlägt, wenn
+man die dritte Stufe wieder entfernt.
+
 ## v0.10.0 — 2026-09-13
 
 ### Schriften kommen aus dem eigenen Haus

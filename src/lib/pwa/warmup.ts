@@ -24,6 +24,28 @@ export const KERNSEITEN = [
 /** Muss zum `cacheName` der Navigations-Regel in vite.config.ts passen. */
 export const CACHE = 'pages-cache';
 
+/** Hoechstens so viele persoenliche Seiten nachladen. */
+export const HOECHSTENS = 30;
+
+/* Die beiden Stores benennen dieselbe Sache unterschiedlich: Favoriten kennen
+ * 'artikel', zuletzt Benutztes 'wissen' — beide fuehren nach /wissen. Deshalb
+ * hier eine Zuordnung statt zweier Sonderfaelle im Code. */
+const PFAD: Record<string, string> = {
+	artikel: '/wissen',
+	wissen: '/wissen',
+	rechner: '/rechner',
+	konverter: '/konverter',
+	referenz: '/referenz',
+	checkliste: '/checklisten'
+};
+
+/** Baut aus Typ und Slug den Seitenpfad. `null`, wenn der Typ unbekannt ist. */
+export function pfadVon(typ: string, slug: string): string | null {
+	const basis = PFAD[typ];
+	if (!basis || !slug) return null;
+	return `${basis}/${slug}`;
+}
+
 let gelaufen = false;
 
 /** Nur fuer Tests: laesst den Lauf noch einmal zu. */
@@ -64,6 +86,38 @@ function sparsam(): boolean {
 	return n.connection?.saveData === true;
 }
 
+/** Favoriten und zuletzt Benutztes als Seitenpfade, ohne Dubletten. */
+export async function persoenlicheSeiten(): Promise<string[]> {
+	const pfade: string[] = [];
+	const dazu = (typ: string, slug: string) => {
+		const p = pfadVon(typ, slug);
+		// Favoriten zuerst, dann zuletzt Gelesenes — wer etwas markiert hat, will
+		// es zuverlaessiger haben als das, was er zufaellig zuletzt aufhatte.
+		if (p && !pfade.includes(p)) pfade.push(p);
+	};
+
+	try {
+		const { favorites } = await import('$lib/stores/favorites');
+		const { get } = await import('svelte/store');
+		for (const f of get(favorites) as Array<{ type: string; slug: string }>) {
+			dazu(f.type, f.slug);
+		}
+	} catch {
+		// Store nicht ladbar — dann eben nur das Zuletztbenutzte.
+	}
+
+	try {
+		const { getRecent } = await import('$lib/stores/recent');
+		for (const r of getRecent() as Array<{ type: string; slug: string }>) {
+			dazu(r.type, r.slug);
+		}
+	} catch {
+		// Kein Zugriff auf den lokalen Speicher.
+	}
+
+	return pfade.slice(0, HOECHSTENS);
+}
+
 export async function warmeSeitenVor(): Promise<number> {
 	if (gelaufen) return 0;
 	gelaufen = true;
@@ -77,11 +131,12 @@ export async function warmeSeitenVor(): Promise<number> {
 			if (await holen(cache, pfad)) gespeichert++;
 		}
 
-		// Zweite Stufe: die Rechner. Sie sind der Grund, warum das Werkzeug im
-		// Technikraum ueberhaupt offline taugen soll — dort ist selten Empfang.
-		// Erst wenn der Browser Luft hat, und nicht im Sparmodus.
+		// Zweite und dritte Stufe erst, wenn der Browser Luft hat — und nicht,
+		// wenn der Benutzer Daten sparen will.
 		if (!sparsam()) {
 			beiGelegenheit(async () => {
+				// Die Rechner. Sie sind der Grund, warum das Werkzeug im Technikraum
+				// ueberhaupt offline taugen soll — dort ist selten Empfang.
 				try {
 					const { rechner } = await import('$lib/rechner');
 					for (const r of rechner as Array<{ slug: string }>) {
@@ -89,6 +144,14 @@ export async function warmeSeitenVor(): Promise<number> {
 					}
 				} catch {
 					// Registrierung nicht ladbar — dann eben beim naechsten Start.
+				}
+
+				// Und das Persoenliche: Favoriten und zuletzt Gelesenes. Die 122
+				// Artikel alle vorzuhalten waeren 122 Anfragen bei jedem Start; was
+				// jemand markiert oder gerade gelesen hat, ist dagegen genau das,
+				// was er im Keller wieder braucht.
+				for (const pfad of await persoenlicheSeiten()) {
+					await holen(cache, pfad);
 				}
 			});
 		}

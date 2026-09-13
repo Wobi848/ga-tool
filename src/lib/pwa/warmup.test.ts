@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { KERNSEITEN, CACHE } from './warmup';
+import { KERNSEITEN, CACHE, HOECHSTENS, pfadVon } from './warmup';
 
 /* Pruefung der Vorwaermung.
  *
@@ -36,7 +36,9 @@ beforeEach(async () => {
 	vi.stubGlobal('caches', { open: vi.fn(async () => cache) });
 	vi.stubGlobal('fetch', holen);
 	vi.stubGlobal('navigator', { onLine: true });
-	vi.stubGlobal('window', {});
+	// Der echte Favoriten-Store haengt sich an 'storage' — ohne diese Attrappe
+	// wirft schon sein Import.
+	vi.stubGlobal('window', { addEventListener: () => {} });
 });
 
 afterEach(() => vi.unstubAllGlobals());
@@ -137,5 +139,87 @@ describe('warmeSeitenVor', () => {
 		});
 		const { warmeSeitenVor } = await frisch();
 		await expect(warmeSeitenVor()).resolves.toBe(0);
+	});
+});
+
+describe('pfadVon', () => {
+	it('fuehrt beide Namen fuer Artikel nach /wissen', () => {
+		// Favoriten sagen 'artikel', zuletzt Benutztes sagt 'wissen' — dieselbe
+		// Sache, zwei Vokabulare. Genau hier ging das frueher schief.
+		expect(pfadVon('artikel', 'pid-regler')).toBe('/wissen/pid-regler');
+		expect(pfadVon('wissen', 'pid-regler')).toBe('/wissen/pid-regler');
+	});
+
+	it('kennt die uebrigen Typen', () => {
+		expect(pfadVon('rechner', 'taupunkt')).toBe('/rechner/taupunkt');
+		expect(pfadVon('konverter', 'druck')).toBe('/konverter/druck');
+		expect(pfadVon('referenz', 'dn-rohre')).toBe('/referenz/dn-rohre');
+		// Einzahl im Typ, Mehrzahl im Pfad.
+		expect(pfadVon('checkliste', 'ibn')).toBe('/checklisten/ibn');
+	});
+
+	it('deckt jeden Typ ab, den die Favoriten kennen', async () => {
+		const { favTypeHref } = await import('$lib/stores/favorites');
+		for (const typ of Object.keys(favTypeHref)) {
+			expect(pfadVon(typ, 'x'), `Typ "${typ}" fehlt`).toBe(`${favTypeHref[typ as never]}/x`);
+		}
+	});
+
+	it('liefert null statt eines kaputten Pfades', () => {
+		expect(pfadVon('gibt-es-nicht', 'x')).toBeNull();
+		expect(pfadVon('rechner', '')).toBeNull();
+	});
+});
+
+describe('persoenlicheSeiten', () => {
+	beforeEach(() => {
+		vi.stubGlobal('localStorage', {
+			getItem: () => null,
+			setItem: () => {},
+			removeItem: () => {}
+		});
+	});
+
+	it('nimmt Favoriten und zuletzt Benutztes, ohne Dubletten', async () => {
+		vi.doMock('$lib/stores/favorites', () => ({
+			favorites: {
+				subscribe: (f: (v: unknown) => void) => (f([{ type: 'artikel', slug: 'a' }]), () => {})
+			}
+		}));
+		vi.doMock('$lib/stores/recent', () => ({
+			getRecent: () => [
+				{ type: 'wissen', slug: 'a' }, // dieselbe Seite wie der Favorit
+				{ type: 'rechner', slug: 'taupunkt' }
+			]
+		}));
+		const { persoenlicheSeiten } = await import('./warmup');
+		expect(await persoenlicheSeiten()).toEqual(['/wissen/a', '/rechner/taupunkt']);
+	});
+
+	it('haelt die Obergrenze ein', async () => {
+		vi.doMock('$lib/stores/favorites', () => ({
+			favorites: {
+				subscribe: (f: (v: unknown) => void) => (
+					f(Array.from({ length: 50 }, (_, i) => ({ type: 'artikel', slug: `a${i}` }))),
+					() => {}
+				)
+			}
+		}));
+		vi.doMock('$lib/stores/recent', () => ({ getRecent: () => [] }));
+		const { persoenlicheSeiten } = await import('./warmup');
+		expect((await persoenlicheSeiten()).length).toBe(HOECHSTENS);
+	});
+
+	it('kommt ohne die Stores aus', async () => {
+		// Privates Fenster, blockierte Seitendaten: die Vorwaermung darf die
+		// App nicht mitreissen.
+		vi.doMock('$lib/stores/favorites', () => {
+			throw new Error('nicht ladbar');
+		});
+		vi.doMock('$lib/stores/recent', () => {
+			throw new Error('nicht ladbar');
+		});
+		const { persoenlicheSeiten } = await import('./warmup');
+		await expect(persoenlicheSeiten()).resolves.toEqual([]);
 	});
 });

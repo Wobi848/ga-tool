@@ -407,10 +407,11 @@ Was ohne Netz funktioniert, und was nicht:
 | Startseite, Rechner-, Wissens-, Konverterliste usw. | vorgewärmt, funktioniert               |
 | alle 21 Rechner                                     | vorgewärmt, funktionieren              |
 | jede schon besuchte Seite                           | funktioniert                           |
-| Wissensartikel, nie besucht                         | Auffangseite mit Liste des Verfügbaren |
+| Favoriten und zuletzt Gelesenes                     | vorgewärmt, bis zu 30 Seiten           |
+| Wissensartikel, sonst nie geöffnet                  | Auffangseite mit Liste des Verfügbaren |
 
-Die 122 Artikel werden bewusst **nicht** vorgewärmt — das wären 122 Anfragen
-beim ersten Start.
+Alle 122 Artikel vorzuwärmen wären 122 Anfragen bei jedem Start. Stattdessen
+nur die persönlichen: Favoriten zuerst, dann zuletzt Gelesenes, höchstens 30.
 
 ## Monitoring
 

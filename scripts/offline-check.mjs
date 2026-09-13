@@ -55,6 +55,20 @@ await page.evaluate(async () => {
 	}
 });
 await warte(9000); // Vorwaermung samt Rechnern abwarten
+
+// Einen Artikel als Favorit markieren, ohne ihn je zu oeffnen. Beim naechsten
+// vollen Seitenaufruf muss die Vorwaermung ihn holen — das ist der Fall, der
+// zaehlt: auf einem Geraet markiert, im Keller auf dem anderen gebraucht.
+await page.evaluate(() => {
+	localStorage.setItem(
+		'ga-favorites',
+		JSON.stringify([
+			{ type: 'artikel', slug: 'kaskadenregelung', title: 'Kaskadenregelung', addedAt: Date.now() }
+		])
+	);
+});
+await page.goto(`http://localhost:${PORT}/rechner/taupunkt`);
+await warte(7000);
 console.log(
 	'  im pages-cache:',
 	JSON.stringify(
@@ -96,7 +110,8 @@ const ERWARTET = [
 	['Rechnerliste', '/rechner', 'Rechner'],
 	['Wissensliste', '/wissen', 'Wissensbasis'],
 	['Rechner, nie besucht', '/rechner/heizkurve', 'Heizkurve'],
-	['Artikel, nie besucht', '/wissen/pid-regler', 'Keine Verbindung'],
+	['Artikel als Favorit', '/wissen/kaskadenregelung', 'Kaskadenregelung und Führungsregelung'],
+	['Artikel, weder besucht noch Favorit', '/wissen/pid-regler', 'Keine Verbindung'],
 	['Pfad ohne Route', '/gibt-es-nicht', 'Keine Verbindung']
 ];
 
