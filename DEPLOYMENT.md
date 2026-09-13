@@ -385,6 +385,43 @@ Bei Produktivnutzung wachsen `analytics_event`-Rohdaten unbegrenzt. Der Admin-UI
 
 **Aktueller Stand:** Rollup ist nur via Admin-UI verfügbar. Bei höherem Traffic kann ein API-Endpoint mit Service-Token nachgerüstet werden.
 
+## Monitoring
+
+Die Überwachung sitzt in **Home Assistant auf VM 100** (`192.168.178.66`), nicht
+im Node-RED auf CT 101. Das ist Absicht: fiele der Container aus, bliebe eine
+Überwachung auf demselben Container stumm — also genau dann, wenn sie gebraucht
+wird.
+
+In `/config/configuration.yaml`:
+
+```yaml
+rest:
+  - resource: http://192.168.178.67:3700/api/health
+    scan_interval: 120
+    timeout: 10
+    binary_sensor:
+      - name: 'GA Tool erreichbar'
+        unique_id: ga_tool_erreichbar
+        device_class: connectivity
+        value_template: "{{ value_json.status == 'ok' }}"
+```
+
+Dazu zwei Automationen in `automations.yaml`:
+
+- **`rpo_ga_tool_waechter`** meldet über Telegram, wenn der Sensor zehn Minuten
+  lang nicht `on` ist. Zehn Minuten, weil der Update-Cron alle fünf Minuten
+  läuft und ein Neustart sonst einen Alarm auslösen würde. Es wird sowohl auf
+  `off` als auch auf `unavailable` reagiert — bei 503 steht `degraded` im Rumpf,
+  bei einem toten Dienst wird die Entität `unavailable`, und welchen Weg die
+  REST-Integration nimmt, soll nicht darüber entscheiden, ob alarmiert wird
+- **`rpo_ga_tool_wieder_da`** gibt Entwarnung, aber nur wenn vorher wirklich
+  alarmiert wurde (`input_boolean.ga_tool_alarm_gesendet`). Sonst meldete jeder
+  Neustart eine Entwarnung, die niemand erwartet hat
+
+Der Health-Endpunkt **liest nur**. Er bestätigt also nicht, dass der Dienst noch
+schreiben kann — dafür siehe den Schreibtest bei der
+[systemd-Unit](#systemd-unit-production).
+
 ## Updates ausrollen
 
 ```bash
@@ -503,6 +540,9 @@ Von Hand zu erledigen, weil es am Zielsystem hängt:
       `ga-tool`, und ein `POST /api/track` erzeugt weiterhin eine Zeile in
       `analytics_event` (572 → 573). Ohne diesen Schreibtest wäre nur belegt,
       dass der Dienst startet
-- [ ] Health-Endpoint (`/api/health`) ist im Monitoring eingehängt — er liefert
-      **503** bei nicht erreichbarer Datenbank, darauf lässt sich alarmieren
-- [ ] CI ist grün (`lint`, `check`, `test`, `e2e`)
+- [x] Health-Endpoint (`/api/health`) ist im Monitoring eingehängt — er liefert
+      **503** bei nicht erreichbarer Datenbank, darauf lässt sich alarmieren.
+      Seit 13.09.2026 über Home Assistant, siehe [Monitoring](#monitoring)
+- [x] CI ist grün (`lint`, `check`, `test`, `e2e`) — Stand 13.09.2026:
+      Prettier und ESLint sauber, `svelte-check` 1659 Dateien ohne Fehler oder
+      Warnung, **773 Tests** in 38 Dateien, **17 e2e** (1 übersprungen)
