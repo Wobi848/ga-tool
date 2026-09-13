@@ -204,7 +204,8 @@ export const daliIbn: ChecklistTemplate = {
 					id: 'd-glt-daten',
 					title: 'DALI-Controller an GLT angebunden (DALI-Gateway, IP, Modbus)',
 					title_en: 'DALI controller connected to BMS (DALI gateway, IP, Modbus)',
-					hint: 'Helvar DALI, Osram DEXAL, Tridonic etc.'
+					hint: 'Helvar DALI, Osram DEXAL, Tridonic etc.',
+					hint_en: 'Helvar DALI, Osram DEXAL, Tridonic etc.'
 				},
 				{
 					id: 'd-glt-szenen',
