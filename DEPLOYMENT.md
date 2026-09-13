@@ -225,7 +225,73 @@ bricht den JIT von Node.
 
 Logs: `journalctl -u ga-tool -f`
 
-## Reverse Proxy
+## HTTPS
+
+Auf CT 101 läuft **kein** Reverse Proxy, und `ORIGIN` steht auf
+`http://192.168.178.67:3700`. Das ist der einzige offene Punkt der
+Sicherheits-Checkliste, der noch eine Entscheidung braucht.
+
+### Der vorgesehene Weg: Tailscale auf host1
+
+`host1` (`192.168.178.2`) ist bereits im Tailnet `tail4ad0d6.ts.net` und
+verteilt `192.168.178.0/24` als Subnetz — darüber ist das ganze Heimnetz von
+aussen erreichbar. Tailscale 1.102.2, Port 443 dort frei, Proxmox liegt auf 8006.
+
+```bash
+# auf host1, nicht im Container
+tailscale serve --bg --https=443 http://192.168.178.67:3700
+tailscale serve status
+```
+
+Danach: `https://host1.tail4ad0d6.ts.net` mit einem echten Zertifikat, ohne
+Portfreigabe nach aussen.
+
+**Vorher muss einmal ein Schalter umgelegt werden**, und zwar von Hand in der
+Tailscale-Weboberfläche: _Admin console → DNS → HTTPS Certificates → Enable_.
+Ohne das antwortet `tailscale cert`:
+
+```
+500 Internal Server Error: your Tailscale account does not support getting TLS certs
+```
+
+### Was dabei mit ORIGIN passiert
+
+`adapter-node` prüft bei jedem POST die Herkunft gegen `ORIGIN`. Wird `ORIGIN`
+auf die Tailscale-Adresse gesetzt, laufen Formulare über
+`http://192.168.178.67:3700` in einen 403 — und umgekehrt. Es gibt zwei
+Auswege:
+
+- **Eine kanonische Adresse.** `ORIGIN` auf `https://host1.tail4ad0d6.ts.net`,
+  der direkte Port 3700 wird nur noch intern benutzt. Sauber, aber Geräte
+  ausserhalb des Tailnets kommen nicht mehr an Formulare
+- **Beide Adressen.** `ORIGIN` weglassen, stattdessen
+  `PROTOCOL_HEADER=x-forwarded-proto` und `HOST_HEADER=x-forwarded-host`
+  setzen; `tailscale serve` schickt beide. Dann funktionieren beide Wege — der
+  Preis ist, dass die Herkunftsprüfung dann diesen Kopfzeilen glaubt, und
+  Port 3700 steht im LAN offen
+
+### Warum nicht im Container selbst
+
+`tailscale serve` bräuchte Tailscale **in** CT 101. Der Container ist
+unprivilegiert und hat kein `/dev/net/tun`; das nachzurüsten verlangt eine
+Änderung an der Container-Konfiguration und einen Neustart — und in CT 101
+steckt auch AdGuard Home, der DNS-Server des Hauses. Deshalb der Umweg über
+host1.
+
+### Alternativen, falls Tailscale nicht der Weg sein soll
+
+- **Caddy auf CT 101 mit eigener CA** (`tls internal`): echtes HTTPS ohne
+  Domain und ohne Internet, aber jedes Gerät zeigt eine Warnung, bis die CA
+  dort einmal installiert ist
+- **Caddy + Let's Encrypt über DNS-01**: überall vertrautes Zertifikat,
+  braucht eine eigene Domain und einen DNS-Anbieter mit API. HTTP-01 scheidet
+  aus, weil AdGuard Home auf `192.168.178.67:80` sitzt
+
+## Reverse Proxy (Vorlagen)
+
+Die folgenden Vorlagen sind **nicht in Betrieb** — sie stehen hier für den Fall,
+dass doch nginx oder Caddy statt Tailscale genommen wird. Die Portangaben darin
+sind auf 3000 gemünzt; auf CT 101 läuft der Dienst auf **3700**.
 
 ### nginx
 
@@ -425,7 +491,9 @@ Automatisch geprüft:
 
 Von Hand zu erledigen, weil es am Zielsystem hängt:
 
-- [ ] Reverse Proxy terminiert HTTPS (Let's Encrypt o.ä.)
+- [ ] Reverse Proxy terminiert HTTPS — vorgesehen über `tailscale serve` auf
+      host1, siehe [HTTPS](#https). Blockiert: in der Tailscale-Weboberfläche
+      müssen einmal die HTTPS-Zertifikate freigeschaltet werden
 - [x] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
       wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
       wurde, ist eine Vermutung. Am 13.09.2026 auf CT 101 durchgespielt, siehe
