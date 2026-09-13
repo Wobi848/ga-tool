@@ -32,6 +32,15 @@ Playwright-Ausgabe mitlief.
   nur beschrieben
 - `server-update.sh` lädt die `.env`, bevor es migriert — vorher brach es mit
   `DATABASE_URL is not set` ab, nachdem `npm ci` schon gelaufen war
+- `server-update.sh` läuft nur noch einmal gleichzeitig (`flock`). Der Cron-Job
+  startet es alle fünf Minuten, ein `npm ci` mit Neuübersetzung von
+  `better-sqlite3` dauert länger — beim Ausrollen von v0.9.8 haben sich zwei
+  Läufe gegenseitig das `node_modules` weggezogen, und der Dienst war rund
+  anderthalb Minuten unten
+- `npm ci` läuft nur noch, wenn sich `package-lock.json` geändert hat
+- Vor dem Neustart wird geprüft, ob sich eine SQLite-Datenbank öffnen lässt;
+  sonst bricht das Skript ab und lässt den alten Build weiterlaufen, statt den
+  Dienst in eine Neustartschleife zu schicken
 - `server-update.sh` erkennt einen abgebrochenen Vorlauf. Vorher hing die
   Entscheidung allein an git: ein Lauf, der nach dem `git pull` abbrach, ließ
   den Dienst auf dem alten Build stehen, und der nächste `--auto`-Lauf meldete

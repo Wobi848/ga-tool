@@ -322,16 +322,57 @@ Bei Produktivnutzung wachsen `analytics_event`-Rohdaten unbegrenzt. Der Admin-UI
 ## Updates ausrollen
 
 ```bash
+sudo /opt/ga-tool/scripts/server-update.sh          # fragt nach, wenn nichts neu ist
+sudo /opt/ga-tool/scripts/server-update.sh --auto   # still, fuer den Cron-Job
+sudo /opt/ga-tool/scripts/server-update.sh --force  # baut auch ohne neuen Code
+```
+
+Das Skript zieht ein DB-Backup, holt den Code, migriert, baut, startet neu und
+prüft den Health-Endpunkt. Die Handgriffe von früher stehen darunter, falls
+etwas klemmt.
+
+Auf CT 101 läuft es per Cron **alle fünf Minuten**:
+
+```
+*/5 * * * * /opt/ga-tool/scripts/server-update.sh --auto >> /var/log/ga-tool-update.log 2>&1
+```
+
+Daraus folgen drei Dinge, die im Skript stehen und beim Ändern nicht verloren
+gehen dürfen:
+
+- **Eine Sperre** (`flock` auf `/var/lock/ga-tool-update.lock`). Ein `npm ci`,
+  das `better-sqlite3` aus dem Quellcode übersetzt, dauert länger als fünf
+  Minuten. Am 13.09.2026 liefen dadurch zwei Läufe gleichzeitig: der ältere
+  startete den Dienst neu, während der jüngere `node_modules` gerade neu
+  auslegte — der Dienst fand seine native SQLite-Bindung nicht und blieb unten
+- **`npm ci` nur bei geändertem `package-lock.json`.** Es räumt `node_modules`
+  jedes Mal ab; ohne Not ist das minutenlang ein Dienst ohne Abhängigkeiten
+- **Ein Stempel** in `/var/lib/ga-tool/.last-deploy` mit dem zuletzt
+  vollständig ausgerollten Commit. Ohne ihn hängt „gibt es etwas zu tun" allein
+  an git — und ein Lauf, der nach dem `git pull` abbricht, lässt den Dienst auf
+  dem alten Build stehen, während der nächste `--auto`-Lauf „bereits auf
+  neuestem Stand" meldet
+
+Vor dem Neustart prüft das Skript, ob sich eine SQLite-Datenbank öffnen lässt.
+Ein blosses `require('better-sqlite3')` genügt dafür nicht — das lädt nur den
+JavaScript-Teil und meldet auch ohne `better_sqlite3.node` Erfolg.
+
+### Von Hand, wenn das Skript nicht weiterhilft
+
+```bash
 cd /opt/ga-tool
 sudo systemctl stop ga-tool
 git pull
 npm ci
-DATABASE_URL=/var/lib/ga-tool/local.db npm run db:migrate
+set -a; . /opt/ga-tool/.env; set +a      # sonst: "DATABASE_URL is not set"
+npm run db:migrate
 npm run build
+sudo chown -R ga-tool:ga-tool /var/lib/ga-tool   # Migration lief als root
 sudo systemctl start ga-tool
 ```
 
-**Vor jedem Update:** Backup ziehen (siehe oben).
+**Vor jedem Update:** Backup ziehen (siehe [Sicherung und
+Restore](#sicherung-und-restore)).
 
 ## Troubleshooting
 
