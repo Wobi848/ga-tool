@@ -30,8 +30,15 @@ export interface Objekt {
 	geaendertAm: number;
 	/** Gesetzt heisst: aus der Liste verschwunden, aber nicht geloescht. */
 	archiviertAm?: number;
+	/** Grabstein. Siehe Anmerkung bei `Anlage`. */
+	geloeschtAm?: number;
 }
 
+/* Geloescht wird mit einem Grabstein (`geloeschtAm`) statt durch Entfernen.
+ * Ohne ihn taucht eine auf dem Telefon geloeschte Anlage beim naechsten
+ * Abgleich vom Laptop wieder auf: der Laptop kennt sie noch und haelt sie fuer
+ * neu. Aus allen Listen sind sie gefiltert, sichtbar ist der Unterschied
+ * also nicht. */
 export interface Anlage {
 	id: string;
 	objektId: string;
@@ -40,6 +47,7 @@ export interface Anlage {
 	reihenfolge: number;
 	erstelltAm: number;
 	geaendertAm: number;
+	geloeschtAm?: number;
 }
 
 export interface Durchlauf {
@@ -60,6 +68,7 @@ export interface Durchlauf {
 	erstelltAm: number;
 	geaendertAm: number;
 	abgeschlossenAm?: number;
+	geloeschtAm?: number;
 }
 
 /** Alles, was im Browser liegt. Versioniert, damit spaetere Umbauten eine
@@ -71,6 +80,8 @@ export interface Bestand {
 	durchlaeufe: Durchlauf[];
 	/** Einmalige Uebernahme der alten `ga-cl-*`-Staende ist gelaufen. */
 	uebernommen?: boolean;
+	/** Wann zuletzt mit dem Server abgeglichen wurde. */
+	abgeglichenAm?: number;
 }
 
 export const BESTAND_VERSION = 1;

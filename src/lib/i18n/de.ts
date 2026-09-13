@@ -249,6 +249,15 @@ export const de = {
 		uebernommenTitel: 'Frühere Checklisten übernommen',
 		uebernommenText:
 			'{anzahl} ausgefüllte Checkliste(n) aus der Zeit vor der Objektverwaltung liegen jetzt im Objekt «Übernommen».',
+		abgleich: 'Abgleich',
+		abgeglichen: 'Abgeglichen',
+		nieAbgeglichen: 'Nur auf diesem Gerät',
+		nieAbgeglichenHinweis:
+			'Ohne Anmeldung bleibt alles in diesem Browser. Angemeldet gleicht sich alles zwischen deinen Geräten ab.',
+		abgleichenJetzt: 'Jetzt abgleichen',
+		abgleichLaeuft: 'Abgleich läuft…',
+		abgleichKeinNetz: 'Kein Netz — der lokale Stand bleibt.',
+		abgleichFehler: 'Abgleich fehlgeschlagen — der lokale Stand bleibt.',
 		mehrereHinweis:
 			'Dieselbe Vorlage lässt sich mehrfach starten — je Anlage ein eigener Durchlauf.'
 	},

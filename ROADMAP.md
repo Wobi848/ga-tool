@@ -39,16 +39,18 @@ abhaken. Der Server kommt in Stufe 2 als Spiegel dazu, nicht als Ersatz.
 
 > Auf dem Telefon abgehakt, am Laptop weiterschreiben.
 
-- [ ] Tabellen `object`, `plant`, `checklist_run` samt Migration
-- [ ] `/api/objekte` (GET, POST, PATCH, DELETE) mit Eigentumsprüfung
-- [ ] `/api/objekte/[id]/durchlaeufe` desgleichen
-- [ ] Lokal sofort schreiben, dann zum Server — die Eingabe wartet nie auf das
+- [x] Tabellen `objekt`, `anlage`, `durchlauf` samt Migration
+- [x] `/api/objekte` — GET und POST statt vier Verben je Entität, mit Eigentumsprüfung
+- [x] Durchläufe im selben Aufruf — der Client führt keine Änderungsliste, ein Abgleich genügt
+- [x] Lokal sofort schreiben, dann zum Server — die Eingabe wartet nie auf das
       Netz
-- [ ] Beim Laden abgleichen, jüngerer `updatedAt` gewinnt je Datensatz
-- [ ] Anzeige, wann zuletzt abgeglichen wurde
+- [x] Beim Laden abgleichen, jüngerer `geaendertAm` gewinnt je Datensatz
+- [x] Anzeige, wann zuletzt abgeglichen wurde
 
-**Erledigt, wenn:** ein Haken auf Gerät A nach dem Neuladen auf Gerät B steht,
-und nach dem Löschen der Seitendaten alles wieder da ist.
+**Erledigt** am 13.09.2026, v0.12.0. Nachgewiesen mit `npm run sync-check`:
+echter Server, frische Datenbank, zwei Browser-Kontexte als Telefon und Laptop.
+Dabei kam ein Punkt dazu, der im Konzept fehlte — **Grabsteine**: ohne sie
+taucht Gelöschtes beim nächsten Abgleich wieder auf.
 
 **Aufpassen:** die Eigentumsprüfung gehört in jede einzelne Route, nicht in eine
 Hilfsfunktion, die man vergessen kann. Ein Test je Route, der mit fremder

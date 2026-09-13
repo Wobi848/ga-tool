@@ -11,6 +11,8 @@
 		uebernehmeAlteStaende
 	} from '$lib/objekte/store';
 	import type { Objekt } from '$lib/objekte/types';
+	import { abgleichen, zuletztAbgeglichen } from '$lib/objekte/sync';
+	import { page } from '$app/stores';
 
 	let liste = $state<Objekt[]>([]);
 	let mitArchivierten = $state(false);
@@ -19,6 +21,12 @@
 	let adresse = $state('');
 	let auftraggeber = $state('');
 	let uebernommen = $state(0);
+	let abgleichStand = $state<number | null>(null);
+	let abgleichLaeuft = $state(false);
+	let abgleichMeldung = $state('');
+
+	/** Angemeldet? Dann lohnt sich der Abgleich überhaupt. */
+	const angemeldet = $derived(Boolean($page.data?.user));
 
 	/** Anzahl Durchläufe je Objekt — ohne das steht in der Liste nur ein Name. */
 	let anzahl = $state<Record<string, number>>({});
@@ -41,7 +49,36 @@
 			}
 		);
 		neuLaden();
+		abgleichStand = zuletztAbgeglichen();
+		// Beim Öffnen einmal abgleichen, wenn jemand angemeldet ist. Ohne Konto
+		// bleibt alles hier — wie bisher.
+		if (angemeldet) void starteAbgleich();
 	});
+
+	async function starteAbgleich() {
+		if (abgleichLaeuft) return;
+		abgleichLaeuft = true;
+		abgleichMeldung = '';
+		const e = await abgleichen();
+		abgleichLaeuft = false;
+		if (e.ok) {
+			abgleichStand = e.abgeglichenAm;
+			neuLaden();
+		} else if (e.grund === 'kein-netz') {
+			abgleichMeldung = $_('objekte.abgleichKeinNetz');
+		} else if (e.grund === 'fehler') {
+			abgleichMeldung = $_('objekte.abgleichFehler');
+		}
+	}
+
+	function zeitpunkt(ms: number) {
+		return new Date(ms).toLocaleString('de-CH', {
+			day: '2-digit',
+			month: '2-digit',
+			hour: '2-digit',
+			minute: '2-digit'
+		});
+	}
 
 	function anlegen(e: Event) {
 		e.preventDefault();
@@ -146,6 +183,28 @@
 			{/each}
 		</ul>
 	{/if}
+
+	<div class="abgleich">
+		{#if angemeldet}
+			<span class="unter">
+				{#if abgleichLaeuft}
+					{$_('objekte.abgleichLaeuft')}
+				{:else if abgleichStand}
+					{$_('objekte.abgeglichen')}: {zeitpunkt(abgleichStand)}
+				{:else}
+					{$_('objekte.abgleich')}: —
+				{/if}
+			</span>
+			<button onclick={starteAbgleich} disabled={abgleichLaeuft}>
+				{$_('objekte.abgleichenJetzt')}
+			</button>
+		{:else}
+			<span class="unter" title={$_('objekte.nieAbgeglichenHinweis')}>
+				{$_('objekte.nieAbgeglichen')}
+			</span>
+		{/if}
+		{#if abgleichMeldung}<span class="unter warnung">{abgleichMeldung}</span>{/if}
+	</div>
 
 	<label class="schalter">
 		<input type="checkbox" bind:checked={mitArchivierten} onchange={neuLaden} />
@@ -315,6 +374,21 @@
 	.leer {
 		text-align: center;
 		padding: 2.5rem 1rem;
+	}
+	.abgleich {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		margin-top: 1.5rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--border);
+	}
+	.abgleich .unter {
+		margin: 0;
+	}
+	.warnung {
+		color: #dc2626;
 	}
 	.schalter {
 		flex-direction: row;

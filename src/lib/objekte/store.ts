@@ -29,6 +29,11 @@ function jetzt() {
 	return Date.now();
 }
 
+/** Alles ohne Grabstein. */
+function lebende<T extends { geloeschtAm?: number }>(xs: T[]): T[] {
+	return xs.filter((x) => !x.geloeschtAm);
+}
+
 export function ladeBestand(): Bestand {
 	if (!browser) return leererBestand();
 	try {
@@ -42,7 +47,10 @@ export function ladeBestand(): Bestand {
 			objekte: Array.isArray(b?.objekte) ? b.objekte : [],
 			anlagen: Array.isArray(b?.anlagen) ? b.anlagen : [],
 			durchlaeufe: Array.isArray(b?.durchlaeufe) ? b.durchlaeufe : [],
-			uebernommen: b?.uebernommen === true
+			uebernommen: b?.uebernommen === true,
+			// Muss mit durch: sonst meldet die Oberflaeche nach jedem Neuladen
+			// «noch nie abgeglichen», obwohl es gerade lief.
+			abgeglichenAm: typeof b?.abgeglichenAm === 'number' ? b.abgeglichenAm : undefined
 		};
 	} catch {
 		// Kaputter Inhalt darf die Seite nicht mitreissen.
@@ -70,14 +78,14 @@ function aendere<T>(fn: (b: Bestand) => T): T {
 /* ── Objekte ─────────────────────────────────────────────────────────────── */
 
 export function objekte(nurAktive = true): Objekt[] {
-	const alle = ladeBestand().objekte;
+	const alle = lebende(ladeBestand().objekte);
 	const gefiltert = nurAktive ? alle.filter((o) => !o.archiviertAm) : alle;
 	// Zuletzt angefasstes zuerst — danach sucht man auf der Baustelle.
 	return [...gefiltert].sort((a, b) => b.geaendertAm - a.geaendertAm);
 }
 
 export function objekt(id: string): Objekt | null {
-	return ladeBestand().objekte.find((o) => o.id === id) ?? null;
+	return lebende(ladeBestand().objekte).find((o) => o.id === id) ?? null;
 }
 
 export function objektAnlegen(felder: Partial<Objekt> & { name: string }): Objekt {
@@ -111,16 +119,33 @@ export function objektArchivieren(id: string, archivieren = true): Objekt | null
 	return objektAendern(id, { archiviertAm: archivieren ? jetzt() : undefined });
 }
 
-/** Loescht das Objekt mitsamt seinen Anlagen und Durchlaeufen. */
+/** Loescht das Objekt mitsamt seinen Anlagen und Durchlaeufen.
+ *
+ * Setzt Grabsteine, statt die Datensaetze zu entfernen — siehe Anmerkung bei
+ * `Anlage` in types.ts. Aus allen Listen sind sie gefiltert, sichtbar ist der
+ * Unterschied also nicht.
+ */
 export function objektLoeschen(id: string): boolean {
 	return aendere((b) => {
-		const vorher = b.objekte.length;
-		b.objekte = b.objekte.filter((o) => o.id !== id);
-		if (b.objekte.length === vorher) return false;
+		const o = b.objekte.find((x) => x.id === id && !x.geloeschtAm);
+		if (!o) return false;
+		const t = jetzt();
+		o.geloeschtAm = t;
+		o.geaendertAm = t;
 		// Ohne das blieben Anlagen und Durchlaeufe als Waisen liegen und
 		// zaehlten in jeder Uebersicht weiter mit.
-		b.anlagen = b.anlagen.filter((a) => a.objektId !== id);
-		b.durchlaeufe = b.durchlaeufe.filter((d) => d.objektId !== id);
+		for (const a of b.anlagen) {
+			if (a.objektId === id && !a.geloeschtAm) {
+				a.geloeschtAm = t;
+				a.geaendertAm = t;
+			}
+		}
+		for (const d of b.durchlaeufe) {
+			if (d.objektId === id && !d.geloeschtAm) {
+				d.geloeschtAm = t;
+				d.geaendertAm = t;
+			}
+		}
 		return true;
 	});
 }
@@ -128,8 +153,8 @@ export function objektLoeschen(id: string): boolean {
 /* ── Anlagen ─────────────────────────────────────────────────────────────── */
 
 export function anlagen(objektId: string): Anlage[] {
-	return ladeBestand()
-		.anlagen.filter((a) => a.objektId === objektId)
+	return lebende(ladeBestand().anlagen)
+		.filter((a) => a.objektId === objektId)
 		.sort((a, b) => a.reihenfolge - b.reihenfolge);
 }
 
@@ -168,10 +193,17 @@ export function anlageAendern(id: string, felder: Partial<Anlage>): Anlage | nul
  *  Objekt. Sie sind Arbeit, die Anlage war nur eine Schublade. */
 export function anlageLoeschen(id: string): boolean {
 	return aendere((b) => {
-		const vorher = b.anlagen.length;
-		b.anlagen = b.anlagen.filter((a) => a.id !== id);
-		if (b.anlagen.length === vorher) return false;
-		for (const d of b.durchlaeufe) if (d.anlageId === id) delete d.anlageId;
+		const a = b.anlagen.find((x) => x.id === id && !x.geloeschtAm);
+		if (!a) return false;
+		const t = jetzt();
+		a.geloeschtAm = t;
+		a.geaendertAm = t;
+		for (const d of b.durchlaeufe) {
+			if (d.anlageId === id) {
+				delete d.anlageId;
+				d.geaendertAm = t;
+			}
+		}
 		return true;
 	});
 }
@@ -179,13 +211,13 @@ export function anlageLoeschen(id: string): boolean {
 /* ── Durchlaeufe ─────────────────────────────────────────────────────────── */
 
 export function durchlaeufe(objektId?: string): Durchlauf[] {
-	const alle = ladeBestand().durchlaeufe;
+	const alle = lebende(ladeBestand().durchlaeufe);
 	const gefiltert = objektId ? alle.filter((d) => d.objektId === objektId) : alle;
 	return [...gefiltert].sort((a, b) => b.geaendertAm - a.geaendertAm);
 }
 
 export function durchlauf(id: string): Durchlauf | null {
-	return ladeBestand().durchlaeufe.find((d) => d.id === id) ?? null;
+	return lebende(ladeBestand().durchlaeufe).find((d) => d.id === id) ?? null;
 }
 
 export function durchlaufAnlegen(felder: {
@@ -234,9 +266,11 @@ export function durchlaufAbschliessen(id: string, abgeschlossen = true): Durchla
 
 export function durchlaufLoeschen(id: string): boolean {
 	return aendere((b) => {
-		const vorher = b.durchlaeufe.length;
-		b.durchlaeufe = b.durchlaeufe.filter((d) => d.id !== id);
-		return b.durchlaeufe.length !== vorher;
+		const d = b.durchlaeufe.find((x) => x.id === id && !x.geloeschtAm);
+		if (!d) return false;
+		d.geloeschtAm = jetzt();
+		d.geaendertAm = d.geloeschtAm;
+		return true;
 	});
 }
 

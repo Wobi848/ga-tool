@@ -246,6 +246,15 @@ export const en = {
 		uebernommenTitel: 'Earlier checklists imported',
 		uebernommenText:
 			'{anzahl} filled-in checklist(s) from before site management now live in the site "Übernommen".',
+		abgleich: 'Sync',
+		abgeglichen: 'Synced',
+		nieAbgeglichen: 'This device only',
+		nieAbgeglichenHinweis:
+			'Without an account everything stays in this browser. Signed in, it syncs across your devices.',
+		abgleichenJetzt: 'Sync now',
+		abgleichLaeuft: 'Syncing…',
+		abgleichKeinNetz: 'No connection — local data kept.',
+		abgleichFehler: 'Sync failed — local data kept.',
 		mehrereHinweis: 'The same template can be started several times — one run per plant.'
 	},
 	referenz: {

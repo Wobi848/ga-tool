@@ -1,5 +1,51 @@
 # Changelog
 
+## v0.12.0 — 2026-09-13
+
+### Objekte und Durchläufe gleichen sich zwischen Geräten ab
+
+Roadmap-Stufe 2. Auf dem Telefon im Technikraum abgehakt, am Laptop im Büro
+weiterschreiben — und wer die Seitendaten löscht, verliert nichts mehr.
+
+- Drei Tabellen `objekt`, `anlage`, `durchlauf`, **je Datensatz eine Zeile**.
+  `user_favorites` legt die ganze Liste als ein JSON ab; das ginge hier nicht,
+  weil dann das zuletzt abgleichende Gerät die Arbeit des anderen komplett
+  überschreibt
+- `GET`/`POST /api/objekte` — ein Aufruf schickt den lokalen Stand, der Server
+  mischt je Datensatz und gibt den gemischten Stand zurück. Zwei Verben statt
+  vier je Entität, weil der Client keine Änderungsliste führt
+- Lokal wird weiterhin **sofort** geschrieben. Die Eingabe wartet nie auf das
+  Netz; ohne Anmeldung bleibt alles auf dem Gerät, wie bisher
+- Anzeige, wann zuletzt abgeglichen wurde
+
+### Löschen hinterlässt einen Grabstein
+
+Bisher wurde ein gelöschter Datensatz entfernt. Beim Abgleich wäre er dadurch
+wieder aufgetaucht: das andere Gerät kennt ihn noch und hält ihn für neu.
+Gelöschtes trägt jetzt `geloeschtAm` und ist aus allen Listen gefiltert —
+sichtbar ändert sich nichts.
+
+### Zwei Regeln, die nicht verhandelbar sind
+
+- **`userId` kommt immer aus der Sitzung, nie aus dem Rumpf.** Sonst schriebe
+  ein Aufrufer mit fremder Kennung in fremde Daten
+- **Eine fremde `id` lässt die fremde Zeile unberührt** — ohne Fehlermeldung,
+  die verriete, dass es sie gibt. Beides ist getestet, und gegengeprüft:
+  entfernt man die Eigentumsprüfung aus dem Schreibweg, fallen genau diese
+  beiden Tests durch
+
+### Nachgewiesen, nicht behauptet
+
+`npm run sync-check` startet einen echten Server mit frischer Datenbank und
+lässt zwei getrennte Browser-Kontexte als Telefon und Laptop dasselbe Konto
+benutzen: Objekt und Durchlauf wandern hinüber, eine Änderung auf B kommt bei A
+an, auf A Gelöschtes bleibt auf B gelöscht, und ohne Anmeldung kommt nichts.
+Gegengeprüft, dass die Prüfung anschlägt, wenn der Abgleich ausbleibt.
+
+Ein echter Fehler kam dabei heraus: `ladeBestand()` baute sein Rückgabeobjekt
+aus festen Feldern und liess `abgeglichenAm` fallen — die Oberfläche hätte nach
+jedem Neuladen «noch nie abgeglichen» gemeldet.
+
 ## v0.11.1 — 2026-09-13
 
 ### HTTPS über Tailscale
