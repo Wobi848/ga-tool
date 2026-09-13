@@ -150,8 +150,18 @@ echo "▸ npm ci (Dependencies)..."
 # also aus dem Quellcode uebersetzt — auf zwei Kernen dauert das Minuten. In
 # dieser Zeit ist der Dienst ohne seine native Bindung. Wenn sich an den
 # Abhaengigkeiten nichts geaendert hat, gibt es keinen Grund dafuer.
+# Laesst sich die native SQLite-Bindung wirklich benutzen?
+#
+# Ein blosses require('better-sqlite3') genuegt nicht: das laedt nur den
+# JavaScript-Teil und gibt auch dann 0 zurueck, wenn better_sqlite3.node
+# fehlt — nachgemessen am 13.09.2026. Erst das Oeffnen einer Datenbank zieht
+# die Bindung wirklich herein.
+sqlite_bindung_ok() {
+	node -e "const D = require('better-sqlite3'); new D(':memory:').close();" >/dev/null 2>&1
+}
+
 LOCK_HASH=$(sha256sum package-lock.json | cut -d" " -f1)
-if [ "$(cat "$NPM_STAMP" 2>/dev/null)" = "$LOCK_HASH" ] && node -e "require('better-sqlite3')" 2>/dev/null; then
+if [ "$(cat "$NPM_STAMP" 2>/dev/null)" = "$LOCK_HASH" ] && sqlite_bindung_ok; then
 	echo "  · Abhaengigkeiten unveraendert — npm ci uebersprungen"
 else
 	npm ci --silent
@@ -164,7 +174,7 @@ fi
 # startete trotzdem neu, und der Dienst blieb unten. Der Health-Check hat das
 # gemeldet — da war der Dienst aber schon weg. Lieber hier abbrechen und den
 # alten Build weiterlaufen lassen.
-if ! node -e "require('better-sqlite3')" 2>/dev/null; then
+if ! sqlite_bindung_ok; then
 	echo "  ✗ better-sqlite3 laesst sich nicht laden."
 	echo "    Abbruch vor dem Neustart — der Dienst laeuft mit dem alten Build weiter."
 	exit 1
