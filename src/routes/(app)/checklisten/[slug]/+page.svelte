@@ -1,11 +1,17 @@
 <script lang="ts">
-	import { onMount, untrack } from 'svelte';
+	import { untrack } from 'svelte';
 	import {
 		loadChecklistState,
 		saveChecklistState,
 		resetChecklistState
 	} from '$lib/checklisten/stores';
 	import { countItems, countCritical } from '$lib/checklisten';
+	import { page } from '$app/stores';
+	import {
+		durchlauf as ladeDurchlauf,
+		durchlaufSpeichern,
+		objekt as ladeObjekt
+	} from '$lib/objekte/store';
 
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _, locale } from 'svelte-i18n';
@@ -29,19 +35,13 @@
 	let editingNote = $state<string | null>(null);
 	let saved = $state(false);
 
-	// Load state on mount
-	onMount(() => {
-		const s = loadChecklistState(untrack(() => template.slug));
-		status = s.status;
-		notes = s.notes;
-		context = {
-			ort: '',
-			anlage: '',
-			techniker: '',
-			datum: new Date().toISOString().slice(0, 10),
-			...s.context
-		};
-	});
+	/* Mit `?durchlauf=<id>` arbeitet die Seite auf einem Durchlauf eines
+	 * Objekts, sonst auf dem alten, vorlagengebundenen Stand. Beides muss
+	 * funktionieren: Vorlagen lassen sich weiterhin direkt aufrufen, und wer
+	 * einen alten Link im Browser hat, soll nicht ins Leere laufen. */
+	const durchlaufId = $derived($page.url.searchParams.get('durchlauf'));
+	let durchlaufTitel = $state('');
+	let durchlaufObjekt = $state<{ id: string; name: string } | null>(null);
 
 	// Auto-save on changes (debounced via effect)
 	$effect(() => {
@@ -50,28 +50,63 @@
 		void notes;
 		void context;
 		const slug = untrack(() => template.slug);
+		const id = untrack(() => durchlaufId);
+		const gesamt = untrack(() => totalItems);
 		const handle = setTimeout(() => {
-			saveChecklistState(slug, { status, notes, context, updatedAt: Date.now() });
+			if (id) {
+				// erledigt leitet der Store selbst aus dem Zustand ab.
+				durchlaufSpeichern(id, { status, notizen: notes, kontext: context, gesamt });
+			} else {
+				saveChecklistState(slug, { status, notes, context, updatedAt: Date.now() });
+			}
 			saved = true;
 			setTimeout(() => (saved = false), 1200);
 		}, 400);
 		return () => clearTimeout(handle);
 	});
 
-	// Reset state when navigating to a different checklist
+	// Zustand laden — bei jedem Wechsel von Vorlage oder Durchlauf
 	$effect(() => {
 		const slug = template.slug;
-		const s = loadChecklistState(slug);
+		const id = durchlaufId;
+
+		let geladen: {
+			status: Record<string, boolean>;
+			notes: Record<string, string>;
+			context: Record<string, string>;
+		};
+		let titel = '';
+		let obj: { id: string; name: string } | null = null;
+
+		if (id) {
+			const d = ladeDurchlauf(id);
+			// Unbekannte Kennung: lieber leer anfangen als den Stand einer
+			// anderen Anlage anzeigen.
+			geladen = {
+				status: d?.status ?? {},
+				notes: d?.notizen ?? {},
+				context: d?.kontext ?? {}
+			};
+			titel = d?.titel ?? '';
+			const o = d ? ladeObjekt(d.objektId) : null;
+			obj = o ? { id: o.id, name: o.name } : null;
+		} else {
+			const s = loadChecklistState(slug);
+			geladen = { status: s.status, notes: s.notes, context: s.context };
+		}
+
 		untrack(() => {
-			status = s.status;
-			notes = s.notes;
+			status = geladen.status;
+			notes = geladen.notes;
 			context = {
 				ort: '',
 				anlage: '',
 				techniker: '',
 				datum: new Date().toISOString().slice(0, 10),
-				...s.context
+				...geladen.context
 			};
+			durchlaufTitel = titel;
+			durchlaufObjekt = obj;
 		});
 	});
 
@@ -102,7 +137,11 @@
 
 	function reset() {
 		if (!confirm($_('checklisten.confirmReset'))) return;
-		resetChecklistState(template.slug);
+		if (durchlaufId) {
+			durchlaufSpeichern(durchlaufId, { status: {}, notizen: {} });
+		} else {
+			resetChecklistState(template.slug);
+		}
 		status = {};
 		notes = {};
 		expandedHints = {};
@@ -167,6 +206,16 @@
 			>
 			{$_('checklisten.backLink')}
 		</a>
+		{#if durchlaufId}
+			<!-- Ohne das weiss niemand, welche Anlage er gerade abhakt — und genau
+			     das war der Grund fuer die Durchlaeufe. -->
+			<div class="durchlauf-band">
+				<span class="dl-titel">{durchlaufTitel || template.title}</span>
+				{#if durchlaufObjekt}
+					<a href="/objekte/{durchlaufObjekt.id}">{durchlaufObjekt.name}</a>
+				{/if}
+			</div>
+		{/if}
 		<div class="title-row">
 			<h1>{t(template.title, template.title_en)}</h1>
 			<FavButton type="checkliste" slug={template.slug} title={template.title} size={20} />
@@ -356,6 +405,31 @@
 </div>
 
 <style>
+	.durchlauf-band {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		flex-wrap: wrap;
+		margin-bottom: 0.6rem;
+		padding: 0.45rem 0.75rem;
+		border: 1px solid var(--border);
+		border-left: 3px solid var(--color-secondary, #0d9488);
+		border-radius: 0.5rem;
+		background: var(--surface);
+		font-size: 0.875rem;
+	}
+	.durchlauf-band .dl-titel {
+		font-weight: 600;
+	}
+	.durchlauf-band a {
+		color: var(--muted);
+		text-decoration: none;
+	}
+	.durchlauf-band a:hover {
+		color: var(--text);
+		text-decoration: underline;
+	}
+
 	.page {
 		max-width: 720px;
 		margin: 0 auto;

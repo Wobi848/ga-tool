@@ -53,7 +53,14 @@
 		}
 		// 1-7 navigate to nav items
 		const num = parseInt(e.key);
-		if (num >= 1 && num <= 7 && !e.ctrlKey && !e.metaKey && !e.altKey && !searchOpen) {
+		if (
+			num >= 1 &&
+			num <= navItems.length &&
+			!e.ctrlKey &&
+			!e.metaKey &&
+			!e.altKey &&
+			!searchOpen
+		) {
 			const target = e.target as HTMLElement | null;
 			const tag = target?.tagName;
 			if (tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT' && !target?.isContentEditable) {
@@ -126,7 +133,8 @@
 			label: () => $_('nav.abbreviations'),
 			icon: 'type',
 			key: 'abkuerzungen'
-		}
+		},
+		{ href: '/objekte', label: () => $_('nav.objects'), icon: 'building', key: 'objekte' }
 	];
 
 	const bottomItems = navItems.slice(0, 5);
@@ -386,6 +394,13 @@
 			<polyline points="4 7 4 4 20 4 20 7" />
 			<line x1="9" y1="20" x2="15" y2="20" />
 			<line x1="12" y1="4" x2="12" y2="20" />
+		{:else if name === 'building'}
+			<path d="M3 21h18" />
+			<path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16" />
+			<path d="M15 21V11h4a2 2 0 0 1 2 2v8" />
+			<line x1="9" y1="7" x2="11" y2="7" />
+			<line x1="9" y1="11" x2="11" y2="11" />
+			<line x1="9" y1="15" x2="11" y2="15" />
 		{:else if name === 'settings'}
 			<circle cx="12" cy="12" r="3" />
 			<path

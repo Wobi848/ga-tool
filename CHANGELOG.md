@@ -1,5 +1,50 @@
 # Changelog
 
+## v0.11.0 — 2026-09-13
+
+### Objekte: dieselbe Checkliste mehrfach führen
+
+Bisher lag der Checklisten-Stand unter `ga-cl-<vorlage>` — **ein Stand je
+Vorlage**. Wer dieselbe IBN-Checkliste für fünf Lüftungsanlagen abarbeitete,
+überschrieb bei der zweiten die erste. Beim Bus-IBN-Konfigurator dasselbe:
+`ga-bus-ibn-project`, Einzahl.
+
+Neu ist das **Objekt** als Klammer: ein Gebäude, darin Anlagen, daran
+Durchläufe. Begriffe aus der Praxis — «Projekt» kommt bewusst nicht vor, das
+meint im Bus-IBN-Konfigurator schon etwas anderes.
+
+- `/objekte` — anlegen, umbenennen, archivieren; Archiviertes bleibt erhalten
+- `/objekte/[id]` — Anlagen und Durchläufe mit Fortschritt, nach Anlage gruppiert
+- Die Checklistenseite arbeitet mit `?durchlauf=<id>` auf einem Durchlauf. Ohne
+  den Parameter verhält sie sich wie bisher — alte Lesezeichen laufen nicht ins
+  Leere
+- Ein Band über der Checkliste zeigt, zu welchem Durchlauf und Objekt sie gehört
+- Der Fortschritt wird im Store **aus dem Zustand abgeleitet**, nicht vom
+  Aufrufer geglaubt; sonst zeigt die Übersicht irgendwann etwas anderes als die
+  Seite
+
+### Frühere Checklisten gehen nicht verloren
+
+Beim ersten Aufruf von `/objekte` wandern vorhandene `ga-cl-*`-Stände in ein
+Objekt «Übernommen». Leere Stände werden übergangen, ein kaputter verhindert die
+übrigen nicht, und die alten Schlüssel bleiben liegen — geht bei der Übernahme
+etwas schief, ist der Stand noch da.
+
+### Übersetzungen werden geprüft
+
+Beim Ergänzen des neuen Bereichs landete der Block zuerst **verschachtelt** an
+der falschen Stelle, weil der Suchmarker auch tiefer im Baum vorkam. Aufgefallen
+ist es durch einen neuen Test, den es vorher nicht gab: Deutsch und Englisch
+müssen dieselben Schlüssel haben, keine leeren Texte enthalten und dieselben
+Platzhalter benutzen.
+
+### Konzept und Roadmap
+
+- [docs/KONZEPT-OBJEKTE.md](docs/KONZEPT-OBJEKTE.md) — warum es das braucht,
+  Datenmodell, Abgleichregel, und was ausdrücklich **nicht** dazugehört
+- [ROADMAP.md](ROADMAP.md) — fünf Stufen, jede für sich nützlich. Diese hier ist
+  Stufe 1; der Server kommt in Stufe 2 als Spiegel dazu, nicht als Ersatz
+
 ## v0.10.1 — 2026-09-13
 
 ### Favoriten und zuletzt Gelesenes sind jetzt auch offline da
