@@ -1,7 +1,7 @@
 {
 	"name": "ga-tool",
 	"private": true,
-	"version": "0.9.8",
+	"version": "0.9.9",
 	"type": "module",
 	"scripts": {
 		"build:meta": "tsx scripts/build-content-meta.ts",
@@ -26,7 +26,8 @@
 		"db:baseline": "DRIZZLE_BASELINE=1 node scripts/migrate.mjs",
 		"db:studio": "drizzle-kit studio",
 		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes",
-		"preflight": "node scripts/preflight.mjs"
+		"preflight": "node scripts/preflight.mjs",
+		"offline-check": "node scripts/offline-check.mjs"
 	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",

@@ -51,4 +51,59 @@ test.describe('Service Worker', () => {
 		expect(manifest.start_url).toBe('/');
 		expect(manifest.icons.length).toBeGreaterThan(0);
 	});
+	test('die Einstiegsseiten landen im Zwischenspeicher', async ({ page }) => {
+		// Ohne das zeigt die installierte App beim ersten Start ohne Netz die
+		// Auffangseite — das Manifest setzt start_url '/', und der Worker legt
+		// eine Seite sonst erst ab, wenn sie besucht wurde.
+		//
+		// Hier wird nur der Zwischenspeicher beobachtet, nicht Offline gespielt:
+		// `context.setOffline()` wirkt nicht auf den Service Worker, ein darauf
+		// gebauter Test besteht auch dann, wenn nichts zwischengespeichert ist.
+		// Der echte Offline-Nachweis steht in scripts/offline-check.mjs, das den
+		// Server wirklich abschaltet.
+		await page.goto('/rechner/taupunkt');
+		await page.evaluate(async () => {
+			await navigator.serviceWorker.ready;
+			if (!navigator.serviceWorker.controller) {
+				await new Promise((r) =>
+					navigator.serviceWorker.addEventListener('controllerchange', r, { once: true })
+				);
+			}
+		});
+
+		const pfade = async () =>
+			await page.evaluate(async () => {
+				if (!(await window.caches.keys()).includes('pages-cache')) return [];
+				const c = await window.caches.open('pages-cache');
+				return (await c.keys()).map((r) => new URL(r.url).pathname);
+			});
+
+		await expect
+			.poll(pfade, { timeout: 20000, message: 'Startseite kam nicht in den Zwischenspeicher' })
+			.toContain('/');
+
+		const inhalt = await pfade();
+		for (const p of ['/rechner', '/wissen', '/konverter']) {
+			expect(inhalt, `${p} fehlt im Zwischenspeicher`).toContain(p);
+		}
+
+		// Zweite Stufe: die Rechner, bei Gelegenheit nachgeladen. Sie sind der
+		// Grund, warum das Werkzeug im Technikraum offline taugen soll.
+		await expect
+			.poll(async () => (await pfade()).filter((p) => p.startsWith('/rechner/')).length, {
+				timeout: 30000,
+				message: 'die Rechner wurden nicht vorgewaermt'
+			})
+			.toBeGreaterThan(15);
+	});
+
+	test('die Auffangseite wird ausgeliefert und nennt, was offline geht', async ({ request }) => {
+		const res = await request.get('/offline.html');
+		expect(res.status()).toBe(200);
+		const html = await res.text();
+		expect(html).toContain('Keine Verbindung');
+		// Sie muss ohne Netz funktionieren — also ohne nachzuladende Schrift
+		// oder Skripte von aussen.
+		expect(html).not.toMatch(/<(script|link)[^>]+(src|href)=["']https?:/);
+	});
 });

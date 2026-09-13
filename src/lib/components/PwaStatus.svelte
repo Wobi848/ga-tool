@@ -26,6 +26,14 @@
 			});
 		});
 
+		// Einstiegsseiten in den Zwischenspeicher holen, sobald der Worker die
+		// Kontrolle hat. Vorher faengt er nichts ab — und ohne das waere selbst
+		// die Startseite offline nicht da, obwohl die installierte App genau
+		// dort startet.
+		navigator.serviceWorker?.ready.then(() => {
+			import('$lib/pwa/warmup').then(({ warmeSeitenVor }) => warmeSeitenVor());
+		});
+
 		isOnline = navigator.onLine;
 		const goOnline = () => (isOnline = true);
 		const goOffline = () => (isOnline = false);

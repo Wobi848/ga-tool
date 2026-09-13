@@ -1,0 +1,248 @@
+<!doctype html>
+<!--
+  Auffangseite ohne Netz.
+
+  Der Service Worker liefert sie, wenn eine Seite aufgerufen wird, die noch
+  nicht im Zwischenspeicher liegt. Vorher stand an dieser Stelle die
+  Fehlerseite des Browsers — und weil das Manifest start_url "/" setzt, traf
+  das auch die installierte App beim Start.
+
+  Bewusst ohne Framework und ohne externe Schrift: sie muss genau dann
+  funktionieren, wenn nichts nachgeladen werden kann.
+-->
+<html lang="de">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="theme-color" content="#7c3aed" />
+		<title>Offline — GA Tool</title>
+		<script>
+			// Dasselbe Vorgehen wie in app.html: Thema vor dem ersten Zeichnen
+			// setzen, sonst blitzt die helle Fassung auf.
+			(function () {
+				try {
+					var t = localStorage.getItem('ga-theme');
+					if (t === 'light' || t === 'dark' || t === 'oled' || t === 'auto') {
+						document.documentElement.setAttribute('data-theme', t);
+					}
+				} catch (e) {}
+			})();
+		</script>
+		<style>
+			:root,
+			[data-theme='light'],
+			[data-theme='auto'] {
+				--bg: #f8fafc;
+				--surface: #ffffff;
+				--border: #e2e8f0;
+				--text: #0f172a;
+				--muted: #64748b;
+				color-scheme: light;
+			}
+			[data-theme='dark'] {
+				--bg: #0f172a;
+				--surface: #1e293b;
+				--border: #334155;
+				--text: #f1f5f9;
+				--muted: #94a3b8;
+				color-scheme: dark;
+			}
+			[data-theme='oled'] {
+				--bg: #000000;
+				--surface: #0a0a0a;
+				--border: #1c1c1c;
+				--text: #f1f5f9;
+				--muted: #94a3b8;
+				color-scheme: dark;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root:not([data-theme='light']):not([data-theme='oled']) {
+					--bg: #0f172a;
+					--surface: #1e293b;
+					--border: #334155;
+					--text: #f1f5f9;
+					--muted: #94a3b8;
+					color-scheme: dark;
+				}
+			}
+			* {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: grid;
+				place-items: center;
+				padding: 24px;
+				background: var(--bg);
+				color: var(--text);
+				font:
+					16px/1.6 system-ui,
+					-apple-system,
+					'Segoe UI',
+					Roboto,
+					sans-serif;
+			}
+			main {
+				width: 100%;
+				max-width: 30rem;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 14px;
+				padding: 32px 28px;
+			}
+			.zeichen {
+				width: 48px;
+				height: 48px;
+				border-radius: 12px;
+				background: #7c3aed;
+				display: grid;
+				place-items: center;
+				margin-bottom: 20px;
+			}
+			.zeichen svg {
+				width: 26px;
+				height: 26px;
+				stroke: #fff;
+				fill: none;
+				stroke-width: 2;
+				stroke-linecap: round;
+			}
+			h1 {
+				margin: 0 0 10px;
+				font-size: 1.35rem;
+				letter-spacing: 0.01em;
+			}
+			p {
+				margin: 0 0 20px;
+				color: var(--muted);
+			}
+			.knoepfe {
+				display: flex;
+				gap: 10px;
+				flex-wrap: wrap;
+			}
+			button,
+			a.knopf {
+				font: inherit;
+				padding: 10px 18px;
+				border-radius: 9px;
+				border: 1px solid var(--border);
+				background: var(--surface);
+				color: var(--text);
+				cursor: pointer;
+				text-decoration: none;
+			}
+			button.wichtig {
+				background: #7c3aed;
+				border-color: #7c3aed;
+				color: #fff;
+			}
+			h2 {
+				font-size: 0.8rem;
+				text-transform: uppercase;
+				letter-spacing: 0.08em;
+				color: var(--muted);
+				margin: 28px 0 10px;
+			}
+			ul {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 2px;
+			}
+			li a {
+				display: block;
+				padding: 9px 12px;
+				border-radius: 8px;
+				color: var(--text);
+				text-decoration: none;
+				border: 1px solid transparent;
+			}
+			li a:hover {
+				border-color: var(--border);
+			}
+			li a span {
+				color: var(--muted);
+				font-size: 0.85rem;
+			}
+			#leer {
+				color: var(--muted);
+				font-size: 0.9rem;
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="zeichen" aria-hidden="true">
+				<svg viewBox="0 0 24 24">
+					<path d="M1 1l22 22M16.7 16.7A6 6 0 0 0 12 15a6 6 0 0 0-4.2 1.7" />
+					<path d="M5 12.5a11 11 0 0 1 3.5-2.3M19 12.5a11 11 0 0 0-3.4-2.3" />
+					<path d="M2 9a16 16 0 0 1 5-3M22 9a16 16 0 0 0-9.5-3.9" />
+					<path d="M12 20h.01" />
+				</svg>
+			</div>
+			<h1>Keine Verbindung</h1>
+			<p>
+				Diese Seite liegt nicht im Zwischenspeicher. Was Sie schon einmal geöffnet haben,
+				funktioniert auch ohne Netz — auch die Rechner.
+			</p>
+			<div class="knoepfe">
+				<button class="wichtig" onclick="location.reload()">Erneut versuchen</button>
+				<a class="knopf" href="/">Zur Startseite</a>
+			</div>
+
+			<h2>Offline verfügbar</h2>
+			<ul id="liste"></ul>
+			<p id="leer" hidden>Noch nichts gespeichert. Die Seiten, die Sie besuchen, stehen danach auch ohne Netz bereit.</p>
+		</main>
+
+		<script>
+			// Zeigt, was tatsaechlich im Zwischenspeicher liegt. Eine Auffangseite,
+			// die nur "kein Netz" sagt, laesst den Benutzer im Dunkeln — hier steht,
+			// was trotzdem geht.
+			(async function () {
+				var liste = document.getElementById('liste');
+				var leer = document.getElementById('leer');
+				try {
+					var namen = await caches.keys();
+					var pfade = [];
+					for (var i = 0; i < namen.length; i++) {
+						var c = await caches.open(namen[i]);
+						var schluessel = await c.keys();
+						for (var j = 0; j < schluessel.length; j++) {
+							var u = new URL(schluessel[j].url);
+							if (u.origin !== location.origin) continue;
+							// Nur Seiten, keine Bausteine.
+							if (/\.(js|css|png|svg|woff2?|ico|json|webmanifest|html)$/.test(u.pathname)) continue;
+							if (u.pathname.indexOf('/_app/') === 0 || u.pathname.indexOf('/api/') === 0) continue;
+							if (pfade.indexOf(u.pathname) === -1) pfade.push(u.pathname);
+						}
+					}
+					pfade.sort();
+					if (!pfade.length) {
+						leer.hidden = false;
+						return;
+					}
+					for (var k = 0; k < pfade.length; k++) {
+						var li = document.createElement('li');
+						var a = document.createElement('a');
+						a.href = pfade[k];
+						var teile = pfade[k].split('/').filter(Boolean);
+						a.textContent = teile.length ? teile[teile.length - 1].replace(/-/g, ' ') : 'Startseite';
+						var s = document.createElement('span');
+						s.textContent = '  ' + pfade[k];
+						a.appendChild(s);
+						li.appendChild(a);
+						liste.appendChild(li);
+					}
+				} catch (e) {
+					leer.hidden = false;
+				}
+			})();
+		</script>
+	</body>
+</html>

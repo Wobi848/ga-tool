@@ -1,5 +1,47 @@
 # Changelog
 
+## v0.9.9 — 2026-09-13
+
+### Offline funktionierte praktisch nicht
+
+v0.9.8 hat den Service Worker endlich angemeldet. Damit war er registriert —
+aber nicht nützlich. Ohne Netz kam bei allem ausser den bereits besuchten
+Seiten die Fehlerseite des Browsers, **auch auf der Startseite**. Das Manifest
+setzt `start_url: "/"`; eine installierte App startete also genau dort und zeigte
+nichts.
+
+Aufgefallen ist das erst, weil ein erster Offline-Test **grün meldete, obwohl er
+nie offline war**: Playwrights `context.setOffline()` wirkt auf die Seite, nicht
+auf den Service Worker. Der holte weiter aus dem Netz. Verraten hat es sich
+dadurch, dass im Zwischenspeicher eine Seite auftauchte, die dort nach der
+Theorie nicht sein konnte.
+
+- **Auffangseite** `static/offline.html` — im Stil der App, ohne Framework und
+  ohne externe Schrift, denn sie muss genau dann funktionieren, wenn nichts
+  nachgeladen werden kann. Sie listet auf, was trotzdem verfügbar ist
+- Angebunden über `precacheFallback` an der Navigations-Regel, **nicht** über
+  `navigateFallback`: das erzeugt eine NavigationRoute, die _jede_ Navigation
+  abfängt. Ausprobiert — damit zeigte die App auch **online** nur noch die
+  Auffangseite
+- **Vorwärmen** der sieben Einstiegsseiten, sobald der Worker die Kontrolle hat,
+  danach bei Gelegenheit die 21 Rechner. Die sind der Grund, warum das Werkzeug
+  im Technikraum offline taugen soll — dort ist selten Empfang. Nicht im
+  Sparmodus des Browsers, und die 122 Artikel bleiben bewusst aussen vor
+- `pages-cache` hält jetzt 120 statt 50 Einträge für 30 statt 7 Tage — bei 50
+  wäre von 28 vorgewärmten Seiten nach etwas Stöbern die Hälfte wieder weg
+
+Nachgewiesen mit `npm run offline-check`: das Skript startet den Server, lässt
+den Worker die Kontrolle übernehmen und **schaltet den Server dann wirklich ab**.
+Gegengeprüft, dass es anschlägt — ohne die Vorwärmung fallen fünf von sieben
+Prüfungen durch.
+
+| ohne Netz aufgerufen | vorher                   | jetzt                  |
+| -------------------- | ------------------------ | ---------------------- |
+| Startseite           | Fehlerseite des Browsers | Dashboard              |
+| besuchte Seite       | funktioniert             | funktioniert           |
+| Rechner, nie besucht | Fehlerseite des Browsers | funktioniert           |
+| Artikel, nie besucht | Fehlerseite des Browsers | Auffangseite mit Liste |
+
 ## v0.9.8 — 2026-09-13
 
 ### Service Worker meldete sich nur auf der Startseite an

@@ -385,6 +385,33 @@ Bei Produktivnutzung wachsen `analytics_event`-Rohdaten unbegrenzt. Der Admin-UI
 
 **Aktueller Stand:** Rollup ist nur via Admin-UI verfügbar. Bei höherem Traffic kann ein API-Endpoint mit Service-Token nachgerüstet werden.
 
+## Offline prüfen
+
+```bash
+npm run build && npm run offline-check
+```
+
+Das Skript startet den Server auf Port 4199, lässt den Service Worker die
+Kontrolle übernehmen, **schaltet den Server dann wirklich ab** und ruft sieben
+Pfade auf. Rückgabewert 1, wenn einer davon nicht das zeigt, was er soll.
+
+Warum ein eigenes Skript und kein Playwright-Test: `context.setOffline(true)`
+wirkt nur auf die Seite, **nicht auf den Service Worker**. Der holt weiter aus
+dem Netz, die Seite lädt, und der Test besteht — ohne je offline gewesen zu
+sein. Genau das ist am 13.09.2026 passiert.
+
+Was ohne Netz funktioniert, und was nicht:
+
+| aufgerufen                                          | Ergebnis                               |
+| --------------------------------------------------- | -------------------------------------- |
+| Startseite, Rechner-, Wissens-, Konverterliste usw. | vorgewärmt, funktioniert               |
+| alle 21 Rechner                                     | vorgewärmt, funktionieren              |
+| jede schon besuchte Seite                           | funktioniert                           |
+| Wissensartikel, nie besucht                         | Auffangseite mit Liste des Verfügbaren |
+
+Die 122 Artikel werden bewusst **nicht** vorgewärmt — das wären 122 Anfragen
+beim ersten Start.
+
 ## Monitoring
 
 Die Überwachung sitzt in **Home Assistant auf VM 100** (`192.168.178.66`), nicht

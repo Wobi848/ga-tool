@@ -74,6 +74,12 @@ export default defineConfig({
 			},
 			workbox: {
 				globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+				// Bleibt null. `navigateFallback` erzeugt eine NavigationRoute, die
+				// *jede* Navigation abfaengt — auch mit Netz. Ausprobiert: die App
+				// zeigte dann online wie offline nur noch die Auffangseite. Die
+				// Auffangseite haengt stattdessen unten an der Navigations-Regel,
+				// wo sie erst greift, wenn weder Netz noch Zwischenspeicher etwas
+				// hergeben.
 				navigateFallback: null,
 				runtimeCaching: [
 					{
@@ -90,9 +96,17 @@ export default defineConfig({
 						handler: 'NetworkFirst',
 						options: {
 							cacheName: 'pages-cache',
-							expiration: { maxEntries: 50, maxAgeSeconds: 60 * 60 * 24 * 7 },
+							// 7 Einstiegsseiten + 21 Rechner werden vorgewaermt; bei 50
+							// waere davon nach etwas Stoebern die Haelfte wieder weg.
+							expiration: { maxEntries: 120, maxAgeSeconds: 60 * 60 * 24 * 30 },
 							networkTimeoutSeconds: 3,
-							cacheableResponse: { statuses: [0, 200] }
+							cacheableResponse: { statuses: [0, 200] },
+							// Greift erst, wenn diese Strategie nichts liefert: kein
+							// Netz und nichts im Zwischenspeicher. Vorher zeigte der
+							// Browser dort seine eigene Fehlerseite — und weil das
+							// Manifest `start_url: '/'` setzt, traf das auch die
+							// installierte App beim Start.
+							precacheFallback: { fallbackURL: '/offline.html' }
 						}
 					}
 				]
