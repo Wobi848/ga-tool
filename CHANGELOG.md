@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.9.7 — 2026-09-13
+
+### Wissensbasis vollständig zweisprachig
+
+- Englische Fassung für die letzten vier Artikel ergänzt: **Temperaturfühler**,
+  **k-Faktor**, **Polynom-Approximation**, **Luftfeuchtigkeit**. Damit haben
+  alle **122 von 122** Artikeln einen `<!-- EN -->`-Teil mit identischer
+  Gliederung.
+
+### Sonstiges
+
+- `package.json` stand seit dem ersten Tag auf `0.0.1` und wurde nie
+  mitgezogen — jetzt auf den tatsächlichen Stand gesetzt.
+- Der Eintrag für v0.9.6 fehlte im Changelog und ist unten nachgetragen.
+
+## v0.9.6 — 2026-05-30
+
+Nachgetragen am 13.09.2026 aus Commit `5f76888`.
+
+- **Build-Time-Metadaten** — Artikel-, Tabellen- und Checklisten-Index wird beim
+  Build erzeugt statt zur Laufzeit
+- **Lazy Content-Loader** — Artikeltexte werden erst bei Bedarf geladen
+- **Volltextsuche** über den generierten Korpus
+- `crypto.randomUUID`-Fallback für HTTP im lokalen Netz ohne HTTPS
+- `server-update.sh --auto` für den Cron-Job
+
 ## v0.9.5 — 2026-05-24
 
 ### Neue Rechner

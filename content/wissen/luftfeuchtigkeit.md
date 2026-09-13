@@ -177,3 +177,148 @@ Sensor-Auswahl + Einbau: siehe [Feuchtesensoren](/wissen/feuchtesensoren).
 | Schwitzwasser an Lüftungskanälen siehst | Dämmung prüfen, Zuluft-Taupunkt unter Kanal-Wandtemperatur halten |
 | nach „Feuchte-Sollwert" für IBN suchst  | DIN EN 16798-1 Kat. I (30–60 %), SIA 382/1 (30–50 % Winter)       |
 | Mischluft-Anteile optimieren willst     | h-x-Diagramm verwenden, Enthalpie der Aussen-/Abluft vergleichen  |
+
+<!-- EN -->
+
+# Air Humidity — Fundamentals for BA
+
+Humidity is a central parameter for both comfort and building physics. Too dry and you get irritated mucous membranes and static problems; too humid and you get mould and condensation. Building automation controls humidity indirectly (through humidification, dehumidification and heat recovery), and to do that you need a handful of terms and the psychrometric chart.
+
+## The Three Terms for "Humidity"
+
+| Quantity              | Symbol | Unit | What it means                                                                                      |
+| --------------------- | ------ | ---- | -------------------------------------------------------------------------------------------------- |
+| **Relative humidity** | φ, RH  | %    | Share of the current water vapour content in the **saturation content at the current temperature** |
+| **Absolute humidity** | ρ_w    | g/m³ | Mass of water vapour per cubic metre of moist air                                                  |
+| **Specific humidity** | x      | g/kg | Mass of water vapour per kilogram of **dry** air — the **HVAC standard**                           |
+
+**Why x in HVAC?** When air is heated it expands, so ρ_w (g/m³) changes even though no water is added or removed. x, by contrast, stays constant as long as you neither humidify nor dehumidify. That makes x the **conserved quantity** under a pure temperature change — and therefore the natural parameter of the psychrometric chart.
+
+## Saturation — Why "Relative" Humidity Is Relative
+
+Warm air can hold more water than cold air. At 0 °C saturation is around 3.8 g/kg, at 20 °C about 14.7 g/kg, at 30 °C about 27 g/kg. RH relates the current water content to this **temperature-dependent maximum**:
+
+$$\varphi = \frac{x}{x_\text{saturation}(T)} \cdot 100\;\%$$
+
+**Consequence:** if you **heat** the same air (same x value), RH falls. If you **cool** it, RH rises — until the **dew point** is reached, RH = 100 % and condensation begins.
+
+### The Classic Winter Example
+
+| Point                                     | T      | RH     | x          |
+| ----------------------------------------- | ------ | ------ | ---------- |
+| Outdoors                                  | −5 °C  | 80 %   | ≈ 2.0 g/kg |
+| Indoors after heating (no humidification) | +22 °C | ≈ 12 % | ≈ 2.0 g/kg |
+| Indoors with comfort humidification       | +22 °C | 40 %   | ≈ 6.6 g/kg |
+
+In winter, indoor air without humidification is **always dry** — no matter how "humid" the outdoor air feels. A day at 80 % RH and −5 °C outside is physically the same air as 12 % RH at 22 °C indoors.
+
+## The Psychrometric Chart (Mollier h-x)
+
+The chart plots the humidity state on four axes:
+
+- **X axis:** specific humidity x [g/kg dry air]
+- **Y axis:** specific enthalpy h [kJ/kg] (skewed, running up to the left)
+- **Isotherms:** slanted lines of constant temperature
+- **RH lines:** curved, from top left (cold, saturated) down to the right
+
+### Typical Operations as Arrows
+
+| HVAC process                                 | Movement in the chart                                            |
+| -------------------------------------------- | ---------------------------------------------------------------- |
+| **Heating** (sensible)                       | straight to the right (T rises, x constant, RH falls)            |
+| **Cooling without condensation**             | straight to the left (T falls, x constant, RH rises)             |
+| **Cooling with condensation**                | left to the 100 % line, then down along it to the left (x falls) |
+| **Adiabatic humidification** (spray, washer) | along the isenthalp — h constant, T falls, x rises               |
+| **Steam humidification**                     | almost vertically upwards (x rises, T nearly constant)           |
+| **Mixing two air streams**                   | on the line joining the two points, weighted by mass flow        |
+| **Sensible heat recovery**                   | temperature shift only — x stays put                             |
+| **Enthalpy heat recovery** (rotary wheel)    | both T and x are exchanged between supply and extract air        |
+
+> The **[psychrometry calculator](/rechner/psychrometrie)** has an interactive chart built in. Enter T + RH (or x, dew point, h) and you see your operating point live in the Carrier chart, together with the RH curves (20/40/60/80/100 %) and the dew point marker on the saturation line.
+
+## Comfort Range
+
+According to **DIN EN 16798-1** and **DIN ISO 7730** the comfort range is:
+
+- **Relative humidity:** 30–60 % (category I), 25–65 % (category II)
+- **Temperature:** 20–24 °C in winter, 23–26 °C in summer
+
+**SIA 382/1** (Switzerland) gives 30–50 % RH in winter and 30–65 % in summer.
+
+| RH          | Assessment                                                                      |
+| ----------- | ------------------------------------------------------------------------------- |
+| < 20 %      | Very dry — mucous membranes, burning eyes, static electricity, timber shrinkage |
+| 20–30 %     | Dry — typical for winter without humidification, already unpleasant for many    |
+| **30–55 %** | **Comfort** — the standard target in comfort ventilation                        |
+| 55–65 %     | Noticeably humid, still acceptable; muggy at higher temperatures                |
+| > 65 %      | Risk of mould on cold building elements if sustained; dust mites thrive         |
+| > 80 %      | Acute building damage on cold walls (dew point reached → condensation)          |
+
+## Too Dry — Consequences and Measures
+
+**Symptoms:**
+
+- Burning eyes, dry throat, more respiratory infections (RKI/WHO studies)
+- Static charge (sparks at door handles, problems in electronics rooms)
+- Parquet and furniture cracking, the classic detuning of pianos and violins
+- More dust in suspension — small particles stay airborne longer
+
+**Measures on the BA side:**
+
+- **Steam humidifier** central in the AHU (controlled and hygienic, but energy-intensive)
+- **Adiabatic humidifier** (high-pressure spray, evaporative) — lower energy, but subject to the hygiene requirements of **VDI 6022**
+- **Heat recovery with an enthalpy exchanger** (rotary wheel with hygroscopic coating) — returns moisture from the extract air to the supply air, often the cheapest "humidification" there is
+
+Detail articles: [Humidifiers](/wissen/befeuchter), [Heat Recovery](/wissen/waermerueckgewinnung).
+
+## Too Humid — Consequences and Measures
+
+**Symptoms:**
+
+- Mould in cold wall corners, behind furniture, in window reveals
+- Dust mites (thriving from around 50 % RH) — allergies
+- Material damage: peeling wallpaper, soaked insulation, corrosion on steel beams
+- A muggy feeling in summer from as little as 60 % RH at 26 °C
+
+**Measures on the BA side:**
+
+- **Cooling with dehumidification** — cool the supply air below dew point, let it condense, then reheat
+- **Desiccant dehumidifier** (silica gel or lithium chloride wheel) — can dehumidify further than cooling does, at a higher energy cost
+- **Ventilating with cooler, drier outdoor air** (usually unproblematic in winter, in summer only effective at night → see [Night Purge Cooling](/wissen/nachtauskuehlung))
+
+## What BA Typically Measures and Controls
+
+| Measured quantity                   | Where                                | What for                                         |
+| ----------------------------------- | ------------------------------------ | ------------------------------------------------ |
+| **Relative humidity**               | room, supply and extract air         | comfort control, humidifier control              |
+| **Dew point**                       | outdoor air, critical building parts | condensation protection, chilled-surface control |
+| **Enthalpy** (computed from T + RH) | AHU energy balance                   | energy metric, optimum mixed-air ratio           |
+
+Sensor selection and installation: see [Humidity Sensors](/wissen/feuchtesensoren).
+
+## Pitfalls in Practice
+
+- **Sensor next to a radiator** → measures locally dry air, not the room average
+- **Sensor in the ceiling** → warm layer, different RH from the occupied zone
+- **RH drift** over time — capacitive sensors need a comparison measurement every two to three years
+- **Humidifier without hygiene maintenance** → legionella risk with spray atomisers (VDI 6022, ÖNORM H 6021)
+- **Controlling comfort by RH alone** — comfort also depends on temperature, radiation and air velocity (see the PMV/PPD comfort model in DIN ISO 7730)
+
+## Related
+
+- **[Humidifiers](/wissen/befeuchter)** — types, control, hygiene
+- **[Humidity Sensors](/wissen/feuchtesensoren)** — measurement, capacitive principle, installation
+- **[Dew Point](/wissen/taupunkt)** — dew point calculator, condensation on building elements
+- **[Heat Recovery](/wissen/waermerueckgewinnung)** — sensible vs enthalpy
+- **[Indoor Air Quality](/wissen/raumluftqualitaet)** — IDA categories, EN 16798
+- **[Psychrometry Calculator](/rechner/psychrometrie)** — h-x points interactively
+
+## Summary
+
+| If you …                                              | You need …                                                                          |
+| ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| have < 30 % RH indoors in winter                      | a humidifier (steam or adiabatic) or enthalpy heat recovery                         |
+| have > 60 % RH and mugginess in summer                | dehumidification via cooling coil or a desiccant dehumidifier                       |
+| see condensation on ventilation ducts                 | check the insulation, keep the supply-air dew point below the duct wall temperature |
+| are looking for a humidity setpoint for commissioning | DIN EN 16798-1 cat. I (30–60 %), SIA 382/1 (30–50 % winter)                         |
+| want to optimise the mixed-air ratio                  | use the psychrometric chart, compare the enthalpy of outdoor and extract air        |

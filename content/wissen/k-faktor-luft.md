@@ -120,3 +120,111 @@ Bei sehr kleinen ΔP (< 5 Pa) wird das Verhältnis Signal/Rauschen schlecht — 
 | 3       | Bei Aussentemperaturen oder Höhen ausserhalb Norm: Dichtekorrektur prüfen    |
 | 4       | Bei IBN: realer k via **k aus Q + ΔP** validieren, abweichend → DDC anpassen |
 | 5       | Filter am ΔP-Eingang 5–15 s, untere ΔP-Schwelle definieren                   |
+
+<!-- EN -->
+
+# k-Factor — Volume Flow from Differential Pressure
+
+In ventilation engineering the **volume flow** is often not measured directly but derived from a **differential pressure** across a measuring section. VAV boxes, swirl diffusers, orifices and nozzles carry a manufacturer-specified **k-factor** for exactly this purpose:
+
+$$Q = k \cdot \sqrt{\Delta P}$$
+
+where
+
+- **Q** in m³/h
+- **ΔP** in Pa
+- **k** carries units (m³/h · Pa⁻⁰·⁵) — strictly a "k-value", in practice simply k
+
+## Where Does the Formula Come From?
+
+From the **Bernoulli equation** for incompressible flow:
+
+$$Q = \alpha \cdot A \cdot \sqrt{\frac{2 \cdot \Delta P}{\rho}}$$
+
+where
+
+- **α** discharge coefficient (geometry factor, roughly 0.6–0.9)
+- **A** cross-section at the measuring point
+- **ρ** air density (≈ 1.204 kg/m³ at 20 °C / 1.013 bar)
+
+The manufacturer **measures** the box or nozzle and folds α, A and the standard density into **one single** k — you then only have to measure ΔP and do the arithmetic.
+
+## Typical k-Values (for Orientation)
+
+| Element                | k range    | Note                               |
+| ---------------------- | ---------- | ---------------------------------- |
+| VAV box DN 125         | 20 – 35    | depends on manufacturer and size   |
+| VAV box DN 200         | 70 – 130   |                                    |
+| VAV box DN 315         | 200 – 350  |                                    |
+| Swirl diffuser         | 15 – 80    | depends on design and size         |
+| Orifice plate ISO 5167 | calculated | from beta ratio + pressure tapping |
+
+> **Important:** these are ballpark figures only. **The real k is in the datasheet** of the specific box, or is determined on site during balancing.
+
+## What the Calculator Is For
+
+[/rechner/k-faktor](/rechner/k-faktor) covers four modes:
+
+| Mode                | When?                                                                               |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| **Q from k + ΔP**   | Commissioning: ΔP sensor reads 70 Pa, datasheet says k = 50 → Q = 50·√70 ≈ 418 m³/h |
+| **ΔP from Q + k**   | Design: target volume flow + k → expected differential pressure at the sensor       |
+| **k from Q + ΔP**   | Calibration: known Q (e.g. from a vane anemometer) + measured ΔP → effective k      |
+| **k from 2 points** | More accurate calibration by averaging two operating points (e.g. low + high)       |
+
+## Density Correction — When Is It Needed?
+
+The manufacturer's k applies to **standard air** (20 °C, 1.013 bar, ρ ≈ 1.204 kg/m³). For significantly different conditions:
+
+$$k_\text{corr} = k \cdot \sqrt{\frac{\rho_\text{standard}}{\rho_\text{actual}}}$$
+
+| Application                                 | Density correction needed? |
+| ------------------------------------------- | -------------------------- |
+| Normal comfort ventilation 10–30 °C         | **No** — error < 2 %       |
+| Outdoor air in winter (−15 °C)              | Probably — error ~6 %      |
+| Hot exhaust air (kitchen, industry, 60 °C+) | **Yes**                    |
+| Altitude (mountain lodge > 1500 m)          | **Yes** — ρ markedly lower |
+| Cleanroom AHU with over- or under-pressure  | **Yes**                    |
+
+The calculator offers density correction as an optional toggle.
+
+## In Practice: Commissioning a VAV Box
+
+**1.** Read the datasheet k (e.g. k = 65 for a DN 160 box, manufacturer XY).
+
+**2.** Define the target volume flow, e.g. Q_target = 400 m³/h for an office with four people.
+
+**3.** Calculate the expected differential pressure:
+
+$$\Delta P_\text{target} = \left(\frac{Q}{k}\right)^2 = \left(\frac{400}{65}\right)^2 ≈ 38\;\text{Pa}$$
+
+**4.** Open the control damper manually to 50 %, read the actual ΔP on the DDC and compare with the target.
+
+**5.** Adjust the damper until ΔP_actual ≈ 38 Pa.
+
+**6.** Optionally cross-check Q with an anemometer at the outlet — if the deviation exceeds 10 %, recalculate k from the measurement (mode **k from Q + ΔP**) and store it in the DDC.
+
+## Jumping Values at Small ΔP
+
+At very small ΔP (< 5 Pa) the signal-to-noise ratio gets poor and the calculated Q jumps accordingly. Countermeasures:
+
+- **Set the filter time on the AI object** to 5–15 s (see [Polynomial Approximation](/wissen/polynom-approximation) for similar advice on sensors)
+- **Minimum ΔP threshold** in code: below, say, 2 Pa force Q to 0 (the box is practically closed anyway)
+- **Log the damper position as well** — 0 % damper together with ΔP > 0 usually means the box leaks, or the high/low tappings are swapped
+
+## Related
+
+- **[Flow Measurement](/wissen/durchflussmessung)** — Bernoulli basics plus other methods (EM, ultrasonic, Pitot tube)
+- **[VAV / CAV](/wissen/vav-cav)** — designs and control strategies
+- **[Ventilation Pressure Control](/wissen/druckregelung-lueftung)** — zone pressure control, cascades
+- **[Pressure Sensors](/wissen/drucksensoren)** — selection and installation for differential pressure measurement
+
+## Summary
+
+| Step | What to do                                                                                    |
+| ---- | --------------------------------------------------------------------------------------------- |
+| 1    | Read the k-factor from the datasheet of the box or nozzle                                     |
+| 2    | Pipe the pressure tappings correctly (do not swap high and low)                               |
+| 3    | For temperatures or altitudes outside the standard: check the density correction              |
+| 4    | During commissioning: validate the real k via **k from Q + ΔP**, adjust the DDC if it differs |
+| 5    | Filter on the ΔP input 5–15 s, define a lower ΔP threshold                                    |
