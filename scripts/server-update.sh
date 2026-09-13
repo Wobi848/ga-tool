@@ -15,6 +15,7 @@
 set -e
 
 APP_DIR="${APP_DIR:-/opt/ga-tool}"
+# Vorgabe wird nach dem Laden der .env durch DATABASE_URL ersetzt, falls gesetzt.
 DB_PATH="${DB_PATH:-/var/lib/ga-tool/local.db}"
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
 SERVICE="${SERVICE:-ga-tool}"
@@ -25,6 +26,22 @@ AUTO=0
 if [ "${1:-}" = "--auto" ]; then AUTO=1; fi
 
 cd "$APP_DIR"
+
+# .env laden. systemd zieht sie ueber EnvironmentFile in den Dienst, dieses
+# Skript laeuft aber daneben und sieht sie sonst nicht — db:migrate bricht
+# dann mit "DATABASE_URL is not set" ab, nachdem npm ci schon gelaufen ist.
+if [ -f "$APP_DIR/.env" ]; then
+	set -a
+	# shellcheck disable=SC1091
+	. "$APP_DIR/.env"
+	set +a
+fi
+
+# DATABASE_URL gewinnt, wenn vorhanden — sonst laufen Sicherung und Dienst
+# auf verschiedene Dateien, und das Backup sichert die falsche.
+if [ -n "${DATABASE_URL:-}" ]; then
+	DB_PATH=$(echo "$DATABASE_URL" | sed "s|^file:||")
+fi
 
 echo "═════════════════════════════════════════════"
 echo "  GA-Tool Server-Update"
