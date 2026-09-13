@@ -2,7 +2,9 @@
 // @ts-nocheck — Interne sim-Variablen sind absichtlich nicht reaktiv
 //               (RAF-Loop mutiert mit hoher Frequenz). Volle TS-Pruefung
 //               wuerde noisy implicit-any/never[]-Fehler erzwingen ohne
-//               echten Nutzen — Logik ist via Tests abgedeckt.
+//               echten Nutzen — die Logik ist stattdessen durch
+//               simulation.test.ts abgedeckt (28 Tests, angetrieben ueber
+//               advance()).
 
 /* PID-Regler-Simulation als Svelte-5-Klasse mit Runes.
  *
@@ -125,6 +127,25 @@ export class PIDSim {
 			cancelAnimationFrame(this.#raf);
 			this.#raf = null;
 		}
+	}
+
+	/** Treibt die Simulation um `seconds` Simulationszeit weiter — ohne Zeitgeber.
+	 *
+	 * `start()` haengt an `requestAnimationFrame` und laesst sich ausserhalb
+	 * eines Browsers nicht antreiben. `advance` macht dieselben Schritte mit
+	 * festem dt, damit die Regellogik deterministisch pruefbar ist. Ohne diesen
+	 * Weg waere der Hinweis im Dateikopf — Logik sei durch Tests abgedeckt —
+	 * schlicht nicht einloesbar.
+	 *
+	 * @param {number} seconds Simulationszeit in Sekunden
+	 * @param {number} [dt] Schrittweite; Vorgabe wie im RAF-Loop
+	 * @returns {object} der aktuelle display-Schnappschuss
+	 */
+	advance(seconds, dt = 0.05) {
+		const steps = Math.max(0, Math.round(seconds / dt));
+		for (let i = 0; i < steps; i++) this.#step(dt);
+		this.#commitDisplay();
+		return this.display;
 	}
 
 	reset(initY = 0) {
