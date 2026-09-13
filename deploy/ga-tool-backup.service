@@ -1,0 +1,13 @@
+[Unit]
+Description=GA Tool — Datenbanksicherung
+Documentation=file:/opt/ga-tool/DEPLOYMENT.md
+
+[Service]
+Type=oneshot
+ExecStart=/opt/ga-tool/deploy/ga-tool-backup.sh
+# Laeuft als root, weil es nach /var/backups schreibt. Sonst nichts.
+ProtectSystem=strict
+ReadWritePaths=/var/backups/ga-tool /var/lib/ga-tool
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true

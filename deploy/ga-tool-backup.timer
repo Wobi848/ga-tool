@@ -1,0 +1,11 @@
+[Unit]
+Description=GA Tool — taegliche Datenbanksicherung
+
+[Timer]
+OnCalendar=daily
+# Nicht Punkt Mitternacht, und nach einem Ausfall nachholen.
+RandomizedDelaySec=30m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

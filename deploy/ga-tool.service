@@ -1,0 +1,55 @@
+[Unit]
+Description=GA Tool
+After=network.target tailscaled.service
+
+[Service]
+Type=simple
+# Unprivilegiert. Der Dienst braucht nur seine Datenbank zu schreiben.
+User=ga-tool
+Group=ga-tool
+WorkingDirectory=/opt/ga-tool
+# systemd liest die Datei als root, bevor es die Rechte abgibt — die
+# Geheimnisse bleiben dadurch fuer den Dienstbenutzer selbst unlesbar.
+EnvironmentFile=/opt/ga-tool/.env
+Environment=NODE_ENV=production
+Environment=PORT=3700
+ExecStart=/usr/bin/env node build/index.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+# Dateisystem: alles nur lesbar ausser der Datenbank.
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/ga-tool
+PrivateTmp=true
+PrivateDevices=true
+
+# Rechte: keine, und keine neuen dazu.
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictSUIDSGID=true
+RemoveIPC=true
+
+# Kernel und Namensraeume bleiben aussen vor.
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+ProtectProc=invisible
+RestrictNamespaces=true
+RestrictRealtime=true
+LockPersonality=true
+
+# Netz: nur IP und Unix-Sockets. Port 3700 braucht keine Privilegien.
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+# Kein MemoryDenyWriteExecute — das bricht den JIT von Node.
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=multi-user.target

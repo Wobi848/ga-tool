@@ -125,45 +125,48 @@ Backup vorher empfohlen: `cp /var/lib/ga-tool/local.db /var/lib/ga-tool/local.db
 
 ## Systemd-Unit (Production)
 
-`/etc/systemd/system/ga-tool.service`:
+Die Unit liegt als [`deploy/ga-tool.service`](deploy/ga-tool.service) im Repo —
+Wort fuer Wort die, die auf dem Server laeuft. Vorher stand hier eine Abschrift,
+und die war irgendwann etwas anderes als die Wirklichkeit: die Doku zeigte einen
+unprivilegierten Dienst auf Port 3000, tatsaechlich lief er als `root` auf 3700.
+Darum steht sie jetzt nur noch an einer Stelle.
 
-```ini
-[Unit]
-Description=GA Tool
-After=network.target
+Der Dienst laeuft unter dem Systembenutzer `ga-tool` und darf ausser
+`/var/lib/ga-tool` nichts beschreiben. Die `.env` gehoert bewusst **root** und
+bleibt auf `600`: `systemd` liest sie, bevor es die Rechte abgibt — der
+Dienstbenutzer selbst kommt an die Geheimnisse also nicht heran.
 
-[Service]
-Type=simple
-User=ga-tool
-WorkingDirectory=/opt/ga-tool
-EnvironmentFile=/opt/ga-tool/.env
-Environment=NODE_ENV=production
-Environment=PORT=3000
-ExecStart=/usr/bin/node build/index.js
-Restart=on-failure
-RestartSec=5
-StandardOutput=journal
-StandardError=journal
-
-# Hardening
-NoNewPrivileges=true
-ProtectSystem=strict
-ProtectHome=true
-ReadWritePaths=/var/lib/ga-tool
-
-[Install]
-WantedBy=multi-user.target
-```
-
-Aktivieren:
+Einrichten:
 
 ```bash
-sudo useradd -r -s /bin/false ga-tool
-sudo chown -R ga-tool:ga-tool /opt/ga-tool /var/lib/ga-tool
+sudo useradd --system --no-create-home --home-dir /var/lib/ga-tool \
+     --shell /usr/sbin/nologin ga-tool
+sudo chown -R ga-tool:ga-tool /var/lib/ga-tool
+sudo chmod 750 /var/lib/ga-tool
+# /opt/ga-tool bleibt root — der Dienst liest dort nur, und
+# server-update.sh baut dort als root.
+sudo install -m 644 /opt/ga-tool/deploy/ga-tool.service /etc/systemd/system/
+sudo systemd-analyze verify /etc/systemd/system/ga-tool.service
 sudo systemctl daemon-reload
 sudo systemctl enable --now ga-tool
-sudo systemctl status ga-tool
 ```
+
+Pruefen, dass die Haertung nicht nur dasteht, sondern greift:
+
+```bash
+# laeuft er wirklich unprivilegiert?
+ps -o user=,cmd= -p "$(systemctl show ga-tool -p MainPID --value)"
+# kommt ein Schreibvorgang durch die App noch durch?
+sqlite3 /var/lib/ga-tool/local.db "select count(*) from analytics_event;"
+curl -s -X POST localhost:3700/api/track -H 'Content-Type: application/json' \
+     -d '{"path":"/rechner/taupunkt"}'
+sqlite3 /var/lib/ga-tool/local.db "select count(*) from analytics_event;"  # +1
+systemd-analyze security ga-tool
+```
+
+Der Health-Endpunkt liest nur. Er bestaetigt die Haertung also **nicht** — dazu
+braucht es den Schreibtest oben. `MemoryDenyWriteExecute` fehlt mit Absicht: es
+bricht den JIT von Node.
 
 Logs: `journalctl -u ga-tool -f`
 
@@ -336,7 +339,11 @@ Von Hand zu erledigen, weil es am Zielsystem hängt:
 - [ ] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
       wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
       wurde, ist eine Vermutung
-- [ ] systemd-Unit hat `ProtectSystem=strict`, läuft als unprivilegierter User
+- [x] systemd-Unit hat `ProtectSystem=strict`, läuft als unprivilegierter User
+      — seit 13.09.2026 auf CT 101. Nachgeprüft: der Prozess läuft als
+      `ga-tool`, und ein `POST /api/track` erzeugt weiterhin eine Zeile in
+      `analytics_event` (572 → 573). Ohne diesen Schreibtest wäre nur belegt,
+      dass der Dienst startet
 - [ ] Health-Endpoint (`/api/health`) ist im Monitoring eingehängt — er liefert
       **503** bei nicht erreichbarer Datenbank, darauf lässt sich alarmieren
 - [ ] CI ist grün (`lint`, `check`, `test`, `e2e`)

@@ -26,6 +26,8 @@ BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
 SERVICE="${SERVICE:-ga-tool}"
 # Haelt den Commit fest, mit dem zuletzt ein Lauf vollstaendig durchkam.
 STAMP="${STAMP:-/var/lib/ga-tool/.last-deploy}"
+# Benutzer, unter dem der Dienst laeuft — siehe ga-tool.service.
+RUNAS="${RUNAS:-ga-tool}"
 HEALTH_URL="${HEALTH_URL:-http://localhost:3700/api/health}"
 
 # --auto:  kein interaktiver Prompt, beendet sich still wenn nichts zu tun ist
@@ -121,6 +123,12 @@ echo
 
 echo "▸ DB-Migrationen anwenden..."
 npm run db:migrate --silent
+# Die Migration laeuft als root. SQLite legt dabei -wal und -shm neben der
+# Datenbank an; die gehoerten dann root, und der unprivilegierte Dienst
+# koennte hinterher nicht mehr schreiben.
+if id "$RUNAS" >/dev/null 2>&1; then
+	chown -R "$RUNAS:$RUNAS" "$(dirname "$DB_PATH")"
+fi
 echo
 
 echo "▸ Build..."
