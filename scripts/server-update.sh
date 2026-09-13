@@ -3,11 +3,16 @@
 #
 # Workflow:
 #   1. Aktuelle Version anzeigen
-#   2. DB-Backup ziehen (Sicherheitsnetz)
-#   3. git pull
+#   2. git pull (danach neu starten, falls dieses Skript selbst dabei war)
+#   3. DB-Backup ziehen (Sicherheitsnetz)
 #   4. npm ci + db:migrate + build
 #   5. systemctl restart
-#   6. Health-Check + neue Version anzeigen
+#   6. Health-Check, dann Commit in $STAMP festhalten
+#
+# Der Stempel in $STAMP ist der Unterschied zwischen "der Code ist aktuell"
+# und "das Update ist angekommen". Ein Lauf, der nach dem git pull abbricht,
+# laesst den Code aktuell und den Dienst auf dem alten Build zurueck; ohne
+# Stempel meldet der naechste Lauf dann "nichts zu tun".
 #
 # Bricht bei jedem Fehler ab (set -e). DB-Backup bleibt erhalten falls
 # was schief geht.
@@ -19,11 +24,20 @@ APP_DIR="${APP_DIR:-/opt/ga-tool}"
 DB_PATH="${DB_PATH:-/var/lib/ga-tool/local.db}"
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
 SERVICE="${SERVICE:-ga-tool}"
+# Haelt den Commit fest, mit dem zuletzt ein Lauf vollstaendig durchkam.
+STAMP="${STAMP:-/var/lib/ga-tool/.last-deploy}"
 HEALTH_URL="${HEALTH_URL:-http://localhost:3700/api/health}"
 
-# --auto: kein interaktiver Prompt, beendet sich still wenn kein Update verfuegbar
+# --auto:  kein interaktiver Prompt, beendet sich still wenn nichts zu tun ist
+# --force: baut auch dann neu, wenn der Code schon aktuell ist
 AUTO=0
-if [ "${1:-}" = "--auto" ]; then AUTO=1; fi
+FORCE=0
+for arg in "$@"; do
+	case "$arg" in
+	--auto) AUTO=1 ;;
+	--force) FORCE=1 ;;
+	esac
+done
 
 cd "$APP_DIR"
 
@@ -58,7 +72,27 @@ echo "▸ Code-Update von GitHub..."
 git fetch origin
 LOCAL=$(git rev-parse HEAD)
 REMOTE=$(git rev-parse @{u})
-if [ "$LOCAL" = "$REMOTE" ]; then
+if [ "$LOCAL" != "$REMOTE" ]; then
+	git pull --ff-only
+	# git pull hat gerade dieses Skript unter dem laufenden Interpreter
+	# ausgetauscht. bash liest Skripte haeppchenweise nach, ab hier waere das
+	# Verhalten undefiniert — also einmal mit der frischen Fassung neu starten.
+	if [ "${GA_UPDATE_REEXEC:-0}" != "1" ]; then
+		echo "  · Skript wurde mitaktualisiert — starte es neu."
+		export GA_UPDATE_REEXEC=1
+		exec "$0" "$@"
+	fi
+elif [ "$FORCE" = "1" ]; then
+	echo "  · Kein neuer Code — Neubau auf Wunsch (--force)."
+elif [ "${GA_UPDATE_REEXEC:-0}" = "1" ]; then
+	echo "  · Code frisch gezogen — weiter mit dem Neubau."
+elif [ "$(cat "$STAMP" 2>/dev/null)" != "$LOCAL" ]; then
+	# Der Code ist aktuell, aber kein Lauf ist damit je durchgekommen: ein
+	# frueherer Versuch hat gezogen und dann abgebrochen. Wer nur auf git
+	# schaut, meldet hier faelschlich "nichts zu tun" — und laesst einen halb
+	# angewandten Stand stehen.
+	echo "  · Code ist aktuell, der letzte Lauf kam aber nicht durch — baue neu."
+else
 	echo "  ✓ Bereits auf neuestem Stand (v$OLD_VERSION) — kein Update noetig."
 	if [ "$AUTO" = "1" ]; then exit 0; fi
 	echo
@@ -68,8 +102,6 @@ if [ "$LOCAL" = "$REMOTE" ]; then
 		echo "Abgebrochen."
 		exit 0
 	fi
-else
-	git pull --ff-only
 fi
 echo
 
@@ -117,6 +149,9 @@ else
 	exit 1
 fi
 echo
+
+# Erst jetzt — nach bestandenem Health-Check — gilt der Lauf als durchgekommen.
+git rev-parse HEAD >"$STAMP"
 
 NEW_VERSION=$(grep "APP_VERSION" src/lib/version.ts | sed -E "s/.*'([0-9.]+)'.*/\1/")
 echo "═════════════════════════════════════════════"
