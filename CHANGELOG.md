@@ -1,5 +1,42 @@
 # Changelog
 
+## v0.9.8 — 2026-09-13
+
+### Service Worker meldete sich nur auf der Startseite an
+
+Die Offline-Funktion war seit ihrer Einführung praktisch tot. `vite-plugin-pwa`
+leitet den Pfad zum Service Worker aus Vites `base` ab, und SvelteKit setzt
+`paths.relative` von Haus aus auf `true`. Daraus wurde
+`new Workbox('./sw.js', { scope: './' })` — auf `/` ging das gut, auf
+`/rechner/taupunkt` wurde daraus ein `GET /rechner/sw.js` und damit ein 404.
+
+Sichtbar kaputt war dabei nichts: die Seite lädt normal, die App ist
+installierbar, nur offline funktioniert sie nicht. Im Serverlog stand ein 404,
+den niemand einem Feature zuordnet. Gefunden wurde er, weil er in der
+Playwright-Ausgabe mitlief.
+
+- `base` und `scope` des PWA-Plugins stehen jetzt fest auf `/`
+- Neuer e2e-Test `e2e/pwa.spec.ts`, der auf einer **Unterseite** prüft, ob sich
+  der Service Worker anmeldet und sein Scope die Wurzel ist. Gegengeprüft: ohne
+  den Fix schlägt er fehl
+
+### Betrieb
+
+- Der Dienst läuft nicht mehr als `root`, sondern als Systembenutzer `ga-tool`
+  mit `ProtectSystem=strict` und Schreibrecht nur auf `/var/lib/ga-tool`. Die
+  `.env` bleibt `root:600` — `systemd` liest sie, bevor es die Rechte abgibt
+- Die Unit liegt als `deploy/ga-tool.service` im Repo. Die Abschrift in
+  `DEPLOYMENT.md` war etwas anderes als die Wirklichkeit geworden
+- Tägliche Datenbanksicherung per Timer, die die Kopie anschließend **öffnet**
+  (`integrity_check` und Tabellenzahl). Ein Restore wurde durchgespielt, nicht
+  nur beschrieben
+- `server-update.sh` lädt die `.env`, bevor es migriert — vorher brach es mit
+  `DATABASE_URL is not set` ab, nachdem `npm ci` schon gelaufen war
+- `server-update.sh` erkennt einen abgebrochenen Vorlauf. Vorher hing die
+  Entscheidung allein an git: ein Lauf, der nach dem `git pull` abbrach, ließ
+  den Dienst auf dem alten Build stehen, und der nächste `--auto`-Lauf meldete
+  „bereits auf neuestem Stand"
+
 ## v0.9.7 — 2026-09-13
 
 ### Wissensbasis vollständig zweisprachig

@@ -19,6 +19,15 @@ export default defineConfig({
 		VitePWA({
 			registerType: 'autoUpdate',
 			devOptions: { enabled: false },
+			// Absolut, nicht relativ. SvelteKit setzt `paths.relative` von Haus aus
+			// auf true; darueber wird auch Vites `base` relativ, und das Plugin
+			// erzeugte daraus `new Workbox('./sw.js', { scope: './' })`. Auf der
+			// Startseite ging das gut — auf /rechner/taupunkt wurde daraus ein
+			// GET /rechner/sw.js, also 404, und der Service Worker meldete sich
+			// nie an. Ohne Fehlermeldung: die Registrierung faellt still auf die
+			// Nase, die Seite laeuft weiter, nur offline geht nichts.
+			base: '/',
+			scope: '/',
 			manifest: {
 				name: 'GA Tool',
 				short_name: 'GA Tool',

@@ -162,15 +162,84 @@ pruefe('keine bekannten Sicherheitsluecken hoher Stufe', () => {
 	}
 });
 
+console.log('\nBetrieb');
+
+/* Die Unit und die Sicherung liegen im Repo, also lassen sie sich hier
+ * pruefen. Was am Zielsystem daraus wird, steht darunter — aber eine Unit,
+ * aus der jemand die Haertung wieder herausnimmt, faellt so wenigstens auf,
+ * bevor sie ausgerollt wird. */
+
+pruefe('die systemd-Unit liegt im Repo', () => ({
+	ok: existsSync(join(wurzel, 'deploy/ga-tool.service'))
+}));
+
+pruefe('die Unit laeuft nicht als root', () => {
+	const u = readFileSync(join(wurzel, 'deploy/ga-tool.service'), 'utf8');
+	const m = u.match(/^User=(.+)$/m);
+	return {
+		ok: Boolean(m) && m[1].trim() !== 'root',
+		info: m ? `User=${m[1].trim()}` : 'kein User='
+	};
+});
+
+pruefe('die Unit ist gehaertet', () => {
+	const u = readFileSync(join(wurzel, 'deploy/ga-tool.service'), 'utf8');
+	const noetig = [
+		'ProtectSystem=strict',
+		'NoNewPrivileges=true',
+		'ProtectHome=true',
+		'PrivateTmp=true',
+		'ReadWritePaths='
+	];
+	const fehlt = noetig.filter((d) => !u.includes(d));
+	return { ok: fehlt.length === 0, info: fehlt.length ? `fehlt: ${fehlt.join(', ')}` : '' };
+});
+
+pruefe('die Unit darf nur die Datenbank beschreiben', () => {
+	const u = readFileSync(join(wurzel, 'deploy/ga-tool.service'), 'utf8');
+	const pfade = [...u.matchAll(/^ReadWritePaths=(.+)$/gm)].flatMap((m) => m[1].trim().split(/\s+/));
+	const fremd = pfade.filter((x) => !x.startsWith('/var/lib/ga-tool'));
+	return { ok: pfade.length > 0 && fremd.length === 0, info: fremd.join(', ') };
+});
+
+pruefe('MemoryDenyWriteExecute steht nicht drin', () => {
+	// Es bricht den JIT von Node — der Dienst startet dann gar nicht erst.
+	const u = readFileSync(join(wurzel, 'deploy/ga-tool.service'), 'utf8');
+	return { ok: !/^MemoryDenyWriteExecute=yes/m.test(u) };
+});
+
+pruefe('Sicherung samt Timer liegt im Repo', () => {
+	const fehlt = [
+		'deploy/ga-tool-backup.sh',
+		'deploy/ga-tool-backup.service',
+		'deploy/ga-tool-backup.timer'
+	].filter((f) => !existsSync(join(wurzel, f)));
+	return { ok: fehlt.length === 0, info: fehlt.join(', ') };
+});
+
+pruefe('die Sicherung prueft die Kopie, statt sie nur abzulegen', () => {
+	// Eine Sicherung, die niemand aufmacht, ist eine Vermutung.
+	const b = readFileSync(join(wurzel, 'deploy/ga-tool-backup.sh'), 'utf8');
+	return { ok: b.includes('integrity_check') && b.includes('sqlite_master') };
+});
+
+pruefe('APP_VERSION und package.json stimmen ueberein', () => {
+	const v = readFileSync(join(wurzel, 'src/lib/version.ts'), 'utf8').match(/'([\d.]+)'/)?.[1];
+	const p = JSON.parse(readFileSync(join(wurzel, 'package.json'), 'utf8')).version;
+	return { ok: v === p, info: v === p ? `v${p}` : `version.ts ${v} ≠ package.json ${p}` };
+});
+
 console.log(`\n${grau}Nur am Zielsystem pruefbar — hier bewusst offen:${weg}`);
 for (const z of [
 	'Reverse Proxy terminiert HTTPS (Let’s Encrypt o.ä.)',
-	'taegliches Backup der Datenbank laeuft und wurde einmal zurueckgespielt',
-	'systemd-Unit mit ProtectSystem=strict, unprivilegierter Benutzer',
 	'Health-Endpunkt ist im Monitoring eingehaengt'
 ]) {
 	console.log(`  ${grau}·${weg} ${z}`);
 }
+console.log(
+	`  ${grau}·${weg} ${grau}Unit und Sicherung sind auf CT 101 seit 13.09.2026 eingerichtet;${weg}`
+);
+console.log(`    ${grau}der Restore wurde dort einmal durchgespielt${weg}`);
 
 console.log('');
 if (fehler) {
