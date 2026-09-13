@@ -25,7 +25,8 @@
 		"db:migrate": "node scripts/migrate.mjs",
 		"db:baseline": "DRIZZLE_BASELINE=1 node scripts/migrate.mjs",
 		"db:studio": "drizzle-kit studio",
-		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes"
+		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes",
+		"preflight": "node scripts/preflight.mjs"
 	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",

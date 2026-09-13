@@ -310,12 +310,33 @@ Gleiches Pattern wie beim Erststart, siehe [Schritt 6](#6-ersten-admin-user-anle
 
 ## Sicherheits-Checkliste vor Go-Live
 
-- [ ] `BETTER_AUTH_SECRET` ist 32+ Zeichen lang und einmalig generiert
-- [ ] `.env` ist `chmod 600` und gehört dem Service-User
-- [ ] `ORIGIN` ist die korrekte HTTPS-URL
-- [ ] DB liegt in persistentem Volume mit täglichem Backup
-- [ ] Reverse Proxy macht HTTPS (Let's Encrypt o.ä.)
-- [ ] `local.db` ist NICHT im Web-Document-Root erreichbar
+**Das meiste davon prüft `npm run preflight` selbst.** Ein Haken, den ein
+Mensch setzt, sagt nur, dass jemand hingeschaut hat — nicht, dass es stimmt.
+
+```bash
+npm run preflight            # lokal
+npm run preflight -- --prod  # auf dem Zielsystem, strenger
+```
+
+Automatisch geprüft:
+
+- `BETTER_AUTH_SECRET` ist 32+ Zeichen und kein Platzhalter
+- `.env` steht auf `chmod 600` und ist nicht versioniert
+- `ORIGIN` ist eine HTTPS-URL _(lokal nur Warnung, mit `--prod` Fehler)_
+- `DATABASE_URL` ist gesetzt und zeigt nicht in `static/` oder `build/client/`
+- keine `.db`/`.sqlite` ist versioniert
+- Arbeitsverzeichnis ist sauber _(mit `--prod` Fehler)_
+- Health-Endpunkt existiert
+- `package.json` trägt eine echte Version, nicht mehr `0.0.1`
+- `npm audit` meldet keine Lücke der Stufe _high_
+
+Von Hand zu erledigen, weil es am Zielsystem hängt:
+
+- [ ] Reverse Proxy terminiert HTTPS (Let's Encrypt o.ä.)
+- [ ] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
+      wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
+      wurde, ist eine Vermutung
 - [ ] systemd-Unit hat `ProtectSystem=strict`, läuft als unprivilegierter User
-- [ ] Health-Endpoint ist im Monitoring eingehängt
+- [ ] Health-Endpoint (`/api/health`) ist im Monitoring eingehängt — er liefert
+      **503** bei nicht erreichbarer Datenbank, darauf lässt sich alarmieren
 - [ ] CI ist grün (`lint`, `check`, `test`, `e2e`)
