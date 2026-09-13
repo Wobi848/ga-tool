@@ -21,11 +21,22 @@
 				} catch (e) {}
 			})();
 		</script>
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+		<!-- Schriften kommen aus dem eigenen Haus, siehe layout.css. Vorgeladen
+		     wird nur der latin-Schnitt: der deckt den Alltag ab, latin-ext holt
+		     der Browser nur, wenn ein Zeichen daraus vorkommt. -->
 		<link
-			href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Bebas+Neue&display=swap"
-			rel="stylesheet"
+			rel="preload"
+			href="/fonts/rubik-variabel-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="preload"
+			href="/fonts/bebas-neue-400-latin.woff2"
+			as="font"
+			type="font/woff2"
+			crossorigin="anonymous"
 		/>
 		%sveltekit.head%
 	</head>

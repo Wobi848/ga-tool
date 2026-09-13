@@ -1,5 +1,43 @@
 # Changelog
 
+## v0.10.0 — 2026-09-13
+
+### Schriften kommen aus dem eigenen Haus
+
+Jede Seite holte Rubik und Bebas Neue von `fonts.googleapis.com`. Für ein
+Werkzeug, das im Technikraum ohne Empfang funktionieren soll, ist das eine
+Fremdabhängigkeit im kritischen Pfad — und die IP jedes Nutzers ging bei jedem
+Seitenaufruf an Google.
+
+- Beide Schriften liegen jetzt unter `static/fonts/`, eingebunden über
+  `@font-face` in `layout.css`
+- Rubik als **variable Schrift**: eine Datei für 400–700 statt vier Schnitten.
+  Nur `latin` und `latin-ext` — zusammen **76 KB statt 236 KB**
+- Der `latin`-Schnitt wird vorgeladen, `latin-ext` holt der Browser nur, wenn
+  ein Zeichen daraus vorkommt
+- Die Google-Fonts-Regel im Service Worker ist raus, es gibt dort nichts mehr
+  zu holen. Dafür liegen die Schriften jetzt im Precache — die App sieht also
+  auch beim ersten Start ohne Netz richtig aus
+- Neuer e2e-Test, der **jede** fremde Quelle meldet, nicht nur Schriften
+
+### Gemessen statt vermutet
+
+Erstmals nachgemessen, was beim Seitenaufruf wirklich passiert:
+
+|                     |            |
+| ------------------- | ---------- |
+| übertragen je Seite | 223–348 KB |
+| erstes Bild (FCP)   | 140–336 ms |
+| Anfragen            | 37–39      |
+
+Zwei Verdachtsmomente haben sich **nicht** bestätigt und werden hier
+festgehalten, damit sie niemand ein zweites Mal verfolgt:
+
+- Ein 406 KB grosser Brocken hängt am App-Layout — er wird aber **dynamisch**
+  geladen, erst wenn jemand die Suche öffnet. Kein Problem.
+- Ein Artikel brauchte einmalig 5,2 s bis zum ersten Bild. Bei Wiederholung
+  212 ms, drei andere Artikel 212–432 ms. Ein Ausreisser, kein Muster.
+
 ## v0.9.9 — 2026-09-13
 
 ### Offline funktionierte praktisch nicht

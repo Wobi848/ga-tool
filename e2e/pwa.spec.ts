@@ -78,14 +78,18 @@ test.describe('Service Worker', () => {
 				return (await c.keys()).map((r) => new URL(r.url).pathname);
 			});
 
+		// Die Vorwaermung holt eine Seite nach der anderen — auf alle warten,
+		// nicht nach der ersten nachsehen.
+		const ERWARTET = ['/', '/rechner', '/wissen', '/konverter'];
 		await expect
-			.poll(pfade, { timeout: 20000, message: 'Startseite kam nicht in den Zwischenspeicher' })
-			.toContain('/');
-
-		const inhalt = await pfade();
-		for (const p of ['/rechner', '/wissen', '/konverter']) {
-			expect(inhalt, `${p} fehlt im Zwischenspeicher`).toContain(p);
-		}
+			.poll(
+				async () => {
+					const inhalt = await pfade();
+					return ERWARTET.filter((p) => !inhalt.includes(p));
+				},
+				{ timeout: 25000, message: 'Einstiegsseiten kamen nicht in den Zwischenspeicher' }
+			)
+			.toEqual([]);
 
 		// Zweite Stufe: die Rechner, bei Gelegenheit nachgeladen. Sie sind der
 		// Grund, warum das Werkzeug im Technikraum offline taugen soll.
@@ -105,5 +109,44 @@ test.describe('Service Worker', () => {
 		// Sie muss ohne Netz funktionieren — also ohne nachzuladende Schrift
 		// oder Skripte von aussen.
 		expect(html).not.toMatch(/<(script|link)[^>]+(src|href)=["']https?:/);
+	});
+	test('die Seiten laden nichts von fremden Servern', async ({ page, baseURL }) => {
+		// Vorher kamen die Schriften von fonts.googleapis.com — eine
+		// Fremdabhaengigkeit im kritischen Pfad einer App, die ohne Empfang
+		// funktionieren soll, und die IP jedes Nutzers ging bei jedem Aufruf
+		// dorthin. Faellt jemandem sonst erst auf, wenn er offline testet.
+		// baseURL aus der Konfiguration, nicht page.url(): beim allerersten
+		// Request steht die Seite noch auf about:blank, und der Vergleich wuerde
+		// ausgerechnet die eigene Startseite als fremd melden.
+		const eigen = new URL(baseURL!).host;
+		const fremd: string[] = [];
+		page.on('request', (r) => {
+			const ziel = new URL(r.url());
+			if (ziel.protocol === 'data:' || ziel.protocol === 'blob:') return;
+			if (ziel.host !== eigen) fremd.push(`${ziel.host}${ziel.pathname}`);
+		});
+
+		for (const pfad of ['/', '/rechner/taupunkt', '/wissen/pid-regler']) {
+			await page.goto(pfad, { waitUntil: 'networkidle' });
+		}
+
+		expect([...new Set(fremd)], `fremde Quellen: ${[...new Set(fremd)].join(', ')}`).toEqual([]);
+	});
+
+	test('die Schriften liegen im Haus und werden benutzt', async ({ page }) => {
+		await page.goto('/');
+		const befund = await page.evaluate(async () => {
+			await document.fonts.ready;
+			const geladen = new Set<string>();
+			document.fonts.forEach((f) => {
+				if (f.status === 'loaded') geladen.add(f.family);
+			});
+			return {
+				geladen: [...geladen],
+				body: getComputedStyle(document.body).fontFamily
+			};
+		});
+		expect(befund.geladen, 'Rubik wurde nicht geladen').toContain('Rubik');
+		expect(befund.body).toContain('Rubik');
 	});
 });
