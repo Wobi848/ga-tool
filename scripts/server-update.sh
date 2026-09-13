@@ -26,6 +26,8 @@ BACKUP_DIR="${BACKUP_DIR:-/var/backups/ga-tool}"
 SERVICE="${SERVICE:-ga-tool}"
 # Haelt den Commit fest, mit dem zuletzt ein Lauf vollstaendig durchkam.
 STAMP="${STAMP:-/var/lib/ga-tool/.last-deploy}"
+# Haelt fest, fuer welches package-lock.json zuletzt installiert wurde.
+NPM_STAMP="${NPM_STAMP:-/var/lib/ga-tool/.last-npm-ci}"
 # Benutzer, unter dem der Dienst laeuft — siehe ga-tool.service.
 RUNAS="${RUNAS:-ga-tool}"
 HEALTH_URL="${HEALTH_URL:-http://localhost:3700/api/health}"
@@ -40,6 +42,32 @@ for arg in "$@"; do
 	--force) FORCE=1 ;;
 	esac
 done
+
+# Nur ein Lauf auf einmal. Der Cron-Job startet dieses Skript alle fuenf
+# Minuten; ein npm ci, das better-sqlite3 aus dem Quellcode uebersetzt,
+# braucht laenger als das. Am 13.09.2026 liefen dadurch zwei npm ci auf
+# demselben node_modules — der aeltere Lauf baute und startete den Dienst
+# neu, waehrend der juengere die Abhaengigkeiten gerade neu auslegte. Der
+# Dienst fand die native SQLite-Bindung nicht mehr und blieb unten.
+#
+# flock statt einer eigenen PID-Datei: die raeumt sich nicht auf, wenn der
+# Lauf abstuerzt.
+LOCKFILE="${LOCKFILE:-/var/lock/ga-tool-update.lock}"
+if [ -z "${GA_UPDATE_LOCKED:-}" ]; then
+	GA_UPDATE_LOCKED=1
+	export GA_UPDATE_LOCKED
+	RC=0
+	# -E 66: eigener Rueckgabewert fuer "Sperre belegt", sonst nicht von einem
+	# Fehler des Skripts selbst zu unterscheiden. Kein exec, sonst kaeme der
+	# Zweig darunter nie zum Zug und Cron bekaeme alle fuenf Minuten einen
+	# Fehler gemeldet, obwohl alles in Ordnung ist.
+	flock --nonblock --conflict-exit-code 66 "$LOCKFILE" "$0" "$@" || RC=$?
+	if [ "$RC" = "66" ]; then
+		echo "Ein Update laeuft bereits — dieser Lauf tut nichts."
+		exit 0
+	fi
+	exit "$RC"
+fi
 
 cd "$APP_DIR"
 
@@ -117,8 +145,30 @@ echo
 
 # Schritt 4: Install + Migrate + Build
 echo "▸ npm ci (Dependencies)..."
-npm ci --silent
-echo "  ✓ Dependencies installiert"
+# npm ci raeumt node_modules jedes Mal ab und legt es neu an. better-sqlite3
+# hat fuer diese Kombination aus Node und Plattform kein fertiges Paket, wird
+# also aus dem Quellcode uebersetzt — auf zwei Kernen dauert das Minuten. In
+# dieser Zeit ist der Dienst ohne seine native Bindung. Wenn sich an den
+# Abhaengigkeiten nichts geaendert hat, gibt es keinen Grund dafuer.
+LOCK_HASH=$(sha256sum package-lock.json | cut -d" " -f1)
+if [ "$(cat "$NPM_STAMP" 2>/dev/null)" = "$LOCK_HASH" ] && node -e "require('better-sqlite3')" 2>/dev/null; then
+	echo "  · Abhaengigkeiten unveraendert — npm ci uebersprungen"
+else
+	npm ci --silent
+	echo "$LOCK_HASH" >"$NPM_STAMP"
+	echo "  ✓ Dependencies installiert"
+fi
+
+# Bevor irgendetwas neu gestartet wird: laesst sich die native Bindung
+# ueberhaupt laden? Am 13.09.2026 lief npm ci halb durch, das Skript baute und
+# startete trotzdem neu, und der Dienst blieb unten. Der Health-Check hat das
+# gemeldet — da war der Dienst aber schon weg. Lieber hier abbrechen und den
+# alten Build weiterlaufen lassen.
+if ! node -e "require('better-sqlite3')" 2>/dev/null; then
+	echo "  ✗ better-sqlite3 laesst sich nicht laden."
+	echo "    Abbruch vor dem Neustart — der Dienst laeuft mit dem alten Build weiter."
+	exit 1
+fi
 echo
 
 echo "▸ DB-Migrationen anwenden..."
