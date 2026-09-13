@@ -227,15 +227,8 @@ Logs: `journalctl -u ga-tool -f`
 
 ## HTTPS
 
-Auf CT 101 läuft **kein** Reverse Proxy, und `ORIGIN` steht auf
-`http://192.168.178.67:3700`. Das ist der einzige offene Punkt der
-Sicherheits-Checkliste, der noch eine Entscheidung braucht.
-
-### Der vorgesehene Weg: Tailscale auf host1
-
-`host1` (`192.168.178.2`) ist bereits im Tailnet `tail4ad0d6.ts.net` und
-verteilt `192.168.178.0/24` als Subnetz — darüber ist das ganze Heimnetz von
-aussen erreichbar. Tailscale 1.102.2, Port 443 dort frei, Proxmox liegt auf 8006.
+Seit 13.09.2026 in Betrieb: **`https://host1.tail4ad0d6.ts.net`**, ausgeliefert
+von `tailscale serve` auf host1 (`192.168.178.2`), Zertifikat von Let's Encrypt.
 
 ```bash
 # auf host1, nicht im Container
@@ -243,49 +236,64 @@ tailscale serve --bg --https=443 http://192.168.178.67:3700
 tailscale serve status
 ```
 
-Danach: `https://host1.tail4ad0d6.ts.net` mit einem echten Zertifikat, ohne
-Portfreigabe nach aussen.
+Die Konfiguration liegt in `/var/lib/tailscale/tailscaled.state` und übersteht
+einen Neustart. Voraussetzung war einmalig, in der Tailscale-Weboberfläche unter
+_DNS → HTTPS Certificates_ die Zertifikate freizuschalten.
 
-**Vorher muss einmal ein Schalter umgelegt werden**, und zwar von Hand in der
-Tailscale-Weboberfläche: _Admin console → DNS → HTTPS Certificates → Enable_.
-Ohne das antwortet `tailscale cert`:
+Im Container selbst geht es nicht: CT 101 ist unprivilegiert und hat kein
+`/dev/net/tun`. Das nachzurüsten verlangt eine Änderung der
+Container-Konfiguration und einen Neustart — und in CT 101 steckt auch AdGuard
+Home, der DNS-Server des Hauses.
+
+### Eine kanonische Adresse, nicht zwei
+
+`ORIGIN` steht auf der HTTPS-Adresse. Die LAN-Adresse
+`http://192.168.178.67:3700` funktioniert weiter, aber **ohne Anmeldung**:
+
+| über                              | Nachschlagen, Rechner, Objekte, Checklisten | Anmeldung, Favoriten-Abgleich, Admin |
+| --------------------------------- | ------------------------------------------- | ------------------------------------ |
+| `https://host1.tail4ad0d6.ts.net` | ✓                                           | ✓                                    |
+| `http://192.168.178.67:3700`      | ✓                                           | ✗ (403)                              |
+
+Das war ursprünglich anders geplant — beide Adressen sollten alles können. Beim
+Nachmessen kam heraus, dass das nicht geht:
+
+- `tailscale serve` schickt `x-forwarded-proto: https` und `x-forwarded-host`
+  mit. Damit liesse sich die Herkunft über `PROTOCOL_HEADER`/`HOST_HEADER`
+  ableiten — aber `adapter-node` nimmt bei **fehlendem** `x-forwarded-proto`
+  `https` an. Ein direkter HTTP-Aufruf bekäme also eine falsche Herkunft.
+- `csrf.trustedOrigins` (SvelteKit 2.59) könnte die Formularprüfung für die
+  LAN-Adresse öffnen. Es hilft trotzdem nicht: `better-auth` leitet aus
+  `baseURL` ab, dass Cookies `Secure` sein müssen — und ein `http`-Ursprung darf
+  ein `Secure`-Cookie nicht speichern. Das Formular sähe dann aus, als
+  funktioniere es, während die Sitzung still verfällt. **Ein klarer 403 ist
+  besser als etwas, das so tut als ob.**
+
+Das kostet weniger, als es klingt: die App läuft ohne Anmeldung
+(`(app)/+layout.server.ts` gibt dann `{ user: null }` zurück), und Objekte,
+Durchläufe und Checklisten liegen ohnehin im Browser. Verzichtbar sind auf der
+LAN-Adresse nur Favoriten-Abgleich und Admin.
+
+Und es ist ein Gewinn: vorher lief die Anmeldung über **HTTP durchs LAN**, das
+Passwort also im Klartext übers Netz. Jetzt nur noch über TLS.
+
+### Nachgeprüft
 
 ```
-500 Internal Server Error: your Tailscale account does not support getting TLS certs
+https  POST /api/auth/sign-in/email  → 401 "Invalid email or password"
+https  POST /login?/login            → 200, "E-Mail oder Passwort falsch"
+http   POST /login?/login            → 403  (Herkunft abgelehnt, wie vorgesehen)
+http   GET  /, /rechner/…, /objekte  → 200
 ```
 
-### Was dabei mit ORIGIN passiert
+Der erste Wert ist der wichtige: eine **fachliche** Ablehnung, keine
+Herkunfts-Ablehnung — die Anmeldung läuft also wirklich durch.
 
-`adapter-node` prüft bei jedem POST die Herkunft gegen `ORIGIN`. Wird `ORIGIN`
-auf die Tailscale-Adresse gesetzt, laufen Formulare über
-`http://192.168.178.67:3700` in einen 403 — und umgekehrt. Es gibt zwei
-Auswege:
+### Falls doch beide Adressen alles können sollen
 
-- **Eine kanonische Adresse.** `ORIGIN` auf `https://host1.tail4ad0d6.ts.net`,
-  der direkte Port 3700 wird nur noch intern benutzt. Sauber, aber Geräte
-  ausserhalb des Tailnets kommen nicht mehr an Formulare
-- **Beide Adressen.** `ORIGIN` weglassen, stattdessen
-  `PROTOCOL_HEADER=x-forwarded-proto` und `HOST_HEADER=x-forwarded-host`
-  setzen; `tailscale serve` schickt beide. Dann funktionieren beide Wege — der
-  Preis ist, dass die Herkunftsprüfung dann diesen Kopfzeilen glaubt, und
-  Port 3700 steht im LAN offen
-
-### Warum nicht im Container selbst
-
-`tailscale serve` bräuchte Tailscale **in** CT 101. Der Container ist
-unprivilegiert und hat kein `/dev/net/tun`; das nachzurüsten verlangt eine
-Änderung an der Container-Konfiguration und einen Neustart — und in CT 101
-steckt auch AdGuard Home, der DNS-Server des Hauses. Deshalb der Umweg über
-host1.
-
-### Alternativen, falls Tailscale nicht der Weg sein soll
-
-- **Caddy auf CT 101 mit eigener CA** (`tls internal`): echtes HTTPS ohne
-  Domain und ohne Internet, aber jedes Gerät zeigt eine Warnung, bis die CA
-  dort einmal installiert ist
-- **Caddy + Let's Encrypt über DNS-01**: überall vertrautes Zertifikat,
-  braucht eine eigene Domain und einen DNS-Anbieter mit API. HTTP-01 scheidet
-  aus, weil AdGuard Home auf `192.168.178.67:80` sitzt
+Dann braucht es einen Proxy auf CT 101, der pro Eingang die richtigen
+`X-Forwarded-*`-Kopfzeilen setzt, und HTTPS auch im LAN — sonst bleibt das
+Cookie-Problem. Aufwand und Nutzen stehen dafür bisher nicht im Verhältnis.
 
 ## Reverse Proxy (Vorlagen)
 
@@ -556,9 +564,10 @@ Automatisch geprüft:
 
 Von Hand zu erledigen, weil es am Zielsystem hängt:
 
-- [ ] Reverse Proxy terminiert HTTPS — vorgesehen über `tailscale serve` auf
-      host1, siehe [HTTPS](#https). Blockiert: in der Tailscale-Weboberfläche
-      müssen einmal die HTTPS-Zertifikate freigeschaltet werden
+- [x] Reverse Proxy terminiert HTTPS — seit 13.09.2026 über `tailscale serve`
+      auf host1, Zertifikat von Let's Encrypt, siehe [HTTPS](#https). `ORIGIN`
+      ist die kanonische HTTPS-Adresse; die LAN-Adresse bleibt ohne Anmeldung
+      nutzbar
 - [x] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
       wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
       wurde, ist eine Vermutung. Am 13.09.2026 auf CT 101 durchgespielt, siehe

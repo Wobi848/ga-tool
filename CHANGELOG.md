@@ -1,5 +1,31 @@
 # Changelog
 
+## v0.11.1 — 2026-09-13
+
+### HTTPS über Tailscale
+
+`https://host1.tail4ad0d6.ts.net`, ausgeliefert von `tailscale serve` auf host1,
+Zertifikat von Let's Encrypt. Damit ist der letzte offene Punkt der
+Go-Live-Checkliste erledigt.
+
+**Eine kanonische Adresse, nicht zwei.** Geplant war, dass die LAN-Adresse
+gleichwertig weiterläuft. Beim Nachmessen ging das nicht auf:
+
+- `adapter-node` nimmt bei fehlendem `x-forwarded-proto` `https` an — ein
+  direkter HTTP-Aufruf bekäme eine falsche Herkunft
+- `csrf.trustedOrigins` würde die Formularprüfung öffnen, aber nicht helfen:
+  `better-auth` leitet aus `baseURL` ab, dass Cookies `Secure` sein müssen, und
+  ein `http`-Ursprung darf ein `Secure`-Cookie nicht speichern. Das Formular
+  sähe aus, als funktioniere es, während die Sitzung still verfällt
+
+Deshalb: `ORIGIN` ist die HTTPS-Adresse. Über die LAN-Adresse funktionieren
+Nachschlagen, Rechner, Objekte und Checklisten unverändert — nur Anmeldung,
+Favoriten-Abgleich und Admin nicht. Das kostet wenig: die App läuft ohne
+Anmeldung, und die Arbeitsdaten liegen im Browser.
+
+Und es ist ein Gewinn: vorher lief die Anmeldung über HTTP durchs LAN, das
+Passwort also im Klartext übers Netz.
+
 ## v0.11.0 — 2026-09-13
 
 ### Objekte: dieselbe Checkliste mehrfach führen

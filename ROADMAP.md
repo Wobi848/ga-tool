@@ -111,12 +111,13 @@ Kleinigkeiten, die keine eigene Stufe verdienen, aber erledigt gehören.
 - [ ] **README stimmt nicht mehr**: dort stehen 118+ Artikel und 20 Rechner,
       tatsächlich sind es 122 und 21. Eine Zahl, die niemand pflegt, gehört
       erzeugt oder weggelassen
-- [ ] **HTTPS** über `tailscale serve` — wartet darauf, dass im Tailscale-Konto
-      die Zertifikate freigeschaltet werden, siehe
-      [DEPLOYMENT.md](DEPLOYMENT.md#https)
-- [ ] Danach klären, wie beide Adressen gleichzeitig funktionieren: es gibt
-      Formular-Actions (Login), und `adapter-node` prüft deren Herkunft gegen
-      `ORIGIN`
+- [x] **HTTPS** über `tailscale serve` — seit 13.09.2026 in Betrieb,
+      `https://host1.tail4ad0d6.ts.net`, siehe [DEPLOYMENT.md](DEPLOYMENT.md#https)
+- [x] Frage der zwei Adressen geklärt — **eine kanonische**. Beide gleichwertig
+      geht nicht: `better-auth` leitet aus `baseURL` ab, dass Cookies `Secure`
+      sein müssen, und die darf ein `http`-Ursprung nicht speichern. Die
+      LAN-Adresse bleibt ohne Anmeldung nutzbar, was reicht — die App läuft
+      ohne Login, und die Daten liegen im Browser
 - [ ] `analytics_event` wächst unbegrenzt; die Aggregierung gibt es, sie läuft
       nur von Hand
 

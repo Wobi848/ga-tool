@@ -229,17 +229,14 @@ pruefe('APP_VERSION und package.json stimmen ueberein', () => {
 	return { ok: v === p, info: v === p ? `v${p}` : `version.ts ${v} ≠ package.json ${p}` };
 });
 
-console.log(`\n${grau}Nur am Zielsystem pruefbar — hier bewusst offen:${weg}`);
+console.log(`\n${grau}Am Zielsystem erledigt — hier nicht pruefbar:${weg}`);
 for (const z of [
-	'Reverse Proxy terminiert HTTPS (Let’s Encrypt o.ä.)',
-	'Health-Endpunkt ist im Monitoring eingehaengt'
+	'HTTPS ueber tailscale serve auf host1 (Let’s Encrypt), seit 13.09.2026',
+	'Health-Endpunkt im Monitoring: Home Assistant auf VM 100, seit 13.09.2026',
+	'Unit und Sicherung auf CT 101 eingerichtet, Restore einmal durchgespielt'
 ]) {
 	console.log(`  ${grau}·${weg} ${z}`);
 }
-console.log(
-	`  ${grau}·${weg} ${grau}Unit und Sicherung sind auf CT 101 seit 13.09.2026 eingerichtet;${weg}`
-);
-console.log(`    ${grau}der Restore wurde dort einmal durchgespielt${weg}`);
 
 console.log('');
 if (fehler) {
