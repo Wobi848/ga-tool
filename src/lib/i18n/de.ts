@@ -95,6 +95,7 @@ export const de = {
 		allCalculators: 'Alle Rechner',
 		allConverters: 'Alle Konverter',
 		noResults: 'Keine Treffer.',
+		anderswoTitel: 'Nicht unter den Abkürzungen — aber {anzahl} Treffer im übrigen Portal:',
 		rows: 'Zeilen',
 		results: 'Ergebnis',
 		resultsPlural: 'Ergebnisse',

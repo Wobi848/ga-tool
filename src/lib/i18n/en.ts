@@ -95,6 +95,7 @@ export const en = {
 		allCalculators: 'All Calculators',
 		allConverters: 'All Converters',
 		noResults: 'No results.',
+		anderswoTitel: 'Not among the abbreviations — but {anzahl} matches elsewhere in the portal:',
 		rows: 'Rows',
 		results: 'Result',
 		resultsPlural: 'Results',

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { search, typeLabels } from '$lib/search';
 	import { page } from '$app/stores';
 	import { _, locale } from 'svelte-i18n';
 	import { abbreviations, letters } from '$lib/abkuerzungen/data';
@@ -85,6 +86,14 @@
 			if (!q) return true;
 			return haystackByShort[a.short]?.includes(q) ?? false;
 		});
+	});
+
+	/* Treffer im uebrigen Portal, wenn hier nichts passt. Hoechstens sechs —
+	   das ist ein Hinweis, keine zweite Ergebnisliste. */
+	const anderswo = $derived.by(() => {
+		const q = query.trim();
+		if (!q || filtered.length > 0) return [];
+		return search(q, 6).filter((t) => t.type !== 'abkuerzung');
 	});
 
 	const filteredByLetter = $derived.by(() => {
@@ -193,6 +202,24 @@
 	<section class="results">
 		{#if filtered.length === 0}
 			<p class="empty">{$_('abkuerzungen.noResults')}</p>
+			<!-- Dieses Feld durchsucht nur die Abkuerzungen. Wer hier einen
+			     Artikelnamen eingibt, bekam bisher nur «nichts gefunden» und
+			     stand vor einer Sackgasse — obwohl es den Artikel gibt. -->
+			{#if anderswo.length > 0}
+				<div class="anderswo">
+					<p>{$_('abkuerzungen.anderswoTitel', { values: { anzahl: anderswo.length } })}</p>
+					<ul>
+						{#each anderswo as t (t.type + t.slug)}
+							<li>
+								<a href={t.url}>
+									<span class="typ">{typeLabels[t.type]}</span>
+									{t.title}
+								</a>
+							</li>
+						{/each}
+					</ul>
+				</div>
+			{/if}
 		{:else}
 			<p class="count">{filtered.length} {$_('abkuerzungen.results')}</p>
 			{#each visibleLetters as letter, _letter_i (_letter_i)}
@@ -296,6 +323,51 @@
 </div>
 
 <style>
+	.anderswo {
+		margin: 0.75rem auto 0;
+		max-width: 32rem;
+		padding: 0.9rem 1rem;
+		border: 1px solid var(--border);
+		border-left: 3px solid var(--color-secondary, #0d9488);
+		border-radius: 0.5rem;
+		background: var(--surface);
+		text-align: left;
+	}
+	.anderswo > p {
+		margin: 0 0 0.5rem;
+		font-size: 0.875rem;
+		color: var(--muted);
+	}
+	.anderswo ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+	.anderswo a {
+		display: flex;
+		gap: 0.5rem;
+		align-items: baseline;
+		padding: 0.3rem 0.4rem;
+		border-radius: 0.35rem;
+		color: var(--text);
+		text-decoration: none;
+		font-size: 0.9rem;
+	}
+	.anderswo a:hover {
+		background: var(--surface-hover);
+	}
+	.anderswo .typ {
+		font-size: 0.7rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--muted);
+		flex-shrink: 0;
+		min-width: 5.5rem;
+	}
+
 	.page {
 		max-width: 720px;
 		margin: 0 auto;

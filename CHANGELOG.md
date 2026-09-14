@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.13.2 — 2026-09-14
+
+### Aufgeklappte Auswahlfelder waren im Dunkelmodus unlesbar
+
+Gemeldet: weisse Schrift auf weissem Grund. Nachgemessen statt vermutet — die
+`option`-Elemente hatten auf **jeder** Seite einen durchsichtigen Hintergrund
+(`rgba(0, 0, 0, 0)`). Die aufgeklappte Liste nimmt dann die Vorgabe des Systems,
+und die ist weiss, während die Schrift aus dem dunklen Thema hell bleibt.
+
+`color-scheme: dark` allein genügt dafür nicht, sobald das Auswahlfeld selbst
+gestaltet ist — und das ist es an allen 22 Stellen. Eine globale Regel setzt
+jetzt Hintergrund und Schriftfarbe der Einträge.
+
+Abgesichert mit `e2e/darstellung.spec.ts`: es wird der **Kontrast** in allen
+drei Themen gemessen, nicht das Vorhandensein einer Regel. Gegengeprüft —
+ohne die Regel fallen alle drei durch, mit der Meldung «durchsichtig».
+
+### Abkürzungssuche führte in eine Sackgasse
+
+«Adiabatische Kühlung» dort eingegeben ergab nichts. Das war korrekt — das Feld
+durchsucht nur die 233 Abkürzungen, und dafür gibt es keine —, aber man stand
+vor einer leeren Seite, obwohl es den Artikel gibt.
+
+Findet der Filter nichts, erscheint jetzt ein Hinweis mit bis zu sechs Treffern
+aus dem übrigen Portal, jeder direkt anklickbar. Bei einem echten
+Abkürzungstreffer und bei Unsinn erscheint er nicht.
+
 ## v0.13.1 — 2026-09-14
 
 ### Über die öffentliche Adresse nur mit Anmeldung

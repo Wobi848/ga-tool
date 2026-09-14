@@ -89,6 +89,22 @@ body {
 	}
 }
 
+/* Aufgeklappte Auswahllisten.
+ *
+ * Ohne diese Regel haben `option`-Elemente einen durchsichtigen Hintergrund —
+ * nachgemessen: `rgba(0, 0, 0, 0)` auf jeder Seite mit einem Auswahlfeld. Die
+ * aufgeklappte Liste nimmt dann die Vorgabe des Systems, und die ist weiss,
+ * waehrend die Schrift aus dem dunklen Thema hell bleibt. Ergebnis: weisse
+ * Schrift auf weissem Grund, also unlesbar.
+ *
+ * `color-scheme: dark` allein genuegt nicht, sobald das Auswahlfeld selbst
+ * gestaltet ist — das ist hier ueberall der Fall. */
+select option,
+select optgroup {
+	background-color: var(--surface);
+	color: var(--text);
+}
+
 /* Display utility — for big headings & logo */
 .display {
 	font-family: var(--font-display);
