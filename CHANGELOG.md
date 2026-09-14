@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.13.0 — 2026-09-14
+
+### Öffentlich erreichbar — und dafür abgesichert
+
+Das Portal steht jetzt über `tailscale funnel` im offenen Netz, damit es auch
+von einem Rechner aus geht, auf dem sich Tailscale nicht installieren lässt.
+Nachgemessen, bevor es umgestellt wurde: Funnel reicht in `x-forwarded-for` die
+**echte** Absenderadresse durch und markiert öffentlichen Verkehr mit
+`tailscale-funnel-request: ?1`.
+
+Erreichbar ist genau eine Adresse auf genau einem Port. Node-RED, AdGuard, SSH
+und die Proxmox-Oberfläche sind es nicht — von aussen geprüft.
+
+### Schutz-Kopfzeilen
+
+Bis heute lieferte die App **keine einzige**. Nachgemessen am öffentlichen Weg,
+nicht vermutet:
+
+- `Content-Security-Policy` über `kit.csp` — Skripte nur aus eigener Quelle,
+  kein `unsafe-inline`, `frame-ancestors 'none'`, `object-src 'none'`. Die
+  strenge Fassung ist erst seit v0.10.0 möglich: solange die Schriften von
+  Google kamen, hätte sie eine Ausnahme gebraucht
+- `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`,
+  `Permissions-Policy`
+- `Strict-Transport-Security` **nur** über HTTPS — auf der LAN-Adresse wäre es
+  schädlich, der Browser lüde danach über `http` gar nichts mehr
+
+Neu `e2e/sicherheit.spec.ts`: prüft nicht nur, dass die Kopfzeilen dastehen,
+sondern dass die Richtlinie auf fünf Seiten **nichts bricht** — keine
+Verstösse, keine Skriptfehler, und die Seite ist wirklich da statt nur
+fehlerfrei leer.
+
+### Die Anmeldebremse zählt je Aufrufer — nachgewiesen
+
+Am laufenden System: fünf Fehlversuche über den öffentlichen Weg, der sechste
+wird mit 429 gebremst — und derselbe Versuch von einem anderen Absender geht
+unverändert durch. Vorher hätte ein Fremder den Besitzer damit aussperren
+können.
+
 ## v0.12.2 — 2026-09-14
 
 ### Die geschlossene Registrierung war nicht geschlossen

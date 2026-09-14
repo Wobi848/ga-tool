@@ -8,6 +8,37 @@ const config = {
 	},
 	kit: {
 		adapter: adapter(),
+		/* Inhaltsrichtlinie. Seit dem 14.09.2026 steht das Portal oeffentlich.
+		 *
+		 * Moeglich ist die strenge Fassung nur, weil seit v0.10.0 nichts mehr
+		 * von fremden Servern geladen wird — die Schriften kamen vorher von
+		 * fonts.googleapis.com und haetten hier eine Ausnahme erzwungen.
+		 *
+		 * `mode: 'auto'` laesst SvelteKit die Nonces und Hashes fuer die eigenen
+		 * Skripte setzen. Das Themen-Skript in app.html traegt darum
+		 * `nonce="%sveltekit.nonce%"`.
+		 */
+		csp: {
+			mode: 'auto',
+			directives: {
+				'default-src': ['self'],
+				'script-src': ['self'],
+				// Svelte und Tailwind setzen Stile zur Laufzeit direkt am Element;
+				// ohne 'unsafe-inline' bliebe die Seite ungestaltet. Fuer Stile ist
+				// das deutlich weniger heikel als fuer Skripte.
+				'style-src': ['self', 'unsafe-inline'],
+				'img-src': ['self', 'data:'],
+				'font-src': ['self'],
+				'connect-src': ['self'],
+				'worker-src': ['self'],
+				'manifest-src': ['self'],
+				// Nicht in fremde Rahmen einbetten lassen.
+				'frame-ancestors': ['none'],
+				'base-uri': ['self'],
+				'form-action': ['self'],
+				'object-src': ['none']
+			}
+		},
 		typescript: {
 			config: (config) => ({
 				...config,

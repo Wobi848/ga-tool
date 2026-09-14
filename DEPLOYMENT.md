@@ -423,9 +423,12 @@ nur die persönlichen: Favoriten zuerst, dann zuletzt Gelesenes, höchstens 30.
 
 ## Öffentlich erreichbar machen (Funnel)
 
-Solange nur `tailscale serve` läuft, kommt man ausschliesslich aus dem Tailnet
-ans Portal. Für einen Rechner, auf dem sich Tailscale nicht installieren lässt,
-braucht es `tailscale funnel` — und damit steht die Seite im offenen Netz.
+**Seit 14.09.2026 in Betrieb.** Das Portal ist unter
+`https://host1.tail4ad0d6.ts.net` öffentlich erreichbar, damit es auch von einem
+Rechner aus geht, auf dem sich Tailscale nicht installieren lässt.
+
+Abschalten: `tailscale funnel --https=443 off` — danach kommt man wieder nur
+aus dem Tailnet hinein.
 
 ### Was Funnel veröffentlicht, und was nicht
 
@@ -471,14 +474,23 @@ tailscale funnel status          # "Funnel on" statt "tailnet only"
 
 Abschalten: `tailscale funnel --https=443 off` — danach ist sofort wieder zu.
 
-### Was danach zu prüfen ist
+### Was gemessen wurde, bevor umgestellt wurde
 
-- Was der Tunnel in `x-forwarded-for` tatsächlich schickt (mit einem
-  Echo-Server messen, **nicht** annehmen) — davon hängt ab, ob
-  `VERTRAUTER_PROXY` die richtige Adresse trägt
-- Ob die Anmeldebremse wirklich je Absender greift und nicht global
-- Dass die Registrierung geschlossen ist: `/login` darf keinen Weg dorthin
-  anbieten, und ein direkter `POST /login?/register` muss mit 403 enden
+Mit einem Echo-Server hinter Funnel, über den öffentlichen Weg abgerufen:
+
+```
+x-forwarded-for: 213.55.241.32      ← echte Adresse des Aufrufers
+x-forwarded-proto: https
+tailscale-funnel-request: ?1        ← Kennzeichen für Verkehr von aussen
+```
+
+Damit trägt `VERTRAUTER_PROXY=192.168.178.2` die richtige Adresse, und die
+Bremse zählt je Aufrufer. Nachgewiesen am laufenden System: fünf Fehlversuche
+von aussen, der sechste mit 429 gebremst — derselbe Versuch von einem anderen
+Absender geht unverändert durch.
+
+Die Registrierung ist an **beiden** Türen zu (`npm run registrierung-check`),
+und von aussen ist nur die App erreichbar: 1880, 8006 und 22 antworten nicht.
 
 ### Was offen bleibt
 

@@ -1,4 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 import { building } from '$app/environment';
 import { auth } from '$lib/server/auth';
 import { ensureSystemAdmin } from '$lib/server/bootstrap';
@@ -22,4 +23,39 @@ const handleBetterAuth: Handle = async ({ event, resolve }) => {
 	return svelteKitHandler({ event, resolve, auth, building });
 };
 
-export const handle: Handle = handleBetterAuth;
+/* Schutz-Kopfzeilen.
+ *
+ * Seit dem 14.09.2026 steht das Portal ueber `tailscale funnel` im offenen
+ * Netz. Vorher kam nur ins Tailnet, wer ohnehin schon Zugang hatte; jetzt
+ * klopft das ganze Internet an. Bis dahin lieferte die App keine einzige
+ * dieser Kopfzeilen — nachgemessen, nicht vermutet.
+ *
+ * Die eigentliche Inhaltsrichtlinie (CSP) setzt SvelteKit selbst, siehe
+ * `kit.csp` in svelte.config.js: nur von dort kommen die Nonces fuer die
+ * eigenen Skripte.
+ */
+const handleSchutzkopfzeilen: Handle = async ({ event, resolve }) => {
+	const antwort = await resolve(event);
+
+	// Kein Raten am Inhaltstyp vorbei.
+	antwort.headers.set('X-Content-Type-Options', 'nosniff');
+	// Nicht in fremde Rahmen einbetten lassen — die Anmeldemaske waere sonst
+	// ein Ziel fuer Klickbetrug. Doppelt zur CSP-Regel `frame-ancestors`,
+	// weil aeltere Browser nur diese hier kennen.
+	antwort.headers.set('X-Frame-Options', 'DENY');
+	// Beim Weg nach aussen nur die Herkunft mitgeben, nicht den ganzen Pfad.
+	antwort.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+	// Zugriff auf Kamera, Mikrofon und Ort braucht diese App nicht.
+	antwort.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+
+	// HSTS nur dort, wo tatsaechlich ueber TLS zugegriffen wird. Auf der
+	// LAN-Adresse waere es schaedlich: der Browser wuerde danach auf http
+	// nichts mehr laden.
+	if (event.url.protocol === 'https:') {
+		antwort.headers.set('Strict-Transport-Security', 'max-age=31536000');
+	}
+
+	return antwort;
+};
+
+export const handle: Handle = sequence(handleBetterAuth, handleSchutzkopfzeilen);
