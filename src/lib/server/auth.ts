@@ -122,7 +122,11 @@ export const auth = betterAuth({
 	 * zwei Tueren. */
 	hooks: {
 		before: createAuthMiddleware(async (ctx) => {
-			if (ctx.path === '/sign-up/email' && !(await registrierungOffen())) {
+			// Der Code steht im Rumpf. Kommt er von der Anmeldeseite, hat sie ihn
+			// aus dem Formular uebernommen; wer den Endpunkt direkt aufruft,
+			// braucht ihn genauso.
+			const code = (ctx.body as { code?: unknown } | undefined)?.code;
+			if (ctx.path === '/sign-up/email' && !(await registrierungOffen(code))) {
 				throw new APIError('FORBIDDEN', {
 					message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.'
 				});

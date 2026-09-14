@@ -3,13 +3,13 @@ import { APIError } from 'better-auth/api';
 import { auth } from '$lib/server/auth';
 import { rateLimit } from '$lib/server/rateLimit';
 import { clientIp } from '$lib/server/clientIp';
-import { registrierungOffen } from '$lib/server/registrierung';
+import { registrierungOffen, codeVerlangt } from '$lib/server/registrierung';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) redirect(302, '/');
 	// Die Oberflaeche soll keinen Weg anbieten, den der Server danach ablehnt.
-	return { registrierungOffen: await registrierungOffen() };
+	return { registrierungOffen: await registrierungOffen(), codeVerlangt: codeVerlangt() };
 };
 
 export const actions: Actions = {
@@ -43,7 +43,8 @@ export const actions: Actions = {
 		// Vor allem anderen: ist Registrierung ueberhaupt erlaubt? Die Pruefung
 		// gehoert hierher und nicht nur in die Oberflaeche — ein abgeschickter
 		// Formularaufruf umgeht jede versteckte Schaltflaeche.
-		if (!(await registrierungOffen())) {
+		const einladung = (await event.request.clone().formData()).get('code')?.toString() ?? '';
+		if (!(await registrierungOffen(einladung))) {
 			return fail(403, {
 				message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.',
 				mode: 'register'
@@ -68,7 +69,11 @@ export const actions: Actions = {
 		}
 
 		try {
-			const result = await auth.api.signUpEmail({ body: { email, password, name } });
+			// Der Code muss mit: der Haken in auth.ts prueft ihn, und ueber diesen Weg
+			// kommt derselbe Aufruf herein wie von aussen.
+			const result = await auth.api.signUpEmail({
+				body: { email, password, name, code: einladung } as never
+			});
 			// If email verification is required, the user is not yet signed in
 			if (!result?.user?.emailVerified) {
 				return { verifyPending: true, email };

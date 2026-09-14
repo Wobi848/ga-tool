@@ -445,11 +445,21 @@ baut die Verbindung nach aussen auf.
 ### Vorher absichern
 
 1. **Registrierung schliessen.** `REGISTRIERUNG_OFFEN=false` in der `.env`.
+
+   Wer trotzdem jemanden dazunehmen will, setzt zusätzlich einen
+   **Einladungscode**: `REGISTRIER_CODE=<etwas Langes>`. Dann darf sich
+   registrieren, wer ihn kennt — und sonst niemand. Kein E-Mail-Versand nötig,
+   und niemand muss ein Passwort für einen anderen erfinden. Leer oder nicht
+   gesetzt heisst: kein Weg hinein.
+
+   Der Vergleich läuft zeichenweise ohne frühen Abbruch, damit die Antwortzeit
+   nicht verrät, wie viele Zeichen stimmen.
    Sonst kann sich jeder ein Konto anlegen. Die Prüfung sitzt in der
    `register`-Action, nicht nur in der Oberfläche — ein abgeschickter
    Formularaufruf umgeht jede versteckte Schaltfläche. Ausnahme: ist noch kein
    Konto vorhanden, geht Registrierung immer, sonst sperrt sich eine frische
    Installation selbst aus.
+
 2. **Echte Absenderadresse durchreichen.** `VERTRAUTER_PROXY=192.168.178.2`.
    Ohne das meldet `getClientAddress()` für **jeden** Aufruf durch den Tunnel
    dieselbe Adresse, und die Anmeldebremse (5 Versuche / 5 min) gilt global:

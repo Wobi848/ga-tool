@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.15.1 — 2026-09-14
+
+### Einladungscode
+
+Die Registrierung ist zu — für alle. Damit trotzdem gezielt jemand dazukommen
+kann, gibt es jetzt `REGISTRIER_CODE`: wer ihn kennt, darf sich ein Konto
+anlegen, alle anderen nicht. Kein E-Mail-Versand nötig, und niemand muss ein
+Passwort für jemand anderen erfinden.
+
+- Der Code gilt an **beiden** Türen — Formular und `/api/auth/sign-up/email`
+- Leer oder nicht gesetzt heisst: kein Weg hinein. Eine leere Variable darf
+  nicht versehentlich alles öffnen
+- Der Vergleich läuft zeichenweise ohne frühen Abbruch, damit die Antwortzeit
+  nicht verrät, wie viele Zeichen stimmen
+
+`npm run registrierung-check` deckt es ab: mit Code geht es an beiden Türen,
+ein falscher und ein leerer Code werden abgewiesen, und nach dem Entfernen des
+Codes hilft auch der alte nichts mehr.
+
+Dabei zwei eigene Prüfungen richtiggestellt, die etwas Falsches behaupteten:
+«die Anmeldeseite bietet keine Registrierung an» gilt nur ohne Code, und das
+Codefeld selbst steht erst im HTML, wenn jemand im Browser auf «Konto
+erstellen» umschaltet — serverseitig beobachtbar ist nur, dass die Seite um den
+Code weiss.
+
 ## v0.15.0 — 2026-09-14
 
 ### Hydraulik-Simulator

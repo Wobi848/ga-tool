@@ -35,7 +35,8 @@ const srv = spawn('node', ['build/index.js'], {
 		DATABASE_URL: DB,
 		BETTER_AUTH_SECRET: 'nur-fuer-den-test-mindestens-32-zeichen-lang',
 		RESEND_API_KEY: '',
-		REGISTRIERUNG_OFFEN: 'false'
+		REGISTRIERUNG_OFFEN: 'false',
+		REGISTRIER_CODE: 'probe-einladung-2026'
 	},
 	stdio: 'ignore'
 });
@@ -55,18 +56,28 @@ const pruefe = (was, ok, zusatz = '') => {
 	console.log(`  ${ok ? '✓' : '✗'} ${was}${zusatz ? '   ' + zusatz : ''}`);
 };
 
-const anmeldungApi = (email) =>
+const anmeldungApi = (email, code) =>
 	fetch(`${BASIS}/api/auth/sign-up/email`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json', Origin: BASIS },
-		body: JSON.stringify({ email, password: 'ein-langes-testpasswort-123', name: 'Probe' })
+		body: JSON.stringify({
+			email,
+			password: 'ein-langes-testpasswort-123',
+			name: 'Probe',
+			...(code === undefined ? {} : { code })
+		})
 	});
 
-const anmeldungFormular = (email) =>
+const anmeldungFormular = (email, code) =>
 	fetch(`${BASIS}/login?/register`, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/x-www-form-urlencoded', Origin: BASIS },
-		body: new URLSearchParams({ email, password: 'ein-langes-testpasswort-123', name: 'Probe' })
+		body: new URLSearchParams({
+			email,
+			password: 'ein-langes-testpasswort-123',
+			name: 'Probe',
+			...(code === undefined ? {} : { code })
+		})
 	});
 
 const konten = async () => {
@@ -109,6 +120,26 @@ const konten = async () => {
 
 pruefe('es ist genau ein Konto entstanden', (await konten()) === 1, `Konten: ${await konten()}`);
 
+// 2b. Mit gueltigem Einladungscode geht es — an beiden Tueren.
+{
+	const r = await anmeldungApi('mitcode@example.invalid', 'probe-einladung-2026');
+	pruefe('mit Einladungscode über die Schnittstelle', r.status === 200, `HTTP ${r.status}`);
+}
+{
+	const r = await anmeldungFormular('mitcode2@example.invalid', 'probe-einladung-2026');
+	const text = await r.text();
+	pruefe('mit Einladungscode über das Formular', !text.includes('geschlossen'), text.slice(0, 80));
+}
+{
+	const r = await anmeldungApi('falschercode@example.invalid', 'probe-einladung-2025');
+	pruefe('ein falscher Code wird abgelehnt', r.status !== 200, `HTTP ${r.status}`);
+}
+{
+	const r = await anmeldungApi('leerercode@example.invalid', '');
+	pruefe('ein leerer Code wird abgelehnt', r.status !== 200, `HTTP ${r.status}`);
+}
+pruefe('jetzt sind es drei Konten', (await konten()) === 3, `Konten: ${await konten()}`);
+
 // 3. Anmelden muss weiterhin gehen — sonst haetten wir die Tuer zugemauert.
 {
 	const r = await fetch(`${BASIS}/api/auth/sign-in/email`, {
@@ -122,13 +153,49 @@ pruefe('es ist genau ein Konto entstanden', (await konten()) === 1, `Konten: ${a
 	pruefe('anmelden geht weiterhin', r.status === 200, `HTTP ${r.status}`);
 }
 
-// 4. Und die Anmeldeseite darf keinen Weg dorthin anbieten.
+// 4. Die Anmeldeseite: mit hinterlegtem Code darf sie eine Registrierung
+//    anbieten — aber nur mit Codefeld. Ohne Code darf sie gar nichts anbieten.
 {
 	const html = await (await fetch(`${BASIS}/login`)).text();
-	pruefe('die Anmeldeseite bietet keine Registrierung an', !html.includes('Noch kein Account'));
+	pruefe(
+		'mit Einladungscode bietet die Anmeldeseite eine Registrierung an',
+		html.includes('Noch kein Account')
+	);
+	// Das Codefeld selbst steht erst im HTML, wenn jemand auf «Konto erstellen»
+	// umschaltet — das passiert im Browser. Serverseitig beobachtbar ist, dass
+	// die Seite weiss, dass ein Code verlangt wird. Der Rest steht im e2e-Test.
+	pruefe('und weiss, dass ein Code verlangt wird', html.includes('codeVerlangt'));
 }
 
 srv.kill('SIGKILL');
+
+// 5. Derselbe Server noch einmal, diesmal ohne hinterlegten Code. Jetzt muss
+//    beides zu sein — sonst haette der Code die Tuer dauerhaft geoeffnet.
+{
+	const srv2 = spawn('node', ['build/index.js'], {
+		env: {
+			...process.env,
+			PORT: String(PORT),
+			ORIGIN: BASIS,
+			DATABASE_URL: DB,
+			BETTER_AUTH_SECRET: 'nur-fuer-den-test-mindestens-32-zeichen-lang',
+			RESEND_API_KEY: '',
+			REGISTRIERUNG_OFFEN: 'false'
+		},
+		stdio: 'ignore'
+	});
+	for (let i = 0; i < 60 && !(await auf()); i++) await warte(250);
+	const r = await anmeldungApi('ohnecode@example.invalid', 'probe-einladung-2026');
+	pruefe(
+		'ohne hinterlegten Code hilft auch der alte Code nichts',
+		r.status !== 200,
+		`HTTP ${r.status}`
+	);
+	const html = await (await fetch(`${BASIS}/login`)).text();
+	pruefe('und die Anmeldeseite bietet nichts an', !html.includes('Noch kein Account'));
+	srv2.kill('SIGKILL');
+}
+
 rmSync(DB, { force: true });
 
 if (fehler) {

@@ -9,7 +9,7 @@
 		if ((form as { mode?: string } | null)?.mode === 'register') mode = 'register';
 		// Falls die Registrierung inzwischen geschlossen wurde: nicht in einer
 		// Maske stehenbleiben, die der Server ablehnt.
-		if (!data.registrierungOffen) mode = 'login';
+		if (!data.registrierungOffen && !data.codeVerlangt) mode = 'login';
 	});
 
 	const verifyPending = $derived(!!(form as { verifyPending?: boolean } | null)?.verifyPending);
@@ -94,6 +94,12 @@
 					}}
 					class="form"
 				>
+					{#if mode === 'register' && data.codeVerlangt}
+						<label class="field">
+							<span>Einladungscode</span>
+							<input name="code" type="text" required autocomplete="off" />
+						</label>
+					{/if}
 					{#if mode === 'register'}
 						<div class="field">
 							<label for="name">Name</label>
@@ -144,7 +150,7 @@
 					</button>
 				</form>
 
-				{#if data.registrierungOffen}
+				{#if data.registrierungOffen || data.codeVerlangt}
 					<div class="divider"></div>
 
 					<button
