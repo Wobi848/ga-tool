@@ -1,5 +1,45 @@
 # Changelog
 
+## v0.13.1 — 2026-09-14
+
+### Aus dem offenen Netz nur mit Anmeldung
+
+Das Portal ist öffentlich erreichbar, damit es von einem Rechner ohne Tailscale
+aus geht — **nicht**, damit es jeder lesen kann. Wer von aussen kommt, sieht
+jetzt die Anmeldemaske und sonst nichts.
+
+Aus dem Tailnet und im Heimnetz ändert sich nichts: dort bleibt die App ohne
+Konto benutzbar, wie bisher.
+
+Unterschieden wird an der Kopfzeile, die `tailscale funnel` setzt. Dass die
+sich nicht fälschen lässt, wurde gemessen und nicht angenommen: schickt ein
+Aufrufer von aussen `tailscale-funnel-request: ?0` mit oder versucht sie zu
+leeren, kommt bei der App trotzdem `?1` an — tailscaled überschreibt sie. Die
+gefährliche Richtung wäre, sie von aussen loszuwerden; genau das geht nicht.
+
+Durchgelassen wird nur, was die Anmeldung selbst braucht: `/login`, die
+Auth-Schnittstelle, das JavaScript, die Schriften und `/offline.html`. Ein Test
+prüft beide Seiten davon — dass nichts Wesentliches durchrutscht und dass die
+Anmeldeseite nicht zur weissen Fläche wird.
+
+Abschaltbar mit `OEFFENTLICH_ANMELDEPFLICHT=false`, falls die Wissensbasis doch
+einmal öffentlich sein soll.
+
+### Nicht in Suchmaschinen
+
+`robots.txt` lud Crawler bisher ausdrücklich ein (`Disallow:` — leer heisst
+alles erlaubt). Jetzt `Disallow: /`, dazu `X-Robots-Tag: noindex, nofollow,
+noarchive` auf jeder Antwort. Beides hält allerdings nur gesittete Crawler
+zurück; gegen jemanden, der die Adresse kennt, hilft allein die Anmeldung
+oben.
+
+### Sonstiges
+
+- Ein Test, der alle 122 Artikel einzeln lädt, lief unter Last in die
+  5-Sekunden-Vorgabe. Allein braucht er 1,2 s. Zeitlimit auf 30 s gesetzt und
+  begründet — ein Test, der gelegentlich grundlos rot wird, wird irgendwann
+  ignoriert
+
 ## v0.13.0 — 2026-09-14
 
 ### Öffentlich erreichbar — und dafür abgesichert

@@ -152,7 +152,11 @@ describe('loadArticleBody', () => {
 		await expect(loadArticleBody('')).resolves.toBeNull();
 	});
 
-	it('jeder Artikel laesst sich laden', async () => {
+	// 30 Sekunden statt der voreingestellten 5: der Test laedt alle 122
+	// Markdown-Dateien einzeln. Allein braucht er gut eine Sekunde, unter Last
+	// neben den uebrigen Dateien reichte die Vorgabe am 14.09.2026 nicht — und
+	// ein Test, der gelegentlich grundlos rot wird, wird irgendwann ignoriert.
+	it('jeder Artikel laesst sich laden', { timeout: 30_000 }, async () => {
 		// Faengt den Fall ab, dass der Index eine Datei nennt, die es nicht gibt.
 		const fehler: string[] = [];
 		for (const a of articles) {
@@ -162,7 +166,7 @@ describe('loadArticleBody', () => {
 		expect(fehler, `nicht ladbar oder zu kurz: ${fehler.join(', ')}`).toEqual([]);
 	});
 
-	it('hasEnBody stimmt mit dem tatsaechlichen Inhalt ueberein', async () => {
+	it('hasEnBody stimmt mit dem tatsaechlichen Inhalt ueberein', { timeout: 30_000 }, async () => {
 		const falsch: string[] = [];
 		for (const a of articles) {
 			const b = await loadArticleBody(a.slug);

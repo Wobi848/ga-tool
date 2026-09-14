@@ -1,3 +1,12 @@
-# allow crawling everything by default
+# Diese Seite soll nicht in Suchmaschinen auftauchen.
+#
+# Sie ist seit dem 14.09.2026 ueber tailscale funnel oeffentlich erreichbar —
+# nicht, weil sie oeffentlich sein soll, sondern damit sie von einem Rechner
+# ohne Tailscale aus geht. Verlinkt ist sie nirgends; gefunden werden koennte
+# sie ueber die oeffentlichen Zertifikatsprotokolle, in denen der Hostname
+# seit der Ausstellung des Zertifikats steht.
+#
+# robots.txt haelt nur gesittete Crawler zurueck. Gegen jemanden, der die
+# Adresse kennt, hilft sie nicht — dafuer braucht es eine Anmeldung.
 User-agent: *
-Disallow:
+Disallow: /

@@ -4,6 +4,12 @@ import { building } from '$app/environment';
 import { auth } from '$lib/server/auth';
 import { ensureSystemAdmin } from '$lib/server/bootstrap';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
+import { redirect } from '@sveltejs/kit';
+import {
+	anmeldepflichtImOffenenNetz,
+	immerErlaubt,
+	istAusDemOffenenNetz
+} from '$lib/server/zugang';
 
 // Einmaliger Boot-Check: alten Deployments ohne systemadmin nachträglich
 // einen aus dem ältesten admin promoten. Während des Builds (Prerender)
@@ -48,6 +54,13 @@ const handleSchutzkopfzeilen: Handle = async ({ event, resolve }) => {
 	// Zugriff auf Kamera, Mikrofon und Ort braucht diese App nicht.
 	antwort.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
+	// Nicht in Suchmaschinen. robots.txt sagt dasselbe, aber nur fuer Crawler,
+	// die sie vorher lesen — diese Kopfzeile wirkt auch dann, wenn eine Seite
+	// ueber einen direkten Verweis erreicht wird. Beides haelt allerdings nur
+	// gesittete Crawler zurueck; gegen jemanden, der die Adresse kennt, hilft
+	// allein eine Anmeldung.
+	antwort.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+
 	// HSTS nur dort, wo tatsaechlich ueber TLS zugegriffen wird. Auf der
 	// LAN-Adresse waere es schaedlich: der Browser wuerde danach auf http
 	// nichts mehr laden.
@@ -58,4 +71,34 @@ const handleSchutzkopfzeilen: Handle = async ({ event, resolve }) => {
 	return antwort;
 };
 
-export const handle: Handle = sequence(handleBetterAuth, handleSchutzkopfzeilen);
+/* Aus dem offenen Netz nur mit Anmeldung.
+ *
+ * Seit dem 14.09.2026 ist das Portal ueber `tailscale funnel` oeffentlich
+ * erreichbar — damit es von einem Rechner ohne Tailscale aus geht, nicht damit
+ * es jeder lesen kann. Wer von aussen kommt, sieht deshalb die Anmeldemaske
+ * und sonst nichts.
+ *
+ * Aus dem Tailnet und im LAN aendert sich nichts: dort ist die App weiterhin
+ * ohne Konto benutzbar. Unterschieden wird an der Kopfzeile, die
+ * `tailscale funnel` setzt und die sich von aussen nicht faelschen laesst.
+ *
+ * Der Reihenfolge wegen laeuft dieser Schritt **nach** der Anmeldepruefung —
+ * vorher gaebe es `locals.user` noch nicht.
+ */
+const handleOeffentlicherZugang: Handle = async ({ event, resolve }) => {
+	if (
+		!event.locals.user &&
+		anmeldepflichtImOffenenNetz() &&
+		istAusDemOffenenNetz(event.request) &&
+		!immerErlaubt(event.url.pathname)
+	) {
+		redirect(303, '/login');
+	}
+	return resolve(event);
+};
+
+export const handle: Handle = sequence(
+	handleBetterAuth,
+	handleOeffentlicherZugang,
+	handleSchutzkopfzeilen
+);
