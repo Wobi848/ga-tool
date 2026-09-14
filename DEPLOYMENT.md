@@ -232,7 +232,7 @@ von `tailscale serve` auf host1 (`192.168.178.2`), Zertifikat von Let's Encrypt.
 
 ```bash
 # auf host1, nicht im Container
-tailscale serve --bg --https=443 http://192.168.178.67:3700
+tailscale serve --bg --https=443 http://192.168.178.68:3700
 tailscale serve status
 ```
 
@@ -240,20 +240,20 @@ Die Konfiguration liegt in `/var/lib/tailscale/tailscaled.state` und übersteht
 einen Neustart. Voraussetzung war einmalig, in der Tailscale-Weboberfläche unter
 _DNS → HTTPS Certificates_ die Zertifikate freizuschalten.
 
-Im Container selbst geht es nicht: CT 101 ist unprivilegiert und hat kein
+Im Container selbst geht es nicht: CT 102 ist unprivilegiert und hat kein
 `/dev/net/tun`. Das nachzurüsten verlangt eine Änderung der
-Container-Konfiguration und einen Neustart — und in CT 101 steckt auch AdGuard
+Container-Konfiguration und einen Neustart — und in CT 102 steckt auch AdGuard
 Home, der DNS-Server des Hauses.
 
 ### Eine kanonische Adresse, nicht zwei
 
 `ORIGIN` steht auf der HTTPS-Adresse. Die LAN-Adresse
-`http://192.168.178.67:3700` funktioniert weiter, aber **ohne Anmeldung**:
+`http://192.168.178.68:3700` funktioniert weiter, aber **ohne Anmeldung**:
 
 | über                              | Nachschlagen, Rechner, Objekte, Checklisten | Anmeldung, Favoriten-Abgleich, Admin |
 | --------------------------------- | ------------------------------------------- | ------------------------------------ |
 | `https://host1.tail4ad0d6.ts.net` | ✓                                           | ✓                                    |
-| `http://192.168.178.67:3700`      | ✓                                           | ✗ (403)                              |
+| `http://192.168.178.68:3700`      | ✓                                           | ✗ (403)                              |
 
 Das war ursprünglich anders geplant — beide Adressen sollten alles können. Beim
 Nachmessen kam heraus, dass das nicht geht:
@@ -291,7 +291,7 @@ Herkunfts-Ablehnung — die Anmeldung läuft also wirklich durch.
 
 ### Falls doch beide Adressen alles können sollen
 
-Dann braucht es einen Proxy auf CT 101, der pro Eingang die richtigen
+Dann braucht es einen Proxy auf CT 102, der pro Eingang die richtigen
 `X-Forwarded-*`-Kopfzeilen setzt, und HTTPS auch im LAN — sonst bleibt das
 Cookie-Problem. Aufwand und Nutzen stehen dafür bisher nicht im Verhältnis.
 
@@ -299,7 +299,7 @@ Cookie-Problem. Aufwand und Nutzen stehen dafür bisher nicht im Verhältnis.
 
 Die folgenden Vorlagen sind **nicht in Betrieb** — sie stehen hier für den Fall,
 dass doch nginx oder Caddy statt Tailscale genommen wird. Die Portangaben darin
-sind auf 3000 gemünzt; auf CT 101 läuft der Dienst auf **3700**.
+sind auf 3000 gemünzt; auf CT 102 läuft der Dienst auf **3700**.
 
 ### nginx
 
@@ -370,7 +370,7 @@ Status 200 wenn alles ok, 503 bei DB-Problemen. Geeignet für:
 Siehe [Sicherung und Restore](#sicherung-und-restore).
 
 Hier stand vorher ein zweiter, abweichender Vorschlag als `/etc/cron.daily`-
-Skript. Auf CT 101 lief er auch wirklich — seit dem 31.08.2026, täglich um
+Skript. Auf CT 102 lief er auch wirklich — seit dem 31.08.2026, täglich um
 06:35, ohne Prüfung der Kopie. Abgelöst am 13.09.2026; seine Sicherungen wurden
 auf das neue Namensmuster gebracht und bleiben erhalten.
 
@@ -432,7 +432,7 @@ aus dem Tailnet hinein.
 
 ### Was Funnel veröffentlicht, und was nicht
 
-Genau ein Ziel: `https://host1.tail4ad0d6.ts.net/` → `http://192.168.178.67:3700`.
+Genau ein Ziel: `https://host1.tail4ad0d6.ts.net/` → `http://192.168.178.68:3700`.
 `tailscaled` nimmt die Verbindung an und reicht sie nur dorthin weiter.
 
 Nicht erreichbar bleiben Node-RED (1880), AdGuard (80/53), SSH (22),
@@ -468,7 +468,7 @@ baut die Verbindung nach aussen auf.
 ```bash
 # einmalig im Tailnet freischalten (Weboberfläche):
 #   https://login.tailscale.com/f/funnel?node=<node>
-tailscale funnel --bg --https=443 http://192.168.178.67:3700
+tailscale funnel --bg --https=443 http://192.168.178.68:3700
 tailscale funnel status          # "Funnel on" statt "tailnet only"
 ```
 
@@ -492,17 +492,27 @@ Absender geht unverändert durch.
 Die Registrierung ist an **beiden** Türen zu (`npm run registrierung-check`),
 und von aussen ist nur die App erreichbar: 1880, 8006 und 22 antworten nicht.
 
-### Was offen bleibt
+### Eigener Container seit 14.09.2026
 
-CT 101 ist ein Sammelcontainer — dort läuft auch AdGuard, der DNS fürs ganze
-Haus. Würde die App übernommen, sässe ein Angreifer in diesem Container. Die
-systemd-Härtung begrenzt, was der Prozess anrichten kann; sauberer wäre ein
-eigener Container nur für das Portal.
+Bis zur Veröffentlichung lief das Portal auf CT 101 — zusammen mit AdGuard
+Home, dem DNS fürs ganze Haus, und Node-RED samt dessen Zugangsdaten. Solange
+nur ins Tailnet kam, wer ohnehin Zugang hatte, war das vertretbar. Für eine
+Seite im offenen Netz ist es das nicht: Würde die App übernommen, sässe ein
+Angreifer neben dem Haus-DNS.
+
+Deshalb **CT 102 `ga-tool`** (`192.168.178.68`), Debian 12, 1,5 GB, nur für
+das Portal. CT 101 wurde im Gegenzug von 2 GB auf 1 GB gesetzt — unterm Strich
+bleibt der Speicherbedarf auf host1 gleich.
+
+Auf CT 101 liegt die alte Installation noch, nur abgeschaltet
+(`systemctl disable ga-tool ga-tool-backup.timer`, Cron-Eintrag entfernt). Sie
+ist der Rückweg, falls am neuen Container etwas klemmt; nach ein paar
+störungsfreien Wochen kann sie weg.
 
 ## Monitoring
 
 Die Überwachung sitzt in **Home Assistant auf VM 100** (`192.168.178.66`), nicht
-im Node-RED auf CT 101. Das ist Absicht: fiele der Container aus, bliebe eine
+im Node-RED auf CT 102. Das ist Absicht: fiele der Container aus, bliebe eine
 Überwachung auf demselben Container stumm — also genau dann, wenn sie gebraucht
 wird.
 
@@ -510,7 +520,7 @@ In `/config/configuration.yaml`:
 
 ```yaml
 rest:
-  - resource: http://192.168.178.67:3700/api/health
+  - resource: http://192.168.178.68:3700/api/health
     scan_interval: 120
     timeout: 10
     binary_sensor:
@@ -548,7 +558,7 @@ Das Skript zieht ein DB-Backup, holt den Code, migriert, baut, startet neu und
 prüft den Health-Endpunkt. Die Handgriffe von früher stehen darunter, falls
 etwas klemmt.
 
-Auf CT 101 läuft es per Cron **alle fünf Minuten**:
+Auf CT 102 läuft es per Cron **alle fünf Minuten**:
 
 ```
 */5 * * * * /opt/ga-tool/scripts/server-update.sh --auto >> /var/log/ga-tool-update.log 2>&1
@@ -648,10 +658,10 @@ Von Hand zu erledigen, weil es am Zielsystem hängt:
       nutzbar
 - [x] DB liegt in persistentem Volume mit täglichem Backup — **und ein Restore
       wurde einmal durchgespielt.** Eine Sicherung, die nie zurückgespielt
-      wurde, ist eine Vermutung. Am 13.09.2026 auf CT 101 durchgespielt, siehe
+      wurde, ist eine Vermutung. Am 13.09.2026 auf CT 102 durchgespielt, siehe
       [Sicherung und Restore](#sicherung-und-restore)
 - [x] systemd-Unit hat `ProtectSystem=strict`, läuft als unprivilegierter User
-      — seit 13.09.2026 auf CT 101. Nachgeprüft: der Prozess läuft als
+      — seit 13.09.2026 auf CT 102. Nachgeprüft: der Prozess läuft als
       `ga-tool`, und ein `POST /api/track` erzeugt weiterhin eine Zeile in
       `analytics_event` (572 → 573). Ohne diesen Schreibtest wäre nur belegt,
       dass der Dienst startet

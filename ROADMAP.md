@@ -1,7 +1,7 @@
 # Roadmap
 
 Stand 13.09.2026, Version 0.10.1. Die erste Ausbaustufe ist fertig und läuft auf
-CT 101: Nachschlagen, Rechnen, Offline. Was jetzt kommt, steht in
+CT 102: Nachschlagen, Rechnen, Offline. Was jetzt kommt, steht in
 [docs/KONZEPT-OBJEKTE.md](docs/KONZEPT-OBJEKTE.md) — aus dem Nachschlagewerk
 soll ein Arbeitsgerät werden.
 
