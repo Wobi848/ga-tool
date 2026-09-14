@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import type { ActionData } from './$types';
+	import type { ActionData, PageData } from './$types';
 
-	let { form }: { form: ActionData } = $props();
+	let { form, data }: { form: ActionData; data: PageData } = $props();
 	let loading = $state(false);
 	let mode = $state<'login' | 'register'>('login');
 	$effect(() => {
 		if ((form as { mode?: string } | null)?.mode === 'register') mode = 'register';
+		// Falls die Registrierung inzwischen geschlossen wurde: nicht in einer
+		// Maske stehenbleiben, die der Server ablehnt.
+		if (!data.registrierungOffen) mode = 'login';
 	});
 
 	const verifyPending = $derived(!!(form as { verifyPending?: boolean } | null)?.verifyPending);
@@ -141,11 +144,16 @@
 					</button>
 				</form>
 
-				<div class="divider"></div>
+				{#if data.registrierungOffen}
+					<div class="divider"></div>
 
-				<button class="toggle-btn" onclick={() => (mode = mode === 'login' ? 'register' : 'login')}>
-					{mode === 'login' ? 'Noch kein Account? Erstellen' : 'Bereits registriert? Anmelden'}
-				</button>
+					<button
+						class="toggle-btn"
+						onclick={() => (mode = mode === 'login' ? 'register' : 'login')}
+					>
+						{mode === 'login' ? 'Noch kein Account? Erstellen' : 'Bereits registriert? Anmelden'}
+					</button>
+				{/if}
 			</div>
 		{/if}
 

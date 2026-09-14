@@ -421,6 +421,72 @@ Was ohne Netz funktioniert, und was nicht:
 Alle 122 Artikel vorzuwärmen wären 122 Anfragen bei jedem Start. Stattdessen
 nur die persönlichen: Favoriten zuerst, dann zuletzt Gelesenes, höchstens 30.
 
+## Öffentlich erreichbar machen (Funnel)
+
+Solange nur `tailscale serve` läuft, kommt man ausschliesslich aus dem Tailnet
+ans Portal. Für einen Rechner, auf dem sich Tailscale nicht installieren lässt,
+braucht es `tailscale funnel` — und damit steht die Seite im offenen Netz.
+
+### Was Funnel veröffentlicht, und was nicht
+
+Genau ein Ziel: `https://host1.tail4ad0d6.ts.net/` → `http://192.168.178.67:3700`.
+`tailscaled` nimmt die Verbindung an und reicht sie nur dorthin weiter.
+
+Nicht erreichbar bleiben Node-RED (1880), AdGuard (80/53), SSH (22),
+ottosAPI-leech (3069), Redis und Postfix (nur localhost) sowie die
+Proxmox-Oberfläche auf host1 (8006). Das von host1 verteilte Subnetz
+`192.168.178.0/24` ist eine **Tailnet**-Funktion — Funnel-Verkehr endet am Proxy
+und kann es nicht benutzen. Eine Portfreigabe am Router ist nicht nötig: host1
+baut die Verbindung nach aussen auf.
+
+### Vorher absichern
+
+1. **Registrierung schliessen.** `REGISTRIERUNG_OFFEN=false` in der `.env`.
+   Sonst kann sich jeder ein Konto anlegen. Die Prüfung sitzt in der
+   `register`-Action, nicht nur in der Oberfläche — ein abgeschickter
+   Formularaufruf umgeht jede versteckte Schaltfläche. Ausnahme: ist noch kein
+   Konto vorhanden, geht Registrierung immer, sonst sperrt sich eine frische
+   Installation selbst aus.
+2. **Echte Absenderadresse durchreichen.** `VERTRAUTER_PROXY=192.168.178.2`.
+   Ohne das meldet `getClientAddress()` für **jeden** Aufruf durch den Tunnel
+   dieselbe Adresse, und die Anmeldebremse (5 Versuche / 5 min) gilt global:
+   fünf falsche Versuche von irgendwoher sperren den Besitzer aus, beliebig oft
+   wiederholbar.
+
+   **Nicht** `ADDRESS_HEADER=x-forwarded-for` setzen: dann _wirft_
+   `getClientAddress()`, sobald die Kopfzeile fehlt — und bei einem direkten
+   Aufruf im LAN fehlt sie. Nachgelesen in
+   `@sveltejs/adapter-node/files/handler.js`. Stattdessen `$lib/server/clientIp`,
+   das der Kopfzeile nur glaubt, wenn die Anfrage wirklich vom eigenen Tunnel
+   kommt.
+
+### Einschalten
+
+```bash
+# einmalig im Tailnet freischalten (Weboberfläche):
+#   https://login.tailscale.com/f/funnel?node=<node>
+tailscale funnel --bg --https=443 http://192.168.178.67:3700
+tailscale funnel status          # "Funnel on" statt "tailnet only"
+```
+
+Abschalten: `tailscale funnel --https=443 off` — danach ist sofort wieder zu.
+
+### Was danach zu prüfen ist
+
+- Was der Tunnel in `x-forwarded-for` tatsächlich schickt (mit einem
+  Echo-Server messen, **nicht** annehmen) — davon hängt ab, ob
+  `VERTRAUTER_PROXY` die richtige Adresse trägt
+- Ob die Anmeldebremse wirklich je Absender greift und nicht global
+- Dass die Registrierung geschlossen ist: `/login` darf keinen Weg dorthin
+  anbieten, und ein direkter `POST /login?/register` muss mit 403 enden
+
+### Was offen bleibt
+
+CT 101 ist ein Sammelcontainer — dort läuft auch AdGuard, der DNS fürs ganze
+Haus. Würde die App übernommen, sässe ein Angreifer in diesem Container. Die
+systemd-Härtung begrenzt, was der Prozess anrichten kann; sauberer wäre ein
+eigener Container nur für das Portal.
+
 ## Monitoring
 
 Die Überwachung sitzt in **Home Assistant auf VM 100** (`192.168.178.66`), nicht

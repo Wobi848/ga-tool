@@ -1,5 +1,37 @@
 # Changelog
 
+## v0.12.1 — 2026-09-14
+
+### Vorbereitung für eine öffentlich erreichbare Seite
+
+Vom Geschäftsrechner, auf dem sich Tailscale nicht installieren lässt, käme man
+nur über `tailscale funnel` ans Portal — und damit stünde es im offenen Netz.
+Zwei Dinge mussten vorher stimmen, beide durch Nachsehen gefunden:
+
+- **Registrierung lässt sich schliessen** (`REGISTRIERUNG_OFFEN=false`). Sonst
+  kann sich jeder ein Konto anlegen. Die Prüfung sitzt in der `register`-Action
+  und nicht nur in der Oberfläche — ein abgeschickter Formularaufruf umgeht
+  jede versteckte Schaltfläche. Ist noch kein Konto vorhanden, geht
+  Registrierung immer, sonst sperrt sich eine frische Installation selbst aus
+- **Die Anmeldebremse zählt wieder je Absender.** `getClientAddress()` meldete
+  für jeden Aufruf durch den Tunnel dieselbe Adresse, die Bremse galt also
+  global: fünf falsche Versuche von irgendwoher hätten den Besitzer
+  ausgesperrt, beliebig oft wiederholbar
+
+Der naheliegende Weg wäre `ADDRESS_HEADER=x-forwarded-for` gewesen — und hätte
+die LAN-Adresse zerlegt: fehlt die Kopfzeile, **wirft** `getClientAddress()`,
+und bei direkten Aufrufen fehlt sie. Stattdessen `$lib/server/clientIp`, das der
+Kopfzeile nur glaubt, wenn die Anfrage wirklich vom eigenen Tunnel kommt
+(`VERTRAUTER_PROXY`). Sonst könnte sich jeder eine Absenderadresse ausdenken.
+
+Ebenfalls nachgesehen, statt angenommen: die App holt **nirgends** etwas von
+einer URL, die ein Benutzer bestimmt, und nimmt keine Dateien entgegen. Sie
+taugt damit nicht als Sprungbrett ins LAN.
+
+Funnel selbst ist noch **nicht** eingeschaltet — das verlangt eine einmalige
+Freischaltung im Tailscale-Konto. Der Ablauf samt dem, was danach zu messen
+ist, steht in [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## v0.12.0 — 2026-09-13
 
 ### Objekte und Durchläufe gleichen sich zwischen Geräten ab

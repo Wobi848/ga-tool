@@ -2,16 +2,19 @@ import { fail, redirect } from '@sveltejs/kit';
 import { APIError } from 'better-auth/api';
 import { auth } from '$lib/server/auth';
 import { rateLimit } from '$lib/server/rateLimit';
+import { clientIp } from '$lib/server/clientIp';
+import { registrierungOffen } from '$lib/server/registrierung';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = ({ locals }) => {
+export const load: PageServerLoad = async ({ locals }) => {
 	if (locals.user) redirect(302, '/');
-	return {};
+	// Die Oberflaeche soll keinen Weg anbieten, den der Server danach ablehnt.
+	return { registrierungOffen: await registrierungOffen() };
 };
 
 export const actions: Actions = {
 	login: async (event) => {
-		const ip = event.getClientAddress();
+		const ip = clientIp(event);
 		if (!rateLimit(`login:${ip}`, 5, 5 * 60 * 1000)) {
 			return fail(429, {
 				message: 'Zu viele Anmeldeversuche. Bitte 5 Minuten warten.',
@@ -37,7 +40,17 @@ export const actions: Actions = {
 	},
 
 	register: async (event) => {
-		const ip = event.getClientAddress();
+		// Vor allem anderen: ist Registrierung ueberhaupt erlaubt? Die Pruefung
+		// gehoert hierher und nicht nur in die Oberflaeche — ein abgeschickter
+		// Formularaufruf umgeht jede versteckte Schaltflaeche.
+		if (!(await registrierungOffen())) {
+			return fail(403, {
+				message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.',
+				mode: 'register'
+			});
+		}
+
+		const ip = clientIp(event);
 		if (!rateLimit(`register:${ip}`, 5, 60 * 60 * 1000)) {
 			return fail(429, {
 				message: 'Zu viele Registrierungsversuche. Bitte später erneut versuchen.',

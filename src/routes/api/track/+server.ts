@@ -3,6 +3,7 @@ import type { RequestHandler } from './$types';
 import { db } from '$lib/server/db';
 import { analyticsEvent } from '$lib/server/db/analytics.schema';
 import { rateLimit } from '$lib/server/rateLimit';
+import { clientIp } from '$lib/server/clientIp';
 
 const MAX_PATH_LEN = 256;
 const ALLOWED_MODULES = new Set([
@@ -38,7 +39,7 @@ function moduleFromPath(path: string): { module: string; slug: string | null } {
 }
 
 export const POST: RequestHandler = async ({ request, locals, getClientAddress }) => {
-	const ip = getClientAddress();
+	const ip = clientIp({ request, getClientAddress });
 	const key = locals.user?.id ? `track:user:${locals.user.id}` : `track:ip:${ip}`;
 	if (!rateLimit(key, 120, 60 * 1000)) {
 		return json({ ok: true });
