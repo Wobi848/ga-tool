@@ -22,6 +22,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related:
+rechner: [hydraulik-simulator]
   [hydraulische-schaltungen, motorventile, pid-regler, hydraulischer-abgleich, ventilautoritaet]
 
 norm: [EN 14336, VDI 3814]

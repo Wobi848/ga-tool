@@ -5,4 +5,4 @@
  * beide auseinander (0.9.6 hier, 0.9.7 dort), und das Update-Skript meldete
  * daraufhin die falsche Version.
  */
-export const APP_VERSION = '0.14.0';
+export const APP_VERSION = '0.15.0';

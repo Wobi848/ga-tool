@@ -336,6 +336,10 @@ export const de = {
 			name: 'Psychrometrie',
 			short: 'h-x Diagramm: alle Zustandsgrössen feuchte Luft'
 		},
+		hydraulikSimulator: {
+			name: 'Hydraulik-Simulator',
+			short: 'Ventilkennlinie, Autorität und Betriebsverhalten — Drossel und Beimischung'
+		},
 		pidSimulator: {
 			name: 'PID-Simulator',
 			short: 'PT1 + Totzeit · Anti-Windup · HVAC-Presets · Echtzeit-Simulation'
@@ -704,6 +708,47 @@ export const de = {
 			rhCurves: 'rel. Feuchte'
 		},
 
+		hydraulikSimulatorUi: {
+			schaltung: 'Schaltung',
+			drossel: 'Drosselschaltung (2-Wege)',
+			beimischung: 'Beimischschaltung (3-Wege)',
+			auslegung: 'Auslegung',
+			q100: 'Auslegungsdurchfluss',
+			dpGesamt: 'Verfügbarer Differenzdruck',
+			autoritaet: 'Ventilautorität a',
+			kennlinie: 'Ventilkennlinie',
+			linear: 'linear',
+			gleichprozentig: 'gleichprozentig',
+			stellverhaeltnis: 'Stellverhältnis Kvs/Kv0',
+			pumpe: 'Erzeuger',
+			konstant: 'Konstantdruck',
+			proportional: 'Proportionaldruck',
+			hub: 'Ventilhub',
+			betriebspunkt: 'Betriebspunkt',
+			durchfluss: 'Durchfluss',
+			relativ: 'vom Auslegungswert',
+			dpVentil: 'Δp Ventil',
+			dpAnlage: 'Δp übriger Kreis',
+			dpPumpe: 'Δp Erzeuger',
+			kvAktuell: 'Kv bei diesem Hub',
+			kvs: 'erforderliches Kvs',
+			verzerrung: 'Abweichung von der Geraden',
+			kennlinienbild: 'Kennlinien',
+			eigen: 'Eigenkennlinie (Katalog)',
+			betrieb: 'Betriebskennlinie (an der Anlage)',
+			ideal: 'Gerade',
+			temperaturen: 'Temperaturen',
+			tPrimaer: 'Vorlauf Erzeuger',
+			tRuecklauf: 'Rücklauf Verbraucher',
+			tVorlauf: 'Vorlauf Verbraucher',
+			warnAutoritaet:
+				'Autorität a = {a}. Unter 0,3 wird die Regelung im unteren Hubbereich unbrauchbar — das Ventil ist zu gross gewählt.',
+			hinweisDrossel:
+				'Die Kennlinie im Katalog ist nicht die, die man an der Anlage erlebt. Dazwischen liegt die Autorität: je kleiner sie ist, desto mehr Durchfluss steht schon bei kleinem Hub an.',
+			hinweisBeimischung:
+				'Der Durchfluss im Verbraucher bleibt konstant, geregelt wird die Vorlauftemperatur. Eine schwache Autorität verzerrt hier nicht den Durchfluss, sondern die Temperatur — man merkt es am Raum statt am Manometer.',
+			formel: 'Q = Kv · √(Δp in bar) · Gleichgewicht von Erzeugerdruck und Kreiswiderstand.'
+		},
 		pidSimulatorUi: {
 			title: 'PID-Regler Simulator',
 			subtitle: 'PT1 + Totzeit Streckenmodell · Anti-Windup · HVAC-Presets',

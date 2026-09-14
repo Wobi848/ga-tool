@@ -74,6 +74,15 @@ export const rechner: RechnerMeta[] = [
 		color: '#16a34a'
 	},
 	{
+		slug: 'hydraulik-simulator',
+		name: 'Hydraulik-Simulator',
+		name_en: 'Hydraulic Simulator',
+		short: 'Ventilkennlinie · Autorität · Drossel- und Beimischschaltung',
+		short_en: 'Valve characteristic · authority · throttling and mixing circuits',
+		icon: 'droplets',
+		color: '#0d9488'
+	},
+	{
 		slug: 'pid-simulator',
 		name: 'PID-Simulator',
 		name_en: 'PID Simulator',

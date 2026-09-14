@@ -23,6 +23,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulischer-abgleich, motorventile, pid-regler, druckverlust, waermepumpe]
+rechner: [hydraulik-simulator]
 norm: [VDI 2035, EN 14336]
 updated: 2026-05-14
 lang: de

@@ -1,5 +1,46 @@
 # Changelog
 
+## v0.15.0 — 2026-09-14
+
+### Hydraulik-Simulator
+
+Der zweite Simulator, im Konzept seit jeher als v2 neben dem PID-Regler
+vorgesehen. Er zeigt das, was im Feld am meisten Ärger macht: **die Kennlinie
+im Ventilkatalog ist nicht die, die man an der Anlage erlebt.**
+
+- **Drosselschaltung** — Ventilhub gegen Durchfluss, mit Druckaufteilung
+  zwischen Ventil und übrigem Kreis
+- **Beimischschaltung** — konstanter Durchfluss, geregelt wird die
+  Vorlauftemperatur
+- Ventilautorität als Schieber: bei `a = 0,1` liefert ein lineares Ventil schon
+  bei halbem Hub über 70 % Durchfluss. Ein gleichprozentiges wird durch die
+  Anlage gerade gezogen — genau dafür ist es gedacht
+- Konstant- und Proportionaldruck-Erzeuger
+- Diagramm mit Eigenkennlinie, Betriebskennlinie und Gerade übereinander
+
+Die Physik steht in `src/lib/hydraulik/simulation.ts`, geprüft mit 23 Tests
+gegen **Handrechnungen** statt gegen sich selbst: Kvs = 4 bei 2 m³/h und
+25 kPa, Anlagenwiderstand 6,25, und die Definition der gleichprozentigen
+Kennlinie — gleicher Hubschritt, gleicher prozentualer Kv-Zuwachs.
+
+Verlinkt aus `ventilautoritaet`, `motorventile`, `ventil-schaltungen` und
+`hydraulische-schaltungen`.
+
+### PID-Artikel auf Normalmass
+
+Er war mit 2448 Zeichen der kürzeste Artikel überhaupt — bei einem Median von
+5430, und das für das Kernthema der Regelungstechnik. Jetzt 6211 Zeichen, und
+zwar um das, was am Regler tatsächlich dransteht:
+
+- **Xp statt K_p** — der Proportionalbereich, wie ihn jeder Regler im
+  Schaltschrank anzeigt, samt Umrechnung und dem Merksatz, dass ein kleines Xp
+  einen scharfen Regler bedeutet
+- **Wirkrichtung** — eine falsche sieht aus wie ein defektes Stellglied
+- **Abtastzeit** — T_n mindestens zehnmal den Reglerzyklus
+- **Anti-Windup** richtig erklärt statt nur als Fehler erwähnt
+- **Startwerte für sieben typische Regelkreise**, weil Ziegler-Nichols im
+  belegten Gebäude selten erwünscht ist
+
 ## v0.14.0 — 2026-09-14
 
 ### Bus-Protokolle im Vergleich

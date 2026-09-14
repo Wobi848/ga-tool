@@ -332,6 +332,10 @@ export const en = {
 			name: 'Psychrometrics',
 			short: 'h-x diagram: all state variables for moist air'
 		},
+		hydraulikSimulator: {
+			name: 'Hydraulic Simulator',
+			short: 'Valve characteristic, authority and behaviour — throttling and mixing'
+		},
 		pidSimulator: {
 			name: 'PID Simulator',
 			short: 'PT1 + dead time · anti-windup · HVAC presets · real-time simulation'
@@ -698,6 +702,47 @@ export const en = {
 			rhCurves: 'rel. humidity'
 		},
 
+		hydraulikSimulatorUi: {
+			schaltung: 'Circuit',
+			drossel: 'Throttling circuit (2-way)',
+			beimischung: 'Mixing circuit (3-way)',
+			auslegung: 'Design point',
+			q100: 'Design flow',
+			dpGesamt: 'Available differential pressure',
+			autoritaet: 'Valve authority a',
+			kennlinie: 'Valve characteristic',
+			linear: 'linear',
+			gleichprozentig: 'equal percentage',
+			stellverhaeltnis: 'Rangeability Kvs/Kv0',
+			pumpe: 'Pump',
+			konstant: 'Constant pressure',
+			proportional: 'Proportional pressure',
+			hub: 'Valve stroke',
+			betriebspunkt: 'Operating point',
+			durchfluss: 'Flow',
+			relativ: 'of design flow',
+			dpVentil: 'Δp valve',
+			dpAnlage: 'Δp rest of circuit',
+			dpPumpe: 'Δp pump',
+			kvAktuell: 'Kv at this stroke',
+			kvs: 'required Kvs',
+			verzerrung: 'Deviation from straight line',
+			kennlinienbild: 'Characteristics',
+			eigen: 'Inherent (catalogue)',
+			betrieb: 'Installed (as built)',
+			ideal: 'Straight line',
+			temperaturen: 'Temperatures',
+			tPrimaer: 'Primary supply',
+			tRuecklauf: 'Consumer return',
+			tVorlauf: 'Consumer supply',
+			warnAutoritaet:
+				'Authority a = {a}. Below 0.3 control becomes unusable at low stroke — the valve is oversized.',
+			hinweisDrossel:
+				'The catalogue characteristic is not the one you experience on site. Authority sits in between: the lower it is, the more flow is already there at small stroke.',
+			hinweisBeimischung:
+				'Consumer flow stays constant; what is controlled is the supply temperature. Weak authority distorts not the flow but the temperature — you notice it in the room, not on the gauge.',
+			formel: 'Q = Kv · √(Δp in bar), balancing pump pressure against circuit resistance.'
+		},
 		pidSimulatorUi: {
 			title: 'PID Controller Simulator',
 			subtitle: 'PT1 + dead time plant model · anti-windup · HVAC presets',
