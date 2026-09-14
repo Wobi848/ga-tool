@@ -1,24 +1,35 @@
 import { env } from '$env/dynamic/private';
 
-/** Kommt diese Anfrage aus dem offenen Netz?
+/** Kam diese Anfrage durch den Tunnel — also ueber die oeffentliche Adresse?
  *
- * `tailscale funnel` setzt bei jeder Anfrage von aussen
- * `tailscale-funnel-request: ?1`. Aus dem Tailnet (`tailscale serve`) und bei
- * einem direkten Aufruf im LAN fehlt sie.
+ * `tailscale funnel` setzt dabei `tailscale-funnel-request`. Bei einem direkten
+ * Aufruf im Heimnetz (`http://192.168.178.68:3700`) fehlt sie.
  *
- * **Faelschungssicher, nachgemessen am 14.09.2026:** schickt ein Aufrufer die
- * Kopfzeile selbst mit `?0` oder versucht sie zu leeren, kommt bei der App
- * trotzdem `?1` an — tailscaled ueberschreibt sie. Die gefaehrliche Richtung
- * waere, sie von aussen loszuwerden; genau das geht nicht.
+ * **Wichtig, und am 14.09.2026 erst nach dem Messen klar geworden:** das
+ * unterscheidet *nicht* zwischen Tailnet und offenem Netz. Sobald Funnel auf
+ * einem Port laeuft, kommen auch Anfragen aus dem Tailnet ueber den
+ * oeffentlichen Weg herein — nachgemessen mit einem Echo-Server: Home
+ * Assistant, selbst im Tailnet, erschien mit `?1` und der oeffentlichen
+ * Heim-IP. Die urspruengliche Absicht «Tailnet bleibt offen» ist so also nicht
+ * umsetzbar, und die Benennung war entsprechend irrefuehrend.
+ *
+ * **Faelschungssicher, ebenfalls nachgemessen:** schickt ein Aufrufer die
+ * Kopfzeile selbst mit `?0` oder versucht sie zu leeren, kommt trotzdem `?1`
+ * an. Dasselbe gilt fuer `x-forwarded-for` — ein mitgeschicktes `100.64.0.99`
+ * wurde durch die echte Adresse ersetzt. Die gefaehrliche Richtung waere, die
+ * Kopfzeile von aussen loszuwerden; genau das geht nicht.
  */
-export function istAusDemOffenenNetz(request: Request): boolean {
+export function kommtDurchDenTunnel(request: Request): boolean {
 	return request.headers.has('tailscale-funnel-request');
 }
 
-/** Muessen Besucher aus dem offenen Netz angemeldet sein?
+/** Muessen Besucher ueber die oeffentliche Adresse angemeldet sein?
  *
- * Standard ja. `OEFFENTLICH_ANMELDEPFLICHT=false` schaltet es ab — etwa wenn
- * die Wissensbasis bewusst oeffentlich sein soll.
+ * Standard ja: die Adresse steht im offenen Netz, und wer sie kennt, soll
+ * nicht einfach mitlesen. Im Heimnetz bleibt die App ohne Konto benutzbar.
+ *
+ * `OEFFENTLICH_ANMELDEPFLICHT=false` schaltet es ab — etwa wenn die
+ * Wissensbasis bewusst oeffentlich sein soll.
  */
 export function anmeldepflichtImOffenenNetz(): boolean {
 	return (env.OEFFENTLICH_ANMELDEPFLICHT ?? '').trim().toLowerCase() !== 'false';

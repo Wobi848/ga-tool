@@ -1,19 +1,19 @@
 import { describe, it, expect, vi } from 'vitest';
-import { istAusDemOffenenNetz, immerErlaubt } from './zugang';
+import { kommtDurchDenTunnel, immerErlaubt } from './zugang';
 
 /* Prüfung der Zugangsschranke.
  *
- * Sie entscheidet, ob jemand aus dem offenen Netz das Portal sieht oder nur
- * die Anmeldemaske. Zwei Fehler wären teuer: lässt sie zu viel durch, ist das
- * Portal öffentlich lesbar. Sperrt sie zu viel, kann sich niemand mehr
+ * Sie entscheidet, ob jemand über die öffentliche Adresse das Portal sieht oder
+ * nur die Anmeldemaske. Zwei Fehler wären teuer: lässt sie zu viel durch, ist
+ * das Portal öffentlich lesbar. Sperrt sie zu viel, kann sich niemand mehr
  * anmelden — die Anmeldeseite braucht ihr JavaScript und ihre Schriften.
  */
 
 const mitKopf = (h: Record<string, string> = {}) => new Request('http://x/', { headers: h });
 
-describe('istAusDemOffenenNetz', () => {
+describe('kommtDurchDenTunnel', () => {
 	it('erkennt Verkehr durch Funnel', () => {
-		expect(istAusDemOffenenNetz(mitKopf({ 'tailscale-funnel-request': '?1' }))).toBe(true);
+		expect(kommtDurchDenTunnel(mitKopf({ 'tailscale-funnel-request': '?1' }))).toBe(true);
 	});
 
 	it('erkennt auch einen anderen Wert als öffentlich', () => {
@@ -21,12 +21,13 @@ describe('istAusDemOffenenNetz', () => {
 		// mit '?1'. Auf den Inhalt zu prüfen wäre trotzdem zerbrechlich — die
 		// blosse Anwesenheit genügt, und ein von aussen gesetztes '?0' würde
 		// den Besucher dann nicht besserstellen.
-		expect(istAusDemOffenenNetz(mitKopf({ 'tailscale-funnel-request': '?0' }))).toBe(true);
+		expect(kommtDurchDenTunnel(mitKopf({ 'tailscale-funnel-request': '?0' }))).toBe(true);
 	});
 
-	it('Tailnet und LAN sind nicht das offene Netz', () => {
-		expect(istAusDemOffenenNetz(mitKopf())).toBe(false);
-		expect(istAusDemOffenenNetz(mitKopf({ 'x-forwarded-for': '100.64.0.7' }))).toBe(false);
+	it('ein direkter Aufruf im Heimnetz kommt nicht durch den Tunnel', () => {
+		expect(kommtDurchDenTunnel(mitKopf())).toBe(false);
+		// Auch ein x-forwarded-for allein macht daraus keinen Tunnelaufruf.
+		expect(kommtDurchDenTunnel(mitKopf({ 'x-forwarded-for': '100.64.0.7' }))).toBe(false);
 	});
 });
 

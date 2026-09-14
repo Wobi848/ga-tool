@@ -4,12 +4,7 @@ import { building } from '$app/environment';
 import { auth } from '$lib/server/auth';
 import { ensureSystemAdmin } from '$lib/server/bootstrap';
 import { svelteKitHandler } from 'better-auth/svelte-kit';
-import { redirect } from '@sveltejs/kit';
-import {
-	anmeldepflichtImOffenenNetz,
-	immerErlaubt,
-	istAusDemOffenenNetz
-} from '$lib/server/zugang';
+import { anmeldepflichtImOffenenNetz, immerErlaubt, kommtDurchDenTunnel } from '$lib/server/zugang';
 
 // Einmaliger Boot-Check: alten Deployments ohne systemadmin nachträglich
 // einen aus dem ältesten admin promoten. Während des Builds (Prerender)
@@ -71,16 +66,19 @@ const handleSchutzkopfzeilen: Handle = async ({ event, resolve }) => {
 	return antwort;
 };
 
-/* Aus dem offenen Netz nur mit Anmeldung.
+/* Ueber die oeffentliche Adresse nur mit Anmeldung.
  *
- * Seit dem 14.09.2026 ist das Portal ueber `tailscale funnel` oeffentlich
- * erreichbar — damit es von einem Rechner ohne Tailscale aus geht, nicht damit
- * es jeder lesen kann. Wer von aussen kommt, sieht deshalb die Anmeldemaske
- * und sonst nichts.
+ * Seit dem 14.09.2026 ist das Portal ueber `tailscale funnel` erreichbar —
+ * damit es von einem Rechner ohne Tailscale aus geht, nicht damit es jeder
+ * lesen kann. Wer ueber `https://host1.tail4ad0d6.ts.net` kommt, sieht deshalb
+ * die Anmeldemaske und sonst nichts.
  *
- * Aus dem Tailnet und im LAN aendert sich nichts: dort ist die App weiterhin
- * ohne Konto benutzbar. Unterschieden wird an der Kopfzeile, die
- * `tailscale funnel` setzt und die sich von aussen nicht faelschen laesst.
+ * Im Heimnetz, also direkt auf `http://192.168.178.68:3700`, aendert sich
+ * nichts: dort bleibt die App ohne Konto benutzbar.
+ *
+ * Anders als zunaechst gedacht trifft das auch Geraete im Tailnet — siehe die
+ * Anmerkung bei `kommtDurchDenTunnel`. Einmal anmelden je Geraet, dann haelt
+ * die Sitzung.
  *
  * Der Reihenfolge wegen laeuft dieser Schritt **nach** der Anmeldepruefung —
  * vorher gaebe es `locals.user` noch nicht.
@@ -89,16 +87,26 @@ const handleOeffentlicherZugang: Handle = async ({ event, resolve }) => {
 	if (
 		!event.locals.user &&
 		anmeldepflichtImOffenenNetz() &&
-		istAusDemOffenenNetz(event.request) &&
+		kommtDurchDenTunnel(event.request) &&
 		!immerErlaubt(event.url.pathname)
 	) {
-		redirect(303, '/login');
+		// Bewusst eine zurueckgegebene Antwort statt `redirect()`: das wirft, und
+		// ein geworfener Redirect laeuft an den umschliessenden Handles vorbei.
+		// Die Schutzkopfzeilen fehlten dadurch ausgerechnet auf der Antwort, die
+		// ein Crawler als Erstes sieht — am 14.09.2026 genau so beobachtet, und
+		// Umsortieren allein hat es nicht behoben.
+		return new Response(null, { status: 303, headers: { location: '/login' } });
 	}
 	return resolve(event);
 };
 
+/* Die Schutzkopfzeilen stehen **zuerst**, damit sie alles Weitere umschliessen.
+ * Innen gesetzt fehlten sie bei jeder Umleitung: die Zugangsschranke wirft
+ * einen Redirect, und was danach kaeme, lief nie. Am 14.09.2026 genau so
+ * beobachtet — `X-Robots-Tag` fehlte ausgerechnet auf der Antwort, die ein
+ * Crawler als Erstes sieht. */
 export const handle: Handle = sequence(
+	handleSchutzkopfzeilen,
 	handleBetterAuth,
-	handleOeffentlicherZugang,
-	handleSchutzkopfzeilen
+	handleOeffentlicherZugang
 );

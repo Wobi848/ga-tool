@@ -2,20 +2,27 @@
 
 ## v0.13.1 — 2026-09-14
 
-### Aus dem offenen Netz nur mit Anmeldung
+### Über die öffentliche Adresse nur mit Anmeldung
 
 Das Portal ist öffentlich erreichbar, damit es von einem Rechner ohne Tailscale
-aus geht — **nicht**, damit es jeder lesen kann. Wer von aussen kommt, sieht
-jetzt die Anmeldemaske und sonst nichts.
+aus geht — **nicht**, damit es jeder lesen kann. Wer über
+`https://host1.tail4ad0d6.ts.net` kommt, sieht jetzt die Anmeldemaske und sonst
+nichts. Im Heimnetz, direkt auf `http://192.168.178.68:3700`, bleibt die App
+ohne Konto benutzbar.
 
-Aus dem Tailnet und im Heimnetz ändert sich nichts: dort bleibt die App ohne
-Konto benutzbar, wie bisher.
+Unterschieden wird an der Kopfzeile, die `tailscale funnel` setzt. Zwei Dinge
+dazu kamen erst durchs Messen heraus:
 
-Unterschieden wird an der Kopfzeile, die `tailscale funnel` setzt. Dass die
-sich nicht fälschen lässt, wurde gemessen und nicht angenommen: schickt ein
-Aufrufer von aussen `tailscale-funnel-request: ?0` mit oder versucht sie zu
-leeren, kommt bei der App trotzdem `?1` an — tailscaled überschreibt sie. Die
-gefährliche Richtung wäre, sie von aussen loszuwerden; genau das geht nicht.
+- **Sie lässt sich nicht fälschen.** Schickt ein Aufrufer von aussen
+  `tailscale-funnel-request: ?0` mit oder versucht sie zu leeren, kommt trotzdem
+  `?1` an. Dasselbe bei `x-forwarded-for`: ein mitgeschicktes `100.64.0.99`
+  wurde durch die echte Adresse ersetzt
+- **Sie unterscheidet nicht zwischen Tailnet und offenem Netz.** Sobald Funnel
+  auf einem Port läuft, kommen auch Anfragen aus dem Tailnet über den
+  öffentlichen Weg herein — Home Assistant, selbst im Tailnet, erschien mit `?1`
+  und der öffentlichen Heim-IP. Die ursprüngliche Absicht «Tailnet bleibt
+  offen» ist so nicht umsetzbar; einmal anmelden je Gerät, dann hält die
+  Sitzung
 
 Durchgelassen wird nur, was die Anmeldung selbst braucht: `/login`, die
 Auth-Schnittstelle, das JavaScript, die Schriften und `/offline.html`. Ein Test
@@ -35,6 +42,10 @@ oben.
 
 ### Sonstiges
 
+- Die Umleitung auf `/login` wird als Antwort **zurückgegeben** statt geworfen.
+  Ein geworfener Redirect läuft an den umschliessenden Handles vorbei — die
+  Schutz-Kopfzeilen fehlten dadurch ausgerechnet auf der Antwort, die ein
+  Crawler als Erstes sieht. Umsortieren allein hat es nicht behoben
 - Ein Test, der alle 122 Artikel einzeln lädt, lief unter Last in die
   5-Sekunden-Vorgabe. Allein braucht er 1,2 s. Zeitlimit auf 30 s gesetzt und
   begründet — ein Test, der gelegentlich grundlos rot wird, wird irgendwann

@@ -70,3 +70,39 @@ test.describe('Die Richtlinie bricht nichts', () => {
 		expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe('dark');
 	});
 });
+
+test.describe('Zugangsschranke', () => {
+	// Im Testlauf kommt keine Tunnel-Kopfzeile an, die Seiten sind also offen.
+	// Geprüft wird hier, dass die Schranke greift, sobald sie es tut — und dass
+	// die Schutz-Kopfzeilen auch auf der Umleitung mitkommen. Genau das fehlte
+	// am 14.09.2026: sie standen innerhalb der Schranke und liefen bei einer
+	// Umleitung nie.
+	test('gesperrte Seite liefert Umleitung samt Schutz-Kopfzeilen', async ({ request }) => {
+		const res = await request.get('/wissen', {
+			headers: { 'tailscale-funnel-request': '?1' },
+			maxRedirects: 0
+		});
+		expect(res.status(), 'ohne Anmeldung muss umgeleitet werden').toBe(303);
+		expect(res.headers()['location']).toBe('/login');
+		expect(res.headers()['x-robots-tag'], 'X-Robots-Tag fehlt auf der Umleitung').toContain(
+			'noindex'
+		);
+		expect(res.headers()['x-content-type-options']).toBe('nosniff');
+	});
+
+	test('die Anmeldeseite und ihre Bausteine bleiben erreichbar', async ({ request }) => {
+		for (const pfad of ['/login', '/robots.txt', '/offline.html', '/manifest.webmanifest']) {
+			const res = await request.get(pfad, {
+				headers: { 'tailscale-funnel-request': '?1' },
+				maxRedirects: 0
+			});
+			expect(res.status(), `${pfad} muss erreichbar bleiben`).toBe(200);
+		}
+	});
+
+	test('ohne Tunnel-Kopfzeile bleibt alles offen', async ({ request }) => {
+		// Das Heimnetz soll sich nicht verändern.
+		const res = await request.get('/wissen', { maxRedirects: 0 });
+		expect(res.status()).toBe(200);
+	});
+});
