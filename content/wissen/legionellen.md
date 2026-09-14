@@ -23,7 +23,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [sanitaer, ga, hlk]
-related: [vdi6022, signaltypen, alarmmanagement]
+related: [vdi6022, signaltypen, alarmmanagement, trinkwasser-erwaermung]
 norm: [DVGW W 551, VDI 6023, EN 806-5, WHO Guidelines, SWKI BT102-01]
 updated: 2026-05-14
 lang: de

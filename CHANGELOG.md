@@ -1,5 +1,44 @@
 # Changelog
 
+## v0.14.0 — 2026-09-14
+
+### Bus-Protokolle im Vergleich
+
+Neue Referenztabelle. Es gab je eine Tabelle für BACnet-Objekte,
+KNX-Datenpunkttypen und Modbus-Funktionscodes — also für die Innereien jedes
+einzelnen Protokolls, aber nichts für die Frage, die sich vorher stellt: womit
+verkabele ich das überhaupt.
+
+Zehn Protokolle mit Ebene, Medium, Topologie, Segmentlänge, Geräteanzahl,
+Busspeisung, typischem Einsatz und dem, worauf man achten muss. Im Konzept stand
+sie unter «Vergleichstabelle: welches Protokoll wofür» und fehlte seither.
+
+### Auf 17 Artikel verwies kein einziger anderer
+
+Jeder Artikel hatte ausgehende Querverweise — aber `hand-0-auto`, `selv-pelv`,
+`sps-grundlagen`, `luftfeuchtigkeit`, `kesselregelung` und zwölf weitere hatten
+keinen einzigen **Eingang**. Wer sich durchklickt, stösst nie darauf; nur die
+Suche findet sie.
+
+26 Artikel haben passende Verweise dazubekommen — dort, wo die Themen wirklich
+zusammengehören: `taupunkt` → `luftfeuchtigkeit`, `motorventile` →
+`ventilautoritaet`, `legionellen` → `trinkwasser-erwaermung`, `sia386` →
+`swki-richtlinien`.
+
+Der Test prüfte bisher nur, ob ein `related` ins Leere zeigt. Die andere
+Richtung fehlte und ist jetzt drin: **auf jeden Artikel muss mindestens ein
+anderer verweisen.**
+
+### Inhaltlicher Bestand nachgezählt
+
+122 Artikel (alle zweisprachig, Median 5430 Zeichen, kein Stummel), 22 Rechner,
+**18** Referenztabellen, 10 Checklisten, 233 Abkürzungen. Die 125 Themen aus dem
+Konzept sind vollständig abgedeckt.
+
+Eine frühere Meldung war falsch: der Abgleich vom 13.09. hatte Wörter mit
+höchstens drei Zeichen verworfen und deshalb `KNX`, `LON`, `EMS`, `COP` und
+`VAV` als fehlend ausgewiesen. Alle fünf sind vorhanden.
+
 ## v0.13.2 — 2026-09-14
 
 ### Aufgeklappte Auswahlfelder waren im Dunkelmodus unlesbar

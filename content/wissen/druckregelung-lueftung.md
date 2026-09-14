@@ -22,7 +22,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [vav-cav, rlt-anlage, frequenzumrichter, pid-regler, ec-motoren, regelkreise]
+related:
+  [vav-cav, rlt-anlage, frequenzumrichter, pid-regler, ec-motoren, regelkreise, k-faktor-luft]
 rechner: [pid-simulator]
 norm: [EN 16798, EN 13779, VDI 3803]
 updated: 2026-05-15

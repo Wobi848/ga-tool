@@ -23,7 +23,15 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [waermepumpe, hydraulische-schaltungen, hydraulischer-abgleich, pid-regler, legionellen]
+related:
+  [
+    waermepumpe,
+    hydraulische-schaltungen,
+    hydraulischer-abgleich,
+    pid-regler,
+    legionellen,
+    trinkwasser-erwaermung
+  ]
 norm: [EN 12977, VDI 2035]
 updated: 2026-05-14
 lang: de

@@ -23,7 +23,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [hydraulischer-abgleich, hydraulische-schaltungen, pid-regler, signaltypen]
+related:
+  [hydraulischer-abgleich, hydraulische-schaltungen, pid-regler, signaltypen, ventilautoritaet]
 norm: [EN 60534, IEC 60534, VDI/VDE 2173]
 updated: 2026-05-14
 lang: de

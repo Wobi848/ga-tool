@@ -22,7 +22,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga]
-related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement]
+related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement, bim-digitaler-zwilling]
 norm: [VDI 3814, SIA 386.110, AMEV]
 updated: 2026-05-14
 lang: de

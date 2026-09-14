@@ -22,7 +22,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [signaltypen, frequenzumrichter, modbus, netzwerk-ga]
+related: [signaltypen, frequenzumrichter, modbus, netzwerk-ga, 5plus5-regeln, selv-pelv]
 norm: [IEC 61000-5-2, EN 50174, VDE 0100-540]
 updated: 2026-05-14
 lang: de

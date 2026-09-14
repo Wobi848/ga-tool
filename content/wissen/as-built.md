@@ -21,7 +21,15 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga]
-related: [datenpunktliste, tab-protokoll, funktionsbeschreibung, glt-grundlagen, ddc-programmierung]
+related:
+  [
+    datenpunktliste,
+    tab-protokoll,
+    funktionsbeschreibung,
+    glt-grundlagen,
+    ddc-programmierung,
+    bim-digitaler-zwilling
+  ]
 norm: [VDI 3814, SIA 386.110, SIA 118, ÖNORM B 2061]
 updated: 2026-05-15
 lang: de

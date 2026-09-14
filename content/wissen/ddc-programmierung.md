@@ -25,7 +25,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga]
-related: [glt-grundlagen, pid-regler, signaltypen, steuern-regeln]
+related: [glt-grundlagen, pid-regler, signaltypen, steuern-regeln, hand-0-auto, sps-grundlagen]
 norm: [IEC 61131-3, EN 61131-3]
 updated: 2026-05-14
 lang: de

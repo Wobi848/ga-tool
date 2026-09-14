@@ -24,7 +24,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [rlt-anlage, frequenzumrichter, pid-regler, druckverlust, raumluftqualitaet]
+related: [rlt-anlage, frequenzumrichter, pid-regler, druckverlust, raumluftqualitaet, k-faktor-luft]
 norm: [EN 16798-3, EN 15232, SIA 382.1]
 updated: 2026-05-14
 lang: de

@@ -24,7 +24,16 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, hlk]
-related: [befeuchter, taupunkt, sensoren, rlt-anlage, thermische-behaglichkeit, raumluftqualitaet]
+related:
+  [
+    befeuchter,
+    taupunkt,
+    sensoren,
+    rlt-anlage,
+    thermische-behaglichkeit,
+    raumluftqualitaet,
+    luftfeuchtigkeit
+  ]
 rechner: [taupunkt]
 norm: [EN ISO 16000-11, ASHRAE 55, VDI 6022, ISO 7726]
 updated: 2026-05-15

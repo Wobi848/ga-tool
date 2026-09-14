@@ -94,6 +94,20 @@ describe('Querverweise', () => {
 		expect(tot, `tote Verweise: ${tot.join(', ')}`).toEqual([]);
 	});
 
+	it('auf jeden Artikel verweist mindestens ein anderer', () => {
+		// Bisher wurde nur geprueft, ob ein `related` ins Leere zeigt. Die
+		// andere Richtung fehlte: am 14.09.2026 hatten 17 Artikel keinen
+		// einzigen Eingang — darunter `hand-0-auto`, `selv-pelv` und
+		// `sps-grundlagen`. Wer sich durchklickt, stoesst nie darauf; nur die
+		// Suche findet sie.
+		const eingehend = new Map<string, number>();
+		for (const a of articles) {
+			for (const r of a.related) eingehend.set(r, (eingehend.get(r) ?? 0) + 1);
+		}
+		const ohne = articles.filter((a) => !eingehend.get(a.slug)).map((a) => a.slug);
+		expect(ohne, `niemand verweist auf: ${ohne.join(', ')}`).toEqual([]);
+	});
+
 	it('kein Artikel verweist auf sich selbst', () => {
 		for (const a of articles) {
 			expect(a.related, `${a.slug} verweist auf sich selbst`).not.toContain(a.slug);

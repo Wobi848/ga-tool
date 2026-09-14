@@ -25,7 +25,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, elektro, hlk]
-related: [frequenzumrichter, pid-regler, modbus]
+related: [frequenzumrichter, pid-regler, modbus, 5plus5-regeln, selv-pelv]
 norm: [IEC 60381, IEC 61131-2]
 updated: 2026-05-14
 lang: de

@@ -23,7 +23,18 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga]
-related: [bacnet, modbus, knx, pid-regler, alarmmanagement, signaltypen]
+related:
+  [
+    bacnet,
+    modbus,
+    knx,
+    pid-regler,
+    alarmmanagement,
+    signaltypen,
+    hand-0-auto,
+    sps-grundlagen,
+    visualisierung-hmi
+  ]
 norm: [EN ISO 52120, VDI 3814, SIA 386.110]
 updated: 2026-05-14
 lang: de

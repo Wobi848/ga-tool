@@ -23,7 +23,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [hlk, ga, normen]
-related: [ems-lastmanagement, energiemessung, en15232, en12831, waermepumpe]
+related: [ems-lastmanagement, energiemessung, en15232, en12831, waermepumpe, gradtage]
 norm: [SIA 380/1, GEAK, Minergie, EnEV (DE), GEG (DE), EPBD (EU)]
 updated: 2026-05-15
 lang: de

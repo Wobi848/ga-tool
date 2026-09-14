@@ -26,7 +26,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
-related: [glt-grundlagen, pid-regler, vav-cav, dali, bacnet, knx]
+related: [glt-grundlagen, pid-regler, vav-cav, dali, bacnet, knx, zonenkonzepte]
 norm: [EN ISO 52120, EN 15232, VDI 3813]
 updated: 2026-05-14
 lang: de

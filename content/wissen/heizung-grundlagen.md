@@ -31,7 +31,9 @@ related:
     heizkurve,
     waermepumpe,
     pufferspeicher,
-    fussbodenheizung
+    fussbodenheizung,
+    fernwaerme,
+    kesselregelung
   ]
 
 norm: [EN 12828, VDI 2035, SIA 384.201]

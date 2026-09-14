@@ -23,7 +23,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [mbus, sensoren, ems-lastmanagement, hydraulischer-abgleich]
+related: [mbus, sensoren, ems-lastmanagement, hydraulischer-abgleich, fernwaerme]
 norm: [EN 1434, MID (2014/32/EU), WELMEC 7.2]
 updated: 2026-05-14
 lang: de

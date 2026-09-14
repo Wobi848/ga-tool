@@ -17,7 +17,8 @@ tags:
   ]
 difficulty: grundlagen
 area: [hlk]
-related: [pid-regler, ventil-schaltungen, fussbodenheizung, heizung-grundlagen]
+related:
+  [pid-regler, ventil-schaltungen, fussbodenheizung, heizung-grundlagen, gradtage, kesselregelung]
 
 norm: [SIA 384/2]
 updated: 2026-05-14

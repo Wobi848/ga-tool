@@ -23,7 +23,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga]
-related: [datenpunktliste, glt-grundlagen, alarmmanagement]
+related: [datenpunktliste, glt-grundlagen, alarmmanagement, ibn-vorbereitung]
 norm: [VDI 3814, SIA 386.110, SIA 118]
 updated: 2026-05-14
 lang: de

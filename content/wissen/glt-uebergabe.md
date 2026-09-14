@@ -23,7 +23,16 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga]
-related: [tab-protokoll, as-built, funktionsbeschreibung, alarmmanagement, remote-zugriff]
+related:
+  [
+    tab-protokoll,
+    as-built,
+    funktionsbeschreibung,
+    alarmmanagement,
+    remote-zugriff,
+    ibn-vorbereitung,
+    visualisierung-hmi
+  ]
 norm: [VDI 3814, SIA 386.110, SIA 118]
 updated: 2026-05-15
 lang: de

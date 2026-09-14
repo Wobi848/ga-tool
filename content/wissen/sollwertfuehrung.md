@@ -21,7 +21,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, hlk]
-related: [pid-regler, heizkurve, kaskadenregelung, vorsteuerung-aufschaltung, regelkreise]
+related: [pid-regler, heizkurve, kaskadenregelung, vorsteuerung-aufschaltung, regelkreise, mpc-ga]
 rechner: [heizkurve]
 norm: [EN 15232, VDI 3814, SIA 386.110]
 updated: 2026-05-15
