@@ -1,7 +1,7 @@
 {
 	"name": "ga-tool",
 	"private": true,
-	"version": "0.12.1",
+	"version": "0.12.2",
 	"type": "module",
 	"scripts": {
 		"build:meta": "tsx scripts/build-content-meta.ts",
@@ -28,7 +28,8 @@
 		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes",
 		"preflight": "node scripts/preflight.mjs",
 		"offline-check": "node scripts/offline-check.mjs",
-		"sync-check": "node scripts/sync-check.mjs"
+		"sync-check": "node scripts/sync-check.mjs",
+		"registrierung-check": "node scripts/registrierung-check.mjs"
 	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",

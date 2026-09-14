@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.12.2 — 2026-09-14
+
+### Die geschlossene Registrierung war nicht geschlossen
+
+v0.12.1 hat die Registrierung in der `register`-Action der Anmeldeseite
+gesperrt. Nach dem Ausrollen habe ich **beide** Wege ausprobiert statt nur des
+offensichtlichen — und der zweite war offen: better-auth bringt seinen eigenen
+Endpunkt `/api/auth/sign-up/email` mit, und der legte anstandslos ein Konto an.
+Zwei Türen, eine verschlossen.
+
+- Die Prüfung sitzt jetzt in einem `before`-Haken von better-auth, an dem jeder
+  Weg vorbeikommt. Eine Regel, beide Türen
+- Das versehentlich angelegte Testkonto wurde entfernt, die Datenbank vorher
+  gesichert
+- Neu: `npm run registrierung-check` — startet einen Server mit geschlossener
+  Registrierung und prüft alle vier Eigenschaften: das erste Konto geht
+  (sonst sperrt sich eine frische Installation aus), jedes weitere wird an
+  **beiden** Türen abgelehnt, es entsteht genau ein Konto, und Anmelden geht
+  weiterhin. Gegengeprüft: ohne den Haken fallen zwei der Prüfungen durch
+
+Die Lehre steht im Skript: aufgefallen ist es nur, weil ich nach dem Ausrollen
+nachgemessen habe, statt die Konfiguration für die Wirkung zu halten.
+
 ## v0.12.1 — 2026-09-14
 
 ### Vorbereitung für eine öffentlich erreichbare Seite

@@ -2,6 +2,8 @@ import { betterAuth } from 'better-auth/minimal';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { admin } from 'better-auth/plugins';
+import { createAuthMiddleware, APIError } from 'better-auth/api';
+import { registrierungOffen } from '$lib/server/registrierung';
 import { env } from '$env/dynamic/private';
 import { getRequestEvent } from '$app/server';
 import { db } from '$lib/server/db';
@@ -109,6 +111,23 @@ export const auth = betterAuth({
 			defaultCity: { type: 'string', required: false },
 			notes: { type: 'string', required: false }
 		}
+	},
+	/* better-auth bringt seinen eigenen Registrier-Endpunkt mit
+	 * (`/api/auth/sign-up/email`). Die Pruefung in der `register`-Action der
+	 * Anmeldeseite schuetzt ihn **nicht** — am 14.09.2026 nachgemessen: bei
+	 * geschlossener Registrierung lehnte das Formular ab, und derselbe Aufruf
+	 * an die Schnittstelle legte trotzdem ein Konto an.
+	 *
+	 * Deshalb hier, an der Stelle, an der jeder Weg vorbeikommt. Eine Regel,
+	 * zwei Tueren. */
+	hooks: {
+		before: createAuthMiddleware(async (ctx) => {
+			if (ctx.path === '/sign-up/email' && !(await registrierungOffen())) {
+				throw new APIError('FORBIDDEN', {
+					message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.'
+				});
+			}
+		})
 	},
 	databaseHooks: {
 		user: {
