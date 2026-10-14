@@ -20,7 +20,7 @@ area: [hlk]
 related:
   [pid-regler, ventil-schaltungen, fussbodenheizung, heizung-grundlagen, gradtage, kesselregelung]
 
-norm: [SIA 384/2]
+norm: [SIA 384.201, SIA 384/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -94,7 +94,7 @@ Aussentemperatur, oberhalb der die Heizung abschaltet. Üblich:
 
 ## Norm-Aussentemperatur
 
-Standortabhängig — Auswahl nach SIA 384/2. Im Schweizer Mittelland −7 bis −10 °C, in den Alpen bis −19 °C (Davos).
+Standortabhängig — Klimadaten nach SIA 2028, Heizlast nach SIA 384.201. Im Schweizer Mittelland −7 bis −10 °C, in den Alpen bis −19 °C (Davos).
 
 | Ort    | Norm-Aussentemp |
 | ------ | --------------- |
@@ -180,7 +180,7 @@ Outdoor temperature above which heating switches off. Typical values:
 
 ## Design Outdoor Temperature
 
-Location-dependent — selected per SIA 384/2. In the Swiss Mittelland −7 to −10 °C, in the Alps down to −19 °C (Davos).
+Location-dependent — climate data per SIA 2028, heating load per SIA 384.201. In the Swiss Mittelland −7 to −10 °C, in the Alps down to −19 °C (Davos).
 
 | Location | Design outdoor temp |
 | -------- | ------------------- |

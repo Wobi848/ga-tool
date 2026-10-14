@@ -1529,8 +1529,8 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'SIA',
 		long: 'Schweizerischer Ingenieur- und Architektenverein',
-		description: 'Herausgeber zentraler CH-Normen wie SIA 380/1, 384/2, 380/4.',
-		descriptionEn: 'Publisher of key Swiss standards such as SIA 380/1, 384/2, 380/4.',
+		description: 'Herausgeber zentraler CH-Normen wie SIA 380/1, 382/1, 384/1.',
+		descriptionEn: 'Publisher of key Swiss standards such as SIA 380/1, 382/1, 384/1.',
 		areas: ['normen'],
 		related: ['SWKI', 'DIN']
 	},

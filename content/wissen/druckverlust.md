@@ -10,7 +10,7 @@ difficulty: fortgeschritten
 area: [hlk]
 related: [motorventile, pumpen, hydraulischer-abgleich]
 
-norm: [SIA 384/2, SIA 384/3]
+norm: [SIA 384/1]
 updated: 2026-05-14
 lang: de
 ---

@@ -10,7 +10,7 @@ export const temperaturspreizungen: ReferenceTable = {
 	icon: 'thermometer',
 	color: '#dc2626',
 	areas: ['hlk', 'normen'],
-	norm: ['SIA 384/2', 'EN 12831', 'EN 14336', 'EN 15316'],
+	norm: ['SIA 384/1', 'EN 12831', 'EN 14336', 'EN 15316'],
 	updated: '2026-05-15',
 	description:
 		'Richtwerte für Vor-/Rücklauftemperaturen (VL/RL) und Spreizung ΔT bei verschiedenen Heizungs- und Kühlsystemen. Niedrigere Vorlauftemperaturen verbessern den Wärmepumpen-COP erheblich.',

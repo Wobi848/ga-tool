@@ -1055,7 +1055,7 @@ export const en = {
 			kvValue: 'Kv value',
 			recommendedKvs: 'Recommended Kvs (standard size)',
 			warnLowAuthority:
-				'Low valve authority (a ≈ {a}). For good control α ≥ 0.3 — valve may be oversized.',
+				'Very small pressure drop across the valve ({a} kPa). This points to an oversized valve and poor valve authority — check it with the system pressure drop in the "Valve authority" calculator.',
 			formulaNote: 'Formula: Kv = V̇ × √(1 / Δp), water at 20 °C.',
 			stdKvsSeries: 'Standard Kvs per DIN EN 1267:'
 		}

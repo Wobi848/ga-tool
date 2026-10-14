@@ -176,19 +176,3 @@ export const manufacturerInfo: Record<
 	},
 	sauter: { label: 'Sauter', family: 'Neigung + Fusspunkt', slopeRange: [0.2, 4.0], slopeStep: 0.1 }
 };
-
-/** Common Swiss reference outdoor temperatures (SIA 384/2) */
-export const swissNormOutdoor: Array<{ ort: string; t: number }> = [
-	{ ort: 'Zürich', t: -8 },
-	{ ort: 'Bern', t: -10 },
-	{ ort: 'Basel', t: -7 },
-	{ ort: 'Genf', t: -7 },
-	{ ort: 'Lausanne', t: -7 },
-	{ ort: 'Luzern', t: -8 },
-	{ ort: 'St. Gallen', t: -11 },
-	{ ort: 'Chur', t: -13 },
-	{ ort: 'Davos', t: -19 },
-	{ ort: 'Sion', t: -10 },
-	{ ort: 'Lugano', t: -5 },
-	{ ort: 'Locarno', t: -5 }
-];

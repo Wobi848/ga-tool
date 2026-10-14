@@ -16,7 +16,7 @@ export interface KvResult {
 	dp: number;
 }
 
-/** Standard-Kvs Reihe nach VDI 2173 / IEC 534 (R10 Renard-Serie) */
+/** Uebliche Kvs-Reihe der Hersteller (Stufung etwa ×1.6, Renard R5). */
 export const STANDARD_KVS = [0.25, 0.4, 0.63, 1.0, 1.6, 2.5, 4.0, 6.3, 10, 16, 25, 40, 63, 100];
 
 export function computeKv(input: KvInput): KvResult {
@@ -42,7 +42,9 @@ export function recommendKvs(targetKv: number, reserveFactor = 1.1): number {
 	return STANDARD_KVS.find((k) => k >= target) ?? STANDARD_KVS[STANDARD_KVS.length - 1];
 }
 
-/** Ventilautoritaet a = Δp_Ventil / Δp_Referenz (typ. 0.5 bar Anlage) */
+/** Grobe Schwelle fuer die Warnung im Kv-Rechner: Δp_Ventil / 0.5 bar.
+ *  Keine echte Ventilautoritaet — dafuer fehlt hier der Druckverlust der
+ *  Anlage. Die richtige Rechnung steht in ventilautoritaet.ts. */
 export function authority(dpValve: number, dpReference = 0.5): number {
 	if (dpReference <= 0) return 0;
 	return dpValve / dpReference;

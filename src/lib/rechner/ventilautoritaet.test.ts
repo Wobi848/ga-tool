@@ -56,10 +56,8 @@ describe('selectKvs', () => {
 });
 
 describe('linearValveCurve', () => {
-	// Hinweis: Formel q = h / √(1 − α + α·h²)
-	//  - α = 0 -> q = h (Linearitaet)
-	//  - hoeheres α -> staerkere Aufweitung im mittleren Hubbereich
-	//  - α = 1 -> q saettigt bei 1 (worst case, Ventil dominiert nicht mehr)
+	// q = h / √(α + (1 − α)·h²): bei α = 1 linear, je kleiner α, desto
+	// staerker oeffnet das Ventil schon bei kleinem Hub.
 
 	it('h=0 -> q=0; h=1 -> q=1', () => {
 		const pts = linearValveCurve(0.5);
@@ -68,17 +66,25 @@ describe('linearValveCurve', () => {
 		expect(pts[pts.length - 1].q).toBeCloseTo(1, 5);
 	});
 
-	it('α=0 -> ideale Linearitaet: q = h', () => {
-		const pts = linearValveCurve(0, 4);
+	it('α=1 -> ideale Linearitaet: q = h', () => {
+		const pts = linearValveCurve(1, 4);
 		for (const p of pts) {
 			expect(p.q).toBeCloseTo(p.h / 100, 5);
 		}
 	});
 
-	it('α>0 -> Aufweitung im unteren Hubbereich (q > h)', () => {
-		const pts = linearValveCurve(0.5, 10);
-		const mid = pts.find((p) => p.h === 50)!;
-		expect(mid.q).toBeGreaterThan(0.5);
+	it('Handrechnung: α = 0.1, Hub 50 % -> q = 0.5/√0.325 ≈ 0.877', () => {
+		// Lehrbuchfall schlechter Autoritaet: das lineare Ventil liefert bei
+		// halbem Hub fast 90 % Durchfluss.
+		const mid = linearValveCurve(0.1, 10).find((p) => p.h === 50)!;
+		expect(mid.q).toBeCloseTo(0.5 / Math.sqrt(0.325), 4);
+	});
+
+	it('je kleiner α, desto mehr Durchfluss bei gleichem Hub', () => {
+		const q = (a: number) => linearValveCurve(a, 10).find((p) => p.h === 30)!.q;
+		expect(q(0.1)).toBeGreaterThan(q(0.3));
+		expect(q(0.3)).toBeGreaterThan(q(0.5));
+		expect(q(0.5)).toBeGreaterThan(q(1));
 	});
 
 	it('q monoton steigend in h', () => {

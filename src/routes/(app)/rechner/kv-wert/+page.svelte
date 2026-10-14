@@ -117,7 +117,7 @@
 
 	{#if authority < 0.3}
 		<div class="calc-warning">
-			⚠ {$_('rechner.kvWertUi.warnLowAuthority', { values: { a: fmt(authority, 2) } })}
+			⚠ {$_('rechner.kvWertUi.warnLowAuthority', { values: { a: fmt(result.dp * 100, 1) } })}
 		</div>
 	{/if}
 

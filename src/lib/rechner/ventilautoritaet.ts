@@ -1,7 +1,7 @@
 // Ventilautoritaet α = ΔpV,100 / (ΔpV,100 + ΔpSystem)
 // + Kv-Auswahl und Linearventil-Kennlinie unter α.
 
-/** Standard-Kvs-Reihe (R10 / IEC 534). */
+/** Uebliche Kvs-Reihe der Hersteller (Stufung etwa ×1.6, Renard R5). */
 export const KVS_OPTIONS = [
 	0.16, 0.25, 0.4, 0.63, 1.0, 1.6, 2.5, 4.0, 6.3, 10, 16, 25, 40, 63, 100
 ];
@@ -60,12 +60,20 @@ export function selectKvs(input: KvSelectInput): KvSelectResult {
 }
 
 /** Linearventil-Kennlinie unter Autoritaet α:
- *  q(h) = h / sqrt(1 − α + α·h²), normiert auf [0,1]. */
+ *  q(h) = h / sqrt(α + (1 − α)·h²), normiert auf [0,1].
+ *
+ *  Herleitung: konstanter Gesamtdruck ueber Ventil und Strecke, Ventil mit
+ *  kv(h) = h·kvs. Bei α = 1 bleibt die Kennlinie linear (q = h), je kleiner
+ *  α, desto mehr wird das lineare Ventil zum Schnelloeffner.
+ *
+ *  Bis 0.16.0 standen α und 1 − α vertauscht: bei α = 1 kam fuer jeden Hub
+ *  q = 1 heraus, bei α = 0 eine Gerade — genau verkehrt. Der Text in der
+ *  Oberflaeche ("ideal bei α = 1") stimmte, die Kurve darunter nicht. */
 export function linearValveCurve(alpha: number, steps = 10): Array<{ h: number; q: number }> {
 	const pts: Array<{ h: number; q: number }> = [];
 	for (let i = 0; i <= steps; i++) {
 		const h = i / steps;
-		const denom = Math.sqrt(1 - alpha + alpha * h * h);
+		const denom = Math.sqrt(alpha + (1 - alpha) * h * h);
 		const q = denom > 0 ? Math.min(1, h / denom) : 0;
 		pts.push({ h: Math.round(h * 100), q });
 	}

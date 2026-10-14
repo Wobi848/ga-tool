@@ -14,7 +14,7 @@ export const ibnHeizung: ChecklistTemplate = {
 	icon: 'flame',
 	color: '#dc2626',
 	areas: ['hlk'],
-	norm: ['SIA 384/2', 'SIA 384/3', 'SWKI 91-1'],
+	norm: ['SIA 384/1', 'SIA 384/3', 'SWKI 91-1'],
 	updated: '2026-05-14',
 	sections: [
 		{

@@ -3,23 +3,22 @@
 	import { roomLoad, type Raum } from '$lib/rechner/heizlast';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
+	import { normaussentemp } from '$lib/referenz/data/normaussentemp';
 
-	// Normaussentemperatur Schweizer Standorte (SIA 381/1 Klimadaten)
+	// Eine Quelle fuer alle: die Referenztabelle. Bis 0.16.0 stand hier eine
+	// eigene Liste mit anderen Werten (Zuerich -10 statt -8 °C).
 	const standorte = [
-		{ label: 'Zürich', te: -10 },
-		{ label: 'Bern', te: -11 },
-		{ label: 'Basel', te: -9 },
-		{ label: 'Genf', te: -8 },
-		{ label: 'Luzern', te: -10 },
-		{ label: 'St. Gallen', te: -13 },
-		{ label: 'Davos', te: -21 },
-		{ label: 'Lugano', te: -5 },
-		{ label: 'Chur', te: -14 },
-		{ label: null, te: -10 }
+		...normaussentemp.rows.map((r) => ({ label: String(r.ort), te: Number(r.temp) })),
+		{ label: null, te: -8 }
 	];
 
-	let standortIdx = $state(0);
-	let teManual = $state(-10);
+	let standortIdx = $state(
+		Math.max(
+			0,
+			standorte.findIndex((s) => s.label === 'Zürich')
+		)
+	);
+	let teManual = $state(-8);
 
 	const te = $derived(standortIdx < standorte.length - 1 ? standorte[standortIdx].te : teManual);
 

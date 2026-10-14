@@ -60,16 +60,3 @@ export function specificLoad(rooms: Raum[], te: number): number {
 	if (totalArea === 0) return 0;
 	return totalLoad(rooms, te) / totalArea;
 }
-
-/** Normaussentemperaturen Schweizer Standorte (SIA 384/2 / 381/1). */
-export const swissNormOutdoor: Array<{ ort: string; te: number }> = [
-	{ ort: 'Zürich', te: -10 },
-	{ ort: 'Bern', te: -11 },
-	{ ort: 'Basel', te: -9 },
-	{ ort: 'Genf', te: -8 },
-	{ ort: 'Luzern', te: -10 },
-	{ ort: 'St. Gallen', te: -13 },
-	{ ort: 'Davos', te: -21 },
-	{ ort: 'Lugano', te: -5 },
-	{ ort: 'Chur', te: -14 }
-];
