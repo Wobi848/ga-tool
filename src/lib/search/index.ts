@@ -117,7 +117,7 @@ const FUSE_OPTIONS = {
 	minMatchCharLength: 2
 };
 
-let fuse: Fuse<SearchItem> = new Fuse(items, FUSE_OPTIONS);
+const fuse: Fuse<SearchItem> = new Fuse(items, FUSE_OPTIONS);
 let corpusLoaded = false;
 let corpusLoading: Promise<void> | null = null;
 
