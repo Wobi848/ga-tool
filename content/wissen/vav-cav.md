@@ -25,7 +25,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, frequenzumrichter, pid-regler, druckverlust, raumluftqualitaet, k-faktor-luft]
-norm: [EN 16798-3, EN 15232, SIA 382.1]
+norm: [EN 16798-3, ISO 52120-1, SIA 382/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -40,12 +40,7 @@ Ob eine Lüftungsanlage mit konstantem oder variablem Luftvolumenstrom arbeitet,
 
 Der Ventilator läuft auf konstanter Drehzahl. Der Luftvolumenstrom bleibt immer gleich — unabhängig von Belegung, Aussentemperatur oder Nutzungsprofil.
 
-```
-RLT-Zentrale (feste Drehzahl)
-    ↓ Konstanter Volumenstrom
-Raum 1 (voll besetzt)   — bekommt 100 % Luft
-Raum 2 (leer)           — bekommt auch 100 % Luft
-```
+Der Ventilator fördert immer gleich viel. Ein voll besetzter und ein leerer Raum bekommen dieselbe Luftmenge.
 
 ### Regelung bei CAV
 
@@ -74,26 +69,11 @@ Da der Volumenstrom fix ist, kann nur die **Temperatur** geregelt werden:
 
 Der Volumenstrom wird **bedarfsgerecht** geregelt. Jede Zone hat einen **VAV-Regler** (Volumenstromkonstanthalter + Klappe), der den Luftstrom für diesen Raum auf den aktuellen Bedarf einstellt.
 
-```
-RLT-Zentrale (variable Drehzahl)
-    ↓ Variabler Gesamtvolumenstrom
-VAV-Box Zone 1 (besetzt) → 80 % Sollvolumenstrom
-VAV-Box Zone 2 (leer)    → 30 % Mindestvolumenstrom
-VAV-Box Zone 3 (Sitzung) → 100 % Sollvolumenstrom
-    ↓
-Übergeordnete Druckregelung → FU passt Ventilatordrehzahl an
-```
+Die Zentrale fördert nur so viel, wie die Zonen gerade verlangen. Jede Zone hat einen **Volumenstromregler**, der ihren Sollwert hält, etwa 80 % in einem besetzten Büro, 30 % in einem leeren, 100 % im Sitzungszimmer. Die Ventilatordrehzahl folgt der Summe, über die Druckregelung im Kanal.
 
 ### VAV-Box Aufbau
 
-```
-Zuluftkanal → [Messblende] → [Regelklappe] → Raum
-                  ↑               ↑
-            Differenzdruck    Stellantrieb
-            (Volumenstrom)        ↑
-                           DDC-Regler
-                           (Soll: CO₂, T, Präsenz)
-```
+Ein VAV-Regler besteht aus einer **Messeinrichtung** (Messkreuz oder Messblende, liefert einen Wirkdruck), einer **Regelklappe** mit Stellantrieb und einem **Regler**. Der Regler rechnet aus dem Wirkdruck den Volumenstrom, vergleicht ihn mit dem Sollwert und verstellt die Klappe. Den Sollwert bekommt er aus CO₂, Temperatur oder Präsenz.
 
 **Messung:** Differenzdruck an Messblende → Berechnung Volumenstrom (Bernoulli)
 **Regelung:** Klappe öffnet/schliesst → passt Volumenstrom an Sollwert an
@@ -134,14 +114,7 @@ Wenn VAV-Boxen schliessen → Druck im Kanal steigt → Gefahr:
 
 ### Lösung: Statische Druckregelung
 
-```
-Drucksensor im Hauptkanal (ca. 2/3 der Kanallänge)
-    ↓
-PID-Regler in GLT oder FU
-    ↓
-Frequenzumrichter → Ventilatordrehzahl anpassen
-    ↓ Ziel: Statischer Druck = Sollwert (z.B. 100 Pa)
-```
+Ein **Drucksensor im Hauptkanal**, meist bei etwa zwei Dritteln der Kanallänge, misst den statischen Druck. Ein PI-Regler (in der DDC oder im Frequenzumrichter) verstellt die Ventilatordrehzahl so, dass der Druck auf seinem Sollwert bleibt, zum Beispiel 100 Pa.
 
 **Sollwert-Optimierung:** Statt fixem Sollwert (z.B. 100 Pa) kann der Druck dynamisch auf den **niedrigsten Wert** gesenkt werden bei dem alle VAV-Boxen ihren Sollvolumenstrom noch erreichen (→ spart nochmals 20–30 % Energie).
 
@@ -149,13 +122,7 @@ Frequenzumrichter → Ventilatordrehzahl anpassen
 
 Bei einfachen Anlagen ohne Frequenzumrichter:
 
-```
-Ventilator (konstant) → Hauptkanal → VAV-Boxen
-                            ↓
-                       Bypass-Klappe
-                            ↓
-                        Abluft / Raumluft
-```
+Der Ventilator läuft mit fester Drehzahl. Steigt der Kanaldruck, öffnet eine Bypassklappe und lässt die überschüssige Luft zurück.
 
 Bypass öffnet wenn Druck steigt → überschüssige Luft wird kurzgeschlossen. Energetisch ungünstig (Energie der Luft wird verschwendet).
 
@@ -178,7 +145,7 @@ Bei 50 % Volumenstrom: Leistung = 0,5³ = **12,5 %** der Nennleistung!
 | 50 %               | 100 %        | ~12 %                   | ~88 %     |
 | Jahresdurchschnitt | —            | Typisch 40–60 % weniger | —         |
 
-> **Faustregel:** In Bürogebäuden läuft eine CAV-Anlage 80 % der Zeit auf mehr als dem doppelten Energiebedarf einer VAV-Anlage. Die Mehrkosten amortisieren sich in 3–7 Jahren.
+> **Achtung:** Die Werte gelten für die ideale Kurve durch den Nullpunkt. Mit Druckregelung im Kanal bleibt ein Mindestdruck stehen, die reale Ersparnis ist deshalb kleiner, aber immer noch gross. Wie viel, hängt vom Profil der Anlage ab.
 
 ---
 
@@ -211,9 +178,9 @@ Bei 50 % Volumenstrom: Leistung = 0,5³ = **12,5 %** der Nennleistung!
 ## Normen
 
 - **EN 16798-3** — Energetische Bewertung von Gebäuden, Lüftung von Nichtwohngebäuden
-- **EN 15232** — GA-Effizienzklassen (VAV = Klasse A/B, CAV = Klasse C/D)
-- **SIA 382.1** — Lüftungs- und Klimaanlagen — Allgemeine Grundlagen
-- **EN 13779** — Lüftung von Nichtwohngebäuden (Bemessungsvolumenströme)
+- **ISO 52120-1** (früher EN 15232) — GA-Effizienzklassen; bedarfsgeführte Lüftung zählt zu den höheren Klassen
+- **SIA 382/1** — Lüftungs- und Klimaanlagen, allgemeine Grundlagen und Anforderungen
+- **EN 16798-1** — Eingangsparameter für das Innenraumklima, Luftmengen
 
 <!-- EN -->
 
@@ -227,12 +194,7 @@ Whether a ventilation system operates at constant or variable air volume fundame
 
 The fan runs at constant speed. Air volume flow remains the same at all times — regardless of occupancy, outdoor temperature or usage profile.
 
-```
-AHU (fixed speed)
-    ↓ Constant volume flow
-Room 1 (fully occupied)   — receives 100 % air
-Room 2 (empty)            — also receives 100 % air
-```
+The fan always delivers the same amount. A fully occupied and an empty room get the same airflow.
 
 ### Control with CAV
 
@@ -261,26 +223,11 @@ Since volume flow is fixed, only **temperature** can be controlled:
 
 Volume flow is controlled **on demand**. Each zone has a **VAV controller** (volume flow regulator + damper) that adjusts airflow to the current need.
 
-```
-AHU (variable speed)
-    ↓ Variable total volume flow
-VAV box zone 1 (occupied) → 80 % target flow
-VAV box zone 2 (empty)    → 30 % minimum flow
-VAV box zone 3 (meeting)  → 100 % target flow
-    ↓
-Overarching pressure control → VFD adjusts fan speed
-```
+The central unit delivers only as much as the zones currently demand. Each zone has a **flow controller** that holds its setpoint, for example 80 % in an occupied office, 30 % in an empty one, 100 % in the meeting room. The fan speed follows the total via duct pressure control.
 
 ### VAV Box Construction
 
-```
-Supply duct → [Measurement orifice] → [Control damper] → Room
-                     ↑                       ↑
-              Differential pressure      Actuator
-              (volume flow)                  ↑
-                                       DDC controller
-                                       (setpoint: CO₂, T, presence)
-```
+A VAV controller consists of a **measuring device** (measuring cross or orifice, delivering a differential pressure), a **control damper** with actuator and a **controller**. The controller calculates the flow from the differential pressure, compares it with the setpoint and adjusts the damper. It gets the setpoint from CO₂, temperature or presence.
 
 **Measurement:** Differential pressure across orifice → volume flow calculation (Bernoulli)  
 **Control:** Damper opens/closes → adjusts flow to setpoint
@@ -321,14 +268,7 @@ When VAV boxes close → duct pressure rises → risks:
 
 ### Solution: Static Pressure Control
 
-```
-Pressure sensor in main duct (approx. 2/3 of duct length)
-    ↓
-PID controller in BMS or VFD
-    ↓
-Variable frequency drive → adjust fan speed
-    ↓ Target: static pressure = setpoint (e.g. 100 Pa)
-```
+A **pressure sensor in the main duct**, usually at about two thirds of the duct length, measures the static pressure. A PI controller (in the DDC or in the frequency converter) adjusts the fan speed so the pressure stays at its setpoint, for example 100 Pa.
 
 **Setpoint optimisation:** Instead of a fixed setpoint (e.g. 100 Pa), pressure can be lowered dynamically to the **lowest value** at which all VAV boxes still achieve their target flow (→ saves a further 20–30 % energy).
 
@@ -336,13 +276,7 @@ Variable frequency drive → adjust fan speed
 
 For simple systems without a variable frequency drive:
 
-```
-Fan (constant) → Main duct → VAV boxes
-                      ↓
-                 Bypass damper
-                      ↓
-                 Exhaust / room air
-```
+The fan runs at fixed speed. If the duct pressure rises, a bypass damper opens and returns the surplus air.
 
 Bypass opens when pressure rises → excess air short-circuited. Energetically inefficient (air energy is wasted).
 
@@ -365,7 +299,7 @@ At 50 % volume flow: power = 0.5³ = **12.5 %** of rated power!
 | 50 %              | 100 %     | ~12 %                  | ~88 %  |
 | Annual average    | —         | Typically 40–60 % less | —      |
 
-> **Rule of thumb:** In office buildings, a CAV system runs 80 % of the time at more than double the energy demand of a VAV system. The additional investment pays back in 3–7 years.
+> **Caution:** the values apply to the ideal curve through zero. With duct pressure control a minimum pressure remains, so the real saving is smaller, but still large. How much depends on the system's load profile.
 
 ---
 
@@ -396,6 +330,6 @@ At 50 % volume flow: power = 0.5³ = **12.5 %** of rated power!
 ## Standards
 
 - **EN 16798-3** — Energy performance of buildings, ventilation for non-residential buildings
-- **EN 15232** — BA efficiency classes (VAV = Class A/B, CAV = Class C/D)
-- **SIA 382.1** — Ventilation and air-conditioning systems — General principles
-- **EN 13779** — Ventilation for non-residential buildings (design volume flows)
+- **ISO 52120-1** (formerly EN 15232) — BA efficiency classes; demand-controlled ventilation counts towards the higher classes
+- **SIA 382/1** — Ventilation and air-conditioning systems — General principles
+- **EN 16798-1** — Input parameters for indoor environment, airflow rates

@@ -25,7 +25,7 @@ tags:
 difficulty: experte
 area: [hlk, ga]
 related: [rlt-anlage, vav-cav, entrauchung-rwa, regelkreise, pid-regler, sensoren]
-norm: [EN ISO 14644, EU GMP Annex 1, DIN 1946-4, VDI 2167, SIA 382.1]
+norm: [EN ISO 14644, EU GMP Annex 1, DIN 1946-4, VDI 2167, SIA 382/1]
 updated: 2026-05-15
 lang: de
 ---

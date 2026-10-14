@@ -25,7 +25,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, nachtauskuehlung, adiabatische-kuehlung, cop-eer, kaeltemittel, rlt-anlage]
-norm: [EN 14511, EN 15232, SIA 382.1, VDI 2067]
+norm: [EN 14511, EN 15232, SIA 382/1, VDI 2067]
 updated: 2026-05-15
 lang: de
 ---
@@ -187,7 +187,7 @@ Mit Free Cooling (70 % FC-Anteil):
 
 - **EN 14511** — Kältemaschinen, Wärmepumpen (Prüfbedingungen, Effizienz)
 - **EN 15232** — Free Cooling als GA-Klasse-A-Funktion
-- **SIA 382.1** — Energieoptimierte Lüftungs-/Klimaanlagen
+- **SIA 382/1** — Energieoptimierte Lüftungs-/Klimaanlagen
 - **VDI 2067** — Wirtschaftlichkeitsberechnungen für Gebäudetechnik
 
 <!-- EN -->
@@ -347,5 +347,5 @@ With free cooling (70 % FC share):
 
 - **EN 14511** — Chillers, heat pumps (test conditions, efficiency)
 - **EN 15232** — Free cooling as BA class A function
-- **SIA 382.1** — Energy-optimised ventilation/air-conditioning systems
+- **SIA 382/1** — Energy-optimised ventilation/air-conditioning systems
 - **VDI 2067** — Economic efficiency calculations for building services

@@ -24,7 +24,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vav-cav, thermische-behaglichkeit, kaelteanlagen, beschattungssteuerung]
-norm: [EN 15232, SIA 382.1]
+norm: [EN 15232, SIA 382/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -133,7 +133,7 @@ DDC Nachtauskühlung:
 ## Normen
 
 - **EN 15232** — Nachtauskühlung als GA-Klasse-A Funktion
-- **SIA 382.1** — Lüftungs- und Klimaanlagen (freie Kühlung als Energiestrategie)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen (freie Kühlung als Energiestrategie)
 - **EN 13779** — Lüftung Nichtwohngebäude (Luftqualität + Kühlstrategien)
 
 <!-- EN -->
@@ -240,5 +240,5 @@ DDC Night Cooling:
 ## Standards
 
 - **EN 15232** — Night cooling as BA class A function
-- **SIA 382.1** — Ventilation and air conditioning systems (free cooling as energy strategy)
+- **SIA 382/1** — Ventilation and air conditioning systems (free cooling as energy strategy)
 - **EN 13779** — Ventilation of non-residential buildings (air quality + cooling strategies)

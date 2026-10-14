@@ -24,7 +24,7 @@ tags:
 difficulty: grundlagen
 area: [hlk, ga, normen]
 related: [sia386, vdi6022, en15232, en16798, legionellen, thermische-behaglichkeit]
-norm: [SWKI, SIA 382.1, SIA 384.201, SIA 385/1, SIA 386.110]
+norm: [SWKI, SIA 382/1, SIA 384.201, SIA 385/1, SIA 386.110]
 updated: 2026-05-15
 lang: de
 ---
@@ -96,7 +96,7 @@ Normenhierarchie Schweiz:
   Hersteller-Empfehlungen
 
 SWKI konkretisiert SIA-Normen:
-  SIA 382.1 (Lüftungsanlagen) → SWKI BT102-01 (Hygieneprüfung)
+  SIA 382/1 (Lüftungsanlagen) → SWKI BT102-01 (Hygieneprüfung)
   SIA 384.201 (Heizung) → SWKI BT101-01 (Planungsregeln)
   SIA 385/1 (Warmwasser) → SWKI BT103-01 (Legionellen)
 ```
@@ -134,7 +134,7 @@ SWKI-Richtlinien werden in Schweizer Ausschreibungen oft direkt referenziert:
 
 ```
 Typischer Ausschreibungstext:
-  "Die Lüftungsanlage ist gemäss SIA 382.1 und
+  "Die Lüftungsanlage ist gemäss SIA 382/1 und
    SWKI BT102-01 auszuführen und zu prüfen."
 
   "Trinkwasser-Erwärmung gemäss SIA 385/1 und
@@ -160,7 +160,7 @@ SWKI-Publikationen:
 
 ## Normen
 
-- **SIA 382.1** — Lüftungs- und Klimaanlagen in Gebäuden (Schweiz)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen in Gebäuden (Schweiz)
 - **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweiz)
 - **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweiz)
 - **SIA 386.110** — Gebäudeautomation (Schweiz)
@@ -233,7 +233,7 @@ Swiss standards hierarchy:
   Manufacturer recommendations
 
 SWKI gives concrete detail to SIA standards:
-  SIA 382.1 (ventilation systems) → SWKI BT102-01 (hygiene inspection)
+  SIA 382/1 (ventilation systems) → SWKI BT102-01 (hygiene inspection)
   SIA 384.201 (heating)           → SWKI BT101-01 (planning rules)
   SIA 385/1 (hot water)           → SWKI BT103-01 (Legionella)
 ```
@@ -272,7 +272,7 @@ SWKI guidelines are frequently referenced directly in Swiss tenders:
 ```
 Typical tender text:
   "The ventilation system shall be designed and
-   inspected in accordance with SIA 382.1 and
+   inspected in accordance with SIA 382/1 and
    SWKI BT102-01."
 
   "Domestic hot water heating per SIA 385/1 and
@@ -298,7 +298,7 @@ SWKI publications:
 
 ## Standards
 
-- **SIA 382.1** — Ventilation and air conditioning systems in buildings (Switzerland)
+- **SIA 382/1** — Ventilation and air conditioning systems in buildings (Switzerland)
 - **SIA 384.201** — Heating systems in buildings (Switzerland)
 - **SIA 385/1** — Domestic hot water installations (Switzerland)
 - **SIA 386.110** — Building automation (Switzerland)

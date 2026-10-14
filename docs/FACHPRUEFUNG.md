@@ -93,9 +93,9 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ⬜ klappenantriebe
 - ⬜ nachtauskuehlung
 - ⬜ raumluftqualitaet
-- ⬜ rlt-anlage
+- ✅ rlt-anlage
 - ⬜ taupunkt
-- ⬜ vav-cav
+- ✅ vav-cav
 - ⬜ vdi6022
 - ⬜ waermerueckgewinnung
 - ⬜ zonendruckhaltung
@@ -334,3 +334,6 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | pumpen                              | Ökodesign «Nassläufer 1–200 kW», geschönte Wirkungsgrade, Konstantdruck nur für Trinkwasser; «Tauchpumpe für Druckhaltung»                                                                                                                                                   | 1 W bis 2.5 kW hydraulisch, EEI ≤ 0.23 seit 2013/2015; Konstantdruck auch für FBH; Kennlinien als Diagramm                                  | VO 641/2009, 622/2012                                               |
 | 14.10.2026 | motorventile                        | «Mischventil: Volumenstrom durch Erzeuger konstant» (umgekehrt); gleichprozentige Tabelle ohne konsistente Kennlinie; «Halten = pneumatische Antriebe»; «Autorität zu klein → Systemdruck erhöhen»; AGFW-Norm                                                                | Verbraucher konstant, Erzeuger variabel; Tabelle für SV = 50; Antriebe ohne Federrücklauf; kleineres Ventil oder Δp-Regler                  | Siemens 1.5.1, IEC 60534                                            |
 | 14.10.2026 | legionellen, trinkwasser-erwaermung | «Unter 20 °C sterben Legionellen ab»; «DVGW: Grossanlagen wöchentlich 70 °C desinfizieren»; GA-Beispiel «täglich 22 Uhr 70 °C»; SWKI BT102-01 als Legionellenrichtlinie (ist Heizungswasser); zentrales Mischen auf 45 °C trotz Zirkulation; Durchlauferhitzer «kein Risiko» | überleben unter 20 °C; Schweizer Werte 60/55/50/25 °C, keine WP-Ausnahme seit 2020; Desinfektion nur als Sanierung; Verbrühschutz dezentral | SIA 385/1:2020, SVGW W3/E3, BAG/BLV (suissetec-Information 12/2020) |
+| 14.10.2026 | rlt-anlage                          | Fortluft als «ODA = exhaust»; ISO-16890-Zuordnung (F7 = ePM2.5); Plattentauscher 60–75 %; Sequenzregelung «Kaskade» genannt; «niemals gleichzeitig heizen und kühlen» ohne Entfeuchtung                                                                                      | EHA; F7 ≈ ePM1 50–65 %; Gegenstrom 75–90 %; Sequenz; Entfeuchtung als Ausnahme; Lüftungsgerät gezeichnet                                    | ISO 16890, EN 16798-3                                               |
+| 14.10.2026 | vav-cav                             | Unbelegte Faustregel zur Amortisation; Lüfterersparnis ohne Hinweis auf Druckregelung; EN 15232/EN 13779 (ersetzt)                                                                                                                                                           | Hinweis auf Mindestdruck; ISO 52120-1, EN 16798-1                                                                                           | —                                                                   |
+| 14.10.2026 | 9 Artikel, Daten                    | «SIA 382.1» (51×)                                                                                                                                                                                                                                                            | SIA 382/1                                                                                                                                   | SIA                                                                 |

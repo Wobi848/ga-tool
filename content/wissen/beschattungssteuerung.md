@@ -25,7 +25,7 @@ tags:
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, glt-grundlagen, thermische-behaglichkeit, rlt-anlage]
-norm: [EN 15232, prEN 16153, SIA 382.1]
+norm: [EN 15232, prEN 16153, SIA 382/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -207,7 +207,7 @@ KNX ist das häufigste System für Gebäude-Jalousien:
 
 - **EN 15232** — Energieeffizienz durch GA (Sonnenschutz = grosses Einsparpotenzial)
 - **EN 14501** — Wärme- und Lichttransmission von Beschattungsprodukten
-- **SIA 382.1** — Lüftungs- und Klimaanlagen (integrierte Beschattung)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen (integrierte Beschattung)
 
 <!-- EN -->
 
@@ -388,4 +388,4 @@ KNX is the most common system for building blinds:
 
 - **EN 15232** — Energy efficiency through BMS (solar shading = major saving potential)
 - **EN 14501** — Thermal and visual transmittance of shading products
-- **SIA 382.1** — Ventilation and air-conditioning systems (integrated shading)
+- **SIA 382/1** — Ventilation and air-conditioning systems (integrated shading)

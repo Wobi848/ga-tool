@@ -28,7 +28,7 @@ tags:
 difficulty: grundlagen
 area: [hlk, ga]
 related: [vav-cav, vdi6022, frequenzumrichter, kaelteanlagen, waermepumpe, pid-regler]
-norm: [EN 16798-3, VDI 6022, SIA 382.1, EN 13053]
+norm: [EN 16798-3, VDI 6022, SIA 382/1, EN 13053]
 updated: 2026-05-14
 lang: de
 ---
@@ -39,17 +39,7 @@ Eine **raumlufttechnische Anlage (RLT)** konditioniert Luft für Gebäude: Tempe
 
 ## Luftstromprinzip
 
-```
-Aussenluft (ODA)
-      ↓
-[Filter] → [WRG] → [Erhitzer] → [Kühler/Befeuchter] → [Ventilator] → Zuluft (SUP)
-                ↑
-      Rückgewinnung
-                ↑
-[Filter] ← [WRG] ← Abluft (ETA) ← Räume
-      ↓
-Fortluft (ODA = exhaust)
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 214" role="img" aria-label="Lüftungsgerät: Aussenluft über Klappe, Filter, Wärmerückgewinnung, Erhitzer, Kühler und Ventilator zur Zuluft; Abluft über Ventilator, Filter, Wärmerückgewinnung zur Fortluft" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="60" y="20" width="320" height="160" rx="4" class="bauteil" stroke-opacity="0.35"/><path d="M60 100H380" class="bauteil" stroke-opacity="0.35"/><path class="rl" d="M14 50H60" stroke-width="3"/><path class="vl" d="M380 50H416" stroke-width="3"/><path class="vl" d="M416 150H380" stroke-width="3"/><path class="rl" d="M60 150H14" stroke-width="3"/><path class="rl fill" d="M31 46L41 50L31 54Z"/><path class="vl fill" d="M395 46L405 50L395 54Z"/><path class="vl fill" d="M405 146L395 150L405 154Z"/><path class="rl fill" d="M41 146L31 150L41 154Z"/><path class="rl" d="M60 50H152" stroke-width="2.4"/><path class="mix" d="M152 50H205" stroke-width="2.4"/><path class="vl" d="M205 50H380" stroke-width="2.4"/><path class="vl" d="M380 150H152" stroke-width="2.4"/><path class="rl" d="M152 150H60" stroke-width="2.4"/><path d="M74 34V66M66 42L82 58" class="bauteil" stroke-width="2"/><path d="M74 134V166M66 142L82 158" class="bauteil" stroke-width="2"/><rect x="92" y="30" width="16" height="40" class="bauteil bg"/><path d="M94 32L106 38L94 44L106 50L94 56L106 62L94 68" class="bauteil" stroke-width="1.2"/><rect x="337" y="130" width="16" height="40" class="bauteil bg"/><path d="M339 132L351 138L339 144L351 150L339 156L351 162L339 168" class="bauteil" stroke-width="1.2"/><rect x="130" y="30" width="44" height="140" class="bauteil bg"/><path d="M130 30L174 170M174 30L130 170" class="bauteil" stroke-width="1.2"/><rect x="195" y="30" width="20" height="40" class="bauteil bg"/><rect x="230" y="30" width="20" height="40" class="bauteil bg"/><circle cx="290" cy="50" r="16" class="bauteil bg"/><path d="M281 37L305 50L281 63" class="bauteil" stroke-width="1.4"/><circle cx="300" cy="150" r="16" class="bauteil bg"/><path d="M309 137L285 150L309 163" class="bauteil" stroke-width="1.4"/><g fill="currentColor" stroke="none"><text x="205" y="55" text-anchor="middle" font-size="15" font-weight="700">+</text><text x="240" y="55" text-anchor="middle" font-size="15" font-weight="700">−</text><text x="14" y="40" text-anchor="start" font-size="10.5" font-weight="600">Aussenluft</text><text x="14" y="72" text-anchor="start" font-size="10">ODA</text><text x="416" y="40" text-anchor="end" font-size="10.5" font-weight="600">Zuluft</text><text x="416" y="72" text-anchor="end" font-size="10">SUP</text><text x="416" y="140" text-anchor="end" font-size="10.5" font-weight="600">Abluft</text><text x="416" y="172" text-anchor="end" font-size="10">ETA</text><text x="14" y="140" text-anchor="start" font-size="10.5" font-weight="600">Fortluft</text><text x="14" y="172" text-anchor="start" font-size="10">EHA</text><text x="74" y="208" text-anchor="middle" font-size="9.5">Klappe</text><text x="100" y="196" text-anchor="middle" font-size="9.5">Filter</text><text x="152" y="208" text-anchor="middle" font-size="9.5">WRG</text><text x="205" y="196" text-anchor="middle" font-size="9.5">Erhitzer</text><text x="240" y="208" text-anchor="middle" font-size="9.5">Kühler</text><text x="290" y="196" text-anchor="middle" font-size="9.5">Ventilator</text></g></svg><figcaption>Zuluft oben von links nach rechts, Abluft unten zurück. Die Wärmerückgewinnung verbindet beide Luftwege.</figcaption></figure>
 
 ### Luftbezeichnungen (EN 13779 / EN 16798)
 
@@ -74,12 +64,15 @@ Fortluft (ODA = exhaust)
 
 ### 2. Filter
 
-| Filterklasse  | Norm         | Druckverlust neu | Wechseldruck | Einsatz                   |
-| ------------- | ------------ | ---------------- | ------------ | ------------------------- |
-| Coarse (G)    | EN ISO 16890 | 20–50 Pa         | 150–200 Pa   | Vorfilter, Grobstaub      |
-| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa        | 200–250 Pa   | Aussenluftfilter          |
-| ePM2.5 (F7)   | EN ISO 16890 | 80–150 Pa        | 250–300 Pa   | Zuluftfilter Büro         |
-| ePM1 (F9)     | EN ISO 16890 | 100–200 Pa       | 300–400 Pa   | Reinraum-Vorstufe, Spital |
+| Filterklasse nach ISO 16890 | etwa früher (EN 779) | Druckverlust neu | Einsatz                                    |
+| --------------------------- | -------------------- | ---------------- | ------------------------------------------ |
+| ISO Coarse                  | G3–G4                | 20–50 Pa         | Vorfilter, Grobstaub                       |
+| ePM10 50–60 %               | M5                   | 40–80 Pa         | einfache Aussenluftfilter                  |
+| ePM2.5 50–65 %              | M6                   | 50–100 Pa        | Aussenluft, Abluft                         |
+| ePM1 50–65 %                | F7                   | 60–120 Pa        | Zuluft Komfortanlagen                      |
+| ePM1 ≥ 80 %                 | F9                   | 80–150 Pa        | Zuluft hohe Anforderungen, Spital-Vorstufe |
+
+Die Zuordnung zu den alten Klassen ist nur ungefähr, die Prüfverfahren sind verschieden. Die Endwiderstände, bei denen gewechselt wird, gibt der Hersteller an, typisch das Zwei- bis Dreifache des Anfangswerts.
 
 **Filterwächter:** Differenzdrucksensor über dem Filter → Alarm wenn Schmutzgrenze erreicht.
 
@@ -87,12 +80,12 @@ Fortluft (ODA = exhaust)
 
 Nutzt die Wärme der Abluft um Aussenluft vorzuwärmen (Winter) oder vorzukühlen (Sommer).
 
-| Typ                   | Wirkungsgrad | Befeuchtung     | Besonderheit                           |
-| --------------------- | ------------ | --------------- | -------------------------------------- |
-| **Rotationstauscher** | 70–85 %      | Ja (Feuchte WT) | Hygiene-Anforderungen prüfen!          |
-| **Plattentauscher**   | 60–75 %      | Nein            | Keine Überströmung, hygienisch         |
-| **Kreislaufverbund**  | 45–60 %      | Nein            | Erzeuger und Verbraucher weit getrennt |
-| **Wärmerohr**         | 55–65 %      | Nein            | Kein bewegliches Teil, wartungsarm     |
+| Typ                   | Wirkungsgrad                           | Befeuchtung                             | Besonderheit                           |
+| --------------------- | -------------------------------------- | --------------------------------------- | -------------------------------------- |
+| **Rotationstauscher** | 70–85 %                                | Ja, als Sorptionsrotor                  | Leckage Abluft → Zuluft beachten       |
+| **Plattentauscher**   | Kreuzstrom 50–70 %, Gegenstrom 75–90 % | Nein (ausser Membran-Enthalpietauscher) | Luftströme dicht getrennt              |
+| **Kreislaufverbund**  | 45–60 %                                | Nein                                    | Erzeuger und Verbraucher weit getrennt |
+| **Wärmerohr**         | 55–65 %                                | Nein                                    | Kein bewegliches Teil, wartungsarm     |
 
 **Frostschutz WRG:** Bei tiefen Aussentemperaturen kann der WRG einfrieren → Bypassklappe oder Vorwärmung nötig.
 
@@ -128,27 +121,18 @@ Typen:
 - **Zuluftventilator** + **Abluftventilator** (getrennte Antriebe)
 - Frequenzumrichter für variable Drehzahl (→ VAV)
 - **Messung:** Drucksensor vor/nach Ventilator → Druckerhöhung berechnen
-- **Volumenstrom:** Aus Druck und FU-Drehzahl oder separater Messeinrichtung (Messblende)
+- **Volumenstrom:** über die Einlaufdüse des Ventilators (Wirkdruck, siehe [k-Faktor](/wissen/k-faktor-luft)) oder eine separate Messstrecke
 - **Betriebsüberwachung:** Laufmeldung (DI), Störmeldung (DI), Motorschutzschalter
 
 ---
 
-## Zulufttemperatur-Kaskade
+## Zulufttemperatur: Sequenzregelung
 
-In der Praxis werden Erhitzer und Kühler **kaskadenförmig** geregelt:
+Erhitzer, Wärmerückgewinnung und Kühler werden in **Sequenz** geregelt. Mit einer Kaskade hat das nichts zu tun, die ist die Kombination aus Raum- und Zuluftregler (siehe [Kaskadenregelung](/wissen/kaskadenregelung)).
 
-```
-Zuluft-Sollwert (z.B. 22 °C)
-    ↓
-Zuluft-Regler (PI)
-    ├── > Soll: Kühler aufmachen
-    └── < Soll: Erhitzer aufmachen
+Ein Zuluftregler (PI) gibt eine Stellgrösse aus, die nacheinander die Stellglieder durchfährt: zuerst die **Wärmerückgewinnung**, dann den **Erhitzer** auf der einen Seite und den **Kühler** auf der anderen. Dazwischen liegt ein **Totband** von etwa ±1 K, in dem weder geheizt noch gekühlt wird.
 
-Totband zwischen Heizen und Kühlen (z.B. ±1 K)
-→ Verhindert gleichzeitiges Heizen + Kühlen (Energieverschwendung!)
-```
-
-**Wichtig:** Niemals Erhitzer und Kühler gleichzeitig aktiv! Verriegelung in der DDC nötig.
+**Wichtig:** Zum Temperieren nie gleichzeitig heizen und kühlen, die Sequenz verhindert das. Die Ausnahme ist das **Entfeuchten**: Dann kühlt der Kühler die Luft unter ihren Taupunkt, und der Erhitzer heizt sie danach wieder auf.
 
 ### Gleitende Zulufttemperatur
 
@@ -198,7 +182,7 @@ Statt fixer Zulufttemperatur: Sollwert abhängig von Aussentemperatur oder Raumt
 
 - **EN 16798-3** — Energetische Bewertung von Gebäuden, Lüftung von Nichtwohngebäuden
 - **VDI 6022** — Raumlufttechnik, Hygiene
-- **SIA 382.1** — Lüftungs- und Klimaanlagen, Allgemeine Grundlagen
+- **SIA 382/1** — Lüftungs- und Klimaanlagen, allgemeine Grundlagen und Anforderungen
 - **EN 13053** — Lüftung von Gebäuden, Zentrale Raumlufttechnische Anlagen
 - **EN ISO 16890** — Luftfilter für die allgemeine Raumlufttechnik
 
@@ -210,17 +194,7 @@ An **air handling unit (AHU)** conditions air for buildings: temperature, humidi
 
 ## Airflow Principle
 
-```
-Outdoor air (ODA)
-      ↓
-[Filter] → [HRC] → [Heater] → [Cooler/Humidifier] → [Fan] → Supply air (SUP)
-                ↑
-        Heat recovery
-                ↑
-[Filter] ← [HRC] ← Extract air (ETA) ← Rooms
-      ↓
-Exhaust air (EHA)
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 214" role="img" aria-label="Air handling unit: outdoor air via damper, filter, heat recovery, heater, cooler and fan to supply air; extract air via fan, filter, heat recovery to exhaust" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="60" y="20" width="320" height="160" rx="4" class="bauteil" stroke-opacity="0.35"/><path d="M60 100H380" class="bauteil" stroke-opacity="0.35"/><path class="rl" d="M14 50H60" stroke-width="3"/><path class="vl" d="M380 50H416" stroke-width="3"/><path class="vl" d="M416 150H380" stroke-width="3"/><path class="rl" d="M60 150H14" stroke-width="3"/><path class="rl fill" d="M31 46L41 50L31 54Z"/><path class="vl fill" d="M395 46L405 50L395 54Z"/><path class="vl fill" d="M405 146L395 150L405 154Z"/><path class="rl fill" d="M41 146L31 150L41 154Z"/><path class="rl" d="M60 50H152" stroke-width="2.4"/><path class="mix" d="M152 50H205" stroke-width="2.4"/><path class="vl" d="M205 50H380" stroke-width="2.4"/><path class="vl" d="M380 150H152" stroke-width="2.4"/><path class="rl" d="M152 150H60" stroke-width="2.4"/><path d="M74 34V66M66 42L82 58" class="bauteil" stroke-width="2"/><path d="M74 134V166M66 142L82 158" class="bauteil" stroke-width="2"/><rect x="92" y="30" width="16" height="40" class="bauteil bg"/><path d="M94 32L106 38L94 44L106 50L94 56L106 62L94 68" class="bauteil" stroke-width="1.2"/><rect x="337" y="130" width="16" height="40" class="bauteil bg"/><path d="M339 132L351 138L339 144L351 150L339 156L351 162L339 168" class="bauteil" stroke-width="1.2"/><rect x="130" y="30" width="44" height="140" class="bauteil bg"/><path d="M130 30L174 170M174 30L130 170" class="bauteil" stroke-width="1.2"/><rect x="195" y="30" width="20" height="40" class="bauteil bg"/><rect x="230" y="30" width="20" height="40" class="bauteil bg"/><circle cx="290" cy="50" r="16" class="bauteil bg"/><path d="M281 37L305 50L281 63" class="bauteil" stroke-width="1.4"/><circle cx="300" cy="150" r="16" class="bauteil bg"/><path d="M309 137L285 150L309 163" class="bauteil" stroke-width="1.4"/><g fill="currentColor" stroke="none"><text x="205" y="55" text-anchor="middle" font-size="15" font-weight="700">+</text><text x="240" y="55" text-anchor="middle" font-size="15" font-weight="700">−</text><text x="14" y="40" text-anchor="start" font-size="10.5" font-weight="600">Outdoor air</text><text x="14" y="72" text-anchor="start" font-size="10">ODA</text><text x="416" y="40" text-anchor="end" font-size="10.5" font-weight="600">Supply air</text><text x="416" y="72" text-anchor="end" font-size="10">SUP</text><text x="416" y="140" text-anchor="end" font-size="10.5" font-weight="600">Extract air</text><text x="416" y="172" text-anchor="end" font-size="10">ETA</text><text x="14" y="140" text-anchor="start" font-size="10.5" font-weight="600">Exhaust air</text><text x="14" y="172" text-anchor="start" font-size="10">EHA</text><text x="74" y="208" text-anchor="middle" font-size="9.5">Damper</text><text x="100" y="196" text-anchor="middle" font-size="9.5">Filter</text><text x="152" y="208" text-anchor="middle" font-size="9.5">Heat rec.</text><text x="205" y="196" text-anchor="middle" font-size="9.5">Heater</text><text x="240" y="208" text-anchor="middle" font-size="9.5">Cooler</text><text x="290" y="196" text-anchor="middle" font-size="9.5">Fan</text></g></svg><figcaption>Supply air at the top from left to right, extract air back at the bottom. Heat recovery links both air paths.</figcaption></figure>
 
 ### Air Designations (EN 13779 / EN 16798)
 
@@ -245,12 +219,15 @@ Exhaust air (EHA)
 
 ### 2. Filters
 
-| Filter class  | Standard     | New pressure drop | Change pressure | Application                   |
-| ------------- | ------------ | ----------------- | --------------- | ----------------------------- |
-| Coarse (G)    | EN ISO 16890 | 20–50 Pa          | 150–200 Pa      | Pre-filter, coarse dust       |
-| ePM10 (F5/F6) | EN ISO 16890 | 50–100 Pa         | 200–250 Pa      | Outdoor air filter            |
-| ePM2.5 (F7)   | EN ISO 16890 | 80–150 Pa         | 250–300 Pa      | Supply air filter office      |
-| ePM1 (F9)     | EN ISO 16890 | 100–200 Pa        | 300–400 Pa      | Cleanroom pre-stage, hospital |
+| Filter class per ISO 16890 | roughly old (EN 779) | Initial pressure drop | Application                                  |
+| -------------------------- | -------------------- | --------------------- | -------------------------------------------- |
+| ISO Coarse                 | G3–G4                | 20–50 Pa              | Pre-filter, coarse dust                      |
+| ePM10 50–60 %              | M5                   | 40–80 Pa              | simple outdoor air filters                   |
+| ePM2.5 50–65 %             | M6                   | 50–100 Pa             | outdoor air, extract air                     |
+| ePM1 50–65 %               | F7                   | 60–120 Pa             | supply air, comfort systems                  |
+| ePM1 ≥ 80 %                | F9                   | 80–150 Pa             | supply air, high demands, hospital pre-stage |
+
+The mapping to the old classes is only approximate; the test methods differ. The final pressure drops at which filters are changed are given by the manufacturer, typically two to three times the initial value.
 
 **Filter monitor:** differential pressure sensor across the filter → alarm when dirty limit reached.
 
@@ -258,12 +235,12 @@ Exhaust air (EHA)
 
 Uses the heat from extract air to pre-heat outdoor air (winter) or pre-cool it (summer).
 
-| Type                      | Efficiency | Humidification          | Special feature                  |
-| ------------------------- | ---------- | ----------------------- | -------------------------------- |
-| **Rotary heat exchanger** | 70–85 %    | Yes (moisture transfer) | Check hygiene requirements!      |
-| **Plate heat exchanger**  | 60–75 %    | No                      | No cross-contamination, hygienic |
-| **Run-around coil**       | 45–60 %    | No                      | Source and load far apart        |
-| **Heat pipe**             | 55–65 %    | No                      | No moving parts, low maintenance |
+| Type                      | Efficiency                               | Humidification                           | Special feature                  |
+| ------------------------- | ---------------------------------------- | ---------------------------------------- | -------------------------------- |
+| **Rotary heat exchanger** | 70–85 %                                  | Yes, as sorption rotor                   | Watch leakage extract → supply   |
+| **Plate heat exchanger**  | cross-flow 50–70 %, counter-flow 75–90 % | No (except membrane enthalpy exchangers) | Air streams tightly separated    |
+| **Run-around coil**       | 45–60 %                                  | No                                       | Source and load far apart        |
+| **Heat pipe**             | 55–65 %                                  | No                                       | No moving parts, low maintenance |
 
 **HRC frost protection:** in low outdoor temperatures the HRC can freeze → bypass damper or pre-heating required.
 
@@ -299,27 +276,18 @@ Types:
 - **Supply fan** + **extract fan** (separate drives)
 - Variable frequency drive for variable speed (→ VAV)
 - **Measurement:** pressure sensor before/after fan → calculate pressure rise
-- **Volume flow:** from pressure and VFD speed or separate measurement device (measuring orifice)
+- **Volume flow:** via the fan's inlet nozzle (differential pressure, see [k-factor](/wissen/k-faktor-luft)) or a separate measuring section
 - **Operating monitoring:** run status (DI), fault (DI), motor protection switch
 
 ---
 
-## Supply Air Temperature Cascade
+## Supply Air Temperature: Sequence Control
 
-In practice heater and cooler are controlled **in cascade**:
+Heater, heat recovery and cooler are controlled **in sequence**. This has nothing to do with cascade control, which is the combination of room and supply air controllers (see [Cascade Control](/wissen/kaskadenregelung)).
 
-```
-Supply air setpoint (e.g. 22 °C)
-    ↓
-Supply air controller (PI)
-    ├── > setpoint: open cooler
-    └── < setpoint: open heater
+A supply air controller (PI) produces one output that drives the actuators one after another: first **heat recovery**, then the **heater** on one side and the **cooler** on the other. In between lies a **dead band** of about ±1 K in which neither heating nor cooling takes place.
 
-Dead band between heating and cooling (e.g. ±1 K)
-→ Prevents simultaneous heating + cooling (energy waste!)
-```
-
-**Important:** Never activate heater and cooler simultaneously! Interlock required in DDC.
+**Important:** never heat and cool at the same time to control temperature; the sequence prevents it. The exception is **dehumidification**: the cooler then cools the air below its dew point and the heater reheats it afterwards.
 
 ### Sliding Supply Air Temperature
 
@@ -369,6 +337,6 @@ Instead of fixed supply air temperature: setpoint depending on outdoor or room t
 
 - **EN 16798-3** — Energy performance of buildings, ventilation of non-residential buildings
 - **VDI 6022** — Ventilation and air conditioning, hygiene requirements
-- **SIA 382.1** — Ventilation and air conditioning systems, general principles
+- **SIA 382/1** — Ventilation and air conditioning systems, general principles
 - **EN 13053** — Ventilation for buildings, central air handling units
 - **EN ISO 16890** — Air filters for general ventilation

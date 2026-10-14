@@ -418,7 +418,7 @@ export const en = {
 		// Per-page strings
 		heizkurveUi: {
 			formulaNote:
-				'Formulas are approximations of the respective manufacturer algorithms — exact values may vary by firmware. For underfloor heating n ≈ 1.1, radiators n ≈ 1.3. Sources: SIA 384/2, manufacturer documentation.',
+				'Formulas are approximations of the respective manufacturer algorithms — exact values may vary by firmware. For underfloor heating n ≈ 1.1, radiators n ≈ 1.3. Sources: manufacturer documentation, SIA 384/1.',
 			manufacturerSystem: 'Manufacturer / System',
 			heatEmitter: 'Heat emitter',
 			radiator: 'Radiator (n ≈ 1.3)',

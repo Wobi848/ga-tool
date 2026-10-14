@@ -191,7 +191,7 @@ Bei heissem Sommer akzeptieren Menschen höhere Innentemperaturen als bei konsta
 - **EN ISO 7730** — Ergonomie der thermischen Umgebung, PMV/PPD Berechnung
 - **EN 16798-1** — Raumkomfort, Kategorien I–III, Grenzwerte
 - **ASHRAE 55** — Thermal Environmental Conditions for Human Occupancy (US)
-- **SIA 382.1** — Lüftungs- und Klimaanlagen (CH, Temperaturanforderungen)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen (CH, Temperaturanforderungen)
 
 <!-- EN -->
 
@@ -355,4 +355,4 @@ In a hot summer occupants accept higher indoor temperatures than in a constant c
 - **EN ISO 7730** — Ergonomics of the thermal environment, PMV/PPD calculation
 - **EN 16798-1** — Indoor environment, categories I–III, limit values
 - **ASHRAE 55** — Thermal Environmental Conditions for Human Occupancy (US)
-- **SIA 382.1** — Ventilation and air conditioning systems (CH, temperature requirements)
+- **SIA 382/1** — Ventilation and air conditioning systems (CH, temperature requirements)

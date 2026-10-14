@@ -421,7 +421,7 @@ export const de = {
 		// Per-page strings
 		heizkurveUi: {
 			formulaNote:
-				'Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen. Bei Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3. Quellen: SIA 384/2, Herstellerunterlagen.',
+				'Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen. Bei Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3. Quellen: Herstellerunterlagen, SIA 384/1.',
 			manufacturerSystem: 'Hersteller / System',
 			heatEmitter: 'Wärmeübergabe',
 			radiator: 'Radiator (n ≈ 1.3)',

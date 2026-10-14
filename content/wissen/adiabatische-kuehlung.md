@@ -22,7 +22,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, nachtauskuehlung, rlt-anlage, befeuchter, cop-eer, free-cooling]
-norm: [EN 13053, VDI 3803, SIA 382.1]
+norm: [EN 13053, VDI 3803, SIA 382/1]
 updated: 2026-05-15
 lang: de
 ---
@@ -182,7 +182,7 @@ Abschalten wenn:
 
 - **EN 13053** — Zentrale RLT-Anlagen (Befeuchtung / indirekte Evaporativkühlung)
 - **VDI 3803** — Raumlufttechnik, Energieverbrauch, adiabatische Kühlung
-- **SIA 382.1** — Lüftungs- und Klimaanlagen (freie Kühlungsstrategien)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen (freie Kühlungsstrategien)
 
 <!-- EN -->
 
@@ -339,4 +339,4 @@ Disable when:
 
 - **EN 13053** — Central AHU systems (humidification / indirect evaporative cooling)
 - **VDI 3803** — HVAC systems, energy consumption, adiabatic cooling
-- **SIA 382.1** — Ventilation and air conditioning systems (free cooling strategies)
+- **SIA 382/1** — Ventilation and air conditioning systems (free cooling strategies)

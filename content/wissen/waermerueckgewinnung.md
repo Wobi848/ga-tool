@@ -25,7 +25,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vdi6022, frequenzumrichter, kaelteanlagen]
-norm: [EN 13053, EN 308, SIA 382.1]
+norm: [EN 13053, EN 308, SIA 382/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -173,7 +173,7 @@ Wenn die Aussenluft kühler als die Abluft ist (z.B. kühle Nacht, freie Kühlun
 
 - **EN 13053** — Lüftung von Gebäuden, Zentrale Lüftungsgeräte
 - **EN 308** — Wärmeaustauscher, Prüfverfahren für Leistungsnachweis
-- **SIA 382.1** — Lüftungs- und Klimaanlagen
+- **SIA 382/1** — Lüftungs- und Klimaanlagen
 - **VDI 6022** — Hygieneanforderungen (Rotationstauscher Klasse A: restriktiv)
 
 <!-- EN -->
@@ -319,5 +319,5 @@ When outdoor air is cooler than extract air (e.g. cool night, free cooling) → 
 
 - **EN 13053** — Ventilation of buildings, central air handling units
 - **EN 308** — Heat exchangers, test procedures for performance assessment
-- **SIA 382.1** — Ventilation and air conditioning systems
+- **SIA 382/1** — Ventilation and air conditioning systems
 - **VDI 6022** — Hygiene requirements (rotary exchanger Class A: restrictive)
