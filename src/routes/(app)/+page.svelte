@@ -115,7 +115,27 @@
 					updated: c.updated
 				});
 		}
-		return all.sort((a, b) => (a.updated < b.updated ? 1 : -1)).slice(0, 5);
+		// `updated` kennt nur den Tag. Kommt an einem Tag viel dazu, entschied
+		// bisher der Zufall, welche fünf davon zu sehen waren. Darum: bei
+		// gleichem Datum fest nach Typ und Titel, und was am selben Tag wie der
+		// fünfte Eintrag kam, wird noch mitgezeigt — höchstens acht.
+		const typeOrder: RecentEntry['type'][] = [
+			'wissen',
+			'referenz',
+			'checkliste',
+			'rechner',
+			'konverter'
+		];
+		all.sort(
+			(a, b) =>
+				b.updated.localeCompare(a.updated) ||
+				typeOrder.indexOf(a.type) - typeOrder.indexOf(b.type) ||
+				a.title.localeCompare(b.title, 'de')
+		);
+		const cutoff = all[4]?.updated;
+		let n = Math.min(5, all.length);
+		while (n < Math.min(8, all.length) && all[n].updated === cutoff) n++;
+		return all.slice(0, n);
 	});
 
 	function formatRelative(dateStr: string): string {
