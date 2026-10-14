@@ -33,26 +33,13 @@ Adiabatische Kühlung nutzt die **Verdunstungsenergie von Wasser** zur Luftkühl
 
 ## Physikalisches Grundprinzip
 
-```
-Wasser verdunstet → entzieht der Luft Energie (Verdampfungswärme)
-→ Luft kühlt sich ab, Feuchtegehalt steigt
+Verdunstendes Wasser entzieht der Luft die Verdampfungswärme, rund 2450 kJ pro kg Wasser. Die Luft kühlt ab und wird feuchter, ihre Enthalpie bleibt dabei gleich.
 
-Verdampfungswärme Wasser: ca. 2500 kJ/kg (bei 20 °C)
-
-Beispiel:
-  Zustand A: 32 °C, 20 % rF, h = 50 kJ/kg
-  Wasser verdunstet adiabat (kein Wärmetausch mit Umgebung)
-  Zustand B: 22 °C, 60 % rF, h = 50 kJ/kg (Enthalpie gleich!)
-
-  → 10 K Abkühlung, aber 40 % mehr Feuchte
-```
+Beispiel: Luft mit 32 °C und 20 % rF (Enthalpie rund 47 kJ/kg) kann adiabatisch bis auf etwa 22 °C und 60 % rF abgekühlt werden, bei gleicher Enthalpie. Das sind 10 K Abkühlung, dafür steigt der Wassergehalt von 5.9 auf 9.9 g/kg.
 
 **Kühlgrenztemperatur (Feuchtkugeltemperatur Tw):** Die minimale erreichbare Temperatur:
 
-```
-Tw = T − (T − Td) × (1 − rF/100)
-Grob: Tw ≈ T × (0.62 × rF/100)^0.52   [Magnus-Näherung]
-```
+Die tiefste erreichbare Temperatur ist die **Feuchtkugeltemperatur**, die Temperatur, bei der die Luft mit gleicher Enthalpie gesättigt wäre. Für 32 °C und 20 % rF liegt sie bei rund 17 °C. Berechnen lässt sie sich im [Psychrometrie-Rechner](/rechner/psychrometrie). Eine einfache Faustformel dafür gibt es nicht.
 
 ---
 
@@ -62,11 +49,7 @@ Grob: Tw ≈ T × (0.62 × rF/100)^0.52   [Magnus-Näherung]
 
 Wasser wird direkt in die Zuluft verdunstet:
 
-```
-Zuluft 32 °C, 20 % rF
-    → Wassersprühdüsen oder Befeuchterpads
-    → Zuluft 22 °C, 60 % rF
-```
+Die Zuluft strömt durch benetzte Matten oder einen Sprühnebel und kühlt dabei ab, zum Beispiel von 32 °C und 20 % rF auf 22 °C und 60 % rF.
 
 - Einfach, günstig
 - Luft wird feuchter → nur für trockene Klimazonen oder RLT mit Nachkühlung
@@ -76,13 +59,7 @@ Zuluft 32 °C, 20 % rF
 
 Adiabatische Kühlung auf der **Abluft-Seite** eines Wärmetauschers:
 
-```
-Abluft (25 °C, 55 % rF)
-    → adiabatisch befeuchtet → 18 °C, 100 % rF
-    → kühlt Zuluft über Plattenwärmetauscher ohne direkte Befeuchtung
-
-Zuluft bleibt trocken → keine Feuchteerhöhung auf Zuluftseite
-```
+Die **Abluft** wird adiabatisch gekühlt, zum Beispiel von 25 °C und 55 % rF auf nahe 19 °C, und kühlt dann über einen Plattenwärmetauscher die Zuluft. Die Zuluft bekommt keine zusätzliche Feuchte.
 
 - Besser für Anwendungen wo trockene Zuluft gewünscht
 - Wirkungsgrad 40–70 %
@@ -91,41 +68,25 @@ Zuluft bleibt trocken → keine Feuchteerhöhung auf Zuluftseite
 
 Adiabatische Kühlung des Rückkühlwassers für Kältemaschine:
 
-```
-Rückkühlwasser 30 °C (Kondensatorseite)
-    → Sprühnebelkühlung am Rückkühler
-    → Rückkühlwasser 24 °C
-    → COP der Kältemaschine steigt deutlich
-
-Einsatz: Spitzenlasttage wenn Luft trocken und heiss
-```
+Das Rückkühlwerk einer Kältemaschine wird an heissen, trockenen Tagen besprüht oder über benetzte Matten angeströmt. Die Luft am Rückkühler wird dadurch kühler, das Kühlwasser kommt kälter zurück, und die Kältemaschine arbeitet mit besserem EER.
 
 ---
 
 ## Effizienzvergleich
 
-| Methode                     | COP / Einsparpotenzial     | Einschränkung                   |
-| --------------------------- | -------------------------- | ------------------------------- |
-| Kältemaschine               | COP 2.5–4.5                | Referenz, immer möglich         |
-| Direkte Evaporativkühlung   | COP 20–50                  | Nur trocken < 40 % rF           |
-| Indirekte Evaporativkühlung | COP 10–30                  | Trocken < 50 % rF               |
-| Rückkühler-Vorkühlung       | +20–40 % Kältemaschine COP | Spitzenlasttage, trocken        |
-| Nachtauskühlung             | COP > 100 (Lüfterenergie)  | Nur nachts, Speichermasse nötig |
+| Methode                     | COP / Einsparpotenzial            | Einschränkung                   |
+| --------------------------- | --------------------------------- | ------------------------------- |
+| Kältemaschine               | COP 2.5–4.5                       | Referenz, immer möglich         |
+| Direkte Evaporativkühlung   | COP 20–50                         | Nur trocken < 40 % rF           |
+| Indirekte Evaporativkühlung | COP 10–30                         | Trocken < 50 % rF               |
+| Rückkühler-Vorkühlung       | +20–40 % Kältemaschine COP        | Spitzenlasttage, trocken        |
+| Nachtauskühlung             | COP etwa 10–30 (nur Ventilatoren) | Nur nachts, Speichermasse nötig |
 
 ---
 
 ## Einsatzgrenzen
 
-```
-Kühlgrenztemperatur-Analyse für Standort Zürich:
-  Sommerdesigntag: 32 °C, 35 % rF → Tw = 21.5 °C
-
-  Direkte Kühlung erreichbar bis: ~22 °C Zuluft
-  Für Bürokühlung (Zuluft 16–18 °C) → nicht ausreichend
-
-  → Adiabatische Kühlung als Teilkühlung, Restlast = Kältemaschine
-  → Oder: Vorkühlung reduziert Kälteleistungsbedarf um 30–50 %
-```
+Auslegungstag Zürich, z.B. 32 °C und 35 % rF: Die Feuchtkugeltemperatur liegt bei rund 20.5 °C. Mit direkter Verdunstung sind also Zulufttemperaturen um 22 °C erreichbar, für Büros mit Zuluft von 16 bis 18 °C reicht das nicht allein. Sinnvoll ist adiabatische Kühlung hier als **Vorkühlung**, die die Kältemaschine entlastet, oder indirekt über die Abluft.
 
 **Kritische Klimazonen:**
 
@@ -141,30 +102,22 @@ Kühlgrenztemperatur-Analyse für Standort Zürich:
 
 Adiabatische Kühlung mit Wassereinbringung birgt **Hygiene-Risiken (Legionellen)**:
 
-```
-Schutzmassnahmen:
-  1. Betriebswasser: Trinkwasserqualität oder Umkehrosmose
-  2. Temperatur: Wassertemperatur nicht > 20 °C im Lager
-  3. Stagnation: Tägliche Spülung, keine stehenden Wassertaschen
-  4. Desinfektion: UV-Anlage oder periodische Dosierung
-  5. Regelmässige Probenentnahme (Legionellen < 100 KBE/100 ml)
-```
+- **Wasser:** Trinkwasserqualität, bei Sprühsystemen enthärtet oder aus Umkehrosmose
+- **Keine Stagnation:** Leitungen und Wannen bei Stillstand entleeren und trocknen lassen
+- **Desinfektion:** z.B. UV-Anlage oder Dosierung nach Herstellerangabe
+- **Kontrollen:** regelmässige Wasseranalysen, Hygiene nach VDI 6022 bzw. VDI 2047-2 bei Rückkühlwerken
 
 ---
 
 ## GA-Integration
 
-```
-Freigabebedingungen adiabatische Kühlung:
-  T_Aussen > 27 °C
-  UND rF_Aussen < 50 %
-  UND Kältemaschine läuft / Kälteleistungsbedarf aktiv
+Freigabe der adiabatischen Kühlung, wenn:
 
-Abschalten wenn:
-  T_Aussen < 25 °C (unnötig)
-  ODER rF_Aussen > 65 % (unwirksam und Hygienerisiko)
-  ODER Frost (Verstopfungsgefahr)
-```
+- Kühlbedarf besteht und die Aussentemperatur hoch ist, z.B. über 26 °C
+- die Aussenluft trocken genug ist, sodass zwischen Luft- und Feuchtkugeltemperatur ein nutzbarer Abstand bleibt, z.B. über 6 K
+- die Anlage nicht im Hygiene- oder Spülbetrieb ist
+
+Abschalten, wenn die Bedingungen nicht mehr erfüllt sind, mit Hysterese, und die Wasserleitungen danach entleeren.
 
 **GA-Datenpunkte:**
 
@@ -190,26 +143,13 @@ Adiabatic cooling uses the **evaporation energy of water** to cool air — witho
 
 ## Physical Principle
 
-```
-Water evaporates → extracts energy from the air (latent heat of evaporation)
-→ Air cools down, moisture content rises
+Evaporating water draws the heat of evaporation from the air, about 2450 kJ per kg of water. The air cools and becomes more humid; its enthalpy stays the same.
 
-Latent heat of evaporation of water: approx. 2,500 kJ/kg (at 20 °C)
-
-Example:
-  State A: 32 °C, 20% RH, h = 50 kJ/kg
-  Water evaporates adiabatically (no heat exchange with surroundings)
-  State B: 22 °C, 60% RH, h = 50 kJ/kg (enthalpy unchanged!)
-
-  → 10 K cooling, but 40% higher humidity
-```
+Example: air at 32 °C and 20 % RH (enthalpy about 47 kJ/kg) can be cooled adiabatically to about 22 °C and 60 % RH at the same enthalpy. That is 10 K of cooling, while the water content rises from 5.9 to 9.9 g/kg.
 
 **Wet-bulb temperature (Tw):** The minimum achievable temperature:
 
-```
-Tw = T − (T − Td) × (1 − RH/100)
-Approx: Tw ≈ T × (0.62 × RH/100)^0.52   [Magnus approximation]
-```
+The lowest achievable temperature is the **wet-bulb temperature**, the temperature at which the air would be saturated at the same enthalpy. For 32 °C and 20 % RH it is about 17 °C. Calculate it in the [psychrometrics calculator](/rechner/psychrometrie); there is no simple rule of thumb.
 
 ---
 
@@ -219,11 +159,7 @@ Approx: Tw ≈ T × (0.62 × RH/100)^0.52   [Magnus approximation]
 
 Water is evaporated directly into the supply air:
 
-```
-Supply air 32 °C, 20% RH
-    → Water spray nozzles or evaporative pads
-    → Supply air 22 °C, 60% RH
-```
+The supply air flows through wetted pads or a spray mist and cools down, for example from 32 °C and 20 % RH to 22 °C and 60 % RH.
 
 - Simple, low cost
 - Air becomes more humid → suitable only for dry climates or AHUs with post-cooling
@@ -233,13 +169,7 @@ Supply air 32 °C, 20% RH
 
 Adiabatic cooling applied to the **exhaust air side** of a heat exchanger:
 
-```
-Exhaust air (25 °C, 55% RH)
-    → adiabatically humidified → 18 °C, 100% RH
-    → cools supply air via plate heat exchanger without direct humidification
-
-Supply air remains dry → no humidity increase on the supply side
-```
+The **extract air** is cooled adiabatically, for example from 25 °C and 55 % RH to close to 19 °C, and then cools the supply air via a plate heat exchanger. The supply air gains no extra moisture.
 
 - Better for applications where dry supply air is desired
 - Effectiveness 40–70%
@@ -248,41 +178,25 @@ Supply air remains dry → no humidity increase on the supply side
 
 Adiabatic cooling of the recooling water for the chiller:
 
-```
-Recooling water 30 °C (condenser side)
-    → spray mist cooling at the recooler
-    → Recooling water 24 °C
-    → Chiller COP improves significantly
-
-Application: peak load days when air is dry and hot
-```
+On hot, dry days the recooler of a chiller is sprayed or fed through wetted pads. The air at the recooler becomes cooler, the cooling water returns colder, and the chiller runs at a better EER.
 
 ---
 
 ## Efficiency Comparison
 
-| Method                       | COP / Savings Potential     | Limitation                        |
-| ---------------------------- | --------------------------- | --------------------------------- |
-| Mechanical chiller           | COP 2.5–4.5                 | Reference, always possible        |
-| Direct evaporative cooling   | COP 20–50                   | Only dry < 40% RH                 |
-| Indirect evaporative cooling | COP 10–30                   | Dry < 50% RH                      |
-| Recooler pre-cooling         | +20–40% chiller COP         | Peak load days, dry conditions    |
-| Night cooling                | COP > 100 (fan energy only) | Night only, thermal mass required |
+| Method                       | COP / Savings Potential     | Limitation                         |
+| ---------------------------- | --------------------------- | ---------------------------------- |
+| Mechanical chiller           | COP 2.5–4.5                 | Reference, always possible         |
+| Direct evaporative cooling   | COP 20–50                   | Only dry < 40% RH                  |
+| Indirect evaporative cooling | COP 10–30                   | Dry < 50% RH                       |
+| Recooler pre-cooling         | +20–40% chiller COP         | Peak load days, dry conditions     |
+| Night cooling                | COP about 10–30 (fans only) | Only at night, thermal mass needed |
 
 ---
 
 ## Application Limits
 
-```
-Wet-bulb temperature analysis for Zurich:
-  Summer design day: 32 °C, 35% RH → Tw = 21.5 °C
-
-  Direct cooling achievable down to: ~22 °C supply air
-  For office cooling (supply air 16–18 °C) → insufficient
-
-  → Adiabatic cooling as partial cooling; remaining load = chiller
-  → Or: pre-cooling reduces chiller capacity demand by 30–50%
-```
+Design day Zurich, e.g. 32 °C and 35 % RH: the wet-bulb temperature is about 20.5 °C. Direct evaporation therefore reaches supply temperatures around 22 °C; for offices with 16 to 18 °C supply air that is not enough on its own. Here adiabatic cooling makes sense as **pre-cooling** that relieves the chiller, or indirectly via the extract air.
 
 **Critical climate zones:**
 
@@ -298,30 +212,22 @@ Wet-bulb temperature analysis for Zurich:
 
 Adiabatic cooling with water introduction carries **hygiene risks (Legionella)**:
 
-```
-Protective measures:
-  1. Process water: drinking water quality or reverse osmosis
-  2. Temperature: water storage temperature not > 20 °C
-  3. Stagnation: daily flushing, no standing water pockets
-  4. Disinfection: UV system or periodic dosing
-  5. Regular sampling (Legionella < 100 CFU/100 ml)
-```
+- **Water:** drinking water quality, softened or from reverse osmosis for spray systems
+- **No stagnation:** drain and dry pipes and trays during shutdown
+- **Disinfection:** e.g. UV unit or dosing per manufacturer
+- **Checks:** regular water analyses, hygiene per VDI 6022 or VDI 2047-2 for recoolers
 
 ---
 
 ## BA Integration
 
-```
-Enable conditions for adiabatic cooling:
-  T_outdoor > 27 °C
-  AND RH_outdoor < 50%
-  AND chiller running / cooling load active
+Enable adiabatic cooling when:
 
-Disable when:
-  T_outdoor < 25 °C (unnecessary)
-  OR RH_outdoor > 65% (ineffective and hygiene risk)
-  OR frost (risk of blockage)
-```
+- there is a cooling demand and the outdoor temperature is high, e.g. above 26 °C
+- the outdoor air is dry enough that a usable gap remains between dry-bulb and wet-bulb temperature, e.g. above 6 K
+- the system is not in hygiene or flushing mode
+
+Switch off when the conditions are no longer met, with hysteresis, and drain the water lines afterwards.
 
 **BA data points:**
 

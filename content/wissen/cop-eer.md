@@ -41,39 +41,21 @@ COP und EER sind die wichtigsten Effizienzkennzahlen für Wärmepumpen und Kält
 
 ### COP — Coefficient of Performance (Wärmepumpe)
 
-```
-COP = Q_Heiz / P_el   [dimensionslos]
+<p class="formel">COP = Q<sub>Heiz</sub> / P<sub>el</sub></p>
 
-Q_Heiz: abgegebene Heizleistung [kW]
-P_el:   aufgenommene elektrische Leistung [kW]
-
-Beispiel:
-  Luft/Wasser-WP bei A7W35:
-  COP = 12 kW / 3 kW = 4.0
-
-  Interpretation: 1 kWh Strom → 4 kWh Wärme
-  (1 kWh aus Strom + 3 kWh aus Umwelt)
-```
+Beispiel: Eine Luft/Wasser-Wärmepumpe gibt bei A7/W35 12 kW Wärme ab und nimmt 3 kW Strom auf: COP = 4. Aus 1 kWh Strom werden 4 kWh Wärme, 3 kWh davon stammen aus der Umgebung.
 
 ### EER — Energy Efficiency Ratio (Kältemaschine)
 
-```
-EER = Q_Kalt / P_el   [dimensionslos]
+<p class="formel">EER = Q<sub>Kälte</sub> / P<sub>el</sub></p>
 
-Q_Kalt: abgegebene Kälteleistung [kW]
-P_el:   aufgenommene elektrische Leistung [kW]
-
-Beispiel:
-  Kältemaschine bei W7W27 (Kaltwasser 7/12 °C, Kondensator 27/32 °C):
-  EER = 100 kW / 30 kW = 3.33
-```
+Beispiel: Eine wassergekühlte Kältemaschine liefert bei Kaltwasser 12/7 °C und Kühlwasser 30/35 °C 100 kW Kälte bei 25 kW Strom: EER = 4.
 
 **Zusammenhang COP und EER (reversible Wärmepumpe):**
 
-```
-COP_Heiz = EER_Kalt + 1
-Physikalisch: Wärme = Kälte + Antriebsenergie
-```
+<p class="formel">COP<sub>Heizen</sub> ≈ EER<sub>Kühlen</sub> + 1</p>
+
+Die abgegebene Wärme ist die aufgenommene Kälte plus die Antriebsenergie. Das gilt bei gleichen Temperaturen und ohne Verluste.
 
 ---
 
@@ -81,17 +63,9 @@ Physikalisch: Wärme = Kälte + Antriebsenergie
 
 Theoretisch maximaler Wirkungsgrad — nie erreichbar, aber Orientierung:
 
-```
-COP_Carnot = T_hoch / (T_hoch − T_tief)   [Kelvin!]
+<p class="formel">COP<sub>Carnot</sub> = T<sub>warm</sub> / (T<sub>warm</sub> − T<sub>kalt</sub>)   (Temperaturen in Kelvin)</p>
 
-Beispiel A7W35 (Wärmepumpe Luft/Wasser):
-  T_hoch = 35 + 273 = 308 K
-  T_tief = 7 + 273  = 280 K
-  COP_Carnot = 308 / (308 − 280) = 11.0
-
-  Realer COP = 4.0 → Gütegrad = 4.0 / 11.0 = 36 %
-  (Typisch: 35–55 % je nach Qualität der Maschine)
-```
+Beispiel A7/W35: 308 K / (308 K − 280 K) = 11. Ein realer COP von 4 entspricht einem Gütegrad von rund 36 %, typisch sind 35 bis 55 %. In Wirklichkeit liegen die Temperaturen im Kältekreis noch einige Kelvin weiter auseinander.
 
 **Wichtig:** Je kleiner die Temperaturdifferenz (T_hoch − T_tief), desto effizienter.
 → Niedrige Vorlauftemperatur (Fussbodenheizung 35 °C statt Heizkörper 70 °C) verbessert COP deutlich.
@@ -102,13 +76,14 @@ Beispiel A7W35 (Wärmepumpe Luft/Wasser):
 
 Vergleichbarkeit erfordert definierte Prüfbedingungen:
 
-| Anlagetype       | Bezeichnung | Quellentemperatur | Senketemperatur |
-| ---------------- | ----------- | ----------------- | --------------- |
-| Luft/Wasser WP   | A7W35       | 7 °C Aussenluft   | 35 °C Vorlauf   |
-| Luft/Wasser WP   | A-7W35      | −7 °C Aussenluft  | 35 °C Vorlauf   |
-| Sole/Wasser WP   | B0W35       | 0 °C Sole         | 35 °C Vorlauf   |
-| Wasser/Wasser WP | W10W35      | 10 °C Grundwasser | 35 °C Vorlauf   |
-| Kältemaschine    | W7W27       | 7/12 °C KW        | 27/32 °C        |
+| Anlagetype                   | Bezeichnung | Quellentemperatur  | Senketemperatur     |
+| ---------------------------- | ----------- | ------------------ | ------------------- |
+| Luft/Wasser WP               | A7W35       | 7 °C Aussenluft    | 35 °C Vorlauf       |
+| Luft/Wasser WP               | A-7W35      | −7 °C Aussenluft   | 35 °C Vorlauf       |
+| Sole/Wasser WP               | B0W35       | 0 °C Sole          | 35 °C Vorlauf       |
+| Wasser/Wasser WP             | W10W35      | 10 °C Grundwasser  | 35 °C Vorlauf       |
+| Kältemaschine, wassergekühlt | —           | Kaltwasser 12/7 °C | Kühlwasser 30/35 °C |
+| Kältemaschine, luftgekühlt   | —           | Kaltwasser 12/7 °C | Luft 35 °C          |
 
 ---
 
@@ -118,28 +93,19 @@ Punktwerte (COP/EER) sind wenig aussagekräftig — Jahreskennzahlen besser:
 
 ### SCOP — Seasonal COP (Wärmepumpe Heizen)
 
-```
-SCOP = Q_Heiz_gesamt [kWh/Jahr] / E_el_gesamt [kWh/Jahr]
+<p class="formel">SCOP = Wärme pro Jahr / Strom pro Jahr</p>
 
-Typische Werte Luft/Wasser WP in CH:
-  SCOP = 2.8–4.5 je nach Standort und Vorlauftemp
-
-Je kälter der Standort → weniger SCOP (mehr Betrieb bei −A7)
-Je höher die Vorlauftemp → weniger SCOP
-```
+Typisch für Luft/Wasser-Wärmepumpen in der Schweiz 2.8 bis 4.5, je nach Standort und Vorlauftemperatur.
 
 ### SEER — Seasonal EER (Kältemaschine / WP Kühlen)
 
-```
-SEER = Q_Kalt_gesamt / E_el_gesamt
+<p class="formel">SEER = Kälte pro Jahr / Strom pro Jahr</p>
 
-Moderne Kältemaschinen:
-  SEER = 5–8 (bei Teillastbetrieb oft besser als EER bei Volllast!)
-```
+Moderne Kältemaschinen erreichen 5 bis 8. Bei Teillast arbeiten sie oft besser als bei Volllast.
 
 ### JAZ — Jahresarbeitszahl (Schweizer Begrifflichkeit)
 
-JAZ = SCOP im deutschen / Schweizer Sprachraum für Wärmepumpen.
+Die **Jahresarbeitszahl (JAZ)** ist der gemessene Jahreswert einer realen Anlage, mit allen ihren Eigenheiten. Der **SCOP** wird nach EN 14825 für ein Normklima berechnet. Beide sagen Ähnliches, sind aber nicht dasselbe; die JAZ ist die ehrlichere Zahl.
 
 ---
 
@@ -147,17 +113,7 @@ JAZ = SCOP im deutschen / Schweizer Sprachraum für Wärmepumpen.
 
 Kältemaschinen laufen selten bei Volllast. Teillasteffizienz ist entscheidend:
 
-```
-ESEER (European Seasonal Energy Efficiency Ratio):
-  Gewichteter Mittelwert aus 4 Betriebspunkten:
-
-  100 % Last: Gewichtung  3 % (selten)
-   75 % Last: Gewichtung 33 %
-   50 % Last: Gewichtung 41 %  ← häufigster Betrieb!
-   25 % Last: Gewichtung 23 %
-
-Moderne VRF-Systeme: ESEER 5.0–7.0
-```
+Der ESEER (Eurovent) gewichtet vier Lastpunkte: 100 % Last mit 3 %, 75 % mit 33 %, 50 % mit 41 % und 25 % mit 23 %. Für Kaltwassersätze ist er inzwischen weitgehend durch den saisonalen Wert nach EN 14825 abgelöst, den auch die Ökodesign-Verordnung verwendet.
 
 ---
 
@@ -176,17 +132,10 @@ Moderne VRF-Systeme: ESEER 5.0–7.0
 
 ## Monitoring in der GA
 
-```
-DDC berechnet laufend Real-COP/-EER:
-
-  Q_WP = V_Heizung × 1.163 × ΔT_VL-RL   [kWh]
-  P_el = aus Energiezähler               [kWh]
-
-  COP_aktuell = Q_WP / P_el
-
-  Trend: COP täglich mitteln → Degradationsanalyse
-  Alarm: COP < 2.5 (Wärmepumpe defekt / verschmutzt)
-```
+- Wärmemenge aus Wärmezähler, Strom aus Elektrozähler, beide über denselben Zeitraum
+- **COP oder JAZ** = Wärme / Strom, täglich, monatlich und jährlich
+- Sinkt der Wert über Wochen bei gleichen Bedingungen: Verschmutzung, Kältemittelverlust oder falsche Einstellungen prüfen
+- Einen festen Alarmwert (z.B. COP < 2.5) nur mit Blick auf Aussen- und Vorlauftemperatur setzen, sonst alarmiert jeder kalte Tag
 
 ---
 
@@ -194,7 +143,7 @@ DDC berechnet laufend Real-COP/-EER:
 
 - **EN 14511** — Kältemaschinen, Wärmepumpen: Prüfbedingungen und Leistungsabnahme
 - **EN 14825** — Teillastbedingungen für Klimatisierung, Heizen (SCOP/SEER)
-- **Ökodesign-Richtlinie 2016/2281** — Mindest-SCOP für Heizwärmepumpen (EU-Markt)
+- **Ökodesign-Verordnungen** (EU) 813/2013 für Raumheizgeräte inkl. Wärmepumpen, (EU) 2016/2281 für Kaltwassersätze und Klimageräte
 
 <!-- EN -->
 
@@ -204,39 +153,21 @@ COP and EER are the most important efficiency metrics for heat pumps and chiller
 
 ### COP — Coefficient of Performance (Heat Pump)
 
-```
-COP = Q_heat / P_el   [dimensionless]
+<p class="formel">COP = Q<sub>heat</sub> / P<sub>el</sub></p>
 
-Q_heat: heat output [kW]
-P_el:   electrical power input [kW]
-
-Example:
-  Air-to-water heat pump at A7W35:
-  COP = 12 kW / 3 kW = 4.0
-
-  Interpretation: 1 kWh electricity → 4 kWh heat
-  (1 kWh from grid + 3 kWh from the environment)
-```
+Example: an air/water heat pump delivers 12 kW of heat at A7/W35 and draws 3 kW of electricity: COP = 4. 1 kWh of electricity becomes 4 kWh of heat, 3 kWh of which come from the environment.
 
 ### EER — Energy Efficiency Ratio (Chiller)
 
-```
-EER = Q_cold / P_el   [dimensionless]
+<p class="formel">EER = Q<sub>cold</sub> / P<sub>el</sub></p>
 
-Q_cold: cooling capacity [kW]
-P_el:   electrical power input [kW]
-
-Example:
-  Chiller at W7W27 (chilled water 7/12 °C, condenser 27/32 °C):
-  EER = 100 kW / 30 kW = 3.33
-```
+Example: a water-cooled chiller delivers 100 kW of cooling at chilled water 12/7 °C and cooling water 30/35 °C with 25 kW of electricity: EER = 4.
 
 **Relationship between COP and EER (reversible heat pump):**
 
-```
-COP_heating = EER_cooling + 1
-Physics: heat = cooling + drive energy
-```
+<p class="formel">COP<sub>heating</sub> ≈ EER<sub>cooling</sub> + 1</p>
+
+The heat released is the cooling absorbed plus the drive energy. This holds at equal temperatures and without losses.
 
 ---
 
@@ -244,17 +175,9 @@ Physics: heat = cooling + drive energy
 
 Theoretically maximum efficiency — never achievable, but a useful benchmark:
 
-```
-COP_Carnot = T_high / (T_high − T_low)   [Kelvin!]
+<p class="formel">COP<sub>Carnot</sub> = T<sub>warm</sub> / (T<sub>warm</sub> − T<sub>cold</sub>)   (temperatures in kelvin)</p>
 
-Example A7W35 (air-to-water heat pump):
-  T_high = 35 + 273 = 308 K
-  T_low  = 7 + 273  = 280 K
-  COP_Carnot = 308 / (308 − 280) = 11.0
-
-  Actual COP = 4.0 → efficiency ratio = 4.0 / 11.0 = 36%
-  (Typical: 35–55% depending on machine quality)
-```
+Example A7/W35: 308 K / (308 K − 280 K) = 11. A real COP of 4 corresponds to an efficiency grade of about 36 %; 35 to 55 % is typical. In reality the refrigerant circuit temperatures are a few kelvin further apart.
 
 **Key insight:** The smaller the temperature differential (T_high − T_low), the higher the efficiency.
 → Lower flow temperature (underfloor heating at 35 °C vs. radiators at 70 °C) significantly improves COP.
@@ -265,13 +188,14 @@ Example A7W35 (air-to-water heat pump):
 
 Comparability requires defined test conditions:
 
-| System type              | Designation | Source temperature    | Sink temperature |
-| ------------------------ | ----------- | --------------------- | ---------------- |
-| Air-to-water heat pump   | A7W35       | 7 °C outdoor air      | 35 °C flow       |
-| Air-to-water heat pump   | A-7W35      | −7 °C outdoor air     | 35 °C flow       |
-| Brine-to-water heat pump | B0W35       | 0 °C brine            | 35 °C flow       |
-| Water-to-water heat pump | W10W35      | 10 °C groundwater     | 35 °C flow       |
-| Chiller                  | W7W27       | 7/12 °C chilled water | 27/32 °C         |
+| System type              | Designation | Source temperature    | Sink temperature       |
+| ------------------------ | ----------- | --------------------- | ---------------------- |
+| Air-to-water heat pump   | A7W35       | 7 °C outdoor air      | 35 °C flow             |
+| Air-to-water heat pump   | A-7W35      | −7 °C outdoor air     | 35 °C flow             |
+| Brine-to-water heat pump | B0W35       | 0 °C brine            | 35 °C flow             |
+| Water-to-water heat pump | W10W35      | 10 °C groundwater     | 35 °C flow             |
+| Chiller, water-cooled    | —           | chilled water 12/7 °C | cooling water 30/35 °C |
+| Chiller, air-cooled      | —           | chilled water 12/7 °C | air 35 °C              |
 
 ---
 
@@ -281,28 +205,19 @@ Point values (COP/EER) have limited meaning — seasonal metrics are more inform
 
 ### SCOP — Seasonal COP (Heat Pump, Heating Mode)
 
-```
-SCOP = Q_heat_total [kWh/year] / E_el_total [kWh/year]
+<p class="formel">SCOP = heat per year / electricity per year</p>
 
-Typical values, air-to-water heat pump in CH:
-  SCOP = 2.8–4.5 depending on location and flow temperature
-
-Colder location → lower SCOP (more operation at −A7)
-Higher flow temperature → lower SCOP
-```
+Typical for air/water heat pumps in Switzerland 2.8 to 4.5, depending on location and flow temperature.
 
 ### SEER — Seasonal EER (Chiller / Heat Pump, Cooling Mode)
 
-```
-SEER = Q_cold_total / E_el_total
+<p class="formel">SEER = cooling per year / electricity per year</p>
 
-Modern chillers:
-  SEER = 5–8 (part-load operation often better than full-load EER!)
-```
+Modern chillers reach 5 to 8. At part load they often work better than at full load.
 
 ### JAZ — Annual Performance Factor (German/Swiss term)
 
-JAZ = SCOP in the German/Swiss context for heat pumps.
+The **seasonal performance factor (SPF, German JAZ)** is the measured annual value of a real system with all its peculiarities. **SCOP** is calculated per EN 14825 for a standard climate. Both say similar things but are not the same; the SPF is the more honest figure.
 
 ---
 
@@ -310,17 +225,7 @@ JAZ = SCOP in the German/Swiss context for heat pumps.
 
 Chillers rarely run at full load. Part-load efficiency is decisive:
 
-```
-ESEER (European Seasonal Energy Efficiency Ratio):
-  Weighted average of 4 operating points:
-
-  100% load: weighting  3% (rare)
-   75% load: weighting 33%
-   50% load: weighting 41%  ← most common operating point!
-   25% load: weighting 23%
-
-Modern VRF systems: ESEER 5.0–7.0
-```
+ESEER (Eurovent) weights four load points: 100 % load at 3 %, 75 % at 33 %, 50 % at 41 % and 25 % at 23 %. For chillers it has largely been replaced by the seasonal value per EN 14825, which the Ecodesign regulation also uses.
 
 ---
 
@@ -339,17 +244,10 @@ Modern VRF systems: ESEER 5.0–7.0
 
 ## Monitoring in BA
 
-```
-DDC continuously calculates real-time COP/EER:
-
-  Q_HP = V_heating × 1.163 × ΔT_supply-return   [kWh]
-  P_el = from energy meter                        [kWh]
-
-  COP_current = Q_HP / P_el
-
-  Trend: daily average COP → degradation analysis
-  Alarm: COP < 2.5 (heat pump faulty / fouled)
-```
+- heat from a heat meter, electricity from an electricity meter, both over the same period
+- **COP or SPF** = heat / electricity, daily, monthly and yearly
+- if the value drops over weeks under the same conditions: check fouling, refrigerant loss or wrong settings
+- set a fixed alarm value (e.g. COP < 2.5) only with outdoor and flow temperature in mind, otherwise every cold day raises an alarm
 
 ---
 
@@ -357,4 +255,4 @@ DDC continuously calculates real-time COP/EER:
 
 - **EN 14511** — Chillers and heat pumps: test conditions and capacity testing
 - **EN 14825** — Part-load conditions for air conditioning and heating (SCOP/SEER)
-- **Ecodesign Regulation 2016/2281** — Minimum SCOP for heating heat pumps (EU market)
+- **Ecodesign regulations** (EU) 813/2013 for space heaters incl. heat pumps, (EU) 2016/2281 for chillers and air conditioners

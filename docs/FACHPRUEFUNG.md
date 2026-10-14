@@ -102,14 +102,14 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### klima
 
-- ⬜ adiabatische-kuehlung
-- ⬜ cop-eer
-- ⬜ free-cooling
+- ✅ adiabatische-kuehlung
+- ✅ cop-eer
+- ✅ free-cooling
 
 ### kaelte
 
-- ⬜ kaelteanlagen
-- ⬜ kaeltemittel
+- ✅ kaelteanlagen
+- ✅ kaeltemittel
 
 ### komfort
 
@@ -347,3 +347,9 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | waermerueckgewinnung                | Sommerbeispiel mit Wirkungsgrad über 100 %; Frostgrenze −8 bis −15 °C; «VDI 6022 Klasse A»                                                                                                                                                                                   | Beispiel mit η = 75 %; Fortluft-/Δp-Überwachung; Ökodesign 1253/2014 (73 %)                                                                 | VO (EU) 1253/2014                                                   |
 | 14.10.2026 | zonendruckhaltung                   | OP «≥ 1200 m³/h, 20–25-fach» (passt nicht zu Raumklasse Ia)                                                                                                                                                                                                                  | Verweis auf DIN 1946-4 / SWKI 99-3                                                                                                          | —                                                                   |
 | 14.10.2026 | taupunkt                            | Tippfehler, «Mindest-U-Wert»                                                                                                                                                                                                                                                 | Beispielwerte nachgerechnet, korrekt                                                                                                        | Magnus                                                              |
+| 14.10.2026 | Rechner psychrometrie               | Feuchtkugeltemperatur: Newton-Ableitung rund 16× zu gross, Iteration kam nicht an; 32 °C / 20 % ergab 18.7 statt ~17 °C                                                                                                                                                      | Bisektion, Tests ergänzt (13.8 °C bei 20 °C/50 %)                                                                                           | Psychrometrische Gleichung                                          |
+| 14.10.2026 | cop-eer                             | Prüfbedingungen Kaltwassersatz falsch; JAZ und SCOP gleichgesetzt                                                                                                                                                                                                            | EN 14511 12/7 und 30/35 °C; JAZ (Messung) ≠ SCOP (Norm); Ökodesign 813/2013, 2016/2281                                                      | EN 14511, EN 14825                                                  |
+| 14.10.2026 | kaeltemittel                        | alte F-Gas-VO 517/2014; «3 kW» statt 3 kg; Drücke R-32 zu tief                                                                                                                                                                                                               | VO (EU) 2024/573; ChemRRV; R-32 ~25 bar                                                                                                     | VO (EU) 2024/573, ChemRRV                                           |
+| 14.10.2026 | kaelteanlagen                       | ASCII-Schemata; VDI 2047-2 falsch beschrieben; F-Gas-VO veraltet                                                                                                                                                                                                             | Text; ChemRRV-Hinweis; 2024/573                                                                                                             | VDI 2047-2                                                          |
+| 14.10.2026 | adiabatische-kuehlung               | ASCII-Blöcke; Feuchtkugeltemperatur Zürich zu tief; COP Nachtauskühlung unrealistisch                                                                                                                                                                                        | Text; ~20.5 °C Auslegung; COP 10–30                                                                                                         | SIA 2028                                                            |
+| 14.10.2026 | free-cooling                        | indirektes Free Cooling: Aussenluft 10 °C → Wasser 8 °C (unmöglich); erfundenes Energiebeispiel mit Scheingenauigkeit                                                                                                                                                        | 5 °C → ~9 °C, Approach 3–5 K; Beispiel als Grössenordnung gekennzeichnet                                                                    | —                                                                   |

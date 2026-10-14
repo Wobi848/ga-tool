@@ -27,7 +27,7 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [kaelteanlagen, waermepumpe, taupunkt]
-norm: [EU F-Gase-Verordnung 517/2014, ISO 817, EN 378]
+norm: [EU 2024/573, ChemRRV, ISO 817, EN 378]
 updated: 2026-05-14
 lang: de
 ---
@@ -40,17 +40,12 @@ Die Wahl des Kältemittels beeinflusst Effizienz, Sicherheit und Zukunftsfähigk
 
 **ASHRAE/ISO 817-Kennzeichnung:**
 
-```
-R-XYZ
-│
-├── Einheitliche Nummerierung nach ASHRAE 34
-│
-Beispiele:
-  R-134a: HFKW (Hydrofluorkohlenwasserstoff)
-  R-744:  CO₂ (natürliches Kältemittel)
-  R-290:  Propan (natürliches Kältemittel, Kohlenwasserstoff)
-  R-410A: Gemisch aus R-32 und R-125 (HFKW-Gemisch)
-```
+Kältemittel tragen eine Nummer nach ASHRAE 34 bzw. ISO 817, zum Beispiel:
+
+- **R-134a:** ein HFKW (teilfluorierter Kohlenwasserstoff)
+- **R-410A:** Gemisch aus R-32 und R-125
+- **R-744:** CO₂
+- **R-290:** Propan
 
 ### Sicherheitsklassen (ISO 817)
 
@@ -67,25 +62,25 @@ Beispiele:
 
 ### R-410A (Phase-Out)
 
-| Parameter           | Wert                                  |
-| ------------------- | ------------------------------------- |
-| **GWP** (100 Jahre) | **2088** — sehr hoch!                 |
-| Sicherheitsklasse   | A1 (nicht entflammbar, nicht toxisch) |
-| Druckniveau         | Hoch (~23 bar bei 40 °C Kondensation) |
-| Status              | **Phase-Out ab 2025** (EU F-Gase)     |
-| Einsatz             | Split-Klimaanlagen, VRF, Wärmepumpen  |
+| Parameter           | Wert                                                                   |
+| ------------------- | ---------------------------------------------------------------------- |
+| **GWP** (100 Jahre) | **2088** — sehr hoch!                                                  |
+| Sicherheitsklasse   | A1 (nicht entflammbar, nicht toxisch)                                  |
+| Druckniveau         | Hoch (~23 bar bei 40 °C Kondensation)                                  |
+| Status              | Auslaufend, in kleinen Splitgeräten seit 2025 nicht mehr zulässig (EU) |
+| Einsatz             | Split-Klimaanlagen, VRF, Wärmepumpen                                   |
 
-→ Neuanlagen mit R-410A sind in EU ab 2025 verboten.
+→ In der EU dürfen seit 2025 keine neuen Einzelsplitgeräte mit weniger als 3 kg Füllung und GWP ≥ 750 mehr in Verkehr gebracht werden, also auch nicht mit R-410A.
 
 ### R-32
 
-| Parameter         | Wert                                     |
-| ----------------- | ---------------------------------------- |
-| **GWP**           | **675** — ca. 1/3 von R-410A             |
-| Sicherheitsklasse | A2L (schwach entflammbar)                |
-| Druckniveau       | Mittel-hoch (~19 bar bei 40 °C)          |
-| Status            | Aktuell häufigster **Ersatz** für R-410A |
-| Einsatz           | Klimaanlagen (Daikin, Mitsubishi etc.)   |
+| Parameter         | Wert                                                                                                      |
+| ----------------- | --------------------------------------------------------------------------------------------------------- |
+| **GWP**           | **675** — ca. 1/3 von R-410A                                                                              |
+| Sicherheitsklasse | A2L (schwach entflammbar)                                                                                 |
+| Druckniveau       | Hoch, leicht über R-410A (~25 bar bei 40 °C)                                                              |
+| Status            | Häufigster Ersatz für R-410A, für kleine Splitgeräte in der EU ab 2027 nicht mehr zulässig (GWP über 150) |
+| Einsatz           | Klimaanlagen (Daikin, Mitsubishi etc.)                                                                    |
 
 **A2L-Anforderungen:** Bei R-32 müssen Geräte bestimmte Sicherheitsanforderungen erfüllen (Leckdetektion, belüftete Aufstellung). Servicetechniker brauchen A2L-Schulung.
 
@@ -117,42 +112,37 @@ Beispiele:
 
 ---
 
-## EU F-Gase-Verordnung 517/2014
+## Rechtslage
 
-Die Verordnung schränkt Kältemittel mit hohem GWP schrittweise ein:
+**EU:** Seit März 2024 gilt die **F-Gase-Verordnung (EU) 2024/573**, sie ersetzt die Verordnung 517/2014. Sie senkt die verfügbaren HFKW-Mengen schrittweise bis 2050 auf null und verbietet das Inverkehrbringen neuer Geräte mit F-Gasen über bestimmten GWP-Grenzen. Für die GA wichtig:
 
-| Jahr     | Massnahme                                              |
-| -------- | ------------------------------------------------------ |
-| 2020     | Phase-Down HFKWs auf 37 % des 2009-Niveaus             |
-| 2022     | Verbot R-404A und R-507A (GWP > 2500) für Neuanlagen   |
-| **2025** | **Verbot R-410A für Neuanlagen < 3 kW** (ab 2027 alle) |
-| 2030     | Phase-Down auf 21 %                                    |
-| 2050     | Weitgehende Elimination HFKWs                          |
+- **Splitgeräte bis 12 kW:** je nach Bauart ab 2027 nur noch mit GWP unter 150, ab 2035 gar keine F-Gase mehr
+- **Monoblock-Wärmepumpen und -Klimageräte:** schrittweise strenger, ganz ohne F-Gase ab 2032
+- Bestehende Anlagen dürfen weiterlaufen und gewartet werden; Nachfüllware wird knapper und teurer
 
-**Praxis:** R-410A-Servicekältemittel bleibt für Bestandsanlagen verfügbar — aber teurer (Quotenhandel).
+Massgebend ist Anhang IV der Verordnung, die Stufen hängen von Geräteart und Leistung ab.
 
----
+**Schweiz:** Hier regelt die **Chemikalien-Risikoreduktions-Verordnung (ChemRRV)**, Anhang 2.10, die Kältemittel. Sie ist eigenständig und teils strenger als die EU-Regeln. Für jede Neuanlage die aktuell gültige Fassung prüfen.
 
 ## Vergleichstabelle
 
-| Kältemittel | GWP  | Klasse | Druck       | Zukunft        | Einsatz               |
-| ----------- | ---- | ------ | ----------- | -------------- | --------------------- |
-| **R-410A**  | 2088 | A1     | Hoch        | Phase-Out 2025 | Bestehende Anlagen    |
-| **R-32**    | 675  | A2L    | Mittel-hoch | Übergangs-KM   | Neue Split-Geräte     |
-| **R-744**   | 1    | A1     | Sehr hoch   | Zukunft (WP)   | WP, CO₂-Anlagen       |
-| **R-290**   | 3    | A3     | Niedrig     | Wächst         | Kleine WP, Kühlgeräte |
-| R-134a      | 1430 | A1     | Mittel      | Phase-Down     | Klimaanlagen, PKW     |
-| R-407C      | 1774 | A1     | Mittel      | Auslaufend     | Bestehende Anlagen    |
+| Kältemittel | GWP  | Klasse | Druck     | Zukunft      | Einsatz               |
+| ----------- | ---- | ------ | --------- | ------------ | --------------------- |
+| **R-410A**  | 2088 | A1     | Hoch      | auslaufend   | Bestehende Anlagen    |
+| **R-32**    | 675  | A2L    | Hoch      | Übergangs-KM | Split-Geräte          |
+| **R-744**   | 1    | A1     | Sehr hoch | Zukunft (WP) | WP, CO₂-Anlagen       |
+| **R-290**   | 3    | A3     | Niedrig   | Wächst       | Kleine WP, Kühlgeräte |
+| R-134a      | 1430 | A1     | Mittel    | Phase-Down   | Klimaanlagen, PKW     |
+| R-407C      | 1774 | A1     | Mittel    | Auslaufend   | Bestehende Anlagen    |
 
 ---
 
-## Normen
+## Normen und Vorschriften
 
-- **EU-Verordnung 517/2014** — F-Gase-Verordnung (inkl. Betreiberpflichten)
-- **ISO 817** — Kältemittelbezeichnung und Sicherheitsklassifikation
-- **EN 378** — Kälteanlagen, Sicherheit und Umwelt
-- **EN ISO 817** — Sicherheitsklassifikation Kältemittel
-
+- **Verordnung (EU) 2024/573** — F-Gase-Verordnung
+- **ChemRRV, Anhang 2.10** — Kältemittel (CH)
+- **ISO 817 / ASHRAE 34** — Bezeichnung und Sicherheitsklassen
+- **EN 378** — Kälteanlagen und Wärmepumpen, Sicherheit und Umwelt
 <!-- EN -->
 
 The choice of refrigerant affects the efficiency, safety, and long-term viability of a system. The EU F-Gas Regulation is progressively phasing out conventional HFCs (R410A) in favour of lower-GWP alternatives.
@@ -161,17 +151,12 @@ The choice of refrigerant affects the efficiency, safety, and long-term viabilit
 
 **ASHRAE/ISO 817 designation:**
 
-```
-R-XYZ
-│
-├── Standardised numbering per ASHRAE 34
-│
-Examples:
-  R-134a: HFC (hydrofluorocarbon)
-  R-744:  CO₂ (natural refrigerant)
-  R-290:  Propane (natural refrigerant, hydrocarbon)
-  R-410A: Blend of R-32 and R-125 (HFC blend)
-```
+Refrigerants carry a number per ASHRAE 34 or ISO 817, for example:
+
+- **R-134a:** an HFC (hydrofluorocarbon)
+- **R-410A:** blend of R-32 and R-125
+- **R-744:** CO₂
+- **R-290:** propane
 
 ### Safety Classes (ISO 817)
 
@@ -188,13 +173,13 @@ Examples:
 
 ### R-410A (Phase-Out)
 
-| Parameter           | Value                                   |
-| ------------------- | --------------------------------------- |
-| **GWP** (100 years) | **2088** — very high!                   |
-| Safety class        | A1 (non-flammable, non-toxic)           |
-| Pressure level      | High (~23 bar at 40 °C condensing)      |
-| Status              | **Phase-out from 2025** (EU F-Gas)      |
-| Applications        | Split air conditioners, VRF, heat pumps |
+| Parameter           | Value                                                                         |
+| ------------------- | ----------------------------------------------------------------------------- |
+| **GWP** (100 years) | **2088** — very high!                                                         |
+| Safety class        | A1 (non-flammable, non-toxic)                                                 |
+| Pressure level      | High (~23 bar at 40 °C condensing)                                            |
+| Status              | Being phased out; no longer allowed in small split units in the EU since 2025 |
+| Applications        | Split air conditioners, VRF, heat pumps                                       |
 
 → New equipment with R-410A is banned in the EU from 2025.
 
@@ -204,7 +189,7 @@ Examples:
 | -------------- | ------------------------------------------------ |
 | **GWP**        | **675** — approx. 1/3 of R-410A                  |
 | Safety class   | A2L (mildly flammable)                           |
-| Pressure level | Medium-high (~19 bar at 40 °C)                   |
+| Pressure level | High, slightly above R-410A (~25 bar at 40 °C)   |
 | Status         | Currently most common **replacement** for R-410A |
 | Applications   | Air conditioners (Daikin, Mitsubishi, etc.)      |
 
@@ -238,38 +223,34 @@ Examples:
 
 ---
 
-## EU F-Gas Regulation 517/2014
+## Legal Situation
 
-The regulation progressively restricts refrigerants with high GWP:
+**EU:** Since March 2024 the **F-gas Regulation (EU) 2024/573** applies, replacing Regulation 517/2014. It reduces the available HFC quantities step by step to zero by 2050 and bans placing new equipment with F-gases above certain GWP limits on the market. Important for BA:
 
-| Year     | Measure                                                          |
-| -------- | ---------------------------------------------------------------- |
-| 2020     | Phase-down HFCs to 37% of 2009 baseline                          |
-| 2022     | Ban on R-404A and R-507A (GWP > 2500) for new equipment          |
-| **2025** | **Ban on R-410A for new equipment < 3 kW** (from 2027 all sizes) |
-| 2030     | Phase-down to 21%                                                |
-| 2050     | Substantial elimination of HFCs                                  |
+- **Split units up to 12 kW:** depending on type, only with GWP below 150 from 2027, no F-gases at all from 2035
+- **Monobloc heat pumps and air conditioners:** progressively stricter, completely F-gas-free from 2032
+- Existing systems may continue to run and be serviced; refill gas becomes scarcer and more expensive
 
-**In practice:** R-410A service refrigerant remains available for existing equipment — but at higher cost (quota trading).
+Annex IV of the regulation is decisive; the steps depend on equipment type and capacity.
 
----
+**Switzerland:** here the **Chemical Risk Reduction Ordinance (ChemRRV)**, Annex 2.10, governs refrigerants. It is independent and in parts stricter than the EU rules. Check the currently valid version for every new installation.
 
 ## Comparison Table
 
-| Refrigerant | GWP  | Class | Pressure    | Future              | Application                     |
-| ----------- | ---- | ----- | ----------- | ------------------- | ------------------------------- |
-| **R-410A**  | 2088 | A1    | High        | Phase-out 2025      | Existing systems                |
-| **R-32**    | 675  | A2L   | Medium-high | Transitional        | New split equipment             |
-| **R-744**   | 1    | A1    | Very high   | Future (heat pumps) | Heat pumps, CO₂ systems         |
-| **R-290**   | 3    | A3    | Low         | Growing             | Small heat pumps, refrigerators |
-| R-134a      | 1430 | A1    | Medium      | Phase-down          | Air conditioners, vehicles      |
-| R-407C      | 1774 | A1    | Medium      | Being phased out    | Existing systems                |
+| Refrigerant | GWP  | Class | Pressure  | Future              | Application                     |
+| ----------- | ---- | ----- | --------- | ------------------- | ------------------------------- |
+| **R-410A**  | 2088 | A1    | High      | being phased out    | Existing systems                |
+| **R-32**    | 675  | A2L   | High      | Transitional        | New split equipment             |
+| **R-744**   | 1    | A1    | Very high | Future (heat pumps) | Heat pumps, CO₂ systems         |
+| **R-290**   | 3    | A3    | Low       | Growing             | Small heat pumps, refrigerators |
+| R-134a      | 1430 | A1    | Medium    | Phase-down          | Air conditioners, vehicles      |
+| R-407C      | 1774 | A1    | Medium    | Being phased out    | Existing systems                |
 
 ---
 
-## Standards
+## Standards and Regulations
 
-- **EU Regulation 517/2014** — F-Gas Regulation (including operator obligations)
-- **ISO 817** — Refrigerant designation and safety classification
-- **EN 378** — Refrigerating systems — safety and environmental requirements
-- **EN ISO 817** — Refrigerant safety classification
+- **Regulation (EU) 2024/573** — F-gas Regulation
+- **ChemRRV, Annex 2.10** — Refrigerants (CH)
+- **ISO 817 / ASHRAE 34** — Designation and safety classification
+- **EN 378** — Refrigerating systems and heat pumps, safety and environmental requirements

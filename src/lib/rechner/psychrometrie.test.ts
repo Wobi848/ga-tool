@@ -13,10 +13,30 @@ describe('wetBulb (Newton-Iteration)', () => {
 		expect(tWb).toBeLessThan(25);
 		expect(tWb).toBeLessThan(12); // ungefaehr 10–11 °C
 	});
-	it('20 °C / 50 % rH -> Feuchtkugel ≈ 13.7 °C (Chart)', () => {
+	it('20 °C / 50 % rH -> Feuchtkugel ≈ 13.8 °C (h,x-Diagramm)', () => {
 		// 50 % rH bei 20 °C: x ≈ 7.24 g/kg
-		const tWb = wetBulb(20, 7.24);
-		expect(tWb).toBeCloseTo(13.7, 0);
+		expect(wetBulb(20, 7.24)).toBeCloseTo(13.8, 0);
+		expect(Math.abs(wetBulb(20, 7.24) - 13.8)).toBeLessThan(0.3);
+	});
+
+	it('trockene Hitze: 32 °C / 20 % rH -> Feuchtkugel ≈ 17 °C', () => {
+		// x ≈ 5.9 g/kg, h ≈ 47.3 kJ/kg; gesaettigte Luft mit gleicher
+		// Enthalpie hat rund 16.9 °C. Bis 0.16.0 kam hier 18.7 °C heraus.
+		const x = ((0.622 * 0.2 * 4757) / (101325 - 0.2 * 4757)) * 1000;
+		expect(Math.abs(wetBulb(32, x) - 17.0)).toBeLessThan(0.4);
+	});
+
+	it('Feuchtkugel liegt zwischen Taupunkt und Lufttemperatur', () => {
+		for (const [t, x] of [
+			[30, 5],
+			[25, 10],
+			[10, 3],
+			[-5, 1]
+		] as const) {
+			const tw = wetBulb(t, x);
+			expect(tw).toBeLessThanOrEqual(t);
+			expect(tw).toBeGreaterThan(-50);
+		}
 	});
 });
 

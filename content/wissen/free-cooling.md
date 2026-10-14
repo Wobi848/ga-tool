@@ -36,10 +36,8 @@ Free Cooling nutzt kalte Aussenluft oder Erdwärme zur Gebäudekühlung ohne mec
 
 ## Grundprinzip
 
-```
-Kältemaschine (aktiv): Strom → COP 3 → 1 kWh Strom = 3 kWh Kälte
-Free Cooling (passiv):  Natur → COP >50 → nur Pumpen/Ventilatoren
-```
+- **Kältemaschine:** 1 kWh Strom ergibt etwa 3 bis 5 kWh Kälte
+- **Free Cooling:** Es laufen nur Pumpen und Ventilatoren, das ergibt oft das Zehn- bis Dreissigfache
 
 **Aktivierungsbedingung:** T_Aussenluft < T_Rücklauf_Kälteträger (mit Sicherheitsmarge).
 
@@ -51,105 +49,53 @@ Free Cooling (passiv):  Natur → COP >50 → nur Pumpen/Ventilatoren
 
 Aussenluft wird direkt zur Raumkühlung genutzt:
 
-```
-Sommer-Nacht / Übergangszeit:
-  T_Aussen = 18 °C
-  T_Raum_Soll = 22 °C
-
-  → 100 % Aussenluft (Bypass über Wärmerückgewinnung)
-  → Kältemaschine AUS
-  → Lüftungs-Ventilator kühlt Gebäude
-```
+Beispiel Übergangszeit: aussen 18 °C, Raumsollwert 22 °C. Die Lüftung fährt mit 100 % Aussenluft, die Wärmerückgewinnung wird umgangen, die Kältemaschine bleibt aus.
 
 Regelung:
 
-```
-Wenn T_Aussen < T_Raum − 2 K:
-  → Aussenluft-Klappe: 100 %
-  → Umluft-Klappe: 0 %
-  → WRG-Bypass öffnen (keine Wärmerückgewinnung nötig)
-  → Kältemaschine: Freigabe gesperrt
-```
+- Aussentemperatur mindestens 2 K unter der Raumtemperatur
+- Aussenluftklappe 100 %, Umluftklappe 0 %
+- Wärmerückgewinnung umgehen (Bypass) oder anhalten
+- Kältemaschine gesperrt
 
 Enthalpie-Kontrolle nötig (wenn feuchte Nächte):
 
-```
-Wenn h_Aussen < h_Raum − 3 kJ/kg:
-  → Free Cooling aktiv
-```
+Zusätzlich bei feuchtem Wetter: nur freigeben, wenn die Enthalpie aussen deutlich unter der Raumluft liegt (z.B. 3 kJ/kg).
 
 ### 2. Indirekte Freie Kühlung (Fluid Economizer)
 
 Kälteträger (Wasser / Glykol) wird über einen Rückkühler durch Aussenluft gekühlt:
 
-```
-Rücklauf Kühlwasser 14 °C
-    → Rückkühler (wie Kühltower, aber Wasser-Luft-WT)
-    → T_Aussen = 10 °C → Vorlauf Kühlwasser = 8 °C
-    → Kältemaschine bypassed (Freie Kühlung über WT)
-```
+Ein trockener Rückkühler kühlt das Kaltwasser mit Aussenluft. Er kann das Wasser nur auf einige Kelvin über der Aussentemperatur bringen, typisch 3 bis 5 K. Beispiel: aussen 5 °C, Rücklauf 14 °C, Vorlauf nach dem Rückkühler etwa 9 °C.
 
 Vorteil: Gebäudeluft wird nicht direkt mit Aussenluft verbunden (Hygiene, Filterung).
 
 **Schaltschemas:**
 
-```
-Variante A: Kältemaschine parallel zum WT (häufig):
-  Freikühlung:  WT → Kühler → zurück
-  Kombiniert:   WT + Kältemaschine parallel (Übergangssaison)
-  Vollbetrieb:  Nur Kältemaschine (Hochsommer)
-
-Variante B: Kältemaschine in Serie:
-  WT kühlt vor → Kältemaschine kühlt nach → weniger Verdichterleistung
-```
+- **Parallel:** Rückkühler oder Kältemaschine, in der Übergangszeit beide anteilig
+- **In Serie:** Der Rückkühler kühlt vor, die Kältemaschine kühlt nach und braucht weniger Leistung. Diese Anordnung nutzt das Free Cooling länger.
 
 ### 3. Geothermale Freie Kühlung (Passive Cooling)
 
 Erdwärme-Anlage (Erdsonden, Grundwasser) liefert Kaltwasser ohne Wärmepumpe:
 
-```
-Sommer: Erde hat 12–14 °C (kühler als Aussenluft 30 °C)
-    → Wärme aus Gebäude → Sonde → Erde
-    → Nur Pumpenenergie: COP 50–100
-
-Bedingung: Kühltemperatur > 16 °C (sonst Kondensation in Decken)
-```
+Das Erdreich hat ganzjährig etwa 10 bis 14 °C. Im Sommer fliesst die Wärme aus dem Gebäude über die Erdsonden ins Erdreich, ohne Wärmepumpe. Es laufen nur Pumpen. Ideal für Kühldecken und thermoaktive Bauteile, die ohnehin mit 16 °C und mehr arbeiten. Nebeneffekt: Das Erdreich wird für die Heizsaison regeneriert.
 
 ---
 
 ## Betriebsstunden-Analyse Schweiz
 
-```
-Jahresstunden Kühlung nötig (Büro, CH-Mittelland):
-  Gesamt: ~1200 h/Jahr
-
-  Free Cooling möglich (T_Aussen < 15 °C):  ~900 h = 75 %
-  Nur Kältemaschine (T_Aussen > 20 °C):    ~200 h = 17 %
-  Mischbetrieb:                             ~100 h =  8 %
-
-→ Free Cooling kann 60–75 % der Kühlenergiekosten einsparen
-```
+Wie viele Stunden Free Cooling möglich sind, hängt vom Standort, von der Kaltwassertemperatur und von den inneren Lasten ab. Je höher die Kaltwassertemperatur (Kühldecken 16 °C statt Lüftungskühler 6 °C), desto mehr Stunden. Im Schweizer Mittelland kann ein grosser Teil der Kühlarbeit eines Bürogebäudes mit hohen inneren Lasten ohne Kältemaschine geleistet werden; eine Simulation sagt, wie viel.
 
 ---
 
 ## Steuerungslogik im DDC
 
-```
-Stufenlogik Free Cooling:
+- **Stufe 1, nur Free Cooling:** Aussentemperatur deutlich unter dem Kaltwassersollwert, z.B. 4 K darunter. Rückkühler übernimmt alles, Kältemaschine aus.
+- **Stufe 2, gemischt:** Aussentemperatur nahe am Sollwert. Rückkühler kühlt vor, Kältemaschine deckt den Rest.
+- **Stufe 3, nur Kältemaschine:** Aussentemperatur über dem Rücklauf. Der Rückkühler dient als Verflüssigerkühlung.
 
-Stufe 1 — Volle Freie Kühlung:
-  T_Aussen < T_Kälteträger_VL − 2 K
-  → Rückkühler 100 %, Kältemaschine AUS
-
-Stufe 2 — Gemischter Betrieb:
-  T_Kälteträger_VL − 2 K < T_Aussen < T_Kälteträger_VL + 3 K
-  → Rückkühler + Kältemaschine anteilig
-  → Rückkühler trägt Grundlast, KM Spitzenlast
-
-Stufe 3 — Nur Kältemaschine:
-  T_Aussen > T_Kälteträger_VL + 3 K
-  → Rückkühler unterstützend (Kondensatorkühlung)
-```
+Mit Hysterese und Mindestlaufzeiten umschalten, sonst pendelt die Anlage in der Übergangszeit.
 
 ---
 
@@ -169,17 +115,7 @@ Stufe 3 — Nur Kältemaschine:
 
 ## Wirtschaftlichkeit
 
-```
-Beispiel: 1000 m² Büro, 100 kW Kühlbedarf
-
-Ohne Free Cooling:
-  1200 h × 100 kW / 3.5 COP = 34.300 kWh Strom
-
-Mit Free Cooling (70 % FC-Anteil):
-  Nur KM:   300 h × 100 kW / 3.5 = 8.600 kWh
-  FC-Pumpen: 900 h × 5 kW       =  4.500 kWh
-  Total: 13.100 kWh (−62 % Strom)
-```
+Grobe Abschätzung, nur zur Grössenordnung: 100 kW Kühlbedarf und 1200 Volllaststunden ergeben ohne Free Cooling bei einem EER von 3.5 rund 34'000 kWh Strom. Kann Free Cooling 70 % der Kälte liefern, bleiben für die Kältemaschine rund 10'000 kWh, dazu kommt Pumpen- und Ventilatorstrom für das Free Cooling. Die Einsparung liegt dann in der Grössenordnung von 50 bis 60 %. Für eine echte Aussage braucht es eine Simulation mit dem Lastprofil.
 
 ---
 
@@ -196,10 +132,8 @@ Free cooling uses cold outdoor air or geothermal energy to cool a building witho
 
 ## Basic Principle
 
-```
-Chiller (active): electricity → COP 3 → 1 kWh electricity = 3 kWh cooling
-Free cooling (passive): nature → COP >50 → only pumps/fans
-```
+- **Chiller:** 1 kWh of electricity yields about 3 to 5 kWh of cooling
+- **Free cooling:** only pumps and fans run, often ten to thirty times as much
 
 **Activation condition:** T_outdoor < T_chilled_water_return − safety margin.
 
@@ -211,105 +145,53 @@ Free cooling (passive): nature → COP >50 → only pumps/fans
 
 Outdoor air is used directly for room cooling:
 
-```
-Summer night / shoulder season:
-  T_outdoor = 18 °C
-  T_room_setpoint = 22 °C
-
-  → 100 % outdoor air (bypass around heat recovery)
-  → Chiller OFF
-  → Ventilation fan cools building
-```
+Example mid-season: outdoor 18 °C, room setpoint 22 °C. Ventilation runs with 100 % outdoor air, heat recovery is bypassed, the chiller stays off.
 
 Control logic:
 
-```
-If T_outdoor < T_room − 2 K:
-  → Outdoor air damper: 100 %
-  → Recirculation damper: 0 %
-  → Open HR bypass (heat recovery not needed)
-  → Chiller: enable locked
-```
+- outdoor temperature at least 2 K below room temperature
+- outdoor air damper 100 %, recirculation damper 0 %
+- bypass or stop heat recovery
+- chiller locked out
 
 Enthalpy check required (humid nights):
 
-```
-If h_outdoor < h_room − 3 kJ/kg:
-  → Free cooling active
-```
+Additionally in humid weather: enable only if outdoor enthalpy is clearly below the room air (e.g. 3 kJ/kg).
 
 ### 2. Indirect Free Cooling (Fluid Economiser)
 
 Chilled water / glycol is cooled by outdoor air via a dry cooler:
 
-```
-Chilled water return 14 °C
-    → Dry cooler (like cooling tower but water-air HX)
-    → T_outdoor = 10 °C → chilled water supply = 8 °C
-    → Chiller bypassed (free cooling via HX)
-```
+A dry cooler cools the chilled water with outdoor air. It can only bring the water to a few kelvin above the outdoor temperature, typically 3 to 5 K. Example: outdoor 5 °C, return 14 °C, flow after the dry cooler about 9 °C.
 
 Advantage: building air is not directly connected to outdoor air (hygiene, filtration).
 
 **Circuit variants:**
 
-```
-Variant A: Chiller in parallel with HX (common):
-  Free cooling:  HX → cooler → return
-  Combined:      HX + chiller in parallel (shoulder season)
-  Full load:     Chiller only (peak summer)
-
-Variant B: Chiller in series:
-  HX pre-cools → chiller post-cools → less compressor power
-```
+- **Parallel:** dry cooler or chiller, both in proportion in mid-season
+- **In series:** the dry cooler pre-cools, the chiller cools the rest and needs less power. This arrangement uses free cooling longer.
 
 ### 3. Geothermal Free Cooling (Passive Cooling)
 
 Ground source heat pump system (boreholes, groundwater) supplies cold water without heat pump:
 
-```
-Summer: ground at 12–14 °C (cooler than outdoor 30 °C)
-    → Heat from building → borehole → ground
-    → Only pump energy: COP 50–100
-
-Condition: cooling temperature > 16 °C (otherwise condensation in ceilings)
-```
+The ground stays at about 10 to 14 °C all year. In summer the heat flows from the building via the boreholes into the ground, without a heat pump. Only pumps run. Ideal for chilled ceilings and thermally activated building components that work at 16 °C or more anyway. Side effect: the ground is regenerated for the heating season.
 
 ---
 
 ## Operating Hours Analysis — Switzerland
 
-```
-Annual cooling hours needed (office, CH midlands):
-  Total: ~1200 h/year
-
-  Free cooling possible (T_outdoor < 15 °C):  ~900 h = 75 %
-  Chiller only (T_outdoor > 20 °C):           ~200 h = 17 %
-  Mixed operation:                             ~100 h =  8 %
-
-→ Free cooling can save 60–75 % of cooling energy costs
-```
+How many hours of free cooling are possible depends on location, chilled water temperature and internal loads. The higher the chilled water temperature (chilled ceilings 16 °C instead of AHU coolers 6 °C), the more hours. In the Swiss Mittelland a large share of the cooling work of an office building with high internal loads can be done without a chiller; a simulation tells how much.
 
 ---
 
 ## Control Logic in DDC
 
-```
-Staged free cooling logic:
+- **Stage 1, free cooling only:** outdoor temperature well below the chilled water setpoint, e.g. 4 K below. The dry cooler takes over everything, chiller off.
+- **Stage 2, mixed:** outdoor temperature close to the setpoint. The dry cooler pre-cools, the chiller covers the rest.
+- **Stage 3, chiller only:** outdoor temperature above the return. The dry cooler serves as condenser cooling.
 
-Stage 1 — Full free cooling:
-  T_outdoor < T_chilled_water_supply − 2 K
-  → Dry cooler 100 %, chiller OFF
-
-Stage 2 — Mixed operation:
-  T_chilled_water_supply − 2 K < T_outdoor < T_chilled_water_supply + 3 K
-  → Dry cooler + chiller proportionally
-  → Dry cooler handles base load, chiller handles peak
-
-Stage 3 — Chiller only:
-  T_outdoor > T_chilled_water_supply + 3 K
-  → Dry cooler supports condenser cooling only
-```
+Switch with hysteresis and minimum run times, otherwise the plant hunts in mid-season.
 
 ---
 
@@ -329,17 +211,7 @@ Stage 3 — Chiller only:
 
 ## Economic Viability
 
-```
-Example: 1000 m² office, 100 kW cooling demand
-
-Without free cooling:
-  1200 h × 100 kW / 3.5 COP = 34,300 kWh electricity
-
-With free cooling (70 % FC share):
-  Chiller only:  300 h × 100 kW / 3.5 = 8,600 kWh
-  FC pumps:      900 h × 5 kW         = 4,500 kWh
-  Total: 13,100 kWh (−62 % electricity)
-```
+Rough estimate, for order of magnitude only: 100 kW cooling demand and 1200 full-load hours give about 34,000 kWh of electricity without free cooling at an EER of 3.5. If free cooling can supply 70 % of the cooling, about 10,000 kWh remain for the chiller, plus pump and fan electricity for free cooling. The saving is then of the order of 50 to 60 %. A real answer needs a simulation with the load profile.
 
 ---
 

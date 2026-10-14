@@ -44,12 +44,7 @@ Kälteanlagen entziehen einem Bereich Wärme und geben sie an eine Wärmesenke a
 
 Identisch mit der Wärmepumpe — nur der Nutzen liegt anders:
 
-```
-Verdampfer (kalt) → Verdichter → Verflüssiger (warm) → Expansionsventil → Verdampfer
-  ↑                                    ↓
-  Kühlleistung                    Abwärme (Rückkühler)
-  (Nutzen)
-```
+Der Kreislauf ist derselbe wie bei der [Wärmepumpe](/wissen/waermepumpe): Verdampfer → Verdichter → Verflüssiger → Expansionsventil. Genutzt wird hier die Kälte im **Verdampfer**, die Wärme aus dem **Verflüssiger** geht über den Rückkühler weg oder wird zurückgewonnen.
 
 | Grösse   | Wärmepumpe             | Kältemaschine             |
 | -------- | ---------------------- | ------------------------- |
@@ -81,12 +76,12 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 
 ### HFKWs (F-Gase) — auslaufend
 
-| Kältemittel | GWP  | Anwendung            | Status                        |
-| ----------- | ---- | -------------------- | ----------------------------- |
-| R134a       | 1430 | Kaltwassersätze, Kfz | Phase-Down läuft              |
-| R410A       | 2088 | Split-Klima, VRF     | Verboten ab 2025 (Neuanlagen) |
-| R407C       | 1774 | Ersatz für R22       | Phase-Down                    |
-| R32         | 675  | Split-Klima (neu)    | Übergangs-Kältemittel         |
+| Kältemittel | GWP  | Anwendung            | Status                |
+| ----------- | ---- | -------------------- | --------------------- |
+| R134a       | 1430 | Kaltwassersätze, Kfz | Phase-Down läuft      |
+| R410A       | 2088 | Split-Klima, VRF     | auslaufend            |
+| R407C       | 1774 | Ersatz für R22       | Phase-Down            |
+| R32         | 675  | Split-Klima (neu)    | Übergangs-Kältemittel |
 
 ### Natürliche Kältemittel — Zukunft
 
@@ -97,7 +92,7 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 | **R717** (Ammoniak) | 0   | Industriekälte, grosse Chiller     | Giftig (B2L), effizient          |
 | **R718** (Wasser)   | 0   | Turbomaschinen > 200 kW            | Nur Hochtemperaturkühlung        |
 
-> ⚠️ **F-Gase-Verordnung (EU):** Phase-Down von HFKWs bis 2050. Ab 2025 keine neuen Anlagen mit GWP > 750 in vielen Anwendungen. Schweiz: ChemRRV ähnlich.
+> ⚠️ **Rechtslage:** EU-Verordnung 2024/573 mit gestuften Verboten je nach Geräteart, in der Schweiz die ChemRRV. Details in [Kältemittel](/wissen/kaeltemittel).
 
 ## Anlagentypen
 
@@ -116,25 +111,23 @@ Jahres-Wirkungsgrad nach EN 14825 — berücksichtigt Teillastbetrieb und Klimaz
 | **Nassrückkühler / Kühlturm** | Verdunstung, Aerosolbildung möglich             | **Hoch** → VDI 2047 beachten! |
 | **Hybridkühler**              | Trocken + Nass kombiniert                       | Mittel                        |
 
-> ⚠️ **Offene Kühltürme** (Nasskühler) sind nach VDI 2047-2 zu betreiben: regelmässige Wasseranalysen, Legionellen < 1000 KBE/100 ml, sonst Abschaltpflicht.
+> ⚠️ **Offene Kühltürme** (Nasskühler) sind nach **VDI 2047-2** zu betreiben: regelmässige Wasseranalysen mit gestuften Prüf- und Massnahmenwerten für Legionellen, von verstärkter Kontrolle bis zur Desinfektion und Abschaltung. In Deutschland gilt zusätzlich die 42. BImSchV.
 
 ### DX-Anlage (Direct Expansion)
 
 Kältemittel verdampft direkt im Raumgerät (kein Kaltwasser-Zwischenkreis):
 
-| Typ             | Beschreibung                                                           |
-| --------------- | ---------------------------------------------------------------------- |
-| **Split**       | Innen- + Aussengerät, 1:1, bis ~12 kW                                  |
-| **Multi-Split** | 1 Aussengerät, mehrere Innengeräte                                     |
-| **VRF/VRV**     | Bis 64 Innengeräte pro Ausseneinheit, digitale Regelung, Bus-Protokoll |
+| Typ             | Beschreibung                                                                    |
+| --------------- | ------------------------------------------------------------------------------- |
+| **Split**       | Innen- + Aussengerät, 1:1, bis ~12 kW                                           |
+| **Multi-Split** | 1 Aussengerät, mehrere Innengeräte                                              |
+| **VRF/VRV**     | Viele Innengeräte pro Ausseneinheit (je nach Hersteller über 60), Bus-Anbindung |
 
 ### Free Cooling
 
 Wenn Aussentemperatur < Kaltwassertemperatur: direkter Wärmetausch ohne Verdichter:
 
-```
-Kühllast → Kaltwassernetz → Trockenrückkühler → Aussenluft
-```
+Das Kaltwasser fliesst über einen Wärmetauscher zum Rückkühler und gibt seine Wärme direkt an die kalte Aussenluft ab, ohne Verdichter.
 
 - **Vollständiges Free Cooling:** 100 % Last ohne Verdichter
 - **Teilweises Free Cooling (Economizer):** Verdichter läuft mit reduzierter Last
@@ -145,12 +138,7 @@ Kühllast → Kaltwassernetz → Trockenrückkühler → Aussenluft
 
 ### Kaltwassersystem mit Puffer
 
-```
-Chiller → Pufferspeicher → Verteiler → Verbraucher
-                                   ├── Kühldecken (10/16 °C)
-                                   ├── Klimalufttechnik (6/12 °C)
-                                   └── Prozesskühlung
-```
+Die Kältemaschine lädt einen Pufferspeicher, aus dem der Verteiler die Verbraucher versorgt: Kühldecken mit 16/19 °C oder ähnlich, Lüftungskühler mit 6/12 °C, Prozesskühlung. Mehrere Temperaturebenen trennt man mit Mischventilen oder getrennten Kreisen.
 
 - **Primärkreis:** Chiller → Puffer (variabler Volumenstrom)
 - **Sekundärkreis:** Puffer → Verbraucher (geregelter Volumenstrom per FU-Pumpe)
@@ -178,10 +166,10 @@ Chiller → Pufferspeicher → Verteiler → Verbraucher
 
 Statt fixem Sollwert (z.B. immer 6 °C) wird der Kaltwasser-Sollwert **in Abhängigkeit der Last oder Aussentemperatur angehoben**:
 
-```
-Aussentemperatur 10 °C → Kaltwasser-Soll: 12 °C (EER steigt)
-Aussentemperatur 35 °C → Kaltwasser-Soll: 6 °C (volle Last nötig)
-```
+- Aussentemperatur hoch, volle Last: Kaltwassersollwert z.B. 6 °C
+- Aussentemperatur mild, Teillast: Sollwert z.B. 10 bis 12 °C
+
+Der Sollwert darf nur so weit steigen, wie die Verbraucher es zulassen. Lüftungskühler, die entfeuchten müssen, brauchen tiefe Temperaturen.
 
 **Energieeinsparung:** Jedes Kelvin höherer Verdampfungstemperatur verbessert EER um ~3 %.
 
@@ -195,14 +183,14 @@ Aussentemperatur 35 °C → Kaltwasser-Soll: 6 °C (volle Last nötig)
 
 **Beispiel:** 10 kg R410A (GWP 2088) = 20,88 t CO₂-Äquivalent → alle 12 Monate Prüfpflicht.
 
-Logbuch führen, zertifizierter Kältetechniker für Wartung und Kältemittel-Handling.
+Logbuch führen, zertifizierter Kältetechniker für Wartung und Kältemittel-Handling. Die Schwellen gelten in der EU nach Verordnung 2024/573. **In der Schweiz** regelt die ChemRRV die Pflichten eigenständig, unter anderem Meldung und Dichtheitskontrollen ab bestimmten Füllmengen in kg.
 
 ## Normen
 
 - **EN 14511** — Kältemaschinen und Wärmepumpen, Prüfbedingungen
 - **EN 14825** — SEER/SCOP-Berechnung
 - **EN 378** — Sicherheitstechnische Anforderungen, Kälteanlagen
-- **EU F-Gase-Verordnung 517/2014** (Neufassung 2024) — Phase-Down HFKWs
+- **Verordnung (EU) 2024/573** — F-Gase-Verordnung
 - **ChemRRV** (CH) — Chemikalien-Risikoreduktions-Verordnung, Kältemittel
 - **VDI 2047-2** — Hygiene von Verdunstungskühlanlagen (Kühltürme)
 
@@ -216,12 +204,7 @@ Refrigeration systems extract heat from an area and reject it to a heat sink. In
 
 Identical to the heat pump — only the useful effect differs:
 
-```
-Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Evaporator
-  ↑                                    ↓
-  Cooling output                  Rejected heat (dry cooler)
-  (useful effect)
-```
+The cycle is the same as in the [heat pump](/wissen/waermepumpe): evaporator → compressor → condenser → expansion valve. Here the cooling in the **evaporator** is used; the heat from the **condenser** is rejected via the recooler or recovered.
 
 | Quantity           | Heat pump           | Chiller                |
 | ------------------ | ------------------- | ---------------------- |
@@ -253,12 +236,12 @@ Older metric with 4 operating points (100/75/50/25 % load) — still required in
 
 ### HFCs (F-gases) — being phased out
 
-| Refrigerant | GWP  | Application          | Status                         |
-| ----------- | ---- | -------------------- | ------------------------------ |
-| R134a       | 1430 | Chillers, automotive | Phase-down under way           |
-| R410A       | 2088 | Split AC, VRF        | Banned from 2025 (new systems) |
-| R407C       | 1774 | Replacement for R22  | Phase-down                     |
-| R32         | 675  | Split AC (new)       | Transitional refrigerant       |
+| Refrigerant | GWP  | Application          | Status                   |
+| ----------- | ---- | -------------------- | ------------------------ |
+| R134a       | 1430 | Chillers, automotive | Phase-down under way     |
+| R410A       | 2088 | Split AC, VRF        | being phased out         |
+| R407C       | 1774 | Replacement for R22  | Phase-down               |
+| R32         | 675  | Split AC (new)       | Transitional refrigerant |
 
 ### Natural Refrigerants — the Future
 
@@ -294,19 +277,17 @@ Older metric with 4 operating points (100/75/50/25 % load) — still required in
 
 Refrigerant evaporates directly in the room unit (no chilled water intermediate circuit):
 
-| Type            | Description                                                           |
-| --------------- | --------------------------------------------------------------------- |
-| **Split**       | Indoor + outdoor unit, 1:1, up to ~12 kW                              |
-| **Multi-split** | 1 outdoor unit, multiple indoor units                                 |
-| **VRF/VRV**     | Up to 64 indoor units per outdoor unit, digital control, bus protocol |
+| Type            | Description                                                                    |
+| --------------- | ------------------------------------------------------------------------------ |
+| **Split**       | Indoor + outdoor unit, 1:1, up to ~12 kW                                       |
+| **Multi-split** | 1 outdoor unit, multiple indoor units                                          |
+| **VRF/VRV**     | Many indoor units per outdoor unit (over 60 depending on make), bus connection |
 
 ### Free Cooling
 
 When outdoor temperature < chilled water temperature: direct heat exchange without compressor:
 
-```
-Cooling load → chilled water network → dry cooler → outdoor air
-```
+The chilled water flows via a heat exchanger to the recooler and releases its heat directly to the cold outdoor air, without a compressor.
 
 - **Full free cooling:** 100 % load without compressor
 - **Partial free cooling (economiser):** compressor runs at reduced load
@@ -317,12 +298,7 @@ Cooling load → chilled water network → dry cooler → outdoor air
 
 ### Chilled Water System with Buffer
 
-```
-Chiller → buffer tank → distribution → consumers
-                                   ├── Chilled ceilings (10/16 °C)
-                                   ├── Air handling units (6/12 °C)
-                                   └── Process cooling
-```
+The chiller charges a buffer tank from which the header supplies the consumers: chilled ceilings at 16/19 °C or similar, AHU coolers at 6/12 °C, process cooling. Several temperature levels are separated with mixing valves or separate circuits.
 
 - **Primary circuit:** chiller → buffer (variable flow)
 - **Secondary circuit:** buffer → consumers (controlled flow via VFD pump)
@@ -350,10 +326,10 @@ Chiller → buffer tank → distribution → consumers
 
 Instead of a fixed setpoint (e.g. always 6 °C), the chilled water setpoint is **raised depending on load or outdoor temperature**:
 
-```
-Outdoor temperature 10 °C → chilled water setpoint: 12 °C (EER improves)
-Outdoor temperature 35 °C → chilled water setpoint: 6 °C (full load required)
-```
+- high outdoor temperature, full load: chilled water setpoint e.g. 6 °C
+- mild outdoor temperature, part load: setpoint e.g. 10 to 12 °C
+
+The setpoint may only rise as far as the consumers allow. AHU coolers that must dehumidify need low temperatures.
 
 **Energy saving:** every kelvin higher evaporation temperature improves EER by ~3 %.
 
@@ -367,13 +343,13 @@ Outdoor temperature 35 °C → chilled water setpoint: 6 °C (full load required
 
 **Example:** 10 kg R410A (GWP 2088) = 20.88 t CO₂-eq. → annual check required.
 
-Keep logbook; certified refrigeration technician required for maintenance and refrigerant handling.
+Keep a logbook; a certified refrigeration technician is required for maintenance and refrigerant handling. The thresholds apply in the EU per Regulation 2024/573. **In Switzerland** the ChemRRV governs the obligations independently, including notification and leak checks above certain charges in kg.
 
 ## Standards
 
 - **EN 14511** — Air conditioners, liquid chilling packages and heat pumps, test conditions
 - **EN 14825** — SEER/SCOP calculation
 - **EN 378** — Refrigerating systems and heat pumps, safety requirements
-- **EU F-Gas Regulation 517/2014** (revised 2024) — HFC phase-down
+- **Regulation (EU) 2024/573** — F-gas Regulation
 - **ChemRRV** (CH) — Chemical Risk Reduction Ordinance, refrigerants
 - **VDI 2047-2** — Hygiene of evaporative cooling systems (cooling towers)

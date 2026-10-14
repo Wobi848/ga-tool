@@ -46,27 +46,32 @@ export interface PsychroResult {
 	v: number;
 }
 
-/** Feuchtkugeltemperatur via Newton-Iteration (max 30 Schritte). */
+/** Feuchtkugeltemperatur aus der Bilanz der adiabaten Saettigung:
+ *    1.006 · (t − t_wb) = (x_s(t_wb) − x) · (2501 − 2.381 · t_wb)
+ *  geloest mit Bisektion zwischen −50 °C und t. Die Funktion ist dort
+ *  monoton, die Bisektion findet die Loesung also immer.
+ *
+ *  Bis 0.16.0 stand hier ein Newton-Verfahren mit einer um rund das
+ *  Sechzehnfache zu grossen Ableitung. Es machte winzige Schritte und
+ *  erreichte die Loesung in 30 Iterationen nicht: 32 °C / 20 % ergab
+ *  18.7 °C statt rund 17 °C. Bei milden Zustaenden fiel das kaum auf. */
 export function wetBulb(t: number, xGkg: number, pressure = STD_PRESSURE): number {
-	let tWb = t;
 	const xKg = xGkg / 1000;
-	for (let i = 0; i < 30; i++) {
+	const f = (tWb: number) => {
 		const ps = pSat(tWb);
-		const xSatWb = (0.622 * ps) / (pressure - ps);
-		const fx = 1.006 * (t - tWb) - (xSatWb - xKg) * (2501 - 2.381 * tWb);
-		const dfx =
-			-1.006 -
-			xSatWb * (1 + (17.62 * 243.12) / Math.pow(243.12 + tWb, 2)) * (2501 - 2.381 * tWb) -
-			-2.381 * (xSatWb - xKg);
-		if (dfx === 0) break;
-		const next = tWb - fx / dfx;
-		if (Math.abs(next - tWb) < 0.001) {
-			tWb = next;
-			break;
-		}
-		tWb = next;
+		const xSat = (0.622 * ps) / (pressure - ps);
+		return 1.006 * (t - tWb) - (xSat - xKg) * (2501 - 2.381 * tWb);
+	};
+	let lo = -50;
+	let hi = t;
+	// f faellt mit t_wb: positiv weit unten, bei t negativ (ungesaettigt)
+	if (f(hi) >= 0) return t; // gesaettigt oder uebersaettigt
+	for (let i = 0; i < 60; i++) {
+		const mid = (lo + hi) / 2;
+		if (f(mid) > 0) lo = mid;
+		else hi = mid;
 	}
-	return tWb;
+	return (lo + hi) / 2;
 }
 
 /** Vollstaendige Zustandsberechnung. Liefert alle Groessen aus den 2 Eingaengen. */
