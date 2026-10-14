@@ -80,7 +80,7 @@ Ein VAV-Regler besteht aus einer **Messeinrichtung** (Messkreuz oder Messblende,
 
 ### Bedarfsführung (Demand Controlled Ventilation, DCV)
 
-Der VAV-Regler kann verschiedene Führungsgrößen nutzen:
+Der VAV-Regler kann verschiedene Führungsgrössen nutzen:
 
 | Führungsgrösse    | Sensor      | Typischer Einsatz                    |
 | ----------------- | ----------- | ------------------------------------ |

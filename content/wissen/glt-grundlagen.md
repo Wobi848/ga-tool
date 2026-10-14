@@ -89,7 +89,7 @@ Das Herz der Regelung — hier laufen die Programme:
 
 Übergeordnete Visualisierung und Bedienung:
 
-- **Visualisierung:** grafische Darstellung der Anlage (Fließschemata, Raumgrundrisse)
+- **Visualisierung:** grafische Darstellung der Anlage (Fliessschemata, Raumgrundrisse)
 - **Alarmmanagement:** Alarme sammeln, priorisieren, eskalieren
 - **Trendaufzeichnung:** Messwerte historisieren (Polling oder COV)
 - **Zeitprogramme:** Betriebszeiten zentral einstellen

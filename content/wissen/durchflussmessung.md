@@ -39,16 +39,16 @@ Durchflussmessung ist essenziell für Wärmemengenerfassung, Hydraulikoptimierun
 
 ## Messprinzipien im Überblick
 
-| Prinzip                         | Medium               | Genauigkeit | Einbau                 | Typische DN       |
-| ------------------------------- | -------------------- | ----------- | ---------------------- | ----------------- |
-| Magnetisch-induktiv (MID)       | leitf. Flüssigkeiten | 0,2–0,5%    | Fest (in Rohr)         | DN15–DN2000       |
-| Ultraschall (Clamp-on)          | Flüssigkeiten, Gas   | 1–3%        | Extern (kein Eingriff) | DN50–DN2000       |
-| Ultraschall (Inline)            | Flüssigkeiten        | 0,5–1%      | Fest                   | DN15–DN300        |
-| Coriolis                        | Flüssigkeiten, Gas   | 0,1%        | Fest                   | DN6–DN150         |
-| Differenzdruck (Blende/Venturi) | Alle Medien          | 1–2%        | Fest                   | DN25–DN1000       |
-| Flügelrad / Woltmann            | Wasser               | 2–3%        | Fest                   | DN15–DN500        |
-| Thermisch (Massenfluss)         | Gas, Luft            | 1–2%        | Fest oder Einsteck     | DN25–DN1000       |
-| Pitot-Rohr                      | Luft, Gas            | 2–5%        | Einsteck               | Kanäle ab 200 mm² |
+| Prinzip                         | Medium               | Genauigkeit | Einbau                 | Typische DN           |
+| ------------------------------- | -------------------- | ----------- | ---------------------- | --------------------- |
+| Magnetisch-induktiv (MID)       | leitf. Flüssigkeiten | 0,2–0,5%    | Fest (in Rohr)         | DN15–DN2000           |
+| Ultraschall (Clamp-on)          | Flüssigkeiten, Gas   | 1–3%        | Extern (kein Eingriff) | DN50–DN2000           |
+| Ultraschall (Inline)            | Flüssigkeiten        | 0,5–1%      | Fest                   | DN15–DN300            |
+| Coriolis                        | Flüssigkeiten, Gas   | 0,1%        | Fest                   | DN6–DN150             |
+| Differenzdruck (Blende/Venturi) | Alle Medien          | 1–2%        | Fest                   | DN25–DN1000           |
+| Flügelrad / Woltmann            | Wasser               | 2–3%        | Fest                   | DN15–DN500            |
+| Thermisch (Massenfluss)         | Gas, Luft            | 1–2%        | Fest oder Einsteck     | DN25–DN1000           |
+| Pitot-Rohr                      | Luft, Gas            | 2–5%        | Einsteck               | Kanäle ab etwa 200 mm |
 
 ---
 
@@ -56,10 +56,9 @@ Durchflussmessung ist essenziell für Wärmemengenerfassung, Hydraulikoptimierun
 
 Funktionsprinzip: Ein leitfähiges Medium fliesst durch ein Magnetfeld. Die fliessende Flüssigkeit erzeugt eine der Geschwindigkeit proportionale Spannung (Faraday'sches Induktionsgesetz):
 
-```
-U = k × v × B × D
-U: induzierte Spannung, v: Strömungsgeschwindigkeit, B: Magnetfeldstärke, D: Innendurchmesser
-```
+<p class="formel">U = k · v · B · D</p>
+
+U induzierte Spannung, v Strömungsgeschwindigkeit, B magnetische Flussdichte, D Innendurchmesser, k Gerätekonstante.
 
 **Anforderungen:**
 
@@ -71,7 +70,7 @@ U: induzierte Spannung, v: Strömungsgeschwindigkeit, B: Magnetfeldstärke, D: I
 
 - Wärmemengenzähler (Wärme-/Kältekreis)
 - Volumenstrom-Regelung (Pumpe, Ventil)
-- Verbrauchserfassung (Abrechnungszwecke = MID-Klasse R eichpflichtig)
+- Verbrauchserfassung. Für die Abrechnung braucht es einen geeichten bzw. konformitätsbewerteten Wärmezähler nach EN 1434; in der Schweiz gilt die Messmittelverordnung, in der EU die Messgeräterichtlinie (ebenfalls «MID» abgekürzt)
 
 ---
 
@@ -88,12 +87,7 @@ U: induzierte Spannung, v: Strömungsgeschwindigkeit, B: Magnetfeldstärke, D: I
 
 Sensoren werden von aussen auf das Rohr geklemmt:
 
-```
-Rohr
- │◄── Sensor A (gegenüberliegend montiert)
- │
- │──► Sensor B
-```
+Die beiden Sensoren sitzen versetzt auf dem Rohr, je nach Verfahren auf derselben Seite (V-Anordnung, der Schall wird an der Gegenwand reflektiert) oder gegenüber (Z-Anordnung). Der Abstand hängt von Rohrdurchmesser, Wandstärke und Material ab; das Gerät rechnet ihn aus diesen Eingaben aus.
 
 **Vorteile Clamp-on:**
 
@@ -125,16 +119,15 @@ Das Medium durchströmt schwingende Messrohre. Die Corioliskraft aus der Schwing
 
 Bernoulli-Prinzip: Strömungsverengung erzeugt Druckabfall ∝ v²:
 
-```
-Q = α × A × √(2 × ΔP / ρ)
-Q: Volumenstrom, α: Durchflusskoeffizient, ΔP: Differenzdruck, ρ: Dichte
-```
+<p class="formel">V̇ = α · A · √(2 · Δp / ρ)</p>
 
-| Typ        | Druckverlust          | Kosten       | Einsatz                      |
-| ---------- | --------------------- | ------------ | ---------------------------- |
-| Normblende | Hoch (30–50% ΔP_mess) | Niedrig      | Industrie, messtech. Prüfung |
-| Venturi    | Gering (5–15%)        | Mittel       | Lüftungskanäle               |
-| Pitot-Rohr | Sehr gering           | Sehr niedrig | Luftkanäle, Nachbestimmung   |
+V̇ Volumenstrom, α Durchflusskoeffizient, A Querschnitt der Verengung, Δp Wirkdruck, ρ Dichte.
+
+| Typ        | Druckverlust                                             | Kosten       | Einsatz                      |
+| ---------- | -------------------------------------------------------- | ------------ | ---------------------------- |
+| Normblende | Hoch, ein grosser Teil des Wirkdrucks bleibt als Verlust | Niedrig      | Industrie, messtech. Prüfung |
+| Venturi    | Gering (5–15%)                                           | Mittel       | Lüftungskanäle               |
+| Pitot-Rohr | Sehr gering                                              | Sehr niedrig | Luftkanäle, Nachbestimmung   |
 
 **Pitot-Rohr in Lüftungskanälen:** Einfaches Verfahren für Volumenstrom-Erstmessung (Inbetriebnahme), nicht für kontinuierliche Regelung geeignet (Verschmutzungsempfindlich).
 
@@ -172,10 +165,9 @@ Mechanische Durchfluss­messung: Strömung dreht ein Flügelrad, Umdrehungen wer
 
 Kombination von 4–8 Pitot-Messstellen über den Kanalquerschnitt → mittlere Strömungsgeschwindigkeit:
 
-```
-v_mittel = √(2 × ΔP_mittel / ρ_Luft)
-Q_Luft = v_mittel × A_Kanal
-```
+<p class="formel">v<sub>m</sub> = √(2 · Δp<sub>m</sub> / ρ<sub>Luft</sub>), &nbsp; V̇ = v<sub>m</sub> · A<sub>Kanal</sub></p>
+
+In der Praxis gibt der Hersteller des Messkreuzes einen k-Wert an, und es gilt V̇ = k · √Δp.
 
 Standard für GLT-Volumenstromregelung in VAV-Anlagen.
 
@@ -187,16 +179,16 @@ Flow measurement is essential for heat metering, hydraulic optimisation, consump
 
 ## Overview of Measurement Principles
 
-| Principle                               | Medium             | Accuracy | Installation                   | Typical DN         |
-| --------------------------------------- | ------------------ | -------- | ------------------------------ | ------------------ |
-| Electromagnetic (EMF)                   | Conductive liquids | 0.2–0.5% | Fixed (in pipe)                | DN15–DN2000        |
-| Ultrasonic (clamp-on)                   | Liquids, gas       | 1–3%     | External (no pipe penetration) | DN50–DN2000        |
-| Ultrasonic (inline)                     | Liquids            | 0.5–1%   | Fixed                          | DN15–DN300         |
-| Coriolis                                | Liquids, gas       | 0.1%     | Fixed                          | DN6–DN150          |
-| Differential pressure (orifice/Venturi) | All media          | 1–2%     | Fixed                          | DN25–DN1000        |
-| Turbine / Woltmann                      | Water              | 2–3%     | Fixed                          | DN15–DN500         |
-| Thermal (mass flow)                     | Gas, air           | 1–2%     | Fixed or insertion             | DN25–DN1000        |
-| Pitot tube                              | Air, gas           | 2–5%     | Insertion                      | Ducts from 200 mm² |
+| Principle                               | Medium             | Accuracy | Installation                   | Typical DN              |
+| --------------------------------------- | ------------------ | -------- | ------------------------------ | ----------------------- |
+| Electromagnetic (EMF)                   | Conductive liquids | 0.2–0.5% | Fixed (in pipe)                | DN15–DN2000             |
+| Ultrasonic (clamp-on)                   | Liquids, gas       | 1–3%     | External (no pipe penetration) | DN50–DN2000             |
+| Ultrasonic (inline)                     | Liquids            | 0.5–1%   | Fixed                          | DN15–DN300              |
+| Coriolis                                | Liquids, gas       | 0.1%     | Fixed                          | DN6–DN150               |
+| Differential pressure (orifice/Venturi) | All media          | 1–2%     | Fixed                          | DN25–DN1000             |
+| Turbine / Woltmann                      | Water              | 2–3%     | Fixed                          | DN15–DN500              |
+| Thermal (mass flow)                     | Gas, air           | 1–2%     | Fixed or insertion             | DN25–DN1000             |
+| Pitot tube                              | Air, gas           | 2–5%     | Insertion                      | Ducts from about 200 mm |
 
 ---
 
@@ -204,10 +196,9 @@ Flow measurement is essential for heat metering, hydraulic optimisation, consump
 
 Operating principle: A conductive medium flows through a magnetic field. The flowing liquid generates a voltage proportional to velocity (Faraday's law of induction):
 
-```
-U = k × v × B × D
-U: induced voltage, v: flow velocity, B: magnetic field strength, D: internal diameter
-```
+<p class="formel">U = k · v · B · D</p>
+
+U induced voltage, v flow velocity, B magnetic flux density, D inner diameter, k device constant.
 
 **Requirements:**
 
@@ -219,7 +210,7 @@ U: induced voltage, v: flow velocity, B: magnetic field strength, D: internal di
 
 - Heat meters (heating/cooling circuits)
 - Flow rate control (pump, valve)
-- Consumption metering (billing purposes = MID class — legal metrology)
+- Consumption metering. Billing requires a verified or conformity-assessed heat meter per EN 1434; in Switzerland the Measuring Instruments Ordinance applies, in the EU the Measuring Instruments Directive (also abbreviated "MID")
 
 ---
 
@@ -236,12 +227,7 @@ U: induced voltage, v: flow velocity, B: magnetic field strength, D: internal di
 
 Sensors are clamped onto the outside of the pipe:
 
-```
-Pipe
- │◄── Sensor A (mounted opposite)
- │
- │──► Sensor B
-```
+The two sensors sit offset on the pipe, depending on the method on the same side (V arrangement, the sound reflects off the opposite wall) or opposite each other (Z arrangement). The spacing depends on pipe diameter, wall thickness and material; the instrument calculates it from these inputs.
 
 **Clamp-on advantages:**
 
@@ -273,16 +259,15 @@ The medium flows through vibrating measuring tubes. The Coriolis force from the 
 
 Bernoulli principle: flow constriction creates a pressure drop ∝ v²:
 
-```
-Q = α × A × √(2 × ΔP / ρ)
-Q: volumetric flow, α: discharge coefficient, ΔP: differential pressure, ρ: density
-```
+<p class="formel">V̇ = α · A · √(2 · Δp / ρ)</p>
 
-| Type             | Pressure loss                | Cost     | Application                          |
-| ---------------- | ---------------------------- | -------- | ------------------------------------ |
-| Standard orifice | High (30–50% of ΔP measured) | Low      | Industry, metrological testing       |
-| Venturi          | Low (5–15%)                  | Medium   | Ventilation ducts                    |
-| Pitot tube       | Very low                     | Very low | Air ducts, commissioning measurement |
+V̇ flow rate, α flow coefficient, A cross-section of the restriction, Δp differential pressure, ρ density.
+
+| Type             | Pressure loss                                                       | Cost     | Application                          |
+| ---------------- | ------------------------------------------------------------------- | -------- | ------------------------------------ |
+| Standard orifice | High, a large part of the differential pressure is lost permanently | Low      | Industry, metrological testing       |
+| Venturi          | Low (5–15%)                                                         | Medium   | Ventilation ducts                    |
+| Pitot tube       | Very low                                                            | Very low | Air ducts, commissioning measurement |
 
 **Pitot tube in ventilation ducts:** Simple method for initial flow measurement (commissioning), not suitable for continuous control (sensitive to fouling).
 
@@ -320,9 +305,8 @@ Mechanical flow measurement: flow rotates an impeller; rotations are counted.
 
 Combination of 4–8 Pitot measurement points across the duct cross-section → mean flow velocity:
 
-```
-v_mean = √(2 × ΔP_mean / ρ_air)
-Q_air = v_mean × A_duct
-```
+<p class="formel">v<sub>m</sub> = √(2 · Δp<sub>m</sub> / ρ<sub>air</sub>), &nbsp; V̇ = v<sub>m</sub> · A<sub>duct</sub></p>
+
+In practice the manufacturer of the measuring cross gives a k value, and V̇ = k · √Δp.
 
 Standard for BMS volume flow control in VAV systems.

@@ -44,7 +44,7 @@ Die Abluft gibt ihre Wärme an die Aussenluft ab — ohne dass die Luftströme s
 
 <p class="formel">η<sub>T</sub> = (T<sub>Zuluft nach WRG</sub> − T<sub>Aussen</sub>) / (T<sub>Abluft</sub> − T<sub>Aussen</sub>)</p>
 
-**Beispiel:** T_Außen = −5 °C, T_Abluft = 22 °C, T_Zuluft nach WRG = 18 °C
+**Beispiel:** T_Aussen = −5 °C, T_Abluft = 22 °C, T_Zuluft nach WRG = 18 °C
 
 <p class="formel">η<sub>T</sub> = (18 − (−5)) / (22 − (−5)) = 23 / 27 ≈ 85 %</p>
 

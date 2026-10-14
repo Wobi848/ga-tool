@@ -27,9 +27,8 @@ difficulty: grundlagen
 area: [ga, elektro]
 related: [beleuchtungssteuerung, beschattungssteuerung, dali, sensoren, raumautomation]
 rechner: []
-norm:
-  [EN 15193-1 (Tageslichtnutzung), CIE S 025 (Photometer), EN 12464-1 (Beleuchtung Arbeitsstätten)]
-updated: 2026-05-15
+norm: [EN 15193-1, ISO/CIE 19476, EN 12464-1, IEC 62386-304]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -39,7 +38,7 @@ Helligkeitssensoren messen die **Beleuchtungsstärke** (Lux) und bilden die Grun
 
 ---
 
-## Messgrüsse: Beleuchtungsstärke (Lux)
+## Messgrösse: Beleuchtungsstärke (Lux)
 
 | Grösse                   | Einheit      | Definition                                       |
 | ------------------------ | ------------ | ------------------------------------------------ |
@@ -61,7 +60,7 @@ Helligkeitssensoren messen die **Beleuchtungsstärke** (Lux) und bilden die Grun
 | Treppe, Flur (Norm)            | 100 lx             |
 | Büro Schreibtisch (EN 12464-1) | 500 lx             |
 | Technisches Zeichnen           | 750 lx             |
-| Operationsraum                 | 10'000 lx          |
+| Operationssaal, allgemein      | 1000 lx            |
 | Bedeckter Himmel aussen        | 5'000–20'000 lx    |
 | Direktes Sonnenlicht           | 50'000–100'000 lx  |
 
@@ -108,7 +107,7 @@ Mehrkanal-Sensor mit einzelnen Photodioden + Farbfilter:
 **Ausgangssignale:**
 
 - **0–10 V:** z.B. 0 V = 0 lx, 10 V = 2000 lx (Bereich je nach Hersteller)
-- **DALI-2 Part 301 (Light Sensor):** Digitaler Luxwert über DALI-Bus, konfigurierbar
+- **DALI-2 Part 304 (Lichtsensor):** Digitaler Luxwert über den DALI-Bus, konfigurierbar
 - **Modbus RTU:** Direkter Lux-Wert in Integer (GA-Anbindung)
 
 ---
@@ -117,30 +116,29 @@ Mehrkanal-Sensor mit einzelnen Photodioden + Farbfilter:
 
 Ziel: Beleuchtungsstärke am Arbeitsplatz konstant halten (z.B. 500 lx), indem Kunstlicht das Tageslicht ergänzt:
 
-```
-E_Soll = 500 lx
-E_Ist = Sensor (am Schreibtisch oder Decke)
+Beispiel: Sollwert 500 lx am Arbeitsplatz, das Kunstlicht allein liefert bei 100 % ebenfalls 500 lx.
 
-Wenn Tageslicht 300 lx liefert:
-    → DALI dimmt Kunstlicht auf ~50% (ca. 200 lx Ergänzung)
-Wenn Tageslicht 600 lx liefert:
-    → DALI dimmt Kunstlicht auf 0% (aus)
-```
+| Tageslicht am Arbeitsplatz | Kunstlicht                |
+| -------------------------- | ------------------------- |
+| 0 lx                       | 100 %                     |
+| 300 lx                     | rund 40 %, ergänzt 200 lx |
+| 500 lx und mehr            | aus oder Minimum          |
 
-**PID-Regelung:** Konstantlichtregelung ist ein geschlossener Regelkreis. Schnelle Wolkenwechsel erfordern I-Anteil zur Vermeidung von Dauerpendeln.
+**Regelung:** Konstantlichtregelung ist ein geschlossener Regelkreis, meist ein langsamer I- oder PI-Regler. Damit Wolken nicht zu sichtbarem Auf und Ab führen, regelt man langsam und mit Dimmrampen von einigen Sekunden. Ein Deckensensor misst das reflektierte Licht, nicht direkt den Schreibtisch. Darum wird er bei der Inbetriebnahme mit einem Luxmeter am Arbeitsplatz abgeglichen.
 
 ---
 
 ## Beschattungssteuerung
 
-Aussenlichtsensor (Sonnenhöchste Direkteinstrahlung):
+Der Aussenlichtsensor misst die Helligkeit an der Fassade:
 
-```
-Aussenlichtsensor misst globale Strahlung:
-    < 40'000 lx → Jalousie auf (offen, kein Blendschutz nötig)
-    > 50'000 lx → Jalousie ab (Blendschutz aktiv)
-    Windwächter überschritten → Jalousie auf (Schutzposition)
-```
+| Aussenhelligkeit an der Fassade | Aktion                              |
+| ------------------------------- | ----------------------------------- |
+| unter etwa 40'000 lx            | Behang hoch, kein Blendschutz nötig |
+| über etwa 50'000 lx             | Behang ab, Blendschutz              |
+| Windgrenze überschritten        | Behang hoch, Schutzstellung         |
+
+Die Lücke zwischen den beiden Schwellen ist die Hysterese. Dazu kommen Verzögerungen, siehe [Beschattungssteuerung](/wissen/beschattungssteuerung).
 
 **Sonnenkurvensteuerung:** GLT berechnet aus Uhrzeit, Datum und Gebäudestandort den Sonnenstand (Azimut, Elevation) und öffnet/schliesst Lamellen entsprechend — unabhängig vom Sensor, aber in Kombination mit diesem.
 
@@ -150,7 +148,7 @@ Aussenlichtsensor misst globale Strahlung:
 
 ### Aussenlichtsensor
 
-- **Montageort:** Freie Sicht nach Süd, Süd-West, ungekippt (Sensorebene horizontal)
+- **Montageort:** Für die Fassadensteuerung je Fassade ein Sensor, senkrecht in Richtung der Fassade ausgerichtet. Für Dämmerungsfunktionen genügt ein Sensor, oft horizontal.
 - **Keine Verschattung** durch Gebäudeteile oder Bäume
 - **Schutzklasse:** IP65 oder höher
 - Kalibrierung: Vergleich mit Referenz-Luxmeter an klarem Tag
@@ -161,7 +159,7 @@ Aussenlichtsensor misst globale Strahlung:
 - **Keine direkte Sonneneinstrahlung** auf Sensor (führt zu Falschregelung)
 - **Calibration Mode:** Sensor bei voller Kunstbeleuchtung ohne Tageslicht auf Sollwert kalibrieren
 
-### DALI Part 301 Konfiguration
+### DALI Part 304 Konfiguration
 
 - Sensoradresse vergeben
 - Messbereich einstellen (z.B. 0–1000 lx)
@@ -196,7 +194,7 @@ Light sensors measure **illuminance** (lux) and form the basis for constant illu
 | Staircase, corridor (standard) | 100 lx            |
 | Office desk (EN 12464-1)       | 500 lx            |
 | Technical drawing              | 750 lx            |
-| Operating theatre              | 10,000 lx         |
+| Operating theatre, general     | 1000 lx           |
 | Overcast sky outdoors          | 5,000–20,000 lx   |
 | Direct sunlight                | 50,000–100,000 lx |
 
@@ -243,7 +241,7 @@ Multi-channel sensor with individual photodiodes + colour filters:
 **Output signals:**
 
 - **0–10 V:** e.g. 0 V = 0 lx, 10 V = 2,000 lx (range depends on manufacturer)
-- **DALI-2 Part 301 (Light Sensor):** Digital lux value via DALI bus, configurable
+- **DALI-2 Part 304 (light sensor):** digital lux value via the DALI bus, configurable
 - **Modbus RTU:** Direct lux value as integer (BA integration)
 
 ---
@@ -252,30 +250,29 @@ Multi-channel sensor with individual photodiodes + colour filters:
 
 Goal: maintain illuminance at the workstation constant (e.g. 500 lx) by having artificial light supplement daylight:
 
-```
-E_setpoint = 500 lx
-E_actual = sensor (at desk or ceiling)
+Example: setpoint 500 lx at the workplace, the artificial lighting alone also delivers 500 lx at 100 %.
 
-If daylight provides 300 lx:
-    → DALI dims artificial light to ~50% (~200 lx supplement)
-If daylight provides 600 lx:
-    → DALI dims artificial light to 0% (off)
-```
+| Daylight at the workplace | Artificial lighting     |
+| ------------------------- | ----------------------- |
+| 0 lx                      | 100 %                   |
+| 300 lx                    | about 40 %, adds 200 lx |
+| 500 lx and more           | off or minimum          |
 
-**PID control:** Constant illuminance control is a closed control loop. Fast cloud movements require an I-component to avoid continuous hunting.
+**Control:** constant illuminance control is a closed loop, usually a slow I or PI controller. So that clouds do not cause visible up and down, control slowly and with dimming ramps of a few seconds. A ceiling sensor measures reflected light, not the desk directly. It is therefore matched with a lux meter at the workplace during commissioning.
 
 ---
 
 ## Shading Control
 
-Outdoor light sensor (peak direct solar irradiance):
+The outdoor light sensor measures brightness at the facade:
 
-```
-Outdoor light sensor measures global irradiance:
-    < 40,000 lx → blinds up (open, no glare protection needed)
-    > 50,000 lx → blinds down (glare protection active)
-    Wind monitor exceeded → blinds up (protection position)
-```
+| Outdoor brightness at facade | Action                               |
+| ---------------------------- | ------------------------------------ |
+| below about 40,000 lx        | blind up, no glare protection needed |
+| above about 50,000 lx        | blind down, glare protection         |
+| wind limit exceeded          | blind up, safe position              |
+
+The gap between the two thresholds is the hysteresis. Delays come on top, see [Shading Control](/wissen/beschattungssteuerung).
 
 **Solar tracking control:** The BMS calculates the sun position (azimuth, elevation) from the time of day, date, and building location, and opens/closes the slats accordingly — independent of the sensor but combined with it.
 
@@ -285,7 +282,7 @@ Outdoor light sensor measures global irradiance:
 
 ### Outdoor Light Sensor
 
-- **Mounting location:** Unobstructed view south/south-west, level (sensor plane horizontal)
+- **Mounting location:** for facade control one sensor per facade, vertical and facing the same way as the facade. For twilight functions one sensor is enough, often horizontal.
 - **No shading** from building parts or trees
 - **Protection class:** IP65 or higher
 - Calibration: compare with reference lux meter on a clear day
@@ -296,7 +293,7 @@ Outdoor light sensor measures global irradiance:
 - **No direct sunlight** on the sensor (causes incorrect control)
 - **Calibration mode:** Calibrate sensor to setpoint under full artificial lighting without daylight
 
-### DALI Part 301 Configuration
+### DALI Part 304 Configuration
 
 - Assign sensor address
 - Set measurement range (e.g. 0–1,000 lx)

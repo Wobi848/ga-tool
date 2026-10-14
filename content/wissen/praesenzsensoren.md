@@ -30,7 +30,7 @@ area: [ga, elektro]
 related: [beleuchtungssteuerung, raumautomation, sensoren, dali, beschattungssteuerung]
 rechner: []
 norm: [EN 15193-1 (Beleuchtungssteuerung), IEC 62386-303 (DALI Präsenz), EN 50131]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -42,13 +42,13 @@ Belegungs- und Präsenzsensoren sind in modernen Gebäuden unverzichtbar für en
 
 ## Abgrenzung: Bewegungsmelder vs. Präsenzmelder
 
-| Merkmal              | Bewegungsmelder             | Präsenzmelder                             |
-| -------------------- | --------------------------- | ----------------------------------------- |
-| Erfassungsprinzip    | Bewegung erforderlich       | Auch ruhige Personen erkannt              |
-| Technologie          | PIR (einfach)               | PIR (hochempfindlich), Radar, Ultraschall |
-| Abschaltzeit         | Sofort bei Stillstand       | Nachlaufzeit (30–300 s)                   |
-| Falschausschaltungen | Häufig                      | Selten                                    |
-| Einsatz              | Flur, WC, Aussenbeleuchtung | Büro, Besprechungsraum, Einzelbüro        |
+| Merkmal              | Bewegungsmelder             | Präsenzmelder                                     |
+| -------------------- | --------------------------- | ------------------------------------------------- |
+| Erfassungsprinzip    | Bewegung erforderlich       | Auch ruhige Personen erkannt                      |
+| Technologie          | PIR (einfach)               | PIR (hochempfindlich), Radar, Ultraschall         |
+| Abschaltzeit         | kurze Nachlaufzeit          | Nachlaufzeit, einstellbar, oft 5–20 min für Licht |
+| Falschausschaltungen | Häufig                      | Selten                                            |
+| Einsatz              | Flur, WC, Aussenbeleuchtung | Büro, Besprechungsraum, Einzelbüro                |
 
 ---
 
@@ -58,14 +58,10 @@ Belegungs- und Präsenzsensoren sind in modernen Gebäuden unverzichtbar für en
 
 Jeder Körper oberhalb 0 K emittiert Infrarotstrahlung. Der PIR-Sensor detektiert die **Änderung** der IR-Strahlung im Sichtfeld:
 
-```
-Menschliche Körpertemperatur: ~37°C
-Raumhintergrund: ~20°C
-ΔT = ~17 K → starkes Signal bei Bewegung
-```
+Die Haut liegt bei rund 30 bis 34 °C, der Raum bei etwa 20 °C. Bewegt sich eine Person durch die Zonen der Linse, ändert sich die Strahlung auf dem Detektor, und das gibt ein Signal. Je wärmer der Raum, desto kleiner der Unterschied und desto schlechter die Erfassung.
 
 - **Pyroelektrischer Detektor:** Erzeugt elektrische Ladung bei Temperaturgradient
-- **Fresnell-Linse:** Teilt Sichtfeld in Segmente — Übergang zwischen Segmenten erzeugt Signal
+- **Fresnel-Linse:** Teilt Sichtfeld in Segmente — Übergang zwischen Segmenten erzeugt Signal
 - Erfassung: Quer-Bewegung optimal; axiale Bewegung (auf Sensor zu) schlecht
 
 ### Sichtfeld und Abdeckung
@@ -81,7 +77,7 @@ Raumhintergrund: ~20°C
 
 | Stärken               | Schwächen                                                |
 | --------------------- | -------------------------------------------------------- |
-| Günstig, robust       | Erkennt keine Totbewegung (ruhig sitzende Person)        |
+| Günstig, robust       | Ruhig sitzende Personen werden schlecht erkannt          |
 | Kein EMV-Problem      | Blindwinkel (axial)                                      |
 | Weit verbreitet       | Glasscheiben: IR wird blockiert                          |
 | Einfache Installation | Temperaturabhängig (bei 36°C Raumtemp: Kontrast minimal) |
@@ -100,7 +96,7 @@ Sendet Mikrowellen (5,8 GHz oder 24 GHz), empfängt Reflexionen. Doppler-Frequen
 
 ### FMCW-Radar (Frequency Modulated Continuous Wave)
 
-Modernes Prinzip (77 GHz, mm-Wave):
+Modernes Prinzip, für Innenräume meist im 60-GHz-Band:
 
 - Misst Abstand und Geschwindigkeit gleichzeitig
 - Erkennt zuverlässig auch ruhig sitzende Personen (Atmungsbewegung)
@@ -113,7 +109,7 @@ Modernes Prinzip (77 GHz, mm-Wave):
 | ------------------------ | ---------------------------------------------- |
 | Erkennt ruhende Personen | Teurer als PIR                                 |
 | Temperaturunabhängig     | Durchdringt Wände → unerwünschte Aktivierungen |
-| Keine Totzonen           | EMV-Zulassung beachten (CE)                    |
+| Wenig Totzonen           | EMV-Zulassung beachten (CE)                    |
 | Funktioniert hinter Glas | —                                              |
 
 ---
@@ -136,7 +132,7 @@ Zwei-Technologie-Sensoren kombinieren die Stärken:
 - **PIR** für schnelle Erstdetektion bei Betreten
 - **Radar/Ultraschall** für zuverlässige Präsenzerkennung auch bei Stillstand
 
-Verbreitetes Konzept bei hochwertigen Präsenzmeldern (z.B. Steinel HF 360, Zumtobel LINOS).
+Dieses Konzept ist bei hochwertigen Präsenzmeldern verbreitet.
 
 ---
 
@@ -155,16 +151,15 @@ Moderne Präsenzmelder unterstützen **DALI-2 Part 303** (Input Device Occupancy
 
 Präsenzmelder steuern nicht nur Beleuchtung, sondern auch HLK:
 
-```
-Raum unbelegt > 15 min:
-    → Raumsollwert auf Absenktemperatur (z.B. 17°C statt 21°C)
-    → Lüftung auf Minimalbetrieb
-    → Jalousien in Schutzposition
+| Zustand                  | Typische Reaktion                                         |
+| ------------------------ | --------------------------------------------------------- |
+| unbelegt, nach 10–15 min | Raumsollwert in Standby, zum Beispiel 2 K tiefer          |
+|                          | Lüftung auf Minimum oder aus                              |
+|                          | Licht aus                                                 |
+|                          | Beschattung darf auf Energie optimieren (Thermoautomatik) |
+| belegt                   | sofort zurück auf Komfort                                 |
 
-Raum belegt:
-    → Normalbetrieb sofort
-    → Vorausregelung (optimaler Start) für Komfort
-```
+Standby bedeutet, dass der Komfortwert schnell wieder erreicht wird, darum nur wenige Kelvin. Tiefere Absenkungen gehören in das Zeitprogramm für Nacht und Wochenende.
 
 **Belegungsbasierte HVAC-Steuerung** kann 20–40% Energie gegenüber zeitprogrammgeführtem Betrieb einsparen.
 
@@ -189,13 +184,13 @@ Occupancy and presence sensors are essential in modern buildings for energy-effi
 
 ## Distinction: Motion Detector vs. Presence Detector
 
-| Feature             | Motion detector                | Presence detector                         |
-| ------------------- | ------------------------------ | ----------------------------------------- |
-| Detection principle | Movement required              | Detects stationary occupants too          |
-| Technology          | PIR (simple)                   | PIR (high-sensitivity), radar, ultrasonic |
-| Switch-off delay    | Immediate on stillness         | Hold time (30–300 s)                      |
-| False switch-offs   | Frequent                       | Rare                                      |
-| Application         | Corridor, WC, outdoor lighting | Office, meeting room, private office      |
+| Feature             | Motion detector                | Presence detector                                  |
+| ------------------- | ------------------------------ | -------------------------------------------------- |
+| Detection principle | Movement required              | Detects stationary occupants too                   |
+| Technology          | PIR (simple)                   | PIR (high-sensitivity), radar, ultrasonic          |
+| Switch-off delay    | short hold time                | hold time, adjustable, often 5–20 min for lighting |
+| False switch-offs   | Frequent                       | Rare                                               |
+| Application         | Corridor, WC, outdoor lighting | Office, meeting room, private office               |
 
 ---
 
@@ -205,11 +200,7 @@ Occupancy and presence sensors are essential in modern buildings for energy-effi
 
 Every body above 0 K emits infrared radiation. The PIR sensor detects the **change** in IR radiation within its field of view:
 
-```
-Human body temperature: ~37 °C
-Room background: ~20 °C
-ΔT = ~17 K → strong signal on movement
-```
+Skin is at about 30 to 34 °C, the room at about 20 °C. When a person moves through the zones of the lens, the radiation on the detector changes, and that gives a signal. The warmer the room, the smaller the difference and the worse the detection.
 
 - **Pyroelectric detector:** Generates electric charge on a temperature gradient
 - **Fresnel lens:** Divides the field of view into segments — crossing between segments generates the signal
@@ -228,7 +219,7 @@ Room background: ~20 °C
 
 | Strengths           | Weaknesses                                                   |
 | ------------------- | ------------------------------------------------------------ |
-| Inexpensive, robust | Does not detect stationary persons                           |
+| Inexpensive, robust | Poor at detecting people sitting still                       |
 | No EMC issues       | Blind spot (axial direction)                                 |
 | Widely used         | Glass panes block IR                                         |
 | Simple installation | Temperature-dependent (at 36 °C room temp: minimal contrast) |
@@ -247,7 +238,7 @@ Transmits microwaves (5.8 GHz or 24 GHz), receives reflections. Doppler frequenc
 
 ### FMCW Radar (Frequency Modulated Continuous Wave)
 
-Modern principle (77 GHz, mm-wave):
+Modern principle, for indoor use mostly in the 60 GHz band:
 
 - Measures distance and velocity simultaneously
 - Reliably detects stationary persons (breathing movement)
@@ -260,7 +251,7 @@ Modern principle (77 GHz, mm-wave):
 | -------------------------- | --------------------------------------- |
 | Detects stationary persons | More expensive than PIR                 |
 | Temperature-independent    | Penetrates walls → unwanted activations |
-| No blind spots             | Observe EMC approval (CE)               |
+| Few blind spots            | Observe EMC approval (CE)               |
 | Works through glass        | —                                       |
 
 ---
@@ -283,7 +274,7 @@ Dual-technology sensors combine the strengths:
 - **PIR** for fast initial detection on entry
 - **Radar/ultrasonic** for reliable presence detection even at rest
 
-A widely-used concept in high-quality presence detectors (e.g. Steinel HF 360, Zumtobel LINOS).
+This concept is common in high-quality presence detectors.
 
 ---
 
@@ -302,16 +293,15 @@ Modern presence detectors support **DALI-2 Part 303** (Input Device Occupancy Se
 
 Presence detectors control not only lighting but also HVAC:
 
-```
-Room unoccupied > 15 min:
-    → Room setpoint to setback temperature (e.g. 17 °C instead of 21 °C)
-    → Ventilation to minimum mode
-    → Blinds to protection position
+| State                       | Typical response                                    |
+| --------------------------- | --------------------------------------------------- |
+| unoccupied, after 10–15 min | room setpoint to standby, for example 2 K lower     |
+|                             | ventilation to minimum or off                       |
+|                             | lighting off                                        |
+|                             | shading may optimise for energy (thermal automatic) |
+| occupied                    | back to comfort immediately                         |
 
-Room occupied:
-    → Normal mode immediately
-    → Predictive control (optimum start) for comfort
-```
+Standby means the comfort value is reached again quickly, so only a few kelvin. Deeper setbacks belong in the time schedule for nights and weekends.
 
 **Occupancy-based HVAC control** can save 20–40% energy compared to time-schedule-based operation.
 

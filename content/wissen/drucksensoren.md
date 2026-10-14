@@ -69,7 +69,7 @@ Messung der **Druckdifferenz zwischen zwei Messpunkten**:
 
 ### Piezoresistiv (Dehnungsmessstreifen)
 
-Ein Silizium-Chip verändert seinen elektrischen Widerstand unter Druckeinwirkung (piezoelektrischer Effekt):
+Ein Silizium-Chip verändert seinen elektrischen Widerstand unter Druckeinwirkung (piezoresistiver Effekt):
 
 - Sehr hohe Genauigkeit (0,1–0,5% FS)
 - Kompakt, kostengünstig
@@ -108,70 +108,69 @@ Quarz-Kristall erzeugt elektrische Ladung unter Druck — nur für **dynamische*
 
 ### Filterüberwachung Lüftungsanlage
 
-```
-ΔP_Filter = P_vor_Filter − P_nach_Filter
+<p class="formel">Δp<sub>Filter</sub> = p<sub>vor Filter</sub> − p<sub>nach Filter</sub></p>
 
-Neuer Filter: ΔP < 50 Pa
-Alarm Verschmutzung: ΔP > 200 Pa (Filterklasse abhängig)
-Sofortabschaltung: ΔP > 350 Pa (Filterdurchbruch-Schutz)
-```
+| Zustand              | Druckdifferenz, Beispiel                             |
+| -------------------- | ---------------------------------------------------- |
+| neuer Filter         | Anfangsdruckdifferenz nach Datenblatt, oft 50–100 Pa |
+| verschmutzt, Meldung | Enddruckdifferenz nach Hersteller, oft 200–300 Pa    |
+| Filterbruch          | Druckdifferenz fällt plötzlich deutlich ab           |
+
+Ein verschmutzter Filter ist ein Wartungsfall, kein Grund, die Anlage abzuschalten.
 
 Sensor: Differenzdrucktransmitter 0–500 Pa, 4–20 mA
 
 ### Kanaldruck-Regelung (VAV)
 
-```
-P_Kanal_soll = 200 Pa (Sollwert)
-Messung: 0–500 Pa Differenzdruck-Transmitter
-Regelung: PID → Ventilator-Drehzahl (FU)
-```
+| Element  | Beispiel                                           |
+| -------- | -------------------------------------------------- |
+| Sollwert | Kanaldruck 200 Pa, besser über Druck-Reset geführt |
+| Messung  | Differenzdrucktransmitter 0–500 Pa                 |
+| Regler   | PI, Stellgrösse Drehzahl des Ventilators über FU   |
 
 ### Raumdruckhaltung (Reinraum, OP)
 
-```
-ΔP_Raum = P_Innen − P_Flur
+<p class="formel">Δp<sub>Raum</sub> = p<sub>Raum</sub> − p<sub>Nachbarraum</sub></p>
 
-Reinraum Klasse ISO 7: +10 bis +15 Pa
-OP-Saal: +5 bis +10 Pa
-Isolierraum (Infektionsschutz): −10 bis −15 Pa
-```
+| Raum                               | typische Druckdifferenz                         |
+| ---------------------------------- | ----------------------------------------------- |
+| Reinraum gegenüber tieferer Klasse | +10 bis +15 Pa                                  |
+| OP gegenüber Nebenräumen           | Überdruck, Werte nach SWKI 99-3 bzw. DIN 1946-4 |
+| Isolierzimmer                      | Unterdruck, zum Beispiel −10 Pa                 |
 
 Sensor: Hochgenauer Differenzdrucktransmitter 0–50 Pa (±0,5% FS)
 
 ### Systemdruck Heizung/Kühlung
 
-```
-P_System_soll = Vordruck + 0,2 bar (Reserve)
-Alarm Druckabfall: P < P_min (Leckage)
-Alarm Überdrück: P > P_max (Sicherheitsventil-Prüfung)
-```
+| Wert       | Bedeutung                                                     |
+| ---------- | ------------------------------------------------------------- |
+| Fülldruck  | Vordruck des Ausdehnungsgefässes + 0.3 bar, im kalten Zustand |
+| Alarm tief | unter Fülldruck: Leckage oder Gefäss defekt                   |
+| Alarm hoch | knapp unter dem Ansprechdruck des Sicherheitsventils          |
 
 Sensor: Relativdrucktransmitter 0–4 bar, 4–20 mA
 
 ### Pumpenüberwachung (Förderhöhe)
 
-```
-ΔP_Pumpe = P_Druck − P_Saugseite
+<p class="formel">Δp<sub>Pumpe</sub> = p<sub>Druckseite</sub> − p<sub>Saugseite</sub></p>
 
-Kein Durchfluss bei laufender Pumpe:
-  → ΔP sehr hoch → Alarm (geschlossenes Absperrventil)
+- **Δp sehr hoch** bei Pumpe mit fester Drehzahl: kein Durchfluss, etwa ein geschlossenes Absperrventil
+- **Δp sehr tief** bei laufender Pumpe: keine Förderung, Luft im System oder Trockenlauf
 
-Pumpe läuft ohne Förderung (Trockenlauf):
-  → ΔP sehr niedrig → Alarm
-```
+Bei drehzahlgeregelten Pumpen mit Δp-Regelung ist der Δp konstant, hier sagt die Leistungsaufnahme oder ein Durchflussmesser mehr.
 
 ---
 
 ## Auswahl und Einbau
 
-| Parameter              | Empfehlung                                                             |
-| ---------------------- | ---------------------------------------------------------------------- |
-| Messbereich            | ca. 2× erwarteter Maximalwert                                          |
-| Genauigkeit            | ≤ 2% FS für Regelung, ≤ 0,5% für Reinraum                              |
-| Medienverträglichkeit  | Luft: keine Anforderungen; Wasser: Edelstahl; Glykol: Edelstahl        |
-| Einbaulage             | Vertikal bevorzugt (kein Kondensat in Druckleitung)                    |
-| Druckanschluss Lüftung | Entnahmebohrung ⌀ 6 mm, Kunststoffschlauch, kein Gefälle zur Messzelle |
-| Kabelführung           | 4-20 mA: bis 500 m ohne Abschirmung möglich                            |
+| Parameter              | Empfehlung                                                                   |
+| ---------------------- | ---------------------------------------------------------------------------- |
+| Messbereich            | ca. 2× erwarteter Maximalwert                                                |
+| Genauigkeit            | ≤ 2% FS für Regelung, ≤ 0,5% für Reinraum                                    |
+| Medienverträglichkeit  | Luft: keine Anforderungen; Wasser: Edelstahl; Glykol: Edelstahl              |
+| Einbaulage             | Vertikal bevorzugt (kein Kondensat in Druckleitung)                          |
+| Druckanschluss Lüftung | Entnahmebohrung ⌀ 6 mm, Kunststoffschlauch mit Gefälle weg von der Messzelle |
+| Kabelführung           | 4–20 mA ist störfest; in der Nähe von Umrichtern trotzdem geschirmt verlegen |
 
 ---
 
@@ -180,7 +179,7 @@ Pumpe läuft ohne Förderung (Trockenlauf):
 | Problem                   | Ursache                     | Lösung                                              |
 | ------------------------- | --------------------------- | --------------------------------------------------- |
 | Nullpunkt-Drift           | Temperatur, Alterung        | Regelmässige Kalibrierung (1×/Jahr)                 |
-| Falsche Messung           | Kondensat in Messschlauch   | Messschlauch mit Gefälle verlegen                   |
+| Falsche Messung           | Kondensat in Messschlauch   | Messschlauch mit Gefälle weg vom Sensor verlegen    |
 | Sensor ausserhalb Bereich | Druckstoss beim Start       | Sensor mit Dämpfungsblock oder Snubber schützen     |
 | Signalrauschen            | Turbulenz nah am Ventilator | Messort 5× Kanaldurchmesser vom Ventilator entfernt |
 
@@ -261,57 +260,56 @@ Quartz crystal generates electrical charge under pressure — only for **dynamic
 
 ### Filter Monitoring — Ventilation System
 
-```
-ΔP_filter = P_before_filter − P_after_filter
+<p class="formel">Δp<sub>filter</sub> = p<sub>before filter</sub> − p<sub>after filter</sub></p>
 
-New filter: ΔP < 50 Pa
-Contamination alarm: ΔP > 200 Pa (filter class dependent)
-Emergency shutdown: ΔP > 350 Pa (filter breakthrough protection)
-```
+| State          | Pressure drop, example                                 |
+| -------------- | ------------------------------------------------------ |
+| new filter     | initial pressure drop per data sheet, often 50–100 Pa  |
+| dirty, message | final pressure drop per manufacturer, often 200–300 Pa |
+| filter rupture | pressure drop falls suddenly and clearly               |
+
+A dirty filter is a maintenance case, not a reason to shut down the plant.
 
 Sensor: Differential pressure transmitter 0–500 Pa, 4–20 mA
 
 ### Duct Pressure Control (VAV)
 
-```
-P_duct_setpoint = 200 Pa
-Measurement: 0–500 Pa differential pressure transmitter
-Control: PID → fan speed (VSD)
-```
+| Element     | Example                                                  |
+| ----------- | -------------------------------------------------------- |
+| Setpoint    | duct pressure 200 Pa, better scheduled by pressure reset |
+| Measurement | differential pressure transmitter 0–500 Pa               |
+| Controller  | PI, output fan speed via drive                           |
 
 ### Room Pressure Control (Clean Room, Operating Theatre)
 
-```
-ΔP_room = P_inside − P_corridor
+<p class="formel">Δp<sub>room</sub> = p<sub>room</sub> − p<sub>adjacent room</sub></p>
 
-Clean room class ISO 7: +10 to +15 Pa
-Operating theatre: +5 to +10 Pa
-Isolation room (infection control): −10 to −15 Pa
-```
+| Room                                 | typical pressure difference                      |
+| ------------------------------------ | ------------------------------------------------ |
+| clean room vs. lower class           | +10 to +15 Pa                                    |
+| operating theatre vs. adjacent rooms | overpressure, values per SWKI 99-3 or DIN 1946-4 |
+| isolation room                       | negative pressure, for example −10 Pa            |
 
 Sensor: High-accuracy differential pressure transmitter 0–50 Pa (±0.5% FS)
 
 ### System Pressure — Heating/Cooling
 
-```
-P_system_setpoint = static pressure + 0.2 bar (reserve)
-Pressure drop alarm: P < P_min (leakage)
-Overpressure alarm: P > P_max (safety valve check)
-```
+| Value         | Meaning                                              |
+| ------------- | ---------------------------------------------------- |
+| Fill pressure | expansion vessel pre-charge + 0.3 bar, in cold state |
+| Alarm low     | below fill pressure: leak or vessel faulty           |
+| Alarm high    | just below the set pressure of the safety valve      |
 
 Sensor: Gauge pressure transmitter 0–4 bar, 4–20 mA
 
 ### Pump Monitoring (Differential Head)
 
-```
-ΔP_pump = P_discharge − P_suction
+<p class="formel">Δp<sub>pump</sub> = p<sub>discharge</sub> − p<sub>suction</sub></p>
 
-No flow with pump running:
-  → ΔP very high → alarm (closed isolation valve)
+- **Δp very high** with a fixed-speed pump: no flow, for example a closed isolating valve
+- **Δp very low** with the pump running: no delivery, air in the system or dry running
 
-Pump running dry:
-  → ΔP very low → alarm
-```
+With variable-speed pumps under Δp control the Δp is constant; here power consumption or a flow meter says more.
 
 ---
 
@@ -323,16 +321,16 @@ Pump running dry:
 | Accuracy                          | ≤ 2% FS for control, ≤ 0.5% for clean rooms                           |
 | Media compatibility               | Air: no requirements; water: stainless steel; glycol: stainless steel |
 | Mounting position                 | Vertical preferred (no condensate in pressure tube)                   |
-| Pressure connection (ventilation) | Tapping hole ⌀ 6 mm, plastic tube, no slope towards sensor            |
-| Cable routing                     | 4–20 mA: up to 500 m without shielding possible                       |
+| Pressure connection (ventilation) | Tapping hole ⌀ 6 mm, plastic tube sloping away from the sensor        |
+| Cable routing                     | 4–20 mA is robust; near drives still use shielded cable               |
 
 ---
 
 ## Common Faults
 
-| Problem             | Cause                        | Remedy                                       |
-| ------------------- | ---------------------------- | -------------------------------------------- |
-| Zero-point drift    | Temperature, ageing          | Regular calibration (1×/year)                |
-| Incorrect reading   | Condensate in measuring tube | Route measuring tube with slope              |
-| Sensor out of range | Pressure surge on start      | Protect sensor with snubber or damping block |
-| Signal noise        | Turbulence near fan          | Measure at least 5× duct diameter from fan   |
+| Problem             | Cause                        | Remedy                                        |
+| ------------------- | ---------------------------- | --------------------------------------------- |
+| Zero-point drift    | Temperature, ageing          | Regular calibration (1×/year)                 |
+| Incorrect reading   | Condensate in measuring tube | Route measuring tube sloping away from sensor |
+| Sensor out of range | Pressure surge on start      | Protect sensor with snubber or damping block  |
+| Signal noise        | Turbulence near fan          | Measure at least 5× duct diameter from fan    |

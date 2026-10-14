@@ -217,7 +217,7 @@ Protokoll:
 ## Normen
 
 - **ISO 27001** — Informationssicherheits-Managementsystem (ISMS), Backup-Anforderungen
-- **IEC 62443** — OT-Cybersecurity, Datensicherung als Schutzmaßnahme
+- **IEC 62443** — OT-Cybersecurity, Datensicherung als Schutzmassnahme
 
 <!-- EN -->
 

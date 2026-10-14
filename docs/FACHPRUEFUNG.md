@@ -138,19 +138,19 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### sensoren
 
-- ⬜ co2-sensoren
-- ⬜ drucksensoren
-- ⬜ durchflussmessung
-- ⬜ feuchtesensoren
-- ⬜ helligkeitssensoren
-- ⬜ praesenzsensoren
-- ⬜ temperaturfuehler
-- ⬜ voc-sensoren
+- ✅ co2-sensoren
+- ✅ drucksensoren
+- ✅ durchflussmessung
+- ✅ feuchtesensoren
+- ✅ helligkeitssensoren
+- ✅ praesenzsensoren
+- ✅ temperaturfuehler
+- ✅ voc-sensoren
 
 ### signale
 
 - ⬜ schirmung-erdung
-- ⬜ sensoren
+- ✅ sensoren
 - ⬜ signaltypen
 
 ### antriebe
@@ -368,3 +368,12 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | frequenzumrichter                   | Autotuning «Motor dreht»; U/f für alle HLK-Motoren (PM brauchen Vektor); RS-485-Schirm einseitig; Affinität ohne Einschränkung; EN 50598 veraltet; RCD fehlte                                                                                                                | korrigiert; RCD Typ B; EN IEC 61800-9-2, VO (EU) 2019/1781                                                                                  | EN IEC 61800-9-2                                                    |
 | 14.10.2026 | mpc-ga                              | «ETH DFAB HOUSE 20 %», «Siemens Desigo Optic» nicht belegbar; open-meteo «kostenlos» (nur nicht-kommerziell); RC-Schema falsch beschriftet                                                                                                                                   | Empa NEST; DeepMind 2016 mit Quelle; MeteoSchweiz OGD                                                                                       | —                                                                   |
 | 14.10.2026 | polynom-approximation               | Wurzel-Kennlinie als «Polynom Grad 2» mit √Δp-Term; R² 0.9999 statt 0.9995; Herstellerangaben unbelegt; LaTeX ungerendert                                                                                                                                                    | korrigiert                                                                                                                                  | —                                                                   |
+| 14.10.2026 | sensoren                            | Leitungswiderstand 0.5 mm² «36 Ω/100 m» (ist 3.6 Ω), daraus PT100-Fehler 93 K; Wärmeformel «/ 3.6» statt / 3600; CO₂-Tabelle IDA-Namen mit EN-16798-Werten; NTC 10k «1 kΩ bei 50 °C» (≈ 3.6 kΩ); EN 14511 als Sensornorm                                                     | korrigiert; Kategorien I–IV mit Absolutwerten                                                                                               | ρ<sub>Cu</sub> = 0.0178 Ω·mm²/m                                     |
+| 14.10.2026 | temperaturfuehler                   | Ni1000-Variantenfehler «bis 10 K bei 100 °C» (≈ 20 K)                                                                                                                                                                                                                        | 2 K bei 20 °C, 20 K bei 100 °C                                                                                                              | DIN 43760, LG-Ni1000                                                |
+| 14.10.2026 | co2-sensoren                        | Kategorie II = «800–1000 ppm» (ist ≤ 800 ppm über aussen ≈ 1220 ppm); VDI 6022 als CO₂-Nachweis; EN 13779 veraltet                                                                                                                                                           | Tabelle mit Absolutwerten bei 420 ppm aussen; EN 16798-3                                                                                    | EN 16798-1                                                          |
+| 14.10.2026 | drucksensoren                       | piezoresistiv als «piezoelektrischer Effekt»; Sofortabschaltung bei verschmutztem Filter; Fülldruck Vordruck + 0.2 bar                                                                                                                                                       | Filterbruch als Druckabfall; + 0.3 bar                                                                                                      | —                                                                   |
+| 14.10.2026 | durchflussmessung                   | «MID-Klasse R eichpflichtig» (Gerät und Richtlinie verwechselt); Pitot «ab 200 mm²»; Blendenverlust zu tief                                                                                                                                                                  | EN 1434, Messmittelverordnung                                                                                                               | EN 1434                                                             |
+| 14.10.2026 | feuchtesensoren                     | 8 g/kg «≈ 50 % bei 20 °C» (≈ 55 %); ISO 7726 als Komfortnorm; VDI 6022 für Kalibrierung; Max-Begrenzung Befeuchter fehlte                                                                                                                                                    | 7.3 g/kg; Taupunktwächter ergänzt                                                                                                           | Magnus                                                              |
+| 14.10.2026 | helligkeitssensoren                 | DALI Lichtsensor «Part 301» (ist 304); OP «10'000 lx»; Konstantlicht-Rechnung 200 lx ≙ 50 %; Fassadensensor horizontal; CIE S 025 als Photometernorm                                                                                                                         | Part 304; ISO/CIE 19476                                                                                                                     | IEC 62386-304                                                       |
+| 14.10.2026 | praesenzsensoren                    | FMCW «77 GHz» (Innenraum 60 GHz); Produktbeispiele falsch; Standby 17 °C                                                                                                                                                                                                     | 60 GHz; Standby 2 K                                                                                                                         | —                                                                   |
+| 14.10.2026 | voc-sensoren                        | TVOC-Richtwerte «WHO / Agroscope» (Agroscope = Agrarforschung); VOC als Branderkennung; ß-Schreibung                                                                                                                                                                         | UBA-Stufen 1–5; Hinweis EN 54; ß → ss in 7 Artikeln                                                                                         | UBA                                                                 |

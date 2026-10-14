@@ -35,7 +35,7 @@ related:
     luftfeuchtigkeit
   ]
 rechner: [taupunkt]
-norm: [EN ISO 16000-11, ASHRAE 55, VDI 6022, ISO 7726]
+norm: [EN ISO 7726, EN 16798-1]
 updated: 2026-05-15
 lang: de
 ---
@@ -63,11 +63,7 @@ Luftfeuchte beeinflusst thermische Behaglichkeit, Schimmelrisiko, Materialschutz
 
 Ein Polymer-Hygristor verändert seine elektrische Kapazität proportional zur Wasseraufnahme:
 
-```
-Polymer-Schicht absorbiert Wasserdampf
-→ Dielektrizitätskonstante ε ändert sich
-→ Kapazitätsänderung ∝ relative Feuchte
-```
+Eine dünne Polymerschicht zwischen zwei Elektroden nimmt Wasserdampf auf. Dadurch ändert sich ihre Dielektrizitätszahl und mit ihr die Kapazität. Die Elektronik rechnet daraus die relative Feuchte.
 
 **Eigenschaften:**
 
@@ -96,9 +92,9 @@ Hochpräzises Labormessgerät für Taupunktmessung:
 Zwei Thermometer: eines trocken, eines mit feuchtem Docht umwickelt.
 Verdunstungskälte senkt Temperatur des feuchten Thermometers:
 
-```
-rF = f(T_trocken, T_feucht)   [Magnus-Formel + Psychrometerkonstante]
-```
+<p class="formel">φ = f(θ<sub>trocken</sub>, θ<sub>feucht</sub>)</p>
+
+Die Auswertung nutzt die Psychrometerformel mit der Psychrometerkonstante und dem Sättigungsdruck nach Magnus.
 
 - Einfach, robust, keine Drift
 - Erfordert sauberes destilliertes Wasser für Docht
@@ -120,13 +116,13 @@ rF = f(T_trocken, T_feucht)   [Magnus-Formel + Psychrometerkonstante]
 
 ## Komfortwerte und Grenzwerte
 
-| Bereich        | Relative Feuchte       | Bemerkung                                 |
-| -------------- | ---------------------- | ----------------------------------------- |
-| **Komfort**    | 40–60% rH              | ASHRAE 55, EN ISO 7726                    |
-| Trockene Luft  | < 30% rH               | Reizung Schleimhäute, statische Aufladung |
-| Zu feucht      | > 65% rH               | Schimmelrisiko an kalten Oberflächen      |
-| Schimmelgrenze | > 80% rH an Oberfläche | Pilzwachstum ab 72h                       |
-| Kondensation   | 100% rH                | Taupunkt erreicht                         |
+| Bereich        | Relative Feuchte        | Bemerkung                                       |
+| -------------- | ----------------------- | ----------------------------------------------- |
+| **Komfort**    | etwa 30–60 % rF         | EN 16798-1, Auslegungswerte                     |
+| Trockene Luft  | < 30% rH                | Reizung Schleimhäute, statische Aufladung       |
+| Zu feucht      | > 65% rH                | Schimmelrisiko an kalten Oberflächen            |
+| Schimmelgrenze | > 80 % rF an Oberfläche | Pilzwachstum, wenn das über mehrere Tage anhält |
+| Kondensation   | 100% rH                 | Taupunkt erreicht                               |
 
 **Kanalluft:** 10–95% rH möglich je nach Aussenluftbedingungen — keine Komfortwerte.
 
@@ -134,17 +130,10 @@ rF = f(T_trocken, T_feucht)   [Magnus-Formel + Psychrometerkonstante]
 
 ## Befeuchterregelung (Zuluft)
 
-```
-Fühler im Zuluftkanal:
-  x_Ist (g/kg) = f(T_Zuluft, rF_Zuluft)
-
-Soll: x_Soll = 8 g/kg (entspricht ~50% rH bei 20°C Raumtemp)
-
-Wenn x_Ist < x_Soll → Befeuchter EIN (Dampf oder Verdunstung)
-Wenn x_Ist > x_Soll + Hysterese → Befeuchter AUS
-```
-
-**Hysterese zwingend erforderlich** (z.B. ±0,5 g/kg) — sonst Pendelbetrieb.
+- Der Kanalfühler misst Temperatur und rF, die DDC rechnet daraus den Wassergehalt x.
+- Sollwert zum Beispiel x = 7.3 g/kg, das entspricht 50 % rF bei 20 °C. 8 g/kg wären bei 20 °C schon rund 55 %.
+- Dampfbefeuchter werden heute meist **stetig** geregelt. Bei Zweipunkt-Betrieb braucht es eine Schaltdifferenz, zum Beispiel 0.5 g/kg.
+- **Maximalbegrenzung:** Ein zweiter Fühler oder Hygrostat nach dem Befeuchter begrenzt die Kanalfeuchte, typisch auf 80 bis 90 % rF. Sonst kondensiert Wasser im Kanal.
 
 ---
 
@@ -152,28 +141,23 @@ Wenn x_Ist > x_Soll + Hysterese → Befeuchter AUS
 
 Bei Kühldecken und Betonkernaktivierung: Gefahr der Kondensation wenn Oberflächentemperatur < Taupunkt der Raumluft.
 
-```
-T_Oberfläche < T_Taupunkt_Raum?
-    → Kühlung absperren oder Vorlauftemperatur erhöhen
-```
+Ist die Oberflächentemperatur tiefer als der Taupunkt der Raumluft, kondensiert Wasser. Dann muss die Kühlung abgesperrt oder die Vorlauftemperatur angehoben werden.
 
 **DDC-Logik:**
 
-```
-T_Taupunkt = berechnet aus T_Raum + rF_Raum
-Wenn T_Vorlauf_Kühlung < T_Taupunkt + 1 K:
-    → Alarmierung + Vorlauftemp auf T_Taupunkt + 2 K anheben
-```
+1. Die DDC berechnet den Taupunkt aus Raumtemperatur und rF.
+2. Liegt der Kühlvorlauf weniger als 1 K über dem Taupunkt, wird gemeldet und der Vorlauf auf Taupunkt + 2 K angehoben.
+3. Zusätzlich sitzt am Vorlauf oft ein **Taupunktwächter**, der bei Betauung direkt das Ventil schliesst, unabhängig von der Berechnung.
 
 ---
 
 ## Kalibrierung und Wartung
 
-| Intervall    | Massnahme                                                  |
-| ------------ | ---------------------------------------------------------- |
-| Jährlich     | Sichtkontrolle, Vergleichsmessung mit Referenzgerät        |
-| Alle 2 Jahre | Kalibrierung gegen zertifiziertes Referenzgerät (VDI 6022) |
-| Bei Verdacht | Vergleich zweier Sensoren im selben Raum                   |
+| Intervall    | Massnahme                                                 |
+| ------------ | --------------------------------------------------------- |
+| Jährlich     | Sichtkontrolle, Vergleichsmessung mit Referenzgerät       |
+| Alle 2 Jahre | Kalibrierung gegen rückführbar kalibriertes Referenzgerät |
+| Bei Verdacht | Vergleich zweier Sensoren im selben Raum                  |
 
 **Kalibrierung im Feld:** Gesättigte Salzlösungen erzeugen definierte Feuchte:
 
@@ -202,11 +186,7 @@ Air humidity influences thermal comfort, mould risk, material protection, and pr
 
 A polymer hygristor changes its electrical capacitance in proportion to water uptake:
 
-```
-Polymer layer absorbs water vapour
-→ Dielectric constant ε changes
-→ Capacitance change ∝ relative humidity
-```
+A thin polymer layer between two electrodes absorbs water vapour. This changes its permittivity and with it the capacitance. The electronics calculate the relative humidity from it.
 
 **Properties:**
 
@@ -235,9 +215,9 @@ High-precision laboratory instrument for dew point measurement:
 Two thermometers: one dry, one wrapped in a wet wick.
 Evaporative cooling lowers the temperature of the wet bulb:
 
-```
-RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
-```
+<p class="formel">φ = f(θ<sub>dry</sub>, θ<sub>wet</sub>)</p>
+
+The evaluation uses the psychrometer formula with the psychrometer constant and the saturation pressure per Magnus.
 
 - Simple, robust, no drift
 - Requires clean distilled water for the wick
@@ -259,13 +239,13 @@ RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
 
 ## Comfort and Limit Values
 
-| Range           | Relative humidity   | Note                                          |
-| --------------- | ------------------- | --------------------------------------------- |
-| **Comfort**     | 40–60% RH           | ASHRAE 55, EN ISO 7726                        |
-| Dry air         | < 30% RH            | Irritation of mucous membranes, static charge |
-| Too humid       | > 65% RH            | Mould risk at cold surfaces                   |
-| Mould threshold | > 80% RH at surface | Fungal growth after 72 h                      |
-| Condensation    | 100% RH             | Dew point reached                             |
+| Range           | Relative humidity    | Note                                          |
+| --------------- | -------------------- | --------------------------------------------- |
+| **Comfort**     | about 30–60 % RH     | EN 16798-1, design values                     |
+| Dry air         | < 30% RH             | Irritation of mucous membranes, static charge |
+| Too humid       | > 65% RH             | Mould risk at cold surfaces                   |
+| Mould threshold | > 80 % RH at surface | fungal growth if sustained over several days  |
+| Condensation    | 100% RH              | Dew point reached                             |
 
 **Duct air:** 10–95% RH possible depending on outdoor conditions — no comfort values apply.
 
@@ -273,17 +253,10 @@ RH = f(T_dry, T_wet)   [Magnus formula + psychrometer constant]
 
 ## Humidifier Control (Supply Air)
 
-```
-Sensor in supply air duct:
-  x_actual (g/kg) = f(T_supply, RH_supply)
-
-Setpoint: x_setpoint = 8 g/kg (≈ 50% RH at 20 °C room temp)
-
-If x_actual < x_setpoint → humidifier ON (steam or evaporation)
-If x_actual > x_setpoint + hysteresis → humidifier OFF
-```
-
-**Hysteresis is essential** (e.g. ±0.5 g/kg) — otherwise continuous cycling.
+- The duct sensor measures temperature and RH, the DDC calculates the moisture content x.
+- Setpoint for example x = 7.3 g/kg, which is 50 % RH at 20 °C. 8 g/kg would already be about 55 % at 20 °C.
+- Steam humidifiers are usually **modulating** today. On/off operation needs a switching differential, for example 0.5 g/kg.
+- **High limit:** a second sensor or hygrostat after the humidifier limits duct humidity, typically to 80 to 90 % RH. Otherwise water condenses in the duct.
 
 ---
 
@@ -291,28 +264,23 @@ If x_actual > x_setpoint + hysteresis → humidifier OFF
 
 With chilled ceilings and thermal mass activation: risk of condensation when surface temperature < dew point of room air.
 
-```
-T_surface < T_dew_point_room?
-    → Close cooling or raise flow temperature
-```
+If the surface temperature is below the dew point of the room air, water condenses. Then cooling must be shut off or the flow temperature raised.
 
 **DDC logic:**
 
-```
-T_dew_point = calculated from T_room + RH_room
-If T_flow_cooling < T_dew_point + 1 K:
-    → Alarm + raise flow temperature to T_dew_point + 2 K
-```
+1. The DDC calculates the dew point from room temperature and RH.
+2. If the chilled water flow is less than 1 K above the dew point, a message is raised and the flow is raised to dew point + 2 K.
+3. In addition, a **condensation sensor** often sits on the flow pipe and closes the valve directly on condensation, independent of the calculation.
 
 ---
 
 ## Calibration and Maintenance
 
-| Interval       | Action                                                        |
-| -------------- | ------------------------------------------------------------- |
-| Annual         | Visual inspection, comparison with reference instrument       |
-| Every 2 years  | Calibration against certified reference instrument (VDI 6022) |
-| When suspected | Compare two sensors in the same room                          |
+| Interval       | Action                                                          |
+| -------------- | --------------------------------------------------------------- |
+| Annual         | Visual inspection, comparison with reference instrument         |
+| Every 2 years  | Calibration against a traceably calibrated reference instrument |
+| When suspected | Compare two sensors in the same room                            |
 
 **Field calibration:** Saturated salt solutions generate defined humidity levels:
 

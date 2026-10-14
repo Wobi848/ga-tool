@@ -41,8 +41,8 @@ related:
     helligkeitssensoren
   ]
 
-norm: [IEC 60751, EN ISO 16890, EN 14511]
-updated: 2026-05-14
+norm: [IEC 60751, EN ISO 16890, EN 16798-1]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -58,24 +58,24 @@ Sensoren sind die Sinnesorgane der Gebäudeautomation. Ohne korrekte Messungen g
 
 Beide sind **Widerstandstemperaturfühler** (RTD = Resistance Temperature Detector) aus Platin:
 
-| Eigenschaft         | PT100               | PT1000                |
-| ------------------- | ------------------- | --------------------- |
-| Widerstand bei 0 °C | 100 Ω               | 1000 Ω                |
-| Kennlinien-Steigung | 0.385 Ω/K           | 3.85 Ω/K              |
-| Empfindlichkeit     | Niedrig             | 10× höher als PT100   |
-| Leitungswiderstand  | Kritisch (2-Draht!) | Unkritisch bis ~100 m |
-| Genauigkeit         | Klasse A: ±0.15 K   | Klasse A: ±0.15 K     |
-| Einsatz GA          | Eher Industrie      | **GA-Standard**       |
+| Eigenschaft         | PT100                           | PT1000                                    |
+| ------------------- | ------------------------------- | ----------------------------------------- |
+| Widerstand bei 0 °C | 100 Ω                           | 1000 Ω                                    |
+| Kennlinien-Steigung | 0.385 Ω/K                       | 3.85 Ω/K                                  |
+| Empfindlichkeit     | Niedrig                         | 10× höher als PT100                       |
+| Leitungswiderstand  | Kritisch, 2-Draht nur sehr kurz | Klein, mit Kompensation bis rund 50–100 m |
+| Genauigkeit         | Klasse A: ±0.15 K               | Klasse A: ±0.15 K                         |
+| Einsatz GA          | Eher Industrie                  | **GA-Standard**                           |
 
 **Warum PT1000 in der GA?**
-Leitungswiderstand eines 0.5 mm² Kabels: ~36 Ω/100 m. Bei PT100 ergibt das einen Messfehler von ~93 K — untauglich! Bei PT1000 derselbe Widerstand: ~9 K Fehler. Mit 2-Draht und max. 50 m noch vertretbar. Mit Kabeln > 50 m: 4-Draht-Anschluss verwenden.
+Ein Kupferkabel mit 0.5 mm² hat rund 3.6 Ω pro 100 m Ader. Bei 50 m Kabel und 2-Draht-Anschluss liegen Hin- und Rückleiter in Reihe, zusammen 3.6 Ω. Bei PT100 ergibt das einen Fehler von rund 9 K, bei PT1000 von rund 0.9 K. Die meisten DDC können einen festen Leitungswiderstand abziehen. Für lange Leitungen oder hohe Genauigkeit 3- oder 4-Draht-Anschluss verwenden.
 
 **4-Draht-Anschluss (Kelvin):** Messstrom und Spannungsmessung auf getrennten Adern → Leitungswiderstand hat null Einfluss.
 
 ### NTC (Negative Temperature Coefficient)
 
 - Halbleiterwiderstand: Widerstand sinkt mit steigender Temperatur (nichtlinear)
-- Sehr grosse Widerstandsänderung (z.B. 10 kΩ → 1 kΩ bei 25 → 50 °C)
+- Grosse Widerstandsänderung, zum Beispiel NTC 10k: 10 kΩ bei 25 °C, rund 3.6 kΩ bei 50 °C
 - **Typisch:** Einfache Raumfühler, günstige Anwendungen
 - **Nachteil:** Nichtlinear → Linearisierung im DDC nötig; Toleranzen grösser als PT1000
 
@@ -100,11 +100,7 @@ Leitungswiderstand eines 0.5 mm² Kabels: ~36 Ω/100 m. Bei PT100 ergibt das ein
 
 ### Differenzdrucksensor (häufigster GA-Einsatz)
 
-```
-Hochdruckseite ──────┐
-                     ├── [Differenzdruckmembran] → 4-20 mA oder 0-10 V
-Niederdruckseite ────┘
-```
+Die Membran trennt Plus- und Minusseite. Ihre Auslenkung wird elektrisch erfasst und als 0–10 V, 4–20 mA oder über den Bus ausgegeben.
 
 **Typische Anwendungen:**
 
@@ -130,7 +126,7 @@ Niederdruckseite ────┘
 | Eigenschaft    | Wert                                            |
 | -------------- | ----------------------------------------------- |
 | Messmedium     | Leitfähige Flüssigkeit (Heizwasser, Kaltwasser) |
-| Genauigkeit    | ±0.5 % (Klasse 1)                               |
+| Genauigkeit    | ±0.5 % vom Messwert, je nach Gerät              |
 | Druckverlust   | Minimal (kein Einbauelement)                    |
 | Einbaulängen   | 5× DN Vorlauf, 3× DN Nachlauf                   |
 | Ausgangssignal | 4–20 mA, Puls oder Modbus                       |
@@ -151,12 +147,11 @@ Niederdruckseite ────┘
 
 Aus Durchfluss + Temperaturdifferenz:
 
-```
-Q [kW] = V̇ [m³/h] × ρ × cp × ΔT [K] / 3.6
+<p class="formel">Q [kW] = V̇ [m³/h] · ρ [kg/m³] · c<sub>p</sub> [kJ/(kg·K)] · ΔT [K] / 3600</p>
 
-Für Wasser (vereinfacht):
-Q [kW] ≈ V̇ [m³/h] × 1.163 × ΔT [K]
-```
+Für Wasser vereinfacht:
+
+<p class="formel">Q [kW] ≈ 1.163 · V̇ [m³/h] · ΔT [K]</p>
 
 Wärmemengenzähler kombinieren Durchflussmesser + 2 Temperaturfühler + Integrator.
 
@@ -170,11 +165,7 @@ Wärmemengenzähler kombinieren Durchflussmesser + 2 Temperaturfühler + Integra
 
 CO₂-Moleküle absorbieren Infrarotlicht bei 4.26 µm. Sensor vergleicht Transmission durch das Messgas mit einem Referenzpfad:
 
-```
-IR-Quelle → [Messgas-Kammer] → Detektor (4.26 µm Filter)
-         → [Referenz-Kammer] → Detektor
-Verhältnis → CO₂-Konzentration in ppm
-```
+Eine Infrarotquelle durchstrahlt die Messkammer. Ein Detektor hinter einem Filter für 4.26 µm misst, wie viel Licht ankommt. Je mehr CO₂, desto weniger. Gute Sensoren messen zusätzlich bei einer zweiten Wellenlänge, die CO₂ nicht absorbiert, und gleichen so die Alterung der Lichtquelle aus.
 
 ### Kenngrössen
 
@@ -188,18 +179,18 @@ Verhältnis → CO₂-Konzentration in ppm
 
 ### Automatic Background Calibration (ABC)
 
-Viele Sensoren kalibrieren sich automatisch: sie gehen davon aus, dass der niedrigste Wert innerhalb von 14 Tagen der Aussenluft-CO₂-Wert (~420 ppm) entspricht.
+Viele Sensoren kalibrieren sich automatisch: sie gehen davon aus, dass der tiefste Wert über einige Tage, je nach Hersteller 7 bis 14, dem CO₂-Gehalt der Aussenluft entspricht, heute rund 420 ppm.
 
 > Wichtig: ABC-Kalibrierung funktioniert nur wenn das Gebäude regelmässig vollständig gelüftet wird. In Serverräumen oder 24/7-Betrieb ABC deaktivieren oder manuelle Kalibrierung planen.
 
-### Alarm-Grenzwerte (EN 16798)
+### Grenzwerte nach EN 16798-1
 
-| Raumkategorie | Grenzwert (CO₂ über Aussenluft) | Qualität |
-| ------------- | ------------------------------- | -------- |
-| IDA 1         | ≤ 400 ppm (ca. 800 ppm abs.)    | Sehr gut |
-| IDA 2         | ≤ 800 ppm                       | Gut      |
-| IDA 3         | ≤ 1350 ppm                      | Mittel   |
-| IDA 4         | > 1350 ppm                      | Schlecht |
+| Kategorie EN 16798-1 | CO₂ über Aussenluft | Bei 420 ppm aussen, absolut | Qualität |
+| -------------------- | ------------------- | --------------------------- | -------- |
+| I                    | ≤ 550 ppm           | ≈ 970 ppm                   | hoch     |
+| II                   | ≤ 800 ppm           | ≈ 1220 ppm                  | normal   |
+| III                  | ≤ 1350 ppm          | ≈ 1770 ppm                  | mässig   |
+| IV                   | > 1350 ppm          | > 1770 ppm                  | tief     |
 
 ---
 
@@ -226,7 +217,7 @@ Viele Sensoren kalibrieren sich automatisch: sie gehen davon aus, dass der niedr
 | **Kamera/KI**          | Bildanalyse      | Personenzahl, Positionierung | Höherwertige Anwendungen      |
 | **CO₂**                | Indirekt via CO₂ | Belegung (mit Verzögerung)   | Lüftungssteuerung             |
 
-**PIR-Einschränkung:** Erkennt nur Bewegung. Sitzende Person am Schreibtisch → PIR sieht sie nicht nach 10 Minuten! → Licht/Lüftung schaltet ab trotz Belegung.
+**PIR-Einschränkung:** Erkennt nur Bewegung. Präsenzmelder mit PIR sind so empfindlich, dass sie Arbeiten am Schreibtisch meist erkennen. Wer sehr ruhig sitzt oder liest, kann aber nach einigen Minuten verschwinden. Dann schaltet Licht oder Lüftung ab. Nachlaufzeit und Empfindlichkeit richtig einstellen.
 
 **Radar:** Erkennt auch minimale Bewegung (Atemexkursion). Ideal für Büro-Lüftungssteuerung und Bedarfsregelung.
 
@@ -257,9 +248,8 @@ Kombisensoren (T + rF) sind in der Lüftungsregelung Standard.
 ## Normen
 
 - **IEC 60751** — Platin-Widerstandstemperaturfühler (PT100/PT1000)
-- **EN 14511** — Klimaanlagen, Wärmepumpen — Prüfbedingungen
 - **EN ISO 16890** — Luftfilter (Partikelgrössen, Effizienzklassen)
-- **EN 16798-1** — Raumluftkategorien (IDA 1–4), CO₂-Grenzwerte
+- **EN 16798-1** — Raumklima, Kategorien I–IV, CO₂-Werte
 
 <!-- EN -->
 
@@ -273,24 +263,24 @@ Sensors are the sense organs of building automation. Without correct measurement
 
 Both are **resistance temperature detectors** (RTD) made of platinum:
 
-| Property             | PT100              | PT1000                  |
-| -------------------- | ------------------ | ----------------------- |
-| Resistance at 0 °C   | 100 Ω              | 1000 Ω                  |
-| Characteristic slope | 0.385 Ω/K          | 3.85 Ω/K                |
-| Sensitivity          | Low                | 10× higher than PT100   |
-| Cable resistance     | Critical (2-wire!) | Uncritical up to ~100 m |
-| Accuracy             | Class A: ±0.15 K   | Class A: ±0.15 K        |
-| Use in BA            | More industrial    | **BA standard**         |
+| Property             | PT100                            | PT1000                                        |
+| -------------------- | -------------------------------- | --------------------------------------------- |
+| Resistance at 0 °C   | 100 Ω                            | 1000 Ω                                        |
+| Characteristic slope | 0.385 Ω/K                        | 3.85 Ω/K                                      |
+| Sensitivity          | Low                              | 10× higher than PT100                         |
+| Cable resistance     | Critical, 2-wire only very short | Small, with compensation up to about 50–100 m |
+| Accuracy             | Class A: ±0.15 K                 | Class A: ±0.15 K                              |
+| Use in BA            | More industrial                  | **BA standard**                               |
 
 **Why PT1000 in BA?**
-Cable resistance of a 0.5 mm² cable: ~36 Ω/100 m. With PT100 this gives a measurement error of ~93 K — unusable! With PT1000 the same resistance gives ~9 K error. With 2-wire and max. 50 m still acceptable. For cables > 50 m: use 4-wire connection.
+A copper cable of 0.5 mm² has about 3.6 Ω per 100 m of conductor. With 50 m of cable and a 2-wire connection, outgoing and return conductor are in series, together 3.6 Ω. With PT100 this gives an error of about 9 K, with PT1000 about 0.9 K. Most DDCs can subtract a fixed lead resistance. For long cables or high accuracy use a 3- or 4-wire connection.
 
 **4-wire connection (Kelvin):** Measurement current and voltage measurement on separate conductors → cable resistance has zero influence.
 
 ### NTC (Negative Temperature Coefficient)
 
 - Semiconductor resistor: resistance decreases with rising temperature (non-linear)
-- Very large resistance change (e.g. 10 kΩ → 1 kΩ at 25 → 50 °C)
+- Large resistance change, for example NTC 10k: 10 kΩ at 25 °C, about 3.6 kΩ at 50 °C
 - **Typical:** Simple room sensors, low-cost applications
 - **Disadvantage:** Non-linear → linearisation required in DDC; tolerances larger than PT1000
 
@@ -315,11 +305,7 @@ Cable resistance of a 0.5 mm² cable: ~36 Ω/100 m. With PT100 this gives a meas
 
 ### Differential Pressure Sensor (Most Common in BA)
 
-```
-High-pressure side ──────┐
-                         ├── [Differential pressure membrane] → 4–20 mA or 0–10 V
-Low-pressure side ───────┘
-```
+The diaphragm separates the plus and minus side. Its deflection is sensed electrically and output as 0–10 V, 4–20 mA or via the bus.
 
 **Typical applications:**
 
@@ -345,7 +331,7 @@ Low-pressure side ───────┘
 | Property              | Value                                            |
 | --------------------- | ------------------------------------------------ |
 | Measurement medium    | Conductive liquid (heating water, chilled water) |
-| Accuracy              | ±0.5 % (Class 1)                                 |
+| Accuracy              | ±0.5 % of reading, depending on device           |
 | Pressure drop         | Minimal (no insert element)                      |
 | Straight run required | 5× DN upstream, 3× DN downstream                 |
 | Output signal         | 4–20 mA, pulse or Modbus                         |
@@ -366,12 +352,11 @@ Low-pressure side ───────┘
 
 From flow + temperature difference:
 
-```
-Q [kW] = V̇ [m³/h] × ρ × cp × ΔT [K] / 3.6
+<p class="formel">Q [kW] = V̇ [m³/h] · ρ [kg/m³] · c<sub>p</sub> [kJ/(kg·K)] · ΔT [K] / 3600</p>
 
-For water (simplified):
-Q [kW] ≈ V̇ [m³/h] × 1.163 × ΔT [K]
-```
+For water, simplified:
+
+<p class="formel">Q [kW] ≈ 1.163 · V̇ [m³/h] · ΔT [K]</p>
 
 Heat meters combine flow meter + 2 temperature sensors + integrator.
 
@@ -385,11 +370,7 @@ Heat meters combine flow meter + 2 temperature sensors + integrator.
 
 CO₂ molecules absorb infrared light at 4.26 µm. The sensor compares transmission through the measurement gas with a reference path:
 
-```
-IR source → [Measurement gas chamber] → Detector (4.26 µm filter)
-          → [Reference chamber] → Detector
-Ratio → CO₂ concentration in ppm
-```
+An infrared source shines through the measuring chamber. A detector behind a 4.26 µm filter measures how much light arrives. The more CO₂, the less. Good sensors also measure at a second wavelength that CO₂ does not absorb and so compensate for ageing of the light source.
 
 ### Key Parameters
 
@@ -403,18 +384,18 @@ Ratio → CO₂ concentration in ppm
 
 ### Automatic Background Calibration (ABC)
 
-Many sensors self-calibrate: they assume the lowest value within 14 days corresponds to outdoor CO₂ (~420 ppm).
+Many sensors self-calibrate: they assume that the lowest value over several days, 7 to 14 depending on the manufacturer, equals the CO₂ content of outdoor air, today about 420 ppm.
 
 > Important: ABC calibration only works if the building is regularly fully ventilated. In server rooms or 24/7 operation, disable ABC or plan manual calibration.
 
-### Alarm Limits (EN 16798)
+### Limits per EN 16798-1
 
-| Room category | Limit (CO₂ above outdoor)        | Quality   |
-| ------------- | -------------------------------- | --------- |
-| IDA 1         | ≤ 400 ppm (approx. 800 ppm abs.) | Very good |
-| IDA 2         | ≤ 800 ppm                        | Good      |
-| IDA 3         | ≤ 1350 ppm                       | Medium    |
-| IDA 4         | > 1350 ppm                       | Poor      |
+| Category EN 16798-1 | CO₂ above outdoor | At 420 ppm outdoor, absolute | Quality  |
+| ------------------- | ----------------- | ---------------------------- | -------- |
+| I                   | ≤ 550 ppm         | ≈ 970 ppm                    | high     |
+| II                  | ≤ 800 ppm         | ≈ 1220 ppm                   | medium   |
+| III                 | ≤ 1350 ppm        | ≈ 1770 ppm                   | moderate |
+| IV                  | > 1350 ppm        | > 1770 ppm                   | low      |
 
 ---
 
@@ -441,7 +422,7 @@ Many sensors self-calibrate: they assume the lowest value within 14 days corresp
 | **Camera / AI**       | Image analysis      | Occupant count, positioning | Higher-value applications     |
 | **CO₂**               | Indirect via CO₂    | Occupancy (with delay)      | Ventilation control           |
 
-**PIR limitation:** Detects movement only. Seated person at desk → PIR loses detection after ~10 minutes! → Lighting/ventilation turns off despite occupancy.
+**PIR limitation:** detects movement only. PIR presence detectors are sensitive enough to detect desk work in most cases. Someone sitting very still or reading can disappear after a few minutes, though. Then lighting or ventilation switches off. Set hold time and sensitivity correctly.
 
 **Radar:** Detects even minimal movement (breathing excursion). Ideal for office ventilation control and demand-based regulation.
 
@@ -472,6 +453,5 @@ Combination sensors (T + RH) are standard in ventilation control.
 ## Standards
 
 - **IEC 60751** — Platinum resistance temperature sensors (PT100/PT1000)
-- **EN 14511** — Air conditioners, heat pumps — test conditions
 - **EN ISO 16890** — Air filters (particle sizes, efficiency classes)
-- **EN 16798-1** — Indoor air quality categories (IDA 1–4), CO₂ limits
+- **EN 16798-1** — Indoor environment, categories I–IV, CO₂ values

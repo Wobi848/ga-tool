@@ -38,7 +38,7 @@ In der GA gibt es im Wesentlichen drei Fühler-Familien für Temperatur. Welche 
 
 - 2-Draht-Anschluss (für lange Leitungen 3- oder 4-Draht)
 - **Verpolungsunabhängig** — ein Widerstand hat keine Polarität
-- Normen: **DIN EN 60751** (Platin), historisch **DIN 43760** (Nickel, 1987 zurückgezogen, aber in der GA weiterhin die Default-Referenz)
+- Normen: **DIN EN 60751** (Platin), für Nickel **DIN 43760** (zurückgezogen, die Kennlinie wird in der GA aber weiter verwendet)
 - DDC misst direkt den Widerstand und rechnet über die hinterlegte Kennlinie auf °C
 
 | Typ    | 0 °C   | 100 °C   | Empfindlichkeit | Kennlinie          |
@@ -54,7 +54,7 @@ In der GA gibt es im Wesentlichen drei Fühler-Familien für Temperatur. Welche 
 | TK6180 (klassisch) | DIN 43760     | ≈ 1617 Ω | GA-Standard                 |
 | TK5000 (Landis)    | LG-Ni1000     | ≈ 1500 Ω | Landis & Staefa / Honeywell |
 
-Falsche Variante in der DDC eingestellt → Messfehler bis ca. 10 K bei 100 °C. **Immer im Datenblatt des Fühlers prüfen**, welche TK-Variante verbaut ist.
+Falsche Variante in der DDC eingestellt → Messfehler von rund 2 K bei 20 °C und rund 20 K bei 100 °C. **Immer im Datenblatt des Fühlers prüfen**, welche TK-Variante verbaut ist.
 
 **NI1000 vs PT1000:** NI1000 hat fast doppelte Empfindlichkeit (6.18 vs 3.85 Ω/K), ist aber leicht nichtlinear — über breite Bereiche (z.B. 0–150 °C) lohnt sich Linearisierung per Polynom Grad 2. Den Polynom-Fit-Rechner gibt's unter [/rechner/polynom-fit](/rechner/polynom-fit) — siehe auch [Polynom-Approximation](/wissen/polynom-approximation).
 
@@ -78,11 +78,9 @@ Statt eines Widerstands gibt der Fühler eine Spannung aus, die proportional zur
 
 ### Umrechnung
 
-```
-°C = Spannung × 100 − 273
+<p class="formel">θ [°C] = U [V] × 100 − 273</p>
 
 Beispiel: 2.93 V × 100 − 273 = 20 °C
-```
 
 (Mathematisch sauber: −273.15. In der GA-Praxis macht der Unterschied <0.2 K aus und wird üblicherweise weggelassen.)
 
@@ -145,7 +143,7 @@ In BA there are essentially three sensor families for temperature. Which family 
 
 - 2-wire connection (3- or 4-wire for long cable runs)
 - **Polarity-independent** — a resistor has no polarity
-- Standards: **DIN EN 60751** (platinum), historically **DIN 43760** (nickel, withdrawn in 1987 but still the default reference in BA)
+- Standards: **DIN EN 60751** (platinum), for nickel **DIN 43760** (withdrawn, but the characteristic is still used in BA)
 - The DDC measures the resistance directly and converts it to °C using the stored characteristic curve
 
 | Type   | 0 °C   | 100 °C   | Sensitivity | Characteristic      |
@@ -161,7 +159,7 @@ In BA there are essentially three sensor families for temperature. Which family 
 | TK6180 (classic) | DIN 43760 | ≈ 1617 Ω | BA standard                 |
 | TK5000 (Landis)  | LG-Ni1000 | ≈ 1500 Ω | Landis & Staefa / Honeywell |
 
-Setting the wrong variant in the DDC causes measurement errors of up to roughly 10 K at 100 °C. **Always check the sensor datasheet** for the TK variant actually installed.
+Setting the wrong variant in the DDC causes measurement errors of about 2 K at 20 °C and about 20 K at 100 °C. **Always check the sensor datasheet** for the TK variant actually installed.
 
 **NI1000 vs PT1000:** NI1000 has almost twice the sensitivity (6.18 vs 3.85 Ω/K) but is slightly non-linear — across wide ranges (e.g. 0–150 °C) a second-order polynomial linearisation pays off. The polynomial fit calculator is at [/rechner/polynom-fit](/rechner/polynom-fit) — see also [Polynomial Approximation](/wissen/polynom-approximation).
 
@@ -185,11 +183,9 @@ Instead of a resistance, the sensor outputs a voltage proportional to the **abso
 
 ### Conversion
 
-```
-°C = voltage × 100 − 273
+<p class="formel">θ [°C] = U [V] × 100 − 273</p>
 
 Example: 2.93 V × 100 − 273 = 20 °C
-```
 
 (Strictly it is −273.15. In everyday BA work the difference is below 0.2 K and is usually dropped.)
 

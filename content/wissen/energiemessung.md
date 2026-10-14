@@ -132,7 +132,7 @@ THD = Total Harmonic Distortion (Gesamtklirr)
 
 ---
 
-## Zählertypen und Messgrößen
+## Zählertypen und Messgrössen
 
 ### Moderne elektronische Zähler (MID-konform)
 

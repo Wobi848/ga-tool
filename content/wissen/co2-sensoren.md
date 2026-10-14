@@ -28,7 +28,7 @@ difficulty: grundlagen
 area: [ga, hlk]
 related: [raumluftqualitaet, vav-cav, sensoren, befeuchter, druckregelung-lueftung, rlt-anlage]
 rechner: []
-norm: [EN 16798-1, EN 13779, VDI 6022, ASHRAE 62.1, DIN EN ISO 16000-26]
+norm: [EN 16798-1, EN 16798-3, ASHRAE 62.1, EN ISO 16000-26]
 updated: 2026-05-15
 lang: de
 ---
@@ -43,12 +43,7 @@ CO₂-Konzentration ist der wichtigste Indikator für die **Raumluftqualität** 
 
 Das Messprinzip aller gängigen CO₂-Raumsensoren:
 
-```
-IR-Quelle → [Messküvette mit Luft] → Schmalbandfilter → IR-Detektor
-                    │
-           CO₂ absorbiert IR bei 4,26 µm
-           Absorption ∝ CO₂-Konzentration
-```
+Die Infrarotquelle durchstrahlt die Messküvette. CO₂ absorbiert bei 4.26 µm, und je mehr CO₂ in der Luft ist, desto weniger Licht kommt beim Detektor an.
 
 1. IR-Quelle emittiert breitbandiges Infrarotlicht
 2. Gas-Probe in Messküvette: CO₂ absorbiert einen Teil der IR-Strahlung bei 4,26 µm
@@ -62,17 +57,19 @@ IR-Quelle → [Messküvette mit Luft] → Schmalbandfilter → IR-Detektor
 
 ## Grenzwerte und Richtwerte
 
-| CO₂-Konzentration | Bewertung                                               |
-| ----------------- | ------------------------------------------------------- |
-| 400–450 ppm       | Aussenluft (aktuell ~420 ppm global)                    |
-| 450–800 ppm       | Sehr gute Raumluft                                      |
-| 800–1000 ppm      | Gute Raumluft (Komfortkategorie II nach EN 16798)       |
-| 1000–1400 ppm     | Mässige Raumluft (Kategorie III)                        |
-| **> 1000 ppm**    | **Pettenkofer-Grenzwert** — Lüftungserhöhung empfohlen  |
-| 1400–2000 ppm     | Schlechte Raumluft, Konzentrationsprobleme              |
-| > 5000 ppm        | MAK-Wert (Arbeitsplatz) — technische Massnahmen Pflicht |
+| CO₂-Konzentration | Bewertung                                                      |
+| ----------------- | -------------------------------------------------------------- |
+| rund 420 ppm      | Aussenluft                                                     |
+| bis ≈ 970 ppm     | Kategorie I nach EN 16798-1 (≤ 550 ppm über aussen)            |
+| bis ≈ 1220 ppm    | Kategorie II (≤ 800 ppm über aussen), normaler Neubau          |
+| bis ≈ 1770 ppm    | Kategorie III (≤ 1350 ppm über aussen)                         |
+| 1000 ppm          | **Pettenkofer-Zahl**, historischer Richtwert für gute Raumluft |
+| über 2000 ppm     | deutlich schlechte Luft, Müdigkeit und Konzentrationsprobleme  |
+| 5000 ppm          | MAK-Wert am Arbeitsplatz (Suva)                                |
 
-**GA-Sollwert:** 800–1000 ppm → aktiviert höhere Lüftungsstufe (Kategorie II nach EN 16798-1).
+Die absoluten Werte gelten für rund 420 ppm Aussenluft. EN 16798-1 rechnet immer mit der Differenz zur Aussenluft.
+
+**GA-Sollwert:** In Büros meist 800 bis 1000 ppm als Beginn der Erhöhung, damit Kategorie II sicher eingehalten wird.
 
 ---
 
@@ -114,14 +111,14 @@ Sensor für 20 min frischer Aussenluft (ohne direkten Atemzug) aussetzen, dann N
 
 ## Bedarfsgeführte Lüftung (Demand Controlled Ventilation, DCV)
 
-```
-CO₂-Sensor (Raum) → DDC → VAV-Klappenantrieb → Luftmenge
-     │                │
- 800 ppm           Klappe 20% (Grundlüftung)
-1000 ppm           Klappe 50%
-1200 ppm           Klappe 80%
-1500 ppm           Klappe 100% + Alarm
-```
+| CO₂ im Raum   | Volumenstrom                      |
+| ------------- | --------------------------------- |
+| unter 800 ppm | Mindestvolumenstrom, Grundlüftung |
+| 800–1200 ppm  | stetig ansteigend                 |
+| über 1200 ppm | Maximalvolumenstrom               |
+| über 1500 ppm | zusätzlich Meldung an die GLT     |
+
+Stetige Regelung zwischen zwei Schwellen ist ruhiger als feste Stufen. Die Werte sind Beispiele; sie folgen aus der geforderten Kategorie.
 
 **Energiesparpotenzial DCV gegenüber Konstantlüftung:** 30–60% Ventilator-Energieeinsparung in teilbelegten Räumen (Büros, Konferenzräume).
 
@@ -133,7 +130,7 @@ CO₂-Sensor (Raum) → DDC → VAV-Klappenantrieb → Luftmenge
 
 - Grenzwert-Alarme (Warnung 1000 ppm, Alarm 1500 ppm)
 - Regelkreis CO₂ → Zuluftvolumenstrom
-- Trending (Historisierung für Betriebsoptimierung und Nachweise VDI 6022)
+- Trending (Historisierung für Betriebsoptimierung und als Nachweis der Raumluftqualität)
 - Stufenlose oder mehrstufige Volumenstromregelung
 
 **Ausgangssignale Sensor:**
@@ -163,12 +160,7 @@ CO₂ concentration is the most important indicator of **indoor air quality** in
 
 The measurement principle used by all common CO₂ room sensors:
 
-```
-IR source → [measurement cell with air] → narrowband filter → IR detector
-                    │
-           CO₂ absorbs IR at 4.26 µm
-           Absorption ∝ CO₂ concentration
-```
+The infrared source shines through the measuring cell. CO₂ absorbs at 4.26 µm, and the more CO₂ in the air, the less light reaches the detector.
 
 1. IR source emits broadband infrared light
 2. Gas sample in measurement cell: CO₂ absorbs part of the IR at 4.26 µm
@@ -182,17 +174,19 @@ IR source → [measurement cell with air] → narrowband filter → IR detector
 
 ## Threshold and Reference Values
 
-| CO₂ concentration | Assessment                                                    |
-| ----------------- | ------------------------------------------------------------- |
-| 400–450 ppm       | Outdoor air (~420 ppm globally)                               |
-| 450–800 ppm       | Excellent indoor air quality                                  |
-| 800–1000 ppm      | Good indoor air (category II per EN 16798)                    |
-| 1000–1400 ppm     | Moderate indoor air (category III)                            |
-| **> 1000 ppm**    | **Pettenkofer threshold** — increased ventilation recommended |
-| 1400–2000 ppm     | Poor air quality, concentration problems                      |
-| > 5000 ppm        | OEL (workplace limit) — technical measures mandatory          |
+| CO₂ concentration | Assessment                                                  |
+| ----------------- | ----------------------------------------------------------- |
+| about 420 ppm     | outdoor air                                                 |
+| up to ≈ 970 ppm   | category I per EN 16798-1 (≤ 550 ppm above outdoor)         |
+| up to ≈ 1220 ppm  | category II (≤ 800 ppm above outdoor), normal new building  |
+| up to ≈ 1770 ppm  | category III (≤ 1350 ppm above outdoor)                     |
+| 1000 ppm          | **Pettenkofer number**, historical guide value for good air |
+| above 2000 ppm    | clearly poor air, tiredness and concentration problems      |
+| 5000 ppm          | occupational exposure limit (Switzerland: Suva MAK)         |
 
-**BA setpoint:** 800–1000 ppm → activates higher ventilation stage (category II per EN 16798-1).
+The absolute values apply to about 420 ppm outdoor air. EN 16798-1 always works with the difference to outdoor air.
+
+**BA setpoint:** in offices usually 800 to 1000 ppm as the start of the increase, so that category II is safely met.
 
 ---
 
@@ -234,14 +228,14 @@ Expose sensor to fresh outdoor air for 20 min (not directly in a breath stream),
 
 ## Demand Controlled Ventilation (DCV)
 
-```
-CO₂ sensor (room) → DDC → VAV damper actuator → air volume
-     │                │
- 800 ppm           Damper 20% (base ventilation)
-1000 ppm           Damper 50%
-1200 ppm           Damper 80%
-1500 ppm           Damper 100% + alarm
-```
+| CO₂ in room    | Air flow                       |
+| -------------- | ------------------------------ |
+| below 800 ppm  | minimum flow, base ventilation |
+| 800–1200 ppm   | rising continuously            |
+| above 1200 ppm | maximum flow                   |
+| above 1500 ppm | additional message to the BMS  |
+
+Modulating control between two thresholds is calmer than fixed stages. The values are examples; they follow from the required category.
 
 **Energy savings potential DCV vs. constant volume:** 30–60% fan energy reduction in partially occupied spaces (offices, conference rooms).
 
@@ -253,7 +247,7 @@ CO₂ sensor (room) → DDC → VAV damper actuator → air volume
 
 - Threshold alarms (warning 1000 ppm, alarm 1500 ppm)
 - Control loop CO₂ → supply air volume flow
-- Trending (historisation for operational optimisation and VDI 6022 records)
+- Trending (historisation for operational optimisation and as proof of indoor air quality)
 - Continuous or multi-stage volume flow control
 
 **Sensor output signals:**

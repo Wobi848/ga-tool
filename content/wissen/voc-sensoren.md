@@ -26,8 +26,8 @@ difficulty: grundlagen
 area: [ga, hlk]
 related: [raumluftqualitaet, co2-sensoren, sensoren, rlt-anlage, vav-cav]
 rechner: []
-norm: [EN 16798-1, EN ISO 16000-series, WHO Guidelines for Indoor Air Quality]
-updated: 2026-05-15
+norm: [EN 16798-1, EN ISO 16000-6, UBA-Richtwerte TVOC]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -41,14 +41,14 @@ lang: de
 
 VOC-Sensoren messen **keine einzelne Substanz**, sondern einen **Summenparameter** (TVOC = Total VOC). Je nach Sensortechnologie reagieren sie auf unterschiedliche Substanzgruppen:
 
-| Substanzgruppe           | Quellen                        | Sensor-Empfindlichkeit |
-| ------------------------ | ------------------------------ | ---------------------- |
-| Alkohole                 | Desinfektionsmittel, Kosmetik  | Sehr hoch              |
-| Aldehyde                 | Formaldehyd (Möbel, Farben)    | Mittel                 |
-| Aromaten                 | Lösungsmittel, Farben, Benzol  | Hoch                   |
-| Ketone                   | Aceton (Nagellack, Klebstoffe) | Hoch                   |
-| Terpene                  | Reinigungsmittel, Holz         | Hoch                   |
-| Körperodor / Bioefluente | Schweiß, Atemluft              | Mittel                 |
+| Substanzgruppe              | Quellen                        | Sensor-Empfindlichkeit |
+| --------------------------- | ------------------------------ | ---------------------- |
+| Alkohole                    | Desinfektionsmittel, Kosmetik  | Sehr hoch              |
+| Aldehyde                    | Formaldehyd (Möbel, Farben)    | Mittel                 |
+| Aromaten                    | Lösungsmittel, Farben, Benzol  | Hoch                   |
+| Ketone                      | Aceton (Nagellack, Klebstoffe) | Hoch                   |
+| Terpene                     | Reinigungsmittel, Holz         | Hoch                   |
+| Körpergeruch, Bioeffluenten | Schweiss, Atemluft             | Mittel                 |
 
 **Was VOC-Sensoren NICHT messen:** CO₂ (wird separat gemessen), Partikel, Radon, einzelne Schadstoffe in definierten Konzentrationen.
 
@@ -58,15 +58,7 @@ VOC-Sensoren messen **keine einzelne Substanz**, sondern einen **Summenparameter
 
 Das häufigste Messprinzip in GA-Sensoren:
 
-```
-Heizelement (150–400°C)
-     │
-Metalloxid-Schicht (SnO₂, ZnO, WO₃)
-     │
-VOC-Moleküle reagieren mit Sauerstoff an der Oberfläche
-→ Elektrischer Widerstand ändert sich
-→ R ∝ 1 / VOC-Konzentration
-```
+Ein Heizelement hält eine Metalloxidschicht, etwa Zinndioxid, auf 150 bis 400 °C. VOC-Moleküle reagieren an der Oberfläche mit Sauerstoff, und der elektrische Widerstand der Schicht sinkt. Je mehr VOC, desto tiefer der Widerstand.
 
 **Eigenschaften:**
 
@@ -95,14 +87,17 @@ VOC-Moleküle reagieren mit Sauerstoff an der Oberfläche
 
 ---
 
-## TVOC-Richtwerte (WHO / Agroscope)
+## TVOC-Richtwerte (Umweltbundesamt)
 
-| TVOC-Konzentration | Bewertung                                         |
-| ------------------ | ------------------------------------------------- |
-| < 200 µg/m³        | Keine Auffälligkeiten                             |
-| 200–1000 µg/m³     | Einige Stoffe grenzwertig, Lüftung empfehlenswert |
-| 1000–3000 µg/m³    | Unbehagen, Reizungen möglich                      |
-| > 3000 µg/m³       | Starke Beschwerden, sofort lüften                 |
+Die gängigen Stufen stammen vom deutschen Umweltbundesamt (UBA).
+
+| Stufe | TVOC             | Bewertung                                           |
+| ----- | ---------------- | --------------------------------------------------- |
+| 1     | ≤ 300 µg/m³      | hygienisch unbedenklich, Zielwert                   |
+| 2     | 300–1000 µg/m³   | noch unbedenklich, wenn keine Einzelwerte auffallen |
+| 3     | 1000–3000 µg/m³  | hygienisch auffällig, mehr lüften, Quelle suchen    |
+| 4     | 3000–10000 µg/m³ | hygienisch bedenklich, nur befristet hinnehmbar     |
+| 5     | > 10000 µg/m³    | inakzeptabel                                        |
 
 **Praxishinweis:** TVOC-Werte sind nur eingeschränkt vergleichbar, da verschiedene Sensoren unterschiedlich kalibriert sind. Relative Änderungen (Trend) sind aussagekräftiger als Absolutwerte.
 
@@ -112,22 +107,19 @@ VOC-Moleküle reagieren mit Sauerstoff an der Oberfläche
 
 ### Bedarfsgeführte Lüftung mit VOC
 
-```
-VOC-Index > 150 (auf Skala 0–500):
-    → Lüftungsstufe erhöhen
-VOC-Index > 300:
-    → Maximale Lüftung
-VOC-Index < 50:
-    → Minimale Lüftung (Grundlüftung)
-```
+| VOC-Index (Skala bis 500) | Lüftung           |
+| ------------------------- | ----------------- |
+| unter 100                 | Grundlüftung      |
+| 100–300                   | stetig ansteigend |
+| über 300                  | Maximum           |
+
+Die Schwellen sind Beispiele. Beim VOC-Index von Sensirion bedeutet 100 den Durchschnitt der letzten Tage, höhere Werte eine Verschlechterung.
 
 Sensoren wie **Sensirion SGP41** oder **Bosch BME680** liefern einen normierten IAQ-Index (0–500) statt absoluten ppb-Werten — praktischer für die DDC-Programmierung.
 
 ### Kombination CO₂ + VOC (Maximum-Auswahl)
 
-```
-Lüftungsstufe = max(f(CO₂_ppm), f(VOC_Index))
-```
+<p class="formel">Lüftung = max(f(CO<sub>2</sub>), f(VOC))</p>
 
 Lüftung reagiert auf beide Indikatoren, der höhere Bedarf gewinnt.
 
@@ -135,27 +127,27 @@ Lüftung reagiert auf beide Indikatoren, der höhere Bedarf gewinnt.
 
 ## Typische Einsatzbereiche in der GA
 
-| Anwendung                  | Vorteil VOC                                       |
-| -------------------------- | ------------------------------------------------- |
-| Küchen / Kantinen          | Kochgerüche, Fettemissionen erkennbar             |
-| Sanitärräume               | Geruchssteuerung, Schaltet bei Nutzung            |
-| Fitnessstudios             | Körperodor + hohe Personenzahl                    |
-| Neue Gebäude / Renovierung | Materialausdünstungen (Farben, Kleber) überwachen |
-| Tiefgaragen                | CO-Sensor besser, VOC ergänzend                   |
-| Serverräume                | Branderkennung (Schwelbrände erzeugen VOC)        |
+| Anwendung                  | Vorteil VOC                                                                               |
+| -------------------------- | ----------------------------------------------------------------------------------------- |
+| Küchen / Kantinen          | Kochgerüche, Fettemissionen erkennbar                                                     |
+| Sanitärräume               | Geruchssteuerung, Schaltet bei Nutzung                                                    |
+| Fitnessstudios             | Körperodor + hohe Personenzahl                                                            |
+| Neue Gebäude / Renovierung | Materialausdünstungen (Farben, Kleber) überwachen                                         |
+| Tiefgaragen                | CO-Sensor besser, VOC ergänzend                                                           |
+| Serverräume                | Hinweis auf Überhitzung oder Schwelbrand, aber **kein Ersatz für Brandmelder** nach EN 54 |
 
 ---
 
 ## Bekannte Sensorfamilien (GA-relevant)
 
-| Hersteller            | Sensor        | Schnittstelle                  |
-| --------------------- | ------------- | ------------------------------ |
-| Sensirion             | SGP40/SGP41   | I²C (integriert in Raumgeräte) |
-| Bosch                 | BME680/BME688 | I²C/SPI                        |
-| Renesas (IDT)         | ZMOD4410      | I²C                            |
-| Größere GA-Hersteller | Eigene Module | 0–10V, Modbus                  |
+| Hersteller    | Sensor        | Schnittstelle                  |
+| ------------- | ------------- | ------------------------------ |
+| Sensirion     | SGP40/SGP41   | I²C (integriert in Raumgeräte) |
+| Bosch         | BME680/BME688 | I²C/SPI                        |
+| Renesas (IDT) | ZMOD4410      | I²C                            |
+| GA-Hersteller | Eigene Module | 0–10 V, Modbus                 |
 
-Raumsensoren von Siemens, Belimo, Thermokon, Elsner enthalten häufig MOX-Chips dieser Hersteller in einem wetterfest gekapselten Gehäuse.
+Die VOC-Raumfühler der GA-Hersteller enthalten meist solche MOX-Chips und geben das Signal als 0–10 V oder über den Bus aus.
 
 <!-- EN -->
 
@@ -184,15 +176,7 @@ VOC sensors do **not measure a single substance**, but a **combined parameter** 
 
 The most common measurement principle in BA sensors:
 
-```
-Heating element (150–400 °C)
-     │
-Metal oxide layer (SnO₂, ZnO, WO₃)
-     │
-VOC molecules react with oxygen at the surface
-→ Electrical resistance changes
-→ R ∝ 1 / VOC concentration
-```
+A heater keeps a metal oxide layer, such as tin dioxide, at 150 to 400 °C. VOC molecules react with oxygen at the surface and the electrical resistance of the layer falls. The more VOC, the lower the resistance.
 
 **Properties:**
 
@@ -221,14 +205,17 @@ VOC molecules react with oxygen at the surface
 
 ---
 
-## TVOC Reference Values (WHO / Agroscope)
+## TVOC Reference Values (German Environment Agency)
 
-| TVOC concentration | Assessment                                          |
-| ------------------ | --------------------------------------------------- |
-| < 200 µg/m³        | No concerns                                         |
-| 200–1,000 µg/m³    | Some substances near limit, ventilation recommended |
-| 1,000–3,000 µg/m³  | Discomfort, irritation possible                     |
-| > 3,000 µg/m³      | Severe complaints, ventilate immediately            |
+The common levels come from the German Environment Agency (UBA).
+
+| Level | TVOC             | Assessment                                           |
+| ----- | ---------------- | ---------------------------------------------------- |
+| 1     | ≤ 300 µg/m³      | hygienically harmless, target value                  |
+| 2     | 300–1000 µg/m³   | still harmless if no single substance stands out     |
+| 3     | 1000–3000 µg/m³  | hygienically noticeable, ventilate more, find source |
+| 4     | 3000–10000 µg/m³ | hygienically concerning, acceptable only temporarily |
+| 5     | > 10000 µg/m³    | unacceptable                                         |
 
 **Practical note:** TVOC values are only partly comparable, as different sensors are calibrated differently. Relative changes (trend) are more meaningful than absolute values.
 
@@ -238,22 +225,19 @@ VOC molecules react with oxygen at the surface
 
 ### Demand-Controlled Ventilation with VOC
 
-```
-VOC index > 150 (on scale 0–500):
-    → Increase ventilation level
-VOC index > 300:
-    → Maximum ventilation
-VOC index < 50:
-    → Minimum ventilation (base rate)
-```
+| VOC index (scale up to 500) | Ventilation         |
+| --------------------------- | ------------------- |
+| below 100                   | base ventilation    |
+| 100–300                     | rising continuously |
+| above 300                   | maximum             |
+
+The thresholds are examples. With the Sensirion VOC index, 100 means the average of recent days, higher values a deterioration.
 
 Sensors such as the **Sensirion SGP41** or **Bosch BME680** provide a normalised IAQ index (0–500) instead of absolute ppb values — more practical for DDC programming.
 
 ### CO₂ + VOC Combination (Maximum Selection)
 
-```
-Ventilation level = max(f(CO₂_ppm), f(VOC_index))
-```
+<p class="formel">ventilation = max(f(CO<sub>2</sub>), f(VOC))</p>
 
 Ventilation responds to both indicators; the higher demand wins.
 
@@ -261,24 +245,24 @@ Ventilation responds to both indicators; the higher demand wins.
 
 ## Typical Applications in BA
 
-| Application                 | VOC advantage                                        |
-| --------------------------- | ---------------------------------------------------- |
-| Kitchens / canteens         | Cooking odours and fat emissions detectable          |
-| Sanitary rooms              | Odour control, activates on occupancy                |
-| Gyms                        | Body odour + high occupancy                          |
-| New buildings / renovations | Monitor off-gassing of materials (paints, adhesives) |
-| Car parks                   | CO sensor preferred, VOC supplementary               |
-| Server rooms                | Smouldering fire detection (produces VOC)            |
+| Application                 | VOC advantage                                                                          |
+| --------------------------- | -------------------------------------------------------------------------------------- |
+| Kitchens / canteens         | Cooking odours and fat emissions detectable                                            |
+| Sanitary rooms              | Odour control, activates on occupancy                                                  |
+| Gyms                        | Body odour + high occupancy                                                            |
+| New buildings / renovations | Monitor off-gassing of materials (paints, adhesives)                                   |
+| Car parks                   | CO sensor preferred, VOC supplementary                                                 |
+| Server rooms                | hint of overheating or smouldering, but **no substitute for fire detectors** per EN 54 |
 
 ---
 
 ## Common Sensor Families (BA-Relevant)
 
-| Manufacturer           | Sensor        | Interface                          |
-| ---------------------- | ------------- | ---------------------------------- |
-| Sensirion              | SGP40/SGP41   | I²C (integrated into room devices) |
-| Bosch                  | BME680/BME688 | I²C/SPI                            |
-| Renesas (IDT)          | ZMOD4410      | I²C                                |
-| Major BA manufacturers | Own modules   | 0–10 V, Modbus                     |
+| Manufacturer     | Sensor        | Interface                          |
+| ---------------- | ------------- | ---------------------------------- |
+| Sensirion        | SGP40/SGP41   | I²C (integrated into room devices) |
+| Bosch            | BME680/BME688 | I²C/SPI                            |
+| Renesas (IDT)    | ZMOD4410      | I²C                                |
+| BA manufacturers | Own modules   | 0–10 V, Modbus                     |
 
-Room sensors from Siemens, Belimo, Thermokon, and Elsner frequently contain MOX chips from these manufacturers in a weatherproof enclosure.
+VOC room sensors from BA manufacturers usually contain such MOX chips and output the signal as 0–10 V or via the bus.
