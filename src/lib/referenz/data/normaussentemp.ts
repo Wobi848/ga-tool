@@ -54,7 +54,7 @@ export const normaussentemp: ReferenceTable = {
 		{ ort: 'Zürich', kanton: 'ZH', temp: -8, altitude: 408 }
 	],
 	notes:
-		'Richtwerte zur Orientierung. Für die Heizlast nach SIA 384.201 gelten die Klimadaten der nächstgelegenen Station aus SIA 2028. Für Standorte dazwischen grob mit etwa 0.5 K pro 100 m Höhendifferenz korrigieren.',
+		'Richtwerte zur Orientierung. Für die Heizlast nach SIA 384.201 gelten die Klimadaten der nächstgelegenen Station aus SIA 2028. Ergänzend gibt es SIA 4028 mit Klimadaten, die auch künftige Szenarien abbilden (MeteoSchweiz). Für Standorte dazwischen grob mit etwa 0.5 K pro 100 m Höhendifferenz korrigieren.',
 	notes_en:
-		'Guide values for orientation. For the heating load per SIA 384.201 the climate data of the nearest station from SIA 2028 apply. For locations in between, correct roughly by about 0.5 K per 100 m altitude difference.'
+		'Guide values for orientation. For the heating load per SIA 384.201 the climate data of the nearest station from SIA 2028 apply. In addition there is SIA 4028 with climate data that also covers future scenarios (MeteoSwiss). For locations in between, correct roughly by about 0.5 K per 100 m altitude difference.'
 };

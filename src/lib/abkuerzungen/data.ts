@@ -78,8 +78,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'BACS',
 		long: 'Building Automation and Control System',
-		description: 'EN-Begriff für GA-System. Klassifikation nach EN 15232 (Energieeffizienz A–D).',
-		descriptionEn: 'EN term for BA system. Classification per EN 15232 (energy efficiency A–D).',
+		description:
+			'EN-Begriff für GA-System. Effizienzklassen A–D nach EN ISO 52120-1, früher EN 15232.',
+		descriptionEn:
+			'EN term for BA system. Efficiency classes A–D per EN ISO 52120-1, formerly EN 15232.',
 		areas: ['ga', 'normen'],
 		related: ['GLT', 'BMS']
 	},
@@ -287,9 +289,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'TWW',
 		long: 'Trinkwarmwasser',
 		description:
-			'Erwärmtes Trinkwasser für Dusche, Bad, Küche. Legionellenschutz nötig (> 60 °C im Speicher).',
+			'Erwärmtes Trinkwasser für Dusche, Bad, Küche. Legionellenschutz: Speicher ≥ 60 °C, warmgehaltene Leitungen ≥ 55 °C (SIA 385/1).',
 		descriptionEn:
-			'Heated drinking water for shower, bath, kitchen. Legionella protection required (> 60 °C in storage).',
+			'Heated drinking water for shower, bath, kitchen. Legionella protection: storage ≥ 60 °C, kept-warm pipes ≥ 55 °C (SIA 385/1).',
 		areas: ['sanitaer', 'hlk'],
 		related: ['BWW', 'WW', 'DHW']
 	},
@@ -320,9 +322,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'MAG',
 		long: 'Membran-Ausdehnungsgefäss',
-		description: 'Druckhaltung für geschlossene Heizungs-/Kühlsysteme. Auslegung nach SWKI 91-1.',
+		description:
+			'Druckhaltung für geschlossene Heizungs- und Kühlsysteme. Vordruck und Volumen nach Anlage und Herstellerangabe.',
 		descriptionEn:
-			'Pressure maintenance vessel for closed heating/cooling systems. Sizing per SWKI 91-1.',
+			'Pressure maintenance for closed heating and cooling systems. Pre-charge and volume per system and manufacturer data.',
 		areas: ['hlk'],
 		related: []
 	},
@@ -388,8 +391,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'JAZ',
 		long: 'Jahresarbeitszahl',
-		description: 'Jahres-Mittel des COP. Realistische Bewertung einer Wärmepumpe.',
-		descriptionEn: 'Annual average of COP. Realistic assessment of a heat pump over a full year.',
+		description:
+			'Verhältnis der über ein Jahr abgegebenen Wärme zum aufgenommenen Strom, gemessen. Realistische Bewertung einer Wärmepumpe.',
+		descriptionEn:
+			'Ratio of heat delivered over a year to electricity used, measured. Realistic assessment of a heat pump.',
 		areas: ['hlk'],
 		related: ['COP', 'WP', 'SCOP']
 	},
@@ -431,8 +436,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'HG',
 		long: 'Heizgrenze',
-		description: 'Aussentemperatur, oberhalb der die Heizung abschaltet. Typisch 15–18 °C.',
-		descriptionEn: 'Outdoor temperature above which heating switches off. Typically 15–18 °C.',
+		description:
+			'Aussentemperatur, oberhalb der nicht mehr geheizt wird. In der Schweiz für Gradtage 12 °C, in gut gedämmten Gebäuden oft tiefer.',
+		descriptionEn:
+			'Outdoor temperature above which no heating is needed. In Switzerland 12 °C for degree days, often lower in well-insulated buildings.',
 		areas: ['hlk'],
 		related: ['HK-Charakteristik'],
 		wissenSlug: 'heizkurve'
@@ -495,9 +502,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'KWL',
 		long: 'Kontrollierte Wohnraumlüftung',
 		description:
-			'Dezentrale Lüftungsanlage mit WRG für Wohngebäude — typisch mit Gegen- oder Kreuzstromtauscher.',
+			'Komfortlüftung für Wohnungen mit WRG, zentral oder dezentral — typisch mit Gegen- oder Kreuzstromtauscher.',
 		descriptionEn:
-			'Decentralised ventilation with HRV for residential buildings — typically with counter- or cross-flow heat exchanger.',
+			'Comfort ventilation for dwellings with heat recovery, central or decentralised — typically with counter- or cross-flow heat exchanger.',
 		areas: ['hlk'],
 		related: ['RLT', 'WRG', 'ERV']
 	},
@@ -525,9 +532,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'SFP',
 		long: 'Specific Fan Power',
 		description:
-			'Spezifische Ventilatorleistung [W/(m³/h) oder W/(l/s)]. Effizienz-Kennzahl für RLT-Anlagen nach EN 13779 / SWKI.',
+			'Spezifische Ventilatorleistung [W/(m³/h) oder W/(l/s)]. Effizienz-Kennzahl für RLT-Anlagen nach EN 16798-3 und SIA 382/1.',
 		descriptionEn:
-			'Specific fan power [W/(m³/h) or W/(l/s)]. Efficiency indicator for ventilation systems per EN 13779 / SWKI.',
+			'Specific fan power [W/(m³/h) or W/(l/s)]. Efficiency indicator for ventilation systems per EN 16798-3 and SIA 382/1.',
 		areas: ['hlk', 'normen'],
 		related: ['AHU', 'RLT']
 	},
@@ -593,16 +600,19 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IDA',
 		long: 'Indoor Air',
-		description: 'Raumluft. Kategorien IDA 1–4 nach EN 13779/16798.',
-		descriptionEn: 'Indoor air. Categories IDA 1–4 per EN 13779/16798.',
+		description:
+			'Raumluft. Kategorien IDA 1–4 nach der früheren EN 13779; EN 16798 nutzt Kategorien I–IV.',
+		descriptionEn:
+			'Indoor air. Categories IDA 1–4 per the former EN 13779; EN 16798 uses categories I–IV.',
 		areas: ['hlk', 'normen'],
 		related: ['ODA', 'EHA', 'SUP', 'ETA']
 	},
 	{
 		short: 'ODA',
 		long: 'Outdoor Air',
-		description: 'Aussenluft. Kategorien ODA 1–5 nach Verschmutzungsgrad.',
-		descriptionEn: 'Outdoor air. Categories ODA 1–5 by pollution level.',
+		description:
+			'Aussenluft. Kategorien ODA 1–3 nach Belastung mit Partikeln und Gasen (EN 16798-3).',
+		descriptionEn: 'Outdoor air. Categories ODA 1–3 by particle and gas pollution (EN 16798-3).',
 		areas: ['hlk', 'normen'],
 		related: ['IDA', 'SUP']
 	},
@@ -658,8 +668,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ePM10',
 		long: 'Filter ePM10 (ISO 16890)',
 		description:
-			'Filterklasse für Feinstaub ≤ 10 µm nach ISO 16890. Entspricht ehemaligen G-Klassen.',
-		descriptionEn: 'Filter class for fine dust ≤ 10 µm per ISO 16890. Replaces former G classes.',
+			'Filterklasse für Partikel ≤ 10 µm nach ISO 16890, etwa anstelle der früheren Klassen M5 und M6. Die früheren G-Klassen entsprechen ISO Coarse.',
+		descriptionEn:
+			'Filter class for particles ≤ 10 µm per ISO 16890, roughly replacing the former classes M5 and M6. The former G classes correspond to ISO Coarse.',
 		areas: ['hlk', 'normen'],
 		related: ['ePM1', 'ePM2.5']
 	},
@@ -824,9 +835,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'DALI-2',
 		long: 'DALI Version 2 (IEC 62386)',
 		description:
-			'Erweiterung von DALI um Notlicht, Sensoren, Tasterschnittstellen. Zertifizierungspflicht.',
+			'Zweite Ausgabe von IEC 62386 mit Eingabegeräten (Sensoren, Taster), Application Controllern und Zertifizierung der DiiA.',
 		descriptionEn:
-			'Extension of DALI adding emergency lighting, sensors, push button interfaces. Certification required.',
+			'Second edition of IEC 62386 with input devices (sensors, push buttons), application controllers and DiiA certification.',
 		areas: ['ga', 'elektro', 'normen'],
 		related: ['DALI']
 	},
@@ -1162,8 +1173,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'CO₂',
 		long: 'Carbon Dioxide (CO₂)',
-		description: 'Luftqualitäts-Sensor — Indikator für Belegung. EN 16798: < 800 ppm Kat. II.',
-		descriptionEn: 'Air quality sensor — indicator for occupancy. EN 16798: < 800 ppm Cat. II.',
+		description:
+			'Luftqualitäts-Indikator für Belegung. EN 16798-1 Kat. II: höchstens 800 ppm über Aussenluft, also rund 1200 ppm.',
+		descriptionEn:
+			'Air quality indicator for occupancy. EN 16798-1 cat. II: at most 800 ppm above outdoor air, i.e. about 1200 ppm.',
 		areas: ['hlk', 'ga'],
 		related: ['VOC', 'DCV']
 	},
@@ -1293,8 +1306,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'IE4',
 		long: 'Motor Efficiency Class IE4',
-		description: 'Super Premium Efficiency. Ab 2027 verbindlich für Motoren ≥ 75 kW.',
-		descriptionEn: 'Super Premium Efficiency. Mandatory from 2027 for motors ≥ 75 kW.',
+		description:
+			'Super Premium Efficiency. In der EU seit Juli 2023 Pflicht für Drehstrommotoren von 75 bis 200 kW.',
+		descriptionEn:
+			'Super Premium Efficiency. Mandatory in the EU since July 2023 for three-phase motors from 75 to 200 kW.',
 		areas: ['elektro', 'normen'],
 		related: ['IE3', 'IE5']
 	},
@@ -1352,9 +1367,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'PELV',
 		long: 'Protective Extra Low Voltage',
 		description:
-			'Schutzkleinspannung ≤ 25 V AC / 60 V DC mit Schutzerde. Typisch für GA-Steuerstromkreise.',
+			'Funktionskleinspannung mit sicherer Trennung, ≤ 50 V AC / 120 V DC, Stromkreis darf geerdet sein. Typisch für GA-Steuerstromkreise.',
 		descriptionEn:
-			'Protective extra low voltage ≤ 25 V AC / 60 V DC with protective earth. Typical for BA control circuits.',
+			'Protective extra low voltage, ≤ 50 V AC / 120 V DC, safely separated, the circuit may be earthed. Typical for BA control circuits.',
 		areas: ['elektro'],
 		related: ['SELV', 'NIN']
 	},
@@ -1362,9 +1377,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'SELV',
 		long: 'Safety Extra Low Voltage',
 		description:
-			'Sicherheitskleinspannung ≤ 25 V AC / 60 V DC ohne Schutzerde. Elektrisch getrennt vom Netz.',
+			'Schutzkleinspannung, ≤ 50 V AC / 120 V DC, sicher vom Netz getrennt, ohne Erdung des Stromkreises.',
 		descriptionEn:
-			'Safety extra low voltage ≤ 25 V AC / 60 V DC without protective earth. Electrically isolated from mains.',
+			'Safety extra low voltage, ≤ 50 V AC / 120 V DC, safely separated from mains, circuit not earthed.',
 		areas: ['elektro'],
 		related: ['PELV', 'NIN']
 	},
@@ -1399,8 +1414,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'NIN',
 		long: 'Niederspannungs-Installations-Norm',
-		description: 'Schweizer Norm SEV 1000 — verbindlich für Installationen.',
-		descriptionEn: 'Swiss installation standard SEV 1000 — mandatory for electrical installations.',
+		description:
+			'Niederspannungs-Installationsnorm der Schweiz, SN 411000. Verbindlich über die Niederspannungs-Installationsverordnung (NIV).',
+		descriptionEn:
+			'Swiss low-voltage installation standard, SN 411000. Binding through the Low-Voltage Installation Ordinance (NIV).',
 		areas: ['elektro', 'normen'],
 		related: ['SEV']
 	},
@@ -1476,9 +1493,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ppm',
 		long: 'Parts per Million',
 		description:
-			'Einheit für sehr geringe Konzentrationen. CO₂-Aussenluft ≈ 420 ppm; Raumluft-Richtwert: < 1000 ppm (EN 16798 Kat. II).',
+			'Einheit für sehr geringe Konzentrationen. CO₂ aussen rund 420 ppm; EN 16798-1 Kat. II: höchstens 800 ppm über Aussenluft.',
 		descriptionEn:
-			'Unit for very low concentrations. Outdoor CO₂ ≈ 420 ppm; indoor air guideline: < 1000 ppm (EN 16798 Cat. II).',
+			'Unit for very low concentrations. Outdoor CO₂ about 420 ppm; EN 16798-1 cat. II: at most 800 ppm above outdoor air.',
 		areas: ['hlk', 'ga'],
 		related: ['CO₂', 'VOC']
 	},
@@ -1509,16 +1526,20 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'MuKEn',
 		long: 'Mustervorschriften der Kantone im Energiebereich',
-		description: 'CH-Pendant zur EnEV — kantonal verbindlich, harmonisiert.',
-		descriptionEn: 'Swiss equivalent of EnEV — cantonal mandatory, harmonised.',
+		description:
+			'Mustervorschriften der Kantone; verbindlich erst, wenn ein Kanton sie in sein Energiegesetz übernimmt.',
+		descriptionEn:
+			'Model regulations of the cantons; binding only once a canton adopts them into its energy law.',
 		areas: ['normen'],
 		related: ['EnEV', 'SIA']
 	},
 	{
 		short: 'GEAK',
 		long: 'Gebäudeenergieausweis der Kantone',
-		description: 'CH-Energieausweis für Wohngebäude. Klassen A (best) bis G.',
-		descriptionEn: 'Swiss energy certificate for residential buildings. Classes A (best) to G.',
+		description:
+			'CH-Energieausweis für bestehende Gebäude. Klassen A (beste) bis G, getrennt für Hülle, Gesamtenergie und CO₂.',
+		descriptionEn:
+			'Swiss energy certificate for existing buildings. Classes A (best) to G, separately for envelope, overall energy and CO₂.',
 		areas: ['normen'],
 		related: ['MuKEn']
 	},
@@ -1536,10 +1557,11 @@ export const abbreviations: Abbreviation[] = [
 	},
 	{
 		short: 'SWKI',
-		long: 'Schweizerischer Verein von Wärme- und Klima-Ingenieuren',
-		description: 'CH-Fachverband mit eigenen Richtlinien (z.B. SWKI 91-1 für MAG).',
+		long: 'Schweizerischer Verein von Gebäudetechnik-Ingenieuren',
+		description:
+			'CH-Fachverband mit eigenen Richtlinien, etwa VA104-01 (Lufthygiene) und BT102-01 (Wasserbeschaffenheit).',
 		descriptionEn:
-			'Swiss professional association with own guidelines (e.g. SWKI 91-1 for expansion vessels).',
+			'Swiss professional association with its own guidelines, e.g. VA104-01 (air hygiene) and BT102-01 (water quality).',
 		areas: ['normen', 'hlk'],
 		related: ['SIA']
 	},
@@ -1587,9 +1609,10 @@ export const abbreviations: Abbreviation[] = [
 	{
 		short: 'SEV',
 		long: 'Schweizerischer Elektrotechnischer Verein',
-		description: 'CH-Fachverband Elektrotechnik. Herausgeber NIN (SEV 1000).',
+		description:
+			'Früherer Name von Electrosuisse, dem Fachverband für Elektro-, Energie- und Informationstechnik.',
 		descriptionEn:
-			'Swiss electrical engineering professional association. Publisher of NIN (SEV 1000).',
+			'Former name of Electrosuisse, the association for electrical, energy and information technology.',
 		areas: ['elektro', 'normen'],
 		related: ['NIN', 'ESTI']
 	},
@@ -1603,7 +1626,7 @@ export const abbreviations: Abbreviation[] = [
 	},
 	{
 		short: 'ASHRAE',
-		long: 'American Society of HVAC Engineers',
+		long: 'American Society of Heating, Refrigerating and Air-Conditioning Engineers',
 		description: 'US-Fachverband mit international relevanten Standards (z.B. ASHRAE 90.1).',
 		descriptionEn:
 			'US professional association with internationally relevant standards (e.g. ASHRAE 90.1).',
@@ -1984,9 +2007,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'SVGW',
 		long: 'Schweizerischer Verein des Gas- und Wasserfaches',
 		description:
-			'CH-Fachverband. Herausgeber W3 (Trinkwasserinstallationen) und G1 (Gasinstallationen) — verbindliche Werke.',
+			'CH-Fachverband. Herausgeber W3 (Trinkwasserinstallationen) und G1 (Gasinstallationen), anerkannte Regeln der Technik; viele Wasserversorger erklären sie für verbindlich.',
 		descriptionEn:
-			'Swiss professional association for gas and water. Publisher of W3 (drinking water installations) and G1 (gas installations) — mandatory works.',
+			'Swiss professional association for gas and water. Publisher of W3 (drinking water installations) and G1 (gas installations), recognised rules of engineering; many water utilities make them binding.',
 		areas: ['sanitaer', 'normen'],
 		related: ['SIA']
 	},
@@ -2018,8 +2041,8 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ÜSS',
 		long: 'Überspannungsschutz',
 		description:
-			'Deutsche Bezeichnung für SPD. In NIN 2020 / SIA für viele GA-Anlagen verbindlich.',
-		descriptionEn: 'German term for SPD. Mandatory under NIN 2020 / SIA for many BA installations.',
+			'Deutsche Bezeichnung für SPD. Die NIN verlangt Überspannungsschutz in vielen Fällen.',
+		descriptionEn: 'German term for SPD. The NIN requires surge protection in many cases.',
 		areas: ['elektro', 'normen'],
 		related: ['SPD']
 	},
@@ -2091,9 +2114,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'DMZ',
 		long: 'Demilitarized Zone',
 		description:
-			'Netzwerk-Zone zwischen LAN und Internet. Server mit externem Zugriff (z.B. GLT-Webserver) gehören hierher — schützt Innennetz bei Kompromittierung.',
+			'Netzwerk-Zone zwischen internem Netz und Internet für Dienste, die von aussen erreichbar sein müssen. Eine GLT gehört nicht offen ins Internet; Zugriff besser über VPN.',
 		descriptionEn:
-			'Network zone between LAN and internet. Servers with external access (e.g. BMS web server) belong here — protects internal network if compromised.',
+			'Network zone between internal network and internet for services that must be reachable from outside. A BMS does not belong openly on the internet; access is better via VPN.',
 		areas: ['it'],
 		related: ['VLAN', 'VPN']
 	},
@@ -2145,9 +2168,9 @@ export const abbreviations: Abbreviation[] = [
 		short: 'ROI',
 		long: 'Return on Investment',
 		description:
-			'Amortisationszeit einer Investition. Wichtige Kennzahl bei GA-/Effizienz-Massnahmen — typisch akzeptiert 5–10 Jahre.',
+			'Verhältnis von Gewinn oder Einsparung zur Investition, meist in % pro Jahr. Nicht dasselbe wie die Amortisationszeit.',
 		descriptionEn:
-			'Payback period of an investment. Important metric for BA/efficiency measures — typically 5–10 years accepted.',
+			'Ratio of profit or saving to investment, usually in % per year. Not the same as the payback period.',
 		areas: ['ga'],
 		related: ['LCC', 'LCA']
 	}
