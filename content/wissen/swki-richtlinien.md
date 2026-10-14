@@ -24,281 +24,117 @@ tags:
 difficulty: grundlagen
 area: [hlk, ga, normen]
 related: [sia386, vdi6022, en15232, en16798, legionellen, thermische-behaglichkeit]
-norm: [SWKI, SIA 382/1, SIA 384.201, SIA 385/1, SIA 386.110]
-updated: 2026-05-15
+norm: [SWKI VA104-01, SWKI VA105-01, SWKI BT102-01, SWKI HE301-01]
+updated: 2026-10-14
 lang: de
 ---
 
 # SWKI-Richtlinien — Überblick für die GA-Praxis
 
-SWKI (Schweizerischer Verein von Gebäudetechnik-Ingenieuren) publiziert technische Richtlinien für die Schweizer Gebäudetechnik. Sie ergänzen die SIA-Normen mit konkreten Planungs- und Ausführungsregeln.
+Der **SWKI**, der Schweizerische Verein von Gebäudetechnik-Ingenieuren, gibt Richtlinien für die Gebäudetechnik heraus. Sie ergänzen die SIA-Normen mit konkreten Regeln für Planung, Ausführung und Betrieb.
 
-## Was ist SWKI?
+## Stellenwert
 
-```
-SWKI = Schweizerischer Verein von Gebäudetechnik-Ingenieuren
-Gegründet: 1929
-Mitglieder: Ingenieure, Planer, Unternehmer der HLKSE-Branche
-Publikationen: Richtlinien, Merkblätter, Planungshilfen
-Sprachen: Deutsch, Französisch (manche auch Englisch)
-```
+SWKI-Richtlinien sind **keine Gesetze**. Sie gelten aber als anerkannte Regeln der Technik. Werden sie im Werkvertrag oder in der Ausschreibung genannt, sind sie verbindlich. Im Streitfall dienen sie als Massstab dafür, was fachgerecht ist.
 
-SWKI-Richtlinien sind **empfehlender Charakter** (keine gesetzlichen Normen), gelten aber als anerkannte Regeln der Technik und werden in der Praxis wie Normen behandelt.
+| Ebene                 | Beispiele                                              |
+| --------------------- | ------------------------------------------------------ |
+| Gesetz und Verordnung | Energiegesetze der Kantone, NIV, Trinkwasserverordnung |
+| Normen                | SIA 382/1, SIA 384/1, SIA 385/1                        |
+| Richtlinien           | SWKI, SVGW, VKF                                        |
+| Herstellerangaben     | Montage- und Betriebsanleitungen                       |
 
----
+## Richtlinien mit Bezug zur GA
 
-## Wichtigste SWKI-Richtlinien für GA
+| Richtlinie        | Thema                                                              |
+| ----------------- | ------------------------------------------------------------------ |
+| **SWKI VA104-01** | Hygieneanforderungen an raumlufttechnische Anlagen und Geräte      |
+| **SWKI VA105-01** | Raumlufttechnische Anlagen in medizinisch genutzten Räumen         |
+| **SWKI BT102-01** | Wasserbeschaffenheit für Heizungs-, Dampf-, Kälte- und Kühlanlagen |
+| **SWKI HE301-01** | Sicherheitstechnische Einrichtungen für Heizungsanlagen            |
 
-### Lüftung / Klimatechnik
+Die Liste ist nicht vollständig. Der SWKI gibt weitere Richtlinien heraus, etwa zu Brandschutz, Kälte und Dokumentation, und überarbeitet sie laufend. Welche Ausgabe gilt, steht im Verzeichnis des SWKI.
 
-| Richtlinie        | Titel                                            |
-| ----------------- | ------------------------------------------------ |
-| **BT102-01**      | Hygieneanforderungen RLT-Anlagen (→ VDI 6022 CH) |
-| **SWKI VA104-01** | Lüftung und Klimatisierung                       |
+## Was sie für die GA bedeuten
 
-### Heizung
+**VA104-01, Lufthygiene:** Die GA liefert die Daten für den hygienischen Betrieb: Filterdruckdifferenzen, Betriebsstunden, Feuchte nach Befeuchtern, Meldungen der Kondensatwanne. Die Richtlinie verlangt regelmässige Hygieneinspektionen und geschultes Personal. Siehe [VDI 6022](/wissen/vdi6022) für das deutsche Gegenstück.
 
-| Richtlinie        | Titel                              |
-| ----------------- | ---------------------------------- |
-| **SWKI BT101-01** | Wärmeerzeugung, Verteilung, Abgabe |
+**VA105-01, Spital:** Legt Lüftungskonzepte für Operationsräume fest, etwa LK 1a mit turbulenzarmer Verdrängungsströmung und LK 1b mit Mischlüftung. Für die GA heisst das: Überwachung von Luftmengen, Druckhaltung und Betriebsarten. Siehe [Zonenkonzepte](/wissen/zonenkonzepte).
 
-### Sanitär
+**BT102-01, Wasser:** Füll- und Ergänzungswasser von Heiz- und Kühlkreisen muss bestimmte Werte einhalten, etwa bei Härte, Leitfähigkeit und pH. Die GA kann Nachspeisemengen erfassen; viel Nachspeisewasser deutet auf ein Leck hin und bringt Sauerstoff und Kalk in die Anlage.
 
-| Richtlinie        | Titel                                                                     |
-| ----------------- | ------------------------------------------------------------------------- |
-| **SWKI BT103-01** | Trinkwassererwärmung, Legionellenprophylaxe (entspricht DVGW W551 für CH) |
+**HE301-01, Sicherheit Heizung:** Sicherheitsventile, Druckhaltung, Temperaturbegrenzer. Diese Funktionen sind fest verdrahtet oder mechanisch und dürfen nicht von der GA abhängen.
 
-### Kälte
+## In der Ausschreibung
 
-| Richtlinie        | Titel                         |
-| ----------------- | ----------------------------- |
-| **SWKI BT105-01** | Kälte- und Wärmepumpentechnik |
+SWKI-Richtlinien werden in Schweizer Ausschreibungen oft direkt genannt, zum Beispiel:
 
-### Gebäudeautomation
+> Die Lüftungsanlage ist nach SIA 382/1 und SWKI VA104-01 auszuführen, in Betrieb zu nehmen und zu übergeben.
 
-| Richtlinie         | Titel                                        |
-| ------------------ | -------------------------------------------- |
-| **SWKI GA2006-01** | Gebäudeautomation (Ergänzung zu SIA 386.110) |
+Wichtig ist, die Ausgabe zu nennen oder «gültige Ausgabe zum Zeitpunkt der Ausschreibung» festzulegen.
 
----
+## Bezug
 
-## Verhältnis zu SIA-Normen
-
-```
-Normenhierarchie Schweiz:
-
-  Gesetz / Verordnung (verbindlich)
-      ↓
-  SIA-Normen (Planungsstandard, weitgehend verbindlich)
-      ↓
-  SWKI-Richtlinien (Fachempfehlungen, anerkannte Regeln)
-      ↓
-  Hersteller-Empfehlungen
-
-SWKI konkretisiert SIA-Normen:
-  SIA 382/1 (Lüftungsanlagen) → SWKI BT102-01 (Hygieneprüfung)
-  SIA 384.201 (Heizung) → SWKI BT101-01 (Planungsregeln)
-  SIA 385/1 (Warmwasser) → SWKI BT103-01 (Legionellen)
-```
-
----
-
-## SWKI BT102-01: Hygiene RLT (praktisch)
-
-Diese Richtlinie ist die Schweizer Entsprechung der deutschen VDI 6022:
-
-```
-Hygieneprüfung RLT-Anlagen in der Schweiz:
-  Prüfintervall:
-    Klasse I (Spital, Reinraum): 1 Jahr
-    Klasse II (Büro, Hotel): 2 Jahre
-    Klasse III (einfach): 3 Jahre
-
-  Prüfbereiche:
-    - Filter (Zustand, Differenzdruck)
-    - Befeuchter (Keimgehalt, Sauberkeit)
-    - Wärmetauscher (Verschmutzung, Kondensatwanne)
-    - Kanalzustand (Ablagerungen, Korrosion)
-
-  Grenzwerte mikrobiologisch:
-    Gesamtkeimzahl Luft: ≤ 1000 KBE/m³
-    Schimmelpilze: ≤ 100 KBE/m³
-    Legionellen im Befeuchter: ≤ 100 KBE/100 ml
-```
-
----
-
-## SWKI in der Ausschreibung
-
-SWKI-Richtlinien werden in Schweizer Ausschreibungen oft direkt referenziert:
-
-```
-Typischer Ausschreibungstext:
-  "Die Lüftungsanlage ist gemäss SIA 382/1 und
-   SWKI BT102-01 auszuführen und zu prüfen."
-
-  "Trinkwasser-Erwärmung gemäss SIA 385/1 und
-   SWKI BT103-01 (Legionellenprophylaxe)."
-```
-
----
-
-## Bezug und Aktualität
-
-```
-SWKI-Publikationen:
-  Bestellung: shop.swki.ch
-  Preise: CHF 30–120 je Richtlinie
-  Sprache: Deutsch (einige auf Französisch)
-
-  Wichtig: SWKI-Richtlinien regelmässig aktualisiert
-  → Immer aktuelle Version verwenden (Datum prüfen!)
-  → Veraltete Richtlinien können zurückgezogen sein
-```
-
----
+Die Richtlinien sind kostenpflichtig und über den SWKI erhältlich, die meisten auf Deutsch und Französisch.
 
 ## Normen
 
-- **SIA 382/1** — Lüftungs- und Klimaanlagen in Gebäuden (Schweiz)
-- **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweiz)
-- **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweiz)
-- **SIA 386.110** — Schweizer Ausgabe von EN 15232
+- **SIA 382/1** — Lüftungs- und Klimaanlagen
+- **SIA 384/1** — Heizungsanlagen in Gebäuden
+- **SIA 385/1** — Anlagen für Trinkwarmwasser
+- **SVGW W3/E3** — Hygiene in Trinkwasserinstallationen
 
 <!-- EN -->
 
-SWKI (Swiss Society of Building Services Engineers) publishes technical guidelines for Swiss building services engineering. They complement the SIA standards with concrete planning and execution rules.
+**SWKI**, the Swiss association of building services engineers, publishes guidelines for building services. They complement the SIA standards with concrete rules for design, installation and operation.
 
-## What is SWKI?
+## Status
 
-```
-SWKI = Schweizerischer Verein von Gebäudetechnik-Ingenieuren
-       (Swiss Society of Building Services Engineers)
-Founded: 1929
-Members: Engineers, planners, contractors in the HVAC&R industry
-Publications: Guidelines, technical notes, planning aids
-Languages: German, French (some also in English)
-```
+SWKI guidelines are **not laws**. They are, however, regarded as recognised rules of engineering. If they are named in the contract or tender, they are binding. In a dispute they serve as a yardstick for what is professional.
 
-SWKI guidelines are **advisory in character** (not statutory standards), but are regarded as recognised good practice and treated like standards in practice.
+| Level             | Examples                                            |
+| ----------------- | --------------------------------------------------- |
+| Law and ordinance | cantonal energy laws, NIV, drinking water ordinance |
+| Standards         | SIA 382/1, SIA 384/1, SIA 385/1                     |
+| Guidelines        | SWKI, SVGW, VKF                                     |
+| Manufacturer data | installation and operating instructions             |
 
----
+## Guidelines Relevant to BA
 
-## Key SWKI Guidelines for BA
+| Guideline         | Topic                                                                       |
+| ----------------- | --------------------------------------------------------------------------- |
+| **SWKI VA104-01** | Hygiene requirements for ventilation and air-conditioning systems and units |
+| **SWKI VA105-01** | Ventilation systems in medically used rooms                                 |
+| **SWKI BT102-01** | Water quality for heating, steam, cooling and chilled water systems         |
+| **SWKI HE301-01** | Safety devices for heating systems                                          |
 
-### Ventilation / Air Conditioning
+The list is not complete. SWKI publishes further guidelines, for example on fire protection, refrigeration and documentation, and revises them continuously. Which edition applies is in the SWKI catalogue.
 
-| Guideline         | Title                                                               |
-| ----------------- | ------------------------------------------------------------------- |
-| **BT102-01**      | Hygiene requirements for AHU systems (→ VDI 6022 equivalent for CH) |
-| **SWKI VA104-01** | Ventilation and air conditioning                                    |
+## What They Mean for BA
 
-### Heating
+**VA104-01, air hygiene:** the BA supplies the data for hygienic operation: filter pressure drops, operating hours, humidity after humidifiers, condensate tray messages. The guideline requires regular hygiene inspections and trained staff. See [VDI 6022](/wissen/vdi6022) for the German counterpart.
 
-| Guideline         | Title                                   |
-| ----------------- | --------------------------------------- |
-| **SWKI BT101-01** | Heat generation, distribution, emission |
+**VA105-01, hospitals:** defines ventilation concepts for operating rooms, for example LK 1a with low-turbulence displacement flow and LK 1b with mixing ventilation. For the BA this means monitoring air flows, pressure cascades and operating modes. See [Zone Concepts](/wissen/zonenkonzepte).
 
-### Plumbing/Sanitary
+**BT102-01, water:** fill and make-up water for heating and cooling circuits must meet certain values, such as hardness, conductivity and pH. The BA can record make-up volumes; a lot of make-up water points to a leak and brings oxygen and scale into the system.
 
-| Guideline         | Title                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------- |
-| **SWKI BT103-01** | Domestic hot water heating, Legionella prevention (equivalent to DVGW W551 for CH) |
+**HE301-01, heating safety:** safety valves, pressure maintenance, temperature limiters. These functions are hard-wired or mechanical and must not depend on the BA.
 
-### Refrigeration
+## In Tenders
 
-| Guideline         | Title                                  |
-| ----------------- | -------------------------------------- |
-| **SWKI BT105-01** | Refrigeration and heat pump technology |
+SWKI guidelines are often named directly in Swiss tenders, for example:
 
-### Building Automation
+> The ventilation system is to be installed, commissioned and handed over per SIA 382/1 and SWKI VA104-01.
 
-| Guideline          | Title                                           |
-| ------------------ | ----------------------------------------------- |
-| **SWKI GA2006-01** | Building automation (supplement to SIA 386.110) |
+It is important to state the edition or to specify "edition valid at the time of tender".
 
----
+## Obtaining Them
 
-## Relationship to SIA Standards
-
-```
-Swiss standards hierarchy:
-
-  Law / Ordinance (binding)
-      ↓
-  SIA standards (planning standard, largely binding)
-      ↓
-  SWKI guidelines (technical recommendations, recognised good practice)
-      ↓
-  Manufacturer recommendations
-
-SWKI gives concrete detail to SIA standards:
-  SIA 382/1 (ventilation systems) → SWKI BT102-01 (hygiene inspection)
-  SIA 384.201 (heating)           → SWKI BT101-01 (planning rules)
-  SIA 385/1 (hot water)           → SWKI BT103-01 (Legionella)
-```
-
----
-
-## SWKI BT102-01: AHU Hygiene (Practical)
-
-This guideline is the Swiss equivalent of the German VDI 6022:
-
-```
-Hygiene inspection of AHU systems in Switzerland:
-  Inspection intervals:
-    Class I (hospital, clean room): 1 year
-    Class II (office, hotel): 2 years
-    Class III (simple): 3 years
-
-  Inspection areas:
-    - Filters (condition, differential pressure)
-    - Humidifier (microbial load, cleanliness)
-    - Heat exchangers (fouling, condensate tray)
-    - Duct condition (deposits, corrosion)
-
-  Microbiological limits:
-    Total colony count air: ≤ 1,000 CFU/m³
-    Moulds: ≤ 100 CFU/m³
-    Legionella in humidifier: ≤ 100 CFU/100 ml
-```
-
----
-
-## SWKI in Tenders
-
-SWKI guidelines are frequently referenced directly in Swiss tenders:
-
-```
-Typical tender text:
-  "The ventilation system shall be designed and
-   inspected in accordance with SIA 382/1 and
-   SWKI BT102-01."
-
-  "Domestic hot water heating per SIA 385/1 and
-   SWKI BT103-01 (Legionella prevention)."
-```
-
----
-
-## Procurement and Currency
-
-```
-SWKI publications:
-  Order: shop.swki.ch
-  Prices: CHF 30–120 per guideline
-  Language: German (some in French)
-
-  Important: SWKI guidelines are regularly updated
-  → Always use the current version (check date!)
-  → Superseded guidelines may be withdrawn
-```
-
----
+The guidelines are paid publications available from SWKI, most in German and French.
 
 ## Standards
 
-- **SIA 382/1** — Ventilation and air conditioning systems in buildings (Switzerland)
-- **SIA 384.201** — Heating systems in buildings (Switzerland)
-- **SIA 385/1** — Domestic hot water installations (Switzerland)
-- **SIA 386.110** — Swiss edition of EN 15232
+- **SIA 382/1** — Ventilation and air-conditioning systems
+- **SIA 384/1** — Heating systems in buildings
+- **SIA 385/1** — Domestic hot water systems
+- **SVGW W3/E3** — Hygiene in drinking water installations

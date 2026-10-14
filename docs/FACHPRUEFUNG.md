@@ -254,12 +254,12 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### normen
 
-- ⬜ en12831
-- ⬜ en15232
-- ⬜ en16798
-- ⬜ sia386
-- ⬜ swki-richtlinien
-- ⬜ vdi3814
+- ✅ en12831
+- ✅ en15232
+- ✅ en16798
+- ✅ sia386
+- ✅ swki-richtlinien
+- ✅ vdi3814
 
 ## Referenztabellen
 
@@ -430,3 +430,9 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | proxmox                             | HA ohne gemeinsamen Speicher, «Warm-Standby/Tie-Breaker»; «Lüftung mind. 20 dB(A)»                                                                                                                                                                                                                   | Quorum, QDevice, Ceph/ZFS-Replikation; Neustart statt nahtlos                                                                               | —                                                                   |
 | 14.10.2026 | Werkzeug                            | Listen-Umwandler paarte Codemarken nach Blöcken mit Sprachangabe falsch (remote-zugriff, backup-ga)                                                                                                                                                                                                  | Dateien zurückgesetzt, Umwandler paart jetzt zeilenweise                                                                                    | —                                                                   |
 | 14.10.2026 | Dokumentation (6 Artikel)           | SIA 386.110 überall als Schweizer GA-Norm für Abnahme, IBN, Übergabe zitiert (ist SN EN 15232, Websuche); VDI 6022 «Klasse B»; Zuluftfühler als Tauchfühler nach WRG; Frostschutz «Verzögerung 30 s» vs. «sofort»; Gewährleistung «2 Jahre SIA 118/VOB»; IBN «10 °C → Frost»; AMEV IBN 2014 unbelegt | SIA 118/380, VDI 6039; Frostschutzthermostat; SIA 118: 2 J. Rügefrist, 5 J. Verjährung; VOB/B 4 J.                                          | SN EN 15232, SIA 118                                                |
+| 14.10.2026 | sia386                              | ganzer Artikel erfunden: «SIA 386er Serie GA» (386.100/120), Planungsphasen, Mindestdatenpunkte, Abnahmepflicht, Minergie-Klassen                                                                                                                                                                    | neu: SIA 386.110 = SN EN 15232 (Websuche), Abgrenzung zu SIA 108/118/380                                                                    | SNV                                                                 |
+| 14.10.2026 | en15232                             | Einsparwerte je Gewerk erfunden (+124 % Kühlung); f_BAC Büro A 0.80/B 0.90 (thermisch 0.70/0.80); «TBS stärker als BACS»; EN 15603                                                                                                                                                                   | neu mit f_BAC-Tabelle                                                                                                                       | EN ISO 52120-1                                                      |
+| 14.10.2026 | en12831                             | EN 12831-3 als «vereinfachtes Verfahren Wohnen» (ist Trinkwassererwärmung); München −14 (−16); pauschaler Zuschlag 10–20 %                                                                                                                                                                           | korrigiert; SIA 2028 als verbindliche Klimadaten                                                                                            | EN 12831-1/-3                                                       |
+| 14.10.2026 | en16798                             | nur Nichtwohnbauten; Aussenluft pro m² falsch (I 1.0, II 0.7, III 0.4 l/s·m²); Feuchte falsch; EN 15251 «A–D»; EN 16798-3 und EN ISO 52010 falsch beschrieben; adaptiv ohne Einschränkung                                                                                                            | korrigiert                                                                                                                                  | EN 16798-1                                                          |
+| 14.10.2026 | swki-richtlinien                    | erfundene Richtlinien (GA2006-01, BT101/103/105-01); BT102-01 als Lufthygiene (ist Wasserbeschaffenheit); erfundene Prüfintervalle und Keimgrenzwerte; «gegründet 1929»                                                                                                                              | neu: VA104-01, VA105-01, BT102-01, HE301-01                                                                                                 | SWKI                                                                |
+| 14.10.2026 | vdi3814                             | Blattstruktur erfunden (Blatt 4 Visualisierung, Blatt 5 Kommunikation); «Normsymbole VDI 3814-4»; Vergleich mit SIA 386.110 als GA-Norm                                                                                                                                                              | neu: Gliederung 1/2.x/3.x/4.x/5/6, Vergleich DE/CH                                                                                          | VDI                                                                 |

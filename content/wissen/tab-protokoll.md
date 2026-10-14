@@ -126,10 +126,10 @@ Prüfung der GLT-Visualisierung:
 
 **Inbetriebnahme abgenommen mit offenen Mängeln (siehe Mängelliste):**
 
-- Inbetriebnehmer: ******\_\_\_****** Datum: 14.05.2026
+- Inbetriebnehmer: **\*\***\_\_\_**\*\*** Datum: 14.05.2026
   - Max Mustermann
 
-- Bauherr-Vertreter: ******\_****** Datum: 14.05.2026
+- Bauherr-Vertreter: **\*\***\_**\*\*** Datum: 14.05.2026
   - Maria Muster
 
 ---
@@ -237,10 +237,10 @@ Check of BMS visualisation screens:
 
 **Commissioning accepted with open defects (see defect list):**
 
-- Commissioning engineer: ******\_\_\_****** Date: 14.05.2026
+- Commissioning engineer: **\*\***\_\_\_**\*\*** Date: 14.05.2026
   - Max Sample
 
-- Client representative: ******\_\_\_****** Date: 14.05.2026
+- Client representative: **\*\***\_\_\_**\*\*** Date: 14.05.2026
   - Maria Sample
 
 ---
