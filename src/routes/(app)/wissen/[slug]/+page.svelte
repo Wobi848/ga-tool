@@ -417,6 +417,30 @@
 		margin: 0.3rem 0;
 	}
 
+	/* Schemazeichnungen: inline-SVG mit currentColor, geht im Dunkelmodus mit. */
+	.prose :global(figure.schema) {
+		margin: 1rem 0 1.25rem;
+		padding: 1rem;
+		border: 1px solid var(--border);
+		border-radius: 0.5rem;
+		background: var(--surface);
+	}
+
+	.prose :global(figure.schema svg) {
+		display: block;
+		width: 100%;
+		max-width: 26rem;
+		height: auto;
+		margin: 0 auto;
+	}
+
+	.prose :global(figure.schema figcaption) {
+		margin-top: 0.75rem;
+		font-size: 0.8125rem;
+		color: var(--muted);
+		text-align: center;
+	}
+
 	.prose :global(table) {
 		border-collapse: collapse;
 		margin: 0.75rem 0 1rem;

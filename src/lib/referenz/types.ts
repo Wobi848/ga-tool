@@ -1,6 +1,7 @@
 import type { Area } from '$lib/wissen/types';
 
-export type CellType = 'number' | 'text';
+/** `symbol`: der Zellwert ist ein Schlüssel aus `symbole.ts`, kein Text. */
+export type CellType = 'number' | 'text' | 'symbol';
 
 export interface Column {
 	key: string;

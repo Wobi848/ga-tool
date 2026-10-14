@@ -24,7 +24,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, elektro]
-related: [ddc-programmierung, glt-grundlagen, vdi3814, alarmmanagement, regelkreise]
+related: [ddc-programmierung, glt-grundlagen, vdi3814, alarmmanagement, regelkreise, schemalesen]
 rechner: []
 norm: [VDI 3814-2, EN ISO 13849, IEC 61131-3]
 updated: 2026-05-15

@@ -2,7 +2,8 @@
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _, locale } from 'svelte-i18n';
 	import type { PageData } from './$types';
-	import type { Row, Column } from '$lib/referenz/types';
+	import type { Row, Column, CellType } from '$lib/referenz/types';
+	import { symbole, SYMBOL_VIEWBOX } from '$lib/referenz/symbole';
 
 	let { data }: { data: PageData } = $props();
 
@@ -18,6 +19,12 @@
 			if (enKey in row) return String(row[enKey]);
 		}
 		return formatCell(row[col.key], col.type);
+	}
+
+	/** Ein Schaltzeichen wird mit dem Text der ersten Textspalte vorgelesen. */
+	function symbolLabel(row: Row): string {
+		const text = table.columns.find((c) => c.type !== 'symbol');
+		return text ? getCell(row, text) : '';
 	}
 
 	let query = $state('');
@@ -53,7 +60,7 @@
 		return rows;
 	});
 
-	function formatCell(v: string | number, _type?: 'number' | 'text'): string {
+	function formatCell(v: string | number, _type?: CellType): string {
 		if (typeof v === 'number') {
 			if (Number.isInteger(v)) return String(v);
 			return v.toLocaleString('de-CH', { maximumFractionDigits: 4 });
@@ -68,7 +75,10 @@
 	}
 
 	function copyRow(row: Record<string, string | number>) {
-		const tsv = table.columns.map((c) => formatCell(row[c.key], c.type)).join('\t');
+		const tsv = table.columns
+			.filter((c) => c.type !== 'symbol')
+			.map((c) => formatCell(row[c.key], c.type))
+			.join('\t');
 		navigator.clipboard.writeText(tsv);
 	}
 </script>
@@ -178,18 +188,36 @@
 						{#each table.columns as col, _col_i (_col_i)}
 							{@const cellId = `${rowIdx}-${col.key}`}
 							{@const val = row[col.key]}
-							<td
-								class:mono={col.mono}
-								class:num={col.type === 'number'}
-								class:highlight={col.highlight}
-								onclick={() => copyValue(val, cellId)}
-								title={$_('referenz.clickToCopy')}
-							>
-								<span class="cell-value">{getCell(row, col)}</span>
-								{#if copiedCell === cellId}
-									<span class="copied-flash">✓</span>
-								{/if}
-							</td>
+							{#if col.type === 'symbol'}
+								<td class="symbol">
+									<svg
+										viewBox={SYMBOL_VIEWBOX}
+										width="40"
+										height="40"
+										fill="none"
+										stroke="currentColor"
+										stroke-width="2"
+										role="img"
+										aria-label={symbolLabel(row)}
+									>
+										<!-- eslint-disable-next-line svelte/no-at-html-tags -- feste Zeichen aus symbole.ts -->
+										{@html symbole[String(val)] ?? ''}
+									</svg>
+								</td>
+							{:else}
+								<td
+									class:mono={col.mono}
+									class:num={col.type === 'number'}
+									class:highlight={col.highlight}
+									onclick={() => copyValue(val, cellId)}
+									title={$_('referenz.clickToCopy')}
+								>
+									<span class="cell-value">{getCell(row, col)}</span>
+									{#if copiedCell === cellId}
+										<span class="copied-flash">✓</span>
+									{/if}
+								</td>
+							{/if}
 						{/each}
 						<td class="action-col">
 							<button
@@ -442,6 +470,13 @@
 
 	tbody tr:hover td {
 		background: var(--surface-hover);
+	}
+
+	td.symbol {
+		cursor: default;
+		width: 1%;
+		padding: 0.25rem 0.75rem;
+		line-height: 0;
 	}
 
 	td.mono {

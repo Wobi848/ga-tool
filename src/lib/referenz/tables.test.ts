@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import type { ReferenceTable } from './types';
 import meta from './referenz.generated.json';
+import { hatSymbol } from './symbole';
 
 /* Konsistenzpruefung der Referenztabellen.
  *
@@ -164,6 +165,19 @@ describe('Referenztabellen — uebergreifend', () => {
 		const nachSlug = Object.fromEntries(tables.map((x) => [x.t.slug, x.t.rows.length]));
 		for (const m of meta as Array<{ slug: string; rowCount: number }>) {
 			expect(m.rowCount, `${m.slug}: Index sagt ${m.rowCount}`).toBe(nachSlug[m.slug]);
+		}
+	});
+});
+
+describe('Referenztabellen — Schaltzeichen', () => {
+	it('jede Symbolzelle verweist auf ein vorhandenes Zeichen', () => {
+		for (const { file, t } of tables) {
+			const spalten = t.columns.filter((c) => c.type === 'symbol').map((c) => c.key);
+			t.rows.forEach((row, i) => {
+				for (const k of spalten) {
+					expect(hatSymbol(String(row[k])), `${file}, Zeile ${i}: "${row[k]}"`).toBe(true);
+				}
+			});
 		}
 	});
 });

@@ -31,7 +31,8 @@ related:
     datenpunktliste,
     funktionsbeschreibung,
     glt-grundlagen,
-    ddc-programmierung
+    ddc-programmierung,
+    schemalesen
   ]
 
 norm: [VDI 3814, SIA 386.110, AMEV IBN 2014]
