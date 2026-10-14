@@ -39,11 +39,7 @@ Motorventile sind die Aktoren der Hydraulik — sie setzen den Sollwert des Regl
 
 ### 2-Wege-Ventil (Absperr-/Regelventil)
 
-```
-Eingang → [Ventil] → Ausgang
-              ↑
-         Stellantrieb
-```
+Ein Durchgangsventil hat zwei Anschlüsse; der Stellantrieb bewegt den Kegel und verändert so den freien Querschnitt.
 
 - **Funktion:** Öffnet oder schliesst den Durchfluss
 - **Einsatz:** Wärmetauscher-Einbindung, Heizkörper, Fancoil, Fussbodenheizkreis
@@ -51,29 +47,19 @@ Eingang → [Ventil] → Ausgang
 
 **2-Wege-Ventil im Heizkörperkreis:**
 
-```
-Vorlauf → 2-Wege-Ventil → Heizkörper → Rücklauf
-```
+Schemas der Schaltungen mit Durchgangs- und Dreiwegventil stehen in [Hydraulische Grundschaltungen](/wissen/ventil-schaltungen).
 
 ### 3-Wege-Ventil: Mischventil
 
-```
-Vorlauf (warm)  ─────┐
-                    [Mischventil] → zum Verbraucher
-Rücklauf (kalt) ─────┘
-```
+Ein Mischventil hat zwei Eingänge (A, B) und einen gemeinsamen Ausgang (AB).
 
 - **Funktion:** Mischt Vorlauf + Rücklauf im einstellbaren Verhältnis → variable Austrittstemperatur
 - **Einsatz:** Heizkreis-Vorlauftemperatur einstellen, witterungsgeführte Regelung
-- **Hydraulik:** Gesamtvolumenstrom durch Erzeuger bleibt konstant (kein Druckproblem für Erzeuger)
+- **Hydraulik:** Der Volumenstrom zum Verbraucher bleibt konstant, der durch den Erzeuger ändert sich (Beimischschaltung)
 
 ### 3-Wege-Ventil: Umlenkventil (Weiche)
 
-```
-                    ─── zu Verbraucher 1
-Eingang → [Umlenkventil]
-                    ─── zu Verbraucher 2
-```
+Ein Umlenkventil (Verteilventil) hat einen Eingang (AB) und zwei Ausgänge (A, B). Nicht jedes Dreiwegventil ist als Verteilventil zugelassen, das Datenblatt sagt es.
 
 - **Funktion:** Lenkt Volumenstrom zwischen zwei Pfaden um
 - **Einsatz:** Umschaltung Heizen/Kühlen (reversible Anlage), Prioritätsschaltung
@@ -97,21 +83,15 @@ Der **Kv-Wert** beschreibt den Durchfluss bei einem definierten Druckverlust:
 
 ### Formel
 
-```
-Kv = Q × √(1 / Δp)
-```
+<p class="formel">k<sub>v</sub> = Q · √(1 / Δp)</p>
 
 Oder aufgelöst nach Durchfluss:
 
-```
-Q = Kv × √Δp
-```
+<p class="formel">Q = k<sub>v</sub> · √Δp</p>
 
 Und nach Druckverlust:
 
-```
-Δp = (Q / Kv)²
-```
+<p class="formel">Δp = (Q / k<sub>v</sub>)<sup>2</sup></p>
 
 **Einheiten:** Q in m³/h, Δp in bar
 
@@ -131,9 +111,7 @@ Der **Kvs** ist der Kv-Wert bei vollständig geöffnetem Ventil — der katalogi
 
 ### Schritt 1: Benötigter Durchfluss berechnen
 
-```
-Q [m³/h] = Heizleistung [kW] / (1.163 × Spreizung [K])
-```
+<p class="formel">Q [m³/h] = Leistung [kW] / (1.163 · Spreizung [K])</p>
 
 Beispiel: 10 kW, Spreizung 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 
@@ -144,17 +122,13 @@ Beispiel: 10 kW, Spreizung 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 
 **Ventilautorität:**
 
-```
-α = Δpv / (Δpv + ΔpNetz)
-```
+<p class="formel">α = Δp<sub>V</sub> / (Δp<sub>V</sub> + Δp<sub>Netz, mengenvariabel</sub>)</p>
 
 α > 0.5 = gut; α < 0.3 = schlechte Regelbarkeit (Ventil hat kaum Einfluss)
 
 ### Schritt 3: Kv berechnen
 
-```
-Kv = Q / √Δp
-```
+<p class="formel">k<sub>v</sub> = Q / √Δp</p>
 
 Beispiel: Q = 0.86 m³/h, Δp = 0.3 bar → Kv = 0.86 / √0.3 = 0.86 / 0.548 = **1.57**
 
@@ -166,16 +140,18 @@ Beispiel: Q = 0.86 m³/h, Δp = 0.3 bar → Kv = 0.86 / √0.3 = 0.86 / 0.548 = 
 
 ## Ventilkennlinien
 
-Die Charakteristik (Kennlinie) bestimmt wie sich Kv mit dem Hub verhindert:
+Die Kennlinie bestimmt, wie sich der k<sub>v</sub>-Wert mit dem Hub verändert:
 
 ### Gleichprozent-Kennlinie (Equal Percentage)
 
-```
-Hub 10% → Kv 2%
-Hub 50% → Kv 10%
-Hub 90% → Kv 50%
-Hub 100% → Kv 100%
-```
+| Hub   | k<sub>v</sub> / k<sub>vs</sub> |
+| ----- | ------------------------------ |
+| 10 %  | 3 %                            |
+| 50 %  | 14 %                           |
+| 90 %  | 68 %                           |
+| 100 % | 100 %                          |
+
+Formel: k<sub>v</sub>/k<sub>vs</sub> = SV<sup>(h − 1)</sup>, hier mit Stellverhältnis SV = 50. Jeder gleiche Hubschritt erhöht den Durchfluss um denselben Prozentsatz.
 
 - Logarithmische Kennlinie
 - **Empfehlen** für Wärmetauscher-Einbindung: kompensiert die nichtlineare Wärmeübergabe-Charakteristik
@@ -183,16 +159,16 @@ Hub 100% → Kv 100%
 
 ### Lineare Kennlinie
 
-```
-Hub 10% → Kv 10%
-Hub 50% → Kv 50%
-Hub 100% → Kv 100%
-```
+| Hub   | k<sub>v</sub> / k<sub>vs</sub> |
+| ----- | ------------------------------ |
+| 10 %  | 10 %                           |
+| 50 %  | 50 %                           |
+| 100 % | 100 %                          |
 
 - Proportional
 - Für Mischventile und Anwendungen mit linearem Wärmeübergang
 
-**Kombination:** Gleichprozent-Ventil + lineare Wärmetauscher-Charakteristik = annähernd lineare Regelstrecke (einfacher zu parametrieren).
+**Kombination:** Ein Wärmeübertrager gibt schon bei kleinem Durchfluss viel Leistung ab. Das gleichprozentige Ventil gleicht diese Krümmung aus, zusammen ergibt sich eine annähernd lineare Regelstrecke, die sich leichter einstellen lässt.
 
 ---
 
@@ -219,11 +195,11 @@ Hub 100% → Kv 100%
 
 Bei Signalausfall (Kabelbruch, Stromausfall) nimmt der Antrieb eine definierte Position ein:
 
-| Fail-Safe  | Wann sinnvoll                                  |
-| ---------- | ---------------------------------------------- |
-| **Auf**    | Frostschutz (Heizregister muss offen bleiben)  |
-| **Zu**     | Dampfventil (Verbrühungsschutz), Kühldecke     |
-| **Halten** | Pneumatische Antriebe (halten letzte Position) |
+| Fail-Safe  | Wann sinnvoll                                               |
+| ---------- | ----------------------------------------------------------- |
+| **Auf**    | Frostschutz (Heizregister muss offen bleiben)               |
+| **Zu**     | Dampfventil (Verbrühungsschutz), Kühldecke                  |
+| **Halten** | Antriebe ohne Federrücklauf bleiben in der letzten Stellung |
 
 > ⚠️ Fail-Safe Stellung **immer** projektieren und testen! Was passiert bei Kabelbruch? Schaden durch Frost? Übertemperatur? Das muss im Voraus geplant sein.
 
@@ -231,20 +207,19 @@ Bei Signalausfall (Kabelbruch, Stromausfall) nimmt der Antrieb eine definierte P
 
 ## Typische Fehler in der Praxis
 
-| Fehler                       | Symptom                                       | Lösung                                      |
-| ---------------------------- | --------------------------------------------- | ------------------------------------------- |
-| Ventil zu gross (Kvs falsch) | Regelventil immer fast geschlossen, Geräusche | Ventil tauschen                             |
-| Ventilautorität zu klein     | Regelung instabil, schwingt                   | Systemdruck erhöhen oder Ventil verkleinern |
-| Kennlinie falsch             | Überproportionale Reaktion bei kleinen Hüben  | Kennlinientyp prüfen                        |
-| Fail-safe nicht konfiguriert | Ventil bleibt bei Ausfall in Zufallsstellung  | Antrieb parametrieren                       |
-| Misch- statt Umlenkventil    | Kurzschluss im System                         | Rohranschluss und Typ prüfen                |
-| Antrieb zu schnell           | Wasserhammergeräusche                         | Stellzeit erhöhen (Parametrierung)          |
+| Fehler                       | Symptom                                       | Lösung                                 |
+| ---------------------------- | --------------------------------------------- | -------------------------------------- |
+| Ventil zu gross (Kvs falsch) | Regelventil immer fast geschlossen, Geräusche | Ventil tauschen                        |
+| Ventilautorität zu klein     | Regelung instabil, schwingt                   | kleineres Ventil, Differenzdruckregler |
+| Kennlinie falsch             | Überproportionale Reaktion bei kleinen Hüben  | Kennlinientyp prüfen                   |
+| Fail-safe nicht konfiguriert | Ventil bleibt bei Ausfall in Zufallsstellung  | Antrieb parametrieren                  |
+| Misch- statt Umlenkventil    | Kurzschluss im System                         | Rohranschluss und Typ prüfen           |
+| Antrieb zu schnell           | Wasserhammergeräusche                         | Stellzeit erhöhen (Parametrierung)     |
 
 ## Normen
 
 - **EN 60534** — Industriearmaturen, Regelventile
 - **VDI/VDE 2173** — Strömungstechnische Kennwerte von Regelventilen
-- **AGFW FW 401** — Rohrweitenbemessung für Nahwärme (enthält Kvs-Auslegung)
 
 <!-- EN -->
 
@@ -256,11 +231,7 @@ Motorised valves are the actuators of hydraulic systems — they convert the con
 
 ### 2-Way Valve (Shut-off / Control Valve)
 
-```
-Inlet → [Valve] → Outlet
-            ↑
-        Actuator
-```
+A two-way valve has two connections; the actuator moves the plug and thus changes the free cross-section.
 
 - **Function:** Opens or closes flow
 - **Applications:** heat exchanger connection, radiators, fan-coils, underfloor heating circuits
@@ -268,29 +239,19 @@ Inlet → [Valve] → Outlet
 
 **2-way valve in radiator circuit:**
 
-```
-Flow → 2-way valve → Radiator → Return
-```
+Diagrams of circuits with two-way and three-way valves are in [Basic Hydraulic Circuits](/wissen/ventil-schaltungen).
 
 ### 3-Way Valve: Mixing Valve
 
-```
-Flow (warm)   ─────┐
-                   [Mixing valve] → to consumer
-Return (cold) ─────┘
-```
+A mixing valve has two inlets (A, B) and one common outlet (AB).
 
 - **Function:** Mixes flow + return in an adjustable ratio → variable outlet temperature
 - **Applications:** set heating circuit flow temperature, weather-compensated control
-- **Hydraulics:** total volume flow through generator remains constant (no pressure problem for generator)
+- **Hydraulics:** the flow to the consumer stays constant, the flow through the generator varies (mixing circuit)
 
 ### 3-Way Valve: Diverting Valve
 
-```
-                   ─── to consumer 1
-Inlet → [Diverting valve]
-                   ─── to consumer 2
-```
+A diverting valve has one inlet (AB) and two outlets (A, B). Not every three-way valve is approved as a diverting valve; the datasheet says so.
 
 - **Function:** Diverts volume flow between two paths
 - **Applications:** heating/cooling switchover (reversible system), priority circuit
@@ -314,21 +275,15 @@ The **Kv value** describes flow at a defined pressure drop:
 
 ### Formula
 
-```
-Kv = Q × √(1 / Δp)
-```
+<p class="formel">k<sub>v</sub> = Q · √(1 / Δp)</p>
 
 Rearranged for flow:
 
-```
-Q = Kv × √Δp
-```
+<p class="formel">Q = k<sub>v</sub> · √Δp</p>
 
 And for pressure drop:
 
-```
-Δp = (Q / Kv)²
-```
+<p class="formel">Δp = (Q / k<sub>v</sub>)<sup>2</sup></p>
 
 **Units:** Q in m³/h, Δp in bar
 
@@ -348,9 +303,7 @@ The **Kvs** is the Kv value at fully open valve — the manufacturer's catalogue
 
 ### Step 1: Calculate Required Flow
 
-```
-Q [m³/h] = Heating power [kW] / (1.163 × temperature spread [K])
-```
+<p class="formel">Q [m³/h] = power [kW] / (1.163 · temperature difference [K])</p>
 
 Example: 10 kW, spread 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 
@@ -361,17 +314,13 @@ Example: 10 kW, spread 10 K → Q = 10 / (1.163 × 10) = **0.86 m³/h**
 
 **Valve authority:**
 
-```
-α = Δpv / (Δpv + ΔpSystem)
-```
+<p class="formel">α = Δp<sub>V</sub> / (Δp<sub>V</sub> + Δp<sub>variable-flow network</sub>)</p>
 
 α > 0.5 = good; α < 0.3 = poor controllability (valve has little influence)
 
 ### Step 3: Calculate Kv
 
-```
-Kv = Q / √Δp
-```
+<p class="formel">k<sub>v</sub> = Q / √Δp</p>
 
 Example: Q = 0.86 m³/h, Δp = 0.3 bar → Kv = 0.86 / √0.3 = 0.86 / 0.548 = **1.57**
 
@@ -387,12 +336,14 @@ The characteristic (curve) determines how Kv changes with stroke:
 
 ### Equal Percentage Characteristic
 
-```
-Stroke 10% → Kv 2%
-Stroke 50% → Kv 10%
-Stroke 90% → Kv 50%
-Stroke 100% → Kv 100%
-```
+| Stroke | k<sub>v</sub> / k<sub>vs</sub> |
+| ------ | ------------------------------ |
+| 10 %   | 3 %                            |
+| 50 %   | 14 %                           |
+| 90 %   | 68 %                           |
+| 100 %  | 100 %                          |
+
+Formula: k<sub>v</sub>/k<sub>vs</sub> = SV<sup>(h − 1)</sup>, here with rangeability SV = 50. Each equal stroke step raises the flow by the same percentage.
 
 - Logarithmic characteristic
 - **Recommended** for heat exchanger connections: compensates for the non-linear heat transfer characteristic
@@ -400,16 +351,16 @@ Stroke 100% → Kv 100%
 
 ### Linear Characteristic
 
-```
-Stroke 10% → Kv 10%
-Stroke 50% → Kv 50%
-Stroke 100% → Kv 100%
-```
+| Stroke | k<sub>v</sub> / k<sub>vs</sub> |
+| ------ | ------------------------------ |
+| 10 %   | 10 %                           |
+| 50 %   | 50 %                           |
+| 100 %  | 100 %                          |
 
 - Proportional
 - For mixing valves and applications with linear heat transfer
 
-**Combination:** Equal percentage valve + linear heat exchanger characteristic = approximately linear control loop (easier to parameterise).
+**Combination:** a heat exchanger releases a lot of output even at small flow. The equal-percentage valve compensates this curvature; together they give an approximately linear controlled system that is easier to tune.
 
 ---
 
@@ -436,11 +387,11 @@ Stroke 100% → Kv 100%
 
 On signal loss (cable break, power failure), the actuator moves to a defined position:
 
-| Fail-safe  | When appropriate                                 |
-| ---------- | ------------------------------------------------ |
-| **Open**   | Frost protection (heating coil must remain open) |
-| **Closed** | Steam valve (scald protection), chilled ceiling  |
-| **Hold**   | Pneumatic actuators (hold last position)         |
+| Fail-safe  | When appropriate                                          |
+| ---------- | --------------------------------------------------------- |
+| **Open**   | Frost protection (heating coil must remain open)          |
+| **Closed** | Steam valve (scald protection), chilled ceiling           |
+| **Hold**   | Actuators without spring return stay in the last position |
 
 > ⚠️ Fail-safe position must **always** be specified and tested! What happens on cable break? Frost damage? Overtemperature? This must be planned in advance.
 
@@ -448,17 +399,16 @@ On signal loss (cable break, power failure), the actuator moves to a defined pos
 
 ## Typical Field Faults
 
-| Fault                             | Symptom                                     | Solution                                      |
-| --------------------------------- | ------------------------------------------- | --------------------------------------------- |
-| Valve too large (wrong Kvs)       | Control valve nearly always closed, noise   | Replace valve                                 |
-| Valve authority too low           | Control unstable, oscillating               | Increase system pressure or reduce valve size |
-| Wrong characteristic              | Disproportionate response at small strokes  | Check characteristic type                     |
-| Fail-safe not configured          | Valve remains in random position on failure | Parameterise actuator                         |
-| Mixing instead of diverting valve | Short-circuit in system                     | Check pipe connection and valve type          |
-| Actuator too fast                 | Water hammer noise                          | Increase stroke time (parameterisation)       |
+| Fault                             | Symptom                                     | Solution                                        |
+| --------------------------------- | ------------------------------------------- | ----------------------------------------------- |
+| Valve too large (wrong Kvs)       | Control valve nearly always closed, noise   | Replace valve                                   |
+| Valve authority too low           | Control unstable, oscillating               | smaller valve, differential pressure controller |
+| Wrong characteristic              | Disproportionate response at small strokes  | Check characteristic type                       |
+| Fail-safe not configured          | Valve remains in random position on failure | Parameterise actuator                           |
+| Mixing instead of diverting valve | Short-circuit in system                     | Check pipe connection and valve type            |
+| Actuator too fast                 | Water hammer noise                          | Increase stroke time (parameterisation)         |
 
 ## Standards
 
 - **EN 60534** — Industrial valves, control valves
 - **VDI/VDE 2173** — Flow characteristics of control valves
-- **AGFW FW 401** — Pipe sizing for district heating (includes Kvs sizing)
