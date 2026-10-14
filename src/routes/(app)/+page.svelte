@@ -656,7 +656,8 @@
 		transition:
 			border-color 0.15s,
 			box-shadow 0.15s,
-			background 0.15s;
+			background 0.15s,
+			transform 0.15s;
 		position: relative;
 		overflow: hidden;
 	}
