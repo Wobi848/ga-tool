@@ -103,5 +103,10 @@ export default defineConfig({
 				]
 			}
 		})
-	]
+	],
+	// Die Artikel liegen in content/, ausserhalb dessen, was SvelteKit im
+	// Dev-Server freigibt. Im Build faellt das nicht auf, weil sie dort
+	// gebuendelt werden; im Dev-Server lud ohne diese Zeile kein Artikel nach
+	// (403, "outside of Vite serving allow list").
+	server: { fs: { allow: ['content'] } }
 });

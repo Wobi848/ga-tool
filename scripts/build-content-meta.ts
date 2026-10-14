@@ -100,6 +100,8 @@ function extractSearchableText(content: string, maxLen = 3000): string {
 		.replace(/```[\s\S]*?```/g, ' ') // fenced code
 		.replace(/`[^`]*`/g, ' ') // inline code
 		.replace(/<!--[\s\S]*?-->/g, ' ') // html-Kommentare (inkl. EN-Marker)
+		.replace(/<svg[\s\S]*?<\/svg>/g, ' ') // Zeichnungen samt Beschriftung
+		.replace(/<[^>]+>/g, ' ') // übrige HTML-Tags, Text dazwischen bleibt
 		.replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1') // links: nur text
 		.replace(/[#*_>|-]/g, ' ') // markdown-Marker
 		.replace(/\$\$[\s\S]*?\$\$/g, ' ') // display math
