@@ -54,7 +54,9 @@ Luftfeuchtigkeit ist ein zentraler Komfort- und Bauphysik-Parameter. Zu trocken 
 
 Warme Luft kann mehr Wasser tragen als kalte. Bei 0 °C sind etwa 3.8 g/kg Sättigung, bei 20 °C ~14.7 g/kg, bei 30 °C ~27 g/kg. Die rF setzt aktuellen Wassergehalt in Bezug zu diesem **temperaturabhängigen Maximum**:
 
-<p class="formel">φ = x / x<sub>Sättigung</sub>(T) · 100 %</p>
+<p class="formel">φ = p<sub>D</sub> / p<sub>S</sub>(T) · 100 % ≈ x / x<sub>S</sub>(T) · 100 %</p>
+
+p_D ist der Partialdruck des Wasserdampfs, p_S der Sättigungsdruck bei der aktuellen Temperatur. Das Verhältnis der x-Werte ist eine gute Näherung.
 
 **Konsequenz:** Wenn du dieselbe Luft (gleicher x-Wert) **erwärmst**, sinkt rF. Wenn du sie **kühlst**, steigt rF — bis bei Erreichen des **Taupunkts** rF = 100 % und Kondensation einsetzt.
 
@@ -70,51 +72,60 @@ Im Winter ist Innenluft ohne Befeuchtung **immer trocken** — egal wie sehr die
 
 ## Das h-x-Diagramm (Mollier)
 
-Das h-x-Diagramm (im englischen Sprachraum „Psychrometric Chart") trägt die Feuchtelage in 4 Achsen auf:
+Im deutschsprachigen Raum ist das h-x-Diagramm nach Mollier üblich:
 
-- **X-Achse:** spezifische Feuchte x [g/kg trockene Luft]
-- **Y-Achse:** spezifische Enthalpie h [kJ/kg] (schräg, läuft nach links oben)
-- **Isothermen:** schräge Linien für konstante Temperatur
-- **rF-Linien:** gebogen, von links oben (kalt, gesättigt) nach rechts unten
+- **waagrecht:** Wassergehalt x in g/kg trockene Luft
+- **senkrecht:** Temperatur. Die Isothermen steigen leicht nach rechts an.
+- **schräg nach rechts unten:** Linien gleicher Enthalpie h in kJ/kg
+- **gebogen nach rechts oben:** Linien gleicher relativer Feuchte, unten rechts begrenzt durch die Sättigungslinie φ = 100 %
+
+Im englischen Sprachraum ist das **Carrier-Diagramm** (Psychrometric Chart) verbreitet. Es ist das gleiche Diagramm, nur gespiegelt und gedreht: Temperatur waagrecht, Wassergehalt senkrecht.
 
 ### Typische Operationen als Pfeile
 
-| HLK-Vorgang                                       | Bewegung im h-x-Diagramm                                            |
-| ------------------------------------------------- | ------------------------------------------------------------------- |
-| **Heizen** (sensibel)                             | rein nach rechts (T steigt, x konstant, rF sinkt)                   |
-| **Kühlen ohne Kondensation**                      | rein nach links (T sinkt, x konstant, rF steigt)                    |
-| **Kühlen mit Kondensation**                       | nach links bis 100-%-Linie, dann entlang nach links unten (x sinkt) |
-| **Adiabatische Befeuchtung** (Sprühnebel/Wäscher) | entlang Isenthalpe — h konstant, T sinkt, x steigt                  |
-| **Dampfbefeuchtung**                              | fast vertikal nach oben (x steigt, T fast konstant)                 |
-| **Mischen zweier Luftströme**                     | auf Verbindungslinie der beiden Punkte, gewichtet nach Massenstrom  |
-| **Wärmerückgewinnung sensibel**                   | nur T-Verschiebung — x bleibt                                       |
-| **Wärmerückgewinnung enthalpisch** (Rotor)        | T und x werden zwischen Zu- und Abluft getauscht                    |
+| HLK-Vorgang                                       | Mollier (h-x)                                                      | Carrier                     |
+| ------------------------------------------------- | ------------------------------------------------------------------ | --------------------------- |
+| **Heizen** (sensibel)                             | senkrecht nach oben, x konstant, rF sinkt                          | waagrecht nach rechts       |
+| **Kühlen ohne Kondensation**                      | senkrecht nach unten, x konstant, rF steigt                        | waagrecht nach links        |
+| **Kühlen mit Kondensation**                       | nach unten bis zur Sättigung, dann x kleiner                       | nach links, dann nach unten |
+| **Adiabatische Befeuchtung** (Sprühnebel/Wäscher) | entlang h = konstant nach rechts unten                             | schräg nach links oben      |
+| **Dampfbefeuchtung**                              | fast waagrecht nach rechts, T steigt kaum                          | fast senkrecht nach oben    |
+| **Mischen zweier Luftströme**                     | auf Verbindungslinie der beiden Punkte, gewichtet nach Massenstrom |
+| **Wärmerückgewinnung sensibel**                   | nur T-Verschiebung — x bleibt                                      |
+| **Wärmerückgewinnung enthalpisch** (Rotor)        | T und x werden zwischen Zu- und Abluft getauscht                   |
 
 > Im **[Psychrometrie-Rechner](/rechner/psychrometrie)** ist ein interaktives h-x-Diagramm eingebaut. Du gibst T + rF (oder x, Taupunkt, h) ein und siehst deinen Arbeitspunkt live im Carrier-Diagramm zusammen mit den rF-Kurven (20/40/60/80/100 %) und dem Taupunkt-Marker auf der Sättigungslinie.
 
 ## Behaglichkeitsbereich
 
-Nach **DIN EN 16798-1** und **DIN ISO 7730** liegt der Komfortbereich bei:
+**EN 16798-1** nennt Auslegungswerte für Anlagen, die befeuchten oder entfeuchten:
 
-- **rel. Feuchte:** 30–60 % (Kat. I), 25–65 % (Kat. II)
-- **Temperatur:** 20–24 °C im Winter, 23–26 °C im Sommer
+| Kategorie | Befeuchten bis | Entfeuchten ab |
+| --------- | -------------- | -------------- |
+| I         | 30 %           | 50 %           |
+| II        | 25 %           | 60 %           |
+| III       | 20 %           | 70 %           |
 
-In der **SIA 382/1** (Schweiz) ist der Bereich 30–50 % rF im Winter, 30–65 % im Sommer.
+Die Temperatur liegt nach **EN ISO 7730** im Büro bei 20–24 °C im Winter und 23–26 °C im Sommer.
 
-| rF          | Bewertung                                                                       |
-| ----------- | ------------------------------------------------------------------------------- |
-| < 20 %      | Sehr trocken — Schleimhäute, Augen brennen, Statik-Elektrizität, Holzschwund    |
-| 20–30 %     | Trocken — typisch Winter ohne Befeuchtung, von vielen schon unangenehm          |
-| **30–55 %** | **Komfort** — Standardziel in Komfortlüftung                                    |
-| 55–65 %     | Spürbar feucht, noch ok; Schwüle bei höherer T                                  |
-| > 65 %      | Schimmelrisiko an kalten Bauteilen wenn längerfristig; Hausstaubmilben gedeihen |
-| > 80 %      | Akute Bauschäden bei kalten Wänden (Taupunkt erreicht → Kondensation)           |
+In der Schweiz soll nach **SIA 382/1** nur befeuchtet werden, wo die Nutzung es verlangt. Kurze Zeiten mit tiefer Feuchte im Winter gelten als hinnehmbar. Nach oben begrenzt die Norm vor allem den Wassergehalt, damit es nicht schwül wird.
+
+| rF          | Bewertung                                                                     |
+| ----------- | ----------------------------------------------------------------------------- |
+| < 20 %      | Sehr trocken — Schleimhäute, Augen brennen, Statik-Elektrizität, Holzschwund  |
+| 20–30 %     | Trocken — typisch Winter ohne Befeuchtung, von vielen schon unangenehm        |
+| **30–55 %** | **Komfort** — Standardziel in Komfortlüftung                                  |
+| 55–65 %     | Spürbar feucht, noch ok; Schwüle bei höherer T                                |
+| > 60 %      | Hausstaubmilben vermehren sich; an kalten Bauteilen steigt das Schimmelrisiko |
+| > 70 %      | An kalten Ecken und Fensterlaibungen wird die Oberfläche bald zu feucht       |
+
+Für Schimmel zählt die Feuchte **an der Oberfläche**, nicht im Raum. Ab etwa 80 % Oberflächenfeuchte über mehrere Tage wächst Schimmel. Eine Wand, die 5 K kälter ist als die Raumluft, erreicht diese Feuchte schon bei rund 55 % im Raum.
 
 ## Zu trocken — Konsequenzen und Massnahmen
 
 **Symptome:**
 
-- Brennende Augen, trockener Hals, vermehrte Atemwegsinfekte (RKI/WHO-Studien)
+- Brennende Augen, trockener Hals, nach mehreren Studien mehr Atemwegsinfekte bei sehr trockener Luft
 - Statische Aufladung (Funken beim Türklinken, Probleme in Elektronik-Räumen)
 - Holzparkett/Möbel reissen, klassische Klavier-/Geigen-Verstimmung
 - Vermehrte Staubaufwirbelung — kleine Partikel bleiben länger in der Luft
@@ -132,7 +143,7 @@ Detail-Artikel: [Befeuchter](/wissen/befeuchter), [Wärmerückgewinnung](/wissen
 **Symptome:**
 
 - Schimmel an kalten Wand-Ecken, hinter Möbeln, in Fensterlaibungen
-- Hausstaubmilben (gedeihen ab ~50 % rF) — Allergien
+- Hausstaubmilben (vermehren sich ab etwa 60 % rF) — Allergien
 - Materialschäden: aufgehende Tapeten, durchfeuchtete Dämmung, Korrosion an Stahlträgern
 - Schwüle-Empfinden im Sommer schon ab 60 % rF + 26 °C
 
@@ -157,8 +168,8 @@ Sensor-Auswahl + Einbau: siehe [Feuchtesensoren](/wissen/feuchtesensoren).
 - **Sensor neben Heizkörper** → misst lokale Trockenluft, nicht den Raum-Mittelwert
 - **Sensor in der Decke** → warme Schicht, andere rF als am Aufenthaltsort
 - **rF-Drift** über die Zeit — kapazitive Sensoren brauchen alle 2–3 Jahre Vergleichsmessung
-- **Befeuchter ohne Hygienewartung** → Legionellen-Risiko bei Sprühvernebler (VDI 6022, ÖNORM H 6021)
-- **Behaglichkeit nur über rF regeln** — der Komfort hängt auch von T, Strahlung, Luftgeschwindigkeit ab (siehe Behaglichkeitsmodell PMV/PPD nach DIN ISO 7730)
+- **Befeuchter ohne Hygienewartung** → Legionellen-Risiko bei Sprühvernebler (VDI 6022, SWKI VA104-01)
+- **Behaglichkeit nur über rF regeln** — der Komfort hängt auch von T, Strahlung, Luftgeschwindigkeit ab (siehe Behaglichkeitsmodell PMV/PPD nach EN ISO 7730, [Thermische Behaglichkeit](/wissen/thermische-behaglichkeit))
 
 ## Verwandt
 
@@ -171,13 +182,13 @@ Sensor-Auswahl + Einbau: siehe [Feuchtesensoren](/wissen/feuchtesensoren).
 
 ## Zusammenfassung
 
-| Wenn du …                               | Brauchst du …                                                     |
-| --------------------------------------- | ----------------------------------------------------------------- |
-| im Winter < 30 % rF im Raum hast        | Befeuchter (Dampf oder adiabat) oder Enthalpie-WRG                |
-| im Sommer > 60 % rF + Schwüle hast      | Entfeuchtung über Kühlregister oder Adsorptions-Entfeuchter       |
-| Schwitzwasser an Lüftungskanälen siehst | Dämmung prüfen, Zuluft-Taupunkt unter Kanal-Wandtemperatur halten |
-| nach „Feuchte-Sollwert" für IBN suchst  | DIN EN 16798-1 Kat. I (30–60 %), SIA 382/1 (30–50 % Winter)       |
-| Mischluft-Anteile optimieren willst     | h-x-Diagramm verwenden, Enthalpie der Aussen-/Abluft vergleichen  |
+| Wenn du …                               | Brauchst du …                                                                                         |
+| --------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| im Winter < 30 % rF im Raum hast        | Befeuchter (Dampf oder adiabat) oder Enthalpie-WRG                                                    |
+| im Sommer > 60 % rF + Schwüle hast      | Entfeuchtung über Kühlregister oder Adsorptions-Entfeuchter                                           |
+| Schwitzwasser an Lüftungskanälen siehst | Dämmung mit Dampfbremse prüfen: Die Kanaloberfläche muss wärmer bleiben als der Taupunkt der Raumluft |
+| nach „Feuchte-Sollwert" für IBN suchst  | EN 16798-1: Kat. II befeuchten bis 25 %, entfeuchten ab 60 %                                          |
+| Mischluft-Anteile optimieren willst     | h-x-Diagramm verwenden, Enthalpie der Aussen-/Abluft vergleichen                                      |
 
 <!-- EN -->
 
@@ -199,7 +210,9 @@ Humidity is a central parameter for both comfort and building physics. Too dry a
 
 Warm air can hold more water than cold air. At 0 °C saturation is around 3.8 g/kg, at 20 °C about 14.7 g/kg, at 30 °C about 27 g/kg. RH relates the current water content to this **temperature-dependent maximum**:
 
-<p class="formel">φ = x / x<sub>saturation</sub>(T) · 100 %</p>
+<p class="formel">φ = p<sub>v</sub> / p<sub>s</sub>(T) · 100 % ≈ x / x<sub>s</sub>(T) · 100 %</p>
+
+p_v is the partial pressure of the water vapour, p_s the saturation pressure at the current temperature. The ratio of the x values is a good approximation.
 
 **Consequence:** if you **heat** the same air (same x value), RH falls. If you **cool** it, RH rises — until the **dew point** is reached, RH = 100 % and condensation begins.
 
@@ -215,36 +228,43 @@ In winter, indoor air without humidification is **always dry** — no matter how
 
 ## The Psychrometric Chart (Mollier h-x)
 
-The chart plots the humidity state on four axes:
+In German-speaking countries the Mollier h-x chart is standard:
 
-- **X axis:** specific humidity x [g/kg dry air]
-- **Y axis:** specific enthalpy h [kJ/kg] (skewed, running up to the left)
-- **Isotherms:** slanted lines of constant temperature
-- **RH lines:** curved, from top left (cold, saturated) down to the right
+- **horizontal:** moisture content x in g/kg dry air
+- **vertical:** temperature. The isotherms rise slightly to the right.
+- **slanting down to the right:** lines of constant enthalpy h in kJ/kg
+- **curving up to the right:** lines of constant relative humidity, bounded at the lower right by the saturation line φ = 100 %
+
+The English-speaking world uses the **Carrier chart** (psychrometric chart). It is the same chart, mirrored and rotated: temperature horizontal, moisture content vertical.
 
 ### Typical Operations as Arrows
 
-| HVAC process                                 | Movement in the chart                                            |
-| -------------------------------------------- | ---------------------------------------------------------------- |
-| **Heating** (sensible)                       | straight to the right (T rises, x constant, RH falls)            |
-| **Cooling without condensation**             | straight to the left (T falls, x constant, RH rises)             |
-| **Cooling with condensation**                | left to the 100 % line, then down along it to the left (x falls) |
-| **Adiabatic humidification** (spray, washer) | along the isenthalp — h constant, T falls, x rises               |
-| **Steam humidification**                     | almost vertically upwards (x rises, T nearly constant)           |
-| **Mixing two air streams**                   | on the line joining the two points, weighted by mass flow        |
-| **Sensible heat recovery**                   | temperature shift only — x stays put                             |
-| **Enthalpy heat recovery** (rotary wheel)    | both T and x are exchanged between supply and extract air        |
+| HVAC process                                 | Mollier (h-x)                                             | Carrier                   |
+| -------------------------------------------- | --------------------------------------------------------- | ------------------------- |
+| **Heating** (sensible)                       | straight up, x constant, RH falls                         | straight to the right     |
+| **Cooling without condensation**             | straight down, x constant, RH rises                       | straight to the left      |
+| **Cooling with condensation**                | down to saturation, then x decreases                      | left, then down           |
+| **Adiabatic humidification** (spray, washer) | along h = constant, down to the right                     | diagonally up to the left |
+| **Steam humidification**                     | almost horizontally right, T barely rises                 | almost vertically up      |
+| **Mixing two air streams**                   | on the line joining the two points, weighted by mass flow |
+| **Sensible heat recovery**                   | temperature shift only — x stays put                      |
+| **Enthalpy heat recovery** (rotary wheel)    | both T and x are exchanged between supply and extract air |
 
 > The **[psychrometry calculator](/rechner/psychrometrie)** has an interactive chart built in. Enter T + RH (or x, dew point, h) and you see your operating point live in the Carrier chart, together with the RH curves (20/40/60/80/100 %) and the dew point marker on the saturation line.
 
 ## Comfort Range
 
-According to **DIN EN 16798-1** and **DIN ISO 7730** the comfort range is:
+**EN 16798-1** gives design values for systems that humidify or dehumidify:
 
-- **Relative humidity:** 30–60 % (category I), 25–65 % (category II)
-- **Temperature:** 20–24 °C in winter, 23–26 °C in summer
+| Category | Humidify up to | Dehumidify from |
+| -------- | -------------- | --------------- |
+| I        | 30 %           | 50 %            |
+| II       | 25 %           | 60 %            |
+| III      | 20 %           | 70 %            |
 
-**SIA 382/1** (Switzerland) gives 30–50 % RH in winter and 30–65 % in summer.
+Per **EN ISO 7730**, office temperature is 20–24 °C in winter and 23–26 °C in summer.
+
+In Switzerland, **SIA 382/1** says to humidify only where the use requires it. Short periods of low humidity in winter are considered acceptable. At the upper end the standard mainly limits the moisture content to avoid mugginess.
 
 | RH          | Assessment                                                                      |
 | ----------- | ------------------------------------------------------------------------------- |
@@ -252,14 +272,16 @@ According to **DIN EN 16798-1** and **DIN ISO 7730** the comfort range is:
 | 20–30 %     | Dry — typical for winter without humidification, already unpleasant for many    |
 | **30–55 %** | **Comfort** — the standard target in comfort ventilation                        |
 | 55–65 %     | Noticeably humid, still acceptable; muggy at higher temperatures                |
-| > 65 %      | Risk of mould on cold building elements if sustained; dust mites thrive         |
-| > 80 %      | Acute building damage on cold walls (dew point reached → condensation)          |
+| > 60 %      | Dust mites multiply; mould risk rises on cold building elements                 |
+| > 70 %      | Cold corners and window reveals soon become too damp at the surface             |
+
+For mould, the humidity **at the surface** counts, not in the room. Mould grows at around 80 % surface humidity over several days. A wall 5 K colder than the room air reaches that at only about 55 % in the room.
 
 ## Too Dry — Consequences and Measures
 
 **Symptoms:**
 
-- Burning eyes, dry throat, more respiratory infections (RKI/WHO studies)
+- Burning eyes, dry throat, according to several studies more respiratory infections in very dry air
 - Static charge (sparks at door handles, problems in electronics rooms)
 - Parquet and furniture cracking, the classic detuning of pianos and violins
 - More dust in suspension — small particles stay airborne longer
@@ -277,7 +299,7 @@ Detail articles: [Humidifiers](/wissen/befeuchter), [Heat Recovery](/wissen/waer
 **Symptoms:**
 
 - Mould in cold wall corners, behind furniture, in window reveals
-- Dust mites (thriving from around 50 % RH) — allergies
+- Dust mites (multiply from around 60 % RH) — allergies
 - Material damage: peeling wallpaper, soaked insulation, corrosion on steel beams
 - A muggy feeling in summer from as little as 60 % RH at 26 °C
 
@@ -302,8 +324,8 @@ Sensor selection and installation: see [Humidity Sensors](/wissen/feuchtesensore
 - **Sensor next to a radiator** → measures locally dry air, not the room average
 - **Sensor in the ceiling** → warm layer, different RH from the occupied zone
 - **RH drift** over time — capacitive sensors need a comparison measurement every two to three years
-- **Humidifier without hygiene maintenance** → legionella risk with spray atomisers (VDI 6022, ÖNORM H 6021)
-- **Controlling comfort by RH alone** — comfort also depends on temperature, radiation and air velocity (see the PMV/PPD comfort model in DIN ISO 7730)
+- **Humidifier without hygiene maintenance** → legionella risk with spray atomisers (VDI 6022, SWKI VA104-01)
+- **Controlling comfort by RH alone** — comfort also depends on temperature, radiation and air velocity (see the PMV/PPD comfort model in EN ISO 7730, [Thermal Comfort](/wissen/thermische-behaglichkeit))
 
 ## Related
 
@@ -316,10 +338,10 @@ Sensor selection and installation: see [Humidity Sensors](/wissen/feuchtesensore
 
 ## Summary
 
-| If you …                                              | You need …                                                                          |
-| ----------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| have < 30 % RH indoors in winter                      | a humidifier (steam or adiabatic) or enthalpy heat recovery                         |
-| have > 60 % RH and mugginess in summer                | dehumidification via cooling coil or a desiccant dehumidifier                       |
-| see condensation on ventilation ducts                 | check the insulation, keep the supply-air dew point below the duct wall temperature |
-| are looking for a humidity setpoint for commissioning | DIN EN 16798-1 cat. I (30–60 %), SIA 382/1 (30–50 % winter)                         |
-| want to optimise the mixed-air ratio                  | use the psychrometric chart, compare the enthalpy of outdoor and extract air        |
+| If you …                                              | You need …                                                                                                     |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| have < 30 % RH indoors in winter                      | a humidifier (steam or adiabatic) or enthalpy heat recovery                                                    |
+| have > 60 % RH and mugginess in summer                | dehumidification via cooling coil or a desiccant dehumidifier                                                  |
+| see condensation on ventilation ducts                 | check the insulation with vapour barrier: the duct surface must stay warmer than the dew point of the room air |
+| are looking for a humidity setpoint for commissioning | EN 16798-1: cat. II humidify up to 25 %, dehumidify from 60 %                                                  |
+| want to optimise the mixed-air ratio                  | use the psychrometric chart, compare the enthalpy of outdoor and extract air                                   |

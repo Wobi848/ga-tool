@@ -113,12 +113,12 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### komfort
 
-- ⬜ beschattungssteuerung
-- ⬜ thermische-behaglichkeit
+- ✅ beschattungssteuerung
+- ✅ thermische-behaglichkeit
 
 ### physik
 
-- ⬜ luftfeuchtigkeit
+- ✅ luftfeuchtigkeit
 
 ### regelung
 
@@ -353,3 +353,6 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | kaelteanlagen                       | ASCII-Schemata; VDI 2047-2 falsch beschrieben; F-Gas-VO veraltet                                                                                                                                                                                                             | Text; ChemRRV-Hinweis; 2024/573                                                                                                             | VDI 2047-2                                                          |
 | 14.10.2026 | adiabatische-kuehlung               | ASCII-Blöcke; Feuchtkugeltemperatur Zürich zu tief; COP Nachtauskühlung unrealistisch                                                                                                                                                                                        | Text; ~20.5 °C Auslegung; COP 10–30                                                                                                         | SIA 2028                                                            |
 | 14.10.2026 | free-cooling                        | indirektes Free Cooling: Aussenluft 10 °C → Wasser 8 °C (unmöglich); erfundenes Energiebeispiel mit Scheingenauigkeit                                                                                                                                                        | 5 °C → ~9 °C, Approach 3–5 K; Beispiel als Grössenordnung gekennzeichnet                                                                    | —                                                                   |
+| 14.10.2026 | thermische-behaglichkeit            | EN-Teil ohne Einleitung und Parametertabelle; Heizkörper unter Fenster als Ursache für Temperaturschichtung (wirkt dagegen); adaptive Formel ASHRAE zugeschrieben (ist EN 16798-1); Komfortwerte ohne Quelle                                                                 | neu: Werte aus EN ISO 7730 Anhang, Kategorien I–IV, lokale Störungen, SIA 180                                                               | EN ISO 7730, EN 16798-1                                             |
+| 14.10.2026 | luftfeuchtigkeit                    | h-x-Diagramm: Mollier-Achsen, aber Carrier-Bewegungen; rF-Linien falsch herum; EN 16798-1 Feuchtewerte falsch; Milben «ab 50 %»; ÖNORM statt CH-Richtlinie                                                                                                                   | Mollier und Carrier getrennt; Kat. I 30/50, II 25/60, III 20/70 %; Oberflächenfeuchte erklärt; SWKI VA104-01                                | EN 16798-1 Tab. B.6                                                 |
+| 14.10.2026 | beschattungssteuerung               | Windschutz fehlte ganz (trotz Titel); keine Prioritäten, kein Frostschutz; Lamellenformel «Elevation + 15°»; prEN 16153 falsch; EN 15232 veraltet                                                                                                                            | neu geschrieben: Prioritäten, Wind nach EN 13659, Frost, Cut-off, Thermoautomatik, IBN                                                      | SIA 342, EN 13659                                                   |

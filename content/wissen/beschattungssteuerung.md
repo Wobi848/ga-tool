@@ -12,11 +12,13 @@ tags:
     sonnenautomatik,
     windautomatik,
     regenautomatik,
+    frostschutz,
     sonnenstand,
     azimut,
     elevation,
     fassade,
     priorität,
+    lamellennachführung,
     knx,
     dali,
     behaglichkeit,
@@ -24,368 +26,236 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [knx, glt-grundlagen, thermische-behaglichkeit, rlt-anlage]
-norm: [EN 15232, prEN 16153, SIA 382/1]
-updated: 2026-05-14
+related: [knx, glt-grundlagen, thermische-behaglichkeit, rlt-anlage, beleuchtungssteuerung]
+norm: [SIA 342, EN 13659, EN 14501, EN ISO 52120-1, SIA 180]
+updated: 2026-10-14
 lang: de
 ---
 
 # Beschattungssteuerung — Jalousie, Raffstore, Wind und Sonne
 
-Die Beschattungssteuerung beeinflusst Komfort, Energieverbrauch und Blendschutz. Zu viel Sonne → Überhitzung, zu wenig → schlechtes Tageslicht. Die GA regelt Jalousien und Raffstoren automatisch auf Basis von Sonnenstand, Wind, Regen und Nutzeranforderungen.
+Der aussenliegende Sonnenschutz ist im Sommer die wirksamste Massnahme gegen Überhitzung. Er schützt vor Blendung und lässt trotzdem Tageslicht in den Raum. Die GA fährt ihn nach Sonne, Wind, Niederschlag, Temperatur und Belegung. Weil Raffstoren und Markisen bei Sturm kaputtgehen, ist ein Teil dieser Steuerung eine Schutzfunktion.
 
-## Grundprinzipien
+## Eingänge und Ausgänge
 
-```
-Eingaben:
-  ├── Sonnenstand (Azimut + Elevation)
-  ├── Globalstrahlung / Einstrahlung auf Fassade
-  ├── Windgeschwindigkeit (Sicherheit!)
-  ├── Regen (Sicherheit!)
-  ├── Raumtemperatur
-  └── Benutzerpräferenz (manuell übersteuern)
+| Eingänge                                       | Ausgänge                      |
+| ---------------------------------------------- | ----------------------------- |
+| Wind, meist von der Wetterstation auf dem Dach | Höhe des Behangs, 0–100 %     |
+| Niederschlag und Aussentemperatur              | Lamellenwinkel bei Raffstoren |
+| Strahlung oder Helligkeit je Fassade           | Sperren und Freigaben         |
+| Sonnenstand, aus Datum, Uhrzeit und Standort   | Meldungen an die GLT          |
+| Raumtemperatur, Präsenz, Heizen oder Kühlen    |                               |
+| Bedienung durch die Person im Raum             |                               |
 
-Ausgaben:
-  ├── Raffstoren-Position (0–100 %)
-  └── Lamellenwinkel (0–180°)
-```
+## Prioritäten
 
----
+Mehrere Funktionen wollen denselben Behang fahren. Die Reihenfolge muss festgelegt und dokumentiert sein. Üblich ist:
 
-## Antriebstypen und Signale
+| Priorität | Funktion                                | Wirkung                                         |
+| --------- | --------------------------------------- | ----------------------------------------------- |
+| 1         | **Wind**                                | hochfahren und sperren                          |
+| 2         | **Frost, Vereisung**                    | nicht fahren, Stellung halten                   |
+| 3         | **Regen**, nur bei empfindlichem Behang | hochfahren und sperren                          |
+| 4         | **Wartung, Fensterreinigung**           | Stellung von Hand vorgegeben                    |
+| 5         | **Bedienung im Raum**                   | übersteuert die Automatik für eine gewisse Zeit |
+| 6         | **Sonnenautomatik, Thermoautomatik**    | Normalbetrieb                                   |
 
-| Signal                 | Beschreibung                          | Einsatz            |
-| ---------------------- | ------------------------------------- | ------------------ |
-| **230 V Motorantrieb** | Auf-/Ab-Signal (2 Ausgänge)           | Standard-Raffstore |
-| **KNX-Antrieb**        | Bus-Steuerung, Positionsrückmeldung   | KNX-Integration    |
-| **Modbus**             | Professionelle Antriebe, Volldiagnose | GLT-Anbindung      |
-| **0–10 V**             | Lamellenwinkel (selten)               | Spezielle Antriebe |
+Die Schutzfunktionen gehen immer vor, auch vor der Bedienung im Raum. Gibt die Person einen Befehl, übernimmt die Automatik erst nach einer Wartezeit, beim Verlassen des Raums oder zu einer festen Uhrzeit wieder.
 
-**Verriegelung:** Auf- und Ab-Signal **niemals gleichzeitig** aktiv! Sonst Motorschaden. DDC-Verriegelung obligatorisch.
+## Windschutz
 
----
+Raffstoren und Markisen haben eine **Windwiderstandsklasse** nach EN 13659. Der Hersteller gibt an, bis zu welcher Windgeschwindigkeit der Behang draussen bleiben darf. Bei Raffstoren liegt der Wert je nach Produkt und Breite etwa zwischen 8 und 15 m/s.
 
-## Sonnenschutzautomatik
+So wird der Windschutz umgesetzt:
 
-### Sonnenstand-Berechnung
+- **Sofort hochfahren**, wenn der Grenzwert überschritten wird. Böen zählen, nicht nur der Mittelwert.
+- **Erst wieder freigeben**, wenn der Wind eine Zeit lang unter dem Grenzwert liegt, typisch 10 bis 20 Minuten.
+- **Fassaden getrennt** behandeln, wo der Wind je nach Seite sehr verschieden ist. Bei Hochhäusern oder Ecklagen ist das die Regel.
+- **Ausfall der Wetterstation** wie Sturm behandeln. Kommt kein Wert mehr, fahren die Behänge hoch und bleiben oben.
 
-Die GA berechnet den Sonnenstand aus:
+Ein Sonnenschutz, der bei jeder Böe hochfährt, schützt im Sommer nicht. Windfeste Produkte und eine passende Grenze sind deshalb Teil des sommerlichen Wärmeschutzes.
 
-- Geografische Koordinaten (Breitengrad, Längengrad)
-- Datum und Uhrzeit
+## Frost und Regen
 
-```
-Azimut: Himmelsrichtung der Sonne (0° = Nord, 90° = Ost, 180° = Süd)
-Elevation: Sonnenhöhe über Horizont (0° = Sonnenaufgang, 90° = Zenit)
-```
+Bei Temperaturen um den Gefrierpunkt und Niederschlag können Lamellen und Führungsschienen vereisen. Ein Fahrbefehl reisst dann den Behang oder den Motor. Deshalb wird bei **Aussentemperatur unter etwa 3 °C und Niederschlag** das Fahren gesperrt, und zwar bis einige Stunden nach dem Ende der Bedingung oder bis zur Freigabe von Hand.
 
-### Fassaden-Exposition
+Regen allein ist für Raffstoren aus Aluminium meist kein Problem. Markisen aus Stoff und Holzlamellen werden dagegen eingefahren.
 
-Pro Fassade wird definiert:
+## Sonnenautomatik
 
-- Ausrichtung (Azimut der Fassade: 180° = Südfassade)
-- Aktivierungsbereich: Wenn Sonne auf diese Fassade scheint
+### Scheint die Sonne auf die Fassade?
 
-**Beispiel Südfassade:**
+Die GA berechnet den **Sonnenstand** aus Datum, Uhrzeit und Standort:
 
-| Bedingung             | Wert                              |
-| --------------------- | --------------------------------- |
-| Azimut Sonne in       | 120–240° (Sonne von Süden)        |
-| Elevation Sonne ≥     | 20° (kein Schattenwurf niedriger) |
-| Globalstrahlung ≥     | 200 W/m²                          |
-| → Automatik aktiviert | Raffstoren fahren runter          |
+- **Azimut:** Himmelsrichtung der Sonne, 0° Nord, 90° Ost, 180° Süd, 270° West
+- **Elevation:** Höhe über dem Horizont, 0° bis höchstens rund 66° in der Schweiz am 21. Juni
 
-### Lamellen-Optimierung (Blendschutz + Tageslicht)
+Eine Fassade bekommt direkte Sonne, wenn der Azimut der Sonne weniger als 90° von der Fassadennormalen abweicht. Bei einer Südfassade ist das zwischen 90° und 270°. Ob die Sonne wirklich ankommt, hängt zusätzlich von Nachbargebäuden, Bäumen und Vordächern ab. Gute Steuerungen kennen dafür ein **Verschattungsprofil** je Fassade oder sogar je Fenster.
 
-Ziel: Direktes Sonnenlicht abhalten, aber diffuses Tageslicht reinlassen.
+Dazu kommt ein Messwert: **Strahlung oder Helligkeit an der Fassade**. Liegt er über einer Schwelle, zum Beispiel 200 bis 300 W/m², fährt der Behang. Damit er bei Wolken nicht ständig auf und ab fährt, gibt es Verzögerungen: kurz zum Ausfahren, etwa 2 Minuten, länger zum Einfahren, etwa 10 bis 20 Minuten.
 
-```
-Lamellenwinkel = Elevation_Sonne + 15° (Puffer)
+### Lamellennachführung
 
-Beispiel: Sonne steht bei 45° Elevation
-→ Lamellenwinkel = 45 + 15 = 60°
-→ Direktes Licht wird reflektiert, indirektes Licht kommt rein
-```
+Bei Raffstoren stellt die Steuerung die Lamellen so steil, dass keine direkte Sonne durchkommt, aber nicht steiler. Dieser **Cut-off-Winkel** hängt von der Sonnenhöhe und von Breite und Abstand der Lamellen ab. Die Hersteller liefern dafür Tabellen oder Funktionsbausteine.
 
----
+Steht die Sonne hoch, reicht ein flacher Winkel, und es kommt viel Tageslicht herein. Steht sie tief, müssen die Lamellen fast geschlossen sein. Damit die Lamellen nicht ständig nachstellen, fährt man in Stufen, zum Beispiel alle 5° oder alle 15 Minuten.
 
-## Windautomatik (Sicherheit)
+## Thermoautomatik
 
-**Wind ist sicherheitsrelevant** — Beschattungsanlage kann bei Sturm beschädigt werden:
+Ist der Raum nicht belegt, darf der Behang auf Energie optimieren statt auf Komfort:
 
-| Windgeschwindigkeit | Massnahme                                                 |
-| ------------------- | --------------------------------------------------------- |
-| < 6 m/s             | Normalbetrieb                                             |
-| 6–10 m/s            | Warnung, keine Neuauslösung                               |
-| > 10 m/s            | **Zwang: Alle Raffstoren fahren hoch** (sichere Position) |
+- **Sommer oder Kühlbetrieb, Raum warm:** ganz schliessen, Wärme draussen halten
+- **Winter oder Heizbetrieb:** offen lassen, damit die Sonne heizt
+- **Nachts im Winter:** geschlossen hilft etwas gegen Wärmeverlust, vor allem bei alten Fenstern
 
-**Totzeit nach Wind:** Nach Windabfall mind. 5–10 Minuten warten bevor Automatik wieder übernimmt.
+Sobald jemand den Raum betritt, gilt wieder die Sonnenautomatik mit Blendschutz und Tageslicht.
 
-> ⚠️ Windautomatik hat **absolute Priorität** über alle anderen Befehle — auch über manuelle Übersteuerung! Ein Nutzer kann keine beschädigte Jalousie bezahlen.
+## Zusammen mit dem Licht
 
----
+Beschattung und Beleuchtung beeinflussen sich gegenseitig. Fährt der Sonnenschutz zu, regelt die Konstantlichtregelung das Kunstlicht nach, bis die Beleuchtungsstärke am Arbeitsplatz wieder erreicht ist, im Büro typisch 500 lx. Je mehr Tageslicht die Lamellennachführung hereinlässt, desto weniger Kunstlicht braucht es. Siehe [Beleuchtungssteuerung](/wissen/beleuchtungssteuerung).
 
-## Regenautomatik
+## Typische Datenpunkte
 
-Bei Regen können Holz-Lamellen oder spezielle Beschattungen beschädigt werden:
+| Datenpunkt                           | Typ   | Einheit  | Bemerkung                         |
+| ------------------------------------ | ----- | -------- | --------------------------------- |
+| Windgeschwindigkeit                  | AI    | m/s      | Wetterstation                     |
+| Niederschlag                         | BI    | —        | Regensensor, beheizt              |
+| Aussentemperatur                     | AI    | °C       | für Frostschutz                   |
+| Strahlung oder Helligkeit je Fassade | AI    | W/m², lx | Wetterstation oder Fassadensensor |
+| Sonnenazimut, Sonnenelevation        | AV    | °        | berechnet                         |
+| Windalarm je Fassade                 | BV    | —        | mit Zeitstempel                   |
+| Frostsperre                          | BV    | —        |                                   |
+| Behang Höhe Soll                     | AO/AV | %        | je Gruppe oder Raum               |
+| Lamellenwinkel Soll                  | AO/AV | °        | Bereich je nach Hersteller        |
+| Handbetrieb aktiv                    | BV    | —        | Automatik übersteuert             |
+| Störung Wetterstation                | BV    | —        | löst Windschutz aus               |
 
-- Regensensor: Kapazitiv oder Heizfaden-Prinzip
-- Bei Regen: Bestimmte Anlagentypen einfahren
-- Für Standardraffstoren meist nicht nötig
+## Inbetriebnahme
 
----
-
-## Prioritätensystem
-
-In der GA gilt eine klare Hierarchie:
-
-```
-1. WIND-ALARM (höchste Priorität — Hardware)
-2. Regen-Alarm
-3. Manuell vom Nutzer (Taster, App)
-4. Sonnenschutzautomatik
-5. Zeitprogramm (z.B. Nacht: immer offen)
-```
-
-**Manuelle Übersteuerung:**
-
-- Nutzer drückt Taster → manuelle Position 30 Minuten gültig
-- Danach: Automatik übernimmt wieder
-- Oder: Manuelle Sperre bis nächsten Tag
-
----
-
-## Raumautomation: Jalousie + Konstantlicht
-
-Kombination Beschattung + Beleuchtung für optimale Tageslichtnutzung:
-
-```
-Sensor: Raumhelligkeit (Lux)
-Soll: 500 Lux auf Arbeitsplatz
-
-Wenn Sonne scheint:
-  → Jalousie runter (Blendschutz)
-  → Lamellen: Tageslicht optimieren
-  → Künstliches Licht: Ergänzung auf 500 Lux (DALI-Konstantlicht)
-
-Wenn bewölkt:
-  → Jalousie offen (max. Tageslicht)
-  → Kunstlicht: Ergänzung auf 500 Lux
-```
-
-Spart 30–50 % Beleuchtungsenergie und verbessert Komfort.
-
----
-
-## KNX-Beschattungssteuerung
-
-KNX ist das häufigste System für Gebäude-Jalousien:
-
-- Gruppenadresse "Jalousie AUF/AB" → DO-Ausgang (1 bit)
-- Gruppenadresse "Position" → 0–100 % (1 Byte)
-- Gruppenadresse "Lamelle" → 0–100 % (1 Byte)
-- Gruppenadresse "Windalarm" → alle Jalousien synchron hoch
-
-**GA-Integration:** GLT liest KNX-Bus über IP-Gateway → kann Zeitprogramme und Sonnenschutz zentral steuern.
-
----
-
-## Typische GA-Datenpunkte
-
-| Datenpunkt                  | Typ | Einheit | Beschreibung                   |
-| --------------------------- | --- | ------- | ------------------------------ |
-| Windgeschwindigkeit         | AI  | m/s     | Wetterstation                  |
-| Globalstrahlung             | AI  | W/m²    | Pyranometer Dach               |
-| Sonnen-Azimut berechnet     | AV  | °       | Berechnet aus Datum + Standort |
-| Sonnen-Elevation berechnet  | AV  | °       | Berechnet                      |
-| Jalousie Fassade N Position | AO  | %       | Sollposition 0–100 %           |
-| Jalousie Fassade N Lamelle  | AO  | °       | Lamellenwinkel 0–180°          |
-| Windalarm                   | DI  | —       | Bei > Grenzwert                |
-| Manuelle Übersteuerung      | DI  | —       | Taster aktiv                   |
+- Windschutz mit echtem Signal testen: Grenzwert vorübergehend tief setzen, alle Gruppen müssen hochfahren.
+- Wetterstation abklemmen: Behänge müssen in Sicherheitsstellung fahren.
+- Fassadenzuordnung prüfen. Vertauschte Fassaden sind ein häufiger Fehler.
+- Uhrzeit und Standort kontrollieren, sonst stimmt der Sonnenstand nicht.
+- Prioritäten, Grenzwerte und Verzögerungen im Funktionsbeschrieb festhalten.
 
 ## Normen
 
-- **EN 15232** — Energieeffizienz durch GA (Sonnenschutz = grosses Einsparpotenzial)
-- **EN 14501** — Wärme- und Lichttransmission von Beschattungsprodukten
-- **SIA 382/1** — Lüftungs- und Klimaanlagen (integrierte Beschattung)
+- **SIA 342** — Sonnen- und Wetterschutzanlagen (CH)
+- **EN 13659** — Abschlüsse aussen, Leistungs- und Sicherheitsanforderungen, Windwiderstandsklassen
+- **EN 14501** — Abschlüsse, thermischer und visueller Komfort, Leistungsmerkmale
+- **SIA 180** — Wärmeschutz, Feuchteschutz und Raumklima, sommerlicher Wärmeschutz
+- **EN ISO 52120-1** — Einfluss der GA auf die Energieeffizienz, Nachfolger von EN 15232
 
 <!-- EN -->
 
-# Shading Control — Blinds, Wind and Sun
+External shading is the most effective protection against summer overheating. It prevents glare and still lets daylight in. The BA moves it according to sun, wind, precipitation, temperature and occupancy. Because external venetian blinds and awnings break in storms, part of this control is a protection function.
 
-Shading control influences comfort, energy consumption and glare protection. Too much sun causes overheating; too little means poor daylight use. The BMS automatically controls blinds and roller shutters based on sun position, wind, rain and user requirements.
+## Inputs and Outputs
 
-## Basic Principles
+| Inputs                                             | Outputs                        |
+| -------------------------------------------------- | ------------------------------ |
+| Wind, usually from the weather station on the roof | Blind height, 0–100 %          |
+| Precipitation and outdoor temperature              | Slat angle for venetian blinds |
+| Irradiance or brightness per facade                | Locks and releases             |
+| Sun position, from date, time and location         | Messages to the BMS            |
+| Room temperature, presence, heating or cooling     |                                |
+| Operation by the occupant                          |                                |
 
-```
-Inputs:
-  ├── Sun position (azimuth + elevation)
-  ├── Global irradiance / facade irradiance
-  ├── Wind speed (safety!)
-  ├── Rain (safety!)
-  ├── Room temperature
-  └── User preference (manual override)
+## Priorities
 
-Outputs:
-  ├── Shutter position (0–100 %)
-  └── Slat angle (0–180°)
-```
+Several functions want to move the same blind. The order must be defined and documented. Common practice:
 
----
+| Priority | Function                             | Effect                              |
+| -------- | ------------------------------------ | ----------------------------------- |
+| 1        | **Wind**                             | raise and lock                      |
+| 2        | **Frost, icing**                     | do not move, hold position          |
+| 3        | **Rain**, only for sensitive blinds  | raise and lock                      |
+| 4        | **Maintenance, window cleaning**     | position set manually               |
+| 5        | **Occupant operation**               | overrides the automatic for a while |
+| 6        | **Sun automatic, thermal automatic** | normal operation                    |
 
-## Drive Types and Signals
+Protection functions always come first, even before the occupant. After a manual command the automatic only takes over again after a waiting time, when the room is left or at a fixed time of day.
 
-| Signal                | Description                           | Application              |
-| --------------------- | ------------------------------------- | ------------------------ |
-| **230 V motor drive** | Up/down signals (2 outputs)           | Standard roller shutters |
-| **KNX drive**         | Bus control, position feedback        | KNX integration          |
-| **Modbus**            | Professional drives, full diagnostics | BMS connection           |
-| **0–10 V**            | Slat angle (rare)                     | Special drives           |
+## Wind Protection
 
-**Interlock:** Up and Down signals must **never** be active simultaneously — motor damage. DDC interlock is mandatory.
+External venetian blinds and awnings have a **wind resistance class** per EN 13659. The manufacturer states up to which wind speed the blind may stay down. For external venetian blinds this is roughly between 8 and 15 m/s, depending on product and width.
 
----
+Implementation:
 
-## Solar Protection Automation
+- **Raise immediately** when the limit is exceeded. Gusts count, not only the mean value.
+- **Release only** after the wind has stayed below the limit for some time, typically 10 to 20 minutes.
+- **Treat facades separately** where wind differs a lot by side. On high-rise buildings or corner sites that is the rule.
+- **Treat a failed weather station like a storm.** If no value arrives, the blinds go up and stay up.
 
-### Sun Position Calculation
+A sun protection that goes up at every gust does not protect in summer. Wind-resistant products and a suitable limit are therefore part of summer thermal protection.
 
-The BMS calculates sun position from:
+## Frost and Rain
 
-- Geographic coordinates (latitude, longitude)
-- Date and time
+Around freezing point with precipitation, slats and guide rails can ice up. A travel command then tears the blind or the motor. Therefore travel is locked when the **outdoor temperature is below about 3 °C and there is precipitation**, until a few hours after the condition ends or until released manually.
 
-```
-Azimuth: compass direction of sun (0° = North, 90° = East, 180° = South)
-Elevation: sun height above horizon (0° = sunrise, 90° = zenith)
-```
+Rain alone is usually no problem for aluminium venetian blinds. Fabric awnings and wooden slats are retracted.
 
-### Facade Exposure
+## Sun Automatic
 
-For each facade, define:
+### Is the Sun on the Facade?
 
-- Orientation (facade azimuth: 180° = south facade)
-- Activation range: when sun shines on this facade
+The BA calculates the **sun position** from date, time and location:
 
-**Example — South Facade:**
+- **Azimuth:** compass direction of the sun, 0° north, 90° east, 180° south, 270° west
+- **Elevation:** height above the horizon, 0° up to at most about 66° in Switzerland on 21 June
 
-| Condition           | Value                              |
-| ------------------- | ---------------------------------- |
-| Sun azimuth in      | 120–240° (sun from south)          |
-| Sun elevation ≥     | 20° (no shading effect below this) |
-| Global irradiance ≥ | 200 W/m²                           |
-| → Automation active | Shutters lower                     |
+A facade receives direct sun when the sun's azimuth deviates less than 90° from the facade normal. For a south facade that is between 90° and 270°. Whether the sun really arrives also depends on neighbouring buildings, trees and canopies. Good controllers have a **shading profile** per facade or even per window.
 
-### Slat Optimisation (Glare + Daylight)
+A measured value is added: **irradiance or brightness on the facade**. Above a threshold, for example 200 to 300 W/m², the blind moves. To stop it going up and down with every cloud there are delays: short for lowering, about 2 minutes, longer for raising, about 10 to 20 minutes.
 
-Goal: block direct sunlight while allowing diffuse daylight through.
+### Slat Tracking
 
-```
-Slat angle = sun elevation + 15° (buffer)
+With venetian blinds the controller sets the slats just steep enough to keep out direct sun, and no steeper. This **cut-off angle** depends on the sun's elevation and on width and spacing of the slats. Manufacturers supply tables or function blocks for it.
 
-Example: sun at 45° elevation
-→ Slat angle = 45 + 15 = 60°
-→ Direct light is reflected, indirect light enters
-```
+With the sun high, a flat angle is enough and a lot of daylight comes in. With the sun low, the slats must be almost closed. To avoid constant adjustment the slats move in steps, for example every 5° or every 15 minutes.
 
----
+## Thermal Automatic
 
-## Wind Automation (Safety)
+When the room is unoccupied, the blind may optimise for energy instead of comfort:
 
-**Wind is safety-critical** — shading equipment can be damaged in storms:
+- **Summer or cooling mode, room warm:** close fully, keep heat out
+- **Winter or heating mode:** leave open so the sun heats
+- **At night in winter:** closed helps a little against heat loss, especially with old windows
 
-| Wind speed | Action                                          |
-| ---------- | ----------------------------------------------- |
-| < 6 m/s    | Normal operation                                |
-| 6–10 m/s   | Warning, no new triggering                      |
-| > 10 m/s   | **Force: all shutters retract** (safe position) |
+As soon as someone enters, the sun automatic with glare protection and daylight applies again.
 
-**Dead time after wind:** After wind subsides, wait at least 5–10 minutes before automation resumes.
+## Together with Lighting
 
-> ⚠️ Wind automation has **absolute priority** over all other commands — including manual override. A damaged shutter is far more costly than a brief override refusal.
+Shading and lighting affect each other. When the sun protection closes, constant light control raises the artificial light until the illuminance at the workplace is reached again, typically 500 lx in offices. The more daylight slat tracking lets in, the less artificial light is needed. See [Lighting Control](/wissen/beleuchtungssteuerung).
 
----
+## Typical Data Points
 
-## Rain Automation
+| Data point                          | Type  | Unit     | Note                             |
+| ----------------------------------- | ----- | -------- | -------------------------------- |
+| Wind speed                          | AI    | m/s      | weather station                  |
+| Precipitation                       | BI    | —        | rain sensor, heated              |
+| Outdoor temperature                 | AI    | °C       | for frost protection             |
+| Irradiance or brightness per facade | AI    | W/m², lx | weather station or facade sensor |
+| Sun azimuth, sun elevation          | AV    | °        | calculated                       |
+| Wind alarm per facade               | BV    | —        | with time stamp                  |
+| Frost lock                          | BV    | —        |                                  |
+| Blind height setpoint               | AO/AV | %        | per group or room                |
+| Slat angle setpoint                 | AO/AV | °        | range depends on manufacturer    |
+| Manual mode active                  | BV    | —        | automatic overridden             |
+| Weather station fault               | BV    | —        | triggers wind protection         |
 
-Rain can damage wooden slats or special shading types:
+## Commissioning
 
-- Rain sensor: capacitive or heated-wire principle
-- On rain: certain shading types retract
-- For standard roller shutters, usually not required
-
----
-
-## Priority System
-
-The BMS enforces a clear hierarchy:
-
-```
-1. WIND ALARM (highest priority — hardware)
-2. Rain alarm
-3. Manual by user (button, app)
-4. Solar protection automation
-5. Time program (e.g. night: always open)
-```
-
-**Manual override:**
-
-- User presses button → manual position valid for 30 minutes
-- Then: automation resumes
-- Or: manual lock until next day
-
----
-
-## Room Automation: Shading + Constant Light
-
-Combining shading and lighting for optimal daylight use:
-
-```
-Sensor: room brightness (lux)
-Target: 500 lux at workstation
-
-When sun shines:
-  → Shutter down (glare protection)
-  → Slats: optimise daylight
-  → Artificial light: supplement to 500 lux (DALI constant light)
-
-When overcast:
-  → Shutter open (maximum daylight)
-  → Artificial light: supplement to 500 lux
-```
-
-Saves 30–50 % lighting energy and improves comfort.
-
----
-
-## KNX Shading Control
-
-KNX is the most common system for building blinds:
-
-- Group address "blind UP/DOWN" → DO output (1 bit)
-- Group address "position" → 0–100 % (1 byte)
-- Group address "slat" → 0–100 % (1 byte)
-- Group address "wind alarm" → all blinds synchronously up
-
-**BMS integration:** BMS reads KNX bus via IP gateway — enables centralised time programs and solar protection.
-
----
-
-## Typical BMS Data Points
-
-| Data Point                | Type | Unit | Description                     |
-| ------------------------- | ---- | ---- | ------------------------------- |
-| Wind speed                | AI   | m/s  | Weather station                 |
-| Global irradiance         | AI   | W/m² | Roof pyranometer                |
-| Sun azimuth (calc.)       | AV   | °    | Calculated from date + location |
-| Sun elevation (calc.)     | AV   | °    | Calculated                      |
-| Shutter facade N position | AO   | %    | Target position 0–100 %         |
-| Shutter facade N slat     | AO   | °    | Slat angle 0–180°               |
-| Wind alarm                | DI   | —    | Above threshold                 |
-| Manual override           | DI   | —    | Button active                   |
+- Test wind protection with a real signal: set the limit temporarily low, all groups must go up.
+- Disconnect the weather station: blinds must move to the safe position.
+- Check facade assignment. Swapped facades are a common mistake.
+- Check time and location, otherwise the sun position is wrong.
+- Record priorities, limits and delays in the functional description.
 
 ## Standards
 
-- **EN 15232** — Energy efficiency through BMS (solar shading = major saving potential)
-- **EN 14501** — Thermal and visual transmittance of shading products
-- **SIA 382/1** — Ventilation and air-conditioning systems (integrated shading)
+- **SIA 342** — Sun and weather protection systems (CH)
+- **EN 13659** — External blinds, performance and safety requirements, wind resistance classes
+- **EN 14501** — Blinds and shutters, thermal and visual comfort, performance characteristics
+- **SIA 180** — Thermal insulation, moisture protection and indoor climate, summer thermal protection
+- **EN ISO 52120-1** — Contribution of BA to energy performance, successor to EN 15232
