@@ -28,7 +28,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [proxmox, backup-ga, netzwerk-ga, mqtt, cybersecurity-ot, trending-historisierung]
 norm: []
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -38,18 +38,18 @@ Docker-Container ermöglichen das Betreiben von GA-Diensten (Historian, Dashboar
 
 ## Warum Docker in der GA?
 
-```
-Problem ohne Docker:
-  "Es lief auf meinem Laptop, aber nicht auf dem Server"
-  Abhängigkeiten: Python 3.8 vs. 3.11, Node.js 14 vs. 18
-  Updates brechen andere Dienste
+**Problem ohne Docker:**
 
-Mit Docker:
-  Jeder Dienst = eigener Container = eigene Abhängigkeiten
-  Läuft überall gleich (Laptop, Server, Cloud)
-  Updates ohne Risiko für andere Dienste
-  Rollback: einfach altes Image starten
-```
+- "Es lief auf meinem Laptop, aber nicht auf dem Server"
+- Abhängigkeiten: Python 3.8 vs. 3.11, Node.js 14 vs. 18
+- Updates brechen andere Dienste
+
+**Mit Docker:**
+
+- Jeder Dienst = eigener Container = eigene Abhängigkeiten
+- Läuft überall gleich (Laptop, Server, Cloud)
+- Updates ohne Risiko für andere Dienste
+- Rollback: einfach altes Image starten
 
 ---
 
@@ -57,8 +57,6 @@ Mit Docker:
 
 ```yaml
 # docker-compose.yml — GA Monitoring Stack
-
-version: '3.8'
 
 services:
   # MQTT Broker (GA-Geräte → Broker)
@@ -121,37 +119,37 @@ volumes:
 
 ## Typische Dienste für GA
 
-| Dienst          | Image                  | Zweck                         |
-| --------------- | ---------------------- | ----------------------------- |
-| MQTT-Broker     | eclipse-mosquitto      | IoT-Geräte, KNX-IoT, Sensoren |
-| IoT-Flow        | nodered/node-red       | Protokoll-Konvertierung       |
-| Zeitreihendaten | influxdb:2             | Historian                     |
-| Dashboard       | grafana/grafana        | Visualisierung Trends         |
-| Management      | portainer/portainer-ce | Web-GUI für Docker-Container  |
-| Reverse Proxy   | traefik oder nginx     | TLS-Terminierung, Routing     |
-| M-Bus Gateway   | rsmb oder iobroker     | M-Bus-Zähler auslesen         |
-| BACnet Gateway  | bacnet-stack oder YABE | BACnet → MQTT/HTTP            |
+| Dienst           | Image                         | Zweck                         |
+| ---------------- | ----------------------------- | ----------------------------- |
+| MQTT-Broker      | eclipse-mosquitto             | IoT-Geräte, KNX-IoT, Sensoren |
+| IoT-Flow         | nodered/node-red              | Protokoll-Konvertierung       |
+| Zeitreihendaten  | influxdb:2                    | Historian                     |
+| Dashboard        | grafana/grafana               | Visualisierung Trends         |
+| Management       | portainer/portainer-ce        | Web-GUI für Docker-Container  |
+| Reverse Proxy    | traefik oder nginx            | TLS-Terminierung, Routing     |
+| M-Bus-Auslesung  | libmbus-Werkzeuge, Node-RED   | M-Bus-Zähler auslesen         |
+| BACnet-Anbindung | bacnet-stack, Node-RED-Knoten | BACnet → MQTT/HTTP            |
 
 ---
 
 ## Node-RED: Flow-Beispiel BACnet → InfluxDB
 
-```
-[BACnet-Read-Node] → [Parser] → [InfluxDB-Write-Node]
+- [BACnet-Read-Node] → [Parser] → [InfluxDB-Write-Node]
 
-Konfiguration BACnet-Read-Node:
-  Device: 192.168.10.50:47808
-  Object: AI 1 (Aussentemperatur)
-  Interval: 60s
+**Konfiguration BACnet-Read-Node:**
 
-Konfiguration InfluxDB-Write-Node:
-  Bucket: gebaeude
-  Measurement: temperature
-  Tags:
-    system: "aussenluft"
-    gebaeude: "A"
-  Field: value (aus msg.payload)
-```
+- Device: 192.168.10.50:47808
+- Object: AI 1 (Aussentemperatur)
+- Interval: 60s
+
+**Konfiguration InfluxDB-Write-Node:**
+
+- Bucket: gebaeude
+- Measurement: temperature
+- Tags:
+  - system: "aussenluft"
+  - gebaeude: "A"
+- Field: value (aus msg.payload)
 
 ---
 
@@ -199,6 +197,8 @@ Regelmässige Backups:
    Management-GUIs (Portainer, Grafana) hinter VPN
 ```
 
+> ⚠️ **Docker und die Firewall:** Ports, die mit `ports:` veröffentlicht werden, öffnet Docker direkt in iptables, an einer Host-Firewall wie ufw vorbei. Dienste, die nur intern erreichbar sein sollen, deshalb an eine interne Adresse binden, etwa `127.0.0.1:8086:8086`, oder gar keinen Port veröffentlichen und nur über das Docker-Netz ansprechen.
+
 ---
 
 ## Portainer: Docker-Management per Web
@@ -224,18 +224,18 @@ Docker containers allow BMS services (historian, dashboard, MQTT, etc.) to run i
 
 ## Why Docker in BA?
 
-```
-Problem without Docker:
-  "It worked on my laptop, but not on the server"
-  Dependencies: Python 3.8 vs. 3.11, Node.js 14 vs. 18
-  Updates break other services
+**Problem without Docker:**
 
-With Docker:
-  Each service = own container = own dependencies
-  Runs identically everywhere (laptop, server, cloud)
-  Updates without risk to other services
-  Rollback: simply start old image
-```
+- "It worked on my laptop, but not on the server"
+- Dependencies: Python 3.8 vs. 3.11, Node.js 14 vs. 18
+- Updates break other services
+
+**With Docker:**
+
+- Each service = own container = own dependencies
+- Runs identically everywhere (laptop, server, cloud)
+- Updates without risk to other services
+- Rollback: simply start old image
 
 ---
 
@@ -243,8 +243,6 @@ With Docker:
 
 ```yaml
 # docker-compose.yml — BA Monitoring Stack
-
-version: '3.8'
 
 services:
   # MQTT Broker (BA devices → broker)
@@ -307,37 +305,37 @@ volumes:
 
 ## Typical Services for BA
 
-| Service          | Image                  | Purpose                       |
-| ---------------- | ---------------------- | ----------------------------- |
-| MQTT broker      | eclipse-mosquitto      | IoT devices, KNX-IoT, sensors |
-| IoT flow         | nodered/node-red       | Protocol conversion           |
-| Time-series data | influxdb:2             | Historian                     |
-| Dashboard        | grafana/grafana        | Trend visualisation           |
-| Management       | portainer/portainer-ce | Web GUI for Docker containers |
-| Reverse proxy    | traefik or nginx       | TLS termination, routing      |
-| M-Bus gateway    | rsmb or ioBroker       | Read M-Bus meters             |
-| BACnet gateway   | bacnet-stack or YABE   | BACnet → MQTT/HTTP            |
+| Service          | Image                        | Purpose                       |
+| ---------------- | ---------------------------- | ----------------------------- |
+| MQTT broker      | eclipse-mosquitto            | IoT devices, KNX-IoT, sensors |
+| IoT flow         | nodered/node-red             | Protocol conversion           |
+| Time-series data | influxdb:2                   | Historian                     |
+| Dashboard        | grafana/grafana              | Trend visualisation           |
+| M-Bus reading    | libmbus tools, Node-RED      | Read M-Bus meters             |
+| Reverse proxy    | traefik or nginx             | TLS termination, routing      |
+| M-Bus gateway    | rsmb or ioBroker             | Read M-Bus meters             |
+| BACnet link      | bacnet-stack, Node-RED nodes | BACnet → MQTT/HTTP            |
 
 ---
 
 ## Node-RED: Flow Example BACnet → InfluxDB
 
-```
-[BACnet-Read-Node] → [Parser] → [InfluxDB-Write-Node]
+- [BACnet-Read-Node] → [Parser] → [InfluxDB-Write-Node]
 
-BACnet-Read-Node configuration:
-  Device: 192.168.10.50:47808
-  Object: AI 1 (outdoor temperature)
-  Interval: 60 s
+**BACnet-Read-Node configuration:**
 
-InfluxDB-Write-Node configuration:
-  Bucket: building
-  Measurement: temperature
-  Tags:
-    system: "outdoor-air"
-    building: "A"
-  Field: value (from msg.payload)
-```
+- Device: 192.168.10.50:47808
+- Object: AI 1 (outdoor temperature)
+- Interval: 60 s
+
+**InfluxDB-Write-Node configuration:**
+
+- Bucket: building
+- Measurement: temperature
+- Tags:
+  - system: "outdoor-air"
+  - building: "A"
+- Field: value (from msg.payload)
 
 ---
 
@@ -384,6 +382,8 @@ Regular backups:
    Only expose necessary ports externally
    Management GUIs (Portainer, Grafana) behind VPN
 ```
+
+> ⚠️ **Docker and the firewall:** ports published with `ports:` are opened by Docker directly in iptables, bypassing a host firewall such as ufw. Bind services that should only be reachable internally to an internal address, e.g. `127.0.0.1:8086:8086`, or publish no port at all and reach them only via the Docker network.
 
 ---
 

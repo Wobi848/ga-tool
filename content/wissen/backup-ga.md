@@ -36,16 +36,17 @@ Ein GA-System-Ausfall ohne Backup bedeutet: Tage Ausfall, verlorene Konfiguratio
 
 ## Die 3-2-1 Regel
 
-```
-3 Kopien der Daten (1 Original + 2 Backups)
-2 verschiedene Speichermedien (z.B. SSD + NAS)
-1 Kopie ausserhalb des Gebäudes (Offsite / Cloud)
+- 3 Kopien der Daten (1 Original + 2 Backups)
+- 2 verschiedene Speichermedien (z.B. SSD + NAS)
+- 1 Kopie ausserhalb des Gebäudes (Offsite / Cloud)
 
-Warum:
-  1 Kopie: Datei gelöscht → verloren
-  2 Kopien gleich: Brand/Diebstahl → beide weg
-  3-2-1: selbst bei Katastrophe eine Kopie sicher
-```
+**Warum:**
+
+- 1 Kopie: Datei gelöscht → verloren
+- 2 Kopien gleich: Brand/Diebstahl → beide weg
+- 3-2-1: selbst bei Katastrophe eine Kopie sicher
+
+Gegen Ransomware gehört dazu eine Kopie, die **offline oder unveränderbar** ist, etwa ein Wechselmedium im Tresor oder ein Speicher mit Schreibschutz für eine Frist. Diese Erweiterung heisst auch 3-2-1-1-0: die letzte Null steht für geprüfte Wiederherstellung ohne Fehler.
 
 ---
 
@@ -53,33 +54,33 @@ Warum:
 
 ### Kritisch (täglich sichern)
 
-```
-1. DDC-Programme:
-   - Quellcode-Backup je Controller
-   - Parameterlisten (Sollwerte, Zeitprogramme)
-   - Konfigurationsdateien
+**1. DDC-Programme:**
 
-2. GLT-Datenbank:
-   - Systemkonfiguration (Datenpunkte, Alarme, Visualisierung)
-   - Benutzerverwaltung
-   - Trends / Historik (komprimiert, ältere Daten seltener)
+- Quellcode-Backup je Controller
+- Parameterlisten (Sollwerte, Zeitprogramme)
+- Konfigurationsdateien
 
-3. Netzwerk-Konfiguration:
-   - Switch-Configs (exportiert)
-   - Firewall-Regeln
-   - IP-Pläne
+**2. GLT-Datenbank:**
 
-4. Passwörter (verschlüsselt!):
-   KeePass-Datenbank oder ähnliches
-```
+- Systemkonfiguration (Datenpunkte, Alarme, Visualisierung)
+- Benutzerverwaltung
+- Trends / Historik (komprimiert, ältere Daten seltener)
+
+**3. Netzwerk-Konfiguration:**
+
+- Switch-Configs (exportiert)
+- Firewall-Regeln
+- IP-Pläne
+
+**4. Passwörter (verschlüsselt!):**
+
+- KeePass-Datenbank oder ähnliches
 
 ### Wichtig (wöchentlich / bei Änderungen)
 
-```
 5. As-Built Dokumentation (DPL, Schemen)
 6. Server-Konfigurationen (OS-Level, Docker Compose)
 7. Zertifikate (TLS, VPN)
-```
 
 ---
 
@@ -94,11 +95,9 @@ Warum:
 
 **Empfehlung GA:**
 
-```
-Täglich: Inkrementelles Backup (schnell, wenig Platz)
-Wöchentlich: Vollbackup (Basis für Inkrementelle)
-Monatlich: Vollbackup → Offsite
-```
+- Täglich: Inkrementelles Backup (schnell, wenig Platz)
+- Wöchentlich: Vollbackup (Basis für Inkrementelle)
+- Monatlich: Vollbackup → Offsite
 
 ---
 
@@ -106,18 +105,18 @@ Monatlich: Vollbackup → Offsite
 
 ### Proxmox Backup Server (PBS)
 
-```
-Für Proxmox-basierte GA-Server:
-  - Deduplizierung (gleiche Blöcke nur einmal speichern)
-  - Verschlüsselung (Ende-zu-Ende)
-  - Inkrementelle Backups nach erster Vollsicherung
-  - Retention-Policy (behalte 7 täglich, 4 wöchentlich, 6 monatlich)
+**Für Proxmox-basierte GA-Server:**
 
-Einrichtung:
-  1. PBS auf separater Hardware/VM
-  2. Proxmox-Host → PBS als Backup-Storage
-  3. Automatischer Backup-Plan (z.B. täglich 02:00)
-```
+- Deduplizierung (gleiche Blöcke nur einmal speichern)
+- Verschlüsselung (Ende-zu-Ende)
+- Inkrementelle Backups nach erster Vollsicherung
+- Retention-Policy (behalte 7 täglich, 4 wöchentlich, 6 monatlich)
+
+**Einrichtung:**
+
+1. PBS auf separater Hardware/VM
+2. Proxmox-Host → PBS als Backup-Storage
+3. Automatischer Backup-Plan (z.B. täglich 02:00)
 
 ### Rsync (Linux, einfach)
 
@@ -157,46 +156,48 @@ borg prune \
 
 ## Disaster Recovery Plan (DRP)
 
-```
-Dokumentiert vor dem Ernstfall:
+**Dokumentiert vor dem Ernstfall:**
 
-RTO (Recovery Time Objective):
-  Wie lange darf der Ausfall maximal dauern?
-  GA-Anlage: typisch 4–24 Stunden (je nach Kritikalität)
+**RTO (Recovery Time Objective):**
 
-RPO (Recovery Point Objective):
-  Wie viele Datenverluste sind akzeptabel?
-  GA-Config: 0–24 Stunden (tägliches Backup akzeptabel)
-  Historik: bis 7 Tage (wöchentlich akzeptabel)
+- Wie lange darf der Ausfall maximal dauern?
+- GA-Anlage: typisch 4–24 Stunden (je nach Kritikalität)
 
-Wiederherstellungs-Prozedur (dokumentiert!):
-  1. Hardware-Ausfall? → Ersatz-Hardware beschaffen / VM neu starten
-  2. Proxmox-VM aus Backup wiederherstellen (30–60 min)
-  3. Netzwerk-Konfiguration prüfen
-  4. DDC-Kommunikation testen
-  5. Alarmierung wieder aktiv?
-  6. Betreiber informieren
-```
+**RPO (Recovery Point Objective):**
+
+- Wie viele Datenverluste sind akzeptabel?
+- GA-Config: 0–24 Stunden (tägliches Backup akzeptabel)
+- Historik: bis 7 Tage (wöchentlich akzeptabel)
+
+**Wiederherstellungs-Prozedur (dokumentiert!):**
+
+1. Hardware-Ausfall? → Ersatz-Hardware beschaffen / VM neu starten
+2. Proxmox-VM aus Backup wiederherstellen (30–60 min)
+3. Netzwerk-Konfiguration prüfen
+4. DDC-Kommunikation testen
+5. Alarmierung wieder aktiv?
+6. Betreiber informieren
 
 ---
 
 ## Regelmässige Backup-Tests
 
-```
-Backup ist nutzlos wenn Wiederherstellung nicht funktioniert!
+- Backup ist nutzlos wenn Wiederherstellung nicht funktioniert!
 
-Quartärlich:
-  - Testwiederherstellung in Sandbox-Umgebung
-  - Kann GLT aus Backup gestartet werden?
-  - Sind alle DDC-Programme vollständig?
+**Quartalsweise:**
 
-Jährlich:
-  - Vollständiger DR-Test (alles aus Backup wiederherstellen)
-  - Dauer messen → im DRP dokumentieren
+- Testwiederherstellung in Sandbox-Umgebung
+- Kann GLT aus Backup gestartet werden?
+- Sind alle DDC-Programme vollständig?
 
-Protokoll:
-  Datum, Tester, Ergebnis, Abweichungen → Ablage in Dokumentation
-```
+**Jährlich:**
+
+- Vollständiger DR-Test (alles aus Backup wiederherstellen)
+- Dauer messen → im DRP dokumentieren
+
+**Protokoll:**
+
+- Datum, Tester, Ergebnis, Abweichungen → Ablage in Dokumentation
 
 ---
 
@@ -227,16 +228,17 @@ A BA system failure without a backup means: days of downtime, lost configuration
 
 ## The 3-2-1 Rule
 
-```
-3 copies of the data (1 original + 2 backups)
-2 different storage media (e.g. SSD + NAS)
-1 copy off-site (remote / cloud)
+- 3 copies of the data (1 original + 2 backups)
+- 2 different storage media (e.g. SSD + NAS)
+- 1 copy off-site (remote / cloud)
 
-Why:
-  1 copy: file deleted → gone
-  2 copies on same medium: fire/theft → both lost
-  3-2-1: even in a disaster, one copy is safe
-```
+**Why:**
+
+- 1 copy: file deleted → gone
+- 2 copies on same medium: fire/theft → both lost
+- 3-2-1: even in a disaster, one copy is safe
+
+Against ransomware, one copy should be **offline or immutable**, for example removable media in a safe or storage with write protection for a set period. This extension is also called 3-2-1-1-0: the final zero stands for a verified restore without errors.
 
 ---
 
@@ -244,33 +246,33 @@ Why:
 
 ### Critical (back up daily)
 
-```
-1. DDC programmes:
-   - Source code backup per controller
-   - Parameter lists (setpoints, time programs)
-   - Configuration files
+**1. DDC programmes:**
 
-2. BMS database:
-   - System configuration (data points, alarms, visualisation)
-   - User management
-   - Trends / history (compressed, older data less frequent)
+- Source code backup per controller
+- Parameter lists (setpoints, time programs)
+- Configuration files
 
-3. Network configuration:
-   - Switch configs (exported)
-   - Firewall rules
-   - IP plans
+**2. BMS database:**
 
-4. Passwords (encrypted!):
-   KeePass database or equivalent
-```
+- System configuration (data points, alarms, visualisation)
+- User management
+- Trends / history (compressed, older data less frequent)
+
+**3. Network configuration:**
+
+- Switch configs (exported)
+- Firewall rules
+- IP plans
+
+**4. Passwords (encrypted!):**
+
+- KeePass database or equivalent
 
 ### Important (weekly / on change)
 
-```
 5. As-built documentation (DPL, drawings)
 6. Server configurations (OS level, Docker Compose)
 7. Certificates (TLS, VPN)
-```
 
 ---
 
@@ -285,11 +287,9 @@ Why:
 
 **Recommendation for BA:**
 
-```
-Daily:   Incremental backup (fast, little space)
-Weekly:  Full backup (basis for incrementals)
-Monthly: Full backup → off-site
-```
+- Daily: Incremental backup (fast, little space)
+- Weekly: Full backup (basis for incrementals)
+- Monthly: Full backup → off-site
 
 ---
 
@@ -297,18 +297,18 @@ Monthly: Full backup → off-site
 
 ### Proxmox Backup Server (PBS)
 
-```
-For Proxmox-based BA servers:
-  - Deduplication (identical blocks stored only once)
-  - Encryption (end-to-end)
-  - Incremental backups after first full backup
-  - Retention policy (keep 7 daily, 4 weekly, 6 monthly)
+**For Proxmox-based BA servers:**
 
-Setup:
-  1. PBS on separate hardware/VM
-  2. Proxmox host → PBS as backup storage
-  3. Automated backup schedule (e.g. daily at 02:00)
-```
+- Deduplication (identical blocks stored only once)
+- Encryption (end-to-end)
+- Incremental backups after first full backup
+- Retention policy (keep 7 daily, 4 weekly, 6 monthly)
+
+**Setup:**
+
+1. PBS on separate hardware/VM
+2. Proxmox host → PBS as backup storage
+3. Automated backup schedule (e.g. daily at 02:00)
 
 ### Rsync (Linux, simple)
 
@@ -348,46 +348,48 @@ borg prune \
 
 ## Disaster Recovery Plan (DRP)
 
-```
-Document before an incident occurs:
+**Document before an incident occurs:**
 
-RTO (Recovery Time Objective):
-  Maximum acceptable downtime?
-  BA system: typically 4–24 hours (depending on criticality)
+**RTO (Recovery Time Objective):**
 
-RPO (Recovery Point Objective):
-  Acceptable data loss?
-  BA config: 0–24 hours (daily backup acceptable)
-  History: up to 7 days (weekly acceptable)
+- Maximum acceptable downtime?
+- BA system: typically 4–24 hours (depending on criticality)
 
-Recovery procedure (documented!):
-  1. Hardware failure? → source replacement hardware / restart VM
-  2. Restore Proxmox VM from backup (30–60 min)
-  3. Verify network configuration
-  4. Test DDC communication
-  5. Alarms active again?
-  6. Notify operator
-```
+**RPO (Recovery Point Objective):**
+
+- Acceptable data loss?
+- BA config: 0–24 hours (daily backup acceptable)
+- History: up to 7 days (weekly acceptable)
+
+**Recovery procedure (documented!):**
+
+1. Hardware failure? → source replacement hardware / restart VM
+2. Restore Proxmox VM from backup (30–60 min)
+3. Verify network configuration
+4. Test DDC communication
+5. Alarms active again?
+6. Notify operator
 
 ---
 
 ## Regular Backup Tests
 
-```
-A backup is worthless if restore does not work!
+- A backup is worthless if restore does not work!
 
-Quarterly:
-  - Test restore in sandbox environment
-  - Can BMS be started from backup?
-  - Are all DDC programmes complete?
+**Quarterly:**
 
-Annually:
-  - Full DR test (restore everything from backup)
-  - Measure duration → document in DRP
+- Test restore in sandbox environment
+- Can BMS be started from backup?
+- Are all DDC programmes complete?
 
-Record:
-  Date, tester, result, deviations → stored in documentation
-```
+**Annually:**
+
+- Full DR test (restore everything from backup)
+- Measure duration → document in DRP
+
+**Record:**
+
+- Date, tester, result, deviations → stored in documentation
 
 ---
 

@@ -51,17 +51,11 @@ Fernzugriff auf GA-Systeme ist heute Standard — Störungsbehebung von unterweg
 
 ## Grundprinzip sichere Fernwartung
 
-```
-Techniker (Home/Büro)
-    ↓ VPN-Client
-Internet
-    ↓ VPN-Tunnel (verschlüsselt, authentifiziert)
-Firewall / VPN-Gateway am Standort
-    ↓ Freigabe auf definierte IP/Ports
-Jump-Server (optional)
-    ↓ RDP / SSH
-GLT-Server / DDC
-```
+1. Techniker (Home/Büro) → _VPN-Client_
+2. Internet → _VPN-Tunnel (verschlüsselt, authentifiziert)_
+3. Firewall / VPN-Gateway am Standort → _Freigabe auf definierte IP/Ports_
+4. Jump-Server (optional) → _RDP / SSH_
+5. GLT-Server / DDC
 
 **Keine direkte Verbindung vom Internet auf OT-Geräte!** Immer über VPN + Jump-Server.
 
@@ -76,8 +70,8 @@ GLT-Server / DDC
 - Kernel-Integration in Linux (seit 5.6)
 - **Keine dynamischen IPs für Clients** — jeder Peer hat festen Public Key + IP
 
-```
-Server (Standort):
+```ini
+# Server (Standort):
   [Interface]
   Address = 10.100.0.1/24
   PrivateKey = <server-key>
@@ -86,7 +80,7 @@ Server (Standort):
   PublicKey = <tech1-pubkey>
   AllowedIPs = 10.100.0.2/32
 
-Client (Techniker):
+# Client (Techniker):
   [Interface]
   Address = 10.100.0.2/24
   PrivateKey = <tech1-privkey>
@@ -94,7 +88,8 @@ Client (Techniker):
   [Peer] # Server
   PublicKey = <server-pubkey>
   Endpoint = meinstandort.dyndns.org:51820
-  AllowedIPs = 10.10.0.0/24 (OT-Netz)
+  # OT-Netz
+  AllowedIPs = 10.10.0.0/24
 ```
 
 ### OpenVPN
@@ -126,11 +121,9 @@ Client (Techniker):
 
 WireGuard hat kein eingebautes MFA — Umweg:
 
-```
-Option 1: VPN-Portal davor (z.B. Pritunl, Netbird) mit MFA-Unterstützung
-Option 2: MFA beim Jump-Server (SSH + MFA, Remote Desktop + MFA)
-Option 3: Client-Zertifikate als zweiter Faktor
-```
+- Option 1: VPN-Portal davor (z.B. Pritunl, Netbird) mit MFA-Unterstützung
+- Option 2: MFA beim Jump-Server (SSH + MFA, Remote Desktop + MFA)
+- Option 3: Client-Zertifikate als zweiter Faktor
 
 ---
 
@@ -138,9 +131,7 @@ Option 3: Client-Zertifikate als zweiter Faktor
 
 Ein **Jump-Server** ist ein dedizierter Server der als einziger Zugangspunkt ins OT-Netz dient:
 
-```
-VPN → Jump-Server → OT-Geräte (nur von Jump-Server erreichbar)
-```
+- VPN → Jump-Server → OT-Geräte (nur von Jump-Server erreichbar)
 
 **Vorteile:**
 
@@ -175,16 +166,15 @@ VPN → Jump-Server → OT-Geräte (nur von Jump-Server erreichbar)
 
 **Jeder Fernzugriff muss protokolliert werden:**
 
-```
-Log-Eintrag:
-  Datum/Zeit: 2026-05-14 14:32
-  Benutzer: max.meier@firma.ch
-  Von IP: 85.12.x.x (anonymisiert im Log)
-  Verbunden zu: GLT-Server 10.10.1.50
-  Sitzungsdauer: 45 min
-  Aktivitäten: Parametrierung Heizkreis 3, Alarm bestätigt
-  Abmeldung: 15:17
-```
+**Log-Eintrag:**
+
+- Datum/Zeit: 2026-05-14 14:32
+- Benutzer: max.meier@firma.ch
+- Von IP: 85.12.x.x (anonymisiert im Log)
+- Verbunden zu: GLT-Server 10.10.1.50
+- Sitzungsdauer: 45 min
+- Aktivitäten: Parametrierung Heizkreis 3, Alarm bestätigt
+- Abmeldung: 15:17
 
 **Aufbewahrung:** Min. 3 Monate, empfohlen 1 Jahr (für Incident Response).
 
@@ -229,17 +219,11 @@ Remote access to BA systems is standard practice today — fault resolution on t
 
 ## Principle of Secure Remote Maintenance
 
-```
-Technician (home/office)
-    ↓ VPN client
-Internet
-    ↓ VPN tunnel (encrypted, authenticated)
-Firewall / VPN gateway at site
-    ↓ Access to defined IPs/ports only
-Jump server (optional)
-    ↓ RDP / SSH
-BMS server / DDC
-```
+1. Technician (home/office) → _VPN client_
+2. Internet → _VPN tunnel (encrypted, authenticated)_
+3. Firewall / VPN gateway at site → _Access to defined IPs/ports only_
+4. Jump server (optional) → _RDP / SSH_
+5. BMS server / DDC
 
 **No direct connection from the internet to OT devices!** Always via VPN + jump server.
 
@@ -254,8 +238,8 @@ BMS server / DDC
 - Kernel integration in Linux (since 5.6)
 - **No dynamic IPs for clients** — each peer has a fixed public key + IP
 
-```
-Server (site):
+```ini
+# Server (site):
   [Interface]
   Address = 10.100.0.1/24
   PrivateKey = <server-key>
@@ -264,7 +248,7 @@ Server (site):
   PublicKey = <tech1-pubkey>
   AllowedIPs = 10.100.0.2/32
 
-Client (technician):
+# Client (technician):
   [Interface]
   Address = 10.100.0.2/24
   PrivateKey = <tech1-privkey>
@@ -272,7 +256,8 @@ Client (technician):
   [Peer] # Server
   PublicKey = <server-pubkey>
   Endpoint = mysite.dyndns.org:51820
-  AllowedIPs = 10.10.0.0/24 (OT network)
+  # OT network
+  AllowedIPs = 10.10.0.0/24
 ```
 
 ### OpenVPN
@@ -304,11 +289,9 @@ Client (technician):
 
 WireGuard has no built-in MFA — workarounds:
 
-```
-Option 1: VPN portal in front (e.g. Pritunl, Netbird) with MFA support
-Option 2: MFA at jump server (SSH + MFA, Remote Desktop + MFA)
-Option 3: Client certificates as second factor
-```
+- Option 1: VPN portal in front (e.g. Pritunl, Netbird) with MFA support
+- Option 2: MFA at jump server (SSH + MFA, Remote Desktop + MFA)
+- Option 3: Client certificates as second factor
 
 ---
 
@@ -316,9 +299,7 @@ Option 3: Client certificates as second factor
 
 A **jump server** is a dedicated server that serves as the only entry point into the OT network:
 
-```
-VPN → Jump server → OT devices (only reachable from jump server)
-```
+- VPN → Jump server → OT devices (only reachable from jump server)
 
 **Advantages:**
 
@@ -353,16 +334,15 @@ VPN → Jump server → OT devices (only reachable from jump server)
 
 **Every remote access session must be logged:**
 
-```
-Log entry:
-  Date/time: 2026-05-14 14:32
-  User: max.meier@company.com
-  From IP: 85.12.x.x (anonymised in log)
-  Connected to: BMS server 10.10.1.50
-  Session duration: 45 min
-  Activities: configured heating circuit 3, acknowledged alarm
-  Logout: 15:17
-```
+**Log entry:**
+
+- Date/time: 2026-05-14 14:32
+- User: max.meier@company.com
+- From IP: 85.12.x.x (anonymised in log)
+- Connected to: BMS server 10.10.1.50
+- Session duration: 45 min
+- Activities: configured heating circuit 3, acknowledged alarm
+- Logout: 15:17
 
 **Retention:** Minimum 3 months, recommended 1 year (for incident response).
 

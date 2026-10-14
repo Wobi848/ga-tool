@@ -27,7 +27,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [netzwerk-ga, remote-zugriff, bacnet, opc-ua, glt-grundlagen]
 norm: [IEC 62443, NIST SP 800-82, BSI IT-Grundschutz]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -45,12 +45,10 @@ OT-Sicherheit (Operational Technology) ist kein Luxus mehr — GA-Systeme sind r
 - **Pivot-Angriff:** OT als Sprungbrett ins IT-Netz (umgekehrt: IT ins OT)
 - **Physischer Schaden:** Überhitzung von Geräten, Frostschäden
 
-### Reale Vorfälle (anonymisiert)
+### Dokumentierte Vorfälle
 
-- Krankenhaus: GLT kompromittiert → Heizung ausgefallen → Notaufnahme musste verlegt werden
-- Hotel: Zutrittssystem gehackt → alle Zimmerkarten ungültig
-- Rechenzentrum: Klimaanlage manipuliert → Übertemperatur → Server-Ausfall
-- Wasserwerk (USA, Oldsmar): SCADA-System direkt per Fernzugriff manipuliert
+- **Target, USA, 2013:** Angreifer gelangten mit gestohlenen Zugangsdaten eines HLK-Dienstleisters ins Netz der Handelskette und von dort an Kreditkartendaten. Der Fernzugang für die Gebäudetechnik war nicht vom übrigen Netz getrennt.
+- **Lappeenranta, Finnland, 2016:** Ein DDoS-Angriff legte die Heizungssteuerung von Wohngebäuden lahm; die Steuerungen starteten immer wieder neu.
 
 ---
 
@@ -72,15 +70,12 @@ OT-Sicherheit (Operational Technology) ist kein Luxus mehr — GA-Systeme sind r
 
 **IEC 62443** definiert Sicherheitszonen (Zones) und deren Verbindungen (Conduits):
 
-```
-Zone 1: Enterprise IT (VLAN 1)
-    │ Konduit: Firewall + IDS
-Zone 2: GLT / Managementebene (VLAN 10)
-    │ Konduit: Firewall strenge Regeln
-Zone 3: Automationsebene DDC (VLAN 20)
-    │ Konduit: nur dedizierter Wartungsrechner
-Zone 4: Feldebene (physisch) — kein IP
-```
+| Zone                     | Verbindung zur nächsten Zone                   |
+| ------------------------ | ---------------------------------------------- |
+| 1: Unternehmens-IT       | Firewall mit Überwachung                       |
+| 2: GLT, Managementebene  | Firewall mit strengen Regeln                   |
+| 3: Automationsebene, DDC | nur über definierte Dienste und Wartungszugang |
+| 4: Feldebene             | Feldbusse ohne IP                              |
 
 Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht erlaubt ist, ist verboten.
 
@@ -139,14 +134,12 @@ Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht e
 
 ## Incident Response — Was tun bei Angriff?
 
-```
-1. ERKENNEN: Anomalie (ungewöhnliche Verbindungen, Alarme, Ausfall)
-2. ISOLIEREN: Betroffenes System sofort vom Netz trennen
-3. INFORMIEREN: IT-Security + Management + je nach Schwere: Behörden
-4. ANALYSIEREN: Was ist passiert? Wie weit verbreitet?
-5. WIEDERHERSTELLEN: Aus sauberem Backup, nicht infiziertes System
-6. NACHJUSTIEREN: Wie wurde eingegangen? Lücke schliessen.
-```
+1. **Erkennen:** Auffälligkeiten wie ungewöhnliche Verbindungen, Alarme, Ausfälle
+2. **Isolieren:** betroffenes System vom Netz trennen, die Anlage wenn nötig von Hand weiterbetreiben
+3. **Informieren:** IT-Sicherheit, Leitung, je nach Fall Behörden
+4. **Analysieren:** Was ist passiert, wie weit hat es sich ausgebreitet?
+5. **Wiederherstellen:** aus einem sauberen Backup
+6. **Nacharbeiten:** Lücke schliessen, Massnahmen anpassen
 
 **Backup-Wichtigkeit:** Offline-Backups von DDC-Konfigurationen und GLT-Datenbank. Ransomware verschlüsselt auch verbundene Netzlaufwerke!
 
@@ -167,7 +160,8 @@ Regel: **Jede Zonengrenzen braucht explizit erlaubte Verbindungen.** Was nicht e
 
 - **IEC 62443** — Industrial Automation and Control Systems Security (Serien-Norm)
 - **NIST SP 800-82** — Guide to Industrial Control Systems Security
-- **BSI IT-Grundschutz** (DE) — OT-Spezifisches Grundschutz-Kompendium
+- **BSI IT-Grundschutz** (DE) — Kompendium mit Bausteinen für Gebäudeautomation
+- **BACS** (CH) — Bundesamt für Cybersicherheit. Seit April 2025 müssen Betreiber kritischer Infrastrukturen Cyberangriffe innert 24 Stunden melden.
 - **VDI/VDE 2182** — IT-Sicherheit für Fertigungs- und Prozessanlagen
 
 <!-- EN -->
@@ -184,12 +178,10 @@ OT security (Operational Technology) is no longer optional — BA systems are re
 - **Pivot attack:** OT as a stepping stone into the IT network (and vice versa)
 - **Physical damage:** Equipment overheating, frost damage
 
-### Real Incidents (anonymised)
+### Documented Incidents
 
-- Hospital: BMS compromised → heating failed → emergency department had to be relocated
-- Hotel: Access system hacked → all room cards invalid
-- Data centre: Air conditioning manipulated → overtemperature → server failure
-- Water utility (USA, Oldsmar): SCADA system directly manipulated via remote access
+- **Target, USA, 2013:** attackers entered the retailer's network using stolen credentials of an HVAC contractor and reached credit card data from there. Remote access for building services was not separated from the rest of the network.
+- **Lappeenranta, Finland, 2016:** a DDoS attack disabled the heating control of residential buildings; the controllers kept rebooting.
 
 ---
 
@@ -211,15 +203,12 @@ OT security (Operational Technology) is no longer optional — BA systems are re
 
 **IEC 62443** defines security zones and their connections (conduits):
 
-```
-Zone 1: Enterprise IT (VLAN 1)
-    │ Conduit: Firewall + IDS
-Zone 2: BMS / management level (VLAN 10)
-    │ Conduit: Firewall with strict rules
-Zone 3: Automation level DDC (VLAN 20)
-    │ Conduit: dedicated maintenance PC only
-Zone 4: Field level (physical) — no IP
-```
+| Zone                     | Link to the next zone                            |
+| ------------------------ | ------------------------------------------------ |
+| 1: Enterprise IT         | firewall with monitoring                         |
+| 2: BMS, management level | firewall with strict rules                       |
+| 3: Automation level, DDC | only via defined services and maintenance access |
+| 4: Field level           | fieldbuses without IP                            |
 
 Rule: **Every zone boundary requires explicitly permitted connections.** What is not permitted is forbidden.
 
@@ -278,14 +267,12 @@ Rule: **Every zone boundary requires explicitly permitted connections.** What is
 
 ## Incident Response — What to Do in an Attack
 
-```
-1. DETECT: Anomaly (unusual connections, alarms, failure)
-2. ISOLATE: Immediately disconnect affected system from network
-3. NOTIFY: IT security + management + depending on severity: authorities
-4. ANALYSE: What happened? How far has it spread?
-5. RESTORE: From clean backup, not infected system
-6. ADJUST: How did they get in? Close the gap.
-```
+1. **Detect:** anomalies such as unusual connections, alarms, failures
+2. **Isolate:** disconnect the affected system, run the plant manually if needed
+3. **Inform:** IT security, management, authorities depending on the case
+4. **Analyse:** what happened, how far has it spread?
+5. **Restore:** from a clean backup
+6. **Follow up:** close the gap, adjust measures
 
 **Backup importance:** Offline backups of DDC configurations and BMS database. Ransomware also encrypts connected network drives!
 
@@ -306,5 +293,6 @@ Rule: **Every zone boundary requires explicitly permitted connections.** What is
 
 - **IEC 62443** — Industrial Automation and Control Systems Security (series standard)
 - **NIST SP 800-82** — Guide to Industrial Control Systems Security
-- **BSI IT-Grundschutz** (DE) — OT-specific IT baseline protection compendium
+- **BSI IT-Grundschutz** (DE) — compendium with modules for building automation
+- **BACS** (CH) — Federal Office for Cybersecurity. Since April 2025 operators of critical infrastructure must report cyberattacks within 24 hours.
 - **VDI/VDE 2182** — IT security for manufacturing and process plants

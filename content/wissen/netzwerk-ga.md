@@ -28,7 +28,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, opc-ua, mqtt, cybersecurity-ot, remote-zugriff]
 norm: [IEC 62443, NIST SP 800-82, VDI/VDE 2182]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -78,30 +78,21 @@ Warum? Bei Neustart des DHCP-Servers könnte sich IP ändern → BACnet-Geräte 
 
 ### Warum VLANs in der GA?
 
-```
-Ohne VLAN:
-  BACnet-Broadcast fliesst durch ganzes Netz → überlastet andere Geräte
-  Ein kompromittiertes Gerät kann alle anderen erreichen
-
-Mit VLAN:
-  BACnet-Traffic bleibt im OT-VLAN
-  GLT kann DDCs erreichen (Router, erlaubte Ports)
-  IT-Geräte sehen OT-Netz nicht
-```
+| Ohne VLAN                                        | Mit VLAN                                         |
+| ------------------------------------------------ | ------------------------------------------------ |
+| BACnet-Broadcasts erreichen das ganze Netz       | BACnet-Verkehr bleibt im OT-VLAN                 |
+| ein kompromittiertes Gerät erreicht alle anderen | die GLT erreicht die DDC nur über erlaubte Ports |
+|                                                  | IT-Geräte sehen das OT-Netz nicht                |
 
 ### VLAN-Konfiguration (Grundprinzip)
 
 **Access Port:** Gerät gehört zu einem VLAN
 
-```
-Switch-Port → DDC-Controller → Access VLAN 10 (OT-Netz)
-```
+Beispiel: Der Switch-Port einer DDC ist Access-Port im VLAN 10, dem OT-Netz.
 
 **Trunk Port:** Mehrere VLANs auf einem Port (Switch → Router)
 
-```
-Switch-Uplink → Router (Trunk): VLAN 10, VLAN 20, VLAN 30 → alle tragen ihr Tag
-```
+Beispiel: Der Uplink vom Switch zum Router oder zur Firewall ist ein Trunk und trägt VLAN 10, 20 und 30, jedes mit seinem Tag.
 
 ---
 
@@ -113,12 +104,7 @@ BACnet/IP nutzt UDP-Broadcasts für Geräteerkennung (Who-Is / I-Am). Broadcasts
 
 **BBMD** (BACnet Broadcast Management Device): Gerät das Broadcasts zwischen Subnetzen weiterleitet. Meist in GLT oder DDC integriert.
 
-```
-Subnetz 10.10.2.x:  BBMD-A (z.B. GLT-Server)
-Subnetz 10.10.3.x:  BBMD-B (z.B. IP-Gateway)
-
-BBMD-A und BBMD-B kennen sich (Peer-Liste) → leiten Broadcasts weiter
-```
+BBMD A, etwa der GLT-Server im Netz 10.10.2.0/24, und BBMD B, etwa ein IP-Gateway im Netz 10.10.3.0/24, kennen sich über ihre Broadcast Distribution Table und leiten Broadcasts gegenseitig weiter.
 
 ### BACnet-UDP-Port
 
@@ -156,15 +142,14 @@ Für GA-Netzwerke immer **Managed Switches** verwenden:
 
 ## Netzwerk-Segmentierungskonzept GA
 
-```
-Internet
-    ↓
-[Firewall]
-    ├── IT-Netz (VLAN 1): Büro, PCs, Server
-    │       └── [DMZ]: GLT-Webinterface (von aussen erreichbar)
-    └── OT-Netz (VLAN 10): DDC-Controller, Feldbusgeräte
-            └── Kommunikation GLT↔DDC nur über explizit erlaubte Ports
-```
+| Zone                  | Inhalt                                                     |
+| --------------------- | ---------------------------------------------------------- |
+| Internet              | nur über die Firewall                                      |
+| IT-Netz, eigenes VLAN | Büro, PCs, Server                                          |
+| OT-Netz, eigenes VLAN | GLT, DDC, Gateways; nur explizit erlaubte Verbindungen     |
+| Fernzugang            | nur über VPN mit starker Authentisierung, nie direkt offen |
+
+Das Default-VLAN 1 wird nicht für Nutzdaten verwendet. Ein GLT-Webinterface gehört nicht offen ins Internet, auch nicht in eine DMZ; der Zugriff von aussen läuft über VPN.
 
 **Firewall-Regeln (Beispiel):**
 
@@ -177,13 +162,13 @@ Internet
 
 ## Typische GA-Netzwerk-Fehler
 
-| Fehler                     | Symptom                              | Lösung                               |
-| -------------------------- | ------------------------------------ | ------------------------------------ |
-| Kein BBMD konfiguriert     | DDC in anderem Subnet nicht gefunden | BBMD in GLT und DDC einrichten       |
-| Falscher Subnet-Mask       | Keine Kommunikation                  | /24 auf allen Geräten                |
-| Broadcast-Storm (Loop)     | Netzwerk hängt                       | STP aktivieren auf Switches          |
-| IP-Konflikt                | Gerät erreichbar aber falsch         | Statische IPs oder DHCP-Reservierung |
-| OT-Port direkt am Internet | Sicherheitsrisiko                    | Firewall, VPN, nie direkt!           |
+| Fehler                     | Symptom                              | Lösung                                |
+| -------------------------- | ------------------------------------ | ------------------------------------- |
+| Kein BBMD konfiguriert     | DDC in anderem Subnet nicht gefunden | BBMD in GLT und DDC einrichten        |
+| Falsche Subnetzmaske       | Keine Kommunikation                  | Maske nach IP-Plan einheitlich setzen |
+| Broadcast-Storm (Loop)     | Netzwerk hängt                       | STP aktivieren auf Switches           |
+| IP-Konflikt                | Gerät erreichbar aber falsch         | Statische IPs oder DHCP-Reservierung  |
+| OT-Port direkt am Internet | Sicherheitsrisiko                    | Firewall, VPN, nie direkt!            |
 
 ## Normen
 
@@ -237,30 +222,21 @@ Why? If the DHCP server restarts, the IP might change → BACnet devices no long
 
 ### Why VLANs in BA?
 
-```
-Without VLAN:
-  BACnet broadcast flows through the entire network → overloads other devices
-  A compromised device can reach all others
-
-With VLAN:
-  BACnet traffic stays in the OT VLAN
-  BMS can reach DDCs (router, permitted ports)
-  IT devices cannot see the OT network
-```
+| Without VLAN                              | With VLAN                                      |
+| ----------------------------------------- | ---------------------------------------------- |
+| BACnet broadcasts reach the whole network | BACnet traffic stays in the OT VLAN            |
+| a compromised device reaches all others   | the BMS reaches the DDC only via allowed ports |
+|                                           | IT devices do not see the OT network           |
 
 ### VLAN Configuration (Basic Principle)
 
 **Access port:** Device belongs to one VLAN
 
-```
-Switch port → DDC controller → Access VLAN 10 (OT network)
-```
+Example: the switch port of a DDC is an access port in VLAN 10, the OT network.
 
 **Trunk port:** Multiple VLANs on one port (switch → router)
 
-```
-Switch uplink → router (trunk): VLAN 10, VLAN 20, VLAN 30 → all carry their tag
-```
+Example: the uplink from switch to router or firewall is a trunk and carries VLANs 10, 20 and 30, each with its tag.
 
 ---
 
@@ -272,12 +248,7 @@ BACnet/IP uses UDP broadcasts for device discovery (Who-Is / I-Am). Broadcasts a
 
 **BBMD** (BACnet Broadcast Management Device): device that forwards broadcasts between subnets. Usually integrated in the BMS or DDC.
 
-```
-Subnet 10.10.2.x:  BBMD-A (e.g. BMS server)
-Subnet 10.10.3.x:  BBMD-B (e.g. IP gateway)
-
-BBMD-A and BBMD-B know each other (peer list) → forward broadcasts
-```
+BBMD A, for example the BMS server in 10.10.2.0/24, and BBMD B, for example an IP gateway in 10.10.3.0/24, know each other through their broadcast distribution table and forward broadcasts to each other.
 
 ### BACnet UDP Port
 
@@ -315,15 +286,14 @@ Always use **managed switches** for BA networks:
 
 ## Network Segmentation Concept for BA
 
-```
-Internet
-    ↓
-[Firewall]
-    ├── IT network (VLAN 1): offices, PCs, servers
-    │       └── [DMZ]: BMS web interface (accessible from outside)
-    └── OT network (VLAN 10): DDC controllers, fieldbus devices
-            └── BMS↔DDC communication only via explicitly permitted ports
-```
+| Zone                 | Content                                                      |
+| -------------------- | ------------------------------------------------------------ |
+| Internet             | only via the firewall                                        |
+| IT network, own VLAN | offices, PCs, servers                                        |
+| OT network, own VLAN | BMS, DDC, gateways; only explicitly allowed connections      |
+| Remote access        | only via VPN with strong authentication, never directly open |
+
+The default VLAN 1 is not used for payload traffic. A BMS web interface does not belong openly on the internet, not even in a DMZ; access from outside goes via VPN.
 
 **Firewall rules (example):**
 
@@ -336,13 +306,13 @@ Internet
 
 ## Typical BA Network Errors
 
-| Error                        | Symptom                       | Solution                       |
-| ---------------------------- | ----------------------------- | ------------------------------ |
-| No BBMD configured           | DDC on other subnet not found | Set up BBMD in BMS and DDC     |
-| Wrong subnet mask            | No communication              | /24 on all devices             |
-| Broadcast storm (loop)       | Network hangs                 | Enable STP on switches         |
-| IP conflict                  | Device reachable but wrong    | Static IPs or DHCP reservation |
-| OT port directly on internet | Security risk                 | Firewall, VPN, never direct!   |
+| Error                        | Symptom                       | Solution                              |
+| ---------------------------- | ----------------------------- | ------------------------------------- |
+| No BBMD configured           | DDC on other subnet not found | Set up BBMD in BMS and DDC            |
+| Wrong subnet mask            | No communication              | Set the mask consistently per IP plan |
+| Broadcast storm (loop)       | Network hangs                 | Enable STP on switches                |
+| IP conflict                  | Device reachable but wrong    | Static IPs or DHCP reservation        |
+| OT port directly on internet | Security risk                 | Firewall, VPN, never direct!          |
 
 ## Standards
 

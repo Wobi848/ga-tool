@@ -236,12 +236,12 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### it
 
-- ⬜ backup-ga
-- ⬜ cybersecurity-ot
-- ⬜ docker-ga
-- ⬜ netzwerk-ga
-- ⬜ proxmox
-- ⬜ remote-zugriff
+- ✅ backup-ga
+- ✅ cybersecurity-ot
+- ✅ docker-ga
+- ✅ netzwerk-ga
+- ✅ proxmox
+- ✅ remote-zugriff
 
 ### dokumentation
 
@@ -294,7 +294,7 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ⬜ ibn-rlt
 - ⬜ ibn-sanitaer
 - ⬜ knx-ibn
-- ⬜ netzwerk-ga
+- ✅ netzwerk-ga
 
 ## Abkürzungen
 
@@ -422,3 +422,10 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | zwave                               | «proprietär, kein freier Stack»; «keine Gerät-zu-Gerät-Kommunikation» (Assoziationen); LR-Frequenz Europa                                                                                                                                                                    | korrigiert, LR vorsichtig formuliert                                                                                                        | ITU-T G.9959                                                        |
 | 14.10.2026 | iec61850                            | GOOSE mit «IGMP Snooping Pflicht» (Layer 2, kein IP); MMTN statt MMTR                                                                                                                                                                                                        | VLAN/statische Multicast-Filter                                                                                                             | IEC 61850-7-4/-8-1                                                  |
 | 14.10.2026 | matter-thread                       | Zigbee «proprietär»; HVAC «in Entwicklung»; unbelegte BACnet-Bridge/Metering-Roadmap                                                                                                                                                                                         | Matter 1.2/1.4 Gerätetypen                                                                                                                  | CSA                                                                 |
+| 14.10.2026 | netzwerk-ga                         | GLT-Webinterface «in DMZ von aussen erreichbar»; VLAN 1 als IT-Netz; «/24 auf allen Geräten»                                                                                                                                                                                 | nur VPN; eigenes VLAN; Maske nach IP-Plan                                                                                                   | IEC 62443                                                           |
+| 14.10.2026 | cybersecurity-ot                    | «anonymisierte reale Vorfälle» unbelegt; VLAN 1                                                                                                                                                                                                                              | Target 2013, Lappeenranta 2016; BACS-Meldepflicht seit 4/2025                                                                               | ISG                                                                 |
+| 14.10.2026 | remote-zugriff                      | WireGuard-Beispiel mit ungültiger Inline-Bemerkung                                                                                                                                                                                                                           | korrigiert                                                                                                                                  | —                                                                   |
+| 14.10.2026 | backup-ga                           | Offline-/unveränderbare Kopie gegen Ransomware fehlte                                                                                                                                                                                                                        | 3-2-1-1-0 ergänzt                                                                                                                           | —                                                                   |
+| 14.10.2026 | docker-ga                           | «rsmb» als M-Bus-Gateway (ist MQTT-Broker); YABE als Container-Gateway; Compose `version`; Docker umgeht ufw fehlte                                                                                                                                                          | korrigiert, Warnung ergänzt                                                                                                                 | —                                                                   |
+| 14.10.2026 | proxmox                             | HA ohne gemeinsamen Speicher, «Warm-Standby/Tie-Breaker»; «Lüftung mind. 20 dB(A)»                                                                                                                                                                                           | Quorum, QDevice, Ceph/ZFS-Replikation; Neustart statt nahtlos                                                                               | —                                                                   |
+| 14.10.2026 | Werkzeug                            | Listen-Umwandler paarte Codemarken nach Blöcken mit Sprachangabe falsch (remote-zugriff, backup-ga)                                                                                                                                                                          | Dateien zurückgesetzt, Umwandler paart jetzt zeilenweise                                                                                    | —                                                                   |

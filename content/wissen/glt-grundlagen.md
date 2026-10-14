@@ -174,13 +174,14 @@ Sollwerte können auf verschiedene Arten vorgegeben werden:
 
 Jedes DDC-Programm folgt demselben Ablauf:
 
-- 1. Eingänge einlesen (Sensoren, Statusrückmeldungen)
-- 2. Plausibilität prüfen (Fühlerbruch, Bereichsüberschreitung)
-- 3. Betriebsart bestimmen (HOA-Status, Zeitprogramm)
-- 4. Regelung berechnen (PID, Zweipunkt, Logik)
-- 5. Ausgänge setzen (Ventile, Pumpen, FU)
-- 6. Alarme auswerten (Grenzwerte, Laufzeiten)
-- 7. Datenpunkte an GLT senden (COV oder Polling)
+1. Eingänge einlesen (Sensoren, Statusrückmeldungen)
+2. Plausibilität prüfen (Fühlerbruch, Bereichsüberschreitung)
+3. Betriebsart bestimmen (HOA-Status, Zeitprogramm)
+4. Regelung berechnen (PID, Zweipunkt, Logik)
+5. Ausgänge setzen (Ventile, Pumpen, FU)
+6. Alarme auswerten (Grenzwerte, Laufzeiten)
+7. Datenpunkte an GLT senden (COV oder Polling)
+
 - Zykluszeit: typisch 1–5 Sekunden
 
 ---
@@ -351,13 +352,14 @@ Setpoints can be specified in different ways:
 
 Every DDC programme follows the same cycle:
 
-- 1. Read inputs (sensors, status feedback)
-- 2. Check plausibility (sensor break, range exceeded)
-- 3. Determine operating mode (HOA status, time program)
-- 4. Calculate control (PID, two-position, logic)
-- 5. Set outputs (valves, pumps, VFD)
-- 6. Evaluate alarms (limits, running times)
-- 7. Send data points to BMS (COV or polling)
+1. Read inputs (sensors, status feedback)
+2. Check plausibility (sensor break, range exceeded)
+3. Determine operating mode (HOA status, time program)
+4. Calculate control (PID, two-position, logic)
+5. Set outputs (valves, pumps, VFD)
+6. Evaluate alarms (limits, running times)
+7. Send data points to BMS (COV or polling)
+
 - Cycle time: typically 1–5 seconds
 
 ---
