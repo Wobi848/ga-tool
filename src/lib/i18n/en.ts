@@ -11,6 +11,7 @@ export const en = {
 		checklists: 'Checklists',
 		reference: 'Reference',
 		abbreviations: 'Abbreviations',
+		more: 'More',
 		objects: 'Sites',
 		settings: 'Settings',
 		account: 'Account',
@@ -19,9 +20,7 @@ export const en = {
 		searchOpen: 'Open search',
 		close: 'Close',
 		changelog: 'Changelog',
-		updateNew: 'New in v{version}:',
-		updateText:
-			'k-factor calculator + knowledge article, h-x chart in psychrometrics, time converter, humidity fundamentals, "Latest entries" on dashboard'
+		updateNew: 'New in v{version}'
 	},
 	auth: {
 		login: 'Sign In',

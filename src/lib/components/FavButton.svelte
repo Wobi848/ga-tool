@@ -62,6 +62,13 @@
 		flex-shrink: 0;
 	}
 
+	@media (pointer: coarse) {
+		.fav-btn {
+			min-width: 44px;
+			min-height: 44px;
+		}
+	}
+
 	.fav-btn:hover {
 		color: #eab308;
 		background: color-mix(in srgb, #eab308 10%, transparent);

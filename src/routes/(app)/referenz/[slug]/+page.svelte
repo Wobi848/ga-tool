@@ -224,6 +224,7 @@
 								class="copy-row-btn"
 								onclick={() => copyRow(row)}
 								title={$_('referenz.copyRow')}
+								aria-label={$_('referenz.copyRow')}
 							>
 								<svg
 									width="14"
@@ -537,6 +538,13 @@
 		border-radius: 0.25rem;
 		color: var(--muted);
 		cursor: pointer;
+	}
+
+	@media (pointer: coarse) {
+		.copy-row-btn {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
 	}
 
 	.copy-row-btn:hover {

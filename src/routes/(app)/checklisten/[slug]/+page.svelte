@@ -319,6 +319,8 @@
 									class:active={expandedHints[item.id]}
 									onclick={() => toggleHint(item.id)}
 									title={$_('checklisten.showHint')}
+									aria-label={$_('checklisten.showHint')}
+									aria-expanded={expandedHints[item.id] ?? false}
 								>
 									<svg
 										width="14"
@@ -343,6 +345,8 @@
 								class:active={editingNote === item.id || notes[item.id]}
 								onclick={() => (editingNote = editingNote === item.id ? null : item.id)}
 								title={$_('checklisten.noteBtn')}
+								aria-label={$_('checklisten.noteBtn')}
+								aria-expanded={editingNote === item.id}
 							>
 								<svg
 									width="14"
@@ -695,6 +699,20 @@
 		border-radius: 0.3rem;
 		color: var(--muted);
 		cursor: pointer;
+	}
+	/* Auf dem Touchscreen direkt neben der Abhakzeile: zu kleine Knöpfe
+	   heissen Fehltipps, und ein Fehltipp hakt den Punkt ab. */
+	@media (pointer: coarse) {
+		.item-main {
+			padding-right: 6rem;
+		}
+		.action-btn {
+			width: 2.75rem;
+			height: 2.75rem;
+		}
+		.item-actions {
+			top: 0;
+		}
 	}
 	.action-btn:hover {
 		color: var(--color-primary);

@@ -37,6 +37,10 @@
 	}
 
 	function handleGlobalKey(e: KeyboardEvent) {
+		if (e.key === 'Escape' && moreOpen) {
+			moreOpen = false;
+			return;
+		}
 		if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
 			e.preventDefault();
 			searchOpen = true;
@@ -137,7 +141,28 @@
 		{ href: '/objekte', label: () => $_('nav.objects'), icon: 'building', key: 'objekte' }
 	];
 
-	const bottomItems = navItems.slice(0, 5);
+	// Auf dem Handy passen fünf Einträge in die Leiste. Objekte gehört hinein,
+	// es ist das Werkzeug für den Technikraum; der Rest liegt hinter «Mehr».
+	const BOTTOM_KEYS = ['home', 'rechner', 'wissen', 'objekte'];
+	const bottomItems = navItems.filter((n) => BOTTOM_KEYS.includes(n.key));
+	const moreItems = $derived([
+		...navItems.filter((n) => !BOTTOM_KEYS.includes(n.key)),
+		{ href: '/settings', label: () => $_('nav.settings'), icon: 'settings', key: 'settings' },
+		data.user
+			? { href: '/profil', label: () => $_('nav.profile'), icon: 'user', key: 'profil' }
+			: { href: '/login', label: () => $_('auth.login'), icon: 'log-in', key: 'login' },
+		...(data.user?.role === 'admin' || data.user?.role === 'systemadmin'
+			? [{ href: '/admin', label: () => 'Admin', icon: 'shield', key: 'admin' }]
+			: [])
+	]);
+	let moreOpen = $state(false);
+	const moreActive = $derived(moreItems.some((n) => isActive(n.href)));
+
+	// Nach jeder Navigation zu, sonst bleibt das Blatt über der neuen Seite stehen.
+	$effect(() => {
+		void $page.url.pathname;
+		moreOpen = false;
+	});
 
 	function isActive(href: string) {
 		if (href === '/') return $page.url.pathname === '/';
@@ -313,7 +338,6 @@
 				<span class="update-icon">✦</span>
 				<span class="update-text">
 					<strong>{$_('nav.updateNew', { values: { version: CURRENT_VERSION } })}</strong>
-					{$_('nav.updateText')}
 				</span>
 				<a href="/changelog" class="update-link" onclick={dismissBanner}>{$_('nav.changelog')}</a>
 				<button
@@ -331,13 +355,46 @@
 	</div>
 
 	<!-- ── Bottom Nav (Mobile) ────────────────────── -->
+	{#if moreOpen}
+		<button
+			type="button"
+			class="more-backdrop"
+			aria-label={$_('nav.close')}
+			onclick={() => (moreOpen = false)}
+		></button>
+		<div class="more-sheet" id="more-sheet" role="dialog" aria-label={$_('nav.more')}>
+			{#each moreItems as item (item.href)}
+				<a href={item.href} class="more-item" class:active={isActive(item.href)}>
+					{@render Icon({ name: item.icon, size: 20 })}
+					<span>{item.label()}</span>
+				</a>
+			{/each}
+		</div>
+	{/if}
+
 	<nav class="bottom-nav">
 		{#each bottomItems as item (item.href)}
-			<a href={item.href} class="bottom-nav-item" class:active={isActive(item.href)}>
+			<a
+				href={item.href}
+				class="bottom-nav-item"
+				class:active={!moreOpen && isActive(item.href)}
+				aria-current={isActive(item.href) ? 'page' : undefined}
+			>
 				{@render Icon({ name: item.icon, size: 20 })}
 				<span>{item.label()}</span>
 			</a>
 		{/each}
+		<button
+			type="button"
+			class="bottom-nav-item"
+			class:active={moreOpen || moreActive}
+			aria-expanded={moreOpen}
+			aria-controls="more-sheet"
+			onclick={() => (moreOpen = !moreOpen)}
+		>
+			{@render Icon({ name: 'more', size: 20 })}
+			<span>{$_('nav.more')}</span>
+		</button>
 	</nav>
 </div>
 
@@ -417,6 +474,11 @@
 			<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
 			<polyline points="10 17 15 12 10 7" />
 			<line x1="15" y1="12" x2="3" y2="12" />
+		{:else if name === 'more'}
+			<rect x="3" y="3" width="7" height="7" rx="1" />
+			<rect x="14" y="3" width="7" height="7" rx="1" />
+			<rect x="3" y="14" width="7" height="7" rx="1" />
+			<rect x="14" y="14" width="7" height="7" rx="1" />
 		{:else if name === 'shield'}
 			<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
 		{/if}
@@ -811,7 +873,8 @@
 		bottom: 0;
 		left: 0;
 		right: 0;
-		height: 60px;
+		height: calc(60px + env(safe-area-inset-bottom, 0px));
+		padding-bottom: env(safe-area-inset-bottom, 0px);
 		background-color: var(--surface);
 		border-top: 1px solid var(--border);
 		z-index: 40;
@@ -824,7 +887,7 @@
 
 		.main-wrapper {
 			margin-left: 0;
-			padding-bottom: 60px;
+			padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
 		}
 
 		.bottom-nav {
@@ -834,8 +897,71 @@
 		}
 	}
 
+	.more-backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgb(0 0 0 / 0.35);
+		border: none;
+		padding: 0;
+		z-index: 38;
+	}
+
+	.more-sheet {
+		position: fixed;
+		left: 0;
+		right: 0;
+		bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+		z-index: 39;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 0.25rem;
+		padding: 0.75rem;
+		background-color: var(--surface);
+		border-top: 1px solid var(--border);
+		border-radius: 1rem 1rem 0 0;
+		box-shadow: 0 -8px 24px rgb(0 0 0 / 0.15);
+	}
+
+	.more-item {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.25rem;
+		min-height: 64px;
+		padding: 0.5rem 0.25rem;
+		border-radius: 0.75rem;
+		color: var(--text);
+		text-decoration: none;
+		font-size: 0.75rem;
+		font-weight: 500;
+		text-align: center;
+	}
+
+	.more-item:hover {
+		background: var(--surface-hover);
+	}
+
+	.more-item.active {
+		color: var(--color-primary);
+		background: var(--surface-hover);
+	}
+
+	@media (min-width: 769px) {
+		.more-sheet,
+		.more-backdrop {
+			display: none;
+		}
+	}
+
 	.bottom-nav-item {
 		display: flex;
+		min-height: 48px;
+		justify-content: center;
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-family: inherit;
 		flex-direction: column;
 		align-items: center;
 		gap: 2px;
@@ -921,6 +1047,18 @@
 		padding: 0 0.25rem;
 		flex-shrink: 0;
 		transition: color 0.15s;
+	}
+
+	@media (pointer: coarse) {
+		.update-close {
+			min-width: 44px;
+			min-height: 44px;
+		}
+		.search-trigger {
+			min-height: 44px;
+			min-width: 44px;
+			justify-content: center;
+		}
 	}
 
 	.update-close:hover {

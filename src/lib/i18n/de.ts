@@ -11,6 +11,7 @@ export const de = {
 		checklists: 'Checklisten',
 		reference: 'Referenz',
 		abbreviations: 'Abkürzungen',
+		more: 'Mehr',
 		objects: 'Objekte',
 		settings: 'Einstellungen',
 		account: 'Account',
@@ -19,9 +20,7 @@ export const de = {
 		searchOpen: 'Suche öffnen',
 		close: 'Schliessen',
 		changelog: 'Changelog',
-		updateNew: 'Neu in v{version}:',
-		updateText:
-			'k-Faktor-Rechner + Wissens-Artikel, h-x-Diagramm in Psychrometrie, Zeit-Konverter, Luftfeuchtigkeit-Grundlagen, Dashboard "Neueste Einträge"'
+		updateNew: 'Neu in v{version}'
 	},
 	auth: {
 		login: 'Anmelden',
