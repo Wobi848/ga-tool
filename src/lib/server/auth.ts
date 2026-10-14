@@ -3,7 +3,8 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { admin } from 'better-auth/plugins';
 import { createAuthMiddleware, APIError } from 'better-auth/api';
-import { registrierungOffen } from '$lib/server/registrierung';
+import { codeGueltig, registrierungOffen } from '$lib/server/registrierung';
+import * as einladungen from '$lib/server/einladung';
 import { env } from '$env/dynamic/private';
 import { getRequestEvent } from '$app/server';
 import { db } from '$lib/server/db';
@@ -125,12 +126,34 @@ export const auth = betterAuth({
 			// Der Code steht im Rumpf. Kommt er von der Anmeldeseite, hat sie ihn
 			// aus dem Formular uebernommen; wer den Endpunkt direkt aufruft,
 			// braucht ihn genauso.
+			if (ctx.path !== '/sign-up/email') return;
 			const code = (ctx.body as { code?: unknown } | undefined)?.code;
-			if (ctx.path === '/sign-up/email' && !(await registrierungOffen(code))) {
-				throw new APIError('FORBIDDEN', {
-					message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.'
-				});
-			}
+			if (await registrierungOffen()) return; // offen, oder noch gar kein Konto
+			if (codeGueltig(code)) return;
+			// Eine Einladung wird hier nicht nur geprueft, sondern reserviert —
+			// sonst kaemen zwei gleichzeitige Registrierungen mit demselben Link
+			// beide durch.
+			if (await einladungen.einloesen(code)) return;
+			throw new APIError('FORBIDDEN', {
+				message: 'Registrierung ist geschlossen. Wende dich an den Betreiber.'
+			});
+		}),
+		/* Nach der Registrierung: hat es geklappt, gehoert die Einladung jetzt
+		 * diesem Konto. Wenn nicht (E-Mail schon vergeben, Passwort zu kurz),
+		 * wieder freigeben — ein Tippfehler soll den Link nicht verbrennen.
+		 * Lehnt schon der before-Haken ab, kommt better-auth gar nicht hierher. */
+		after: createAuthMiddleware(async (ctx) => {
+			if (ctx.path !== '/sign-up/email') return;
+			const code = (ctx.body as { code?: unknown } | undefined)?.code;
+			if (!code) return;
+			// Bei Erfolg { token, user }, bei Fehler ein APIError ohne `user`.
+			const ergebnis: unknown = ctx.context.returned;
+			const userId =
+				ergebnis && typeof ergebnis === 'object' && 'user' in ergebnis
+					? (ergebnis as { user?: { id?: string } }).user?.id
+					: undefined;
+			if (userId) await einladungen.abschliessen(code, userId);
+			else await einladungen.freigeben(code);
 		})
 	},
 	databaseHooks: {

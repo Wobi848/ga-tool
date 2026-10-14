@@ -2,6 +2,7 @@ import { env } from '$env/dynamic/private';
 import { db } from '$lib/server/db';
 import { user as userTable } from '$lib/server/db/auth.schema';
 import { sql } from 'drizzle-orm';
+import { gueltig as einladungGueltig } from '$lib/server/einladung';
 
 /** Ist ein Einladungscode hinterlegt, und stimmt der mitgeschickte?
  *
@@ -47,8 +48,10 @@ export async function registrierungOffen(code?: unknown): Promise<boolean> {
 	const geschlossen = (env.REGISTRIERUNG_OFFEN ?? '').trim().toLowerCase() === 'false';
 	if (!geschlossen) return true;
 
-	// Geschlossen, aber mit gueltigem Einladungscode geht es trotzdem.
+	// Geschlossen, aber mit gueltigem Einladungscode oder -link geht es trotzdem.
+	// Hier wird nur geprueft, nicht reserviert — das macht der Haken in auth.ts.
 	if (codeGueltig(code)) return true;
+	if (await einladungGueltig(code)) return true;
 
 	const [{ c }] = await db.select({ c: sql<number>`count(*)` }).from(userTable);
 	return c === 0;

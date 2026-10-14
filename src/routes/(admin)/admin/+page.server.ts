@@ -11,6 +11,7 @@ import { hashPassword } from 'better-auth/crypto';
 import { env } from '$env/dynamic/private';
 import { Resend } from 'resend';
 import { isAdminOrAbove, isSystemAdmin, isAssignableRole } from '$lib/server/roles';
+import * as einladungen from '$lib/server/einladung';
 import type { PageServerLoad, Actions } from './$types';
 
 const PROTECTED = 'System-Admin kann nicht geändert werden';
@@ -68,7 +69,14 @@ export const load: PageServerLoad = async ({ locals }) => {
 		return { ...u, favorites: favs, lastLogin: loginMap[u.id] ?? null };
 	});
 
-	return { users: usersWithData };
+	// Wer welche Einladung eingeloest hat, als E-Mail statt als ID.
+	const emailVon = Object.fromEntries(users.map((u) => [u.id, u.email]));
+	const einladungsListe = (await einladungen.liste()).map((e) => ({
+		...e,
+		eingeloestEmail: e.eingeloestVon ? (emailVon[e.eingeloestVon] ?? 'gelöscht') : null
+	}));
+
+	return { users: usersWithData, einladungen: einladungsListe };
 };
 
 /* Form-Actions laufen VOR jedem load. Die Pruefung in (admin)/+layout.server.ts
@@ -277,6 +285,33 @@ const aktionen = {
 		}
 
 		return { success: true, action: 'createUser', newUserId: userId };
+	},
+
+	einladungErstellen: async ({ request, locals, url }) => {
+		const data = await request.formData();
+		const tage = Number(data.get('tage')) || einladungen.GUELTIG_TAGE_STANDARD;
+		const notiz = (data.get('notiz') as string | null) ?? '';
+		const { token, laeuftAb } = await einladungen.erstellen({
+			erstelltVon: locals.user!.id,
+			notiz,
+			tage
+		});
+		// Der Link entsteht nur hier und wird nirgends gespeichert — gespeichert
+		// ist nur sein Hash. Wer ihn verliert, erstellt einen neuen.
+		const basis = env.ORIGIN ?? url.origin;
+		return {
+			success: true,
+			action: 'einladungErstellen',
+			link: `${basis}/login?einladung=${token}`,
+			laeuftAb: laeuftAb.getTime()
+		};
+	},
+
+	einladungLoeschen: async ({ request }) => {
+		const id = (await request.formData()).get('id') as string;
+		if (!id) return fail(400, { error: 'Keine Einladung angegeben' });
+		await einladungen.loeschen(id);
+		return { success: true, action: 'einladungLoeschen' };
 	}
 } satisfies Actions;
 

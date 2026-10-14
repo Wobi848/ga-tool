@@ -167,9 +167,90 @@ pruefe('jetzt sind es drei Konten', (await konten()) === 3, `Konten: ${await kon
 	pruefe('und weiss, dass ein Code verlangt wird', html.includes('codeVerlangt'));
 }
 
+// 5. Admin-Aktionen pruefen die Rolle selbst. Form-Actions laufen vor jedem
+//    load; am 14.10.2026 kam ein POST ohne Anmeldung mit "success" zurueck.
+const anmelden = async (email) => {
+	const r = await fetch(`${BASIS}/api/auth/sign-in/email`, {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json', Origin: BASIS },
+		body: JSON.stringify({ email, password: 'ein-langes-testpasswort-123' })
+	});
+	return (r.headers.getSetCookie?.() ?? []).map((c) => c.split(';')[0]).join('; ');
+};
+const adminAktion = (aktion, felder, cookie) =>
+	fetch(`${BASIS}/admin?/${aktion}`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+			Origin: BASIS,
+			Accept: 'application/json',
+			'x-sveltekit-action': 'true',
+			...(cookie ? { Cookie: cookie } : {})
+		},
+		body: new URLSearchParams(felder)
+	}).then(async (r) => ({ status: r.status, body: await r.json().catch(() => ({})) }));
+
+const adminCookie = await anmelden('erster@example.invalid'); // erstes Konto = systemadmin
+const userCookie = await anmelden('mitcode@example.invalid');
+{
+	const r = await adminAktion('einladungErstellen', { notiz: 'probe' });
+	pruefe(
+		'Admin-Aktion ohne Anmeldung wird abgelehnt',
+		r.body.type === 'failure' && r.body.status === 403,
+		JSON.stringify(r.body).slice(0, 80)
+	);
+}
+{
+	const r = await adminAktion(
+		'createUser',
+		{ email: 'eingeschleust@example.invalid', password: 'ein-langes-pw-1', role: 'admin' },
+		userCookie
+	);
+	pruefe(
+		'Admin-Aktion mit normalem Konto wird abgelehnt',
+		r.body.type === 'failure' && r.body.status === 403,
+		JSON.stringify(r.body).slice(0, 80)
+	);
+}
+
+// 6. Einladungslinks: einer pro Konto, an beiden Tueren.
+const einladung = async () => {
+	const r = await adminAktion('einladungErstellen', { notiz: 'probe', tage: '7' }, adminCookie);
+	// SvelteKit liefert die Daten devalue-kodiert; der Link steht als String darin.
+	const link = (String(r.body.data ?? '').match(/https?:[^"]+einladung=[A-Za-z0-9_-]+/) ?? [])[0];
+	return link ? new URL(link).searchParams.get('einladung') : null;
+};
+{
+	const token = await einladung();
+	pruefe('Admin kann eine Einladung erstellen', !!token);
+	const html = await (await fetch(`${BASIS}/login?einladung=${token}`)).text();
+	pruefe('der Link öffnet die Registrierung', html.includes('Einladung annehmen'));
+
+	const vorher = await konten();
+	const doppelt = await anmeldungApi('mitcode@example.invalid', token); // E-Mail gibt es schon
+	pruefe('scheitert die Registrierung, …', doppelt.status !== 200, `HTTP ${doppelt.status}`);
+	const r1 = await anmeldungApi('eingeladen@example.invalid', token);
+	pruefe('… bleibt der Link gültig', r1.status === 200, `HTTP ${r1.status}`);
+	const r2 = await anmeldungApi('nochmal@example.invalid', token);
+	pruefe('ein Link gilt für genau ein Konto', r2.status !== 200, `HTTP ${r2.status}`);
+	pruefe(
+		'es ist genau ein Konto dazugekommen',
+		(await konten()) === vorher + 1,
+		`Konten: ${await konten()}`
+	);
+	const html2 = await (await fetch(`${BASIS}/login?einladung=${token}`)).text();
+	pruefe('der verbrauchte Link wird als ungültig angezeigt', html2.includes('gilt nicht mehr'));
+}
+{
+	const token = await einladung();
+	const r = await anmeldungFormular('performular@example.invalid', token);
+	const text = await r.text();
+	pruefe('Einladung über das Formular', !text.includes('geschlossen'), text.slice(0, 80));
+}
+
 srv.kill('SIGKILL');
 
-// 5. Derselbe Server noch einmal, diesmal ohne hinterlegten Code. Jetzt muss
+// 7. Derselbe Server noch einmal, diesmal ohne hinterlegten Code. Jetzt muss
 //    beides zu sein — sonst haette der Code die Tuer dauerhaft geoeffnet.
 {
 	const srv2 = spawn('node', ['build/index.js'], {

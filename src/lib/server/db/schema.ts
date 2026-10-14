@@ -3,3 +3,4 @@ export * from './analytics.schema';
 export * from './analytics-rollup.schema';
 export * from './favorites.schema';
 export * from './objekte.schema';
+export * from './einladung.schema';

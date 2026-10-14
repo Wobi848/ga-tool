@@ -1,15 +1,23 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { untrack } from 'svelte';
 	import type { ActionData, PageData } from './$types';
 
 	let { form, data }: { form: ActionData; data: PageData } = $props();
 	let loading = $state(false);
-	let mode = $state<'login' | 'register'>('login');
+	// Mit gueltigem Einladungslink schon beim ersten Rendern auf dem Server in
+	// der Registrierung — nicht erst, wenn das JavaScript nachgeladen ist.
+	let mode = $state<'login' | 'register'>(
+		untrack(() => (data.einladung?.gueltig ? 'register' : 'login'))
+	);
+	/** Mit gueltigem Einladungslink geht es direkt zur Registrierung. */
+	const einladung = $derived(data.einladung?.gueltig ? data.einladung.token : null);
 	$effect(() => {
+		if (einladung) mode = 'register';
 		if ((form as { mode?: string } | null)?.mode === 'register') mode = 'register';
 		// Falls die Registrierung inzwischen geschlossen wurde: nicht in einer
 		// Maske stehenbleiben, die der Server ablehnt.
-		if (!data.registrierungOffen && !data.codeVerlangt) mode = 'login';
+		if (!data.registrierungOffen && !data.codeVerlangt && !einladung) mode = 'login';
 	});
 
 	const verifyPending = $derived(!!(form as { verifyPending?: boolean } | null)?.verifyPending);
@@ -80,7 +88,19 @@
 		{:else}
 			<!-- Auth card -->
 			<div class="card">
-				<h2>{mode === 'login' ? 'Anmelden' : 'Account erstellen'}</h2>
+				<h2>
+					{mode === 'login' ? 'Anmelden' : einladung ? 'Einladung annehmen' : 'Account erstellen'}
+				</h2>
+				{#if data.einladung && !data.einladung.gueltig}
+					<p class="error-msg">
+						Dieser Einladungslink gilt nicht mehr: abgelaufen, schon benutzt oder zurückgezogen.
+						Bitte um einen neuen.
+					</p>
+				{:else if einladung && mode === 'register'}
+					<p class="invite-hint">
+						Du wurdest eingeladen. Wähle E-Mail und Passwort, der Link gilt für genau ein Konto.
+					</p>
+				{/if}
 
 				<form
 					method="post"
@@ -94,10 +114,12 @@
 					}}
 					class="form"
 				>
-					{#if mode === 'register' && data.codeVerlangt}
+					{#if mode === 'register' && einladung}
+						<input type="hidden" name="code" value={einladung} />
+					{:else if mode === 'register' && data.codeVerlangt}
 						<label class="field">
 							<span>Einladungscode</span>
-							<input name="code" type="text" required autocomplete="off" />
+							<input name="code" type="text" required autocomplete="off" class="input-base" />
 						</label>
 					{/if}
 					{#if mode === 'register'}
@@ -150,7 +172,7 @@
 					</button>
 				</form>
 
-				{#if data.registrierungOffen || data.codeVerlangt}
+				{#if data.registrierungOffen || data.codeVerlangt || einladung}
 					<div class="divider"></div>
 
 					<button
@@ -235,6 +257,12 @@
 		font-size: 0.875rem;
 		font-weight: 500;
 		color: var(--text);
+	}
+
+	.invite-hint {
+		font-size: 0.875rem;
+		color: var(--muted);
+		margin: 0 0 1rem;
 	}
 
 	.error-msg {

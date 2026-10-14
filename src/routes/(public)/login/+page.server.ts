@@ -4,12 +4,21 @@ import { auth } from '$lib/server/auth';
 import { rateLimit } from '$lib/server/rateLimit';
 import { clientIp } from '$lib/server/clientIp';
 import { registrierungOffen, codeVerlangt } from '$lib/server/registrierung';
+import { gueltig as einladungGueltig } from '$lib/server/einladung';
 import type { Actions, PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ locals }) => {
+export const load: PageServerLoad = async ({ locals, url }) => {
 	if (locals.user) redirect(302, '/');
+	// Ein Einladungslink fuehrt hierher: /login?einladung=<token>. Ob er noch
+	// gilt, sagen wir vorher — nicht erst, nachdem jemand alles ausgefuellt hat.
+	const token = url.searchParams.get('einladung');
+	const einladung = token ? { token, gueltig: await einladungGueltig(token) } : null;
 	// Die Oberflaeche soll keinen Weg anbieten, den der Server danach ablehnt.
-	return { registrierungOffen: await registrierungOffen(), codeVerlangt: codeVerlangt() };
+	return {
+		registrierungOffen: await registrierungOffen(),
+		codeVerlangt: codeVerlangt(),
+		einladung
+	};
 };
 
 export const actions: Actions = {

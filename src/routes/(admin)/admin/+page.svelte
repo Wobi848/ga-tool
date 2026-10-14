@@ -17,6 +17,30 @@
 	let createPw = $state('');
 	let createRole = $state<'user' | 'admin'>('user');
 
+	// Einladungen: der Link wird nur einmal angezeigt, direkt nach dem Erstellen.
+	let showInviteForm = $state(false);
+	let inviteNotiz = $state('');
+	let inviteTage = $state(7);
+	let neuerLink: { link: string; laeuftAb: number } | null = $state(null);
+	let linkKopiert = $state(false);
+
+	async function linkKopieren() {
+		if (!neuerLink) return;
+		try {
+			await navigator.clipboard.writeText(neuerLink.link);
+			linkKopiert = true;
+			setTimeout(() => (linkKopiert = false), 2000);
+		} catch {
+			showToast('Kopieren ging nicht — Link bitte von Hand markieren', false);
+		}
+	}
+
+	const statusText: Record<string, string> = {
+		offen: 'Offen',
+		eingeloest: 'Eingelöst',
+		abgelaufen: 'Abgelaufen'
+	};
+
 	const filteredUsers = $derived(
 		searchQuery.trim()
 			? users.filter(
@@ -168,6 +192,140 @@
 		{/if}
 	</div>
 
+	<section class="invites">
+		<div class="invites-head">
+			<h2>Einladungen</h2>
+			<button
+				type="button"
+				class="btn btn--primary btn--sm"
+				onclick={() => {
+					showInviteForm = !showInviteForm;
+					neuerLink = null;
+				}}
+			>
+				{showInviteForm ? 'Abbrechen' : '+ Einladung erstellen'}
+			</button>
+		</div>
+		<p class="invites-hint">
+			Ein Link gilt für genau ein Konto. Die Person wählt E-Mail und Passwort selbst.
+		</p>
+
+		{#if showInviteForm}
+			<form
+				method="POST"
+				action="?/einladungErstellen"
+				class="create-form"
+				use:enhance={() => {
+					return async ({ result, update }) => {
+						if (result.type === 'success' && result.data?.link) {
+							neuerLink = {
+								link: result.data.link as string,
+								laeuftAb: result.data.laeuftAb as number
+							};
+							showInviteForm = false;
+							inviteNotiz = '';
+							await update();
+						} else {
+							showToast((result as { data?: { error?: string } }).data?.error ?? 'Fehler', false);
+							await update({ reset: false });
+						}
+					};
+				}}
+			>
+				<input
+					class="input"
+					type="text"
+					name="notiz"
+					bind:value={inviteNotiz}
+					maxlength="100"
+					placeholder="Für wen? (nur für dich)"
+				/>
+				<select class="input" name="tage" bind:value={inviteTage}>
+					<option value={1}>1 Tag gültig</option>
+					<option value={7}>7 Tage gültig</option>
+					<option value={14}>14 Tage gültig</option>
+					<option value={30}>30 Tage gültig</option>
+				</select>
+				<button type="submit" class="btn btn--primary btn--sm">Link erstellen</button>
+			</form>
+		{/if}
+
+		{#if neuerLink}
+			<div class="new-link" role="status">
+				<p>
+					<strong>Link erstellt.</strong> Er wird nur jetzt angezeigt — gültig bis
+					{formatDate(neuerLink.laeuftAb)}.
+				</p>
+				<div class="new-link-row">
+					<input
+						class="input new-link-input"
+						readonly
+						value={neuerLink.link}
+						onfocus={(e) => e.currentTarget.select()}
+					/>
+					<button type="button" class="btn btn--primary btn--sm" onclick={linkKopieren}>
+						{linkKopiert ? 'Kopiert ✓' : 'Kopieren'}
+					</button>
+				</div>
+			</div>
+		{/if}
+
+		{#if data.einladungen.length > 0}
+			<div class="table-wrap">
+				<table class="user-table">
+					<thead>
+						<tr>
+							<th>Für</th>
+							<th>Erstellt</th>
+							<th>Gültig bis</th>
+							<th>Status</th>
+							<th>Aktion</th>
+						</tr>
+					</thead>
+					<tbody>
+						{#each data.einladungen as e (e.id)}
+							<tr>
+								<td>{e.notiz ?? '—'}</td>
+								<td class="date-cell">{formatDate(e.erstelltAm)}</td>
+								<td class="date-cell">{formatDate(e.laeuftAb)}</td>
+								<td>
+									<span
+										class="badge"
+										class:badge--active={e.status === 'eingeloest'}
+										class:badge--unverified={e.status === 'offen'}
+										class:badge--banned={e.status === 'abgelaufen'}
+									>
+										{statusText[e.status]}
+									</span>
+									{#if e.eingeloestEmail}<span class="user-meta">{e.eingeloestEmail}</span>{/if}
+								</td>
+								<td>
+									<form
+										method="POST"
+										action="?/einladungLoeschen"
+										use:enhance={() => {
+											return async ({ result, update }) => {
+												if (result.type === 'success')
+													showToast(e.status === 'offen' ? 'Einladung zurückgezogen' : 'Entfernt');
+												await update();
+											};
+										}}
+									>
+										<input type="hidden" name="id" value={e.id} />
+										<button type="submit" class="btn btn--sm btn--danger-ghost">
+											{e.status === 'offen' ? 'Zurückziehen' : 'Entfernen'}
+										</button>
+									</form>
+								</td>
+							</tr>
+						{/each}
+					</tbody>
+				</table>
+			</div>
+		{/if}
+	</section>
+
+	<h2 class="users-head">Benutzer</h2>
 	<div class="table-wrap">
 		<table class="user-table">
 			<thead>
@@ -856,6 +1014,58 @@
 	.input:focus {
 		outline: none;
 		border-color: var(--color-primary);
+	}
+
+	.invites {
+		margin-bottom: 2rem;
+	}
+
+	.invites-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+	}
+
+	.invites h2,
+	.users-head {
+		font-size: 1rem;
+		font-weight: 600;
+		margin: 0;
+	}
+
+	.users-head {
+		margin-bottom: 0.75rem;
+	}
+
+	.invites-hint {
+		font-size: 0.8125rem;
+		color: var(--muted);
+		margin: 0.25rem 0 0.75rem;
+	}
+
+	.new-link {
+		border: 1px solid var(--color-primary);
+		border-radius: 0.5rem;
+		padding: 0.75rem;
+		margin-bottom: 0.75rem;
+		font-size: 0.875rem;
+	}
+
+	.new-link p {
+		margin: 0 0 0.5rem;
+	}
+
+	.new-link-row {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.new-link-input {
+		flex: 1;
+		min-width: 0;
+		font-family: ui-monospace, monospace;
+		font-size: 0.8125rem;
 	}
 
 	.toast {
