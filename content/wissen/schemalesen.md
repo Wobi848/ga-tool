@@ -30,7 +30,8 @@ related:
     as-built,
     ibn-vorbereitung,
     5plus5-regeln,
-    schuetzsteuerungen
+    schuetzsteuerungen,
+    messen-fehlersuche
   ]
 norm: [IEC 60617, IEC 61082-1, IEC 81346-1, IEC 81346-2, EN 60445]
 updated: 2026-10-14
