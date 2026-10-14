@@ -33,7 +33,8 @@ related:
     pufferspeicher,
     fussbodenheizung,
     fernwaerme,
-    kesselregelung
+    kesselregelung,
+    ventil-schaltungen
   ]
 
 norm: [EN 12828, VDI 2035, SIA 384.201]
@@ -47,18 +48,12 @@ Die Warmwasserheizung ist das häufigste Heizsystem in Gebäuden. Verstehen wie 
 
 ## System-Übersicht
 
-```
-ERZEUGER         VERTEILUNG           VERBRAUCHER
-   │                  │                    │
-[Kessel/WP]     [Pumpe + Rohrnetz]   [Heizkörper/FBH]
-   │                  │                    │
-Vorlauf (warm) ──────────────────────────────► Wärmeabgabe
-Rücklauf (kalt) ◄────────────────────────────
-   │
-[Sicherheitsgruppe]
-[Ausdehnungsgefäss]
-[Mischventil (Heizkreis)]
-```
+| Teil            | Was                                  | Beispiele                                  |
+| --------------- | ------------------------------------ | ------------------------------------------ |
+| **Erzeuger**    | Macht die Wärme                      | Kessel, Wärmepumpe, Fernwärme-Übergabe     |
+| **Verteilung**  | Bringt sie hin und das Wasser zurück | Pumpen, Verteiler, Rohrnetz, Mischventile  |
+| **Verbraucher** | Gibt sie an den Raum ab              | Heizkörper, Fussbodenheizung, Lufterhitzer |
+| **Sicherheit**  | Schützt die Anlage                   | Sicherheitsventil, Ausdehnungsgefäss       |
 
 ---
 
@@ -126,15 +121,9 @@ Hält den Systemdruck in definierten Grenzen:
 
 ### Verteiler/Sammler
 
-```
-Vorlauf ──────[Verteiler]──┬── HK1 (Radiatoren)
-                             ├── HK2 (FBH)
-                             ├── HK3 (Lufterhitzer)
-                             └── WW  (Warmwasser-Speicher)
-Rücklauf ◄────[Sammler]────┴── alle Rückläufe
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Verteiler und Sammler mit drei Heizkreisen, jeder mit eigener Pumpe, die Fussbodenheizung zusätzlich mit Mischventil" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="14" y="120" width="44" height="70" rx="3" class="bauteil"/><path d="M14 158.5H58" class="bauteil"/><path class="vl" d="M58 150L400 150" stroke-width="3"/><path class="rl" d="M400 180L58 180" stroke-width="3"/><circle cx="85" cy="150" r="9" class="bauteil bg"/><path d="M81 144L92 150L81 156Z" class="bauteil"/><circle class="vl fill" cx="126" cy="150" r="3"/><circle class="rl fill" cx="154" cy="180" r="3"/><path class="vl" d="M126 150L126 50" stroke-width="3"/><path class="rl" d="M154 32L154 180" stroke-width="3"/><circle cx="126" cy="82" r="9" class="bauteil bg"/><path d="M120 86L126 75L132 86Z" class="bauteil"/><rect x="102" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="vl" d="M126 50L126 40" stroke-width="3"/><circle class="vl fill" cx="221" cy="150" r="3"/><circle class="rl fill" cx="249" cy="180" r="3"/><path class="vl" d="M221 150L221 118" stroke-width="3"/><path class="mix" d="M221 118L221 50" stroke-width="3"/><path class="rl" d="M249 32L249 180" stroke-width="3"/><path class="rl" d="M249 118L230 118" stroke-width="3"/><path d="M215.5 109L226.5 109L221 118Z M215.5 127L226.5 127L221 118Z M230 112.5L230 123.5L221 118Z" class="bauteil bg"/><path d="M214 118H204" class="bauteil"/><rect x="190" y="112" width="14" height="12" class="bauteil bg"/><circle class="rl fill" cx="249" cy="118" r="3"/><circle cx="221" cy="82" r="9" class="bauteil bg"/><path d="M215 86L221 75L227 86Z" class="bauteil"/><rect x="197" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="mix" d="M221 50L221 40" stroke-width="3"/><circle class="vl fill" cx="316" cy="150" r="3"/><circle class="rl fill" cx="344" cy="180" r="3"/><path class="vl" d="M316 150L316 50" stroke-width="3"/><path class="rl" d="M344 32L344 180" stroke-width="3"/><circle cx="316" cy="82" r="9" class="bauteil bg"/><path d="M310 86L316 75L322 86Z" class="bauteil"/><rect x="292" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="vl" d="M316 50L316 40" stroke-width="3"/><path class="vl fill" d="M105 146L115 150L105 154Z" stroke-width="1"/><path class="rl fill" d="M115 176L105 180L115 184Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="36" y="204" text-anchor="middle" font-size="12.5">Erzeuger</text><text x="395" y="144" text-anchor="end" font-size="10.5">Verteiler</text><text x="395" y="195" text-anchor="end" font-size="10.5">Sammler</text><text x="140" y="32.5" text-anchor="middle" font-size="10.5">Heizkörper</text><text x="197" y="121.5" text-anchor="middle" font-size="9.5">M</text><text x="235" y="32.5" text-anchor="middle" font-size="10.5">Fussboden</text><text x="330" y="32.5" text-anchor="middle" font-size="10.5">Warmwasser</text></g></svg><figcaption>Jeder Heizkreis mit eigener Pumpe, die Fussbodenheizung zusätzlich mit Mischventil.</figcaption></figure>
 
-Jeder Heizkreis hat eigene Pumpe + Mischventil oder nur Pumpe (mit Boilerventil).
+Jeder Heizkreis hat eine eigene Pumpe, dazu je nach Vorlauftemperatur ein Mischventil. Welche Schaltung wann passt, steht in [Hydraulische Grundschaltungen](/wissen/ventil-schaltungen).
 
 ### Mischventil pro Heizkreis
 
@@ -199,18 +188,12 @@ The hot-water heating system is the most common heating system in buildings. Und
 
 ## System Overview
 
-```
-GENERATOR         DISTRIBUTION           EMITTERS
-    │                   │                    │
-[Boiler/HP]     [Pump + pipework]   [Radiators/UFH]
-    │                   │                    │
-Supply (warm) ──────────────────────────────► Heat output
-Return (cool) ◄────────────────────────────
-    │
-[Safety group]
-[Expansion vessel]
-[Mixing valve (heating circuit)]
-```
+| Part             | What                               | Examples                                       |
+| ---------------- | ---------------------------------- | ---------------------------------------------- |
+| **Generator**    | Produces the heat                  | Boiler, heat pump, district heating substation |
+| **Distribution** | Brings it there and the water back | Pumps, headers, pipework, mixing valves        |
+| **Consumers**    | Releases it into the room          | Radiators, underfloor heating, air heaters     |
+| **Safety**       | Protects the system                | Safety valve, expansion vessel                 |
 
 ---
 
@@ -278,15 +261,9 @@ Maintains system pressure within defined limits:
 
 ### Manifold / Collector
 
-```
-Supply ──────[Manifold]──┬── HC1 (radiators)
-                          ├── HC2 (UFH)
-                          ├── HC3 (air heater)
-                          └── DHW (hot water cylinder)
-Return ◄────[Collector]──┴── all returns
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Flow and return headers with three circuits, each with its own pump, underfloor heating additionally with a mixing valve" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="14" y="120" width="44" height="70" rx="3" class="bauteil"/><path d="M14 158.5H58" class="bauteil"/><path class="vl" d="M58 150L400 150" stroke-width="3"/><path class="rl" d="M400 180L58 180" stroke-width="3"/><circle cx="85" cy="150" r="9" class="bauteil bg"/><path d="M81 144L92 150L81 156Z" class="bauteil"/><circle class="vl fill" cx="126" cy="150" r="3"/><circle class="rl fill" cx="154" cy="180" r="3"/><path class="vl" d="M126 150L126 50" stroke-width="3"/><path class="rl" d="M154 32L154 180" stroke-width="3"/><circle cx="126" cy="82" r="9" class="bauteil bg"/><path d="M120 86L126 75L132 86Z" class="bauteil"/><rect x="102" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="vl" d="M126 50L126 40" stroke-width="3"/><circle class="vl fill" cx="221" cy="150" r="3"/><circle class="rl fill" cx="249" cy="180" r="3"/><path class="vl" d="M221 150L221 118" stroke-width="3"/><path class="mix" d="M221 118L221 50" stroke-width="3"/><path class="rl" d="M249 32L249 180" stroke-width="3"/><path class="rl" d="M249 118L230 118" stroke-width="3"/><path d="M215.5 109L226.5 109L221 118Z M215.5 127L226.5 127L221 118Z M230 112.5L230 123.5L221 118Z" class="bauteil bg"/><path d="M214 118H204" class="bauteil"/><rect x="190" y="112" width="14" height="12" class="bauteil bg"/><circle class="rl fill" cx="249" cy="118" r="3"/><circle cx="221" cy="82" r="9" class="bauteil bg"/><path d="M215 86L221 75L227 86Z" class="bauteil"/><rect x="197" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="mix" d="M221 50L221 40" stroke-width="3"/><circle class="vl fill" cx="316" cy="150" r="3"/><circle class="rl fill" cx="344" cy="180" r="3"/><path class="vl" d="M316 150L316 50" stroke-width="3"/><path class="rl" d="M344 32L344 180" stroke-width="3"/><circle cx="316" cy="82" r="9" class="bauteil bg"/><path d="M310 86L316 75L322 86Z" class="bauteil"/><rect x="292" y="18" width="76" height="22" rx="3" class="bauteil bg"/><path class="vl" d="M316 50L316 40" stroke-width="3"/><path class="vl fill" d="M105 146L115 150L105 154Z" stroke-width="1"/><path class="rl fill" d="M115 176L105 180L115 184Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="36" y="204" text-anchor="middle" font-size="12.5">Generator</text><text x="395" y="144" text-anchor="end" font-size="10.5">Flow header</text><text x="395" y="195" text-anchor="end" font-size="10.5">Return header</text><text x="140" y="32.5" text-anchor="middle" font-size="10.5">Radiators</text><text x="197" y="121.5" text-anchor="middle" font-size="9.5">M</text><text x="235" y="32.5" text-anchor="middle" font-size="10.5">Underfloor</text><text x="330" y="32.5" text-anchor="middle" font-size="10.5">Hot water</text></g></svg><figcaption>Each circuit with its own pump, the underfloor heating additionally with a mixing valve.</figcaption></figure>
 
-Each heating circuit has its own pump + mixing valve, or just a pump (with cylinder valve).
+Each heating circuit has its own pump, plus a mixing valve depending on the flow temperature. Which circuit fits when is described in [Basic Hydraulic Circuits](/wissen/ventil-schaltungen).
 
 ### Mixing Valve per Heating Circuit
 
