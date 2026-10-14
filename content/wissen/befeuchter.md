@@ -110,7 +110,7 @@ Befeuchter sind die hygienisch heikelste Stelle einer Lüftungsanlage. Nach **VD
 - **Regelmässige Kontrollen** und mikrobiologische Untersuchungen des Befeuchterwassers bei wasserführenden Befeuchtern
 - **Hygieneinspektionen** der Anlage in festen Abständen
 
-Für Spitäler gelten mit **DIN 1946-4** (bzw. SWKI 99-3 in der Schweiz) strengere Regeln. Dampfbefeuchter sind dort die Regel.
+Für Spitäler gelten mit **DIN 1946-4** (bzw. SWKI VA105-01 in der Schweiz) strengere Regeln. Dampfbefeuchter sind dort die Regel.
 
 ## Regelung der Luftbefeuchtung
 
@@ -227,7 +227,7 @@ Humidifiers are the most hygienically sensitive point of a ventilation system. P
 - **Regular checks** and microbiological tests of the humidifier water for water-based humidifiers
 - **Hygiene inspections** of the system at fixed intervals
 
-Hospitals are subject to stricter rules with **DIN 1946-4** (or SWKI 99-3 in Switzerland). Steam humidifiers are the norm there.
+Hospitals are subject to stricter rules with **DIN 1946-4** (or SWKI VA105-01 in Switzerland). Steam humidifiers are the norm there.
 
 ## Humidity Control
 

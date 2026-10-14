@@ -27,7 +27,7 @@ difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, pid-regler, signaltypen, steuern-regeln, hand-0-auto, sps-grundlagen]
 norm: [IEC 61131-3, EN 61131-3]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -37,13 +37,13 @@ DDC-Steuerungen werden nach **IEC 61131-3** programmiert — dem internationalen
 
 ## IEC 61131-3 — Fünf Programmiersprachen
 
-| Sprache                       | Kürzel | Art                          | Stärke                        |
-| ----------------------------- | ------ | ---------------------------- | ----------------------------- |
-| **Funktionsbausteindiagramm** | FBD    | Grafisch (Blöcke)            | Regelschleifen, GA-Logiken    |
-| **Kontaktplan**               | LD     | Grafisch (Relais-ähnlich)    | Schaltlogiken, Verriegelungen |
-| **Strukturierter Text**       | ST     | Textuell (Pascal-ähnlich)    | Berechnungen, komplexe Logik  |
-| Anweisungsliste               | IL     | Textuell (Assembler-ähnlich) | Veraltet, selten noch genutzt |
-| Ablaufsprache                 | SFC    | Grafisch (Zustandsmaschine)  | Sequenzielle Abläufe          |
+| Sprache                       | Kürzel | Art                          | Stärke                                  |
+| ----------------------------- | ------ | ---------------------------- | --------------------------------------- |
+| **Funktionsbausteindiagramm** | FBD    | Grafisch (Blöcke)            | Regelschleifen, GA-Logiken              |
+| **Kontaktplan**               | LD     | Grafisch (Relais-ähnlich)    | Schaltlogiken, Verriegelungen           |
+| **Strukturierter Text**       | ST     | Textuell (Pascal-ähnlich)    | Berechnungen, komplexe Logik            |
+| Anweisungsliste               | IL     | Textuell (Assembler-ähnlich) | in der 3. Ausgabe als veraltet markiert |
+| Ablaufsprache                 | SFC    | Grafisch (Zustandsmaschine)  | Sequenzielle Abläufe                    |
 
 ---
 
@@ -51,14 +51,12 @@ DDC-Steuerungen werden nach **IEC 61131-3** programmiert — dem internationalen
 
 In der GA am häufigsten. Verbindet vorgefertigte Bausteine mit "Drähten":
 
-```
-[AI_T_VL] ──► [PID_Regler]──► [AO_Ventil]
-[AV_T_SOLL]──►   Kp=2.5
-               Ti=5min
+Zwei typische Verknüpfungen:
 
-[DI_Pumpe_LFG]──► [TON Timer]──► [DO_Alarm_Pumpe]
-                   Delay=30s
-```
+| Eingänge                                  | Baustein              | Ausgang           |
+| ----------------------------------------- | --------------------- | ----------------- |
+| Vorlauftemperatur AI, Vorlauf-Sollwert AV | PID, Kp 2.5, Tn 5 min | Mischventil AO    |
+| Laufmeldung Pumpe DI                      | TON, Verzögerung 30 s | Störmeldung Pumpe |
 
 **Vorgefertigte Bausteine (FB = Function Block):**
 
@@ -106,13 +104,13 @@ Pumpen-Verriegelung: Pumpe darf nur laufen wenn kein Frost und Betrieb freigegeb
 
 ```
 |--[ BetriebsFreigabe ]--[ /FrostAlarm ]--[ /PumpeStorung ]--( Pumpe_EIN )--|
-|                                                                             |
-|--[ Pumpe_EIN ]--------------------------------------------------------------|
 ```
 
 - `[ ]` = Schliesskontakt (Bedingung erfüllt = 1)
 - `[ / ]` = Öffnerkontakt (invertiert, Bedingung nicht erfüllt)
 - `( )` = Ausgangs-Spule (setzt Ausgang)
+
+Eine Selbsthaltung parallel über den ganzen Strompfad wäre hier falsch: Die Pumpe bliebe dann auch bei Frostalarm eingeschaltet.
 
 Übersetzt: Pumpe ein wenn: BetriebsFreigabe = 1 UND FrostAlarm = 0 UND PumpeStorung = 0
 
@@ -122,17 +120,13 @@ Pumpen-Verriegelung: Pumpe darf nur laufen wenn kein Frost und Betrieb freigegeb
 
 DDC-Programm läuft zyklisch:
 
-```
-Zyklus 1 (z.B. 1 Sekunde):
-  1. Eingänge lesen (AI, DI)
-  2. Programme ausführen (Bausteine, Logiken)
-  3. Ausgänge setzen (AO, DO)
+In jedem Zyklus, zum Beispiel jede Sekunde:
 
-Zyklus 2 (1 Sekunde später):
-  1. Eingänge lesen (neue Werte)
-  2. Programme ausführen
-  3. Ausgänge setzen (neue Stellbefehle)
-```
+1. Eingänge lesen (AI, DI)
+2. Programm ausführen (Bausteine, Logik)
+3. Ausgänge setzen (AO, DO)
+
+Im nächsten Zyklus beginnt alles mit den neuen Eingangswerten von vorn.
 
 **Zykluszeit:** Typisch 100 ms – 5 Sekunden für GA-Anwendungen (schnelle Regelungen: 100 ms, langsame Raumtemperaturen: 5–10 s).
 
@@ -142,15 +136,13 @@ Zyklus 2 (1 Sekunde später):
 
 ### PID-Baustein
 
-```
-                ┌────────────────┐
-Istwert X ────►│                │
-                │   PID         │───► Stellgrösse Y (0–100 %)
-Sollwert W ────►│   Kp: 2.5     │
-                │   Ti: 300 s   │
-Freigabe ──────►│   Td: 0 s     │
-                └────────────────┘
-```
+| Anschluss     | Bedeutung                               |
+| ------------- | --------------------------------------- |
+| Istwert X     | Eingang, Messwert                       |
+| Sollwert W    | Eingang                                 |
+| Freigabe      | Eingang, Regler aktiv oder nicht        |
+| Kp, Tn, Tv    | Parameter, zum Beispiel 2.5, 300 s, 0 s |
+| Stellgrösse Y | Ausgang, 0–100 %                        |
 
 Parameter:
 
@@ -160,11 +152,7 @@ Parameter:
 
 ### Wärmekurven-Baustein (Hersteller-FB)
 
-```
-T_Aussen ──►[ Heizkurve_FB ]──► T_VL_Soll
-Neigung  ──►   Neigung=1.5
-T_Raum   ──►   T_Raum=21°C
-```
+Eingänge: Aussentemperatur, Steilheit (zum Beispiel 1.5), Raumsollwert (zum Beispiel 21 °C). Ausgang: Vorlauf-Sollwert.
 
 Viele DDC-Plattformen bieten fertige Heizkurven-FBs mit Steilheit, Parallelverschiebung, Grenztemperatur.
 
@@ -172,13 +160,13 @@ Viele DDC-Plattformen bieten fertige Heizkurven-FBs mit Steilheit, Parallelversc
 
 ## Hersteller-Spezifika
 
-| Hersteller         | Plattform               | Sprache / Tool                 |
-| ------------------ | ----------------------- | ------------------------------ |
-| Siemens            | PXC / Desigo CC         | PPCL / CPS (proprietär)        |
-| Sauter             | modu8 / EY-modulo       | EY-modulo Studio (IEC 61131-3) |
-| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3            |
-| Beckhoff           | CX / TwinCAT            | IEC 61131-3 (ST, FBD, LD)      |
-| CODESYS            | Viele Hersteller        | CODESYS (IEC 61131-3 Standard) |
+| Hersteller         | Plattform            | Sprache / Tool                 |
+| ------------------ | -------------------- | ------------------------------ |
+| Siemens            | Desigo PXC           | Desigo ABT (proprietär)        |
+| Sauter             | EY-modulo            | CASE Suite                     |
+| Schneider Electric | EcoStruxure Building | Function Block, Script         |
+| Beckhoff           | CX / TwinCAT         | IEC 61131-3 (ST, FBD, LD)      |
+| CODESYS            | Viele Hersteller     | CODESYS (IEC 61131-3 Standard) |
 
 **Wichtig:** Programme sind meist **nicht portierbar** zwischen Herstellern. Auch wenn IEC 61131-3 Standard ist, gibt es herstellerspezifische Erweiterungen und Bibliotheken.
 
@@ -194,13 +182,13 @@ DDC controllers are programmed to **IEC 61131-3** — the international standard
 
 ## IEC 61131-3 — Five Programming Languages
 
-| Language                   | Abbrev. | Type                      | Strength                    |
-| -------------------------- | ------- | ------------------------- | --------------------------- |
-| **Function Block Diagram** | FBD     | Graphical (blocks)        | Control loops, BA logic     |
-| **Ladder Diagram**         | LD      | Graphical (relay-like)    | Switching logic, interlocks |
-| **Structured Text**        | ST      | Textual (Pascal-like)     | Calculations, complex logic |
-| Instruction List           | IL      | Textual (assembler-like)  | Obsolete, rarely used       |
-| Sequential Function Chart  | SFC     | Graphical (state machine) | Sequential processes        |
+| Language                   | Abbrev. | Type                      | Strength                                |
+| -------------------------- | ------- | ------------------------- | --------------------------------------- |
+| **Function Block Diagram** | FBD     | Graphical (blocks)        | Control loops, BA logic                 |
+| **Ladder Diagram**         | LD      | Graphical (relay-like)    | Switching logic, interlocks             |
+| **Structured Text**        | ST      | Textual (Pascal-like)     | Calculations, complex logic             |
+| Instruction List           | IL      | Textual (assembler-like)  | marked as deprecated in the 3rd edition |
+| Sequential Function Chart  | SFC     | Graphical (state machine) | Sequential processes                    |
 
 ---
 
@@ -208,14 +196,12 @@ DDC controllers are programmed to **IEC 61131-3** — the international standard
 
 Most common in BA. Connects pre-built blocks with "wires":
 
-```
-[AI_T_SUP] ──► [PID_Controller]──► [AO_Valve]
-[AV_T_SP]  ──►   Kp=2.5
-               Ti=5min
+Two typical connections:
 
-[DI_Pump_RUN]──► [TON Timer]──► [DO_Alarm_Pump]
-                   Delay=30s
-```
+| Inputs                                | Block                 | Output             |
+| ------------------------------------- | --------------------- | ------------------ |
+| flow temperature AI, flow setpoint AV | PID, Kp 2.5, Ti 5 min | mixing valve AO    |
+| pump run status DI                    | TON, delay 30 s       | pump fault message |
 
 **Pre-built blocks (FB = Function Block):**
 
@@ -263,13 +249,13 @@ Pump interlock: pump may only run if no frost alarm and operation enabled:
 
 ```
 |--[ OperationEnable ]--[ /FrostAlarm ]--[ /PumpFault ]--( Pump_ON )--|
-|                                                                       |
-|--[ Pump_ON ]--------------------------------------------------------------|
 ```
 
 - `[ ]` = normally open contact (condition met = 1)
 - `[ / ]` = normally closed contact (inverted, condition not met)
 - `( )` = output coil (sets output)
+
+A latching branch in parallel across the whole rung would be wrong here: the pump would then stay on even with a frost alarm.
 
 Translated: pump on when: OperationEnable = 1 AND FrostAlarm = 0 AND PumpFault = 0
 
@@ -279,17 +265,13 @@ Translated: pump on when: OperationEnable = 1 AND FrostAlarm = 0 AND PumpFault =
 
 DDC program runs cyclically:
 
-```
-Cycle 1 (e.g. 1 second):
-  1. Read inputs (AI, DI)
-  2. Execute programs (blocks, logic)
-  3. Set outputs (AO, DO)
+In every cycle, for example every second:
 
-Cycle 2 (1 second later):
-  1. Read inputs (new values)
-  2. Execute programs
-  3. Set outputs (new control commands)
-```
+1. Read inputs (AI, DI)
+2. Execute the program (blocks, logic)
+3. Set outputs (AO, DO)
+
+In the next cycle everything starts again with the new input values.
 
 **Cycle time:** Typically 100 ms – 5 seconds for BA applications (fast control loops: 100 ms, slow room temperatures: 5–10 s).
 
@@ -299,15 +281,13 @@ Cycle 2 (1 second later):
 
 ### PID Block
 
-```
-                ┌────────────────┐
-Actual X ──────►│                │
-                │   PID         │───► Control output Y (0–100 %)
-Setpoint W ────►│   Kp: 2.5     │
-                │   Ti: 300 s   │
-Enable ────────►│   Td: 0 s     │
-                └────────────────┘
-```
+| Connection | Meaning                                 |
+| ---------- | --------------------------------------- |
+| Actual X   | input, measured value                   |
+| Setpoint W | input                                   |
+| Enable     | input, controller active or not         |
+| Kp, Ti, Td | parameters, for example 2.5, 300 s, 0 s |
+| Output Y   | output, 0–100 %                         |
 
 Parameters:
 
@@ -317,11 +297,7 @@ Parameters:
 
 ### Heating Curve Block (Manufacturer FB)
 
-```
-T_Outdoor ──►[ HeatingCurve_FB ]──► T_SUP_SP
-Slope     ──►   Slope=1.5
-T_Room    ──►   T_Room=21°C
-```
+Inputs: outdoor temperature, slope (for example 1.5), room setpoint (for example 21 °C). Output: flow setpoint.
 
 Many DDC platforms offer ready-made heating curve FBs with slope, parallel shift, and limit temperature.
 
@@ -329,13 +305,13 @@ Many DDC platforms offer ready-made heating curve FBs with slope, parallel shift
 
 ## Manufacturer Specifics
 
-| Manufacturer       | Platform                | Language / tool                |
-| ------------------ | ----------------------- | ------------------------------ |
-| Siemens            | PXC / Desigo CC         | PPCL / CPS (proprietary)       |
-| Sauter             | modu8 / EY-modulo       | EY-modulo Studio (IEC 61131-3) |
-| Schneider Electric | TAC Vista / EcoStruxure | C-Bus / IEC 61131-3            |
-| Beckhoff           | CX / TwinCAT            | IEC 61131-3 (ST, FBD, LD)      |
-| CODESYS            | Many manufacturers      | CODESYS (IEC 61131-3 standard) |
+| Manufacturer       | Platform             | Language / tool                |
+| ------------------ | -------------------- | ------------------------------ |
+| Siemens            | Desigo PXC           | Desigo ABT (proprietary)       |
+| Sauter             | EY-modulo            | CASE Suite                     |
+| Schneider Electric | EcoStruxure Building | Function Block, Script         |
+| Beckhoff           | CX / TwinCAT         | IEC 61131-3 (ST, FBD, LD)      |
+| CODESYS            | Many manufacturers   | CODESYS (IEC 61131-3 standard) |
 
 **Important:** Programs are usually **not portable** between manufacturers. Even though IEC 61131-3 is the standard, there are manufacturer-specific extensions and libraries.
 

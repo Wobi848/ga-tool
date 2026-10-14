@@ -24,7 +24,7 @@ difficulty: grundlagen
 area: [ga]
 related: [datenpunktliste, as-built, glt-grundlagen, opc-ua, vdi3814, funktionsbeschreibung]
 norm: [ISO 19650, EN ISO 16739 (IFC), VDI 3805]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -77,14 +77,13 @@ Für GA-Betrieb relevant: **LOD 400–500** — Gerätedaten, Datenpunkte, Kalib
 
 Statt manueller Excel-Datenpunktliste kann diese aus dem BIM-Modell exportiert werden:
 
-```
-BIM-Modell (IFC)
-    └── IfcSensor [Room_42, Type=Temperature]
-        ├── pset_SensorCommon.Category = Temperature
-        ├── pset_GA.BACnetObjectID = AI:12
-        ├── pset_GA.Einheit = °C
-        └── pset_GA.Zone = Zone_HLK_42
-```
+Ein Temperaturfühler im Modell, zum Beispiel:
+
+- Element: IfcSensor in Raum 42, Typ Temperatur
+- Standard-Property-Set **Pset_SensorTypeCommon** mit allgemeinen Angaben
+- projekteigenes Property-Set, etwa mit BACnet-Objekt AI:12, Einheit °C und Zone
+
+Aus diesen Angaben lässt sich die Datenpunktliste automatisch füllen. Die eigenen Property-Sets müssen im Projekt vorab festgelegt werden, sonst füllt sie niemand einheitlich.
 
 → Automatische Befüllung der Datenpunktliste, Reduzierung von Eingabefehlern.
 
@@ -100,20 +99,12 @@ Nach Abnahme wird das BIM-Modell auf den effektiven Einbauzustand aktualisiert �
 
 Ein **Digitaler Zwilling** geht über BIM hinaus: Er ist das BIM-Modell **plus Echtzeit-Sensordaten**. Das statische Modell wird mit Live-Daten aus der GA "zum Leben erweckt":
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                   Digitaler Zwilling                     │
-│                                                         │
-│  BIM-Modell          +    GA-Daten (live)               │
-│  ───────────              ────────────────              │
-│  Geometrie                Temperaturen (1-min)          │
-│  Systeme                  Ventilstellungen              │
-│  Attribute                Energiezähler                 │
-│  Räume/Zonen              Alarme/Events                 │
-└─────────────────────────────────────────────────────────┘
-           ↓ Analyse und Simulation
-    Energieoptimierung, Fehlerdiagnose, Prognose
-```
+Der digitale Zwilling verbindet:
+
+- **aus dem BIM-Modell:** Geometrie, Systeme, Attribute, Räume und Zonen
+- **aus der GA, laufend:** Temperaturen, Ventilstellungen, Zählerstände, Alarme
+
+Darauf bauen Analyse und Simulation auf: Energieoptimierung, Fehlerdiagnose, Prognosen.
 
 ### Anwendungen Digitaler Zwilling
 
@@ -127,13 +118,14 @@ Ein **Digitaler Zwilling** geht über BIM hinaus: Er ist das BIM-Modell **plus E
 
 ## Wichtige Standards und Normen
 
-| Standard     | Inhalt                                                                   |
-| ------------ | ------------------------------------------------------------------------ |
-| ISO 19650    | BIM-Prozessmanagement, Information Requirements                          |
-| EN ISO 16739 | IFC-Schema                                                               |
-| VDI 3805     | Produktdaten für HVAC-Geräte (Datenaustausch)                            |
-| SWKI BIM 001 | BIM-Anforderungen für TGA (Schweiz)                                      |
-| COBie        | Construction Operations Building Information Exchange — Übergabe Betrieb |
+| Standard                | Inhalt                                                                           |
+| ----------------------- | -------------------------------------------------------------------------------- |
+| ISO 19650               | BIM-Prozessmanagement, Information Requirements                                  |
+| EN ISO 16739            | IFC-Schema                                                                       |
+| VDI 3805                | Produktdaten für HVAC-Geräte (Datenaustausch)                                    |
+| SIA 2051                | Building Information Modelling, Grundlagen zur Anwendung (CH)                    |
+| Brick, Project Haystack | offene Semantik für GA-Datenpunkte, verbindet Datenpunkte mit Anlagen und Räumen |
+| COBie                   | Construction Operations Building Information Exchange — Übergabe Betrieb         |
 
 ## Herausforderungen in der Praxis
 
@@ -203,14 +195,13 @@ Relevant for BA operation: **LOD 400–500** — device data, data points, calib
 
 Instead of a manual Excel data point list, it can be exported from the BIM model:
 
-```
-BIM model (IFC)
-    └── IfcSensor [Room_42, Type=Temperature]
-        ├── pset_SensorCommon.Category = Temperature
-        ├── pset_GA.BACnetObjectID = AI:12
-        ├── pset_GA.Unit = °C
-        └── pset_GA.Zone = Zone_HVAC_42
-```
+A temperature sensor in the model, for example:
+
+- element: IfcSensor in room 42, type temperature
+- standard property set **Pset_SensorTypeCommon** with general data
+- project-specific property set, for example with BACnet object AI:12, unit °C and zone
+
+From these data the data point list can be filled automatically. The project-specific property sets must be defined in advance, otherwise nobody fills them consistently.
 
 → Automated population of the data point list, reduced data entry errors.
 
@@ -226,20 +217,12 @@ After acceptance, the BIM model is updated to the actual installed state → **a
 
 A **digital twin** goes beyond BIM: it is the BIM model **plus real-time sensor data**. The static model is brought to life with live data from the BA system:
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                     Digital Twin                         │
-│                                                         │
-│  BIM Model            +    BA Data (live)               │
-│  ─────────                 ──────────────               │
-│  Geometry                  Temperatures (1-min)         │
-│  Systems                   Valve positions              │
-│  Attributes                Energy meters               │
-│  Rooms / Zones             Alarms / Events              │
-└─────────────────────────────────────────────────────────┘
-           ↓ Analysis and Simulation
-    Energy optimisation, fault diagnosis, forecasting
-```
+The digital twin combines:
+
+- **from the BIM model:** geometry, systems, attributes, rooms and zones
+- **from the BA, continuously:** temperatures, valve positions, meter readings, alarms
+
+Analysis and simulation build on this: energy optimisation, fault diagnosis, forecasts.
 
 ### Digital Twin Applications
 
@@ -253,13 +236,14 @@ A **digital twin** goes beyond BIM: it is the BIM model **plus real-time sensor 
 
 ## Key Standards
 
-| Standard     | Content                                                                     |
-| ------------ | --------------------------------------------------------------------------- |
-| ISO 19650    | BIM process management, information requirements                            |
-| EN ISO 16739 | IFC schema                                                                  |
-| VDI 3805     | Product data for HVAC devices (data exchange)                               |
-| SWKI BIM 001 | BIM requirements for building services (Switzerland)                        |
-| COBie        | Construction Operations Building Information Exchange — operations handover |
+| Standard                | Content                                                                     |
+| ----------------------- | --------------------------------------------------------------------------- |
+| ISO 19650               | BIM process management, information requirements                            |
+| EN ISO 16739            | IFC schema                                                                  |
+| VDI 3805                | Product data for HVAC devices (data exchange)                               |
+| SIA 2051                | Building information modelling, basics for application (CH)                 |
+| Brick, Project Haystack | open semantics for BA data points, linking points to equipment and spaces   |
+| COBie                   | Construction Operations Building Information Exchange — operations handover |
 
 ## Practical Challenges
 

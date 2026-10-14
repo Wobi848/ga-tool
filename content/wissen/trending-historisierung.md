@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [glt-grundlagen, bacnet, alarmmanagement, ems-lastmanagement]
 norm: [BACnet ASHRAE 135, VDI 3814]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -40,12 +40,10 @@ Ohne Datenspeicherung ist Fehleranalyse blind. Trends zeigen ob Regelungen funkt
 
 GLT liest Datenpunkt alle X Sekunden/Minuten und speichert den Wert:
 
-```
-t=0:00   → T_VL = 45.2 °C → speichern
-t=0:01   → T_VL = 45.3 °C → speichern
-t=0:02   → T_VL = 45.3 °C → speichern (kein Änderung, trotzdem speichern)
-...
-```
+- t=0:00 → T_VL = 45.2 °C → speichern
+- t=0:01 → T_VL = 45.3 °C → speichern
+- t=0:02 → T_VL = 45.3 °C → speichern (keine Änderung, trotzdem speichern)
+- ...
 
 | Vorteil               | Nachteil                           |
 | --------------------- | ---------------------------------- |
@@ -56,11 +54,9 @@ t=0:02   → T_VL = 45.3 °C → speichern (kein Änderung, trotzdem speichern)
 
 BACnet-Standard: DDC meldet Wert nur wenn sich der Wert um ≥ COV-Inkrement geändert hat:
 
-```
-t=0:00   → T_VL = 45.2 °C → senden (erste Meldung)
-t=0:01   → T_VL = 45.3 °C → kein Senden (< 0.5 K Änderung)
-t=0:10   → T_VL = 46.0 °C → senden (> 0.5 K = COV-Inkrement)
-```
+- t=0:00 → T_VL = 45.2 °C → senden (erste Meldung)
+- t=0:01 → T_VL = 45.3 °C → kein Senden (< 0.5 K Änderung)
+- t=0:10 → T_VL = 46.0 °C → senden (> 0.5 K = COV-Inkrement)
 
 | Vorteil              | Nachteil                           |
 | -------------------- | ---------------------------------- |
@@ -93,14 +89,13 @@ t=0:10   → T_VL = 46.0 °C → senden (> 0.5 K = COV-Inkrement)
 
 BACnet definiert ein standardisiertes **TrendLog**-Objekt (Objekttyp 20):
 
-```
-TrendLog-Objekt im DDC:
-  LogObjectProperty: AI 1 / Present_Value
-  LogInterval: 300 s (5 min)
-  MaxBuffer: 10080 (7 Tage × 24h × 2/h)
-  Enable: TRUE
-  COV_Resubscription_Interval: 300 s
-```
+**TrendLog-Objekt im DDC:**
+
+- Log_DeviceObjectProperty: AI 1, Present_Value
+- LogInterval: 300 s (5 min)
+- Buffer_Size: 2016 (7 Tage × 24 h × 12 pro Stunde)
+- Enable: TRUE
+- COV_Resubscription_Interval: 300 s
 
 GLT liest TrendLog via BACnet ReadRange → Zeitstempel + Wert-Paare.
 
@@ -119,13 +114,12 @@ Für professionelles Trending und Analytics:
 - Skalierbar, komprimiert effizient
 - Tags für Metadaten (Gebäude, Anlage, System)
 
-```
-Datenpunkt in InfluxDB:
-  measurement: "temperature"
-  tags: gebaeude="A", system="HZG", punkt="VL_HK1"
-  fields: value=45.3
-  timestamp: 2026-05-14T09:00:00Z
-```
+**Datenpunkt in InfluxDB:**
+
+- measurement: "temperature"
+- tags: gebaeude="A", system="HZG", punkt="VL_HK1"
+- fields: value=45.3
+- timestamp: 2026-05-14T09:00:00Z
 
 ### Grafana
 
@@ -134,12 +128,11 @@ Datenpunkt in InfluxDB:
 - Dashboards für Energie, Temperaturverläufe, Alarmhistorie
 - Alerting-Regeln direkt in Grafana
 
-```
-Typischer GA-Stack:
-  GLT-Daten → InfluxDB → Grafana-Dashboard
-  MQTT-Broker → Telegraf → InfluxDB
-  M-Bus-Zähler → Node-RED → InfluxDB
-```
+**Typischer GA-Stack:**
+
+- GLT-Daten → InfluxDB → Grafana-Dashboard
+- MQTT-Broker → Telegraf → InfluxDB
+- M-Bus-Zähler → Node-RED → InfluxDB
 
 ---
 
@@ -163,12 +156,10 @@ Typischer GA-Stack:
 
 Wenn Regelstrecke "komisch" reagiert → 1-min-Trend analysieren:
 
-```
-Beispiel: Vorlauftemperatur-Chattering
-  → Trendgraph zeigt: Mischventil pendelt ±5 %
-  → Ursache: PID-Regler zu aggressiv (Kp zu hoch)
-  → Lösung: Kp reduzieren, Ti vergrössern
-```
+- Beispiel: Vorlauftemperatur-Chattering
+- Trendgraph zeigt: Mischventil pendelt ±5 %
+- Ursache: PID-Regler zu aggressiv (Kp zu hoch)
+- Lösung: Kp reduzieren, Ti vergrössern
 
 ---
 
@@ -176,11 +167,9 @@ Beispiel: Vorlauftemperatur-Chattering
 
 Mit historischen Daten lassen sich Anomalien automatisch erkennen:
 
-```
-Referenz: Vorlauftemperatur immer 42 °C bei TA=-5 °C
-Aktuell: Vorlauftemperatur nur 38 °C bei TA=-5 °C
-→ Alarm: Sollwert nicht erreicht → Mischventil defekt?
-```
+- Referenz: Vorlauftemperatur immer 42 °C bei TA=-5 °C
+- Aktuell: Vorlauftemperatur nur 38 °C bei TA=-5 °C
+- Alarm: Sollwert nicht erreicht → Mischventil defekt?
 
 **Statistisch:** Wenn aktueller Wert > 3 × Standardabweichung vom saisonalen Mittel → Alarm.
 
@@ -199,12 +188,10 @@ Without data storage, fault analysis is blind. Trends show whether control loops
 
 BMS reads a data point every X seconds/minutes and stores the value:
 
-```
-t=0:00   → T_SUP = 45.2 °C → store
-t=0:01   → T_SUP = 45.3 °C → store
-t=0:02   → T_SUP = 45.3 °C → store (no change, still stored)
-...
-```
+- t=0:00 → T_SUP = 45.2 °C → store
+- t=0:01 → T_SUP = 45.3 °C → store
+- t=0:02 → T_SUP = 45.3 °C → store (no change, still stored)
+- ...
 
 | Advantage            | Disadvantage                         |
 | -------------------- | ------------------------------------ |
@@ -215,11 +202,9 @@ t=0:02   → T_SUP = 45.3 °C → store (no change, still stored)
 
 BACnet standard: DDC sends value only when it has changed by ≥ COV increment:
 
-```
-t=0:00   → T_SUP = 45.2 °C → send (first message)
-t=0:01   → T_SUP = 45.3 °C → no send (< 0.5 K change)
-t=0:10   → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
-```
+- t=0:00 → T_SUP = 45.2 °C → send (first message)
+- t=0:01 → T_SUP = 45.3 °C → no send (< 0.5 K change)
+- t=0:10 → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
 
 | Advantage             | Disadvantage                    |
 | --------------------- | ------------------------------- |
@@ -252,14 +237,13 @@ t=0:10   → T_SUP = 46.0 °C → send (> 0.5 K = COV increment)
 
 BACnet defines a standardised **TrendLog** object (object type 20):
 
-```
-TrendLog object in DDC:
-  LogObjectProperty: AI 1 / Present_Value
-  LogInterval: 300 s (5 min)
-  MaxBuffer: 10080 (7 days × 24h × 2/h)
-  Enable: TRUE
-  COV_Resubscription_Interval: 300 s
-```
+**TrendLog object in DDC:**
+
+- Log_DeviceObjectProperty: AI 1, Present_Value
+- LogInterval: 300 s (5 min)
+- Buffer_Size: 2016 (7 days × 24 h × 12 per hour)
+- Enable: TRUE
+- COV_Resubscription_Interval: 300 s
 
 BMS reads TrendLog via BACnet ReadRange → timestamp + value pairs.
 
@@ -278,13 +262,12 @@ For professional trending and analytics:
 - Scalable, compresses efficiently
 - Tags for metadata (building, system, point)
 
-```
-Data point in InfluxDB:
-  measurement: "temperature"
-  tags: building="A", system="HTG", point="SUP_HC1"
-  fields: value=45.3
-  timestamp: 2026-05-14T09:00:00Z
-```
+**Data point in InfluxDB:**
+
+- measurement: "temperature"
+- tags: building="A", system="HTG", point="SUP_HC1"
+- fields: value=45.3
+- timestamp: 2026-05-14T09:00:00Z
 
 ### Grafana
 
@@ -293,12 +276,11 @@ Data point in InfluxDB:
 - Dashboards for energy, temperature curves, alarm history
 - Alerting rules directly in Grafana
 
-```
-Typical BA stack:
-  BMS data → InfluxDB → Grafana dashboard
-  MQTT broker → Telegraf → InfluxDB
-  M-Bus meters → Node-RED → InfluxDB
-```
+**Typical BA stack:**
+
+- BMS data → InfluxDB → Grafana dashboard
+- MQTT broker → Telegraf → InfluxDB
+- M-Bus meters → Node-RED → InfluxDB
 
 ---
 
@@ -322,12 +304,10 @@ Typical BA stack:
 
 When control loop "behaves oddly" → analyse 1-min trend:
 
-```
-Example: Supply temperature chattering
-  → Trend graph shows: mixing valve oscillates ±5 %
-  → Cause: PID controller too aggressive (Kp too high)
-  → Solution: reduce Kp, increase Ti
-```
+- Example: Supply temperature chattering
+- Trend graph shows: mixing valve oscillates ±5 %
+- Cause: PID controller too aggressive (Kp too high)
+- Solution: reduce Kp, increase Ti
 
 ---
 
@@ -335,11 +315,9 @@ Example: Supply temperature chattering
 
 With historical data, anomalies can be detected automatically:
 
-```
-Reference: supply temperature always 42 °C at T_outdoor = −5 °C
-Current:   supply temperature only 38 °C at T_outdoor = −5 °C
-→ Alarm: setpoint not reached → mixing valve faulty?
-```
+- Reference: supply temperature always 42 °C at T_outdoor = −5 °C
+- Current: supply temperature only 38 °C at T_outdoor = −5 °C
+- Alarm: setpoint not reached → mixing valve faulty?
 
 **Statistically:** If current value > 3 × standard deviation from seasonal mean → alarm.
 

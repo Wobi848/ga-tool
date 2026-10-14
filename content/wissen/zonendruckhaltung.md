@@ -98,7 +98,7 @@ Bei mehreren gekoppelten Stufen beeinflussen sich die Regelkreise gegenseitig. B
 - **Pause, Nacht:** abgesenkt, der Überdruck bleibt erhalten
 - **Reinigung:** volle Luftmenge, Freigabe erst nach Spülzeit
 
-Luftmengen, Temperaturen und Feuchten richten sich nach der Raumklasse nach DIN 1946-4 (in der Schweiz SWKI 99-3) und dem Hygieneplan des Spitals. Raumklasse Ia hat über dem OP-Feld eine turbulenzarme Verdrängungsströmung mit entsprechend grossen Luftmengen.
+Luftmengen, Temperaturen und Feuchten richten sich nach der Raumklasse nach DIN 1946-4 (in der Schweiz SWKI VA105-01) und dem Hygieneplan des Spitals. Raumklasse Ia hat über dem OP-Feld eine turbulenzarme Verdrängungsströmung mit entsprechend grossen Luftmengen.
 
 ---
 
@@ -136,7 +136,7 @@ Luftmengen, Temperaturen und Feuchten richten sich nach der Raumklasse nach DIN 
 - **EU GMP Annex 1** — Herstellung steriler Arzneimittel (Reinraumklassen A–D)
 - **DIN 1946-4** — Raumlufttechnik in Gebäuden des Gesundheitswesens
 - **VDI 2167** — Gebäudetechnik in Krankenhäusern
-- **SWKI 99-3** — Lüftung in Spitälern (CH)
+- **SWKI VA105-01** — Raumlufttechnische Anlagen in medizinisch genutzten Räumen (CH)
 
 <!-- EN -->
 
@@ -208,7 +208,7 @@ With several coupled steps the control loops influence each other. Proven: each 
 - **Break, night:** reduced, overpressure maintained
 - **Cleaning:** full airflow, release only after a purge time
 
-Airflows, temperatures and humidities follow the room class per DIN 1946-4 (in Switzerland SWKI 99-3) and the hospital's hygiene plan. Room class Ia has a low-turbulence displacement flow over the operating field with correspondingly large airflows.
+Airflows, temperatures and humidities follow the room class per DIN 1946-4 (in Switzerland SWKI VA105-01) and the hospital's hygiene plan. Room class Ia has a low-turbulence displacement flow over the operating field with correspondingly large airflows.
 
 ---
 
@@ -246,4 +246,4 @@ Airflows, temperatures and humidities follow the room class per DIN 1946-4 (in S
 - **EU GMP Annex 1** — Manufacture of sterile medicinal products (clean room classes A–D)
 - **DIN 1946-4** — Ventilation in healthcare buildings
 - **VDI 2167** — Building services in hospitals
-- **SWKI 99-3** — Ventilation in hospitals (CH)
+- **SWKI VA105-01** — Ventilation in medically used rooms (CH)

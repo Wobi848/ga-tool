@@ -30,8 +30,8 @@ tags:
 difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, datenpunktliste, tab-protokoll, alarmmanagement, brandschutzklappen]
-norm: [EN ISO 10628, DIN 2481, IEC 62424, VDI 3814-4]
-updated: 2026-05-15
+norm: [EN ISO 10628-2, EN 12792, ISA-101, VDI 3814]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -41,37 +41,37 @@ Die GLT-Visualisierung (HMI = Human-Machine Interface) zeigt den Anlagenstatus a
 
 ## Grundprinzipien guter Visualisierung
 
-```
-Gute GLT-Visualisierung:
-  ✓ Anlagenschema erkennbar (wie R&I-Schema, vereinfacht)
-  ✓ Status auf einen Blick (Farbe + Symbol)
-  ✓ Wichtige Istwerte immer sichtbar
-  ✓ Sollwerte neben Istwerten
-  ✓ Alarme prominent sichtbar
-  ✓ Keine unnötige Dekoration / Animationen
-  ✓ Konsistente Symbole im ganzen Projekt
+**Gute GLT-Visualisierung:**
 
-Schlechte Praxis:
-  ✗ 3D-Grafiken und Fotos (verlangsamt, veraltet schnell)
-  ✗ Zu viele Farben (verliert Bedeutung)
-  ✗ Wichtige Daten klein / versteckt
-  ✗ Verschiedene Symbole für gleiche Komponenten
-```
+- ✓ Anlagenschema erkennbar (wie R&I-Schema, vereinfacht)
+- ✓ Status auf einen Blick (Farbe + Symbol)
+- ✓ Wichtige Istwerte immer sichtbar
+- ✓ Sollwerte neben Istwerten
+- ✓ Alarme prominent sichtbar
+- ✓ Keine unnötige Dekoration / Animationen
+- ✓ Konsistente Symbole im ganzen Projekt
+
+**Schlechte Praxis:**
+
+- ✗ 3D-Grafiken und Fotos (verlangsamt, veraltet schnell)
+- ✗ Zu viele Farben (verliert Bedeutung)
+- ✗ Wichtige Daten klein / versteckt
+- ✗ Verschiedene Symbole für gleiche Komponenten
 
 ---
 
 ## Farbcodes (Best Practice / Industriestandard)
 
-| Farbe      | Bedeutung                        | Beispiel                 |
-| ---------- | -------------------------------- | ------------------------ |
-| **Grün**   | Betrieb OK / aktiv / EIN         | Pumpe läuft              |
-| **Rot**    | Störung / Alarm / Fehler         | Motorschutz ausgelöst    |
-| **Gelb**   | Warnung / Handsteuerung          | Hand-Betrieb aktiv       |
-| **Grau**   | AUS / inaktiv / gesperrt         | Pumpe gestoppt           |
-| **Blau**   | Kälte / Kühlsystem / Kältewasser | Kaltwasserleitung        |
-| **Orange** | Wärme / Heizung / Dampf          | Vorlauf-/Rücklaufleitung |
-| **Weiss**  | Aussenluft / Neutralzustand      | Luftstrom / ODA          |
-| **Cyan**   | Zuluft (nach Aufbereitung)       | Zuluftkanal              |
+| Farbe         | Bedeutung                                                            | Beispiel              |
+| ------------- | -------------------------------------------------------------------- | --------------------- |
+| **Grün**      | Betrieb OK / aktiv / EIN                                             | Pumpe läuft           |
+| **Rot**       | Störung / Alarm / Fehler                                             | Motorschutz ausgelöst |
+| **Gelb**      | Warnung / Handsteuerung                                              | Hand-Betrieb aktiv    |
+| **Grau**      | AUS / inaktiv / gesperrt                                             | Pumpe gestoppt        |
+| **Blau**      | Kälte / Kühlsystem / Kältewasser                                     | Kaltwasserleitung     |
+| **Rot, Blau** | Heizungsvorlauf rot, Rücklauf und Kälte blau, in Schemata verbreitet | Leitungen             |
+| **Weiss**     | Aussenluft / Neutralzustand                                          | Luftstrom / ODA       |
+| **Cyan**      | Zuluft (nach Aufbereitung)                                           | Zuluftkanal           |
 
 **Alarm-Farben (Priorität):**
 
@@ -88,46 +88,36 @@ Schlechte Praxis:
 
 ### Pumpen
 
-```
-Normal-Betrieb:       [⊙] Kreis mit Pfeil → grün gefüllt
-AUS:                  [○] Kreis leer → grau
-Störung:              [⊙] Kreis mit X → rot
-Hand-Betrieb:         [⊙] Kreis → gelb gefüllt
-```
+- Normal-Betrieb: [⊙] Kreis mit Pfeil → grün gefüllt
+- AUS: [○] Kreis leer → grau
+- Störung: [⊙] Kreis mit X → rot
+- Hand-Betrieb: [⊙] Kreis → gelb gefüllt
 
 ### Ventile
 
-```
-2-Wege-Ventil:        ►◄  (Bowtie-Symbol)
-3-Wege-Ventil:        ►◄ mit Abzweig
-Öffnungsgrad:         Zahl % direkt am Symbol (z.B. "67 %")
-Offen:                ►◄ grün
-Geschlossen:          ►◄ rot (gefüllt)
-Zwischenstellung:     ►◄ teilweise gefüllt
-```
+| Darstellung        | Symbol und Zustand                                                           |
+| ------------------ | ---------------------------------------------------------------------------- |
+| 2-Wege-Ventil      | zwei Dreiecke mit den Spitzen gegeneinander                                  |
+| 3-Wege-Ventil      | dasselbe mit Abzweig                                                         |
+| Öffnungsgrad       | Zahl direkt am Symbol, zum Beispiel 67 %                                     |
+| offen, geschlossen | Füllung oder Zahl; nicht Rot für «zu», denn Rot ist für Störungen reserviert |
 
 ### Klappen (Luftklappen)
 
-```
-Offen:                [⁞] Striche senkrecht (offen, Luft strömt)
-Geschlossen:          [—] Striche waagrecht (geschlossen)
-Brandschutzklappe:    Zusätzlich Temperatur-Symbol / BSK-Bezeichnung
-```
+- Offen: [⁞] Striche senkrecht (offen, Luft strömt)
+- Geschlossen: [—] Striche waagrecht (geschlossen)
+- Brandschutzklappe: Zusätzlich Temperatur-Symbol / BSK-Bezeichnung
 
 ### Temperatursensoren
 
-```
-Symbol:  Δ oder ◈ (Raute) an Leitung
-Anzeige: Wert direkt daneben (z.B. "45.3 °C")
-```
+- Symbol: Δ oder ◈ (Raute) an Leitung
+- Anzeige: Wert direkt daneben (z.B. "45.3 °C")
 
 ### Ventilatoren
 
-```
-Symbol: Kreis mit Flügelrad-Andeutung
-Drehzahl-Angabe: "75 %" oder "rpm" daneben
-Laufpfeil: zeigt Drehrichtung
-```
+- Symbol: Kreis mit Flügelrad-Andeutung
+- Drehzahl-Angabe: "75 %" oder "rpm" daneben
+- Laufpfeil: zeigt Drehrichtung
 
 ---
 
@@ -135,19 +125,17 @@ Laufpfeil: zeigt Drehrichtung
 
 ### Hierarchie der Bilder
 
-```
-Ebene 1: Übersichtsbilder
-  - Gebäude-Gesamtübersicht (welche Anlagen, wo Alarme)
+- Ebene 1: Übersichtsbilder
+- Gebäude-Gesamtübersicht (welche Anlagen, wo Alarme)
 
-Ebene 2: Anlagenbilder
-  - RLT-Anlage 1 (Schema mit allen Komponenten)
-  - Heizkreis 1 (Pumpe, Ventile, Temperaturen)
+- Ebene 2: Anlagenbilder
+- RLT-Anlage 1 (Schema mit allen Komponenten)
+- Heizkreis 1 (Pumpe, Ventile, Temperaturen)
 
-Ebene 3: Detailbilder / Popups
-  - Einzelregler parametrierung
-  - Zeitprogramm-Editor
-  - Trendgraph eines Datenpunkts
-```
+- Ebene 3: Detailbilder / Popups
+- Einzelregler parametrierung
+- Zeitprogramm-Editor
+- Trendgraph eines Datenpunkts
 
 ### Muss-Elemente in jedem Anlagenbild
 
@@ -163,14 +151,13 @@ Ebene 3: Detailbilder / Popups
 
 ## Navigation
 
-```
-Breadcrumb-Navigation:
-  Übersicht > Gebäude A > Heizung > Heizkreis 1
+**Breadcrumb-Navigation:**
 
-Zurück-Button immer sichtbar
-Schnellnavigation zu Alarmliste, Trendbilder, Zeitprogramme
-Suchfunktion nach Datenpunkt-Bezeichnung
-```
+- Übersicht > Gebäude A > Heizung > Heizkreis 1
+
+- Zurück-Button immer sichtbar
+- Schnellnavigation zu Alarmliste, Trendbilder, Zeitprogramme
+- Suchfunktion nach Datenpunkt-Bezeichnung
 
 ---
 
@@ -187,30 +174,20 @@ Suchfunktion nach Datenpunkt-Bezeichnung
 
 ## Zeitprogramm-Visualisierung
 
-Übersichtliche Darstellung der Wochenprogramme:
-
-```
-Montag:    [██████░░░░░░░░░░░░░░░░░]
-            06:00  --  18:00  AUS
-Samstag:   [░░░░░░░░░░░░░░░░░░░░░░░]
-            kein Betrieb
-
-Symbole:
-  ██ = Komfortbetrieb (Sollwert X)
-  ▒▒ = Absenkbetrieb (Sollwert Y)
-  ░░ = Aus / Frostschutz
-```
+Wochenprogramme werden am besten als Balken je Tag dargestellt, mit einer Farbe je Betriebsart: zum Beispiel kräftig für Komfort, heller für Absenkung, leer für Aus oder Gebäudeschutz. Montag etwa: Komfort von 06:00 bis 18:00, sonst Absenkung. Samstag: kein Betrieb. Ausnahmen wie Feiertage gehören in einen Kalender, der das Wochenprogramm übersteuert.
 
 ---
 
 ## Normen und Systeme
 
-| Norm / Referenz  | Inhalt                                          |
-| ---------------- | ----------------------------------------------- |
-| **IEC 62424**    | Darstellung in CAEX / PCSD (Prozessleitsysteme) |
-| **DIN 2481**     | Rohrleitungssymbole (Ventile, Klappen)          |
-| **EN ISO 10628** | Fliesschemata für Verfahrenstechnik             |
-| **VDI 3814-4**   | Qualitätsanforderungen Visualisierung GA        |
+| Norm / Referenz     | Inhalt                                                                    |
+| ------------------- | ------------------------------------------------------------------------- |
+| **EN ISO 10628-2**  | Grafische Symbole für Fliessschemata                                      |
+| **DIN EN 12792**    | Lüftung von Gebäuden, Symbole und Begriffe                                |
+| **ANSI/ISA-101.01** | Gestaltung von Bedienoberflächen in der Automation (High-Performance-HMI) |
+| **VDI 3814**        | Gebäudeautomation                                                         |
+
+**High-Performance-HMI** nach ISA-101: Bilder überwiegend grau, Farbe nur für Abweichungen und Alarme. Wer Rot für Vorlauf und Rot für Alarm verwendet, macht Alarme schwerer erkennbar.
 
 **Gängige GLT-Systeme:**
 
@@ -228,37 +205,37 @@ The BMS visualisation (HMI = Human-Machine Interface) displays plant status on s
 
 ## Principles of Good Visualisation
 
-```
-Good BMS visualisation:
-  ✓ Plant diagram recognisable (like P&ID, simplified)
-  ✓ Status at a glance (colour + symbol)
-  ✓ Key actual values always visible
-  ✓ Setpoints next to actual values
-  ✓ Alarms prominently visible
-  ✓ No unnecessary decoration / animations
-  ✓ Consistent symbols throughout the project
+**Good BMS visualisation:**
 
-Poor practice:
-  ✗ 3D graphics and photos (slows down, ages quickly)
-  ✗ Too many colours (meaning is lost)
-  ✗ Important data small / hidden
-  ✗ Different symbols for identical components
-```
+- ✓ Plant diagram recognisable (like P&ID, simplified)
+- ✓ Status at a glance (colour + symbol)
+- ✓ Key actual values always visible
+- ✓ Setpoints next to actual values
+- ✓ Alarms prominently visible
+- ✓ No unnecessary decoration / animations
+- ✓ Consistent symbols throughout the project
+
+**Poor practice:**
+
+- ✗ 3D graphics and photos (slows down, ages quickly)
+- ✗ Too many colours (meaning is lost)
+- ✗ Important data small / hidden
+- ✗ Different symbols for identical components
 
 ---
 
 ## Colour Codes (Best Practice / Industry Standard)
 
-| Colour     | Meaning                               | Example                  |
-| ---------- | ------------------------------------- | ------------------------ |
-| **Green**  | Running OK / active / ON              | Pump running             |
-| **Red**    | Fault / alarm / error                 | Motor protection tripped |
-| **Yellow** | Warning / manual control              | Hand mode active         |
-| **Grey**   | OFF / inactive / locked               | Pump stopped             |
-| **Blue**   | Cold / cooling system / chilled water | Chilled water pipe       |
-| **Orange** | Heat / heating / steam                | Flow/return pipe         |
-| **White**  | Outdoor air / neutral state           | Airflow / ODA            |
-| **Cyan**   | Supply air (after conditioning)       | Supply air duct          |
+| Colour        | Meaning                                                         | Example                  |
+| ------------- | --------------------------------------------------------------- | ------------------------ |
+| **Green**     | Running OK / active / ON                                        | Pump running             |
+| **Red**       | Fault / alarm / error                                           | Motor protection tripped |
+| **Yellow**    | Warning / manual control                                        | Hand mode active         |
+| **Grey**      | OFF / inactive / locked                                         | Pump stopped             |
+| **Blue**      | Cold / cooling system / chilled water                           | Chilled water pipe       |
+| **Red, blue** | heating flow red, return and cooling blue, common in schematics | pipes                    |
+| **White**     | Outdoor air / neutral state                                     | Airflow / ODA            |
+| **Cyan**      | Supply air (after conditioning)                                 | Supply air duct          |
 
 **Alarm colours (priority):**
 
@@ -275,46 +252,36 @@ Poor practice:
 
 ### Pumps
 
-```
-Normal operation:  [⊙] Circle with arrow → green filled
-OFF:               [○] Empty circle → grey
-Fault:             [⊙] Circle with X → red
-Manual mode:       [⊙] Circle → yellow filled
-```
+- Normal operation: [⊙] Circle with arrow → green filled
+- OFF: [○] Empty circle → grey
+- Fault: [⊙] Circle with X → red
+- Manual mode: [⊙] Circle → yellow filled
 
 ### Valves
 
-```
-2-way valve:       ►◄  (bowtie symbol)
-3-way valve:       ►◄ with branch
-Opening degree:    Number % directly on symbol (e.g. "67 %")
-Open:              ►◄ green
-Closed:            ►◄ red (filled)
-Intermediate:      ►◄ partially filled
-```
+| Representation | Symbol and state                                                         |
+| -------------- | ------------------------------------------------------------------------ |
+| 2-way valve    | two triangles pointing at each other                                     |
+| 3-way valve    | the same with a branch                                                   |
+| Opening degree | number directly at the symbol, for example 67 %                          |
+| open, closed   | fill or number; not red for "closed", because red is reserved for faults |
 
 ### Dampers (Air Dampers)
 
-```
-Open:              [⁞] Vertical bars (open, air flows)
-Closed:            [—] Horizontal bars (closed)
-Fire damper:       Additional temperature symbol / FD designation
-```
+- Open: [⁞] Vertical bars (open, air flows)
+- Closed: [—] Horizontal bars (closed)
+- Fire damper: Additional temperature symbol / FD designation
 
 ### Temperature Sensors
 
-```
-Symbol:  Δ or ◈ (diamond) on pipe
-Display: Value directly next to it (e.g. "45.3 °C")
-```
+- Symbol: Δ or ◈ (diamond) on pipe
+- Display: Value directly next to it (e.g. "45.3 °C")
 
 ### Fans
 
-```
-Symbol: Circle with impeller indication
-Speed: "75 %" or "rpm" alongside
-Direction arrow: shows rotation direction
-```
+- Symbol: Circle with impeller indication
+- Speed: "75 %" or "rpm" alongside
+- Direction arrow: shows rotation direction
 
 ---
 
@@ -322,19 +289,17 @@ Direction arrow: shows rotation direction
 
 ### Screen Hierarchy
 
-```
-Level 1: Overview screens
-  - Building overview (which plants, where alarms)
+- Level 1: Overview screens
+- Building overview (which plants, where alarms)
 
-Level 2: Plant screens
-  - AHU 1 (diagram with all components)
-  - Heating circuit 1 (pump, valves, temperatures)
+- Level 2: Plant screens
+- AHU 1 (diagram with all components)
+- Heating circuit 1 (pump, valves, temperatures)
 
-Level 3: Detail screens / pop-ups
-  - Individual controller parameterisation
-  - Time program editor
-  - Trend graph for a data point
-```
+- Level 3: Detail screens / pop-ups
+- Individual controller parameterisation
+- Time program editor
+- Trend graph for a data point
 
 ### Mandatory Elements in Every Plant Screen
 
@@ -350,14 +315,13 @@ Level 3: Detail screens / pop-ups
 
 ## Navigation
 
-```
-Breadcrumb navigation:
-  Overview > Building A > Heating > Heating circuit 1
+**Breadcrumb navigation:**
 
-Back button always visible
-Quick navigation to alarm list, trend screens, time programs
-Search function by data point name
-```
+- Overview > Building A > Heating > Heating circuit 1
+
+- Back button always visible
+- Quick navigation to alarm list, trend screens, time programs
+- Search function by data point name
 
 ---
 
@@ -374,30 +338,20 @@ Search function by data point name
 
 ## Time Program Visualisation
 
-Clear display of weekly schedules:
-
-```
-Monday:    [██████░░░░░░░░░░░░░░░░░]
-            06:00  --  18:00  OFF
-Saturday:  [░░░░░░░░░░░░░░░░░░░░░░░]
-            No operation
-
-Symbols:
-  ██ = Comfort mode (setpoint X)
-  ▒▒ = Setback mode (setpoint Y)
-  ░░ = Off / frost protection
-```
+Weekly schedules are best shown as bars per day, with one colour per mode: for example strong for comfort, lighter for setback, empty for off or building protection. Monday, say: comfort from 06:00 to 18:00, otherwise setback. Saturday: no operation. Exceptions such as holidays belong in a calendar that overrides the weekly schedule.
 
 ---
 
 ## Standards and Systems
 
-| Standard / Reference | Content                                                 |
-| -------------------- | ------------------------------------------------------- |
-| **IEC 62424**        | Representation in CAEX / PCSD (process control systems) |
-| **DIN 2481**         | Pipe symbols (valves, dampers)                          |
-| **EN ISO 10628**     | Flow diagrams for process engineering                   |
-| **VDI 3814-4**       | Quality requirements for BA visualisation               |
+| Standard / Reference | Content                                            |
+| -------------------- | -------------------------------------------------- |
+| **EN ISO 10628-2**   | Graphical symbols for process flow diagrams        |
+| **EN 12792**         | Ventilation for buildings, symbols and terminology |
+| **ANSI/ISA-101.01**  | HMI design for automation (high-performance HMI)   |
+| **VDI 3814**         | Building automation                                |
+
+**High-performance HMI** per ISA-101: displays mostly grey, colour only for deviations and alarms. Using red for supply pipes and red for alarms makes alarms harder to spot.
 
 **Common BMS systems:**
 

@@ -132,11 +132,11 @@ Sensor: Differenzdrucktransmitter 0–500 Pa, 4–20 mA
 
 <p class="formel">Δp<sub>Raum</sub> = p<sub>Raum</sub> − p<sub>Nachbarraum</sub></p>
 
-| Raum                               | typische Druckdifferenz                         |
-| ---------------------------------- | ----------------------------------------------- |
-| Reinraum gegenüber tieferer Klasse | +10 bis +15 Pa                                  |
-| OP gegenüber Nebenräumen           | Überdruck, Werte nach SWKI 99-3 bzw. DIN 1946-4 |
-| Isolierzimmer                      | Unterdruck, zum Beispiel −10 Pa                 |
+| Raum                               | typische Druckdifferenz                             |
+| ---------------------------------- | --------------------------------------------------- |
+| Reinraum gegenüber tieferer Klasse | +10 bis +15 Pa                                      |
+| OP gegenüber Nebenräumen           | Überdruck, Werte nach SWKI VA105-01 bzw. DIN 1946-4 |
+| Isolierzimmer                      | Unterdruck, zum Beispiel −10 Pa                     |
 
 Sensor: Hochgenauer Differenzdrucktransmitter 0–50 Pa (±0,5% FS)
 
@@ -284,11 +284,11 @@ Sensor: Differential pressure transmitter 0–500 Pa, 4–20 mA
 
 <p class="formel">Δp<sub>room</sub> = p<sub>room</sub> − p<sub>adjacent room</sub></p>
 
-| Room                                 | typical pressure difference                      |
-| ------------------------------------ | ------------------------------------------------ |
-| clean room vs. lower class           | +10 to +15 Pa                                    |
-| operating theatre vs. adjacent rooms | overpressure, values per SWKI 99-3 or DIN 1946-4 |
-| isolation room                       | negative pressure, for example −10 Pa            |
+| Room                                 | typical pressure difference                          |
+| ------------------------------------ | ---------------------------------------------------- |
+| clean room vs. lower class           | +10 to +15 Pa                                        |
+| operating theatre vs. adjacent rooms | overpressure, values per SWKI VA105-01 or DIN 1946-4 |
+| isolation room                       | negative pressure, for example −10 Pa                |
 
 Sensor: High-accuracy differential pressure transmitter 0–50 Pa (±0.5% FS)
 

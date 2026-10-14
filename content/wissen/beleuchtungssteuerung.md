@@ -37,8 +37,8 @@ related:
     lastarten
   ]
 
-norm: [EN 12464-1, EN 15232, DIN 5035, SIA 380/4]
-updated: 2026-05-15
+norm: [EN 12464-1, SIA 387/4, EN ISO 52120-1, EN 1838]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -53,7 +53,7 @@ Beleuchtungssteuerung über die GA (GLT / DDC) kombiniert Licht-Komfort mit Ener
 | Zeitsteuerung         |           20–30 % | ★★☆     | Einfachste Lösung, Flure  |
 | Präsenzsteuerung      |           30–50 % | ★★★     | Einzelbüros, WC, Korridor |
 | Konstantlichtregelung |           40–60 % | ★★★     | Büros, Schulzimmer        |
-| Tageslicht + Präsenz  |           60–70 % | ★★★     | Best Practice Büro        |
+| Tageslicht + Präsenz  |     oft über 50 % | ★★★     | Best Practice Büro        |
 
 ---
 
@@ -61,16 +61,15 @@ Beleuchtungssteuerung über die GA (GLT / DDC) kombiniert Licht-Komfort mit Ener
 
 Ziel: Beleuchtungsstärke im Raum konstant halten, unabhängig vom Tageslicht:
 
-```
-Helligkeitssensor (Luxmeter) im Raum:
-  Ist-Wert: 420 lux (Tageslicht + künstlich)
-  Sollwert: 500 lux (Arbeitsplatz nach EN 12464)
+**Helligkeitssensor (Luxmeter) im Raum:**
 
-  PID-Regler → DALI-Dimmsignal erhöhen
-    ↓
-  Dimmwert Leuchte: 30 % → 55 %
-  (Tageslicht nimmt ab → künstliches Licht ergänzt)
-```
+- Ist-Wert: 420 lux (Tageslicht + künstlich)
+- Sollwert: 500 lux (Arbeitsplatz nach EN 12464)
+
+- PID-Regler → DALI-Dimmsignal erhöhen
+  - ↓
+- Dimmwert Leuchte: 30 % → 55 %
+- (Tageslicht nimmt ab → künstliches Licht ergänzt)
 
 **Lux-Sollwerte nach EN 12464-1:**
 
@@ -79,7 +78,8 @@ Helligkeitssensor (Luxmeter) im Raum:
 | Büro (Bildschirmarbeit) | 500 lux                       |
 | Schulzimmer             | 300–500 lux                   |
 | Empfang / Foyer         | 200–300 lux                   |
-| Korridor, Treppenhaus   | 100 lux                       |
+| Korridor                | 100 lux                       |
+| Treppe                  | 150 lux                       |
 | Parking                 | 75 lux                        |
 | Lager                   | 100–200 lux                   |
 
@@ -87,17 +87,17 @@ Helligkeitssensor (Luxmeter) im Raum:
 
 ## Präsenzsteuerung
 
-```
-PIR / Radar-Melder:
-  Bewegung erkannt → Licht EIN
-  Keine Bewegung für X Minuten → Licht dimmen → ausschalten
+**PIR / Radar-Melder:**
 
-Typische Nachlaufzeiten:
-  WC: 5–10 min
-  Einzelbüro: 15–30 min
-  Besprechung: 30 min
-  Korridor: 5 min
-```
+- Bewegung erkannt → Licht EIN
+- Keine Bewegung für X Minuten → Licht dimmen → ausschalten
+
+**Typische Nachlaufzeiten:**
+
+- WC: 5–10 min
+- Einzelbüro: 15–30 min
+- Besprechung: 30 min
+- Korridor: 5 min
 
 **PIR vs. Radar:**
 
@@ -112,11 +112,9 @@ Typische Nachlaufzeiten:
 
 Moderne Konzepte (HCL = Human Centric Lighting):
 
-```
-Morgens 07:00:  Kaltes Weisslicht 5500 K, 300 lux → Aktivierung
-Mittag 12:00:   Neutralweiss 4000 K, 500 lux → Konzentration
-Abends 17:00:   Warmweiss 3000 K, 200 lux → Entspannung
-```
+- Morgens 07:00: Kaltes Weisslicht 5500 K, 300 lux → Aktivierung
+- Mittag 12:00: Neutralweiss 4000 K, 500 lux → Konzentration
+- Abends 17:00: Warmweiss 3000 K, 200 lux → Entspannung
 
 Erfordert DALI-2 (Farbtemperatur-Steuerung, Device Type 8) und Farbtemperatur-fähige Leuchten (TW = Tunable White).
 
@@ -126,19 +124,23 @@ Erfordert DALI-2 (Farbtemperatur-Steuerung, Device Type 8) und Farbtemperatur-f�
 
 DDC oder KNX definiert Lichtszenen für verschiedene Nutzungen:
 
-```
-Szene 1 "Präsentation":
-  Beamer-Bereich dunkel (0 %), Wandbeleuchtung 30 %
+**Szene 1 "Präsentation":**
 
-Szene 2 "Normal Büro":
-  Alle Leuchten Konstantlicht 500 lux
+- Beamer-Bereich dunkel (0 %), Wandbeleuchtung 30 %
 
-Szene 3 "Reinigung":
-  Alle Leuchten 100 %
+**Szene 2 "Normal Büro":**
 
-Szene 4 "Nacht/Sicherheit":
-  Notbeleuchtungspegel 10 lux an definierten Punkten
-```
+- Alle Leuchten Konstantlicht 500 lux
+
+**Szene 3 "Reinigung":**
+
+- Alle Leuchten 100 %
+
+**Szene 4 "Nacht":**
+
+- Orientierungslicht in Fluren, zum Beispiel 10 %
+
+Die **Notbeleuchtung** ist ein eigenes System nach EN 1838 und den VKF-Vorschriften, mit eigener Versorgung und eigener Prüfung. Eine Szene der GA ersetzt sie nicht.
 
 Auslösung via:
 
@@ -178,25 +180,18 @@ Auslösung via:
 
 ---
 
-## Energieeinsparung EN 15232
+## Energieeinsparung nach EN ISO 52120-1
 
-Beleuchtungssteuerung trägt stark zur GA-Effizienzklasse A (EN 15232) bei:
+Die Norm, früher EN 15232, bewertet die Beleuchtungsfunktionen in den GA-Klassen. Höhere Klassen verlangen **Präsenzerfassung** und **tageslichtabhängige Regelung**. Die Einsparung fliesst über den elektrischen Faktor f_BAC in die Gesamtbewertung ein, für Büros etwa 0.93 in Klasse B und 0.87 in Klasse A gegenüber 1.00 in Klasse C, bezogen auf den gesamten Strom der bewerteten Gewerke.
 
-| GA-Klasse | Beleuchtungsfunktion                         | Einsparung vs. D |
-| --------- | -------------------------------------------- | ---------------- |
-| D         | Manuell EIN/AUS                              | Referenz         |
-| C         | Zeitsteuerung + manuelle Steuerung           | 10 %             |
-| B         | Präsenz + manuelle Korrektur                 | 25 %             |
-| A         | Präsenz + Konstantlicht + Tageslichtkopplung | 35–50 %          |
-
----
+## Wie viel eine Beleuchtungssteuerung im einzelnen Raum spart, hängt stark von Tageslicht, Belegung und Ausgangszustand ab. Die Werte in der Tabelle oben sind grobe Richtwerte.
 
 ## Normen
 
 - **EN 12464-1** — Beleuchtung von Arbeitsstätten (Lux-Anforderungen)
-- **EN 15232** — Einfluss GA auf Energieeffizienz (Beleuchtungssteuerung als Klasse-A-Funktion)
-- **DIN 5035** — Innenraumbeleuchtung mit künstlichem Licht
-- **SIA 380/4** — Elektrische Energie im Hochbau (Beleuchtungsplanung)
+- **EN ISO 52120-1** — Einfluss der GA auf die Energieeffizienz, Nachfolger von EN 15232
+- **SIA 387/4** — Elektrizität in Gebäuden, Beleuchtung: Berechnung und Anforderungen (ersetzt SIA 380/4)
+- **EN 1838** — Notbeleuchtung
 
 <!-- EN -->
 
@@ -204,12 +199,12 @@ Lighting control through the BA system (BMS / DDC) combines lighting comfort wit
 
 ## Control Strategies Overview
 
-| Strategy               | Energy saving | Comfort | Typical application            |
-| ---------------------- | ------------- | ------- | ------------------------------ |
-| Time scheduling        | 20–30 %       | ★★☆     | Simplest solution, corridors   |
-| Occupancy control      | 30–50 %       | ★★★     | Private offices, WC, corridors |
-| Constant light control | 40–60 %       | ★★★     | Offices, classrooms            |
-| Daylight + occupancy   | 60–70 %       | ★★★     | Best practice office           |
+| Strategy               | Energy saving   | Comfort | Typical application            |
+| ---------------------- | --------------- | ------- | ------------------------------ |
+| Time scheduling        | 20–30 %         | ★★☆     | Simplest solution, corridors   |
+| Occupancy control      | 30–50 %         | ★★★     | Private offices, WC, corridors |
+| Constant light control | 40–60 %         | ★★★     | Offices, classrooms            |
+| Daylight + occupancy   | often over 50 % | ★★★     | Best practice office           |
 
 ---
 
@@ -217,16 +212,15 @@ Lighting control through the BA system (BMS / DDC) combines lighting comfort wit
 
 Goal: maintain constant illuminance in the room regardless of daylight:
 
-```
-Illuminance sensor (lux meter) in room:
-  Actual: 420 lux (daylight + artificial)
-  Setpoint: 500 lux (workstation per EN 12464)
+**Illuminance sensor (lux meter) in room:**
 
-  PID controller → increase DALI dimming signal
-    ↓
-  Luminaire dimming level: 30 % → 55 %
-  (daylight decreases → artificial light supplements)
-```
+- Actual: 420 lux (daylight + artificial)
+- Setpoint: 500 lux (workstation per EN 12464)
+
+- PID controller → increase DALI dimming signal
+  - ↓
+- Luminaire dimming level: 30 % → 55 %
+- (daylight decreases → artificial light supplements)
 
 **Lux setpoints per EN 12464-1:**
 
@@ -235,7 +229,8 @@ Illuminance sensor (lux meter) in room:
 | Office (screen work) | 500 lux                 |
 | Classroom            | 300–500 lux             |
 | Reception / lobby    | 200–300 lux             |
-| Corridor, stairwell  | 100 lux                 |
+| Corridor             | 100 lux                 |
+| Stairs               | 150 lux                 |
 | Car park             | 75 lux                  |
 | Storage              | 100–200 lux             |
 
@@ -243,17 +238,17 @@ Illuminance sensor (lux meter) in room:
 
 ## Occupancy Control
 
-```
-PIR / radar detector:
-  Movement detected → lights ON
-  No movement for X minutes → dim lights → switch off
+**PIR / radar detector:**
 
-Typical hold-on times:
-  WC: 5–10 min
-  Private office: 15–30 min
-  Meeting room: 30 min
-  Corridor: 5 min
-```
+- Movement detected → lights ON
+- No movement for X minutes → dim lights → switch off
+
+**Typical hold-on times:**
+
+- WC: 5–10 min
+- Private office: 15–30 min
+- Meeting room: 30 min
+- Corridor: 5 min
 
 **PIR vs. radar:**
 
@@ -268,11 +263,9 @@ Typical hold-on times:
 
 Modern concepts (HCL = Human Centric Lighting):
 
-```
-Morning 07:00:  Cool white 5500 K, 300 lux → activation
-Midday 12:00:   Neutral white 4000 K, 500 lux → concentration
-Evening 17:00:  Warm white 3000 K, 200 lux → relaxation
-```
+- Morning 07:00: Cool white 5500 K, 300 lux → activation
+- Midday 12:00: Neutral white 4000 K, 500 lux → concentration
+- Evening 17:00: Warm white 3000 K, 200 lux → relaxation
 
 Requires DALI-2 (colour temperature control, Device Type 8) and colour temperature-capable luminaires (TW = Tunable White).
 
@@ -282,19 +275,23 @@ Requires DALI-2 (colour temperature control, Device Type 8) and colour temperatu
 
 DDC or KNX defines lighting scenes for different uses:
 
-```
-Scene 1 "Presentation":
-  Projector area dark (0 %), wall lighting 30 %
+**Scene 1 "Presentation":**
 
-Scene 2 "Normal office":
-  All luminaires constant light 500 lux
+- Projector area dark (0 %), wall lighting 30 %
 
-Scene 3 "Cleaning":
-  All luminaires 100 %
+**Scene 2 "Normal office":**
 
-Scene 4 "Night/security":
-  Emergency lighting level 10 lux at defined points
-```
+- All luminaires constant light 500 lux
+
+**Scene 3 "Cleaning":**
+
+- All luminaires 100 %
+
+**Scene 4 "Night":**
+
+- orientation light in corridors, for example 10 %
+
+**Emergency lighting** is a separate system per EN 1838 and the VKF regulations, with its own supply and its own testing. A BA scene does not replace it.
 
 Triggering via:
 
@@ -334,22 +331,17 @@ Triggering via:
 
 ---
 
-## Energy Savings — EN 15232
+## Energy Savings per EN ISO 52120-1
 
-Lighting control contributes strongly to BA efficiency class A (EN 15232):
+The standard, formerly EN 15232, rates lighting functions in the BA classes. Higher classes require **occupancy detection** and **daylight-dependent control**. The saving enters the overall rating through the electrical factor f_BAC, for offices about 0.93 in class B and 0.87 in class A compared with 1.00 in class C, relative to all electricity of the rated services.
 
-| BA class | Lighting function                              | Saving vs. D |
-| -------- | ---------------------------------------------- | ------------ |
-| D        | Manual on/off                                  | Reference    |
-| C        | Time scheduling + manual control               | 10 %         |
-| B        | Occupancy + manual correction                  | 25 %         |
-| A        | Occupancy + constant light + daylight coupling | 35–50 %      |
+How much a lighting control saves in an individual room depends strongly on daylight, occupancy and the starting point. The values in the table above are rough guides.
 
 ---
 
 ## Standards
 
 - **EN 12464-1** — Lighting of workplaces (lux requirements)
-- **EN 15232** — Influence of BA on energy efficiency (lighting control as class A function)
-- **DIN 5035** — Interior lighting with artificial light
-- **SIA 380/4** — Electrical energy in buildings (lighting design)
+- **EN ISO 52120-1** — Contribution of BA to energy performance, successor to EN 15232
+- **SIA 387/4** — Electricity in buildings, lighting: calculation and requirements (replaces SIA 380/4)
+- **EN 1838** — Emergency lighting

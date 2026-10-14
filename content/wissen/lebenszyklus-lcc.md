@@ -104,11 +104,11 @@ Lebenszykluskosten (LCC = Life Cycle Costs) betrachten die **Gesamtkosten über 
 | Wartung pro Jahr       | 1'000 CHF            | 1'500 CHF            |
 | Ersatz nach 15 Jahren  | 15'000 CHF           | 20'000 CHF           |
 
-Betrachtung 15 Jahre, Zins 4 %. Der Rentenbarwertfaktor ist (1 − 1.04<sup>−15</sup>) / 0.04 ≈ 11.12, der Abzinsungsfaktor für das Jahr 15 ist 1 / 1.04<sup>15</sup> ≈ 0'555.
+Betrachtung 15 Jahre, Zins 4 %. Der Rentenbarwertfaktor ist (1 − 1.04<sup>−15</sup>) / 0.04 ≈ 11.12, der Abzinsungsfaktor für das Jahr 15 ist 1 / 1.04<sup>15</sup> ≈ 0.555.
 
-<p class="formel">LCC<sub>A</sub> = 30'000 + 23'000 · 11.12 + 15'000 · 0'555 ≈ 294'100 CHF</p>
+<p class="formel">LCC<sub>A</sub> = 30'000 + 23'000 · 11.12 + 15'000 · 0.555 ≈ 294'100 CHF</p>
 
-<p class="formel">LCC<sub>B</sub> = 55'000 + 16'500 · 11.12 + 20'000 · 0'555 ≈ 249'600 CHF</p>
+<p class="formel">LCC<sub>B</sub> = 55'000 + 16'500 · 11.12 + 20'000 · 0.555 ≈ 249'600 CHF</p>
 
 Variante B ist über 15 Jahre rund 44'500 CHF günstiger, obwohl sie 25'000 CHF mehr kostet.
 

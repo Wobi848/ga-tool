@@ -28,27 +28,23 @@ difficulty: fortgeschritten
 area: [ga, hlk, elektro]
 related: [glt-grundlagen, pid-regler, vav-cav, dali, bacnet, knx, zonenkonzepte]
 norm: [EN ISO 52120, EN 15232, VDI 3813]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
 # Raumautomation — RAUM-DDC und Raumregler
 
-Die Raumautomation ist die unterste Ebene der Gebäudeautomation — direkt beim Nutzer. Hier werden Temperatur, Lüftung, Beleuchtung und Beschattung im einzelnen Raum geregelt. Gute Raumautomation ist unsichtbar: der Nutzer ist komfortabel und bemerkt nichts.
+Die Raumautomation ist der Teil der Gebäudeautomation, der direkt beim Nutzer arbeitet. Hier werden Temperatur, Lüftung, Beleuchtung und Beschattung im einzelnen Raum geregelt. Gute Raumautomation ist unsichtbar: der Nutzer ist komfortabel und bemerkt nichts.
 
 ## Raumautomations-Konzept
 
-```
-Raumfunktionen:
-  ├── Heizen/Kühlen (Fan-Coil, FBH, Kühldecke)
-  ├── Lüftung (VAV-Box, Volumenstrom)
-  ├── Beleuchtung (DALI, 0-10V, Schaltung)
-  ├── Beschattung (Jalousie, Raffstore)
-  └── Zugangskontrolle / Präsenz
+Der Raumcontroller übernimmt im Raum:
 
-Alle gesteuert von:
-  RAUM-DDC (Raumregler / Raumcontroller)
-```
+- **Heizen und Kühlen** über Fan-Coil, Fussbodenheizung, Heizkörper oder Kühldecke
+- **Lüftung** über den VAV-Regler
+- **Beleuchtung** über DALI, KNX oder Schaltausgänge
+- **Beschattung** über Jalousie- oder Raffstoreantriebe
+- **Präsenz** als Eingang für alle Gewerke
 
 ---
 
@@ -56,23 +52,16 @@ Alle gesteuert von:
 
 Ein **Fan-Coil** ist ein dezentrales Heiz-/Kühlgerät mit eigenem Ventilator:
 
-```
-Kühlwasser (6/12 °C) oder Heizwasser (45/40 °C)
-    ↓
-[Wärmetauscher-Register]
-    ← Ventilator →
-    ↓
-Raumluft
-```
+Kalt- oder Heizwasser, zum Beispiel 6/12 °C oder 45/40 °C, fliesst durch das Register. Der Ventilator saugt Raumluft an, bläst sie durch das Register und zurück in den Raum.
 
 ### Regelung
 
-| Stufe                         | Beschreibung                                  |
-| ----------------------------- | --------------------------------------------- |
-| **Temperaturregler**          | Misst Raumtemperatur, regelt über Ventil      |
-| **Ventilator**                | 3 Stufen (Low/Mid/High) oder stufenlos via FU |
-| **Ventil**                    | 2-Wege oder 3-Wege (Heizen / Kühlen)          |
-| **Heizen/Kühlen Umschaltung** | DDC wählt je nach Jahreszeit / Anforderung    |
+| Stufe                         | Beschreibung                                       |
+| ----------------------------- | -------------------------------------------------- |
+| **Temperaturregler**          | Misst Raumtemperatur, regelt über Ventil           |
+| **Ventilator**                | 3 Stufen oder stufenlos, meist EC-Motor mit 0–10 V |
+| **Ventil**                    | 2-Wege oder 3-Wege (Heizen / Kühlen)               |
+| **Heizen/Kühlen Umschaltung** | DDC wählt je nach Jahreszeit / Anforderung         |
 
 ### Typische DDC-Datenpunkte FCU
 
@@ -92,19 +81,10 @@ Raumluft
 
 Ergänzt oder ersetzt den Fan-Coil wenn Lüftung zentral erfolgt:
 
-```
-Zuluft-Kanal (zentrale RLT)
-    ↓
-VAV-Box (Volumenstromregler)
-    ↓ Zuluft in den Raum
-    Messung: Differenzdruck (→ Volumenstrom)
-    Stellgrösse: Regelklappe
-
-Raumregler steuert:
-  - VAV-Box Volumenstrom (je nach CO₂, Präsenz, T)
-  - Nachheizregister (elektrisch oder Warmwasser)
-  - Kühlen via Zulufttemperatur (zentral oder lokal)
-```
+- Die zentrale Lüftungsanlage liefert Zuluft in den Kanal.
+- Der VAV-Regler misst den Volumenstrom über einen Differenzdruck und stellt die Klappe.
+- Der Raumregler gibt den Volumenstrom-Sollwert vor, abhängig von CO₂, Präsenz und Temperatur.
+- Optional regelt er ein Nachheizregister, elektrisch oder mit Warmwasser.
 
 ---
 
@@ -112,14 +92,14 @@ Raumregler steuert:
 
 Gute Raumautomation kennt mehrere Profile:
 
-| Profil           | Temperatur | Lüftung   | Licht   | Beschattung      |
-| ---------------- | ---------- | --------- | ------- | ---------------- |
-| **Komfort**      | 21 °C      | Normal    | Präsenz | Automatisch      |
-| **Vorkomfort**   | 19 °C      | Reduziert | Aus     | Automatisch      |
-| **Nacht**        | 16 °C      | Minimal   | Aus     | Zu (Sommer: auf) |
-| **Abwesend**     | 16 °C      | Minimal   | Aus     | Aus              |
-| **Sitzung**      | 21 °C      | 100 %     | 100 %   | Beschattet       |
-| **Präsentation** | 21 °C      | Normal    | 30 %    | Beschattet       |
+| Profil             | Heizen   | Kühlen   | Lüftung          | Licht   |
+| ------------------ | -------- | -------- | ---------------- | ------- |
+| **Komfort**        | 21 °C    | 24–26 °C | normal           | Präsenz |
+| **Standby**        | 19 °C    | 27 °C    | reduziert        | aus     |
+| **Nacht, Economy** | 16–17 °C | 28 °C    | minimal oder aus | aus     |
+| **Gebäudeschutz**  | 7–8 °C   | 35 °C    | aus              | aus     |
+
+Die Werte sind Beispiele. Dazu kommen Szenen wie Sitzung oder Präsentation, die Licht und Beschattung anders einstellen. Die Profile entsprechen den HVAC-Betriebsarten von KNX und EN ISO 52120-1.
 
 Übergang zwischen Profilen wird von Zeitprogramm, Präsenzsensor oder manuellem Eingriff ausgelöst.
 
@@ -129,13 +109,10 @@ Gute Raumautomation kennt mehrere Profile:
 
 Die Präsenzerkennung ist zentral für die Energieeffizienz:
 
-```
-Präsenz erkannt → Komfortbetrieb
-Keine Präsenz (5–15 min) → Standby
-    ├── Licht: sofort aus
-    ├── Lüftung: auf Minimum
-    └── Heizung/Kühlung: Sollwert 2 K verschieben
-```
+| Zustand                        | Reaktion                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------- |
+| Präsenz erkannt                | Komfort                                                                         |
+| keine Präsenz während 5–15 min | Standby: Licht aus, Lüftung auf Minimum, Temperatursollwert etwa 2 K verschoben |
 
 **Sensortypen:** PIR (Bewegung), Radar (Millimeterwelle, auch statisch), Karte (Hotel), Tastendruck, GLT-Belegungsplan
 
@@ -161,46 +138,22 @@ Hotels haben spezielle Anforderungen:
 
 ### Kartenleser-Integration
 
-```
-Gast steckt Karte ein:
-  → DI "Zimmer besetzt" = EIN
-  → Temperatur: Komfort (21 °C)
-  → Lüftung: Normal
-  → Licht: vorhanden (manuelle Steuerung)
-
-Gast entnimmt Karte:
-  → DI "Zimmer besetzt" = AUS (nach 1 min)
-  → Temperatur: Abwesend (18 °C Sommer, 16 °C Winter)
-  → Lüftung: Minimum
-  → Licht: aus
-```
+| Ereignis                          | Reaktion                                                                                            |
+| --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Gast steckt Karte ein             | Zimmer belegt: Komfort, Lüftung normal, Licht bedienbar                                             |
+| Gast zieht Karte, nach etwa 1 min | Zimmer unbelegt: Heizsollwert etwa 17–18 °C, Kühlsollwert etwa 26–28 °C, Lüftung Minimum, Licht aus |
+| Zimmer nicht vermietet            | stärker abgesenkt, nach Buchung rechtzeitig vorkonditioniert                                        |
 
 ### DND / MUR (Do Not Disturb / Make Up Room)
 
-```
-DND-Taste gedrückt:
-  → DO "DND-Lampe aussen" = EIN
-  → GLT-Signal: kein Haushalt-Zutritt
-
-MUR-Taste gedrückt:
-  → DO "MUR-Lampe aussen" = EIN
-  → GLT-Signal: Reinigung erwünscht
-```
+- **DND-Taste:** Lampe «Bitte nicht stören» an der Tür, Meldung an die GLT, die Reinigung kommt nicht.
+- **MUR-Taste:** Lampe «Bitte reinigen», Meldung an die GLT oder das Hotelsystem.
 
 ---
 
 ## Konstantlicht-Regelung (DALI + Raumregler)
 
-```
-Helligkeitssensor im Raum (Lux)
-    ↓
-Raumregler vergleicht mit Soll-Helligkeit (z.B. 500 Lux Schreibtisch)
-    ↓
-DALI-Dimmlevel anpassen
-    ↓ Mehr Tageslicht → weniger künstliches Licht
-```
-
-Spart 30–50 % Beleuchtungsenergie in gut beleuchteten Räumen.
+Ein Helligkeitssensor misst im Raum, der Raumcontroller vergleicht mit dem Sollwert, zum Beispiel 500 lx am Arbeitsplatz, und dimmt die Leuchten über DALI. Je mehr Tageslicht, desto weniger Kunstlicht. Siehe [Beleuchtungssteuerung](/wissen/beleuchtungssteuerung).
 
 ---
 
@@ -208,28 +161,23 @@ Spart 30–50 % Beleuchtungsenergie in gut beleuchteten Räumen.
 
 - **EN ISO 52120** (früher EN 15232) — GA-Effizienzklassen, Raumautomation Klasse A
 - **VDI 3813** — Raumautomationsfunktionen, Datenpunkte, Prozessbilder
-- **EN 15232** — Einsparpotenziale durch GA (Raumebene = grösste Wirkung)
 - **EN ISO 7730** — Ergonomie der thermischen Umgebung (Komfortparameter)
 
 <!-- EN -->
 
 # Room Automation — Room DDC and Room Controllers
 
-Room automation is the lowest level of building automation — directly at the user. Here, temperature, ventilation, lighting and shading are controlled in each individual room. Good room automation is invisible: the user is comfortable and notices nothing.
+Room automation is the part of building automation that works directly at the user. Here, temperature, ventilation, lighting and shading are controlled in each individual room. Good room automation is invisible: the user is comfortable and notices nothing.
 
 ## Room Automation Concept
 
-```
-Room functions:
-  ├── Heating/cooling (fan-coil, UFH, chilled ceiling)
-  ├── Ventilation (VAV box, volume flow)
-  ├── Lighting (DALI, 0–10V, switching)
-  ├── Shading (blind, louvre shutter)
-  └── Access control / presence
+The room controller handles in the room:
 
-All controlled by:
-  Room DDC (room controller)
-```
+- **heating and cooling** via fan coil, underfloor heating, radiator or chilled ceiling
+- **ventilation** via the VAV controller
+- **lighting** via DALI, KNX or switching outputs
+- **shading** via blind actuators
+- **presence** as an input for all services
 
 ---
 
@@ -237,23 +185,16 @@ All controlled by:
 
 A **fan-coil** is a decentralised heating/cooling device with its own fan:
 
-```
-Chilled water (6/12 °C) or heating water (45/40 °C)
-    ↓
-[Heat exchanger coil]
-    ← Fan →
-    ↓
-Room air
-```
+Chilled or hot water, for example 6/12 °C or 45/40 °C, flows through the coil. The fan draws in room air, blows it through the coil and back into the room.
 
 ### Control
 
-| Stage                          | Description                                 |
-| ------------------------------ | ------------------------------------------- |
-| **Temperature controller**     | Measures room temp, controls via valve      |
-| **Fan**                        | 3 speeds (Low/Mid/High) or variable via VFD |
-| **Valve**                      | 2-way or 3-way (heating / cooling)          |
-| **Heating/cooling switchover** | DDC selects based on season / demand        |
+| Stage                          | Description                                        |
+| ------------------------------ | -------------------------------------------------- |
+| **Temperature controller**     | Measures room temp, controls via valve             |
+| **Fan**                        | 3 speeds or variable, usually EC motor with 0–10 V |
+| **Valve**                      | 2-way or 3-way (heating / cooling)                 |
+| **Heating/cooling switchover** | DDC selects based on season / demand               |
 
 ### Typical DDC Data Points — FCU
 
@@ -273,19 +214,10 @@ Room air
 
 Supplements or replaces the fan-coil when ventilation is handled centrally:
 
-```
-Supply air duct (central AHU)
-    ↓
-VAV box (volume flow controller)
-    ↓ Supply air into room
-    Measurement: differential pressure (→ volume flow)
-    Controlled variable: damper
-
-Room controller manages:
-  - VAV box volume flow (based on CO₂, presence, T)
-  - Reheat coil (electric or hot water)
-  - Cooling via supply air temperature (central or local)
-```
+- The central air handling unit supplies air into the duct.
+- The VAV controller measures air flow via a differential pressure and positions the damper.
+- The room controller sets the air flow setpoint, depending on CO₂, presence and temperature.
+- Optionally it controls a reheat coil, electric or hot water.
 
 ---
 
@@ -293,14 +225,14 @@ Room controller manages:
 
 Good room automation knows multiple profiles:
 
-| Profile          | Temperature | Ventilation | Lighting | Shading               |
-| ---------------- | ----------- | ----------- | -------- | --------------------- |
-| **Comfort**      | 21 °C       | Normal      | Presence | Automatic             |
-| **Pre-comfort**  | 19 °C       | Reduced     | Off      | Automatic             |
-| **Night**        | 16 °C       | Minimum     | Off      | Closed (summer: open) |
-| **Absent**       | 16 °C       | Minimum     | Off      | Off                   |
-| **Meeting**      | 21 °C       | 100 %       | 100 %    | Shaded                |
-| **Presentation** | 21 °C       | Normal      | 30 %     | Shaded                |
+| Profile                 | Heating  | Cooling  | Ventilation    | Lighting |
+| ----------------------- | -------- | -------- | -------------- | -------- |
+| **Comfort**             | 21 °C    | 24–26 °C | normal         | presence |
+| **Standby**             | 19 °C    | 27 °C    | reduced        | off      |
+| **Night, economy**      | 16–17 °C | 28 °C    | minimum or off | off      |
+| **Building protection** | 7–8 °C   | 35 °C    | off            | off      |
+
+The values are examples. Scenes such as meeting or presentation come on top and set lighting and shading differently. The profiles correspond to the HVAC modes of KNX and EN ISO 52120-1.
 
 Transitions between profiles are triggered by time programs, presence sensors or manual input.
 
@@ -310,13 +242,10 @@ Transitions between profiles are triggered by time programs, presence sensors or
 
 Presence detection is central to energy efficiency:
 
-```
-Presence detected → comfort mode
-No presence (5–15 min) → standby
-    ├── Lighting: off immediately
-    ├── Ventilation: reduce to minimum
-    └── Heating/cooling: shift setpoint by 2 K
-```
+| State                    | Response                                                                               |
+| ------------------------ | -------------------------------------------------------------------------------------- |
+| presence detected        | comfort                                                                                |
+| no presence for 5–15 min | standby: lights off, ventilation at minimum, temperature setpoint shifted by about 2 K |
 
 **Sensor types:** PIR (motion), radar (millimetre wave, also detects stationary occupants), key card (hotel), button press, BMS occupancy schedule
 
@@ -342,46 +271,22 @@ Hotels have special requirements:
 
 ### Key Card Integration
 
-```
-Guest inserts card:
-  → DI "room occupied" = ON
-  → Temperature: comfort (21 °C)
-  → Ventilation: normal
-  → Lighting: available (manual control)
-
-Guest removes card:
-  → DI "room occupied" = OFF (after 1 min)
-  → Temperature: absent (18 °C summer, 16 °C winter)
-  → Ventilation: minimum
-  → Lighting: off
-```
+| Event                                 | Response                                                                                                           |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Guest inserts key card                | room occupied: comfort, ventilation normal, lighting available                                                     |
+| Guest removes card, after about 1 min | room unoccupied: heating setpoint about 17–18 °C, cooling setpoint about 26–28 °C, ventilation minimum, lights off |
+| Room not let                          | further setback, preconditioned in time after booking                                                              |
 
 ### DND / MUR (Do Not Disturb / Make Up Room)
 
-```
-DND button pressed:
-  → DO "DND lamp outside" = ON
-  → BMS signal: no housekeeping access
-
-MUR button pressed:
-  → DO "MUR lamp outside" = ON
-  → BMS signal: cleaning requested
-```
+- **DND button:** "do not disturb" lamp at the door, message to the BMS, housekeeping stays out.
+- **MUR button:** "make up room" lamp, message to the BMS or hotel system.
 
 ---
 
 ## Constant Light Control (DALI + Room Controller)
 
-```
-Brightness sensor in room (lux)
-    ↓
-Room controller compares with target brightness (e.g. 500 lux at desk)
-    ↓
-Adjust DALI dim level
-    ↓ More daylight → less artificial light
-```
-
-Saves 30–50 % lighting energy in well-daylit rooms.
+A brightness sensor measures in the room, the room controller compares with the setpoint, for example 500 lx at the workplace, and dims the luminaires via DALI. The more daylight, the less artificial light. See [Lighting Control](/wissen/beleuchtungssteuerung).
 
 ---
 
@@ -389,5 +294,4 @@ Saves 30–50 % lighting energy in well-daylit rooms.
 
 - **EN ISO 52120** (formerly EN 15232) — BA efficiency classes, room automation Class A
 - **VDI 3813** — Room automation functions, data points, process diagrams
-- **EN 15232** — Savings potential through BA (room level = greatest impact)
 - **EN ISO 7730** — Ergonomics of the thermal environment (comfort parameters)

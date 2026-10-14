@@ -25,7 +25,7 @@ related:
   [ddc-programmierung, signaltypen, steuern-regeln, kaskadenregelung, pid-regler, profibus, modbus]
 
 norm: [IEC 61131-1, IEC 61131-3]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -37,15 +37,12 @@ Die Speicherprogrammierbare Steuerung (SPS), englisch **PLC** (Programmable Logi
 
 Eine SPS arbeitet in einem **Zyklus**:
 
-```
-┌─────────────────────────────────────────────┐
-│  1. Eingaben lesen (Digitale + Analoge I)    │
-│  2. Programm abarbeiten (Logik/Regelung)     │
-│  3. Ausgaben schreiben (Digitale + Analoge O)│
-│  4. Kommunikation (Feldbus, HMI, SCADA)      │
-└─────────────────────────────────────────────┘
-         Zykluszeit: 1 – 50 ms typisch
-```
+1. Eingänge lesen, digital und analog
+2. Programm abarbeiten, Logik und Regelung
+3. Ausgänge schreiben
+4. Kommunikation, etwa Feldbus, Bediengerät, Leitsystem
+
+Typische Zykluszeit: 1 bis 50 ms.
 
 Alle Eingangswerte werden zu Beginn des Zyklus eingelesen und bleiben für den gesamten Zyklus konstant — das Programm arbeitet immer mit einem konsistenten Abbild.
 
@@ -62,7 +59,7 @@ Alle Eingangswerte werden zu Beginn des Zyklus eingelesen und bleiben für den g
 
 ## Programmiersprachen nach IEC 61131-3
 
-Die Norm definiert 5 Sprachen, die alle auf der gleichen SPS lauffähig sind:
+Die Norm definiert fünf Sprachen. Welche davon eine bestimmte Steuerung unterstützt, hängt von Hersteller und Entwicklungsumgebung ab:
 
 ### Kontaktplan (KOP / Ladder Diagram, LD)
 
@@ -77,10 +74,7 @@ Grafische Darstellung wie ein Stromkreis. Gut für einfache Schütz-/Verriegelun
 
 Grafische Verbindung von Blöcken. Ideal für Regelkreise, Signalverarbeitung.
 
-```
-[AI_Temp]──→[PID]──→[AO_Ventil]
-[SP_Temp]──→
-```
+Ein Temperatur-Eingang und ein Sollwert führen auf einen PID-Baustein, dessen Ausgang auf den Analogausgang zum Ventil geht.
 
 ### Strukturierter Text (ST / Structured Text)
 
@@ -94,6 +88,8 @@ ELSIF tRaum < tSollwert - 0.5 THEN
 END_IF;
 stellgrad := LIMIT(0.0, stellgrad, 100.0);
 ```
+
+Das ist ein Schulbeispiel: Läuft der Code in jedem Zyklus, also alle paar Millisekunden, fährt der Stellgrad in Sekundenbruchteilen von 0 auf 100 %. In der Praxis rechnet man solche Schritte zeitbezogen oder nimmt einen PID-Baustein.
 
 ### Anweisungsliste (AWL / Instruction List, IL)
 
@@ -136,17 +132,17 @@ In der Praxis gibt es zunehmend Überschneidungen: Moderne DDC-Regler basieren a
 
 ## Typische Fehlerquellen
 
-| Problem                             | Ursache                                | Abhilfe                            |
-| ----------------------------------- | -------------------------------------- | ---------------------------------- |
-| Programm läuft, aber keine Reaktion | Falsches I/O-Mapping                   | Signalbild prüfen                  |
-| Ausgang schaltet kurz und fällt ab  | Verriegelungsbedingung nicht erfüllt   | Logik mit Force-Funktion debuggen  |
-| Analogsignal springt                | Masse-Potential / Schirmung            | Schirmung einseitig erden          |
-| SPS geht in STOP                    | Programmfehler (Division durch 0 etc.) | Diagnosepuffer auslesen            |
-| Zykluszeit zu lang                  | Zu viel Kommunikation im Zyklus        | Kommunikation asynchron entkoppeln |
+| Problem                             | Ursache                                | Abhilfe                                                                                         |
+| ----------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Programm läuft, aber keine Reaktion | Falsches I/O-Mapping                   | Signalbild prüfen                                                                               |
+| Ausgang schaltet kurz und fällt ab  | Verriegelungsbedingung nicht erfüllt   | Logik mit Force-Funktion debuggen                                                               |
+| Analogsignal springt                | Masse-Potenzial / Schirmung            | Potenzialausgleich und Schirmung prüfen, siehe [Schirmung und Erdung](/wissen/schirmung-erdung) |
+| SPS geht in STOP                    | Programmfehler (Division durch 0 etc.) | Diagnosepuffer auslesen                                                                         |
+| Zykluszeit zu lang                  | Zu viel Kommunikation im Zyklus        | Kommunikation asynchron entkoppeln                                                              |
 
 ## Sicherheitstechnik
 
-Normale SPS sind **nicht sicherheitsgerichtet**. Für Sicherheitsfunktionen (SIL, PLe) werden spezielle Failsafe-SPS (z.B. Siemens S7-F, Pilz) eingesetzt, die nach IEC 62061 / ISO 13849 zertifiziert sind. In der GA betrifft das Brandschutzklappen, Entrauchung und Aufzüge.
+Normale SPS sind **nicht sicherheitsgerichtet**. Für Sicherheitsfunktionen (SIL, PLe) werden spezielle Failsafe-SPS (z.B. Siemens S7-F, Pilz) eingesetzt, die nach IEC 62061 / ISO 13849 zertifiziert sind. In der GA laufen Sicherheitsfunktionen meist über eigene, dafür zugelassene Systeme: Brandfallsteuerungen und RWA-Zentralen, Aufzugssteuerungen nach EN 81. Die GA-SPS überwacht und meldet, löst aber nicht selbst sicherheitsrelevant aus.
 
 ## Wichtige Begriffe
 
@@ -167,15 +163,12 @@ The Programmable Logic Controller (PLC), German **SPS** (Speicherprogrammierbare
 
 A PLC operates in a **cycle**:
 
-```
-┌─────────────────────────────────────────────┐
-│  1. Read inputs (digital + analogue I)       │
-│  2. Execute program (logic / control)        │
-│  3. Write outputs (digital + analogue O)     │
-│  4. Communication (fieldbus, HMI, SCADA)    │
-└─────────────────────────────────────────────┘
-         Cycle time: 1 – 50 ms typical
-```
+1. Read inputs, digital and analogue
+2. Execute the program, logic and control
+3. Write outputs
+4. Communication, such as fieldbus, HMI, SCADA
+
+Typical cycle time: 1 to 50 ms.
 
 All input values are read at the start of the cycle and remain constant for the entire cycle — the program always works with a consistent process image.
 
@@ -192,7 +185,7 @@ All input values are read at the start of the cycle and remain constant for the 
 
 ## Programming Languages per IEC 61131-3
 
-The standard defines 5 languages, all executable on the same PLC:
+The standard defines five languages. Which of them a given controller supports depends on the manufacturer and development environment:
 
 ### Ladder Diagram (LD)
 
@@ -207,10 +200,7 @@ Graphical representation like a circuit diagram. Good for simple contactor/inter
 
 Graphical connection of blocks. Ideal for control loops and signal processing.
 
-```
-[AI_Temp]──→[PID]──→[AO_Valve]
-[SP_Temp]──→
-```
+A temperature input and a setpoint feed a PID block whose output goes to the analogue output for the valve.
 
 ### Structured Text (ST)
 
@@ -266,17 +256,17 @@ In practice the boundary is blurring: modern DDC controllers are based on PLC ha
 
 ## Common Fault Sources
 
-| Problem                            | Cause                                  | Remedy                                |
-| ---------------------------------- | -------------------------------------- | ------------------------------------- |
-| Program runs but no response       | Wrong I/O mapping                      | Check process image                   |
-| Output switches briefly then drops | Interlock condition not met            | Debug logic with force function       |
-| Analogue signal jumps              | Ground potential / shielding           | Earth shield at one end only          |
-| PLC goes to STOP                   | Program error (division by zero, etc.) | Read diagnostic buffer                |
-| Cycle time too long                | Too much communication in cycle        | Decouple communication asynchronously |
+| Problem                            | Cause                                  | Remedy                                                                              |
+| ---------------------------------- | -------------------------------------- | ----------------------------------------------------------------------------------- |
+| Program runs but no response       | Wrong I/O mapping                      | Check process image                                                                 |
+| Output switches briefly then drops | Interlock condition not met            | Debug logic with force function                                                     |
+| Analogue signal jumps              | Ground potential / shielding           | Check bonding and shielding, see [Shielding and Earthing](/wissen/schirmung-erdung) |
+| PLC goes to STOP                   | Program error (division by zero, etc.) | Read diagnostic buffer                                                              |
+| Cycle time too long                | Too much communication in cycle        | Decouple communication asynchronously                                               |
 
 ## Safety Technology
 
-Standard PLCs are **not safety-rated**. For safety functions (SIL, PLe) special failsafe PLCs (e.g. Siemens S7-F, Pilz) are used, certified to IEC 62061 / ISO 13849. In BA this applies to fire dampers, smoke extraction, and lifts.
+Standard PLCs are **not safety-rated**. For safety functions (SIL, PLe) special failsafe PLCs (e.g. Siemens S7-F, Pilz) are used, certified to IEC 62061 / ISO 13849. In BA, safety functions usually run on dedicated, approved systems: fire control and smoke extraction panels, lift controllers per EN 81. The BA PLC monitors and reports, but does not trigger safety-relevant actions itself.
 
 ## Key Terms
 
