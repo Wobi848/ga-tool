@@ -71,7 +71,26 @@ export const load: PageServerLoad = async ({ locals }) => {
 	return { users: usersWithData };
 };
 
-export const actions: Actions = {
+/* Form-Actions laufen VOR jedem load. Die Pruefung in (admin)/+layout.server.ts
+ * und im load oben schuetzt also nur das Anzeigen der Seite, nicht die
+ * Aktionen. Am 14.10.2026 nachgemessen: ein POST auf ?/unban ohne jede
+ * Anmeldung kam mit "success" zurueck — dasselbe galt fuer createUser (auch
+ * mit Rolle admin), deleteUser und resetPassword. Aus dem Internet hielt nur
+ * die Anmeldepflicht von zugang.ts davor; im Heimnetz und fuer jedes
+ * angemeldete Konto stand es offen.
+ *
+ * Darum hier jede Aktion einzeln eingewickelt, statt sich auf die Seite zu
+ * verlassen. */
+function nurAdmin(aktion: Actions[string]): Actions[string] {
+	return async (event) => {
+		if (!event.locals.user || !isAdminOrAbove(event.locals.user.role)) {
+			return fail(403, { error: 'Kein Zugriff — Admin erforderlich' });
+		}
+		return aktion(event);
+	};
+}
+
+const aktionen = {
 	ban: async ({ request, locals }) => {
 		const data = await request.formData();
 		const userId = data.get('userId') as string;
@@ -259,4 +278,8 @@ export const actions: Actions = {
 
 		return { success: true, action: 'createUser', newUserId: userId };
 	}
-};
+} satisfies Actions;
+
+export const actions: Actions = Object.fromEntries(
+	Object.entries(aktionen).map(([name, aktion]) => [name, nurAdmin(aktion)])
+) as Actions;
