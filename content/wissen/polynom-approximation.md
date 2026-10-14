@@ -26,11 +26,11 @@ Damit die DDC oder SPS damit umgehen kann, muss die Kennlinie **linearisiert** o
 
 Aus n Messpunkten $(x_i, y_i)$ wird ein Polynom
 
-$$y = a_0 + a_1 \cdot x + a_2 \cdot x^2 + \ldots + a_m \cdot x^m$$
+<p class="formel">y = a<sub>0</sub> + a<sub>1</sub>·x + a<sub>2</sub>·x<sup>2</sup> + … + a<sub>m</sub>·x<sup>m</sup></p>
 
 so bestimmt, dass die Summe der quadrierten Abweichungen zwischen Polynom-Wert und gemessenem Wert minimal wird:
 
-$$\sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \rightarrow \text{Minimum}$$
+<p class="formel">Σ (y<sub>i</sub> − ŷ<sub>i</sub>)<sup>2</sup> → Minimum</p>
 
 Der **Grad m** wird gewählt nach Komplexität der Kennlinie:
 
@@ -140,7 +140,7 @@ Polynome sind **glatte** Funktionen — sie können keine Sprünge, Knicks oder 
 
 Bei stark logarithmischen oder exponentiellen Verläufen (klassisches Beispiel: NTC bei tiefen Temperaturen → MΩ-Bereich) ist die **Steinhart-Hart-Gleichung** mathematisch besser geeignet:
 
-$$\frac{1}{T} = A + B \ln(R) + C \ln(R)^3$$
+<p class="formel">1 / T = A + B · ln(R) + C · ln(R)<sup>3</sup></p>
 
 Diese liefert über breite Temperaturbereiche genauere Werte als ein Polynom Grad 3, ist aber rechenaufwändiger im DDC.
 
@@ -166,11 +166,11 @@ For a DDC or PLC to work with them, the curve has to be **linearised**, or at le
 
 From n measured points $(x_i, y_i)$ a polynomial
 
-$$y = a_0 + a_1 \cdot x + a_2 \cdot x^2 + \ldots + a_m \cdot x^m$$
+<p class="formel">y = a<sub>0</sub> + a<sub>1</sub>·x + a<sub>2</sub>·x<sup>2</sup> + … + a<sub>m</sub>·x<sup>m</sup></p>
 
 is determined such that the sum of the squared deviations between the polynomial value and the measured value becomes minimal:
 
-$$\sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \rightarrow \text{minimum}$$
+<p class="formel">Σ (y<sub>i</sub> − ŷ<sub>i</sub>)<sup>2</sup> → minimum</p>
 
 The **degree m** is chosen according to the complexity of the curve:
 
@@ -280,7 +280,7 @@ Polynomials are **smooth** functions — they cannot reproduce steps, kinks or p
 
 For strongly logarithmic or exponential behaviour (the classic case: an NTC at low temperatures reaching the MΩ range) the **Steinhart–Hart equation** is mathematically better suited:
 
-$$\frac{1}{T} = A + B \ln(R) + C \ln(R)^3$$
+<p class="formel">1 / T = A + B · ln(R) + C · ln(R)<sup>3</sup></p>
 
 It gives more accurate values than a third-degree polynomial across wide temperature ranges, but is more demanding to compute inside the DDC.
 

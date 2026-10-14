@@ -36,14 +36,14 @@ lang: de
 
 Verhältnis des tatsächlichen Wasserdampfpartialdrucks zum **Sättigungsdampfdruck** bei gleicher Temperatur:
 
-$$\varphi = \frac{p_D}{p_{D,s}(T)} \cdot 100\%$$
+<p class="formel">φ = p<sub>D</sub> / p<sub>D,s</sub>(T) · 100 %</p>
 
 - φ = 100 %: Luft ist gesättigt, Kondensation beginnt
 - φ = 50 %, 22 °C: typische Raumluft-Komfortbedingung
 
 ### Sättigungsdampfdruck (Magnus-Formel)
 
-$$p_{D,s}(T) = 6{,}1078 \cdot e^{\frac{17{,}269 \cdot T}{237{,}3 + T}} \quad [\text{hPa}]$$
+<p class="formel">p<sub>D,s</sub>(T) = 6.1078 · e<sup>17.269·T / (237.3 + T)</sup>   [hPa]</p>
 
 (vereinfacht nach Magnus, gültig für 0–60 °C)
 
@@ -51,13 +51,13 @@ $$p_{D,s}(T) = 6{,}1078 \cdot e^{\frac{17{,}269 \cdot T}{237{,}3 + T}} \quad [\t
 
 Wasserdampfmasse pro Luftvolumen [g/m³]:
 
-$$a = \frac{216{,}7 \cdot p_{D,s}(T) \cdot \varphi}{T + 273{,}15}$$
+<p class="formel">a = 216.7 · p<sub>D,s</sub>(T) · φ / (T + 273.15)</p>
 
 ### Wassergehalt (Mischungsverhältnis)
 
 Wasserdampfmasse pro Trockenlufmasse [g/kg]:
 
-$$x = 0{,}622 \cdot \frac{p_{D,s}(T) \cdot \varphi}{p_{ges} - p_{D,s}(T) \cdot \varphi}$$
+<p class="formel">x = 0.622 · p<sub>D,s</sub>(T)·φ / (p<sub>ges</sub> − p<sub>D,s</sub>(T)·φ)</p>
 
 ## Taupunkttemperatur
 
@@ -65,11 +65,11 @@ Die **Taupunkttemperatur** T_d ist jene Temperatur, bei der die Luft bei konstan
 
 ### Näherungsformel (Magnus, gültig für T > 0 °C):
 
-$$T_d = \frac{237{,}3 \cdot \left(\ln\frac{\varphi}{100} + \frac{17{,}269 \cdot T}{237{,}3 + T}\right)}{17{,}269 - \left(\ln\frac{\varphi}{100} + \frac{17{,}269 \cdot T}{237{,}3 + T}\right)}$$
+<p class="formel">T<sub>d</sub> = 237.3 · γ / (17.269 − γ)   mit   γ = ln(φ/100) + 17.269 · T / (237.3 + T)</p>
 
 ### Faustformel (grobe Näherung):
 
-$$T_d \approx T - \frac{100 - \varphi}{5}$$
+<p class="formel">T<sub>d</sub> ≈ T − (100 − φ) / 5</p>
 
 **Beispiele:**
 
@@ -142,7 +142,7 @@ Schimmel wächst ab φ ≥ 80 % an der Oberfläche (nicht der Raumluft). Kritisc
 
 **Mindest-Oberflächentemperatur** (Deutschland, EN ISO 13788): Temperaturfaktor f_Rsi ≥ 0,7
 
-$$f_{Rsi} = \frac{T_{si} - T_e}{T_i - T_e} \geq 0{,}7$$
+<p class="formel">f<sub>Rsi</sub> = (T<sub>si</sub> − T<sub>e</sub>) / (T<sub>i</sub> − T<sub>e</sub>) ≥ 0.7</p>
 
 ## Mollier-h,x-Diagramm
 
@@ -181,14 +181,14 @@ Für den GA-Alltag reicht der **Taschenrechner** (Taupunkt-Rechner im GA-Tool), 
 
 Ratio of the actual water vapour partial pressure to the **saturation vapour pressure** at the same temperature:
 
-$$\varphi = \frac{p_D}{p_{D,s}(T)} \cdot 100\%$$
+<p class="formel">φ = p<sub>D</sub> / p<sub>D,s</sub>(T) · 100 %</p>
 
 - φ = 100 %: air is saturated, condensation begins
 - φ = 50 %, 22 °C: typical room air comfort condition
 
 ### Saturation Vapour Pressure (Magnus Formula)
 
-$$p_{D,s}(T) = 6{.}1078 \cdot e^{\frac{17{.}269 \cdot T}{237{.}3 + T}} \quad [\text{hPa}]$$
+<p class="formel">p<sub>D,s</sub>(T) = 6.1078 · e<sup>17.269·T / (237.3 + T)</sup>   [hPa]</p>
 
 (simplified after Magnus, valid for 0–60 °C)
 
@@ -196,13 +196,13 @@ $$p_{D,s}(T) = 6{.}1078 \cdot e^{\frac{17{.}269 \cdot T}{237{.}3 + T}} \quad [\t
 
 Water vapour mass per air volume [g/m³]:
 
-$$a = \frac{216{.}7 \cdot p_{D,s}(T) \cdot \varphi}{T + 273{.}15}$$
+<p class="formel">a = 216.7 · p<sub>D,s</sub>(T) · φ / (T + 273.15)</p>
 
 ### Moisture Content (Mixing Ratio)
 
 Water vapour mass per dry air mass [g/kg]:
 
-$$x = 0{.}622 \cdot \frac{p_{D,s}(T) \cdot \varphi}{p_{total} - p_{D,s}(T) \cdot \varphi}$$
+<p class="formel">x = 0.622 · p<sub>D,s</sub>(T)·φ / (p<sub>total</sub> − p<sub>D,s</sub>(T)·φ)</p>
 
 ## Dew Point Temperature
 
@@ -210,11 +210,11 @@ The **dew point temperature** T_d is the temperature at which air reaches satura
 
 ### Approximation Formula (Magnus, valid for T > 0 °C):
 
-$$T_d = \frac{237{.}3 \cdot \left(\ln\frac{\varphi}{100} + \frac{17{.}269 \cdot T}{237{.}3 + T}\right)}{17{.}269 - \left(\ln\frac{\varphi}{100} + \frac{17{.}269 \cdot T}{237{.}3 + T}\right)}$$
+<p class="formel">T<sub>d</sub> = 237.3 · γ / (17.269 − γ)   with   γ = ln(φ/100) + 17.269 · T / (237.3 + T)</p>
 
 ### Rule of Thumb (rough approximation):
 
-$$T_d \approx T - \frac{100 - \varphi}{5}$$
+<p class="formel">T<sub>d</sub> ≈ T − (100 − φ) / 5</p>
 
 **Examples:**
 
@@ -287,7 +287,7 @@ Mould grows from φ ≥ 80 % at the surface (not in the room air). Critical:
 
 **Minimum surface temperature** (Germany, EN ISO 13788): temperature factor f_Rsi ≥ 0.7
 
-$$f_{Rsi} = \frac{T_{si} - T_e}{T_i - T_e} \geq 0{.}7$$
+<p class="formel">f<sub>Rsi</sub> = (T<sub>si</sub> − T<sub>e</sub>) / (T<sub>i</sub> − T<sub>e</sub>) ≥ 0.7</p>
 
 ## Mollier h,x Diagram
 

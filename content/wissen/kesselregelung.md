@@ -118,7 +118,7 @@ Viele moderne Kessel haben einen eigenen Regler und werden über **Bus** (Modbus
 
 Den Abgasverlust misst der Kaminfeger nach der Formel von **Siegert**:
 
-$$q_A = (t_A - t_L) \cdot \left( \frac{A_2}{21 - O_2} + B \right)$$
+<p class="formel">q<sub>A</sub> = (t<sub>A</sub> − t<sub>L</sub>) · ( A<sub>2</sub> / (21 − O<sub>2</sub>) + B )</p>
 
 | Grösse | Bedeutung                                                             |
 | ------ | --------------------------------------------------------------------- |
@@ -227,7 +227,7 @@ Many modern boilers have their own controller and are driven via **bus** (Modbus
 
 The chimney sweep measures flue gas loss with the **Siegert** formula:
 
-$$q_A = (t_A - t_L) \cdot \left( \frac{A_2}{21 - O_2} + B \right)$$
+<p class="formel">q<sub>A</sub> = (t<sub>A</sub> − t<sub>L</sub>) · ( A<sub>2</sub> / (21 − O<sub>2</sub>) + B )</p>
 
 | Quantity | Meaning                                                                   |
 | -------- | ------------------------------------------------------------------------- |

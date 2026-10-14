@@ -39,14 +39,14 @@ lang: de
 
 Das SG-Ready-Interface besteht aus **2 potentialfreien Kontakten** (Eingang am Gerät):
 
-| Kontakt 1   | Kontakt 2   | Zustand                     | Beschreibung                                                             |
-| ----------- | ----------- | --------------------------- | ------------------------------------------------------------------------ |
-| offen       | offen       | **1 — EVU-Sperre**          | Zwangsabschaltung durch Netzversorger (Niedertarif-Sperre, max. 2h/Tag)  |
-| geschlossen | offen       | **2 — Normalbetrieb**       | Standard — geräteeigene Regelung aktiv                                   |
-| offen       | geschlossen | **3 — Einschaltempfehlung** | PV-Überschuss / günstiger Tarif: Leistung erhöhen, WW-Temperatur anheben |
-| geschlossen | geschlossen | **4 — Einschaltbefehl**     | Muss laufen (Überschussstrom, Regelenergie): Max-Leistung erzwingen      |
+| Kontakt 1   | Kontakt 2   | Zustand                     | Beschreibung                                                                   |
+| ----------- | ----------- | --------------------------- | ------------------------------------------------------------------------------ |
+| geschlossen | offen       | **1 — Sperre**              | Der Netzbetreiber sperrt die Wärmepumpe, laut BWP höchstens 2 Stunden am Stück |
+| offen       | offen       | **2 — Normalbetrieb**       | Die geräteeigene Regelung arbeitet wie ohne SG-Ready                           |
+| offen       | geschlossen | **3 — Einschaltempfehlung** | PV-Überschuss oder günstiger Strom: Leistung erhöhen, Speicher höher laden     |
+| geschlossen | geschlossen | **4 — Einschaltbefehl**     | Anlaufbefehl, je nach Gerät mit erhöhten Sollwerten                            |
 
-**Normalzustand ohne EMS:** Beide Kontakte offen (Zustand 1) oder Kontakt 1 geschlossen (Zustand 2), je nach Herstellerauslieferung.
+**Ohne Beschaltung** sind beide Kontakte offen, und das ist der **Normalbetrieb** (Zustand 2). Eine Wärmepumpe, an deren SG-Eingang nichts angeschlossen ist, läuft also ganz normal. Wer nur die Sperre braucht, schaltet allein Kontakt 1.
 
 ---
 
@@ -137,14 +137,14 @@ EMS-Logik:
 
 The SG-Ready interface consists of **2 volt-free contacts** (inputs on the device):
 
-| Contact 1 | Contact 2 | State                            | Description                                                      |
-| --------- | --------- | -------------------------------- | ---------------------------------------------------------------- |
-| open      | open      | **1 — Grid lock**                | Forced shutdown by grid operator (off-peak lock, max. 2h/day)    |
-| closed    | open      | **2 — Normal operation**         | Standard — device's own control active                           |
-| open      | closed    | **3 — Switch-on recommendation** | PV surplus / cheap tariff: increase output, raise DHW setpoint   |
-| closed    | closed    | **4 — Switch-on command**        | Must run (surplus power, balancing energy): force maximum output |
+| Contact 1 | Contact 2 | State                            | Description                                                               |
+| --------- | --------- | -------------------------------- | ------------------------------------------------------------------------- |
+| closed    | open      | **1 — Block**                    | The grid operator blocks the heat pump, per BWP at most 2 hours at a time |
+| open      | open      | **2 — Normal operation**         | The device's own control works as without SG Ready                        |
+| open      | closed    | **3 — Switch-on recommendation** | PV surplus or cheap power: increase output, charge storage higher         |
+| closed    | closed    | **4 — Switch-on command**        | Start command, depending on the device with raised setpoints              |
 
-**Default state without EMS:** Both contacts open (state 1) or contact 1 closed (state 2), depending on manufacturer default.
+**Without wiring** both contacts are open, and that is **normal operation** (state 2). A heat pump with nothing connected to its SG input therefore runs normally. If you only need the block, switch contact 1 alone.
 
 ---
 

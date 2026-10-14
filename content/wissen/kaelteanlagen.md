@@ -61,7 +61,7 @@ Verdampfer (kalt) → Verdichter → Verflüssiger (warm) → Expansionsventil �
 
 ### EER / COP (Momentan)
 
-$$\text{EER} = \frac{Q_{Kalt}}{P_{el}}$$
+<p class="formel">EER = Q<sub>Kälte</sub> / P<sub>el</sub></p>
 
 - `Q_Kalt` = Kühlleistung [kW]
 - `P_el` = aufgenommene Leistung [kW]
@@ -233,7 +233,7 @@ Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Ev
 
 ### EER / COP (Instantaneous)
 
-$$\text{EER} = \frac{Q_{cold}}{P_{el}}$$
+<p class="formel">EER = Q<sub>cold</sub> / P<sub>el</sub></p>
 
 - `Q_cold` = cooling output [kW]
 - `P_el` = electrical input [kW]

@@ -19,7 +19,7 @@ lang: de
 
 In der Lüftungstechnik wird der **Volumenstrom** häufig nicht direkt gemessen, sondern aus einem **Wirkdruck** über einer Messstrecke abgeleitet. VAV-Boxen, Drall-Auslässe, Blenden und Düsen haben dafür einen vom Hersteller angegebenen **k-Faktor**:
 
-$$Q = k \cdot \sqrt{\Delta P}$$
+<p class="formel">Q = k · √Δp</p>
 
 mit
 
@@ -31,7 +31,7 @@ mit
 
 Aus der **Bernoulli-Gleichung** für inkompressible Strömung:
 
-$$Q = \alpha \cdot A \cdot \sqrt{\frac{2 \cdot \Delta P}{\rho}}$$
+<p class="formel">Q = α · A · √(2 · Δp / ρ)</p>
 
 mit
 
@@ -68,7 +68,7 @@ Der Hersteller **misst** seine Box/Düse durch und packt α, A und die Norm-Dich
 
 Der Hersteller-k gilt für **Norm-Luft** (20 °C, 1.013 bar, ρ ≈ 1.204 kg/m³). Bei deutlich abweichenden Bedingungen:
 
-$$k_\text{korr} = k \cdot \sqrt{\frac{\rho_\text{norm}}{\rho_\text{aktuell}}}$$
+<p class="formel">k<sub>korr</sub> = k · √(ρ<sub>norm</sub> / ρ<sub>aktuell</sub>)</p>
 
 | Anwendung                                | Dichtekorrektur nötig?     |
 | ---------------------------------------- | -------------------------- |
@@ -88,7 +88,7 @@ Im Rechner ist die Dichtekorrektur als optionaler Toggle aktivierbar.
 
 **3.** Erwarteter Wirkdruck rechnen:
 
-$$\Delta P_\text{soll} = \left(\frac{Q}{k}\right)^2 = \left(\frac{400}{65}\right)^2 ≈ 38\;\text{Pa}$$
+<p class="formel">Δp<sub>soll</sub> = (Q / k)<sup>2</sup> = (400 / 65)<sup>2</sup> ≈ 38 Pa</p>
 
 **4.** Reglerklappe von Hand auf 50 % öffnen, am DDC den ΔP-Istwert ablesen, mit Soll vergleichen.
 
@@ -127,7 +127,7 @@ Bei sehr kleinen ΔP (< 5 Pa) wird das Verhältnis Signal/Rauschen schlecht — 
 
 In ventilation engineering the **volume flow** is often not measured directly but derived from a **differential pressure** across a measuring section. VAV boxes, swirl diffusers, orifices and nozzles carry a manufacturer-specified **k-factor** for exactly this purpose:
 
-$$Q = k \cdot \sqrt{\Delta P}$$
+<p class="formel">Q = k · √Δp</p>
 
 where
 
@@ -139,7 +139,7 @@ where
 
 From the **Bernoulli equation** for incompressible flow:
 
-$$Q = \alpha \cdot A \cdot \sqrt{\frac{2 \cdot \Delta P}{\rho}}$$
+<p class="formel">Q = α · A · √(2 · Δp / ρ)</p>
 
 where
 
@@ -176,7 +176,7 @@ The manufacturer **measures** the box or nozzle and folds α, A and the standard
 
 The manufacturer's k applies to **standard air** (20 °C, 1.013 bar, ρ ≈ 1.204 kg/m³). For significantly different conditions:
 
-$$k_\text{corr} = k \cdot \sqrt{\frac{\rho_\text{standard}}{\rho_\text{actual}}}$$
+<p class="formel">k<sub>corr</sub> = k · √(ρ<sub>standard</sub> / ρ<sub>actual</sub>)</p>
 
 | Application                                 | Density correction needed? |
 | ------------------------------------------- | -------------------------- |
@@ -196,7 +196,7 @@ The calculator offers density correction as an optional toggle.
 
 **3.** Calculate the expected differential pressure:
 
-$$\Delta P_\text{target} = \left(\frac{Q}{k}\right)^2 = \left(\frac{400}{65}\right)^2 ≈ 38\;\text{Pa}$$
+<p class="formel">Δp<sub>target</sub> = (Q / k)<sup>2</sup> = (400 / 65)<sup>2</sup> ≈ 38 Pa</p>
 
 **4.** Open the control damper manually to 50 %, read the actual ΔP on the DDC and compare with the target.
 

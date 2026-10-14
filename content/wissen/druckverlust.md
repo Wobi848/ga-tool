@@ -23,15 +23,11 @@ Der **Druckverlust** in einem Rohrnetz bestimmt die nötige **Pumpenleistung** u
 
 ## Zwei Anteile
 
-```
-Δp_total = Δp_Reibung + Δp_Einzelwiderstände
-```
+<p class="formel">Δp<sub>total</sub> = Δp<sub>Reibung</sub> + Δp<sub>Einzelwiderstände</sub></p>
 
 ### 1. Reibungsdruckverlust Δp_L
 
-```
-Δp_L = λ × (L / d) × (ρ × v²) / 2
-```
+<p class="formel">Δp<sub>L</sub> = λ · (L / d) · ρ · v² / 2</p>
 
 - **λ** — Reibungsbeiwert (dimensionslos)
 - **L** — Länge der Rohrleitung [m]
@@ -41,9 +37,7 @@ Der **Druckverlust** in einem Rohrnetz bestimmt die nötige **Pumpenleistung** u
 
 ### 2. Einzelwiderstände Δp_Z
 
-```
-Δp_Z = Σζ × (ρ × v²) / 2
-```
+<p class="formel">Δp<sub>Z</sub> = Σζ · ρ · v² / 2</p>
 
 Σζ ist die Summe aller **Widerstandsbeiwerte** für Bögen, T-Stücke, Ventile, etc.
 
@@ -51,9 +45,7 @@ Der **Druckverlust** in einem Rohrnetz bestimmt die nötige **Pumpenleistung** u
 
 Hängt von der **Reynolds-Zahl** Re ab:
 
-```
-Re = (v × d) / ν      // ν = kinematische Viskosität
-```
+<p class="formel">Re = v · d / ν   (ν = kinematische Viskosität)</p>
 
 | Bereich   | Re               | Formel für λ               |
 | --------- | ---------------- | -------------------------- |
@@ -63,9 +55,7 @@ Re = (v × d) / ν      // ν = kinematische Viskosität
 
 In der Praxis nimmt man Tabellenwerte oder die **Swamee-Jain-Approximation**:
 
-```
-λ = 0.25 / [log₁₀(k/(3.7·d) + 5.74/Re^0.9)]²
-```
+<p class="formel">λ = 0.25 / [ log<sub>10</sub>( k / (3.7·d) + 5.74 / Re<sup>0.9</sup> ) ]<sup>2</sup></p>
 
 ## Faustwerte Strömungsgeschwindigkeit
 
@@ -119,7 +109,7 @@ Ohne Abgleich: nahe Heizkörper werden heiss, ferne kalt. Lösung:
 
 1. **Rücklauf-Länge vergessen** → Druckverlust halbiert
 2. **Einzelwiderstände unterschätzt** → bei kurzen Anlagen 50 % des Verlusts!
-3. **Falsches Medium** → Sole hat 2× höhere Viskosität als Wasser
+3. **Falsches Medium** → Sole ist bei tiefen Temperaturen drei- bis fünfmal so zähflüssig wie Heizungswasser, der Druckverlust steigt deutlich
 4. **Strangabgleich vergessen** → ungleichmässige Wärmeverteilung
 
 ## Siehe auch
@@ -136,15 +126,11 @@ Ohne Abgleich: nahe Heizkörper werden heiss, ferne kalt. Lösung:
 
 ## Two Components
 
-```
-Δp_total = Δp_friction + Δp_fittings
-```
+<p class="formel">Δp<sub>total</sub> = Δp<sub>friction</sub> + Δp<sub>fittings</sub></p>
 
 ### 1. Friction Pressure Loss Δp_L
 
-```
-Δp_L = λ × (L / d) × (ρ × v²) / 2
-```
+<p class="formel">Δp<sub>L</sub> = λ · (L / d) · ρ · v² / 2</p>
 
 - **λ** — friction factor (dimensionless)
 - **L** — pipe length [m]
@@ -154,9 +140,7 @@ Ohne Abgleich: nahe Heizkörper werden heiss, ferne kalt. Lösung:
 
 ### 2. Fitting Losses Δp_Z
 
-```
-Δp_Z = Σζ × (ρ × v²) / 2
-```
+<p class="formel">Δp<sub>Z</sub> = Σζ · ρ · v² / 2</p>
 
 Σζ is the sum of all **resistance coefficients** for bends, tees, valves, etc.
 
@@ -164,9 +148,7 @@ Ohne Abgleich: nahe Heizkörper werden heiss, ferne kalt. Lösung:
 
 Depends on the **Reynolds number** Re:
 
-```
-Re = (v × d) / ν      // ν = kinematic viscosity
-```
+<p class="formel">Re = v · d / ν   (ν = kinematic viscosity)</p>
 
 | Range        | Re               | Formula for λ               |
 | ------------ | ---------------- | --------------------------- |
@@ -176,9 +158,7 @@ Re = (v × d) / ν      // ν = kinematic viscosity
 
 In practice, use lookup tables or the **Swamee-Jain approximation**:
 
-```
-λ = 0.25 / [log₁₀(k/(3.7·d) + 5.74/Re^0.9)]²
-```
+<p class="formel">λ = 0.25 / [ log<sub>10</sub>( k / (3.7·d) + 5.74 / Re<sup>0.9</sup> ) ]<sup>2</sup></p>
 
 ## Recommended Flow Velocities
 
@@ -232,7 +212,7 @@ Without balancing: nearby radiators overheat, distant ones stay cold. Solutions:
 
 1. **Forgetting return pipe length** → pressure loss halved
 2. **Underestimating fitting losses** → can be 50 % of total in short systems!
-3. **Wrong fluid** → brine has 2× higher viscosity than water
+3. **Wrong fluid** → at low temperatures brine is three to five times as viscous as heating water; pressure drop rises considerably
 4. **Skipping hydraulic balancing** → uneven heat distribution
 
 ## See also

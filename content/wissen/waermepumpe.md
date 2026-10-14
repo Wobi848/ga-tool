@@ -38,15 +38,12 @@ Die **Wärmepumpe** entzieht einer Wärmequelle (Luft, Erdreich, Wasser) Energie
 
 ## Thermodynamisches Prinzip
 
-```
-Verdampfer (kalt) → Verdichter → Verflüssiger (warm) → Expansionsventil → Verdampfer
-  Wärmequelle          (Strom)       Heizkreis         (Drossel)
-```
+Der Kreislauf hat vier Stationen: **Verdampfer** (nimmt Wärme aus der Quelle auf) → **Verdichter** (braucht Strom, hebt Druck und Temperatur) → **Verflüssiger** (gibt Wärme an den Heizkreis ab) → **Expansionsventil** (senkt den Druck) → zurück zum Verdampfer.
 
 1. **Verdampfer:** Kältemittel verdampft bei niedrigem Druck, nimmt Wärme aus der Quelle auf
 2. **Verdichter:** Komprimiert das Kältemittelgas → Temperatur steigt
 3. **Verflüssiger:** Kältemittel kondensiert, gibt Wärme an den Heizkreis ab
-4. **Expansionsventil:** Druckabfall, Kältemittel wird kalt und flüssig
+4. **Expansionsventil:** Druckabfall, das Kältemittel kühlt stark ab und wird zu kaltem Nassdampf
 
 ## Quellentypen
 
@@ -64,7 +61,7 @@ Verdampfer (kalt) → Verdichter → Verflüssiger (warm) → Expansionsventil �
 
 **Momentan-Wirkungsgrad** bei einem Betriebspunkt:
 
-$$\text{COP} = \frac{Q_{Heiz}}{P_{el}}$$
+<p class="formel">COP = Q<sub>Heiz</sub> / P<sub>el</sub></p>
 
 - `Q_Heiz` = abgegebene Heizleistung [kW]
 - `P_el` = aufgenommene elektrische Leistung [kW]
@@ -87,23 +84,19 @@ Typische SCOP-Werte:
 
 ## Betriebsarten
 
-| Betriebsart      | Beschreibung                                                          |
-| ---------------- | --------------------------------------------------------------------- |
-| **Heizbetrieb**  | Raumheizung via Heizkurve (witterungsgeführt)                         |
-| **Kühlbetrieb**  | Aktiv (Kältemaschinen-Modus) oder passiv (Natural Cooling bei Sole/W) |
-| **WW-Bereitung** | Brauchwarmwasser, typisch bis 55 °C, bei Legionellenschutz bis 60 °C  |
-| **Abtauung**     | L/W-WP: Verdampfer vereist bei Aussentemp. ≤ 5 °C, WP reversiert kurz |
-| **Standby**      | Frostschutz, minimale Zirkulation                                     |
+| Betriebsart      | Beschreibung                                                                                       |
+| ---------------- | -------------------------------------------------------------------------------------------------- |
+| **Heizbetrieb**  | Raumheizung via Heizkurve (witterungsgeführt)                                                      |
+| **Kühlbetrieb**  | Aktiv (Kältemaschinen-Modus) oder passiv (Natural Cooling bei Sole/W)                              |
+| **WW-Bereitung** | Brauchwarmwasser, typisch bis 55 °C, bei Legionellenschutz bis 60 °C                               |
+| **Abtauung**     | L/W-WP: Verdampfer vereist vor allem zwischen etwa −5 und +5 °C bei feuchter Luft, WP taut kurz ab |
+| **Standby**      | Frostschutz, minimale Zirkulation                                                                  |
 
 ## Hydraulikschema (vereinfacht)
 
-```
-WP-Verflüssiger ── Pufferspeicher ── Mischer ── Heizkreise
-                       │
-                  Warmwasserspeicher (oben)
-                       │
-                  Zirkulationspumpe
-```
+- Die Wärmepumpe lädt über ein **Umschaltventil** entweder den **Pufferspeicher** für die Heizung oder den **Warmwasserspeicher**.
+- Aus dem Puffer versorgen **Heizkreise mit Pumpe und Mischventil** die Räume, siehe [Pufferspeicher](/wissen/pufferspeicher).
+- Warmwasser hat meist Vorrang, die Heizung wartet so lange auf den Puffer.
 
 - **Pufferspeicher:** Entkoppelt WP-Takt von Heizkreis, ermöglicht Mindestlaufzeit
 - **Mindestlaufzeit:** 10–20 min, um den Verdichter zu schonen (Kurzzyklen schädlich!)
@@ -130,12 +123,12 @@ WP-Verflüssiger ── Pufferspeicher ── Mischer ── Heizkreise
 
 ### SG Ready (Smart Grid)
 
-Deutsches Schnittstellenkonzept — 4 Zustände via 2 digitale Eingänge:
+Schnittstelle des Bundesverbands Wärmepumpe, 4 Zustände über 2 digitale Eingänge. Mehr in [SG-Ready](/wissen/sg-ready).
 
 | Zustand | E1  | E2  | Bedeutung                                          |
 | ------- | --- | --- | -------------------------------------------------- |
-| 1       | 0   | 0   | Sperrzeit (EVU-Abschaltung)                        |
-| 2       | 1   | 0   | **Normalbetrieb** (Standard)                       |
+| 1       | 1   | 0   | Sperre durch den Netzbetreiber                     |
+| 2       | 0   | 0   | **Normalbetrieb**, auch ohne Beschaltung           |
 | 3       | 0   | 1   | **Einschaltempfehlung** (WP läuft, Speicher laden) |
 | 4       | 1   | 1   | **Anlaufbefehl** (Überschuss PV, Billigstrom)      |
 
@@ -187,15 +180,12 @@ The **heat pump** extracts energy from a heat source (air, ground, water) and ra
 
 ## Thermodynamic Principle
 
-```
-Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Evaporator
-  Heat source       (electricity)  Heating circuit    (throttle)
-```
+The cycle has four stations: **evaporator** (takes up heat from the source) → **compressor** (uses electricity, raises pressure and temperature) → **condenser** (releases heat to the heating circuit) → **expansion valve** (lowers the pressure) → back to the evaporator.
 
 1. **Evaporator:** Refrigerant evaporates at low pressure, absorbs heat from source
 2. **Compressor:** Compresses refrigerant gas → temperature rises
 3. **Condenser:** Refrigerant condenses, transfers heat to heating circuit
-4. **Expansion valve:** Pressure drops, refrigerant becomes cold and liquid
+4. **Expansion valve:** Pressure drops, the refrigerant cools sharply and becomes a cold liquid-vapour mixture
 
 ## Source Types
 
@@ -213,7 +203,7 @@ Evaporator (cold) → Compressor → Condenser (warm) → Expansion valve → Ev
 
 **Instantaneous efficiency** at one operating point:
 
-$$\text{COP} = \frac{Q_{heat}}{P_{el}}$$
+<p class="formel">COP = Q<sub>heat</sub> / P<sub>el</sub></p>
 
 - `Q_heat` = heat output [kW]
 - `P_el` = electrical power input [kW]
@@ -236,23 +226,19 @@ Typical SCOP values:
 
 ## Operating Modes
 
-| Mode            | Description                                                                        |
-| --------------- | ---------------------------------------------------------------------------------- |
-| **Heating**     | Space heating via heating curve (weather-compensated)                              |
-| **Cooling**     | Active (chiller mode) or passive (natural cooling with brine/water)                |
-| **DHW heating** | Domestic hot water, typically to 55 °C; to 60 °C for Legionella protection         |
-| **Defrost**     | Air/water HP: evaporator ices up at outdoor temp ≤ 5 °C; HP briefly reverses cycle |
-| **Standby**     | Frost protection, minimal circulation                                              |
+| Mode            | Description                                                                                          |
+| --------------- | ---------------------------------------------------------------------------------------------------- |
+| **Heating**     | Space heating via heating curve (weather-compensated)                                                |
+| **Cooling**     | Active (chiller mode) or passive (natural cooling with brine/water)                                  |
+| **DHW heating** | Domestic hot water, typically to 55 °C; to 60 °C for Legionella protection                           |
+| **Defrost**     | Air/water HP: evaporator ices up mainly between about −5 and +5 °C in humid air; HP defrosts briefly |
+| **Standby**     | Frost protection, minimal circulation                                                                |
 
 ## Hydraulic Schematic (Simplified)
 
-```
-HP condenser ── Buffer tank ── Mixer ── Heating circuits
-                    │
-               DHW storage (upper section)
-                    │
-               Circulation pump
-```
+- Via a **diverting valve** the heat pump charges either the **buffer tank** for heating or the **hot water cylinder**.
+- From the buffer, **heating circuits with pump and mixing valve** supply the rooms, see [Buffer Tank](/wissen/pufferspeicher).
+- Hot water usually has priority; heating relies on the buffer meanwhile.
 
 - **Buffer tank:** Decouples HP cycling from heating circuit; enables minimum run time
 - **Minimum run time:** 10–20 min to protect the compressor (short-cycling is harmful!)
@@ -279,12 +265,12 @@ HP condenser ── Buffer tank ── Mixer ── Heating circuits
 
 ### SG Ready (Smart Grid)
 
-German interface concept — 4 states via 2 digital inputs:
+Interface of the German Heat Pump Association, 4 states via 2 digital inputs. More in [SG Ready](/wissen/sg-ready).
 
 | State | I1  | I2  | Meaning                                               |
 | ----- | --- | --- | ----------------------------------------------------- |
-| 1     | 0   | 0   | Lockout (utility curtailment)                         |
-| 2     | 1   | 0   | **Normal operation** (default)                        |
+| 1     | 1   | 0   | Block by the grid operator                            |
+| 2     | 0   | 0   | **Normal operation**, also without wiring             |
 | 3     | 0   | 1   | **Switch-on recommendation** (HP runs, charge buffer) |
 | 4     | 1   | 1   | **Start command** (PV surplus, cheap electricity)     |
 

@@ -68,26 +68,16 @@ Wärmeerzeuger ist schwächer als Verbraucher-Spitze → Puffer gleicht aus.
 
 Der Pufferspeicher funktioniert wie ein natürlich geschichteter Körper:
 
-```
-Oben:   Warm (+60–80 °C) ← Eintritt Erzeuger (Vorlauf)
-                              Entnahme Heizkreis (Vorlauf)
-─────────────────────────────────────────────────
-Mitte:  Mitteltemperatur (~45 °C)
-─────────────────────────────────────────────────
-Unten:  Kalt (+20–40 °C) ← Rücklauf Heizkreis
-                              Austritt Erzeuger (Rücklauf)
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 230" role="img" aria-label="Pufferspeicher zwischen Wärmepumpe und Heizkreisen: Vorläufe oben, Rückläufe unten, Fühler oben, Mitte und unten" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="14" y="85" width="70" height="60" rx="3" class="bauteil bg"/><rect x="346" y="85" width="70" height="60" rx="3" class="bauteil bg"/><path class="vl" d="M49 85L49 40L175 40" stroke-width="3"/><path class="rl" d="M175 190L49 190L49 145" stroke-width="3"/><path class="vl" d="M255 40L381 40L381 85" stroke-width="3"/><path class="rl" d="M381 145L381 190L255 190" stroke-width="3"/><circle cx="110" cy="40" r="9" class="bauteil bg"/><path d="M106 34L117 40L106 46Z" class="bauteil"/><circle cx="330" cy="40" r="9" class="bauteil bg"/><path d="M326 34L337 40L326 46Z" class="bauteil"/><path class="vl fill" d="M140 36L150 40L140 44Z" stroke-width="1"/><path class="rl fill" d="M125 186L115 190L125 194Z" stroke-width="1"/><path class="vl fill" d="M295 36L305 40L295 44Z" stroke-width="1"/><path class="rl fill" d="M305 186L295 190L305 194Z" stroke-width="1"/><rect x="175" y="20" width="80" height="190" rx="3" class="bauteil bg"/><path d="M255 55H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="55" r="7" class="bauteil bg" stroke-width="1.2"/><path d="M255 115H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="115" r="7" class="bauteil bg" stroke-width="1.2"/><path d="M255 175H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="175" r="7" class="bauteil bg" stroke-width="1.2"/><g fill="currentColor" stroke="none"><text x="49" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="49" y="113" text-anchor="middle" font-size="11">Wärme-</text><text x="49" y="127" text-anchor="middle" font-size="11">pumpe</text><text x="381" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="381" y="113" text-anchor="middle" font-size="11">Heiz-</text><text x="381" y="127" text-anchor="middle" font-size="11">kreise</text><text x="215" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="215" y="70" text-anchor="middle" font-size="11" font-weight="600">warm</text><text x="215" y="118" text-anchor="middle" font-size="10">Mischzone</text><text x="215" y="165" text-anchor="middle" font-size="11" font-weight="600">kalt</text><text x="271" y="58.5" text-anchor="middle" font-size="10">T</text><text x="282" y="59" text-anchor="start" font-size="10">oben</text><text x="271" y="118.5" text-anchor="middle" font-size="10">T</text><text x="282" y="119" text-anchor="start" font-size="10">Mitte</text><text x="271" y="178.5" text-anchor="middle" font-size="10">T</text><text x="282" y="179" text-anchor="start" font-size="10">unten</text></g></svg><figcaption>Vorläufe oben, Rückläufe unten. Oben das warme Wasser, unten das kalte, dazwischen die Mischzone.</figcaption></figure>
 
 **Warmes Wasser steigt auf, kaltes sinkt** — natürliche Schichtung. Gut geschichteter Puffer kann Erzeuger und Verbraucher bei unterschiedlichen Temperaturniveaus bedienen.
 
 ### Einbindung (Rohranschlüsse)
 
-```
-Vorlauf Erzeuger → [oben]
-Vorlauf Verbraucher ← [oben bis Mitte je nach Temperatur]
-Rücklauf Verbraucher → [unten bis Mitte]
-Rücklauf Erzeuger ← [unten]
-```
+- **Vorlauf vom Erzeuger** → oben hinein
+- **Vorlauf zu den Verbrauchern** ← oben bzw. auf der Höhe, die zur benötigten Temperatur passt
+- **Rücklauf von den Verbrauchern** → unten hinein
+- **Rücklauf zum Erzeuger** ← unten heraus
 
 **Schichtungszerstörung vermeiden:**
 
@@ -101,17 +91,13 @@ Rücklauf Erzeuger ← [unten]
 
 **Faustformel Wärmepumpe:**
 
-```
-V_Puffer ≥ 20–50 Liter pro kW WP-Leistung
-```
+**V_Puffer ≈ 20–50 Liter pro kW Wärmepumpenleistung**
 
 Beispiel: 10 kW WP → 200–500 Liter Puffer
 
 **Faustformel Solar:**
 
-```
-V_Puffer ≥ 50–75 Liter pro m² Kollektorfläche
-```
+**V_Puffer ≈ 50–75 Liter pro m² Kollektorfläche**
 
 **Zu klein:** Häufiges Takten, keine Entkopplung
 **Zu gross:** Lange Aufheizzeit, Wärmeverluste, Legionellengefahr (wenn WW-Anteil)
@@ -122,39 +108,19 @@ V_Puffer ≥ 50–75 Liter pro m² Kollektorfläche
 
 Typische Sensor-Positionen:
 
-```
-Puffer (vereinfacht):
-
-[Sensor oben T_oben]     ←── Erzeuger Vorlauf
-                              ←── Heizkreis Vorlauf
-─────────────────────────────
-[Sensor mitte T_mitte]
-─────────────────────────────
-[Sensor unten T_unten]   ←── Erzeuger Rücklauf
-                              ←── Heizkreis Rücklauf
-```
+Typisch sind drei Fühler: **oben** für die Ladung und die Versorgung der Heizkreise, **Mitte** für den Ladezustand, **unten** für das Ende der Ladung und die Rücklauftemperatur (siehe Schema oben).
 
 ### Ladelogik Wärmepumpe
 
-```
-Wenn T_oben < Soll_Speicher (z.B. 55 °C):
-  → WP starten, laden bis T_oben ≥ Soll + Hysterese (z.B. 57 °C)
-
-Wenn T_oben ≥ Soll + Hysterese:
-  → WP stoppen, Speicher hält Wärme vor
-```
+- Fällt **T oben** unter den Speichersollwert (z.B. 45 °C), gibt die GA die Wärmepumpe frei.
+- Die Wärmepumpe lädt, bis **T unten** oder **T Mitte** den Sollwert plus Hysterese erreicht. So wird der Speicher ganz geladen und die Wärmepumpe läuft lange am Stück.
 
 **Wichtig:** Speicher-Solltemperatur muss zur WP-Vorlauftemperatur passen (Effizienz!). Je höher der Sollwert, desto schlechter der COP.
 
 ### Heizkreis-Entnahme
 
-```
-Wenn T_oben > Heizkreis-Vorlauftemperatur:
-  → Heizkreis direkt aus Speicher versorgt (kein Mischer nötig)
-
-Wenn T_oben knapp über oder unter Heizkreis-Soll:
-  → Mischventil oder 3-Wege-Ventil reduziert Temperatur
-```
+- Ist **T oben** deutlich über dem Vorlaufsollwert des Heizkreises, mischt das Mischventil herunter.
+- Liegt **T oben** knapp am Sollwert, öffnet das Mischventil ganz. Unter dem Sollwert muss nachgeladen werden.
 
 ---
 
@@ -162,10 +128,8 @@ Wenn T_oben knapp über oder unter Heizkreis-Soll:
 
 Kombispeicher enthält beides — **Heizungspuffer** und **Trinkwarmwasser**:
 
-```
-Aussen:  Heizungswasser (geschlossener Kreis)
-Innen:   Edelstahl-Hygienespeicher für Trinkwasser (Wärmetauscher oder Rohrschlange)
-```
+- **Aussen:** Heizungswasser, geschlossener Kreis
+- **Innen:** Edelstahlwellrohr oder Tauchspeicher, durch den das Trinkwasser fliesst und dabei erwärmt wird
 
 **Vorteile:** Kompakt, ein Gerät
 **Nachteile:** Warmwasser begrenzt durch Wärmetauscher-Fläche; Legionellen-Aspekte beachten!
@@ -174,29 +138,25 @@ Innen:   Edelstahl-Hygienespeicher für Trinkwasser (Wärmetauscher oder Rohrsch
 
 ## Pufferspeicher bei Wärmepumpe: typische GA-Regelung
 
-```
-DDC Heizung/WP:
-  AI: T_Puffer_oben (PT1000)
-  AI: T_Puffer_mitte (PT1000)
-  AI: T_Puffer_unten (PT1000)
-  AI: T_Aussenluft
-  DI: WP-Betriebsmeldung
-  DI: WP-Störung
-  DO: WP-Freigabe (EIN/AUS)
-  AO: Heizkreis-Mischventil (0–10 V)
+| Datenpunkt                  | Typ | Bemerkung         |
+| --------------------------- | --- | ----------------- |
+| T Puffer oben, Mitte, unten | AI  | Pt1000            |
+| Aussentemperatur            | AI  | für die Heizkurve |
+| WP Betrieb, Störung         | DI  |                   |
+| WP Freigabe                 | DO  |                   |
+| Mischventil Heizkreis       | AO  | 0–10 V            |
 
-Programm:
-  1. Berechne Heizkreis-Solltemperatur (Heizkurve)
-  2. Wenn T_Puffer_oben < Soll − 3 K → WP freigeben
-  3. WP heizt Puffer bis T_Puffer_oben = Soll + 2 K
-  4. Heizkreis-Pumpe und Mischventil regeln auf Vorlauf-Soll
-```
+1. Heizkurve liefert den Vorlaufsollwert des Heizkreises.
+2. Puffersollwert = Vorlaufsollwert plus wenige Kelvin.
+3. **T oben** unter Puffersollwert minus Schaltdifferenz: Wärmepumpe freigeben.
+4. **T unten** über Puffersollwert: Wärmepumpe sperren, Mindestlaufzeit beachten.
+5. Heizkreispumpe und Mischventil regeln den Vorlauf.
 
 ## Normen
 
-- **EN 12977** — Thermische Solaranlagen, Heizkessel, Pufferspeicher
+- **EN 12977-3** — Thermische Solaranlagen, Leistungsprüfung von Speichern
 - **VDI 2035** — Vermeidung von Schäden in Warmwasser-Heizungsanlagen
-- **SIA 384.201** — Heizungsanlagen in Gebäuden (CH)
+- **SIA 384/1** — Heizungsanlagen in Gebäuden (CH)
 
 <!-- EN -->
 
@@ -231,26 +191,16 @@ Heat generator is weaker than consumer peak → buffer compensates.
 
 The buffer tank works as a naturally stratified body:
 
-```
-Top:    Hot (+60–80 °C) ← Generator supply (flow)
-                             Heating circuit take-off (flow)
-─────────────────────────────────────────────────────
-Middle: Medium temperature (~45 °C)
-─────────────────────────────────────────────────────
-Bottom: Cold (+20–40 °C) ← Heating circuit return
-                             Generator return
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 230" role="img" aria-label="Buffer tank between heat pump and heating circuits: flows at the top, returns at the bottom, sensors at top, middle and bottom" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="14" y="85" width="70" height="60" rx="3" class="bauteil bg"/><rect x="346" y="85" width="70" height="60" rx="3" class="bauteil bg"/><path class="vl" d="M49 85L49 40L175 40" stroke-width="3"/><path class="rl" d="M175 190L49 190L49 145" stroke-width="3"/><path class="vl" d="M255 40L381 40L381 85" stroke-width="3"/><path class="rl" d="M381 145L381 190L255 190" stroke-width="3"/><circle cx="110" cy="40" r="9" class="bauteil bg"/><path d="M106 34L117 40L106 46Z" class="bauteil"/><circle cx="330" cy="40" r="9" class="bauteil bg"/><path d="M326 34L337 40L326 46Z" class="bauteil"/><path class="vl fill" d="M140 36L150 40L140 44Z" stroke-width="1"/><path class="rl fill" d="M125 186L115 190L125 194Z" stroke-width="1"/><path class="vl fill" d="M295 36L305 40L295 44Z" stroke-width="1"/><path class="rl fill" d="M305 186L295 190L305 194Z" stroke-width="1"/><rect x="175" y="20" width="80" height="190" rx="3" class="bauteil bg"/><path d="M255 55H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="55" r="7" class="bauteil bg" stroke-width="1.2"/><path d="M255 115H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="115" r="7" class="bauteil bg" stroke-width="1.2"/><path d="M255 175H264" class="bauteil" stroke-width="1"/><circle cx="271" cy="175" r="7" class="bauteil bg" stroke-width="1.2"/><g fill="currentColor" stroke="none"><text x="49" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="49" y="113" text-anchor="middle" font-size="11">Heat</text><text x="49" y="127" text-anchor="middle" font-size="11">pump</text><text x="381" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="381" y="113" text-anchor="middle" font-size="11">Heating</text><text x="381" y="127" text-anchor="middle" font-size="11">circuits</text><text x="215" y="118.33333333333333" text-anchor="middle" font-size="10"></text><text x="215" y="70" text-anchor="middle" font-size="11" font-weight="600">warm</text><text x="215" y="118" text-anchor="middle" font-size="10">mixing zone</text><text x="215" y="165" text-anchor="middle" font-size="11" font-weight="600">cold</text><text x="271" y="58.5" text-anchor="middle" font-size="10">T</text><text x="282" y="59" text-anchor="start" font-size="10">top</text><text x="271" y="118.5" text-anchor="middle" font-size="10">T</text><text x="282" y="119" text-anchor="start" font-size="10">middle</text><text x="271" y="178.5" text-anchor="middle" font-size="10">T</text><text x="282" y="179" text-anchor="start" font-size="10">bottom</text></g></svg><figcaption>Flows at the top, returns at the bottom. Warm water at the top, cold at the bottom, the mixing zone in between.</figcaption></figure>
 
 **Warm water rises, cold water sinks** — natural stratification. A well-stratified buffer can serve generator and consumers at different temperature levels.
 
 ### Pipe Connections
 
-```
-Generator flow → [top]
-Consumer flow  ← [top to middle depending on temperature]
-Consumer return → [bottom to middle]
-Generator return ← [bottom]
-```
+- **Flow from the generator** → in at the top
+- **Flow to the consumers** ← at the top or at the height matching the required temperature
+- **Return from the consumers** → in at the bottom
+- **Return to the generator** ← out at the bottom
 
 **Avoid destroying stratification:**
 
@@ -264,17 +214,13 @@ Generator return ← [bottom]
 
 **Rule of thumb for heat pumps:**
 
-```
-V_buffer ≥ 20–50 litres per kW HP output
-```
+**V_buffer ≈ 20–50 litres per kW of heat pump output**
 
 Example: 10 kW HP → 200–500 litre buffer
 
 **Rule of thumb for solar:**
 
-```
-V_buffer ≥ 50–75 litres per m² collector area
-```
+**V_buffer ≈ 50–75 litres per m² of collector area**
 
 **Too small:** frequent cycling, no decoupling
 **Too large:** long heat-up time, heat losses, Legionella risk (if DHW component)
@@ -285,39 +231,19 @@ V_buffer ≥ 50–75 litres per m² collector area
 
 Typical sensor positions:
 
-```
-Buffer tank (simplified):
-
-[Sensor top T_top]      ←── Generator flow
-                              ←── Heating circuit flow
-─────────────────────────────
-[Sensor mid T_mid]
-─────────────────────────────
-[Sensor bot T_bot]      ←── Generator return
-                              ←── Heating circuit return
-```
+Three sensors are typical: **top** for charging and supplying the heating circuits, **middle** for the state of charge, **bottom** for ending the charge and the return temperature (see diagram above).
 
 ### Heat Pump Charging Logic
 
-```
-If T_top < setpoint (e.g. 55 °C):
-  → Start HP, charge until T_top ≥ setpoint + hysteresis (e.g. 57 °C)
-
-If T_top ≥ setpoint + hysteresis:
-  → Stop HP, buffer maintains stored heat
-```
+- If **T top** falls below the storage setpoint (e.g. 45 °C), the BA enables the heat pump.
+- The heat pump charges until **T bottom** or **T middle** reaches the setpoint plus hysteresis. The store is fully charged and the heat pump runs long cycles.
 
 **Important:** Buffer setpoint temperature must match HP flow temperature (efficiency!). The higher the setpoint, the worse the COP.
 
 ### Heating Circuit Take-off
 
-```
-If T_top > heating circuit flow temperature:
-  → Heating circuit supplied directly from buffer (no mixer required)
-
-If T_top just above or below heating circuit setpoint:
-  → Mixing valve or 3-way valve reduces temperature
-```
+- If **T top** is well above the heating circuit flow setpoint, the mixing valve mixes down.
+- If **T top** is close to the setpoint, the mixing valve opens fully. Below the setpoint the store must be recharged.
 
 ---
 
@@ -325,10 +251,8 @@ If T_top just above or below heating circuit setpoint:
 
 Combi-storage contains both — **heating buffer** and **domestic hot water**:
 
-```
-Outside: Heating water (closed circuit)
-Inside:  Stainless steel hygienic store for drinking water (heat exchanger or coil)
-```
+- **Outside:** heating water, closed circuit
+- **Inside:** stainless steel corrugated tube or inner tank through which domestic water flows and is heated
 
 **Advantages:** Compact, single unit
 **Disadvantages:** DHW limited by heat exchanger area; Legionella aspects must be observed!
@@ -337,26 +261,22 @@ Inside:  Stainless steel hygienic store for drinking water (heat exchanger or co
 
 ## Buffer Tank with Heat Pump: Typical BA Control
 
-```
-DDC Heating/HP:
-  AI: T_Buffer_top (PT1000)
-  AI: T_Buffer_mid (PT1000)
-  AI: T_Buffer_bot (PT1000)
-  AI: T_OutdoorAir
-  DI: HP operating status
-  DI: HP fault
-  DO: HP enable (ON/OFF)
-  AO: Heating circuit mixing valve (0–10 V)
+| Data point                   | Type | Remark                |
+| ---------------------------- | ---- | --------------------- |
+| T buffer top, middle, bottom | AI   | Pt1000                |
+| Outdoor temperature          | AI   | for the heating curve |
+| HP run, fault                | DI   |                       |
+| HP enable                    | DO   |                       |
+| Heating circuit mixing valve | AO   | 0–10 V                |
 
-Programme:
-  1. Calculate heating circuit setpoint (heating curve)
-  2. If T_Buffer_top < setpoint − 3 K → enable HP
-  3. HP heats buffer until T_Buffer_top = setpoint + 2 K
-  4. Heating circuit pump and mixing valve control to flow setpoint
-```
+1. The heating curve gives the circuit's flow setpoint.
+2. Buffer setpoint = flow setpoint plus a few kelvin.
+3. **T top** below buffer setpoint minus differential: enable heat pump.
+4. **T bottom** above buffer setpoint: disable heat pump, observe minimum run time.
+5. Circuit pump and mixing valve control the flow.
 
 ## Standards
 
-- **EN 12977** — Thermal solar systems, boilers, buffer storage tanks
+- **EN 12977-3** — Thermal solar systems, performance testing of stores
 - **VDI 2035** — Prevention of damage in hot water heating systems
-- **SIA 384.201** — Heating systems in buildings (CH)
+- **SIA 384/1** — Heating systems in buildings (CH)

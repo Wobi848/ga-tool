@@ -440,6 +440,25 @@
 		margin: 0 auto;
 	}
 
+	/* Formeln: als Text mit Hoch- und Tiefstellung, ohne Mathe-Bibliothek.
+	   Bis 0.16.0 standen hier LaTeX-Formeln, die niemand gerendert hat. */
+	.prose :global(p.formel) {
+		margin: 1rem 0;
+		padding: 0.75rem 1rem;
+		border-left: 3px solid var(--color-primary);
+		background: var(--surface);
+		border-radius: 0 0.5rem 0.5rem 0;
+		font-family: 'Cambria Math', 'STIX Two Math', Georgia, serif;
+		font-size: 1.05rem;
+		line-height: 1.8;
+		overflow-x: auto;
+		white-space: pre-wrap;
+	}
+	.prose :global(p.formel sub),
+	.prose :global(p.formel sup) {
+		font-size: 0.7em;
+	}
+
 	/* Hydraulikschemas: Rohrfarben aus den Theme-Tokens, Bauteile mit
 	   Flächenfarbe, damit Rohre hinter Pumpe und Ventil verschwinden. */
 	.prose :global(svg.hyd .vl) {

@@ -62,14 +62,14 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### heizung
 
-- ⬜ druckverlust
+- ✅ druckverlust
 - ✅ fernwaerme
 - ✅ fussbodenheizung
-- ⬜ heizung-grundlagen
+- ✅ heizung-grundlagen
 - ✅ hydraulischer-abgleich
 - ✅ kesselregelung
-- ⬜ pufferspeicher
-- ⬜ waermepumpe
+- ✅ pufferspeicher
+- ✅ waermepumpe
 
 ### hydraulik
 
@@ -184,7 +184,7 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ⬜ gradtage
 - ⬜ iso50001
 - ⬜ pv-integration
-- ⬜ sg-ready
+- ✅ sg-ready
 - ⬜ waermemengenzaehler
 
 ### wirtschaftlichkeit
@@ -325,3 +325,8 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | kesselregelung                   | Siegert-Formel verstümmelt; Taupunktschutz unverständlich; SIA 384.201 als Kesselnorm                                                                                                                                                | q_A = (t_A − t_L)(A₂/(21−O₂) + B) mit Konstanten Erdgas/Öl; Rücklaufanhebung erklärt | 1. BImSchV Anlage 2                               |
 | 14.10.2026 | fussbodenheizung                 | c Beton 2.0 statt ≈1.0 kJ/(kg·K), Speicherrechnung um Faktor 10 falsch; Randzone 33 statt 35 °C; Funktions- und Belegreifheizen vermischt; «alle Kreise gleicher Durchfluss»                                                         | korrigiert, Funktionsheizen nach EN 1264-4                                           | EN 1264                                           |
 | 14.10.2026 | fernwaerme                       | «Rückflussbegrenzer»; falsche Begründung des tiefen Rücklaufs; zweifelhafte AGFW-Normnummern                                                                                                                                         | Rücklauftemperaturbegrenzung, TAB des Versorgers; Schema gezeichnet                  | —                                                 |
+| 14.10.2026 | waermepumpe, sg-ready            | SG-Ready-Zustände 1 und 2 vertauscht (Sperre als «beide offen»); «Niedertarif-Sperre»; «ohne EMS Zustand 1 oder 2 je nach Hersteller»                                                                                                | Sperre 1:0, Normalbetrieb 0:0 (auch unbeschaltet)                                    | BWP, Viessmann, haustechnikdialog                 |
+| 14.10.2026 | heizung-grundlagen               | NT-Kessel «muss immer > 55 °C RL»; MAG = 4 % Anlagevolumen (ohne Druckfaktor); Membran «gedrückt» in beiden Zuständen                                                                                                                | Kesseltabelle, MAG-Formel mit Druckfaktor und Rechnerlink                            | EN 12828                                          |
+| 14.10.2026 | druckverlust                     | «Sole hat 2× höhere Viskosität»                                                                                                                                                                                                      | bei tiefen Temperaturen drei- bis fünfmal                                            | Stoffwerte Glykol                                 |
+| 14.10.2026 | 8 Artikel                        | LaTeX-Formeln (`$$…$$`), die die App nicht rendert: Rohtext im Artikel                                                                                                                                                               | als Text-Formeln mit Hoch-/Tiefstellung                                              | —                                                 |
+| 14.10.2026 | pufferspeicher                   | EN 12977 als Kessel-/Puffernorm                                                                                                                                                                                                      | EN 12977-3 (Solarspeicher), SIA 384/1; Schema gezeichnet                             | —                                                 |

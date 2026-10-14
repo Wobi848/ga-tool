@@ -81,7 +81,7 @@ Nach den Affinitätsgesetzen sinkt die Pumpenleistung mit der dritten Potenz der
 
 ## Volumenstrom berechnen
 
-$$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
+<p class="formel">V̇ = Q / (c<sub>p</sub> · ρ · ΔT)</p>
 
 | Grösse | Wasser                            |
 | ------ | --------------------------------- |
@@ -169,7 +169,7 @@ By the affinity laws, pump power falls with the cube of speed: half the flow mea
 
 ## Calculating the Flow Rate
 
-$$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
+<p class="formel">V̇ = Q / (c<sub>p</sub> · ρ · ΔT)</p>
 
 | Quantity | Water                          |
 | -------- | ------------------------------ |

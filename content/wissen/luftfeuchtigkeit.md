@@ -54,7 +54,7 @@ Luftfeuchtigkeit ist ein zentraler Komfort- und Bauphysik-Parameter. Zu trocken 
 
 Warme Luft kann mehr Wasser tragen als kalte. Bei 0 °C sind etwa 3.8 g/kg Sättigung, bei 20 °C ~14.7 g/kg, bei 30 °C ~27 g/kg. Die rF setzt aktuellen Wassergehalt in Bezug zu diesem **temperaturabhängigen Maximum**:
 
-$$\varphi = \frac{x}{x_\text{Sättigung}(T)} \cdot 100\;\%$$
+<p class="formel">φ = x / x<sub>Sättigung</sub>(T) · 100 %</p>
 
 **Konsequenz:** Wenn du dieselbe Luft (gleicher x-Wert) **erwärmst**, sinkt rF. Wenn du sie **kühlst**, steigt rF — bis bei Erreichen des **Taupunkts** rF = 100 % und Kondensation einsetzt.
 
@@ -199,7 +199,7 @@ Humidity is a central parameter for both comfort and building physics. Too dry a
 
 Warm air can hold more water than cold air. At 0 °C saturation is around 3.8 g/kg, at 20 °C about 14.7 g/kg, at 30 °C about 27 g/kg. RH relates the current water content to this **temperature-dependent maximum**:
 
-$$\varphi = \frac{x}{x_\text{saturation}(T)} \cdot 100\;\%$$
+<p class="formel">φ = x / x<sub>saturation</sub>(T) · 100 %</p>
 
 **Consequence:** if you **heat** the same air (same x value), RH falls. If you **cool** it, RH rises — until the **dew point** is reached, RH = 100 % and condensation begins.
 

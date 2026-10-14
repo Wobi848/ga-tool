@@ -37,7 +37,7 @@ related:
     ventil-schaltungen
   ]
 
-norm: [EN 12828, VDI 2035, SIA 384.201]
+norm: [EN 12828, VDI 2035, SIA 384/1]
 updated: 2026-05-14
 lang: de
 ---
@@ -61,11 +61,11 @@ Die Warmwasserheizung ist das häufigste Heizsystem in Gebäuden. Verstehen wie 
 
 ### Kessel (Gas, Öl)
 
-| Kesseltyp        | Wirkungsgrad | Vorlauf max. | Besonderheit                     |
-| ---------------- | ------------ | ------------ | -------------------------------- |
-| Niedertemperatur | 88–92 %      | 80 °C        | Muss immer > 55 °C RL            |
-| Brennwert        | 97–105 %     | 80 °C        | Kondensiert → höher Wirkungsgrad |
-| Heizkessel (alt) | 75–85 %      | 90 °C        | Veraltet, wenig effizient        |
+| Kesseltyp              | Normnutzungsgrad (auf Hi) | Kesseltemperatur              | Besonderheit                                                  |
+| ---------------------- | ------------------------- | ----------------------------- | ------------------------------------------------------------- |
+| Standardkessel (alt)   | 75–85 %                   | konstant 70–90 °C             | Darf nicht kondensieren, Mindestrücklauf nötig                |
+| Niedertemperaturkessel | 88–92 %                   | gleitend, ab etwa 40 °C       | Für tiefe Temperaturen gebaut, kondensiert aber nicht gezielt |
+| Brennwertkessel        | 97–108 %                  | gleitend, so tief wie möglich | Nutzt die Kondensation, braucht kalten Rücklauf               |
 
 **Brennwert:** Latente Wärme aus Kondensation wird genutzt → Wirkungsgrad > 100 % (bezogen auf Heizwert). Kondensatableitung nötig.
 
@@ -83,19 +83,18 @@ Moderner Brennwertkessel passt seine Leistung stufenlos an:
 
 ### Ausdehnungsgefäss (MAG)
 
-Wasser dehnt sich beim Erwärmen aus (4 → 80 °C: ca. 3 % Volumenänderung). Das MAG nimmt diese Ausdehnung auf:
+Wasser dehnt sich beim Erwärmen aus, von 10 auf 80 °C um knapp 3 %. Das MAG nimmt diese Ausdehnung auf: Auf der einen Seite der Membran ist Wasser, auf der anderen ein Gaspolster. Wird das Wasser warm, drückt es mehr Wasser ins MAG und das Gaspolster wird zusammengepresst.
 
-```
-System kalt (20°C): MAG-Membran gedrückt, Luftvolumen maximal
-System warm (80°C): Wasser dehnt sich aus → MAG-Membran gedrückt → Luftvolumen kleiner
-```
+**Dimensionierung:** Das Nennvolumen ist die Ausdehnung plus eine Wasservorlage, multipliziert mit dem Druckfaktor:
 
-**Dimensionierung:**
+<p class="formel">V<sub>N</sub> = (V<sub>e</sub> + V<sub>V</sub>) · (p<sub>e</sub> + 1) / (p<sub>e</sub> − p<sub>0</sub>)</p>
 
-```
-V_MAG ≥ V_Anlage × 0.04 (4 % Expansion)
-Vordruck: = statische Anlage-Höhe + 0.2–0.5 bar
-```
+- **V<sub>e</sub>:** Ausdehnungsvolumen = Anlageninhalt × Ausdehnung in %
+- **V<sub>V</sub>:** Wasservorlage, 0.5 % des Anlageninhalts, mindestens 3 l
+- **p<sub>0</sub>:** Vordruck = statische Höhe / 10 + 0.3 bar
+- **p<sub>e</sub>:** Enddruck = Ansprechdruck Sicherheitsventil − 0.5 bar
+
+Rechnen lässt sich das im [Rechner Ausdehnungsgefäss](/rechner/ausdehnungsgefaess). Das MAG wird so deutlich grösser als die reine Ausdehnung, oft 8 bis 15 % des Anlageninhalts.
 
 Zu kleines MAG → Sicherheitsventil öffnet → Wasserverlust.
 
@@ -103,7 +102,7 @@ Zu kleines MAG → Sicherheitsventil öffnet → Wasserverlust.
 
 - Öffnet bei Überdruck (schützt System vor Bersten)
 - Ansprechdruck: typisch 3 bar (Heizanlage)
-- **Muss auf Auffangbehälter oder Ablauf pipen** (heisses Wasser/Dampf!)
+- **Abblaseleitung** sichtbar in einen Ablauf oder Auffangbehälter führen (heisses Wasser, Dampf)
 - Prüfpflicht: jährlich manuell betätigen
 
 ### Füllautomat / Druckhaltestation
@@ -179,7 +178,7 @@ Grössere Spreizung = mehr Wärme pro Liter Wasser = kleinere Pumpe nötig.
 
 - **EN 12828** — Heizungsanlagen in Gebäuden
 - **VDI 2035** — Vermeidung von Schäden in Warmwasser-Heizungsanlagen
-- **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweizer Norm)
+- **SIA 384/1** — Heizungsanlagen in Gebäuden (Schweizer Norm)
 - **EN 14336** — Installation und Abnahme Heizungsanlagen
 
 <!-- EN -->
@@ -201,11 +200,11 @@ The hot-water heating system is the most common heating system in buildings. Und
 
 ### Boiler (Gas, Oil)
 
-| Boiler type        | Efficiency | Max. supply temp. | Note                            |
-| ------------------ | ---------- | ----------------- | ------------------------------- |
-| Low-temperature    | 88–92 %    | 80 °C             | Return must always be > 55 °C   |
-| Condensing         | 97–105 %   | 80 °C             | Condensates → higher efficiency |
-| Conventional (old) | 75–85 %    | 90 °C             | Outdated, low efficiency        |
+| Boiler type            | Seasonal efficiency (on Hi) | Boiler temperature          | Note                                                           |
+| ---------------------- | --------------------------- | --------------------------- | -------------------------------------------------------------- |
+| Conventional (old)     | 75–85 %                     | constant 70–90 °C           | Must not condense, minimum return required                     |
+| Low-temperature boiler | 88–92 %                     | sliding, from about 40 °C   | Built for low temperatures, but does not condense deliberately |
+| Condensing boiler      | 97–108 %                    | sliding, as low as possible | Uses condensation, needs a cold return                         |
 
 **Condensing boiler:** Latent heat from condensation is utilised → efficiency > 100 % (relative to net calorific value). Condensate drainage required.
 
@@ -223,19 +222,18 @@ Modern condensing boilers adjust output continuously:
 
 ### Expansion Vessel (EV)
 
-Water expands when heated (4 → 80 °C: ~3 % volume change). The EV accommodates this expansion:
+Water expands when heated, by almost 3 % from 10 to 80 °C. The EV absorbs this expansion: on one side of the membrane is water, on the other a gas cushion. When the water warms up, more water is pushed into the EV and the gas cushion is compressed.
 
-```
-System cold (20°C): EV membrane pressed in, air volume maximum
-System warm (80°C): water expands → EV membrane compressed → air volume reduced
-```
+**Sizing:** the nominal volume is the expansion plus a water reserve, multiplied by the pressure factor:
 
-**Sizing:**
+<p class="formel">V<sub>N</sub> = (V<sub>e</sub> + V<sub>V</sub>) · (p<sub>e</sub> + 1) / (p<sub>e</sub> − p<sub>0</sub>)</p>
 
-```
-V_EV ≥ V_system × 0.04 (4 % expansion)
-Pre-charge pressure = static system height + 0.2–0.5 bar
-```
+- **V<sub>e</sub>:** expansion volume = system content × expansion in %
+- **V<sub>V</sub>:** water reserve, 0.5 % of system content, at least 3 l
+- **p<sub>0</sub>:** pre-charge = static height / 10 + 0.3 bar
+- **p<sub>e</sub>:** final pressure = safety valve set pressure − 0.5 bar
+
+Calculate it in the [expansion vessel calculator](/rechner/ausdehnungsgefaess). The EV ends up considerably larger than the pure expansion, often 8 to 15 % of the system content.
 
 Undersized EV → safety valve opens → water loss.
 
@@ -243,7 +241,7 @@ Undersized EV → safety valve opens → water loss.
 
 - Opens on overpressure (protects system from bursting)
 - Set pressure: typically 3 bar (heating system)
-- **Must pipe to a collecting vessel or drain** (hot water/steam!)
+- Route the **discharge pipe** visibly into a drain or collecting vessel (hot water, steam)
 - Test requirement: actuate manually once a year
 
 ### Automatic Filling Unit / Pressurisation Station
@@ -319,5 +317,5 @@ Larger spread = more heat per litre of water = smaller pump required.
 
 - **EN 12828** — Heating systems in buildings
 - **VDI 2035** — Prevention of damage in hot-water heating systems
-- **SIA 384.201** — Heating systems in buildings (Swiss standard)
+- **SIA 384/1** — Heating systems in buildings (Swiss standard)
 - **EN 14336** — Installation and commissioning of heating systems
