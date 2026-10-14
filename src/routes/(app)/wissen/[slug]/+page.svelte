@@ -440,6 +440,66 @@
 		margin: 0 auto;
 	}
 
+	/* Hydraulikschemas: Rohrfarben aus den Theme-Tokens, Bauteile mit
+	   Flächenfarbe, damit Rohre hinter Pumpe und Ventil verschwinden. */
+	.prose :global(svg.hyd .vl) {
+		stroke: var(--hyd-vl);
+	}
+	.prose :global(svg.hyd .rl) {
+		stroke: var(--hyd-rl);
+	}
+	.prose :global(svg.hyd .mix) {
+		stroke: var(--hyd-mix);
+	}
+	.prose :global(svg.hyd .fill.vl) {
+		fill: var(--hyd-vl);
+	}
+	.prose :global(svg.hyd .fill.rl) {
+		fill: var(--hyd-rl);
+	}
+	.prose :global(svg.hyd .fill.mix) {
+		fill: var(--hyd-mix);
+	}
+	.prose :global(svg.hyd .bg) {
+		fill: var(--surface);
+	}
+	.prose :global(figure.schema svg.hyd) {
+		max-width: 30rem;
+	}
+
+	.prose :global(figure.legende) {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem 1.25rem;
+		font-size: 0.8125rem;
+	}
+	.prose :global(figure.legende figcaption) {
+		flex-basis: 100%;
+		margin-top: 0.25rem;
+		text-align: left;
+	}
+	.prose :global(.leg) {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+	.prose :global(.leg::before) {
+		content: '';
+		width: 1.75rem;
+		height: 3px;
+		border-radius: 2px;
+		background: currentColor;
+	}
+	.prose :global(.leg.vl::before) {
+		background: var(--hyd-vl);
+	}
+	.prose :global(.leg.rl::before) {
+		background: var(--hyd-rl);
+	}
+	.prose :global(.leg.mix::before) {
+		background: var(--hyd-mix);
+	}
+
 	.prose :global(figure.schema figcaption) {
 		margin-top: 0.75rem;
 		font-size: 0.8125rem;

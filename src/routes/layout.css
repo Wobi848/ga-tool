@@ -153,6 +153,10 @@ select optgroup {
 	--sidebar-border: #e2e8f0;
 	--primary-text: #c2410c;
 	--fav: #a16207;
+	/* Hydraulikschemas: Vorlauf, Rücklauf, gemischter Vorlauf */
+	--hyd-vl: #dc2626;
+	--hyd-rl: #2563eb;
+	--hyd-mix: #ea580c;
 	color-scheme: light;
 }
 
@@ -168,6 +172,9 @@ select optgroup {
 	--sidebar-border: #334155;
 	--primary-text: #fb923c;
 	--fav: #eab308;
+	--hyd-vl: #f87171;
+	--hyd-rl: #60a5fa;
+	--hyd-mix: #fb923c;
 	color-scheme: dark;
 }
 
@@ -183,6 +190,9 @@ select optgroup {
 	--sidebar-border: #1c1c1c;
 	--primary-text: #fb923c;
 	--fav: #eab308;
+	--hyd-vl: #f87171;
+	--hyd-rl: #60a5fa;
+	--hyd-mix: #fb923c;
 	color-scheme: dark;
 }
 
@@ -199,6 +209,9 @@ select optgroup {
 		--sidebar-border: #334155;
 		--primary-text: #fb923c;
 		--fav: #eab308;
+		--hyd-vl: #f87171;
+		--hyd-rl: #60a5fa;
+		--hyd-mix: #fb923c;
 		color-scheme: dark;
 	}
 }
