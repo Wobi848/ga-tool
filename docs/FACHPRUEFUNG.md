@@ -149,13 +149,13 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### signale
 
-- ⬜ schirmung-erdung
+- ✅ schirmung-erdung
 - ✅ sensoren
-- ⬜ signaltypen
+- ✅ signaltypen
 
 ### antriebe
 
-- ⬜ ec-motoren
+- ✅ ec-motoren
 
 ### elektro
 
@@ -166,12 +166,12 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ✅ schemalesen
 - ✅ schuetzsteuerungen
 - ✅ schutzorgane
-- ⬜ selv-pelv
+- ✅ selv-pelv
 
 ### sicherheit
 
-- ⬜ 5plus5-regeln
-- ⬜ brandschutzklappen
+- ✅ 5plus5-regeln
+- ✅ brandschutzklappen
 
 ### energie
 
@@ -377,3 +377,9 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | helligkeitssensoren                 | DALI Lichtsensor «Part 301» (ist 304); OP «10'000 lx»; Konstantlicht-Rechnung 200 lx ≙ 50 %; Fassadensensor horizontal; CIE S 025 als Photometernorm                                                                                                                         | Part 304; ISO/CIE 19476                                                                                                                     | IEC 62386-304                                                       |
 | 14.10.2026 | praesenzsensoren                    | FMCW «77 GHz» (Innenraum 60 GHz); Produktbeispiele falsch; Standby 17 °C                                                                                                                                                                                                     | 60 GHz; Standby 2 K                                                                                                                         | —                                                                   |
 | 14.10.2026 | voc-sensoren                        | TVOC-Richtwerte «WHO / Agroscope» (Agroscope = Agrarforschung); VOC als Branderkennung; ß-Schreibung                                                                                                                                                                         | UBA-Stufen 1–5; Hinweis EN 54; ß → ss in 7 Artikeln                                                                                         | UBA                                                                 |
+| 14.10.2026 | schirmung-erdung                    | einseitige Schirmung als «Standardregel», «im Zweifel einseitig» (heute: beidseitig 360° mit Potenzialausgleich, einseitig nur bei NF-Brumm); «viele DDC-Eingänge differenziell»; VDE statt NIN                                                                              | Abschnitt neu mit Entscheidungstabelle; NIN SN 411000                                                                                       | IEC 61000-5-2                                                       |
+| 14.10.2026 | signaltypen                         | PT1000 2-Draht «Fehler < 0.1 K» (≈ 0.2 K je 10 m bei 0.5 mm²); «Schirm nur einseitig»; Transistorausgang für 24 V AC; NAMUR-Ströme unklar                                                                                                                                    | korrigiert; Ruhestromprinzip ergänzt                                                                                                        | IEC 60947-5-6                                                       |
+| 14.10.2026 | selv-pelv                           | Begriffe vertauscht (PELV als «Schutzkleinspannung»); «120 V DC Scheitelwert»; DALI als SELV-Bus (ist nur basisisoliert); DALI «24–29 V, Polarität beachten»; G0-Polarität bei AC «egal»; PELV «Ableitströme über PE kontrolliert»                                           | neu geschrieben                                                                                                                             | IEC 61140, IEC 60364-4-41, IEC 62386-101                            |
+| 14.10.2026 | ec-motoren                          | Vergleich: AC+FU «hoher Anlaufstrom», «Bürstenverschleiss»; EC ohne Oberschwingungen; unbelegtes Praxisbeispiel 30–40 %; IE4-Pflicht 2023 fehlte; RCD-Typ pauschal                                                                                                           | korrigiert; IEC TS 60034-30-2 für IE5                                                                                                       | VO (EU) 2019/1781                                                   |
+| 14.10.2026 | 5plus5-regeln                       | «VDE-geprüft»; Abnahme «nach NIV / EN 61557»; «Neutralleiter bei IT-Netzen»                                                                                                                                                                                                  | EN/IEC 60900; Erstprüfung, Schlusskontrolle, SiNa                                                                                           | Suva 84042, NIV                                                     |
+| 14.10.2026 | brandschutzklappen                  | «E90» statt EI 90 S; Rückstellung immer manuell (motorisch: automatisch); GA alarmiert Feuerwehr; erfundene Prüfintervalle «Vollprüfung 5–10 Jahre»; VdS 2226 und SIA 181 als BSK-Normen                                                                                     | neu: Ruhestromprinzip, Rolle BMA/Brandfallsteuerung, EN 15650 halbjährlich/jährlich, VKF                                                    | EN 15650, EN 13501-3                                                |

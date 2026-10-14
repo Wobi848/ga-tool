@@ -23,8 +23,8 @@ tags:
 difficulty: fortgeschritten
 area: [ga, elektro]
 related: [signaltypen, frequenzumrichter, modbus, netzwerk-ga, 5plus5-regeln, selv-pelv]
-norm: [IEC 61000-5-2, EN 50174, VDE 0100-540]
-updated: 2026-05-14
+norm: [IEC 61000-5-2, EN 50174-2, NIN SN 411000]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -43,67 +43,52 @@ Signalleitungen wirken als Antennen. Störquellen:
 | Netzspannung 50 Hz          | Kapazitive und induktive Kopplung |
 | Beleuchtung (Schaltvorgang) | Impulsstörer                      |
 | Mobilfunk, WLAN             | HF-Einstreuung                    |
-| Potentialunterschiede       | Ausgleichsströme über Schirm      |
+| Potenzialunterschiede       | Ausgleichsströme über Schirm      |
 
 ---
 
 ## Schirm-Anschluss: Die Grundregel
 
-### Einseitige Erdung (Standardregel)
+Es gibt zwei Schulen, und beide haben ihren Platz.
 
-```
-Gerät A ── Schirm ──────────────── Gerät B
-              │
-           einseitig
-           erdet (z.B. bei A)
-              │
-             GND/PE
-```
+### Beidseitig auflegen (heutige EMV-Praxis)
 
-**Warum einseitig?** Bei beidseitiger Erdung entsteht eine **Brummschleife**:
+Gegen hochfrequente Störungen wirkt der Schirm nur, wenn er an **beiden Enden** niederohmig und möglichst **rundum (360°)** mit dem Gehäuse oder der Schirmschiene verbunden ist. Das empfehlen IEC 61000-5-2 und die meisten Hersteller von Umrichtern, Bus- und Netzwerkkomponenten. Ein Schirm, der über einen langen «Pigtail» angeschlossen ist, verliert bei hohen Frequenzen viel von seiner Wirkung.
 
-```
-Gerät A (Potential 0 V) ── Schirm ── Gerät B (Potential 0.3 V)
-              │                              │
-             GND                           GND
-              └──────── Ausgleichsstrom ────┘
-                              ↓
-                   Stört das Messsignal! (50 Hz Brumm)
-```
+**Voraussetzung ist ein guter Potenzialausgleich** zwischen den Enden. Sonst fliesst über den Schirm ein Ausgleichsstrom mit 50 Hz.
 
-Der Schirm sollte **am Ende mit der niedrigsten Impedanz** geerdet werden — üblicherweise am Schaltschrank (Empfänger-Seite), nicht am Sensor (Sender-Seite).
+### Einseitig auflegen (Ausnahme bei Brumm)
 
-### Ausnahme: Beidseitige Erdung bei HF-Störungen
+Liegen die beiden Enden auf unterschiedlichem Potenzial, fliesst über einen beidseitig aufgelegten Schirm ein Ausgleichsstrom, und das kann bei empfindlichen **niederfrequenten Analogsignalen** brummen. Dann legt man den Schirm einseitig auf, meist im Schaltschrank, und nimmt die schlechtere HF-Wirkung in Kauf.
 
-Bei hochfrequenten Störungen (FU, Schaltfrequenzen > 10 kHz) ist beidseitige Erdung besser — der Schirm wirkt dann als Faraday'scher Käfig:
+| Situation                                             | Schirm                                                     |
+| ----------------------------------------------------- | ---------------------------------------------------------- |
+| Bus, Ethernet, Leitungen in der Nähe von Umrichtern   | beidseitig, 360°, mit Potenzialausgleich                   |
+| Motorleitung vom Umrichter                            | beidseitig, 360° an Umrichter und Motor                    |
+| Analogsignal, kurze Strecke im selben Schrank         | einseitig im Schaltschrank genügt                          |
+| Analogsignal mit 50-Hz-Brumm trotz Potenzialausgleich | einseitig, oder einseitig plus Kondensator am anderen Ende |
 
-```
-→ Wenn Störquelle = FU oder Schaltnetzteil: beidseitig erden (über Y-Kondensator)
-→ Wenn Störquelle = 50 Hz Induktion: einseitig erden
-→ Im Zweifel: einseitig und prüfen ob besser wird
-```
-
----
+## **Herstellerangabe geht vor.** Manche Busse, etwa KNX, haben eigene Regeln für den Schirm oder den Beidraht.
 
 ## Brummschleife erkennen und beheben
 
 **Symptome:**
 
 - Messwert überlagert mit 50 Hz Zittern (im Trend sichtbar)
-- Analoge Messung schwankt ±0.5–2 V
+- Analoge Messung schwankt um einige Prozent
 - Modbus-Kommunikation instabil (CRC-Fehler)
 
 **Diagnose:**
 
 1. Messsignal mit Oszilloskop prüfen (50 Hz aufmoduliert?)
 2. Schirm an einem Ende öffnen → Störung weg? → Brummschleife bestätigt
-3. Potentialdifferenz zwischen zwei Erdungspunkten messen (Sollte < 100 mV sein)
+3. Potenzialdifferenz zwischen zwei Erdungspunkten messen (Sollte < 100 mV sein)
 
 **Lösung:**
 
-1. Schirm nur einseitig erden
-2. Galvanische Trennung (Isolationsübertrager, Trennverstärker)
-3. Potentialausgleichsleiter zwischen Schaltschränken (separate Leitung, grün-gelb, 6–16 mm²)
+1. Potenzialausgleich verbessern
+2. Galvanische Trennung, etwa mit einem Trennverstärker
+3. Erst wenn das nicht reicht: Schirm bei diesem Analogsignal nur einseitig auflegen
 
 ---
 
@@ -127,41 +112,33 @@ Bei hochfrequenten Störungen (FU, Schaltfrequenzen > 10 kHz) ist beidseitige Er
 
 ### Kabelkanäle und Blenden
 
-```
-❌ Falsch: Steuerleitung parallel neben FU-Motorleitung 1 m Länge
-✅ Richtig: Metallblende trennt, oder 90°-Kreuzung, oder > 200 mm Abstand
-```
+- Falsch: Steuerleitung über einen Meter parallel direkt neben der Motorleitung eines Umrichters
+- Richtig: Trennsteg aus Metall im Kanal, Kreuzung im rechten Winkel oder mindestens 200 mm Abstand
 
 ---
 
 ## Analoge Signale — Differenzieller Eingang
 
-Viele DDC-Eingänge für 4–20 mA sind **differenziell** (zwei Klemmen: + und −):
+Manche DDC- und SPS-Eingänge sind **differenziell**. Die meisten GA-Eingänge haben aber eine gemeinsame Masse.
 
-```
-4–20 mA Signal:
-  + Ader (Signal)
-  − Ader (Rückleitung)
-  ↑ Beide werden gemessen, Differenz = Nutzsignal
-```
+Die Elektronik misst die Spannung zwischen der Plus- und der Minus-Ader. Eine Störung, die auf beiden Adern gleich ankommt, fällt dabei heraus.
 
 Vorteil: Gleichtaktstörungen (auf beiden Adern gleich) werden ausgeblendet → besser als Single-Ended.
 
-> ⚠️ Bei differenziellem Eingang: Schirm **nicht** an Signalleiter anschliessen. Schirm separat an PE (einseitig).
+> ⚠️ Den Schirm nie als Signalleiter verwenden und nicht auf eine Signalklemme legen. Er gehört auf die Schirmschiene.
 
 ---
 
-## Potentialausgleich im Schaltschrank
+## Potenzialausgleich im Schaltschrank
 
-```
-PE-Sammelschiene (gründes Masseband)
-    ├── Schirmklemmen aller Signalleitungen
-    ├── Gehäuse des Schaltschranks
-    ├── DIN-Schiene
-    └── PE-Anschluss der DDC
-```
+An der Schirm- und PE-Schiene im Schaltschrank enden:
 
-Alle Schirme laufen auf **eine** Sammelschiene — von dort ein einziger Ableitungsweg zu PE. Keine "Sterne" einzelner Schirm-Kabel direkt in die Verteilung.
+- die Schirme aller Signal- und Busleitungen, mit Schirmklemmen flächig aufgelegt
+- das Gehäuse des Schaltschranks und die Montageplatte
+- die Hutschienen
+- der PE-Anschluss der DDC
+
+Die Schirme laufen auf eine Schirmschiene nahe der Kabeleinführung, die gut leitend mit der Montageplatte verbunden ist. So fliessen Störströme ab, bevor sie in den Schrank gelangen.
 
 ---
 
@@ -169,7 +146,7 @@ Alle Schirme laufen auf **eine** Sammelschiene — von dort ein einziger Ableitu
 
 - **IEC 61000-5-2** — EMV, Installation und Abschwächungsrichtlinien, Erdung und Schirmung
 - **EN 50174-2** — Informationstechnik, Kabelinstallation in Gebäuden
-- **VDE 0100-540** — Schutzleiter, Potentialausgleich, Erdung
+- **NIN (SN 411000)** — Niederspannungs-Installationsnorm der Schweiz, Schutzleiter und Potenzialausgleich. In Deutschland DIN VDE 0100-540
 - **IEC 61131-2** — SPS/DDC-Signalpegel und Störfestigkeit
 
 <!-- EN -->
@@ -193,47 +170,33 @@ Signal cables act as antennas. Sources of interference:
 
 ## Shield Connection: The Fundamental Rule
 
-### Single-Ended Earthing (Standard Rule)
+There are two schools, and both have their place.
 
-```
-Device A ── Shield ──────────────── Device B
-              │
-           earthed at one end only (e.g. at A)
-              │
-             GND/PE
-```
+### Both Ends (Current EMC Practice)
 
-**Why single-ended?** With earthing at both ends, a **ground loop** forms:
+Against high-frequency interference the shield only works if it is bonded at **both ends** with low impedance and preferably **all round (360°)** to the enclosure or shield bar. IEC 61000-5-2 and most manufacturers of drives, bus and network components recommend this. A shield connected via a long "pigtail" loses much of its effect at high frequencies.
 
-```
-Device A (potential 0 V) ── Shield ── Device B (potential 0.3 V)
-              │                              │
-             GND                           GND
-              └──────── equalisation current ─┘
-                              ↓
-                   Distorts the measurement signal! (50 Hz hum)
-```
+**Good equipotential bonding** between the ends is a prerequisite. Otherwise a 50 Hz equalising current flows through the shield.
 
-The shield should be earthed **at the end with the lowest impedance** — typically at the control panel (receiver side), not at the sensor (transmitter side).
+### One End (Exception for Hum)
 
-### Exception: Double-Ended Earthing for HF Interference
+If the two ends are at different potential, an equalising current flows through a shield bonded at both ends, and with sensitive **low-frequency analogue signals** this can cause hum. Then the shield is bonded at one end, usually in the control panel, accepting the poorer HF effect.
 
-For high-frequency interference (VSD, switching frequencies > 10 kHz), double-ended earthing is better — the shield then acts as a Faraday cage:
+| Situation                                      | Shield                                          |
+| ---------------------------------------------- | ----------------------------------------------- |
+| Bus, Ethernet, cables near drives              | both ends, 360°, with equipotential bonding     |
+| Motor cable from the drive                     | both ends, 360° at drive and motor              |
+| Analogue signal, short run in the same panel   | one end in the panel is enough                  |
+| Analogue signal with 50 Hz hum despite bonding | one end, or one end plus capacitor at the other |
 
-```
-→ If source = VSD or SMPS: earth both ends (via Y-capacitor)
-→ If source = 50 Hz induction: earth one end only
-→ When in doubt: earth one end and check whether it improves
-```
-
----
+## **Manufacturer instructions take precedence.** Some buses, such as KNX, have their own rules for the shield or drain wire.
 
 ## Identifying and Resolving Ground Loops
 
 **Symptoms:**
 
 - Measurement value overlaid with 50 Hz ripple (visible in trend)
-- Analogue measurement fluctuates ±0.5–2 V
+- Analogue measurement fluctuates by a few percent
 - Modbus communication unstable (CRC errors)
 
 **Diagnosis:**
@@ -244,9 +207,9 @@ For high-frequency interference (VSD, switching frequencies > 10 kHz), double-en
 
 **Solution:**
 
-1. Earth shield at one end only
-2. Galvanic isolation (isolation transformer, isolating amplifier)
-3. Equipotential bonding conductor between panels (separate cable, green-yellow, 6–16 mm²)
+1. Improve equipotential bonding
+2. Galvanic isolation, for example with an isolating amplifier
+3. Only if that is not enough: bond the shield of this analogue signal at one end only
 
 ---
 
@@ -270,41 +233,33 @@ For high-frequency interference (VSD, switching frequencies > 10 kHz), double-en
 
 ### Cable Trunking and Barriers
 
-```
-❌ Wrong: Control cable running parallel next to VSD motor cable for 1 m
-✅ Right: Metal barrier separates them, or 90° crossing, or > 200 mm clearance
-```
+- Wrong: control cable running more than a metre directly alongside the motor cable of a drive
+- Right: metal divider in the trunking, crossing at right angles, or at least 200 mm separation
 
 ---
 
 ## Analogue Signals — Differential Input
 
-Many DDC inputs for 4–20 mA are **differential** (two terminals: + and −):
+Some DDC and PLC inputs are **differential**. Most BA inputs, however, have a common ground.
 
-```
-4–20 mA signal:
-  + conductor (signal)
-  − conductor (return)
-  ↑ Both are measured; difference = useful signal
-```
+The electronics measure the voltage between the plus and minus conductor. Interference that arrives equally on both conductors drops out.
 
 Advantage: common-mode interference (identical on both conductors) is rejected → better than single-ended.
 
-> ⚠️ With a differential input: do **not** connect the shield to the signal conductors. Connect the shield separately to PE (single-ended).
+> ⚠️ Never use the shield as a signal conductor and do not land it on a signal terminal. It belongs on the shield bar.
 
 ---
 
 ## Equipotential Bonding in the Control Panel
 
-```
-PE busbar (green earth bar)
-    ├── Shield terminals of all signal cables
-    ├── Control panel enclosure
-    ├── DIN rail
-    └── PE connection of DDC
-```
+The shield and PE bar in the control panel receives:
 
-All shields terminate at **one** busbar — from there a single discharge path to PE. No "star" of individual shield cables running directly into the distribution.
+- the shields of all signal and bus cables, bonded over their full circumference with shield clamps
+- the panel enclosure and the mounting plate
+- the DIN rails
+- the PE connection of the DDC
+
+The shields land on a shield bar close to the cable entry, well bonded to the mounting plate. Interference currents are thus drained before they get into the panel.
 
 ---
 
@@ -312,5 +267,5 @@ All shields terminate at **one** busbar — from there a single discharge path t
 
 - **IEC 61000-5-2** — EMC, installation and attenuation guidelines, earthing and shielding
 - **EN 50174-2** — Information technology, cabling installation in buildings
-- **VDE 0100-540** — Protective conductors, equipotential bonding, earthing
+- **NIN (SN 411000)** — Swiss low-voltage installation standard, protective conductors and equipotential bonding. In Germany DIN VDE 0100-540
 - **IEC 61131-2** — PLC/DDC signal levels and noise immunity

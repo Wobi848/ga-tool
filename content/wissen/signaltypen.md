@@ -27,7 +27,7 @@ difficulty: grundlagen
 area: [ga, elektro, hlk]
 related: [frequenzumrichter, pid-regler, modbus, 5plus5-regeln, selv-pelv, messen-fehlersuche]
 norm: [IEC 60381, IEC 61131-2]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -80,7 +80,7 @@ Kein Strom/Spannungssignal — direkter Widerstandsanschluss an DDC-Eingang:
 
 - **PT1000 hat 10× mehr Widerstandsänderung** als PT100 → weniger empfindlich auf Leitungswiderstand → besser für GA-Feldverdrahtung
 - **4-Draht-Anschluss** (Kelvin) für höchste Genauigkeit (eliminiert Leitungswiderstand)
-- **2-Draht** ist Standard in der GA (Fehler < 0,1 K bei typischen Leitungslängen mit PT1000)
+- **2-Draht** ist Standard in der GA. Bei PT1000 und 0.5 mm² entsteht pro 10 m Kabel ein Fehler von rund 0.2 K. Die meisten DDC können einen festen Leitungswiderstand abziehen.
 
 ---
 
@@ -109,10 +109,9 @@ Kein Strom/Spannungssignal — direkter Widerstandsanschluss an DDC-Eingang:
 - Einfachster DI: Relaiskontakt, Endschalter, Schwimmerschalter
 - DDC speist eine Hilfsspannung ein (typisch 24 VDC), liest zurück ob Kontakt geschlossen (1) oder offen (0)
 - **Kein Fremdpotenzial** anschliessen — nur den potentialfreien Kontakt!
+- **Ruhestromprinzip** für Stör- und Sicherheitsmeldungen: Der Kontakt ist im Normalzustand geschlossen. Ein Drahtbruch meldet sich dann wie eine Störung, statt unbemerkt zu bleiben.
 
-```
-DDC +24V ──── Kontakt ──── DDC DI-Eingang
-```
+Die DDC legt ihre Hilfsspannung, etwa 24 V DC, über den Kontakt an den Eingang. Kontakt zu ergibt 1, Kontakt offen ergibt 0.
 
 ### 24 VAC/DC-Signal
 
@@ -123,7 +122,7 @@ DDC +24V ──── Kontakt ──── DDC DI-Eingang
 ### NAMUR-Sensor (IEC 60947-5-6)
 
 - Induktive Näherungsschalter für Ex-Bereiche
-- Stromänderung: 1,2 mA (inaktiv) / 2,1 mA (aktiv)
+- Zwei Strombereiche: unter 1.2 mA und über 2.1 mA. Der Auswerter erkennt zusätzlich Kabelbruch und Kurzschluss.
 - Braucht NAMUR-Auswerter an der DDC
 
 ### Puls / Zähler
@@ -147,7 +146,7 @@ DDC +24V ──── Kontakt ──── DDC DI-Eingang
 
 - Für kleinere Lasten, schnelles Schalten
 - PNP: schaltet +24 V durch; NPN: schaltet auf GND
-- Typisch für Ventilmagnetspulen (24 VAC/DC), Signallampen
+- Typisch für 24-V-DC-Lasten wie Magnetventile, Koppelrelais und Signallampen. Für 24 V AC braucht es Relais- oder Triac-Ausgänge.
 
 ### Dreipunkt-Ausgang (3-Punkt)
 
@@ -158,26 +157,26 @@ DDC +24V ──── Kontakt ──── DDC DI-Eingang
 
 ## Signalvergleich auf einen Blick
 
-| Eigenschaft         | 0–10 V | 4–20 mA  | PT1000 | Potentialfrei |
-| ------------------- | ------ | -------- | ------ | ------------- |
-| Kabelbrucherkennung | ❌     | ✅       | ❌     | ❌            |
-| EMV-Störfestigkeit  | Mittel | **Hoch** | Mittel | Mittel        |
-| Leitungslänge       | ~100 m | >500 m   | ~100 m | >500 m        |
-| Anschlussaufwand    | Gering | Mittel   | Mittel | Gering        |
-| Kosten Sensor       | Gering | Mittel   | Gering | Gering        |
+| Eigenschaft         | 0–10 V | 4–20 mA  | PT1000         | Potentialfrei            |
+| ------------------- | ------ | -------- | -------------- | ------------------------ |
+| Kabelbrucherkennung | ❌     | ✅       | ✅ (Grenzwert) | nur mit Ruhestromprinzip |
+| EMV-Störfestigkeit  | Mittel | **Hoch** | Mittel         | Mittel                   |
+| Leitungslänge       | ~100 m | >500 m   | ~100 m         | >500 m                   |
+| Anschlussaufwand    | Gering | Mittel   | Mittel         | Gering                   |
+| Kosten Sensor       | Gering | Mittel   | Gering         | Gering                   |
 
 ---
 
 ## Typische Verdrahtungsfehler
 
-| Fehler                                   | Symptom                               | Ursache                              |
-| ---------------------------------------- | ------------------------------------- | ------------------------------------ |
-| 0–10 V statt 4–20 mA parametriert        | Wert immer 0 oder falsch skaliert     | Falscher Eingangstyp an DDC          |
-| Kontakt an 230 V statt DDC-Hilfsspannung | DDC-Eingang zerstört                  | Fremdpotenzial am DI                 |
-| PT100 statt PT1000 eingebaut             | Temperatur massiv falsch (Faktor ~10) | Falscher Fühlertyp                   |
-| Schirmung beidseitig geerdet             | Brummschleife, Messwert schwankt      | Schirm nur einseitig erden!          |
-| FU direkt ans DDC-Relais                 | Relais brennt durch (Anlaufstrom!)    | Motorschütz zwischenschalten         |
-| Fail-safe nicht projektiert              | Ventil bleibt offen bei Stromausfall  | Fail-safe-Stellung im Antrieb setzen |
+| Fehler                                                     | Symptom                                      | Ursache                                                                       |
+| ---------------------------------------------------------- | -------------------------------------------- | ----------------------------------------------------------------------------- |
+| 0–10 V statt 4–20 mA parametriert                          | Wert immer 0 oder falsch skaliert            | Falscher Eingangstyp an DDC                                                   |
+| Kontakt an 230 V statt DDC-Hilfsspannung                   | DDC-Eingang zerstört                         | Fremdpotenzial am DI                                                          |
+| PT100 statt PT1000 eingebaut                               | Temperatur massiv falsch (Faktor ~10)        | Falscher Fühlertyp                                                            |
+| Schirm beidseitig, aber kein Potenzialausgleich            | Brummschleife, Messwert schwankt             | Potenzialausgleich herstellen, bei Analogsignalen notfalls einseitig auflegen |
+| Motor oder Einspeisung eines FU direkt über das DDC-Relais | Relais verschweisst (Anlauf- bzw. Ladestrom) | Schütz dazwischen; der Freigabeeingang des FU darf direkt vom Relais kommen   |
+| Fail-safe nicht projektiert                                | Ventil bleibt offen bei Stromausfall         | Fail-safe-Stellung im Antrieb setzen                                          |
 
 ## Normen
 
@@ -235,7 +234,7 @@ Not a current/voltage signal — direct resistance connection to DDC input:
 
 - **PT1000 has 10× more resistance change** than PT100 → less sensitive to cable resistance → better for BA field wiring
 - **4-wire connection** (Kelvin) for highest accuracy (eliminates cable resistance)
-- **2-wire** is standard in BA (error < 0.1 K at typical cable lengths with PT1000)
+- **2-wire** is standard in BA. With PT1000 and 0.5 mm² each 10 m of cable adds an error of about 0.2 K. Most DDCs can subtract a fixed lead resistance.
 
 ---
 
@@ -264,10 +263,9 @@ Not a current/voltage signal — direct resistance connection to DDC input:
 - Simplest DI: relay contact, limit switch, float switch
 - DDC supplies an auxiliary voltage (typically 24 VDC), reads back whether contact is closed (1) or open (0)
 - **No external voltage** — connect only the volt-free contact!
+- **Closed-circuit principle** for fault and safety messages: the contact is closed in the normal state. A wire break then shows up like a fault instead of going unnoticed.
 
-```
-DDC +24 V ──── Contact ──── DDC DI input
-```
+The DDC applies its auxiliary voltage, such as 24 V DC, through the contact to the input. Contact closed gives 1, contact open gives 0.
 
 ### 24 VAC/DC signal
 
@@ -278,7 +276,7 @@ DDC +24 V ──── Contact ──── DDC DI input
 ### NAMUR sensor (IEC 60947-5-6)
 
 - Inductive proximity switches for hazardous areas
-- Current change: 1.2 mA (inactive) / 2.1 mA (active)
+- Two current ranges: below 1.2 mA and above 2.1 mA. The evaluator also detects wire break and short circuit.
 - Requires NAMUR evaluation unit at the DDC
 
 ### Pulse / counter
@@ -302,7 +300,7 @@ DDC +24 V ──── Contact ──── DDC DI input
 
 - For smaller loads, fast switching
 - PNP: switches +24 V through; NPN: switches to GND
-- Typical for valve solenoids (24 VAC/DC), signal lamps
+- Typical for 24 V DC loads such as solenoid valves, interface relays and signal lamps. 24 V AC needs relay or triac outputs.
 
 ### Three-position output (3-point)
 
@@ -313,26 +311,26 @@ DDC +24 V ──── Contact ──── DDC DI input
 
 ## Signal Comparison at a Glance
 
-| Property              | 0–10 V | 4–20 mA  | PT1000 | Volt-free |
-| --------------------- | ------ | -------- | ------ | --------- |
-| Cable break detection | ❌     | ✅       | ❌     | ❌        |
-| EMC immunity          | Medium | **High** | Medium | Medium    |
-| Cable length          | ~100 m | >500 m   | ~100 m | >500 m    |
-| Wiring effort         | Low    | Medium   | Medium | Low       |
-| Sensor cost           | Low    | Medium   | Low    | Low       |
+| Property              | 0–10 V | 4–20 mA  | PT1000     | Volt-free                          |
+| --------------------- | ------ | -------- | ---------- | ---------------------------------- |
+| Cable break detection | ❌     | ✅       | ✅ (limit) | only with closed-circuit principle |
+| EMC immunity          | Medium | **High** | Medium     | Medium                             |
+| Cable length          | ~100 m | >500 m   | ~100 m     | >500 m                             |
+| Wiring effort         | Low    | Medium   | Medium     | Low                                |
+| Sensor cost           | Low    | Medium   | Low        | Low                                |
 
 ---
 
 ## Typical Wiring Errors
 
-| Error                                                       | Symptom                                  | Cause                              |
-| ----------------------------------------------------------- | ---------------------------------------- | ---------------------------------- |
-| 0–10 V configured instead of 4–20 mA                        | Value always 0 or wrong scaling          | Wrong input type at DDC            |
-| Contact connected to 230 V instead of DDC auxiliary voltage | DDC input destroyed                      | External voltage on DI             |
-| PT100 installed instead of PT1000                           | Temperature massively wrong (factor ~10) | Wrong sensor type                  |
-| Shield earthed at both ends                                 | Hum loop, measured value fluctuates      | Earth shield at one end only!      |
-| VSD connected directly to DDC relay                         | Relay burns out (inrush current!)        | Insert motor contactor             |
-| Fail-safe not configured                                    | Valve stays open on power failure        | Set fail-safe position in actuator |
+| Error                                                       | Symptom                                          | Cause                                                                       |
+| ----------------------------------------------------------- | ------------------------------------------------ | --------------------------------------------------------------------------- |
+| 0–10 V configured instead of 4–20 mA                        | Value always 0 or wrong scaling                  | Wrong input type at DDC                                                     |
+| Contact connected to 230 V instead of DDC auxiliary voltage | DDC input destroyed                              | External voltage on DI                                                      |
+| PT100 installed instead of PT1000                           | Temperature massively wrong (factor ~10)         | Wrong sensor type                                                           |
+| Shield at both ends without equipotential bonding           | Hum loop, measured value fluctuates              | Provide bonding; for analogue signals, bond at one end if necessary         |
+| Motor or VSD supply switched directly by the DDC relay      | Relay contacts weld (inrush or charging current) | Insert a contactor; the drive enable input may come directly from the relay |
+| Fail-safe not configured                                    | Valve stays open on power failure                | Set fail-safe position in actuator                                          |
 
 ## Standards
 

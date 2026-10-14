@@ -23,13 +23,13 @@ difficulty: grundlagen
 area: [elektro, ga]
 related: [frequenzumrichter, nin-niv]
 norm: [EN 50110-1, NIV (CH), SUVA 84042]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
 # 5+5 lebenswichtige Regeln (SUVA)
 
-Die **„5+5 lebenswichtige Regeln im Umgang mit Elektrizität"** (SUVA-Publikation 84042, erarbeitet mit Electrosuisse) sind in der Schweiz die verbindliche Grundlage für sicheres Arbeiten an elektrischen Anlagen. Sie unterteilen sich in **5 vorbereitende Organisationsregeln** und **5 technische Sicherheitsregeln** für das Arbeiten im spannungsfreien Zustand.
+Die **„5+5 lebenswichtige Regeln im Umgang mit Elektrizität"** (Suva-Publikation 84042) sind in der Schweiz die verbindliche Grundlage für sicheres Arbeiten an elektrischen Anlagen. Sie unterteilen sich in **5 vorbereitende Organisationsregeln** und **5 technische Sicherheitsregeln** für das Arbeiten im spannungsfreien Zustand.
 
 > ⚠️ **Diese Regeln sind lebenswichtig.** Missachtung kann zu schweren Verletzungen oder Tod durch elektrischen Schlag führen.
 
@@ -51,7 +51,7 @@ Diese Regeln gelten **vor Beginn** jeder Arbeit an einer elektrischen Anlage.
 
 ### 3. Sichere Arbeitsmittel verwenden
 
-- **Werkzeug:** VDE-geprüft, isolierte Griffe (1000 V), kein beschädigtes Material
+- **Werkzeug:** isoliertes Werkzeug nach EN/IEC 60900 (1000 V), kein beschädigtes Material
 - **Messmittel:** Kalibriert, geprüft, für die Spannungsklasse geeignet
 - **PSA:** Isolierhandschuhe (geprüft nach EN 60903), Gesichtsschutz bei Bedarf
 - Arbeitsmittel regelmässig prüfen und defekte Geräte sofort aussondern
@@ -65,7 +65,7 @@ Diese Regeln gelten **vor Beginn** jeder Arbeit an einer elektrischen Anlage.
 
 ### 5. Nur geprüfte Anlagen in Betrieb nehmen
 
-- Vor Inbetriebnahme: **Abnahmeprüfung** nach NIV / EN 61557
+- Vor Inbetriebnahme: **Erstprüfung und Schlusskontrolle** nach NIV, mit Mess- und Prüfprotokoll und Sicherheitsnachweis. Die Messgeräte dafür erfüllen EN 61557.
 - Dokumentation vorhanden (Schaltpläne, Prüfprotokolle)?
 - Schutzleiter und Potenzialausgleich korrekt?
 - Keine provisorischen Installationen dauerhaft betreiben
@@ -79,7 +79,7 @@ Diese 5 Schritte sind **in dieser Reihenfolge** durchzuführen — kein Schritt 
 ### 1. Freischalten — Anlage vom Netz trennen
 
 - **Alle** Einspeisequellen trennen (Netz, USV, Notstrom, PV, Kondensatorbatterien)
-- Allpolig trennen — auch den Neutralleiter bei IT-Netzen
+- Allpolig trennen, auch den Neutralleiter
 - Trennstelle sichtbar offen (galvanische Trennung sichtbar oder verplombt)
 
 > ⚠️ **Rückspeisungen beachten:** In der GA gibt es häufig Notstrom-USV, PV-Anlagen und Motorenrückspeisungen — alle müssen getrennt werden!
@@ -149,7 +149,7 @@ Der Unterschied: SUVA ergänzt **5 Organisationsregeln** vorne — der DE-Standa
 
 <!-- EN -->
 
-The **"5+5 Life-Saving Rules for Working with Electricity"** (SUVA publication 84042, developed with Electrosuisse) are the binding basis for safe work on electrical installations in Switzerland. They are divided into **5 preparatory organisational rules** and **5 technical safety rules** for working in a de-energised state.
+The **"5+5 Life-Saving Rules for Working with Electricity"** (Suva publication 84042) are the binding basis for safe work on electrical installations in Switzerland. They are divided into **5 preparatory organisational rules** and **5 technical safety rules** for working in a de-energised state.
 
 > ⚠️ **These rules are life-saving.** Disregarding them can result in serious injury or death from electric shock.
 
@@ -171,7 +171,7 @@ These rules apply **before starting** any work on an electrical installation.
 
 ### 3. Use Safe Tools and Equipment
 
-- **Tools:** VDE-tested, insulated handles (1000 V), no damaged items
+- **Tools:** insulated tools per EN/IEC 60900 (1000 V), no damaged items
 - **Test instruments:** Calibrated, tested, rated for the voltage class
 - **PPE:** Insulating gloves (tested to EN 60903), face shield if required
 - Inspect tools regularly; immediately remove defective equipment from service
@@ -185,7 +185,7 @@ These rules apply **before starting** any work on an electrical installation.
 
 ### 5. Only Commission Tested Installations
 
-- Before commissioning: **acceptance testing** to NIV / EN 61557
+- Before commissioning: **initial verification and final inspection** per NIV, with test report and safety certificate. The measuring instruments for this comply with EN 61557.
 - Documentation available (wiring diagrams, test records)?
 - Protective conductors and equipotential bonding correct?
 - No temporary installations operated permanently
@@ -199,7 +199,7 @@ These 5 steps must be carried out **in this exact order** — no step may be ski
 ### 1. Isolate — Disconnect the Installation from Supply
 
 - Isolate **all** supply sources (mains, UPS, standby power, PV, capacitor banks)
-- Isolate all poles — including neutral in IT systems
+- Isolate all poles, including the neutral
 - Isolation point visibly open (galvanic separation visible or locked)
 
 > ⚠️ **Watch for back-feeds:** In BA there are often UPS systems, PV installations and motor regeneration — all must be isolated!

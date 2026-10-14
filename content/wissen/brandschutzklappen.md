@@ -24,308 +24,172 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro, hlk]
-related: [rlt-anlage, alarmmanagement, glt-grundlagen, ddc-programmierung]
-norm: [EN 15650, EN 1366-2, EN 13501-3, VdS 2226]
-updated: 2026-05-14
+related: [rlt-anlage, alarmmanagement, glt-grundlagen, entrauchung-rwa, ddc-programmierung]
+norm: [EN 15650, EN 1366-2, EN 13501-3, VKF-Brandschutzrichtlinien]
+updated: 2026-10-14
 lang: de
 ---
 
 # Brandschutzklappen (BSK) — Ansteuerung und Protokollierung
 
-**Brandschutzklappen** trennen im Brandfall Lüftungskanäle und verhindern damit die Ausbreitung von Feuer und Rauch über das Lüftungssystem. In der GA sind Ansteuerung, Rückmeldung und Protokollierung sicherheitsrelevante Funktionen.
+**Brandschutzklappen** schliessen Lüftungskanäle dort, wo sie eine Brandabschnittsgrenze durchqueren. So gelangen Feuer und Rauch nicht über das Kanalnetz in den nächsten Brandabschnitt. Die GA überwacht die Klappen, protokolliert Tests und meldet Störungen. Die Auslösung im Brandfall ist Sache der Brandmeldeanlage und der Brandfallsteuerung.
 
-## Funktion und Arten
+## Arten
 
-### Brandschutzklappe (BSK) / Feuerschutzklappe
+| Art                    | Wirkung                                                                                                                                   |
+| ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| **Brandschutzklappe**  | Feuerwiderstand, etwa EI 30 S oder EI 90 S nach EN 13501-3; schliesst thermisch und meist auch elektrisch                                 |
+| **Rauchschutzklappe**  | verhindert Rauchausbreitung, schliesst auf Signal eines Rauchmelders                                                                      |
+| **Entrauchungsklappe** | Teil der maschinellen Entrauchung, muss im Brandfall gezielt öffnen oder schliessen, siehe [Entrauchung und RWA](/wissen/entrauchung-rwa) |
 
-- Schliesst bei **Temperatur** (Schmelzeinsatz) oder **elektrisch** auf Befehl
-- Verhindert Feuerübertragung durch Lüftungskanal
-- Klassifizierung: E90 = 90 Minuten Feuerwiderstand
+Die Klassierung **EI 90 S** heisst: Raumabschluss (E) und Wärmedämmung (I) während 90 Minuten, S für begrenzte Rauchdurchlässigkeit.
 
-### Rauchschutzklappe (RSK)
+## Auslösung
 
-- Schliesst bei **Rauchmeldesignal**
-- Verhindert Rauchausbreitung (kein Feuerwiderstand nötig)
-- Geringere thermische Anforderung als BSK
+| Auslöser                                 | Funktion                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------- |
+| **Schmelzlot**                           | schmilzt bei etwa 72 °C, eine Feder schliesst die Klappe. Rein mechanisch             |
+| **Thermoelektrische Auslöseeinrichtung** | im Federrücklaufantrieb, löst bei etwa 72 °C im Kanal aus und unterbricht den Antrieb |
+| **Spannung weg**                         | der Federrücklaufantrieb schliesst die Klappe                                         |
+| **Kanalrauchmelder**                     | optischer Melder im Kanal, schaltet die Spannung über die Brandfallsteuerung ab       |
 
-### Kombiklappe (BSK + RSK)
+Motorische Brandschutzklappen arbeiten nach dem **Ruhestromprinzip**: Solange 24 V oder 230 V anliegen, hält der Antrieb die Klappe offen. Fällt die Spannung weg, durch einen Befehl, einen Drahtbruch oder einen Stromausfall, schliesst die Feder. Das ist gewollt.
 
-- Schliesst bei Rauch **und** bei Feuer (Temperatur)
-- In der Praxis am häufigsten eingebaut
+## Rolle der GA
 
----
+In der Schweiz legen die VKF-Brandschutzrichtlinien fest, wann Klappen zusätzlich zur thermischen Auslösung über Rauchmelder oder die Brandmeldeanlage schliessen müssen. Diese Auslösung läuft über die **Brandfallsteuerung** und darf nicht von der GA abhängen. Die GA übernimmt:
 
-## Auslöse-Mechanismen
+- Überwachung der Endlagen AUF und ZU
+- **Periodische Funktionstests**, oft automatisch nachts: Klappe zu, Laufzeit messen, wieder auf
+- Protokollierung jedes Tests und jeder Auslösung
+- Meldungen an Betreiber und Pikett
 
-| Auslöser                  | Beschreibung                                       | GA-Relevanz                     |
-| ------------------------- | -------------------------------------------------- | ------------------------------- |
-| **Schmelzeinsatz**        | Mechanisch, bei ca. 72 °C → Feder schliesst Klappe | Ausfallsicher, kein Strom nötig |
-| **Elektrischer Auslöser** | 24 V Signal → Klappe schliesst                     | Steuerbar, rückmeldbar          |
-| **Thermoelement**         | Temperaturmessung, löst bei Grenzwert aus          | Kombinierbar                    |
-| **Rauchmelder**           | Optischer oder ionischer Melder im Kanal           | Für Rauchschutz-Funktion        |
+Die Ansteuerung erfolgt über Relais oder spezielle BSK-Steuermodule, nicht direkt über Transistorausgänge der DDC. Viele Hersteller bieten Bus-Module an, die mehrere Klappen überwachen und testen.
 
-**Kombiniert:** Schmelzeinsatz (Sicherheit) + elektrischer Auslöser (Steuerung aus GLT/BMA).
+## Meldungen
 
----
+| Signal              | Typ | Bedeutung                                             |
+| ------------------- | --- | ----------------------------------------------------- |
+| Endschalter AUF     | BI  | Klappe offen                                          |
+| Endschalter ZU      | BI  | Klappe geschlossen                                    |
+| Laufzeitüberwachung | BV  | Endlage nach Befehl nicht innerhalb der Zeit erreicht |
+| Test ok / nicht ok  | BV  | Ergebnis der letzten Funktionsprüfung                 |
 
-## Ansteuerung aus der GA
+| Meldung                                   | Priorität | Massnahme                                                        |
+| ----------------------------------------- | --------- | ---------------------------------------------------------------- |
+| Klappe ausserhalb eines Tests geschlossen | hoch      | Ursache klären; die Alarmierung der Feuerwehr läuft über die BMA |
+| Endlage nicht erreicht                    | hoch      | Klappe vor Ort prüfen, Brandschutz ist nicht gewährleistet       |
+| Test fehlgeschlagen                       | hoch      | Instandsetzung veranlassen                                       |
 
-### Normalzustand: Klappe offen
+Schliesst eine Klappe, muss die Lüftungsanlage reagieren, etwa den Ventilator abschalten, damit der Kanaldruck nicht steigt. Das gehört in den Funktionsbeschrieb und die Brandfallmatrix.
 
-```
-BSK normal: 24 V = Klappe offen (spannungshaltend)
-Auslösung:  24 V = 0 V → Feder schliesst Klappe (fail-safe!)
-```
+## Rückstellung
 
-**Fail-Safe:** Bei Stromausfall schliessen alle BSK! Das ist gewollt — im Brandfall oft kein Strom vorhanden.
+- **Motorische Klappe nach Spannungsunterbruch oder Test:** Spannung wieder anlegen, der Antrieb öffnet die Klappe. Die Endlage AUF bestätigt es.
+- **Nach thermischer Auslösung:** Schmelzlot oder thermoelektrische Auslöseeinrichtung vor Ort prüfen und ersetzen oder zurückstellen. Erst dann wieder öffnen.
+- **Nach einem Brand:** Klappe und Einbau durch Fachpersonal prüfen lassen.
 
-### Elektrische Schaltung (typisch)
+Jede Rückstellung wird mit Datum, Uhrzeit und Person protokolliert.
 
-```
-DDC-Ausgang → Relais → 24 V Haltestrom BSK
-                        ├── Rückmeldung AUF (DI)
-                        └── Rückmeldung ZU (DI)
-```
+## Inbetriebnahme
 
-**WICHTIG:** BSK dürfen **nicht direkt** von DDC-Transistorausgängen gespeist werden — Relais oder getrennter Stromkreis nötig.
-
----
-
-## Rückmeldung und Überwachung
-
-Jede BSK meldet ihren Status zurück:
-
-| Signal                  | Typ | Bedeutung                         |
-| ----------------------- | --- | --------------------------------- |
-| Klappe AUF              | DI  | Betriebszustand, Lüftung aktiv    |
-| Klappe ZU               | DI  | Ausgelöst (Brandfall oder Test)   |
-| Störung (Sammelstörung) | DI  | Klappe reagiert nicht / Endfehler |
-
-**Endlagen-Überwachung:** Nach Auslösung (Zu-Befehl) muss Klappe innerhalb definierter Zeit die ZU-Meldung liefern. Timeout = Alarm.
-
-### GLT-Alarmierung
-
-| Alarm                                | Priorität | Massnahme                    |
-| ------------------------------------ | --------- | ---------------------------- |
-| BSK ausgelöst (nicht Test)           | Kritisch  | Sofort Feuerwehr + Betreiber |
-| BSK Rückmeldung fehlt (Störung)      | Hoch      | Inspektion erforderlich      |
-| BSK kann nicht zurückgestellt werden | Mittel    | Wartung                      |
-
----
-
-## Rückstellung nach Auslösung
-
-Nach Brandfall oder Test muss BSK manuell zurückgestellt werden:
-
-```
-1. Auslöseursache beseitigen (Feuer gelöscht, Kanaltemperatur < 72 °C)
-2. Manuelle Rückstellung am Gerät (Schlüssel / Werkzeug)
-3. Sichtkontrolle: keine Beschädigungen
-4. Strom einschalten → Haltestrom aktiviert → Klappe öffnet
-5. Rückmeldung AUF = bestätigt
-6. Protokollierung: Datum, Uhrzeit, Person
-```
-
-> ⚠️ BSK dürfen **nicht ferngeöffnet** werden ohne Freigabe durch autorisiertes Personal. Sicherheitsverantwortung liegt beim Betreiber.
-
----
-
-## Inbetriebnahme (IBN) BSK
-
-### Pflichtprüfungen bei IBN
-
-1. **Fabrikatprüfung:** BSK-Zertifikat vorhanden? Korrekte Einbaulage?
-2. **Einbaulage:** Horizontal / vertikal korrekt montiert (herstellerspezifisch!)
-3. **Auslösetest:** Klappe auf Auslösung prüfen (Signal abschalten)
-4. **Endlagentest:** AUF und ZU Rückmeldung prüfen
-5. **Schmelzeinsatz:** Temperatur und Typ korrekt?
-6. **Rückstellung:** Manuelle Rückstellung funktioniert?
-7. **Protokoll:** Alle Punkte dokumentieren
-
-### IBN-Protokoll (Pflichtinhalt)
-
-```
-BSK-Liste (pro Klappe):
-  - Bezeichnung / ID
-  - Einbauort / Gebäudebereich
-  - Hersteller, Typ, Zertifikat-Nr.
-  - Feuerwiderstandsklasse
-  - Auslösetemperatur (Schmelzeinsatz)
-  - IBN-Datum
-  - Testergebnis: AUF ✓ / ZU ✓ / Rückmeldung ✓
-  - Unterschrift Inbetriebnehmer
-```
-
----
+1. Klappenliste mit Bezeichnung, Ort, Brandabschnitt, Typ, Klassierung und Hersteller
+2. Einbau nach Herstellerangabe und Zulassung, Einbaulage und Revisionsöffnung prüfen
+3. Auslösung durch Spannungsunterbruch: Klappe schliesst, Endlage ZU kommt
+4. Wiederöffnen: Endlage AUF kommt
+5. Ansteuerung durch die Brandfallsteuerung im integralen Test mit der BMA
+6. Laufzeiten notieren, Protokoll unterschreiben
 
 ## Wiederkehrende Prüfungen
 
-BSK müssen **regelmässig geprüft** werden (Betreiberverantwortung):
-
-| Prüfung          | Intervall  | Beschreibung                          |
-| ---------------- | ---------- | ------------------------------------- |
-| Sichtprüfung     | Jährlich   | Korrosion, Beschädigung, Freiheit     |
-| Funktionsprüfung | Jährlich   | Auslösung und Rückstellung testen     |
-| Vollprüfung      | 5–10 Jahre | Komplette Prüfung inkl. Dokumentation |
-
-**GA-Unterstützung:** Automatische Erinnerung wenn Prüfintervall abläuft. Testergebnisse in GLT archivieren.
-
----
+Die Prüfintervalle legen Hersteller und Behörde fest. **EN 15650** empfiehlt eine Funktionsprüfung **alle sechs Monate**. Nach zwei erfolgreichen Prüfungen in Folge darf auf **jährlich** verlängert werden. Automatische Tests über die GA oder ein BSK-Steuersystem erleichtern das, ersetzen aber die Sichtkontrolle vor Ort nicht.
 
 ## Normen
 
-- **EN 15650** — Lüftung von Gebäuden, Brandschutzklappen
-- **EN 1366-2** — Feuerwiderstandsprüfungen für Installationen, Feuerschutzklappen
-- **EN 13501-3** — Klassifizierung Feuerwiderstand, Klappen
-- **VdS 2226** (DE) — Richtlinien für Brandschutzklappen-Anlagen
-- **SIA 181** (CH) — Schallschutz im Hochbau (Klappenanforderungen)
+- **EN 15650** — Brandschutzklappen, Produktnorm mit Hinweisen zur Wartung
+- **EN 1366-2** — Feuerwiderstandsprüfung von Brandschutzklappen
+- **EN 13501-3** — Klassierung, etwa EI 90 S
+- **VKF-Brandschutzrichtlinie Lufttechnische Anlagen** (CH)
+- **VKF-Brandschutzrichtlinie Brandmeldeanlagen** (CH), Brandfallsteuerung
 
 <!-- EN -->
 
-**Fire dampers** isolate ventilation ducts in the event of fire, preventing the spread of fire and smoke through the ventilation system. In BA, control, feedback, and documentation are safety-critical functions.
+**Fire dampers** close ventilation ducts where they cross a fire compartment boundary. This keeps fire and smoke from passing through the duct network into the next compartment. The BA monitors the dampers, records tests and reports faults. Triggering in a fire is the job of the fire alarm system and the fire control system.
 
-## Function and Types
+## Types
 
-### Fire Damper (FD) / Fire Protection Damper
+| Type                     | Function                                                                                                                       |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Fire damper**          | fire resistance, such as EI 30 S or EI 90 S per EN 13501-3; closes thermally and usually also electrically                     |
+| **Smoke damper**         | prevents smoke spread, closes on a smoke detector signal                                                                       |
+| **Smoke control damper** | part of mechanical smoke extraction, must open or close as required in a fire, see [Smoke Extraction](/wissen/entrauchung-rwa) |
 
-- Closes on **temperature** (fusible link) or **electrically** on command
-- Prevents fire transfer through the ventilation duct
-- Classification: E90 = 90 minutes fire resistance
+The classification **EI 90 S** means integrity (E) and insulation (I) for 90 minutes, S for limited smoke leakage.
 
-### Smoke Damper (SD)
+## Triggering
 
-- Closes on **smoke detector signal**
-- Prevents smoke propagation (no fire resistance required)
-- Lower thermal requirement than fire damper
+| Trigger                    | Function                                                                              |
+| -------------------------- | ------------------------------------------------------------------------------------- |
+| **Fusible link**           | melts at about 72 °C, a spring closes the damper. Purely mechanical                   |
+| **Thermoelectric release** | in the spring-return actuator, trips at about 72 °C in the duct and cuts the actuator |
+| **Loss of voltage**        | the spring-return actuator closes the damper                                          |
+| **Duct smoke detector**    | optical detector in the duct, cuts the voltage via the fire control system            |
 
-### Combined Damper (FD + SD)
+Motorised fire dampers work on the **fail-safe principle**: as long as 24 V or 230 V is present, the actuator holds the damper open. If the voltage drops, through a command, a wire break or a power failure, the spring closes it. That is intended.
 
-- Closes on smoke **and** on fire (temperature)
-- In practice, the most commonly installed type
+## Role of the BA
 
----
+In Switzerland the VKF fire protection guidelines define when dampers must also close via smoke detectors or the fire alarm system, in addition to thermal release. This triggering runs through the **fire control system** and must not depend on the BA. The BA takes care of:
 
-## Triggering Mechanisms
+- monitoring the OPEN and CLOSED end positions
+- **periodic function tests**, often automatically at night: damper closed, measure running time, open again
+- recording every test and every trip
+- messages to the operator and on-call staff
 
-| Trigger               | Description                                  | BA relevance                       |
-| --------------------- | -------------------------------------------- | ---------------------------------- |
-| **Fusible link**      | Mechanical, at ~72 °C → spring closes damper | Fail-safe, no power needed         |
-| **Electric actuator** | 24 V signal → damper closes                  | Controllable, can provide feedback |
-| **Thermocouple**      | Temperature measurement, trips at threshold  | Can be combined                    |
-| **Smoke detector**    | Optical or ionisation detector in duct       | For smoke protection function      |
+Control is via relays or dedicated fire damper control modules, not directly via DDC transistor outputs. Many manufacturers offer bus modules that monitor and test several dampers.
 
-**Combined:** Fusible link (safety) + electric actuator (control from BMS/fire alarm panel).
+## Signals
 
----
+| Signal               | Type | Meaning                                                  |
+| -------------------- | ---- | -------------------------------------------------------- |
+| Limit switch OPEN    | BI   | damper open                                              |
+| Limit switch CLOSED  | BI   | damper closed                                            |
+| Running time monitor | BV   | end position not reached within the time after a command |
+| Test ok / not ok     | BV   | result of the last function test                         |
 
-## Control from BA
+| Message                      | Priority | Action                                                                |
+| ---------------------------- | -------- | --------------------------------------------------------------------- |
+| Damper closed outside a test | high     | find the cause; the fire brigade is alerted via the fire alarm system |
+| End position not reached     | high     | check the damper on site, fire protection not ensured                 |
+| Test failed                  | high     | arrange repair                                                        |
 
-### Normal Condition: Damper Open
+When a damper closes, the ventilation system must respond, for example by stopping the fan so duct pressure does not rise. This belongs in the functional description and the fire control matrix.
 
-```
-FD normal: 24 V = damper open (voltage maintained)
-Trip:      24 V → 0 V → spring closes damper (fail-safe!)
-```
+## Reset
 
-**Fail-safe:** On power failure all fire dampers close! This is intentional — power is often lost in a fire.
+- **Motorised damper after loss of voltage or a test:** restore the voltage, the actuator opens the damper. The OPEN end position confirms it.
+- **After thermal release:** check the fusible link or thermoelectric release on site and replace or reset it. Only then reopen.
+- **After a fire:** have the damper and its installation checked by specialists.
 
-### Electrical Circuit (Typical)
+Every reset is recorded with date, time and person.
 
-```
-DDC output → relay → 24 V holding current FD
-                      ├── Feedback OPEN (DI)
-                      └── Feedback CLOSED (DI)
-```
+## Commissioning
 
-**IMPORTANT:** Fire dampers must **not** be powered directly from DDC transistor outputs — a relay or separate circuit is required.
+1. Damper list with designation, location, fire compartment, type, classification and manufacturer
+2. Installation per manufacturer instructions and approval, check orientation and access opening
+3. Trip by removing voltage: damper closes, CLOSED end position arrives
+4. Reopen: OPEN end position arrives
+5. Triggering by the fire control system in the integrated test with the fire alarm system
+6. Record running times, sign the report
 
----
+## Periodic Inspection
 
-## Feedback and Monitoring
-
-Every fire damper reports its status:
-
-| Signal             | Type | Meaning                                |
-| ------------------ | ---- | -------------------------------------- |
-| Damper OPEN        | DI   | Operating state, ventilation active    |
-| Damper CLOSED      | DI   | Tripped (fire event or test)           |
-| Fault (collective) | DI   | Damper not responding / end-stop error |
-
-**End-stop monitoring:** After trip (close command), damper must deliver the CLOSED feedback within a defined time. Timeout = alarm.
-
-### BMS Alarms
-
-| Alarm                       | Priority | Action                                     |
-| --------------------------- | -------- | ------------------------------------------ |
-| FD tripped (not test)       | Critical | Immediately notify fire brigade + operator |
-| FD feedback missing (fault) | High     | Inspection required                        |
-| FD cannot be reset          | Medium   | Maintenance                                |
-
----
-
-## Reset after Activation
-
-After a fire event or test, the fire damper must be reset manually:
-
-```
-1. Remove cause of activation (fire extinguished, duct temperature < 72 °C)
-2. Manual reset at device (key / tool)
-3. Visual inspection: no damage
-4. Restore power → holding current activates → damper opens
-5. Feedback OPEN = confirmed
-6. Documentation: date, time, person
-```
-
-> ⚠️ Fire dampers must **not be opened remotely** without authorisation from qualified personnel. Responsibility lies with the operator.
-
----
-
-## Commissioning (IBN) of Fire Dampers
-
-### Mandatory Tests at Commissioning
-
-1. **Product verification:** Is the FD certificate present? Correct installation position?
-2. **Installation position:** Horizontal/vertical correctly mounted (manufacturer-specific!)
-3. **Trip test:** Test damper closure (switch off signal)
-4. **End-stop test:** Check OPEN and CLOSED feedback
-5. **Fusible link:** Correct temperature rating and type?
-6. **Reset:** Manual reset functioning?
-7. **Record:** Document all points
-
-### Commissioning Record (Mandatory Contents)
-
-```
-FD list (per damper):
-  - Designation / ID
-  - Installation location / building section
-  - Manufacturer, type, certificate no.
-  - Fire resistance class
-  - Trip temperature (fusible link)
-  - Commissioning date
-  - Test result: OPEN ✓ / CLOSED ✓ / Feedback ✓
-  - Signature of commissioning engineer
-```
-
----
-
-## Recurring Inspections
-
-Fire dampers must be **regularly inspected** (operator responsibility):
-
-| Inspection        | Interval   | Description                            |
-| ----------------- | ---------- | -------------------------------------- |
-| Visual inspection | Annual     | Corrosion, damage, freedom of movement |
-| Function test     | Annual     | Test trip and reset                    |
-| Full inspection   | 5–10 years | Complete check including documentation |
-
-**BA support:** Automatic reminder when inspection interval is due. Archive test results in BMS.
-
----
+Intervals are set by the manufacturer and the authority. **EN 15650** recommends a function test **every six months**. After two consecutive successful tests the interval may be extended to **annual**. Automatic tests via the BA or a fire damper control system make this easier but do not replace a visual check on site.
 
 ## Standards
 
-- **EN 15650** — Ventilation of buildings, fire dampers
-- **EN 1366-2** — Fire resistance tests for service installations, fire dampers
-- **EN 13501-3** — Classification of fire resistance, dampers
-- **VdS 2226** (DE) — Guidelines for fire damper systems
-- **SIA 181** (CH) — Sound insulation in buildings (damper requirements)
+- **EN 15650** — Fire dampers, product standard with maintenance guidance
+- **EN 1366-2** — Fire resistance test for fire dampers
+- **EN 13501-3** — Classification, such as EI 90 S
+- **VKF fire protection guideline on ventilation systems** (CH)
+- **VKF fire protection guideline on fire alarm systems** (CH), fire control

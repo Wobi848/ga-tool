@@ -26,8 +26,8 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga, elektro]
 related: [frequenzumrichter, vav-cav, rlt-anlage, pid-regler, signaltypen]
-norm: [IEC 60034-30-1, ErP 2019/1781]
-updated: 2026-05-14
+norm: [IEC 60034-30-1, IEC TS 60034-30-2, VO (EU) 2019/1781]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -48,12 +48,10 @@ lang: de
 
 - Permanentmagnet-Rotor (kein Schlupf nötig!)
 - Stator wird elektronisch (Transistoren, meist MOSFET) mit Gleichstrom gespeist
-- Elektronik erkennt Rotorposition (Hall-Sensoren) → kommutiert richtig
+- Elektronik erkennt die Rotorposition, mit Hall-Sensoren oder sensorlos aus der Gegenspannung, und kommutiert passend
 - **Drehzahlregelung integriert** in der Motor-Elektronik
 
-```
-Netz 230V AC → [Motor-Elektronik: Gleichrichter + Wechselrichter] → Motor (DC-artiger Betrieb)
-```
+Die Elektronik im Motor richtet die Netzspannung gleich und schaltet die Statorwicklungen passend zur Rotorstellung. Sie ist also Umrichter und Motorsteuerung in einem.
 
 ---
 
@@ -69,17 +67,11 @@ IE = International Efficiency Class (IEC 60034-30-1):
 | IE4    | Super Premium   | 93–95 %                | EC-Motor oder IE4-AC mit FU |
 | IE5    | Ultra Premium   | 95–97 %                | Beste EC-Motoren            |
 
-**Pflichtanforderung EU (ErP 2021):** Motoren 0.75–1000 kW müssen IE3 entsprechen. EC-Motoren übertreffen IE3 deutlich.
+**Ökodesign VO (EU) 2019/1781:** Seit Juli 2021 müssen Drehstrommotoren von 0.75 bis 1000 kW mindestens IE3 erreichen, von 0.12 bis 0.75 kW IE2. Seit Juli 2023 gilt für 75 bis 200 kW IE4. Die Schweiz hat die Anforderungen in der Energieeffizienzverordnung übernommen. IE5 ist in IEC TS 60034-30-2 für umrichtergespeiste Motoren definiert.
 
-### Praxisbeispiel Ventilator
+### Teillast
 
-| Antriebstyp           | Leistungsaufnahme bei 50 % Last |
-| --------------------- | ------------------------------- |
-| AC + FU (IE2)         | ~35 % der Nennleistung          |
-| EC-Motor (integriert) | ~20–25 % der Nennleistung       |
-| Ersparnis             | ~30–40 %                        |
-
----
+## Bei Teillast ist der Vorteil oft grösser als bei Nennlast, weil der Wirkungsgrad kleiner Asynchronmotoren bei Teillast stärker sinkt als der von Permanentmagnetmotoren. Wie gross der Unterschied ist, hängt von Baugrösse und Betriebspunkt ab. Für einen Vergleich die Systemwirkungsgrade aus den Herstellerdaten im tatsächlichen Betriebspunkt vergleichen, nicht die Nennwerte.
 
 ## Regelung / Schnittstellen
 
@@ -116,18 +108,18 @@ EC-Motoren liefern typisch:
 
 ## Vergleich EC-Motor vs. AC-Motor + FU
 
-| Merkmal                     | EC-Motor                       | AC-Motor + Frequenzumrichter  |
-| --------------------------- | ------------------------------ | ----------------------------- |
-| Wirkungsgrad                | IE4–IE5 (93–97 %)              | IE2–IE3 (88–93 %)             |
-| Kosten Motor                | Höher                          | Günstiger                     |
-| Kosten gesamt               | Meist günstiger                | Motor + FU = teurer           |
-| Platzbedarf                 | Kompakt                        | FU zusätzlich                 |
-| EMV                         | Motor-intern                   | FU erzeugt Oberwellen         |
-| Wartung                     | Kein Bürstenverschleiss        | Bürstenloser Rotor            |
-| Anlaufstrom                 | Gering (elektronisch geregelt) | Hoch (ohne Sanftanlauf)       |
-| Eignung für grosse Leistung | Bis ~30 kW                     | Ab 5 kW oft günstiger (AC+FU) |
+| Merkmal          | EC-Motor                                               | AC-Motor + Frequenzumrichter                      |
+| ---------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| Wirkungsgrad     | IE4–IE5 (93–97 %)                                      | IE2–IE3 (88–93 %)                                 |
+| Kosten Motor     | Höher                                                  | Günstiger                                         |
+| Kosten gesamt    | Meist günstiger                                        | Motor + FU = teurer                               |
+| Platzbedarf      | Kompakt                                                | FU zusätzlich                                     |
+| EMV              | Elektronik im Motor erzeugt ebenfalls Oberschwingungen | FU erzeugt Oberschwingungen, Filter je nach Gerät |
+| Wartung          | bürstenlos, Lager als Verschleissteil                  | ebenfalls bürstenlos, Lager als Verschleissteil   |
+| Anlaufstrom      | gering, elektronisch begrenzt                          | gering, der FU fährt über eine Rampe hoch         |
+| Leistungsbereich | vor allem bis etwa 10–15 kW                            | ab wenigen kW bis in den MW-Bereich               |
 
-**Fazit:** Für Ventilatoren und kleine Pumpen (< 10 kW) ist EC-Motor die wirtschaftlichere Lösung. Für grosse Pumpen (> 15 kW) kann AC-Motor + FU noch wettbewerbsfähig sein.
+**Fazit:** Für Ventilatoren und kleine Pumpen bis etwa 10 kW ist der EC-Motor meist die wirtschaftlichere Lösung. Bei grösseren Leistungen sind Asynchron- oder PM-Motoren mit separatem FU üblich.
 
 ---
 
@@ -145,21 +137,22 @@ EC-Motoren liefern typisch:
 
 ## Häufige Fehler
 
-| Fehler                          | Symptom                    | Ursache                                         |
-| ------------------------------- | -------------------------- | ----------------------------------------------- |
-| 0–10 V Masseanbindung fehlt     | Motor dreht nicht/zufällig | Signal-GND nicht verbunden                      |
-| EMV-Störungen auf 0–10 V        | Drehzahl schwankt          | Kabel zu lang, keine Abschirmung                |
-| Falsches Protokoll konfiguriert | Modbus Kommunikation fehlt | Baudrate / Adresse falsch                       |
-| Überhitzung (schlechte Kühlung) | Motor schaltet ab          | Motorgehäuse freie Luftzirkulation              |
-| Kurzschluss PE-Leiter           | FI löst aus                | EC-Motoren erzeugen Ableitströme → FI-Selektion |
+| Fehler                          | Symptom                    | Ursache                                                        |
+| ------------------------------- | -------------------------- | -------------------------------------------------------------- |
+| 0–10 V Masseanbindung fehlt     | Motor dreht nicht/zufällig | Signal-GND nicht verbunden                                     |
+| EMV-Störungen auf 0–10 V        | Drehzahl schwankt          | Kabel zu lang, keine Abschirmung                               |
+| Falsches Protokoll konfiguriert | Modbus Kommunikation fehlt | Baudrate / Adresse falsch                                      |
+| Überhitzung (schlechte Kühlung) | Motor schaltet ab          | Motorgehäuse freie Luftzirkulation                             |
+| FI löst ohne Fehler aus         | Fehlauslösung              | Ableitströme der Elektronik, Summe mehrerer Geräte an einem FI |
 
-> ⚠️ EC-Motoren können durch ihre Elektronik hohe Ableitströme erzeugen. FI-Schutzschalter (RCD) müssen für diese Anwendung geeignet sein (Typ B oder F für DC-Komponenten).
+> ⚠️ Die Elektronik erzeugt Ableitströme, und im Fehlerfall können Gleichfehlerströme auftreten. Bei dreiphasigen EC-Motoren braucht es einen RCD **Typ B**, bei einphasigen meist Typ F oder A nach Herstellerangabe.
 
 ## Normen
 
-- **IEC 60034-30-1** — Wirkungsgradklassen IE1–IE4 für Elektromotoren
-- **ErP 2019/1781** (EU) — Ecodesign Anforderungen Elektromotoren und FU (IE3-Pflicht)
-- **EN 50598** — Energieeffizienz Antriebssysteme
+- **IEC 60034-30-1** — Wirkungsgradklassen IE1–IE4 für netzgespeiste Motoren
+- **IEC TS 60034-30-2** — Wirkungsgradklassen bis IE5 für umrichtergespeiste Motoren
+- **VO (EU) 2019/1781** — Ökodesign für Elektromotoren und FU
+- **EN IEC 61800-9-2** — Energieeffizienz von Antriebssystemen
 
 <!-- EN -->
 
@@ -178,12 +171,10 @@ EC-Motoren liefern typisch:
 
 - Permanent magnet rotor (no slip required!)
 - Stator is electronically energised (transistors, usually MOSFETs) with DC
-- Electronics detect rotor position (Hall sensors) → correct commutation
+- Electronics detect the rotor position, with Hall sensors or sensorless from the back EMF, and commutate accordingly
 - **Speed control integrated** in the motor electronics
 
-```
-Mains 230 V AC → [Motor electronics: rectifier + inverter] → Motor (DC-like operation)
-```
+The electronics in the motor rectify the mains voltage and switch the stator windings to match the rotor position. They are drive and motor control in one.
 
 ---
 
@@ -199,17 +190,11 @@ IE = International Efficiency Class (IEC 60034-30-1):
 | IE4   | Super premium   | 93–95%             | EC motor or IE4 AC with VFD |
 | IE5   | Ultra premium   | 95–97%             | Best EC motors              |
 
-**EU mandatory requirement (ErP 2021):** Motors 0.75–1,000 kW must meet IE3. EC motors significantly exceed IE3.
+**Ecodesign Regulation (EU) 2019/1781:** since July 2021 three-phase motors from 0.75 to 1000 kW must reach at least IE3, from 0.12 to 0.75 kW IE2. Since July 2023 IE4 applies from 75 to 200 kW. Switzerland has adopted the requirements in its Energy Efficiency Ordinance. IE5 is defined in IEC TS 60034-30-2 for converter-fed motors.
 
-### Practical Example: Fan
+### Part Load
 
-| Drive type            | Power consumption at 50% load |
-| --------------------- | ----------------------------- |
-| AC + VFD (IE2)        | ~35% of rated power           |
-| EC motor (integrated) | ~20–25% of rated power        |
-| Savings               | ~30–40%                       |
-
----
+## At part load the advantage is often larger than at rated load, because the efficiency of small induction motors drops more at part load than that of permanent magnet motors. How large the difference is depends on size and operating point. For a comparison, compare system efficiencies from manufacturer data at the actual operating point, not rated values.
 
 ## Control / Interfaces
 
@@ -246,18 +231,18 @@ EC motors typically provide:
 
 ## EC Motor vs. AC Motor + VFD
 
-| Feature                    | EC motor                        | AC motor + variable speed drive  |
-| -------------------------- | ------------------------------- | -------------------------------- |
-| Efficiency                 | IE4–IE5 (93–97%)                | IE2–IE3 (88–93%)                 |
-| Motor cost                 | Higher                          | Lower                            |
-| Total cost                 | Usually lower                   | Motor + VFD = more expensive     |
-| Space requirement          | Compact                         | VFD additional                   |
-| EMC                        | Internal to motor               | VFD generates harmonics          |
-| Maintenance                | No brush wear                   | Brushless rotor                  |
-| Starting current           | Low (electronically controlled) | High (without soft starter)      |
-| Suitability for high power | Up to ~30 kW                    | AC+VFD often cheaper above 15 kW |
+| Feature           | EC motor                                        | AC motor + variable speed drive                       |
+| ----------------- | ----------------------------------------------- | ----------------------------------------------------- |
+| Efficiency        | IE4–IE5 (93–97%)                                | IE2–IE3 (88–93%)                                      |
+| Motor cost        | Higher                                          | Lower                                                 |
+| Total cost        | Usually lower                                   | Motor + VFD = more expensive                          |
+| Space requirement | Compact                                         | VFD additional                                        |
+| EMC               | electronics in the motor also produce harmonics | drive produces harmonics, filters depending on device |
+| Maintenance       | brushless, bearings wear                        | also brushless, bearings wear                         |
+| Starting current  | low, electronically limited                     | low, the drive ramps up                               |
+| Power range       | mainly up to about 10–15 kW                     | from a few kW up to MW                                |
 
-**Conclusion:** For fans and small pumps (< 10 kW), the EC motor is the more cost-effective solution. For large pumps (> 15 kW), AC motor + VFD may still be competitive.
+**Conclusion:** for fans and small pumps up to about 10 kW the EC motor is usually the more economical solution. At higher power, induction or PM motors with a separate drive are usual.
 
 ---
 
@@ -275,18 +260,19 @@ EC motors typically provide:
 
 ## Common Faults
 
-| Fault                            | Symptom                           | Cause                                               |
-| -------------------------------- | --------------------------------- | --------------------------------------------------- |
-| 0–10 V ground connection missing | Motor doesn't run / runs randomly | Signal GND not connected                            |
-| EMC interference on 0–10 V       | Speed fluctuates                  | Cable too long, no shielding                        |
-| Wrong protocol configured        | Modbus communication absent       | Wrong baud rate / address                           |
-| Overheating (poor cooling)       | Motor shuts down                  | Motor housing needs free air circulation            |
-| Short circuit to PE conductor    | RCD trips                         | EC motors generate leakage currents → RCD selection |
+| Fault                            | Symptom                           | Cause                                                                  |
+| -------------------------------- | --------------------------------- | ---------------------------------------------------------------------- |
+| 0–10 V ground connection missing | Motor doesn't run / runs randomly | Signal GND not connected                                               |
+| EMC interference on 0–10 V       | Speed fluctuates                  | Cable too long, no shielding                                           |
+| Wrong protocol configured        | Modbus communication absent       | Wrong baud rate / address                                              |
+| Overheating (poor cooling)       | Motor shuts down                  | Motor housing needs free air circulation                               |
+| RCD trips without a fault        | nuisance tripping                 | leakage currents of the electronics, sum of several devices on one RCD |
 
-> ⚠️ EC motors can generate significant leakage currents due to their electronics. Residual current devices (RCDs) must be suitable for this application (Type B or F for DC components).
+> ⚠️ The electronics produce leakage currents, and DC fault currents can occur on a fault. Three-phase EC motors need a **type B** RCD, single-phase ones usually type F or A as specified by the manufacturer.
 
 ## Standards
 
-- **IEC 60034-30-1** — Efficiency classes IE1–IE4 for electric motors
-- **ErP 2019/1781** (EU) — Ecodesign requirements for electric motors and VFDs (IE3 mandatory)
-- **EN 50598** — Energy efficiency of drive systems
+- **IEC 60034-30-1** — Efficiency classes IE1–IE4 for line-operated motors
+- **IEC TS 60034-30-2** — Efficiency classes up to IE5 for converter-fed motors
+- **Regulation (EU) 2019/1781** — Ecodesign for electric motors and drives
+- **EN IEC 61800-9-2** — Energy efficiency of drive systems
