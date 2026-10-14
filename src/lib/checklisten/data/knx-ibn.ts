@@ -15,7 +15,7 @@ export const knxIbn: ChecklistTemplate = {
 	color: '#16a34a',
 	areas: ['ga', 'elektro'],
 	norm: ['EN 50090', 'ISO/IEC 14543-3'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Verkabelung & Hardware',
@@ -40,8 +40,10 @@ export const knxIbn: ChecklistTemplate = {
 				},
 				{
 					id: 'v-spannung',
-					title: 'Busspannung 29 V DC ± 1 V gemessen',
-					title_en: 'Bus voltage measured 29 V DC ± 1 V',
+					title:
+						'Busspannung gemessen: an der Versorgung rund 29–30 V, an jedem Teilnehmer mindestens 21 V',
+					title_en:
+						'Bus voltage measured: about 29–30 V at the supply, at least 21 V at every device',
 					critical: true
 				},
 				{
@@ -51,8 +53,10 @@ export const knxIbn: ChecklistTemplate = {
 				},
 				{
 					id: 'v-laenge',
-					title: 'Maximale Linienlänge eingehalten (max. 1000 m, 350 m zwischen Geräten)',
-					title_en: 'Maximum line length observed (max. 1000 m, 350 m between devices)'
+					title:
+						'Maximale Linienlänge eingehalten (max. 1000 m je Segment, 350 m Versorgung bis Teilnehmer, 700 m zwischen Teilnehmern)',
+					title_en:
+						'Maximum line length observed (max. 1000 m per segment, 350 m supply to device, 700 m between devices)'
 				}
 			]
 		},
@@ -78,8 +82,8 @@ export const knxIbn: ChecklistTemplate = {
 				},
 				{
 					id: 't-busabschluss',
-					title: 'Bus-Abschluss bei Bedarf vorhanden (am weitesten entfernten Punkt)',
-					title_en: 'Bus termination present if required (at the furthest point)'
+					title: 'Kein Abschlusswiderstand gesetzt (KNX TP braucht keinen)',
+					title_en: 'No terminating resistor fitted (KNX TP needs none)'
 				}
 			]
 		},
@@ -211,8 +215,10 @@ export const knxIbn: ChecklistTemplate = {
 				},
 				{
 					id: 'd-passwort',
-					title: 'BCU-Schlüssel / Passwörter übergeben',
-					title_en: 'BCU keys / passwords handed over'
+					title:
+						'Projektpasswort, BCU-Schlüssel und bei KNX Secure die Geräteschlüssel (FDSK) übergeben',
+					title_en:
+						'Project password, BCU keys and, with KNX Secure, the device keys (FDSK) handed over'
 				}
 			]
 		}

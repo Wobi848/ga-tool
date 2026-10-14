@@ -15,7 +15,7 @@ export const dplReview: ChecklistTemplate = {
 	color: '#059669',
 	areas: ['ga'],
 	norm: ['VDI 3814-2', 'SIA 386.110'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Vollständigkeit',
@@ -80,8 +80,10 @@ export const dplReview: ChecklistTemplate = {
 				},
 				{
 					id: 'dpl-name-lang',
-					title: 'Bezeichnerlänge ≤ 32 Zeichen (BACnet-Limit)',
-					title_en: 'Identifier length ≤ 32 characters (BACnet limit)'
+					title:
+						'Bezeichnerlänge innerhalb der Grenze der eingesetzten Systeme (oft 32–64 Zeichen)',
+					title_en:
+						'Identifier length within the limit of the systems used (often 32–64 characters)'
 				}
 			]
 		},
@@ -154,8 +156,8 @@ export const dplReview: ChecklistTemplate = {
 					id: 'dpl-alarm-rueckmeldung',
 					title: 'Fehlende Rückmeldung (Sollbefehl ≠ Istzustand) mit Alarmverzögerung versehen',
 					title_en: 'Missing feedback (command ≠ actual state) fitted with alarm delay',
-					hint: 'Typisch: 5–10 s nach Befehl, kein sofortiger Alarm',
-					hint_en: 'Typically: 5–10 s after command, no immediate alarm'
+					hint: 'Typisch 10–60 s nach dem Befehl, je nach Hochlaufzeit',
+					hint_en: 'Typically 10–60 s after the command, depending on start-up time'
 				}
 			]
 		},

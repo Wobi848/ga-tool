@@ -285,15 +285,15 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ## Checklisten
 
-- ⬜ dali-ibn
-- ⬜ dpl-review
-- ⬜ funktionstest
+- ✅ dali-ibn
+- ✅ dpl-review
+- ✅ funktionstest
 - ✅ glt-uebergabe
-- ⬜ ibn-heizung
-- ⬜ ibn-kaelte
-- ⬜ ibn-rlt
-- ⬜ ibn-sanitaer
-- ⬜ knx-ibn
+- ✅ ibn-heizung
+- ✅ ibn-kaelte
+- ✅ ibn-rlt
+- ✅ ibn-sanitaer
+- ✅ knx-ibn
 - ✅ netzwerk-ga
 
 ## Abkürzungen
@@ -437,3 +437,4 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | swki-richtlinien                    | erfundene Richtlinien (GA2006-01, BT101/103/105-01); BT102-01 als Lufthygiene (ist Wasserbeschaffenheit); erfundene Prüfintervalle und Keimgrenzwerte; «gegründet 1929»                                                                                                                                                                                                                                                                                                                                                                                            | neu: VA104-01, VA105-01, BT102-01, HE301-01                                                                                                 | SWKI                                                                  |
 | 14.10.2026 | vdi3814                             | Blattstruktur erfunden (Blatt 4 Visualisierung, Blatt 5 Kommunikation); «Normsymbole VDI 3814-4»; Vergleich mit SIA 386.110 als GA-Norm                                                                                                                                                                                                                                                                                                                                                                                                                            | neu: Gliederung 1/2.x/3.x/4.x/5/6, Vergleich DE/CH                                                                                          | VDI                                                                   |
 | 14.10.2026 | Referenztabellen                    | DALI Part 301–304 vertauscht, DT 5 falsch; KNX DPT 9.x Bereiche «±670» (±670'760), 14.031/14.033/14.065/14.076 falsch zugeordnet, 9.016/9.017, 20.108; Motor-IE Wirkungsgrade um eine Klasse verschoben, Pflichten 2017 statt 2021; Kältemittel GWP «AR5» (sind AR4), Quote «−95 % bis 2030», R32 T_krit; Filter ISO Coarse «> 10 µm»; Glykol Vol.-% fehlte, PG-Wärmekapazität; Beton λ 1.65; Steuerkabel PT1000 «< 10 % Leitungswiderstand» (≈ 26 K); Systemdruck-Alarm 3.5 bar; Protokollvergleich MS/TP «MAC lückenlos»; Stahlrohre «nahtlos Serie 1»; SIA 4028 | korrigiert; normaussentemp bleibt ⚠️ (Werte nicht mit SIA 2028 abgeglichen)                                                                 | IEC 62386, KNX-Spezifikation, IEC 60034-30-1, ISO 16890, EN ISO 10456 |
+| 14.10.2026 | Checklisten                         | Sanitär nach DVGW W551/VDI 6023 statt SIA 385/1, Nachtabschaltung Zirkulation, «Totstrang 3 Liter», «Kalk-Schutzschicht 70 °C»; RLT «Aussenluft > 1 m», nur VDI 6022; Kälte «F-Gas-Logbuch ab 3 kg» (CH: ChemRRV-Wartungsheft; EU 5 t CO₂e), Vakuum 0.3 mbar; Heizung Spreizung WP; DALI DT7 statt DT1, Part 301 statt 304, «Szene 15 Notlicht», EN-50172-Intervalle; KNX «Bus-Abschluss», 350 m zwischen Geräten, KNX-Secure-Schlüssel; DPL «32 Zeichen BACnet-Limit»                                                                                             | korrigiert, konsistent mit den Artikeln                                                                                                     | SIA 385/1, ChemRRV, EN 50172                                          |

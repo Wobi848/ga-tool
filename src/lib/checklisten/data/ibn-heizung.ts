@@ -15,7 +15,7 @@ export const ibnHeizung: ChecklistTemplate = {
 	color: '#dc2626',
 	areas: ['hlk'],
 	norm: ['SIA 384/1', 'SIA 384/3', 'SWKI 91-1'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Vorbereitung & Sichtkontrolle',
@@ -117,8 +117,8 @@ export const ibnHeizung: ChecklistTemplate = {
 				},
 				{
 					id: 'we-temperatursprung',
-					title: 'Temperatursprung VL/RL plausibel (~10–20 K)',
-					title_en: 'Flow/return temperature spread plausible (~10–20 K)'
+					title: 'Spreizung VL/RL plausibel (Wärmepumpe 5–8 K, Heizkörper 10–20 K)',
+					title_en: 'Flow/return spread plausible (heat pump 5–8 K, radiators 10–20 K)'
 				},
 				{
 					id: 'we-jah',

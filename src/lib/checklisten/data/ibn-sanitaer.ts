@@ -7,15 +7,15 @@ export const ibnSanitaer: ChecklistTemplate = {
 	subtitle: 'Trinkwassererwärmung, TWW-Zirkulation, Legionellenprävention',
 	subtitle_en: 'Domestic hot water heating, DHW circulation, Legionella prevention',
 	description:
-		'Inbetriebnahme einer Trinkwarmwasseranlage mit Fokus auf Legionellenprävention nach DVGW W 551 / SVGW W3. Einzuhalten: Speichertemperatur ≥ 60°C, Zirkulationsrücklauf ≥ 55°C.',
+		'Inbetriebnahme einer Trinkwarmwasseranlage mit Fokus auf Legionellenprävention nach SIA 385/1 und SVGW W3/E3. Einzuhalten: Speicher ≥ 60 °C, warmgehaltene Leitungen an jedem Punkt ≥ 55 °C, Entnahmestellen ≥ 50 °C.',
 	description_en:
-		'Commissioning of a domestic hot water system with focus on Legionella prevention per DVGW W 551 / SVGW W3. Requirements: storage temperature ≥ 60°C, circulation return ≥ 55°C.',
+		'Commissioning of a domestic hot water system with focus on Legionella prevention per SIA 385/1 and SVGW W3/E3. Requirements: storage ≥ 60 °C, kept-warm pipes ≥ 55 °C at every point, draw-off points ≥ 50 °C.',
 	category: 'IBN',
 	icon: 'droplets',
 	color: '#0284c7',
 	areas: ['sanitaer'],
-	norm: ['DVGW W 551', 'SVGW W3', 'TrinkwV', 'VDI 6023', 'EN 806'],
-	updated: '2026-05-15',
+	norm: ['SIA 385/1', 'SVGW W3/E3', 'TBDV', 'EN 806'],
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Dokumentation & Vorbereitung',
@@ -29,8 +29,8 @@ export const ibnSanitaer: ChecklistTemplate = {
 				},
 				{
 					id: 's-pre-hygieneschullung',
-					title: 'Hygiene-Unterweisung (VDI 6023 Teil A/B) durchgeführt',
-					title_en: 'Hygiene training (VDI 6023 Part A/B) completed',
+					title: 'Hygiene-Unterweisung Trinkwasser durchgeführt (SVGW W3/E3; DE: VDI 6023)',
+					title_en: 'Drinking water hygiene training completed (SVGW W3/E3; DE: VDI 6023)',
 					critical: true
 				},
 				{
@@ -63,8 +63,8 @@ export const ibnSanitaer: ChecklistTemplate = {
 					title: 'Keine Totstränge vorhanden oder auf max. 3× DN begrenzt',
 					title_en: 'No dead legs or limited to max. 3× DN',
 					critical: true,
-					hint: 'Totstränge > 3 Liter = Legionellenrisiko!',
-					hint_en: 'Dead legs > 3 litres = Legionella risk!'
+					hint: 'Nicht durchflossene Leitungen sind ein Legionellenrisiko; Stichleitungen kurz halten',
+					hint_en: 'Pipes without flow are a Legionella risk; keep branch pipes short'
 				},
 				{
 					id: 's-h-zirkulation',
@@ -95,8 +95,8 @@ export const ibnSanitaer: ChecklistTemplate = {
 					title: 'Speicher-Solltemperatur ≥ 60°C eingestellt',
 					title_en: 'Storage setpoint ≥ 60°C set',
 					critical: true,
-					hint: 'DVGW W551: mind. 60°C im Speicher, Speicherkopf ≥ 60°C',
-					hint_en: 'DVGW W551: min. 60°C in storage, storage top ≥ 60°C'
+					hint: 'SIA 385/1, SVGW W3/E3: Speicheraustritt mindestens 60 °C',
+					hint_en: 'SIA 385/1, SVGW W3/E3: storage outlet at least 60 °C'
 				},
 				{
 					id: 's-sp-anode',
@@ -113,8 +113,9 @@ export const ibnSanitaer: ChecklistTemplate = {
 					id: 's-sp-entkalkung',
 					title: 'Wasseranalyse / Härte bekannt, Entkalkungsmassnahmen geplant',
 					title_en: 'Water analysis / hardness known, descaling measures planned',
-					hint: 'Kalk-Schutzschicht ab 70°C — höhere Verkalkungs-Gefahr',
-					hint_en: 'Limescale protection layer forms above 70°C — higher scaling risk'
+					hint: 'Über etwa 60 °C fällt deutlich mehr Kalk aus; bei hartem Wasser Enthärtung prüfen',
+					hint_en:
+						'Above about 60 °C considerably more limescale precipitates; check softening for hard water'
 				}
 			]
 		},
@@ -137,10 +138,11 @@ export const ibnSanitaer: ChecklistTemplate = {
 				},
 				{
 					id: 's-z-zeitprogramm',
-					title: 'Zirkulationszeitprogramm aktiv (Betriebszeiten)',
-					title_en: 'Circulation time program active (operating hours)',
-					hint: 'Nacht-Abschaltung: > 4 Stunden Stagnation vermeiden',
-					hint_en: 'Night shutdown: avoid > 4 hours stagnation'
+					title: 'Zirkulation läuft durchgehend, Temperatur ≥ 55 °C an jedem Punkt',
+					title_en: 'Circulation runs continuously, temperature ≥ 55 °C at every point',
+					hint: 'SIA 385/1:2020 verlangt warmgehaltene Leitungen ohne Ausnahme; eine Nachtabschaltung lässt die Temperatur sinken',
+					hint_en:
+						'SIA 385/1:2020 requires kept-warm pipes without exception; a night shutdown lets the temperature drop'
 				},
 				{
 					id: 's-z-ddc',
@@ -197,8 +199,8 @@ export const ibnSanitaer: ChecklistTemplate = {
 				},
 				{
 					id: 's-u-wasserprobe',
-					title: 'Positivbefund Wasserprobe an Betreiber übergeben',
-					title_en: 'Positive water sample result handed over to operator',
+					title: 'Befund der Wasserprobe an Betreiber übergeben',
+					title_en: 'Water sample result handed over to operator',
 					critical: true
 				},
 				{

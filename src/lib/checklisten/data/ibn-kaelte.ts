@@ -15,7 +15,7 @@ export const ibnKaelte: ChecklistTemplate = {
 	color: '#0891b2',
 	areas: ['hlk'],
 	norm: ['VDMA 24247', 'EN 378', 'EN 14511', 'F-Gase-Verordnung'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Dokumentation & Vorbereitung',
@@ -35,11 +35,12 @@ export const ibnKaelte: ChecklistTemplate = {
 				},
 				{
 					id: 'k-pre-f-gase',
-					title: 'F-Gase-Logbuch angelegt (EU F-Gase-VO)',
-					title_en: 'F-gas logbook created (EU F-gas Regulation)',
+					title: 'Wartungsheft angelegt (ChemRRV; EU: F-Gas-VO 2024/573)',
+					title_en: 'Maintenance logbook created (ChemRRV; EU: F-gas Regulation 2024/573)',
 					critical: true,
-					hint: 'Pflicht ab 3 kg Kältemittel-Füllmenge',
-					hint_en: 'Mandatory from 3 kg refrigerant charge'
+					hint: 'CH: Pflicht ab 3 kg ozonschichtabbauender oder in der Luft stabiler Kältemittel; EU: Aufzeichnungen ab 5 t CO₂-Äquivalent',
+					hint_en:
+						'CH: mandatory from 3 kg of ozone-depleting or air-stable refrigerants; EU: records from 5 t CO₂ equivalent'
 				},
 				{
 					id: 'k-pre-zertifikat',
@@ -68,8 +69,9 @@ export const ibnKaelte: ChecklistTemplate = {
 				},
 				{
 					id: 'k-vakuumtest',
-					title: 'Vakuumtest bestanden (< 0,3 mbar Enddruck nach 30 min)',
-					title_en: 'Vacuum test passed (< 0.3 mbar final pressure after 30 min)',
+					title: 'Vakuum gehalten (Enddruck und Haltezeit nach Hersteller, kein Druckanstieg)',
+					title_en:
+						'Vacuum held (final pressure and holding time per manufacturer, no pressure rise)',
 					critical: true
 				},
 				{
@@ -221,8 +223,8 @@ export const ibnKaelte: ChecklistTemplate = {
 				},
 				{
 					id: 'k-u-fgase',
-					title: 'F-Gase-Logbuch mit Erstfüllung eingetragen',
-					title_en: 'F-gas logbook updated with initial charge',
+					title: 'Wartungsheft mit Erstfüllung nachgeführt',
+					title_en: 'Maintenance logbook updated with initial charge',
 					critical: true
 				},
 				{

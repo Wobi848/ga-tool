@@ -7,15 +7,15 @@ export const ibnRLT: ChecklistTemplate = {
 	subtitle: 'Inbetriebnahme RLT-Anlage / Air Handling Unit',
 	subtitle_en: 'Commissioning of AHU with heat recovery',
 	description:
-		'Inbetriebnahme einer Raumlufttechnischen Anlage mit Wärmerückgewinnung. Hygiene nach VDI 6022 / SIA 382.',
+		'Inbetriebnahme einer Raumlufttechnischen Anlage mit Wärmerückgewinnung. Hygiene nach SWKI VA104-01 bzw. VDI 6022, SIA 382/1.',
 	description_en:
-		'Commissioning of an air handling unit with heat recovery. Hygiene per VDI 6022 / SIA 382.',
+		'Commissioning of an air handling unit with heat recovery. Hygiene per SWKI VA104-01 or VDI 6022, SIA 382/1.',
 	category: 'IBN',
 	icon: 'wind',
 	color: '#0891b2',
 	areas: ['hlk'],
-	norm: ['SIA 382/1', 'VDI 6022', 'EN 16798-3'],
-	updated: '2026-05-14',
+	norm: ['SIA 382/1', 'SWKI VA104-01', 'VDI 6022', 'EN 16798-3'],
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Mechanische Prüfung',
@@ -45,8 +45,10 @@ export const ibnRLT: ChecklistTemplate = {
 				},
 				{
 					id: 'mech-aussenluft',
-					title: 'Aussenluftgitter mit Insekten-/Vogelschutz, > 1 m über Boden',
-					title_en: 'Outdoor air grille with insect/bird guard, > 1 m above ground'
+					title:
+						'Aussenluftfassung mit Insekten- und Vogelschutz, ausreichend hoch über Terrain und weg von Fortluft und Verkehr',
+					title_en:
+						'Outdoor air intake with insect and bird guard, sufficiently high above ground and away from exhaust air and traffic'
 				}
 			]
 		},
@@ -128,7 +130,7 @@ export const ibnRLT: ChecklistTemplate = {
 				},
 				{
 					id: 'v-druck',
-					title: 'Externe Pressung im Auslegungsbereich (Pumpenkurve)',
+					title: 'Externe Pressung im Auslegungsbereich (Ventilatorkennlinie)',
 					title_en: 'External static pressure within design range (fan curve)'
 				}
 			]
@@ -181,8 +183,8 @@ export const ibnRLT: ChecklistTemplate = {
 				},
 				{
 					id: 'b-hygiene',
-					title: 'Hygiene-Erstinspektion nach VDI 6022 dokumentiert',
-					title_en: 'Initial hygiene inspection per VDI 6022 documented',
+					title: 'Hygiene-Erstinspektion nach SWKI VA104-01 bzw. VDI 6022 dokumentiert',
+					title_en: 'Initial hygiene inspection per SWKI VA104-01 or VDI 6022 documented',
 					critical: true,
 					norm: 'VDI 6022'
 				},
@@ -215,8 +217,8 @@ export const ibnRLT: ChecklistTemplate = {
 				},
 				{
 					id: 'u-wartungsplan',
-					title: 'Wartungsplan nach VDI 6022 erstellt',
-					title_en: 'Maintenance plan per VDI 6022 created'
+					title: 'Wartungsplan nach SWKI VA104-01 bzw. VDI 6022 erstellt',
+					title_en: 'Maintenance plan per SWKI VA104-01 or VDI 6022 created'
 				}
 			]
 		}

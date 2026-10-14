@@ -15,7 +15,7 @@ export const daliIbn: ChecklistTemplate = {
 	color: '#d97706',
 	areas: ['elektro', 'ga'],
 	norm: ['IEC 62386', 'EN 62386-202 (DALI-2)', 'EN 50172 (Notlicht)', 'ASR A3.4'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	sections: [
 		{
 			title: 'Vorbereitung & Verdrahtung',
@@ -85,9 +85,9 @@ export const daliIbn: ChecklistTemplate = {
 				{
 					id: 'd-addr-geraetetyp',
 					title:
-						'Device Type (DT) jedes Geräts geprüft (DT0=Fluoresz., DT6=LED, DT8=Farbe, DT7=Notlicht)',
+						'Device Type (DT) jedes Geräts geprüft (DT0=Fluoresz., DT6=LED, DT8=Farbe, DT1=Notlicht)',
 					title_en:
-						'Device type (DT) of each device verified (DT0=fluorescent, DT6=LED, DT8=colour, DT7=emergency)'
+						'Device type (DT) of each device verified (DT0=fluorescent, DT6=LED, DT8=colour, DT1=emergency)'
 				}
 			]
 		},
@@ -111,8 +111,8 @@ export const daliIbn: ChecklistTemplate = {
 					id: 'd-szn-vergabe',
 					title: 'Szenen programmiert (max. 16 Szenen)',
 					title_en: 'Scenes programmed (max. 16 scenes)',
-					hint: 'Szene 0 = AUS, Szene 15 = Notbeleuchtung (Konvention)',
-					hint_en: 'Scene 0 = OFF, scene 15 = emergency lighting (convention)'
+					hint: 'Szenennummern im Projekt einheitlich festlegen und dokumentieren',
+					hint_en: 'Define and document scene numbers consistently across the project'
 				},
 				{
 					id: 'd-szn-werte',
@@ -149,8 +149,8 @@ export const daliIbn: ChecklistTemplate = {
 				},
 				{
 					id: 'd-lux-sensor',
-					title: 'Lux-Sensor (DALI Part 301) erkannt und kalibriert (falls vorhanden)',
-					title_en: 'Lux sensor (DALI Part 301) detected and calibrated (if present)'
+					title: 'Lux-Sensor (DALI Part 304) erkannt und kalibriert (falls vorhanden)',
+					title_en: 'Lux sensor (DALI Part 304) detected and calibrated (if present)'
 				},
 				{
 					id: 'd-konstantlicht',
@@ -165,22 +165,23 @@ export const daliIbn: ChecklistTemplate = {
 			items: [
 				{
 					id: 'd-nl-geraete',
-					title: 'Notlicht-Betriebsgeräte (DT7) erkannt und adressiert',
-					title_en: 'Emergency lighting control gear (DT7) detected and addressed',
+					title: 'Notlicht-Betriebsgeräte (DT1) erkannt und adressiert',
+					title_en: 'Emergency lighting control gear (DT1) detected and addressed',
 					critical: true
 				},
 				{
 					id: 'd-nl-betriebstest',
-					title: 'Funktionstest (15 s) über DALI-System ausgelöst und protokolliert',
-					title_en: 'Function test (15 s) triggered via DALI system and recorded',
+					title: 'Funktionstest über das DALI-System ausgelöst und protokolliert',
+					title_en: 'Function test triggered via the DALI system and recorded',
 					critical: true,
-					hint: 'EN 50172: Wöchentlicher Kurztest (1 min), jährlicher Dauertest (1 Stunde)',
-					hint_en: 'EN 50172: Weekly short test (1 min), annual duration test (1 hour)'
+					hint: 'EN 50172: kurzer Funktionstest monatlich, Betriebsdauertest jährlich über die Nenndauer; in der Schweiz zusätzlich die VKF-Vorgaben',
+					hint_en:
+						'EN 50172: short function test monthly, duration test annually over the rated duration; in Switzerland also the VKF requirements'
 				},
 				{
 					id: 'd-nl-dauertest',
-					title: 'Dauertest (60 min) bestanden, Restkapazität > 0',
-					title_en: 'Duration test (60 min) passed, remaining capacity > 0',
+					title: 'Betriebsdauertest über die Nenndauer bestanden (oft 1 oder 3 h)',
+					title_en: 'Duration test over the rated duration passed (often 1 or 3 h)',
 					critical: true
 				},
 				{
@@ -204,8 +205,8 @@ export const daliIbn: ChecklistTemplate = {
 					id: 'd-glt-daten',
 					title: 'DALI-Controller an GLT angebunden (DALI-Gateway, IP, Modbus)',
 					title_en: 'DALI controller connected to BMS (DALI gateway, IP, Modbus)',
-					hint: 'Helvar DALI, Osram DEXAL, Tridonic etc.',
-					hint_en: 'Helvar DALI, Osram DEXAL, Tridonic etc.'
+					hint: 'Gateway nach Projekt: DALI auf BACnet, Modbus oder KNX',
+					hint_en: 'Gateway per project: DALI to BACnet, Modbus or KNX'
 				},
 				{
 					id: 'd-glt-szenen',
