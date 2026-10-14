@@ -258,7 +258,7 @@
 	}
 
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.title-row {
@@ -416,7 +416,7 @@
 	}
 
 	.copy-btn:hover:not(:disabled) {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 	}
 

@@ -548,7 +548,7 @@
 	.letter-heading {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		margin: 0 0 0.5rem 0.25rem;
 		scroll-margin-top: 120px;
 	}
@@ -584,7 +584,7 @@
 	.abbr-link-hint {
 		display: inline-flex;
 		align-items: center;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		margin-left: auto;
 		opacity: 0.75;
 	}
@@ -657,7 +657,7 @@
 
 	.eq-short {
 		font-weight: 700;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-family: ui-monospace, SFMono-Regular, monospace;
 	}
 
@@ -691,7 +691,7 @@
 	.abbr-short {
 		font-size: 1rem;
 		font-weight: 700;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-family: ui-monospace, SFMono-Regular, monospace;
 	}
 
@@ -737,7 +737,7 @@
 	}
 
 	.abbr-link {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		text-decoration: none;
 		font-weight: 500;
 	}

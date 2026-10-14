@@ -478,7 +478,7 @@
 	}
 	.add-btn:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.formula-row {
 		display: flex;
@@ -516,7 +516,7 @@
 		font-family: inherit;
 	}
 	.copy-btn:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 	}
 	.coef-grid {

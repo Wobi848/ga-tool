@@ -76,7 +76,7 @@
 	}
 
 	.changelog :global(strong) {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-weight: 600;
 	}
 

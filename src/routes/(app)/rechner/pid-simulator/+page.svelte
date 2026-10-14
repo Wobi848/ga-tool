@@ -972,7 +972,7 @@
 		margin-bottom: 0.5rem;
 	}
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.header-row {
@@ -1178,7 +1178,7 @@
 	.seg-btn.active {
 		background: color-mix(in srgb, var(--color-primary) 12%, transparent);
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-weight: 600;
 	}
 

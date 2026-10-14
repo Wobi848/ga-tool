@@ -461,7 +461,7 @@
 
 	.standort-btn.active {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 	}
 
@@ -519,7 +519,7 @@
 	.room-load {
 		font-size: 0.8125rem;
 		font-weight: 600;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		min-width: 4rem;
 		text-align: right;
 		font-family: ui-monospace, monospace;
@@ -610,7 +610,7 @@
 	}
 	.room-result-val {
 		font-weight: 700;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-family: ui-monospace, monospace;
 	}
 	.room-result-spec {
@@ -663,7 +663,7 @@
 	}
 	.add-room-btn:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* Benchmark */

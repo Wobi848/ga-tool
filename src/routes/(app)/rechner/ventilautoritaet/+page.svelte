@@ -367,7 +367,7 @@
 	.kvs-selected {
 		border-color: var(--color-primary);
 		background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-weight: 700;
 	}
 

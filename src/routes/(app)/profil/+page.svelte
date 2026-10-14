@@ -556,7 +556,7 @@
 
 	.badge-admin {
 		background: color-mix(in srgb, var(--color-primary) 15%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* Chip row preview */
@@ -674,7 +674,7 @@
 	}
 
 	.btn-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* Form grid */
@@ -816,7 +816,7 @@
 
 	.btn-secondary:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.btn-secondary:disabled {

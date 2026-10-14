@@ -70,16 +70,16 @@
 	}
 
 	.fav-btn:hover {
-		color: #eab308;
-		background: color-mix(in srgb, #eab308 10%, transparent);
+		color: var(--fav);
+		background: color-mix(in srgb, var(--fav) 10%, transparent);
 	}
 
 	.fav-btn--active {
-		color: #eab308;
+		color: var(--fav);
 	}
 
 	.fav-btn--active:hover {
 		color: #ca8a04;
-		background: color-mix(in srgb, #eab308 15%, transparent);
+		background: color-mix(in srgb, var(--fav) 15%, transparent);
 	}
 </style>

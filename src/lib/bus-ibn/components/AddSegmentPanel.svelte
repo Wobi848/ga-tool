@@ -76,7 +76,7 @@
 	}
 	.btn-add-seg:hover {
 		background: var(--bg);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 		border-style: solid;
 	}

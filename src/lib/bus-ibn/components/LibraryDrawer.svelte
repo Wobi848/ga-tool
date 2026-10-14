@@ -284,7 +284,7 @@
 		border-radius: 0.375rem;
 		border: 1px solid var(--border);
 		background: var(--bg);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		cursor: pointer;
 		display: flex;
 		align-items: center;

@@ -95,7 +95,7 @@
 	}
 
 	.admin-nav-item.active {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-bottom-color: var(--color-primary);
 	}
 

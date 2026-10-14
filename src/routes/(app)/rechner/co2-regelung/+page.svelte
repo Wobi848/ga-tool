@@ -354,7 +354,7 @@
 
 	.preset-btn.active {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 		background: color-mix(in srgb, var(--color-primary) 8%, transparent);
 	}
 

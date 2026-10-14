@@ -257,7 +257,7 @@
 	}
 	.add-btn:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* Contributions */

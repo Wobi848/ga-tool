@@ -356,7 +356,7 @@
 	}
 
 	.filter-hint a {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* Results */
@@ -506,7 +506,7 @@
 	.btn-clear-text {
 		background: none;
 		border: none;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-size: 0.875rem;
 		cursor: pointer;
 		font-family: inherit;

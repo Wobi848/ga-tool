@@ -453,7 +453,7 @@
 		margin-bottom: 0.5rem;
 	}
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.title-row {
 		display: flex;
@@ -610,7 +610,7 @@
 	.section-header h2 {
 		font-size: 0.85rem;
 		font-weight: 600;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		margin: 0;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
@@ -715,11 +715,11 @@
 		}
 	}
 	.action-btn:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 	}
 	.action-btn.active {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 		background: color-mix(in srgb, var(--color-primary) 10%, transparent);
 	}

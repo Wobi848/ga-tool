@@ -195,7 +195,7 @@
 	}
 
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.meta-row {
@@ -263,7 +263,7 @@
 		padding: 0.18rem 0.55rem;
 		border-radius: 0.3rem;
 		background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.tags {
@@ -363,7 +363,7 @@
 	}
 
 	.prose :global(a) {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 2px;

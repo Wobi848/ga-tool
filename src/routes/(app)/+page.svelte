@@ -19,6 +19,8 @@
 		referenz: '/referenz',
 		abkuerzungen: '/abkuerzungen'
 	};
+	// Kräftige Töne für Akzente. Als Schrift werden sie mit --text gemischt:
+	// im Hellen dunkler, im Dunkeln heller, sonst reicht der Kontrast nicht.
 	const moduleColor: Record<string, string> = {
 		konverter: '#ea580c',
 		rechner: '#0d9488',
@@ -217,7 +219,7 @@
 					fill="currentColor"
 					stroke="none"
 					class="section-icon"
-					style="color:#eab308"
+					style="color: var(--fav)"
 				>
 					<polygon
 						points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
@@ -283,7 +285,7 @@
 						<span class="top-accent" style="background:{moduleColor[item.type]}"></span>
 						<span
 							class="top-badge"
-							style:color={moduleColor[item.type]}
+							style:color="color-mix(in srgb, {moduleColor[item.type]} 55%, var(--text))"
 							style:background="{moduleColor[item.type]}18"
 						>
 							{moduleLabel[item.type] ?? item.type}
@@ -321,7 +323,7 @@
 							<span class="top-rank">{i + 1}</span>
 							<span
 								class="top-badge"
-								style:color={moduleColor[item.module]}
+								style:color="color-mix(in srgb, {moduleColor[item.module]} 55%, var(--text))"
 								style:background="{moduleColor[item.module]}18"
 							>
 								{moduleLabel[item.module] ?? item.module}
@@ -496,8 +498,8 @@
 	}
 
 	.fav-pill:hover {
-		border-color: #eab308;
-		background: color-mix(in srgb, #eab308 6%, var(--surface));
+		border-color: var(--fav);
+		background: color-mix(in srgb, var(--fav) 6%, var(--surface));
 	}
 
 	.fav-pill-dot {

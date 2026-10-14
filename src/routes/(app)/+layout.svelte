@@ -582,7 +582,7 @@
 
 	.nav-item.active {
 		background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.nav-item--btn {
@@ -603,7 +603,7 @@
 		background: none;
 		border: none;
 		cursor: pointer;
-		color: #eab308;
+		color: var(--fav);
 		font-size: 0.8125rem;
 		font-weight: 600;
 		padding: 0.3rem 0;
@@ -615,8 +615,8 @@
 	}
 
 	.fav-count {
-		background: color-mix(in srgb, #eab308 20%, transparent);
-		color: #eab308;
+		background: color-mix(in srgb, var(--fav) 20%, transparent);
+		color: var(--fav);
 		border-radius: 999px;
 		font-size: 0.65rem;
 		font-weight: 700;
@@ -760,7 +760,7 @@
 			border-color 0.15s;
 	}
 	.version-badge:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 	}
 
@@ -791,12 +791,12 @@
 	}
 
 	.user-badge--guest {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-weight: 500;
 	}
 
 	.nav-item--login {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.nav-item--admin {
@@ -943,7 +943,7 @@
 	}
 
 	.more-item.active {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		background: var(--surface-hover);
 	}
 
@@ -991,7 +991,7 @@
 	}
 
 	.bottom-nav-item.active {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* ── Update Banner ── */
@@ -1008,7 +1008,7 @@
 	}
 
 	.update-icon {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-size: 0.875rem;
 		flex-shrink: 0;
 	}
@@ -1019,11 +1019,11 @@
 	}
 
 	.update-text strong {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.update-link {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		text-decoration: none;
 		font-weight: 500;
 		white-space: nowrap;

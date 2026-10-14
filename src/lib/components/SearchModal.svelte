@@ -362,7 +362,7 @@
 
 	.item.active .item-arrow {
 		opacity: 1;
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.footer {

@@ -1738,7 +1738,7 @@
 	}
 	.toolbar-btn:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.toolbar-sep {
 		width: 1px;
@@ -1917,7 +1917,7 @@
 	}
 	.btn-icon:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.btn-icon--danger:hover {
 		border-color: #dc2626;
@@ -2134,7 +2134,7 @@
 	.bulk-bar-count {
 		font-size: 0.8125rem;
 		font-weight: 600;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		flex-shrink: 0;
 	}
 	.bulk-bar-sep {
@@ -2159,7 +2159,7 @@
 	}
 	.bulk-bar-btn:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.bulk-bar-del:hover {
 		border-color: #dc2626 !important;
@@ -2366,7 +2366,7 @@
 		user-select: none;
 	}
 	.col-sortable:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.sort-icon {
 		font-size: 0.65rem;
@@ -2374,7 +2374,7 @@
 		margin-left: 2px;
 	}
 	.sort-icon--active {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.device-table thead th {
 		text-align: left;
@@ -2495,7 +2495,7 @@
 	}
 	.btn-row-act:hover {
 		background: var(--bg);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.btn-row-del {
 		width: 26px;
@@ -2584,7 +2584,7 @@
 	.bulk-addr {
 		font-weight: 700;
 		font-variant-numeric: tabular-nums;
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.bulk-name {
 		color: var(--text);
@@ -2635,7 +2635,7 @@
 	}
 	.btn-add-device:hover {
 		border-color: var(--color-primary);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 	.seg-count {
 		font-size: 0.75rem;

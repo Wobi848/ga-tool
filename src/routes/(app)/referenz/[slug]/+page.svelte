@@ -281,7 +281,7 @@
 	}
 
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.title-row {
@@ -318,7 +318,7 @@
 		padding: 0.18rem 0.55rem;
 		border-radius: 0.3rem;
 		background: color-mix(in srgb, var(--color-primary) 12%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.area-chip {
@@ -427,11 +427,11 @@
 	}
 
 	th.sortable:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	th.highlight {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.th-content {
@@ -453,7 +453,7 @@
 
 	.sort-indicator.active {
 		opacity: 1;
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	td {
@@ -492,7 +492,7 @@
 
 	td.highlight {
 		font-weight: 600;
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.copied-flash {
@@ -548,7 +548,7 @@
 	}
 
 	.copy-row-btn:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 		border-color: var(--color-primary);
 	}
 
@@ -567,7 +567,7 @@
 		font-size: 0.7rem;
 		text-transform: uppercase;
 		letter-spacing: 0.04em;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		margin-bottom: 0.3rem;
 	}
 

@@ -590,7 +590,7 @@
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		margin-bottom: 0.5rem;
 	}
 
@@ -820,7 +820,7 @@
 	.result-val--big {
 		font-size: 1.25rem;
 		font-weight: 700;
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.result-val--big.out-of-range {
@@ -894,7 +894,7 @@
 	}
 
 	.qr-active .qr-bv {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	/* ── Responsive ── */

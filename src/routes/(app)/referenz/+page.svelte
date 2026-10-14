@@ -341,7 +341,7 @@
 		padding: 0.15rem 0.45rem;
 		border-radius: 0.3rem;
 		background: color-mix(in srgb, var(--color-primary) 10%, transparent);
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.card-arrow {

@@ -262,7 +262,7 @@
 		width: 100%;
 		background: none;
 		border: none;
-		color: var(--color-primary);
+		color: var(--primary-text);
 		font-size: 0.875rem;
 		font-weight: 500;
 		cursor: pointer;
@@ -283,7 +283,7 @@
 		margin-top: 1.25rem;
 	}
 	.back-link:hover {
-		color: var(--color-primary);
+		color: var(--primary-text);
 	}
 
 	.footer-note {
