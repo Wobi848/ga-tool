@@ -1,93 +1,36 @@
 import type { ConverterMeta } from './types';
 
-// Base unit: lux (lx)
-// DALI level: logarithmic mapping per IEC 62386 (level 0 = off, 1–254 = dim, 255 = max)
-// DALI % → lux is perceptual (logarithmic), using arc formula: lux ∝ (10^((level-1)/253×3))
-// Simplified linear for candela/m² and fc; log for DALI
-
-function daliLevelToLux(level: number): number {
-	if (level <= 0) return 0;
-	const normalized = (Math.min(level, 254) - 1) / 253;
-	return Math.pow(10, normalized * Math.log10(1000)); // 0–1000 lux range
-}
-
-function luxToDaliLevel(lux: number): number {
-	if (lux <= 0) return 0;
-	const normalized = Math.log10(Math.min(lux, 1000)) / Math.log10(1000);
-	return Math.round(1 + normalized * 253);
-}
-
+/* Beleuchtungsstaerke: Lux und Footcandle.
+ *
+ * Bis 0.16.0 standen hier auch cd/m² und DALI. Beides ist keine
+ * Einheitenumrechnung: Leuchtdichte (cd/m²) haengt vom Reflexionsgrad der
+ * Flaeche ab (L = E · ρ / π), und gerechnet wurde mit ρ = 1, einer ideal
+ * weissen Flaeche. DALI-Stufen sagen etwas ueber den relativen Lichtstrom,
+ * nicht ueber Lux im Raum — dafuer gibt es jetzt den DALI-Konverter. */
 export const beleuchtung: ConverterMeta = {
 	slug: 'beleuchtung',
-	name: 'Beleuchtung',
+	name: 'Beleuchtungsstärke',
 	name_en: 'Illuminance',
 	icon: 'sun',
 	color: '#eab308',
+	updated: '2026-10-14',
 	units: [
 		{
 			id: 'lx',
 			label: 'Lux',
 			labelEn: 'Lux',
 			symbol: 'lx',
-			note: 'SI-Einheit Beleuchtungsstärke',
-			noteEn: 'SI unit for illuminance'
-		},
-		{ id: 'fc', label: 'Footcandle', symbol: 'fc', note: '1 fc = 10.764 lx (US/UK)' },
-		{
-			id: 'cdm2',
-			label: 'Candela/m²',
-			labelEn: 'Candela/m²',
-			symbol: 'cd/m²',
-			note: 'Leuchtdichte (Monitore ~200 cd/m²)',
-			noteEn: 'Luminance (monitors ~200 cd/m²)'
+			note: 'SI-Einheit, 1 lx = 1 lm/m²',
+			noteEn: 'SI unit, 1 lx = 1 lm/m²'
 		},
 		{
-			id: 'dali',
-			label: 'DALI-Level',
-			labelEn: 'DALI Level',
-			symbol: 'DALI',
-			note: 'IEC 62386: 0=off, 254=max, log. Kurve',
-			noteEn: 'IEC 62386: 0=off, 254=max, log. curve'
-		},
-		{
-			id: 'dalipct',
-			label: 'DALI %',
-			labelEn: 'DALI %',
-			symbol: '%',
-			note: '0–100 % → DALI Level 1–254',
-			noteEn: '0–100 % → DALI Level 1–254'
+			id: 'fc',
+			label: 'Footcandle',
+			symbol: 'fc',
+			note: '1 fc = 1 lm/ft² = 10.764 lx',
+			noteEn: '1 fc = 1 lm/ft² = 10.764 lx'
 		}
 	],
-	toBase: (v, u) => {
-		switch (u) {
-			case 'lx':
-				return v;
-			case 'fc':
-				return v * 10.7639;
-			case 'cdm2':
-				return v * Math.PI;
-			case 'dali':
-				return daliLevelToLux(v);
-			case 'dalipct':
-				return daliLevelToLux(1 + Math.round((v / 100) * 253));
-			default:
-				return v;
-		}
-	},
-	fromBase: (v, u) => {
-		switch (u) {
-			case 'lx':
-				return v;
-			case 'fc':
-				return v / 10.7639;
-			case 'cdm2':
-				return v / Math.PI;
-			case 'dali':
-				return luxToDaliLevel(v);
-			case 'dalipct':
-				return Math.round(((luxToDaliLevel(v) - 1) / 253) * 100);
-			default:
-				return v;
-		}
-	}
+	toBase: (v, u) => (u === 'fc' ? v * 10.7639 : v),
+	fromBase: (v, u) => (u === 'fc' ? v / 10.7639 : v)
 };

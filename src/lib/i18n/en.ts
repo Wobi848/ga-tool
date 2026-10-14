@@ -621,7 +621,7 @@ export const en = {
 			enthalpyExchanger: 'Cross-counterflow (enthalpy exchanger)',
 			rotarySorption: 'Rotary sorption HRV',
 			plateHeatEx: 'Plate heat exchanger (heat only)',
-			recirculationSystem: 'Recirculation system / thermal wheel',
+			recirculationSystem: 'Run-around coil system',
 			typicalEta: 'Typical η_T:',
 			noMoistureTransfer: 'No moisture transfer',
 			operatingConditions: 'Operating conditions',
@@ -941,7 +941,8 @@ export const en = {
 			currentFromPower: 'Current from power + protection',
 			circuit: 'Circuit',
 			recommendedFuse: 'Recommended fuse',
-			fuseNote: 'Fuse = next higher standard value (6–32 A) at I × 1.25 (80% rule per NIN/VDE)'
+			fuseNote:
+				'Rule of thumb: next standard value (6–32 A) above I × 1.25. Decisive per NIN is operating current ≤ fuse rating ≤ cable ampacity — so the fuse must also match the cable.'
 		},
 
 		dipSwitchUi: {
@@ -1077,7 +1078,8 @@ export const en = {
 		luftmengen: { name: 'Air flow' },
 		temperatur: { name: 'Temperature' },
 		signal: { name: 'Analog signal' },
-		beleuchtung: { name: 'Lighting' },
+		beleuchtung: { name: 'Illuminance' },
+		dali: { name: 'DALI dimming curve' },
 		winkel: { name: 'Angle / Valve position' },
 		zeit: { name: 'Time' }
 	},

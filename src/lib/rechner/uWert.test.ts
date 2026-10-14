@@ -67,9 +67,11 @@ describe('SURFACE_PRESETS', () => {
 });
 
 describe('SIA_LIMITS', () => {
-	it('Minergie strenger als SIA 380/1', () => {
-		const sia = SIA_LIMITS.find((l) => l.label.includes('SIA 380/1'))!;
-		const minergie = SIA_LIMITS.find((l) => l.label.includes('Minergie'))!;
-		expect(minergie.u).toBeLessThan(sia.u);
+	it('Werte nach SIA 380/1:2016, Neubau, Einzelbauteil', () => {
+		expect(SIA_LIMITS.map((l) => l.u)).toEqual([0.17, 0.25, 1.0]);
+	});
+
+	it('gegen Aussenklima strenger als gegen unbeheizt', () => {
+		expect(SIA_LIMITS[0].u).toBeLessThan(SIA_LIMITS[1].u);
 	});
 });

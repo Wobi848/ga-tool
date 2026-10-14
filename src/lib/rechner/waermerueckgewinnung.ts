@@ -3,7 +3,10 @@
 
 export type WrgType = 'kreuzgegenstrom' | 'rotations' | 'platte' | 'laufrad';
 
-/** Typische η-Bereiche pro WRG-Typ (T = Temperatur, F = Feuchte). */
+/** Typische η-Bereiche pro WRG-Typ (T = Temperatur, F = Feuchte).
+ *  kreuzgegenstrom = Kreuzgegenstrom als Enthalpietauscher (Membran), nur
+ *  dann mit Feuchte; laufrad = Kreislaufverbundsystem (KVS). Der Schluessel
+ *  heisst aus historischen Gruenden so, die Oberflaeche nennt ihn richtig. */
 export const WRG_TYPES: Record<WrgType, { etaH: [number, number]; etaF: [number, number] }> = {
 	kreuzgegenstrom: { etaH: [0.7, 0.9], etaF: [0.5, 0.8] },
 	rotations: { etaH: [0.7, 0.85], etaF: [0.6, 0.85] },

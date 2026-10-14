@@ -7,6 +7,7 @@ import { luftmengen } from './luftmengen';
 import { temperatur } from './temperatur';
 import { signal } from './signal';
 import { beleuchtung } from './beleuchtung';
+import { dali } from './dali';
 import { winkel } from './winkel';
 import { zeit } from './zeit';
 import type { ConverterMeta } from './types';
@@ -21,6 +22,7 @@ export const converters: ConverterMeta[] = [
 	temperatur,
 	signal,
 	beleuchtung,
+	dali,
 	winkel,
 	zeit
 ];

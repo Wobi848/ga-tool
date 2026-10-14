@@ -3,9 +3,15 @@
 
 export type Co2Activity = 'rest' | 'office' | 'physical';
 
-/** CO2-Produktion [l/h] pro Person je nach Taetigkeit. */
+/** CO2-Produktion [l/h] pro Person je nach Taetigkeit, Richtwerte fuer
+ *  Erwachsene: sitzend ruhig (~1 met), Bueroarbeit (~1.2 met), leichte
+ *  koerperliche Arbeit (~2 met). EN 16798-1 rechnet pauschal mit 20 l/h.
+ *
+ *  Gilt fuer beide Rechner, CO2-Regelung und Luftbedarf. Bis 0.16.0 hatten
+ *  sie eigene Werte (Ruhe 12 gegen 17 l/h) — gleiche Eingabe, anderes
+ *  Ergebnis. */
 export const ACTIVITY_CO2_LPH: Record<Co2Activity, number> = {
-	rest: 12,
+	rest: 15,
 	office: 18,
 	physical: 35
 };

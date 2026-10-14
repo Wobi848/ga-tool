@@ -12,12 +12,14 @@ describe('luftbedarf', () => {
 		});
 		// EN: 2×7×3.6 + 25×0.7×3.6 = 50.4 + 63 = 113.4 m³/h
 		expect(r.flowEN).toBeCloseTo(113.4, 1);
-		// CO2: 2×19 l/h = 38 l/h; Δc = 800-400 = 400; q = 38e3/400 = 95 m³/h
-		expect(r.flowCO2).toBeCloseTo(95, 1);
+		// CO2: 2×18 l/h = 36 l/h; Kat. II erlaubt 800 ppm ueber aussen;
+		// q = 36e3/800 = 45 m³/h (EN 16798-1, Anhang B)
+		expect(r.flowCO2).toBeCloseTo(45, 1);
 		// recommended = max
 		expect(r.recommended).toBeCloseTo(113.4, 1);
 		expect(r.volume).toBeCloseTo(67.5, 1);
-		expect(r.co2Target).toBe(800);
+		// Hoechstwert im Raum: 400 ppm aussen + 800 ppm = 1200 ppm
+		expect(r.co2Target).toBe(1200);
 	});
 
 	it('Kategorie I ist strenger als Kategorie IV', () => {
@@ -34,16 +36,19 @@ describe('luftbedarf', () => {
 		expect(more.flowCO2).toBeGreaterThan(base.flowCO2);
 	});
 
-	it('flowCO2 = 0 bei Aussenluft >= Ziel (kein Beduerfnis)', () => {
-		const r = luftbedarf({
+	it('der Hoechstwert im Raum folgt der Aussenluft, der Luftbedarf nicht', () => {
+		// EN 16798 begrenzt die Erhoehung, nicht den absoluten Wert.
+		const a = luftbedarf({ area: 25, height: 2.7, persons: 2, cat: 'II', activity: 'office' });
+		const b = luftbedarf({
 			area: 25,
 			height: 2.7,
 			persons: 2,
 			cat: 'II',
 			activity: 'office',
-			co2Outside: 900 // > Ziel 800
+			co2Outside: 450
 		});
-		expect(r.flowCO2).toBe(0);
+		expect(b.co2Target).toBe(1250);
+		expect(b.flowCO2).toBeCloseTo(a.flowCO2, 6);
 	});
 
 	it('CO2 dominiert bei hoher Personendichte und niedriger Flaeche', () => {
@@ -107,8 +112,9 @@ describe('CATEGORIES', () => {
 		expect(CATEGORIES.II.perPerson).toBeGreaterThan(CATEGORIES.III.perPerson);
 		expect(CATEGORIES.III.perPerson).toBeGreaterThan(CATEGORIES.IV.perPerson);
 	});
-	it('co2-Ziele monoton steigend von I nach IV', () => {
-		expect(CATEGORIES.I.co2).toBeLessThan(CATEGORIES.II.co2);
-		expect(CATEGORIES.II.co2).toBeLessThan(CATEGORIES.III.co2);
+	it('CO2-Erhoehung nach EN 16798-1: 550 / 800 / 1350 / 1350 ppm', () => {
+		expect([CATEGORIES.I.co2, CATEGORIES.II.co2, CATEGORIES.III.co2, CATEGORIES.IV.co2]).toEqual([
+			550, 800, 1350, 1350
+		]);
 	});
 });

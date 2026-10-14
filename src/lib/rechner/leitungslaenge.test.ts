@@ -100,9 +100,11 @@ describe('recommendCrossSection', () => {
 
 describe('isCurrentOk', () => {
 	it('akzeptiert Strom <= Belastbarkeit', () => {
+		// DIN VDE 0298-4, Tabelle 11: 1.0 mm² -> 10 A, 0.5 mm² -> 3 A
 		expect(isCurrentOk(1.0, 10)).toBe(true);
-		expect(isCurrentOk(1.0, 15)).toBe(true);
-		expect(isCurrentOk(1.0, 15.1)).toBe(false);
+		expect(isCurrentOk(1.0, 10.1)).toBe(false);
+		expect(isCurrentOk(0.5, 3)).toBe(true);
+		expect(isCurrentOk(0.5, 4)).toBe(false);
 	});
 	it('unbekannter Querschnitt -> true (kein Wert hinterlegt)', () => {
 		expect(isCurrentOk(99, 1000)).toBe(true);

@@ -20,43 +20,43 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ## Rechner
 
-- ⬜ ausdehnungsgefaess
-- ⬜ co2-regelung
-- ⬜ dip-switch
-- ⬜ druckverlust
-- ⬜ elektro
-- ⬜ gewichteter-mittelwert
+- ✅ ausdehnungsgefaess
+- ✅ co2-regelung
+- ✅ dip-switch
+- ✅ druckverlust
+- ✅ elektro
+- ✅ gewichteter-mittelwert
 - ⚠️ heizkurve
 - ✅ heizlast
-- ⬜ hydraulik-simulator
-- ⬜ k-faktor
+- ✅ hydraulik-simulator
+- ✅ k-faktor
 - ✅ kv-wert
-- ⬜ leitungslaenge
-- ⬜ luftbedarf
-- ⬜ pid-simulator
-- ⬜ polynom-fit
-- ⬜ psychrometrie
-- ⬜ pumpenkennlinie
-- ⬜ taupunkt
-- ⬜ u-wert
+- ✅ leitungslaenge
+- ✅ luftbedarf
+- ✅ pid-simulator
+- ✅ polynom-fit
+- ✅ psychrometrie
+- ✅ pumpenkennlinie
+- ✅ taupunkt
+- ✅ u-wert
 - ✅ ventilautoritaet
 - ✅ waermeleistung
-- ⬜ waermerueckgewinnung
-- ⬜ bus-ibn
+- ✅ waermerueckgewinnung
+- ✅ bus-ibn
 
 ## Konverter
 
-- ⬜ beleuchtung
-- ⬜ druck
-- ⬜ durchfluss
-- ⬜ energie
-- ⬜ feuchte
-- ⬜ leistung
-- ⬜ luftmengen
-- ⬜ signal
-- ⬜ temperatur
-- ⬜ winkel
-- ⬜ zeit
+- ✅ beleuchtung (aufgeteilt, neu: dali)
+- ✅ druck
+- ✅ durchfluss
+- ✅ energie
+- ✅ feuchte
+- ✅ leistung
+- ✅ luftmengen
+- ✅ signal
+- ✅ temperatur
+- ✅ winkel
+- ✅ zeit
 
 ## Artikel
 
@@ -304,13 +304,20 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SIA 2028 geprüft (kostenpflichtig, Nachfolger SIA 4028 im Mai 2026 in Vernehmlassung). Heizkurve: Herstellerformeln sind Näherungen, in der Oberfläche so gekennzeichnet.
 
-| Datum      | Wo                            | Fehler                                                                                                                    | Korrektur                                                             | Quelle                                         |
-| ---------- | ----------------------------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ---------------------------------------------- |
-| 14.10.2026 | ventil-schaltungen            | Drossel: «Rücklauf steigt bei Teillast»                                                                                   | tiefe Rücklauftemperatur bei Teillast                                 | Siemens, Hydraulik in der Gebäudetechnik 1.4.1 |
-| 14.10.2026 | ventil-schaltungen            | Feste Vormischung ohne Regelventil beschrieben                                                                            | Dreiwegventil plus fester Bypass                                      | Siemens 1.4.3.1                                |
-| 14.10.2026 | ventil-schaltungen            | Einspritzung 3W: Ventil «ersetzt Rücklaufleitung»                                                                         | zwei Pumpen, Primärbypass, Bypass ohne Ventil                         | Siemens 1.4.4.1                                |
-| 14.10.2026 | hydraulische-schaltungen      | Tichelmann-Skizze wie Zweirohr, zweite Primärpumpe bei Entkopplung                                                        | neu gezeichnet                                                        | Siemens 1.6                                    |
-| 14.10.2026 | Rechner ventilautoritaet      | Kennlinie q = h/√(1−α+α·h²): α und 1−α vertauscht, bei α = 1 kam q = 1 für jeden Hub; die Tests schrieben den Fehler fest | q = h/√(α+(1−α)·h²), Test mit Handrechnung α = 0.1                    | Siemens, Hydraulik in der Gebäudetechnik 2.3.1 |
-| 14.10.2026 | Rechner kv-wert               | Warnung «Ventilautorität a ≈ …» gegen fest angenommene 0.5 bar Anlage                                                     | ehrliche Warnung: kleiner Δp am Ventil, Verweis auf Autoritätsrechner | Definition Ventilautorität                     |
-| 14.10.2026 | Heizlast, Heizkurve, Tabellen | «SIA 384/2 (2020)» als Quelle; die Norm wurde 2017 durch SIA 384.201 ersetzt                                              | SIA 384.201 / SIA 384/1, Klimadaten SIA 2028                          | SIA                                            |
-| 14.10.2026 | Normaussentemperaturen        | Vier verschiedene Listen in der App, Zürich −8 und −10 °C, Davos −19 und −21 °C                                           | eine Quelle (Referenztabelle), als Richtwerte gekennzeichnet          | —                                              |
+| Datum      | Wo                               | Fehler                                                                                                                                                              | Korrektur                                                             | Quelle                                            |
+| ---------- | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------- |
+| 14.10.2026 | ventil-schaltungen               | Drossel: «Rücklauf steigt bei Teillast»                                                                                                                             | tiefe Rücklauftemperatur bei Teillast                                 | Siemens, Hydraulik in der Gebäudetechnik 1.4.1    |
+| 14.10.2026 | ventil-schaltungen               | Feste Vormischung ohne Regelventil beschrieben                                                                                                                      | Dreiwegventil plus fester Bypass                                      | Siemens 1.4.3.1                                   |
+| 14.10.2026 | ventil-schaltungen               | Einspritzung 3W: Ventil «ersetzt Rücklaufleitung»                                                                                                                   | zwei Pumpen, Primärbypass, Bypass ohne Ventil                         | Siemens 1.4.4.1                                   |
+| 14.10.2026 | hydraulische-schaltungen         | Tichelmann-Skizze wie Zweirohr, zweite Primärpumpe bei Entkopplung                                                                                                  | neu gezeichnet                                                        | Siemens 1.6                                       |
+| 14.10.2026 | Rechner ventilautoritaet         | Kennlinie q = h/√(1−α+α·h²): α und 1−α vertauscht, bei α = 1 kam q = 1 für jeden Hub; die Tests schrieben den Fehler fest                                           | q = h/√(α+(1−α)·h²), Test mit Handrechnung α = 0.1                    | Siemens, Hydraulik in der Gebäudetechnik 2.3.1    |
+| 14.10.2026 | Rechner kv-wert                  | Warnung «Ventilautorität a ≈ …» gegen fest angenommene 0.5 bar Anlage                                                                                               | ehrliche Warnung: kleiner Δp am Ventil, Verweis auf Autoritätsrechner | Definition Ventilautorität                        |
+| 14.10.2026 | Heizlast, Heizkurve, Tabellen    | «SIA 384/2 (2020)» als Quelle; die Norm wurde 2017 durch SIA 384.201 ersetzt                                                                                        | SIA 384.201 / SIA 384/1, Klimadaten SIA 2028                          | SIA                                               |
+| 14.10.2026 | Normaussentemperaturen           | Vier verschiedene Listen in der App, Zürich −8 und −10 °C, Davos −19 und −21 °C                                                                                     | eine Quelle (Referenztabelle), als Richtwerte gekennzeichnet          | —                                                 |
+| 14.10.2026 | Rechner u-wert                   | SIA-Grenzwerte Flachdach 0.15 und Kellerdecke 0.20, dazu ein «Minergie-Standard Wand 0.12», den es nicht gibt                                                       | 0.17 gegen aussen, 0.25 gegen unbeheizt, Fenster 1.0                  | SIA 380/1:2016, kantonale Vollzugshilfen (BE, TG) |
+| 14.10.2026 | Rechner luftbedarf               | CO₂-Werte der EN 16798 als absolute Raumwerte behandelt und davon die Aussenluft abgezogen; Kat. I verlangte fast viermal zu viel Luft. Kat. IV 1500 statt 1350 ppm | Werte sind Erhöhung über aussen: 550/800/1350/1350 ppm                | EN 16798-1 Anhang B (Olesen, REHVA)               |
+| 14.10.2026 | Rechner luftbedarf, co2-regelung | Verschiedene CO₂-Produktion je Person (Ruhe 12 gegen 17 l/h)                                                                                                        | gemeinsame Werte 15/18/35 l/h                                         | —                                                 |
+| 14.10.2026 | Rechner leitungslaenge           | Belastbarkeit 0.5 mm² 8 A, 0.75 mm² 12 A                                                                                                                            | 3 / 6 / 10 / 16 / 25 / 32 A                                           | DIN VDE 0298-4, Tab. 11                           |
+| 14.10.2026 | Rechner elektro                  | «80%-Regel nach NIN/VDE» für die Sicherung (stammt aus dem US-NEC)                                                                                                  | Ib ≤ In ≤ Iz nach NIN, 1.25 nur als Faustwert                         | NIN                                               |
+| 14.10.2026 | Rechner waermerueckgewinnung     | Typ «Umluftsystem / Wärmelaufrad» mit KVS-Werten                                                                                                                    | Kreislaufverbundsystem (KVS)                                          | —                                                 |
+| 14.10.2026 | Konverter beleuchtung            | lx → cd/m² mit ρ = 1, DALI-Stufen auf erfundene 0–1000 lx, «DALI %» linear                                                                                          | nur lx ↔ fc; eigener DALI-Konverter mit logarithmischer Kurve         | IEC 62386-102                                     |

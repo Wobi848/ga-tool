@@ -625,7 +625,7 @@ export const de = {
 			enthalpyExchanger: 'Kreuzgegenstrom (Enthalpie-Tauscher)',
 			rotarySorption: 'Rotationssorptions-WRG',
 			plateHeatEx: 'Plattenwärmetauscher (nur Wärme)',
-			recirculationSystem: 'Umluftsystem / Wärmelaufrad',
+			recirculationSystem: 'Kreislaufverbundsystem (KVS)',
 			typicalEta: 'Typischer η_T:',
 			noMoistureTransfer: 'Keine Feuchteübertragung',
 			operatingConditions: 'Betriebsbedingungen',
@@ -948,7 +948,7 @@ export const de = {
 			circuit: 'Schaltung',
 			recommendedFuse: 'Empfohlene Absicherung',
 			fuseNote:
-				'Absicherung = nächst höherer Normwert (6–32 A) bei I × 1.25 (80%-Regel nach NIN/VDE)'
+				'Faustwert: nächster Normwert (6–32 A) über I × 1.25. Massgebend nach NIN ist Betriebsstrom ≤ Nennstrom der Sicherung ≤ Belastbarkeit der Leitung — die Sicherung muss also auch zur Leitung passen.'
 		},
 
 		dipSwitchUi: {
@@ -1084,7 +1084,8 @@ export const de = {
 		luftmengen: { name: 'Luftmengen' },
 		temperatur: { name: 'Temperatur' },
 		signal: { name: 'Analogsignal' },
-		beleuchtung: { name: 'Beleuchtung' },
+		beleuchtung: { name: 'Beleuchtungsstärke' },
+		dali: { name: 'DALI-Dimmkurve' },
 		winkel: { name: 'Winkel / Ventilstellung' },
 		zeit: { name: 'Zeit' }
 	},

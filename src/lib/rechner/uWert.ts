@@ -45,11 +45,15 @@ export function uWert(layers: Layer[], rsi: number, rse: number): UWertResult {
 	return { rt, rTotal, u, dTotal };
 }
 
-/** SIA 380/1 / Minergie Grenzwerte fuer U [W/(m²·K)]. */
+/** Grenzwerte Einzelbauteilnachweis Neubau nach SIA 380/1:2016 bei 20 °C
+ *  Raumtemperatur. Die Kantone setzen sie ueber die MuKEn um, einzelne
+ *  weichen bei «gegen unbeheizt» leicht ab (z.B. BL 0.23).
+ *
+ *  Bis 0.16.0 stand hier Flachdach 0.15 und Kellerdecke 0.20 — beides
+ *  falsch — und ein «Minergie-Standard Wand 0.12», den es nicht gibt:
+ *  Minergie stellt Anforderungen an das ganze Gebaeude, nicht an Bauteile. */
 export const SIA_LIMITS = [
-	{ label: 'Aussenwand Neubau (SIA 380/1)', u: 0.17 },
-	{ label: 'Flachdach Neubau', u: 0.15 },
-	{ label: 'Estrichboden/Kellerdecke', u: 0.2 },
-	{ label: 'Fenster (empfohlen)', u: 0.9 },
-	{ label: 'Minergie-Standard Wand', u: 0.12 }
+	{ label: 'Wand, Dach, Boden gegen Aussenklima (SIA 380/1)', u: 0.17 },
+	{ label: 'Gegen unbeheizte Räume oder Erdreich > 2 m', u: 0.25 },
+	{ label: 'Fenster, Fenstertür gegen Aussenklima', u: 1.0 }
 ];

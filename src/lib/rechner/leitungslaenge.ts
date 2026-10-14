@@ -7,14 +7,20 @@ export const RHO_CU = 0.0178;
 /** Standard-Querschnitte [mm²] */
 export const STD_SECTIONS = [0.5, 0.75, 1.0, 1.5, 2.5, 4.0];
 
-/** Strombelastbarkeit (vereinfacht) [A] pro Standard-Querschnitt */
+/** Strombelastbarkeit [A] pro Querschnitt: Richtwerte fuer mehradrige
+ *  flexible Leitungen nach DIN VDE 0298-4 (Tabelle 11), 30 °C, ohne
+ *  Haeufung. Feste Installation darf mehr, gebuendelte Leitungen weniger;
+ *  massgebend ist die Absicherung nach NIN.
+ *
+ *  Bis 0.16.0 stand hier 0.5 mm² mit 8 A und 0.75 mm² mit 12 A — fuer die
+ *  duennen Steuerleitungen in der GA rund das Doppelte des Zulaessigen. */
 export const AMPACITY: Record<number, number> = {
-	0.5: 8,
-	0.75: 12,
-	1.0: 15,
-	1.5: 17,
-	2.5: 23,
-	4.0: 31
+	0.5: 3,
+	0.75: 6,
+	1.0: 10,
+	1.5: 16,
+	2.5: 25,
+	4.0: 32
 };
 
 /** Wie sich die Last verteilt:
