@@ -109,8 +109,8 @@ const FUSE_OPTIONS = {
 		{ name: 'title_en', weight: 4 },
 		{ name: 'keywords', weight: 2 },
 		{ name: 'subtitle', weight: 1 },
-		{ name: 'subtitle_en', weight: 1 },
-		{ name: 'body', weight: 0.5 } // Volltext-Treffer schwächer gewichtet als Title/Tag
+		{ name: 'subtitle_en', weight: 1 }
+		// Der Fliesstext ist hier bewusst NICHT drin, siehe search().
 	],
 	threshold: 0.35,
 	ignoreLocation: true,
@@ -133,19 +133,39 @@ export async function ensureSearchCorpus(): Promise<void> {
 		const corpus = (await import('./corpus.generated.json')).default as Record<string, string>;
 		for (const item of items) {
 			if (item.type === 'wissen') {
-				item.body = corpus[item.slug];
+				item.body = corpus[item.slug]?.toLowerCase();
 			}
 		}
-		fuse = new Fuse(items, FUSE_OPTIONS);
 		corpusLoaded = true;
 	})();
 	return corpusLoading;
 }
 
+/* Unscharf nur ueber Titel, Tags und Untertitel; im Fliesstext exakt.
+ *
+ * Bis 0.16.0 lief Fuse auch ueber den Fliesstext aller Artikel, rund 400 KB,
+ * bei jedem Tastendruck. Gemessen am 14.10.2026 auf einem Laptop: 80 bis
+ * 220 ms pro Suche, ohne Fliesstext 8 bis 35 ms. Auf dem Handy grob das
+ * Drei- bis Fuenffache — die Suche ruckelte bei jedem Buchstaben.
+ *
+ * Unschaerfe braucht es fuer Vertipper im Titel ("Schutz" fuer "Schütz"),
+ * nicht im Fliesstext: wer dort sucht, sucht ein Wort, das darin vorkommt.
+ * Fliesstext-Treffer kommen hinter die Titeltreffer, nicht dazwischen. */
 export function search(query: string, limit = 12): SearchItem[] {
 	const q = query.trim();
 	if (!q) return items.slice(0, limit);
-	return fuse.search(q, { limit }).map((r) => r.item);
+	const treffer = fuse.search(q, { limit }).map((r) => r.item);
+	if (!corpusLoaded || q.length < 3 || treffer.length >= limit) return treffer;
+
+	const gesucht = q.toLowerCase();
+	const schon = new Set(treffer);
+	for (const item of items) {
+		if (treffer.length >= limit) break;
+		if (item.body && !schon.has(item) && item.body.includes(gesucht)) {
+			treffer.push(item);
+		}
+	}
+	return treffer;
 }
 
 export function groupByType(list: SearchItem[]): Record<SearchType, SearchItem[]> {

@@ -22,7 +22,27 @@
 	let activeIndex = $state(0);
 	let inputEl: HTMLInputElement | undefined = $state();
 
-	const results = $derived(search(query, 20));
+	let corpusReady = $state(false);
+
+	// Gesucht wird, wenn das Tippen kurz pausiert — nicht bei jedem Buchstaben.
+	// Der erste Buchstabe nach leerer Eingabe geht sofort, damit sich die
+	// Maske nicht traege anfuehlt.
+	let suchbegriff = $state('');
+	$effect(() => {
+		const q = query;
+		if (!q.trim() || !suchbegriff.trim()) {
+			suchbegriff = q;
+			return;
+		}
+		const t = setTimeout(() => (suchbegriff = q), 120);
+		return () => clearTimeout(t);
+	});
+	// corpusReady gehoert dazu: ist der Fliesstext nachgeladen, sollen die
+	// Treffer fuer die schon getippte Eingabe neu berechnet werden.
+	const results = $derived.by(() => {
+		void corpusReady;
+		return search(suchbegriff, 20);
+	});
 	const grouped = $derived(groupByType(results));
 	const orderedTypes: SearchType[] = [
 		'wissen',
@@ -56,8 +76,6 @@
 		activeIndex = 0;
 	});
 
-	let corpusReady = $state(false);
-
 	$effect(() => {
 		if (open) {
 			tick().then(() => inputEl?.focus());
@@ -65,8 +83,6 @@
 			if (!corpusReady) {
 				ensureSearchCorpus().then(() => {
 					corpusReady = true;
-					// Trigger Re-eval falls Query schon eingetippt war
-					query = query;
 				});
 			}
 		} else {
