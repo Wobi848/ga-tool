@@ -28,7 +28,7 @@ difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen, dmx512]
 norm: [IEC 62386, EN 62386]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -49,24 +49,18 @@ lang: de
 
 ## DALI-Topologie
 
-```
-DALI-Controller (Master) ───── DALI-Bus (2-Draht)
-                                  ├── EVG 1 (Adresse 0)
-                                  ├── EVG 2 (Adresse 1)
-                                  ├── EVG 3 (Adresse 2)
-                                  └── ... bis 64 Geräte
-```
+Ein DALI-Controller und eine Busversorgung speisen die Zweidrahtleitung. Daran hängen bis zu 64 Betriebsgeräte mit den Kurzadressen 0 bis 63, in beliebiger Topologie ausser Ring.
 
-| Parameter           | Wert                                         |
-| ------------------- | -------------------------------------------- |
-| Busspannung         | 16 V (Leerlauf), Strom moduliert             |
-| Baudrate            | 1200 baud                                    |
-| Max. Geräte         | **64 pro Bus-Segment**                       |
-| Kabellänge          | max. 300 m (Gesamtlänge des Segments)        |
-| Verdrahtung         | Nicht polungskritisch, keine Schirmung nötig |
-| Kann auf SELV-Kabel | ✅ (kein eigener Kabeltyp nötig)             |
+| Parameter   | Wert                                                                                                      |
+| ----------- | --------------------------------------------------------------------------------------------------------- |
+| Busspannung | typisch 16 V; zum Senden wird sie auf nahe 0 V gezogen. Busversorgung höchstens 250 mA                    |
+| Baudrate    | 1200 baud                                                                                                 |
+| Max. Geräte | **64 pro Bus-Segment**                                                                                    |
+| Kabellänge  | max. 300 m (Gesamtlänge des Segments)                                                                     |
+| Verdrahtung | Nicht polungskritisch, keine Schirmung nötig                                                              |
+| Einstufung  | **nicht SELV**, nur basisisoliert. Darf im selben Kabel wie 230 V geführt werden, etwa im 5-adrigen Kabel |
 
-> ⚠️ DALI-Bus kann auf bestehenden SELV-Steuerleitungen mitgeführt werden — aber: nicht auf denselben Adern wie 230 V oder andere Busse!
+> ⚠️ Weil DALI nicht als SELV gilt, darf es **nicht** zusammen mit SELV-Kreisen wie KNX oder 24-V-Fühlerleitungen im selben Kabel geführt werden. Siehe [SELV und PELV](/wissen/selv-pelv).
 
 ## Adressierung
 
@@ -99,14 +93,14 @@ Jedes DALI-Gerät speichert bis zu **16 Szenen (0–15)** intern:
 
 DALI verwendet eine **logarithmische Skalierung** (ARC Level):
 
-| ARC Level | Helligkeit                 | Entspricht    |
-| --------- | -------------------------- | ------------- |
-| 0         | Aus                        |               |
-| 1         | ~0,1 %                     | Minimalwert   |
-| 128       | ~10 %                      | Logarithmisch |
-| 200       | ~40 %                      | Logarithmisch |
-| 254       | 100 %                      | Maximalwert   |
-| 255       | Letzter gespeicherter Wert | Sonderfall    |
+| ARC Level | Helligkeit             | Entspricht    |
+| --------- | ---------------------- | ------------- |
+| 0         | Aus                    |               |
+| 1         | ~0,1 %                 | Minimalwert   |
+| 128       | ~3 %                   | logarithmisch |
+| 200       | ~23 %                  | logarithmisch |
+| 254       | 100 %                  | Maximalwert   |
+| 255       | MASK, «keine Änderung» | Sonderwert    |
 
 > Die logarithmische Skalierung entspricht der menschlichen Wahrnehmung (Fechner'sches Gesetz) — gleichmässige Helligkeitsänderung beim Dimmen.
 
@@ -128,14 +122,15 @@ DALI gibt dem Master Informationen zurück — das macht es gegenüber 0–10 V 
 
 DALI definiert verschiedene Gerätetypen für unterschiedliche Anwendungen:
 
-| DT      | Gerätetyp                  | Anwendung                    |
-| ------- | -------------------------- | ---------------------------- |
-| DT0     | Fluoreszenz-Vorschaltgerät | Klassisches EVG, T8/T5       |
-| DT1     | Notlicht-EVG               | Sicherheitsbeleuchtung       |
-| DT4     | Niedervolt-Halogen-Dimmer  | Halogen-Trafo                |
-| DT5     | Konverter (0–10 V Ausgang) | Retrofit für 0–10 V Geräte   |
-| **DT6** | LED-Treiber (dimmen)       | **Standard für moderne LED** |
-| **DT8** | Farbe / Farbtemperatur     | **Tunable White, RGB, RGBW** |
+| DT      | Gerätetyp                  | Anwendung                      |
+| ------- | -------------------------- | ------------------------------ |
+| DT0     | Fluoreszenz-Vorschaltgerät | Klassisches EVG, T8/T5         |
+| DT1     | Notlicht-EVG               | Sicherheitsbeleuchtung         |
+| DT3     | Niedervolt-Halogen         | Halogen-Trafo                  |
+| DT4     | Glühlampen-Dimmer          | Phasenan-/-abschnitt           |
+| DT5     | Konverter (1–10 V Ausgang) | Ansteuerung von 1–10-V-Geräten |
+| **DT6** | LED-Treiber (dimmen)       | **Standard für moderne LED**   |
+| **DT8** | Farbe / Farbtemperatur     | **Tunable White, RGB, RGBW**   |
 
 ## DALI-2 — Was ist neu?
 
@@ -151,9 +146,7 @@ DALI definiert verschiedene Gerätetypen für unterschiedliche Anwendungen:
 
 Die GLT kommuniziert über ein **DALI-Gateway**:
 
-```
-GLT (BACnet/Modbus/KNX) ← DALI-Gateway → DALI-Bus → EVGs
-```
+GLT über BACnet, Modbus oder KNX ↔ DALI-Gateway ↔ DALI-Linie ↔ Betriebsgeräte
 
 Gängige Gateways (z.B. Lunatone, Osram DALI-Gateway, Schneider):
 
@@ -175,12 +168,12 @@ Gängige Gateways (z.B. Lunatone, Osram DALI-Gateway, Schneider):
 
 DALI-Notlicht-EVGs (DT1) sind komplex — vollständige Selbsttests:
 
-- **Funktionstest** (täglich): kurzer Testimpuls, Batterie OK?
-- **Dauerbetriebstest** (jährlich): 3 h Volllast, Kapazität prüfen
+- **Funktionstest:** kurz, regelmässig nach Vorgabe, etwa wöchentlich oder monatlich
+- **Betriebsdauertest:** jährlich über die volle Nenndauer, oft 1 oder 3 Stunden
 - Testergebnisse werden im EVG gespeichert und können ausgelesen werden
 - **DALI-2 Notlicht:** Ergebnis-Protokoll abrufbar für Prüfnachweis
 
-> ⚠️ Notlicht-EVGs brauchen separaten DALI-Steuerkreis (getrennt von normaler Beleuchtung) oder DALI-2 mit klarer Trennung.
+> ⚠️ Ob eine Notbeleuchtung über DALI überwacht werden darf und wie die Prüfungen dokumentiert werden, richtet sich nach EN 50172, EN 62034 und den kantonalen Brandschutzvorgaben.
 
 ## Typische IBN-Schritte
 
@@ -219,24 +212,18 @@ DALI-Notlicht-EVGs (DT1) sind komplex — vollständige Selbsttests:
 
 ## DALI Topology
 
-```
-DALI controller (master) ───── DALI bus (2-wire)
-                                  ├── Ballast 1 (address 0)
-                                  ├── Ballast 2 (address 1)
-                                  ├── Ballast 3 (address 2)
-                                  └── ... up to 64 devices
-```
+A DALI controller and a bus power supply feed the two-wire line. Up to 64 control gears with short addresses 0 to 63 are connected, in any topology except a ring.
 
-| Parameter            | Value                                       |
-| -------------------- | ------------------------------------------- |
-| Bus voltage          | 16 V (open circuit), current modulated      |
-| Baud rate            | 1200 baud                                   |
-| Max. devices         | **64 per bus segment**                      |
-| Cable length         | max. 300 m (total segment length)           |
-| Wiring               | Polarity-independent, no shielding required |
-| Can share SELV cable | Yes (no special cable type needed)          |
+| Parameter      | Value                                                                                           |
+| -------------- | ----------------------------------------------------------------------------------------------- |
+| Bus voltage    | typically 16 V; pulled to near 0 V to transmit. Bus supply at most 250 mA                       |
+| Baud rate      | 1200 baud                                                                                       |
+| Max. devices   | **64 per bus segment**                                                                          |
+| Cable length   | max. 300 m (total segment length)                                                               |
+| Wiring         | Polarity-independent, no shielding required                                                     |
+| Classification | **not SELV**, basic insulation only. May run in the same cable as 230 V, e.g. in a 5-core cable |
 
-> DALI bus can share existing SELV control cables — but not on the same conductors as 230 V or other bus systems!
+> ⚠️ Because DALI is not SELV, it must **not** share a cable with SELV circuits such as KNX or 24 V sensor cables. See [SELV and PELV](/wissen/selv-pelv).
 
 ## Addressing
 
@@ -273,10 +260,10 @@ DALI uses a **logarithmic scale** (ARC level):
 | --------- | ----------------- | ------------- |
 | 0         | Off               |               |
 | 1         | ~0.1 %            | Minimum value |
-| 128       | ~10 %             | Logarithmic   |
-| 200       | ~40 %             | Logarithmic   |
+| 128       | ~3 %              | Logarithmic   |
+| 200       | ~23 %             | Logarithmic   |
 | 254       | 100 %             | Maximum value |
-| 255       | Last stored value | Special case  |
+| 255       | MASK, "no change" | Special value |
 
 > The logarithmic scale matches human perception (Fechner's law) — even brightness change during dimming.
 
@@ -302,8 +289,9 @@ DALI defines various device types for different applications:
 | ------- | --------------------------- | ---------------------------- |
 | DT0     | Fluorescent ballast         | Classic ballast, T8/T5       |
 | DT1     | Emergency light ballast     | Safety lighting              |
-| DT4     | Low-voltage halogen dimmer  | Halogen transformer          |
-| DT5     | Converter (0–10 V output)   | Retrofit for 0–10 V devices  |
+| DT3     | Low-voltage halogen         | Halogen transformer          |
+| DT4     | Incandescent dimmer         | Phase cut                    |
+| DT5     | Converter (1–10 V output)   | Driving 1–10 V devices       |
 | **DT6** | LED driver (dimming)        | **Standard for modern LED**  |
 | **DT8** | Colour / colour temperature | **Tunable White, RGB, RGBW** |
 
@@ -321,9 +309,7 @@ DALI defines various device types for different applications:
 
 The BMS communicates via a **DALI gateway**:
 
-```
-BMS (BACnet/Modbus/KNX) ← DALI gateway → DALI bus → ballasts
-```
+BMS via BACnet, Modbus or KNX ↔ DALI gateway ↔ DALI line ↔ control gear
 
 Common gateways (e.g. Lunatone, Osram DALI gateway, Schneider):
 
@@ -345,12 +331,12 @@ Common gateways (e.g. Lunatone, Osram DALI gateway, Schneider):
 
 DALI emergency lighting ballasts (DT1) are complex — full self-testing:
 
-- **Function test** (daily): short test pulse, battery OK?
-- **Duration test** (annual): 3 h full load, check capacity
+- **Function test:** short, regularly as required, for example weekly or monthly
+- **Duration test:** annually over the full rated duration, often 1 or 3 hours
 - Test results stored in the ballast and can be read out
 - **DALI-2 emergency lighting:** Result log retrievable for inspection record
 
-> Emergency lighting ballasts need a separate DALI control circuit (separate from normal lighting) or DALI-2 with clear separation.
+> ⚠️ Whether emergency lighting may be monitored via DALI and how tests are documented follows EN 50172, EN 62034 and the cantonal fire protection requirements.
 
 ## Typical Commissioning Steps
 

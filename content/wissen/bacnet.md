@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [modbus, knx, opc-ua, iec61850]
 norm: [ASHRAE 135, ISO 16484-5, EN ISO 16484-5]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -70,7 +70,7 @@ BACnet repräsentiert alle Mess- und Steuergrössen als **Objekte**. Jedes Gerä
 
 ### Wichtige Properties
 
-Jedes Objekt hat Properties. Die Pflichtproperties jedes Objekts:
+Jedes Objekt hat Properties. Die wichtigsten; welche Pflicht sind, hängt vom Objekttyp ab:
 
 | Property            | Bedeutung                                         |
 | ------------------- | ------------------------------------------------- |
@@ -95,10 +95,8 @@ Für AO/BO zusätzlich:
 
 ### Geräteerkennung (Who-Is / I-Am)
 
-```
-Client sendet:  Who-Is (Broadcast, ggf. Instanzbereich)
-Gerät antwortet: I-Am (Device-ID, Max-APDU, Segmentation, Vendor-ID)
-```
+- Der Client sendet **Who-Is** als Broadcast, wahlweise für einen Bereich von Device-Instanzen.
+- Jedes passende Gerät antwortet mit **I-Am**: Device-Instanz, maximale APDU-Länge, Segmentierung, Hersteller-ID.
 
 Damit wird das **BACnet Device Object** gefunden. Darüber lassen sich alle weiteren Objekte auflisten (`Read-Property`: `Object_List`).
 
@@ -121,14 +119,12 @@ Damit wird das **BACnet Device Object** gefunden. Darüber lassen sich alle weit
 
 ### Typisches Netzwerk-Szenario
 
-```
-Subnetz A (192.168.1.0/24)          Subnetz B (192.168.2.0/24)
-  DDC 1 (Device 100)                   DDC 3 (Device 300)
-  DDC 2 (Device 200)                   DDC 4 (Device 400)
-  BBMD A ←──────────────────────────→  BBMD B
-                 (Foreign Device Registration)
-  GLT (Device 1) ←── direkte Verbindung zu BBMD A
-```
+| Subnetz           | Geräte                                                         |
+| ----------------- | -------------------------------------------------------------- |
+| A, 192.168.1.0/24 | DDC 1 (Device 100), DDC 2 (Device 200), BBMD A, GLT (Device 1) |
+| B, 192.168.2.0/24 | DDC 3 (Device 300), DDC 4 (Device 400), BBMD B                 |
+
+**BBMD A und BBMD B** kennen sich über ihre **Broadcast Distribution Table** (BDT) und leiten Broadcasts wie Who-Is gegenseitig weiter. Ein einzelnes Gerät ohne eigenen BBMD, etwa ein Service-Laptop in einem dritten Netz, meldet sich per **Foreign Device Registration** bei einem BBMD an.
 
 Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
@@ -136,8 +132,8 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
 - RS-485, Baudrate typisch **76800** oder **38400** baud
 - **Token-Bus-Verfahren:** Master gibt Token weiter, Slave antwortet auf Anfragen
-- Max. **128 Adressen** (0–127), davon 0–127 Master, empfohlen max. 32 Geräte
-- **MAC-Adresse** (0–127) ≠ Device Instance
+- MAC-Adressen **0–127 für Master**, 128–254 für Slaves. Pro Segment ohne Repeater höchstens 32 Lasteinheiten nach RS-485, mit Viertellast-Transceivern mehr
+- **MAC-Adresse** ≠ Device Instance
 
 > ⚠️ **Wichtig:** MS/TP-Adressen und Device Instance sind unabhängig. Ein Gerät mit MAC 5 kann Device Instance 2005 haben.
 
@@ -145,7 +141,7 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
 - Linie (daisy-chain), keine Sterne
 - Terminierung: 120 Ω an beiden Enden
-- Max. Kabellänge: ~1200 m bei 9600 baud / ~300 m bei 76800 baud
+- Max. Kabellänge: 1200 m je Segment mit geeignetem Kabel; bei hohen Baudraten Herstellerangaben beachten
 
 ## Alarme & Trending
 
@@ -224,7 +220,7 @@ BACnet represents all measured and control variables as **objects**. Each device
 
 ### Important Properties
 
-Each object has properties. The mandatory properties of every object:
+Each object has properties. The most important ones; which are mandatory depends on the object type:
 
 | Property            | Meaning                                                |
 | ------------------- | ------------------------------------------------------ |
@@ -249,10 +245,8 @@ For AO/BO additionally:
 
 ### Device Discovery (Who-Is / I-Am)
 
-```
-Client sends:  Who-Is (broadcast, optionally with instance range)
-Device replies: I-Am (Device ID, Max-APDU, Segmentation, Vendor ID)
-```
+- The client sends **Who-Is** as a broadcast, optionally for a range of device instances.
+- Every matching device replies with **I-Am**: device instance, max APDU length, segmentation, vendor ID.
 
 This locates the **BACnet Device Object**. All further objects can then be listed (`Read-Property`: `Object_List`).
 
@@ -275,14 +269,12 @@ This locates the **BACnet Device Object**. All further objects can then be liste
 
 ### Typical Network Scenario
 
-```
-Subnet A (192.168.1.0/24)          Subnet B (192.168.2.0/24)
-  DDC 1 (Device 100)                   DDC 3 (Device 300)
-  DDC 2 (Device 200)                   DDC 4 (Device 400)
-  BBMD A ←──────────────────────────→  BBMD B
-                 (Foreign Device Registration)
-  BMS (Device 1) ←── direct connection to BBMD A
-```
+| Subnet            | Devices                                                        |
+| ----------------- | -------------------------------------------------------------- |
+| A, 192.168.1.0/24 | DDC 1 (device 100), DDC 2 (device 200), BBMD A, BMS (device 1) |
+| B, 192.168.2.0/24 | DDC 3 (device 300), DDC 4 (device 400), BBMD B                 |
+
+**BBMD A and BBMD B** know each other through their **broadcast distribution table** (BDT) and forward broadcasts such as Who-Is to each other. A single device without its own BBMD, such as a service laptop in a third network, registers with a BBMD via **foreign device registration**.
 
 Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 
@@ -290,8 +282,8 @@ Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 
 - RS-485, baud rate typically **76800** or **38400** baud
 - **Token-bus method:** master passes token, slave responds to requests
-- Max. **128 addresses** (0–127), of which 0–127 masters; max. 32 devices recommended
-- **MAC address** (0–127) ≠ Device Instance
+- MAC addresses **0–127 for masters**, 128–254 for slaves. Per segment without repeater at most 32 unit loads per RS-485, more with quarter-load transceivers
+- **MAC address** ≠ device instance
 
 > ⚠️ **Important:** MS/TP addresses and Device Instance are independent. A device with MAC 5 can have Device Instance 2005.
 
@@ -299,7 +291,7 @@ Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 
 - Line (daisy-chain), no star topology
 - Termination: 120 Ω at both ends
-- Max. cable length: ~1200 m at 9600 baud / ~300 m at 76800 baud
+- Max. cable length: 1200 m per segment with suitable cable; at high baud rates follow manufacturer data
 
 ## Alarms and Trending
 

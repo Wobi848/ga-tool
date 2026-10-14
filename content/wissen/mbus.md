@@ -24,7 +24,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [modbus, bacnet, knx]
 norm: [EN 13757, IEC 62056]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -43,22 +43,17 @@ M-Bus ist ein **2-Draht-Bus** mit Master/Slave-Architektur:
 
 ### Physikalische Schicht
 
-```
-Master ──────────────────────────────── Bus (2 Draht)
-         ├── Zähler 1 (Adresse 1)
-         ├── Zähler 2 (Adresse 2)
-         └── Zähler n (Adresse n)
-```
+Der Master speist die Zweidrahtleitung, alle Zähler hängen parallel daran, jeder mit eigener Adresse. Die Topologie ist frei: Linie, Stern oder Baum sind möglich.
 
-| Parameter        | Wert                                   |
-| ---------------- | -------------------------------------- |
-| Spannung (Ruhe)  | 24–36 V (logisch 1)                    |
-| Spannung (aktiv) | 12 V (logisch 0, Master sendet)        |
-| Strom (Ruhe)     | ~1,5 mA pro Slave                      |
-| Strom (Antwort)  | ~11–20 mA (Slave moduliert Strom)      |
-| Baudrate         | 300 / 2400 / 9600 baud (2400 Standard) |
-| Max. Slaves      | 250 pro Segment (bei 2400 baud)        |
-| Kabellänge       | bis 350 m bei 0,8 mm² (unkompensiert)  |
+| Parameter                  | Wert                                                                                                                   |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Spannung (Ruhe)            | 24–36 V (logisch 1)                                                                                                    |
+| Spannung (Master sendet 0) | etwa 12 V unter der Ruhespannung                                                                                       |
+| Strom (Ruhe)               | ~1,5 mA pro Slave                                                                                                      |
+| Strom (Antwort)            | ~11–20 mA (Slave moduliert Strom)                                                                                      |
+| Baudrate                   | 300 / 2400 / 9600 baud (2400 Standard)                                                                                 |
+| Max. Slaves                | 250 pro Segment (bei 2400 baud)                                                                                        |
+| Kabellänge                 | je nach Baudrate, Anzahl Zähler und Querschnitt einige hundert Meter bis über 1 km; Angaben des Pegelwandlers beachten |
 
 > ⚠️ **Keine Polarität!** M-Bus-Kabel ist nicht verpolsicherheitskritisch. Die meisten Zähler funktionieren bei beiden Polaritäten. Trotzdem einheitlich verkabeln.
 
@@ -68,12 +63,14 @@ Master ────────────────────────�
 
 - 1 Byte, direkte Adressierung
 - Werkseitig oft auf `0` oder `1` gesetzt → **vor Inbetriebnahme umadressieren!**
-- Adresse 254 = Broadcast (alle Slaves antworten — nur bei einem Slave sinnvoll)
-- Adresse 255 = reserviert
+- Adresse 0: Werkseinstellung, unkonfiguriert
+- Adresse 253: für die Sekundäradressierung
+- Adresse 254: Test, alle Zähler antworten, nur sinnvoll mit einem einzigen Zähler am Bus
+- Adresse 255: Broadcast ohne Antwort
 
-### Sekundäradresse (8-stellig, hexadezimal)
+### Sekundäradresse (8 Byte)
 
-- 4-Byte-Identifikationsnummer (z.B. Zählernummer `12345678`)
+- Identifikationsnummer (8 Ziffern, BCD), Herstellerkennung, Version und Medium
 - Eindeutig weltweit (inkl. Herstellerkennung und Medium)
 - Selektives Ansprechen einzelner Slaves möglich
 - **Empfehlung:** Sekundäradresse für die GLT-Parametrierung notieren (auf Zähler-Label)
@@ -82,18 +79,18 @@ Master ────────────────────────�
 
 Ein M-Bus-Antworttelegramm (RSP_UD) enthält:
 
-```
-Header:
-  Manufacturer ID (2 Byte) — Herstellerkennung (3-Buchstaben-Code)
-  Identification No. (4 Byte) — Zählernummer
-  Version (1 Byte)
-  Medium (1 Byte) — Wärme=0x04, Wasser=0x07, Gas=0x03, Strom=0x02
+**Kopf:**
 
-Data Records (beliebig viele):
-  DIF (Data Information Field) — Länge + Typ
-  VIF (Value Information Field) — Einheit + Multiplikator
-  Data — eigentlicher Wert
-```
+- Herstellerkennung, 2 Byte, als Code aus drei Buchstaben
+- Identifikationsnummer, 4 Byte, meist die Zählernummer
+- Version, 1 Byte
+- Medium, 1 Byte: Wärme 0x04, Wasser 0x07, Gas 0x03, Strom 0x02
+
+**Datensätze**, beliebig viele:
+
+- DIF (Data Information Field): Länge und Art des Werts
+- VIF (Value Information Field): Einheit und Zehnerpotenz
+- Daten: der eigentliche Wert
 
 ### Wichtige VIF-Codes (Einheiten)
 
@@ -131,17 +128,14 @@ Da M-Bus nicht direkt an serielle oder Ethernet-Schnittstellen anschliessbar ist
 | **Ethernet ↔ M-Bus**  | Häufigstes Gateway für GA, Modbus TCP oder eigenes Protokoll |
 | M-Bus-Master-Karte    | PCI/PCIe-Karte für dedizierte Zähler-Server                  |
 
-**Hersteller:** Relay, Solvimus, Extron, Kamstrup, Engelmann
+**Hersteller** von Pegelwandlern und Gateways sind zum Beispiel Relay und Solvimus; viele Zählerhersteller bieten eigene an.
 
 ## Auslesung über GLT
 
 Typischer Datenpfad:
 
-```
-M-Bus-Zähler → M-Bus-Ethernet-Gateway → Modbus TCP → GLT
-                    oder
-M-Bus-Zähler → M-Bus-Ethernet-Gateway → REST/JSON API → GLT
-```
+- Zähler → M-Bus-Gateway mit Ethernet → Modbus TCP oder BACnet → GLT
+- oder Zähler → M-Bus-Gateway → REST/JSON → GLT oder Energiemanagement
 
 Viele Gateways bieten:
 
@@ -151,20 +145,19 @@ Viele Gateways bieten:
 
 ## Typische Fehler & Diagnose
 
-| Problem                    | Ursache / Massnahme                                           |
-| -------------------------- | ------------------------------------------------------------- |
-| Zähler antwortet nicht     | Adresse falsch? Baudrate? Kabel unterbrochen?                 |
-| Sporadische Timeouts       | Bus zu lang, zu viele Slaves, Kabelqualität                   |
-| Falscher Multiplikator     | VIF-Wert falsch interpretiert → Handbuch lesen                |
-| Wert springt unrealistisch | Zählerüberlauf (neuer Zählzyklus), Overflow prüfen            |
-| Verschlüsselter Datensatz  | wM-Bus AES-Schlüssel beim Hersteller anfragen                 |
-| Primäradressen-Konflikt    | Zwei Zähler gleiche Adresse → Bus-Scan, dann umberadressieren |
+| Problem                    | Ursache / Massnahme                                        |
+| -------------------------- | ---------------------------------------------------------- |
+| Zähler antwortet nicht     | Adresse falsch? Baudrate? Kabel unterbrochen?              |
+| Sporadische Timeouts       | Bus zu lang, zu viele Slaves, Kabelqualität                |
+| Falscher Multiplikator     | VIF-Wert falsch interpretiert → Handbuch lesen             |
+| Wert springt unrealistisch | Zählerüberlauf (neuer Zählzyklus), Overflow prüfen         |
+| Verschlüsselter Datensatz  | wM-Bus AES-Schlüssel beim Hersteller anfragen              |
+| Primäradressen-Konflikt    | Zwei Zähler gleiche Adresse → Bus-Scan, dann umadressieren |
 
 ## Werkzeuge
 
-- **mbmaster** (Linux, Open Source) — M-Bus-Master-Bibliothek + CLI
+- **libmbus** (Open Source) — M-Bus-Bibliothek mit Kommandozeilenwerkzeugen
 - **jmbus** (Java, Open Source) — M-Bus-Parser
-- **Relay MBUS-Explorer** (Windows) — kommerziell, komfortabler Scan
 - **Wireshark** — nur für wM-Bus mit passendem Capture-Plugin
 
 ## Normen
@@ -189,22 +182,17 @@ M-Bus is a **2-wire bus** with master/slave architecture:
 
 ### Physical Layer
 
-```
-Master ──────────────────────────────── Bus (2 wire)
-         ├── Meter 1 (address 1)
-         ├── Meter 2 (address 2)
-         └── Meter n (address n)
-```
+The master powers the two-wire line; all meters are connected in parallel, each with its own address. The topology is free: line, star or tree are possible.
 
-| Parameter          | Value                                  |
-| ------------------ | -------------------------------------- |
-| Voltage (idle)     | 24–36 V (logic 1)                      |
-| Voltage (active)   | 12 V (logic 0, master transmits)       |
-| Current (idle)     | ~1.5 mA per slave                      |
-| Current (response) | ~11–20 mA (slave modulates current)    |
-| Baud rate          | 300 / 2400 / 9600 baud (2400 standard) |
-| Max. slaves        | 250 per segment (at 2400 baud)         |
-| Cable length       | up to 350 m at 0.8 mm² (uncompensated) |
+| Parameter                | Value                                                                                                                          |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| Voltage (idle)           | 24–36 V (logic 1)                                                                                                              |
+| Voltage (master sends 0) | about 12 V below the idle voltage                                                                                              |
+| Current (idle)           | ~1.5 mA per slave                                                                                                              |
+| Current (response)       | ~11–20 mA (slave modulates current)                                                                                            |
+| Baud rate                | 300 / 2400 / 9600 baud (2400 standard)                                                                                         |
+| Max. slaves              | 250 per segment (at 2400 baud)                                                                                                 |
+| Cable length             | depending on baud rate, number of meters and cross-section from a few hundred metres to over 1 km; follow level converter data |
 
 > ⚠️ **No polarity!** M-Bus cable is not polarity-sensitive. Most meters work with either polarity. Still — wire consistently.
 
@@ -214,12 +202,14 @@ Master ────────────────────────�
 
 - 1 byte, direct addressing
 - Factory default often `0` or `1` → **reassign before commissioning!**
-- Address 254 = broadcast (all slaves respond — only useful with a single slave)
-- Address 255 = reserved
+- Address 0: factory default, unconfigured
+- Address 253: used for secondary addressing
+- Address 254: test, all meters reply, only useful with a single meter on the bus
+- Address 255: broadcast without reply
 
-### Secondary Address (8-digit, hexadecimal)
+### Secondary Address (8 bytes)
 
-- 4-byte identification number (e.g. meter number `12345678`)
+- identification number (8 BCD digits), manufacturer code, version and medium
 - Globally unique (includes manufacturer code and medium)
 - Allows selective addressing of individual slaves
 - **Recommendation:** Record secondary address for BMS parameterisation (on meter label)
@@ -228,18 +218,18 @@ Master ────────────────────────�
 
 An M-Bus response telegram (RSP_UD) contains:
 
-```
-Header:
-  Manufacturer ID (2 bytes) — manufacturer code (3-letter code)
-  Identification No. (4 bytes) — meter number
-  Version (1 byte)
-  Medium (1 byte) — heat=0x04, water=0x07, gas=0x03, electricity=0x02
+**Header:**
 
-Data records (any number):
-  DIF (Data Information Field) — length + type
-  VIF (Value Information Field) — unit + multiplier
-  Data — actual value
-```
+- manufacturer ID, 2 bytes, as a three-letter code
+- identification number, 4 bytes, usually the meter number
+- version, 1 byte
+- medium, 1 byte: heat 0x04, water 0x07, gas 0x03, electricity 0x02
+
+**Data records**, any number:
+
+- DIF (data information field): length and type of value
+- VIF (value information field): unit and power of ten
+- data: the actual value
 
 ### Key VIF Codes (Units)
 
@@ -277,17 +267,14 @@ Since M-Bus cannot be connected directly to serial or Ethernet interfaces, a **l
 | **Ethernet ↔ M-Bus**  | Most common gateway for BA, Modbus TCP or proprietary protocol |
 | M-Bus master card     | PCI/PCIe card for dedicated meter servers                      |
 
-**Manufacturers:** Relay, Solvimus, Extron, Kamstrup, Engelmann
+**Manufacturers** of level converters and gateways include Relay and Solvimus; many meter manufacturers offer their own.
 
 ## Readout via BMS
 
 Typical data path:
 
-```
-M-Bus meter → M-Bus Ethernet gateway → Modbus TCP → BMS
-                    or
-M-Bus meter → M-Bus Ethernet gateway → REST/JSON API → BMS
-```
+- meter → M-Bus gateway with Ethernet → Modbus TCP or BACnet → BMS
+- or meter → M-Bus gateway → REST/JSON → BMS or energy management
 
 Many gateways offer:
 
@@ -308,9 +295,8 @@ Many gateways offer:
 
 ## Tools
 
-- **mbmaster** (Linux, open source) — M-Bus master library + CLI
+- **libmbus** (open source) — M-Bus library with command line tools
 - **jmbus** (Java, open source) — M-Bus parser
-- **Relay MBUS-Explorer** (Windows) — commercial, user-friendly scan tool
 - **Wireshark** — for wM-Bus only with appropriate capture plugin
 
 ## Standards

@@ -217,19 +217,19 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ⬜ iec61850
 - ⬜ matter-thread
 - ⬜ profibus
-- ⬜ rs485
+- ✅ rs485
 - ⬜ zwave
 
 ### protokolle
 
-- ⬜ bacnet
-- ⬜ dali
+- ✅ bacnet
+- ✅ dali
 - ⬜ enocean
-- ⬜ knx
+- ✅ knx
 - ⬜ lon
 - ⬜ lora
-- ⬜ mbus
-- ⬜ modbus
+- ✅ mbus
+- ✅ modbus
 - ⬜ mqtt
 - ⬜ opc-ua
 - ⬜ zigbee
@@ -404,3 +404,9 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | zonenkonzepte                       | Spital-Raumklassen erfunden (I, Ib Intensiv, III Korridor); OP-Luftwechsel; SWKI 99-3 statt VA105-01 (auch in 4 weiteren Artikeln); EN ISO 15500                                                                                                                             | DIN 1946-4 Ia/Ib/II; SWKI VA105-01 LK 1a/1b (Websuche); SIA 2024                                                                            | DIN 1946-4, SWKI VA105-01                                           |
 | 14.10.2026 | sps-grundlagen                      | «alle 5 Sprachen auf jeder SPS»; Schirm einseitig; BSK/RWA/Aufzug über F-SPS                                                                                                                                                                                                 | korrigiert                                                                                                                                  | —                                                                   |
 | 14.10.2026 | bim-digitaler-zwilling              | «SWKI BIM 001» nicht belegbar; Property-Set-Name                                                                                                                                                                                                                             | SIA 2051; Pset_SensorTypeCommon; Brick/Haystack                                                                                             | SIA 2051, ISO 16739                                                 |
+| 14.10.2026 | knx                                 | Speisung bis Gerät «700 m» (350 m); DPT 9.001 bis «+670 °C» (+670'760); Terminierung als Fehlerursache (TP hat keine); «knxpros.com»; KNX Secure fehlte                                                                                                                      | korrigiert, Abschnitt KNX Secure                                                                                                            | EN 50090                                                            |
+| 14.10.2026 | bacnet                              | BBMD-zu-BBMD als «Foreign Device Registration» (ist BDT); MS/TP-Adressen unklar (Master 0–127, Slave 128–254); Pflichtproperties pauschal; «300 m bei 76800 Baud»                                                                                                            | korrigiert                                                                                                                                  | ISO 16484-5                                                         |
+| 14.10.2026 | modbus                              | «32 Geräte / 256 mit Repeater»; KNX-Kabel als RS-485-Kabel; Schirm einseitig; Parität                                                                                                                                                                                        | 247 Adressen, Lasteinheiten; 120-Ω-Kabel; Common an einer Stelle an PE; 8E1                                                                 | Modbus over Serial Line                                             |
+| 14.10.2026 | rs485                               | M-Bus, DALI, LON FTT-10 als RS-485-Varianten (eigene Bitübertragung); MS/TP als 4-Draht; M-Bus-Zähler am RS-485-Bus im Übersichtsbild                                                                                                                                        | korrigiert                                                                                                                                  | TIA-485                                                             |
+| 14.10.2026 | mbus                                | Master-Sendepegel «12 V» (12 V unter Ruhespannung); Sonderadressen 253–255 falsch; Sekundäradresse «8-stellig hex»; «Extron», «mbmaster»                                                                                                                                     | korrigiert; libmbus                                                                                                                         | EN 13757-2/-3                                                       |
+| 14.10.2026 | dali                                | ARC 128 «10 %», 200 «40 %» (≈ 3 %, 23 %); ARC 255 «letzter Wert» (MASK); DT4/DT5 falsch; DALI «auf SELV-Kabel» (nicht SELV); Notlicht-Funktionstest «täglich»                                                                                                                | korrigiert                                                                                                                                  | IEC 62386-101/-102                                                  |

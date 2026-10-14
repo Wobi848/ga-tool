@@ -9,7 +9,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, mbus, knx, rs485]
 norm: [IEC 61158]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -54,12 +54,12 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 ## RTU-Verkabelung (RS-485)
 
 - **2-Draht (häufig):** A+ und B− (Daten differenziell)
-- **3-Draht (besser):** zusätzliches GND (Schutz vor Erdschleifen)
-- **Topologie:** Linie (Bus), max. 32 Geräte ohne Repeater (Standard) / 256 mit Repeater
+- **3-Draht (besser):** zusätzlicher gemeinsamer Bezugsleiter (Common), damit die Gleichtaktspannung zwischen den Geräten im zulässigen Bereich bleibt
+- **Topologie:** Linie (Bus), 32 Standardlasten pro Segment; mit Viertel- oder Achtellast-Transceivern mehr Geräte. Adressierbar sind 1 bis 247
 - **Terminierung:** 120 Ω an beiden Enden des Busses
 - **Bias-Widerstände:** zwischen A/B und +5 V / GND auf einer Master-Seite — verhindert undefinierten Pegel
-- **Kabel:** geschirmt verdrillt (z.B. EIB/KNX-Kabel oder spezielles RS-485-Kabel)
-- **Schirm:** **einseitig** an PE auflegen (sonst Brummschleife)
+- **Kabel:** geschirmt, verdrillt, mit rund 120 Ω Wellenwiderstand, etwa RS-485- oder Profibus-Kabel. KNX-Kabel ist dafür nicht ausgelegt
+- **Schirm und Common:** nach Herstellerangabe auflegen. Die Modbus-Spezifikation verlangt, den Common an genau einer Stelle mit PE zu verbinden. Siehe [Schirmung und Erdung](/wissen/schirmung-erdung)
 
 ## Typische Baudraten
 
@@ -71,7 +71,7 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 | 57600  | Selten                          |
 | 115200 | Eher Punkt-zu-Punkt             |
 
-**Achtung:** Alle Geräte am Bus müssen gleiche Baudrate, Parität (E/O/N) und Stoppbits haben.
+**Achtung:** Alle Geräte am Bus müssen gleiche Baudrate, Parität und Stoppbits haben. Standard nach Spezifikation ist gerade Parität mit einem Stoppbit (8E1); ohne Parität sind zwei Stoppbits vorgesehen, viele Geräte nutzen trotzdem 8N1.
 
 ## Häufige Probleme
 
@@ -98,9 +98,9 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 
 ## Siehe auch
 
-- BACnet (Gebäudeautomations-Standard)
-- M-Bus (Zähler-Bus)
-- KNX (Gebäudesystemtechnik)
+- [RS-485](/wissen/rs485) — die physikalische Schicht
+- [BACnet](/wissen/bacnet)
+- [M-Bus](/wissen/mbus)
 
 <!-- EN -->
 
@@ -143,12 +143,12 @@ Both use the same data model. TCP is just a different "envelope".
 ## RTU Wiring (RS-485)
 
 - **2-wire (common):** A+ and B− (differential data)
-- **3-wire (better):** additional GND (protection against ground loops)
-- **Topology:** Line (bus), max. 32 devices without repeater / 256 with repeater
+- **3-wire (better):** additional common reference conductor, so the common-mode voltage between devices stays within limits
+- **Topology:** line (bus), 32 unit loads per segment; more devices with quarter- or eighth-load transceivers. Addresses 1 to 247
 - **Termination:** 120 Ω at both ends of the bus
 - **Bias resistors:** between A/B and +5 V / GND on the master side — prevents undefined signal level
-- **Cable:** shielded twisted pair (e.g. KNX/EIB cable or dedicated RS-485 cable)
-- **Shield:** connect to PE at **one end only** (otherwise ground loop hum)
+- **Cable:** shielded, twisted, with about 120 Ω characteristic impedance, such as RS-485 or Profibus cable. KNX cable is not designed for this
+- **Shield and common:** terminate as specified by the manufacturer. The Modbus specification requires the common to be connected to PE at exactly one point. See [Shielding and Earthing](/wissen/schirmung-erdung)
 
 ## Typical Baud Rates
 
@@ -160,7 +160,7 @@ Both use the same data model. TCP is just a different "envelope".
 | 57600  | Rare                          |
 | 115200 | Point-to-point mainly         |
 
-**Note:** All devices on the bus must use the same baud rate, parity (E/O/N) and stop bits.
+**Note:** all devices on the bus must use the same baud rate, parity and stop bits. The specification default is even parity with one stop bit (8E1); without parity two stop bits are intended, though many devices still use 8N1.
 
 ## Common Problems
 
@@ -187,6 +187,6 @@ Both use the same data model. TCP is just a different "envelope".
 
 ## See also
 
-- BACnet (building automation standard)
-- M-Bus (meter bus)
-- KNX (building systems technology)
+- [RS-485](/wissen/rs485) — the physical layer
+- [BACnet](/wissen/bacnet)
+- [M-Bus](/wissen/mbus)
