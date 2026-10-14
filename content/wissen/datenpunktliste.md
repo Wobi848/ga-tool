@@ -24,7 +24,7 @@ difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement, bim-digitaler-zwilling]
 norm: [VDI 3814, SIA 386.110, AMEV]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -164,19 +164,17 @@ Die DPL ist auch Checkliste für die Inbetriebnahme:
 
 Jeder analoge Datenpunkt sollte Grenzwerte für Plausibilitätsprüfung haben:
 
-```
-Datenpunkt: Aussentemperatur
-  Physikalischer Bereich: −40 … +60 °C (PT1000 Bereich)
-  Plausibel: −25 … +45 °C (realistischer Wertebereich CH)
-  Alarm Untergrenze: −25 °C (Frostwarnung)
-  Alarm Obergrenze: +40 °C (ungewöhnlich, Sensor prüfen)
-  Fühlerbruch-Erkennung: < −40 °C oder > 100 °C = Kabelbruch
-```
+- Datenpunkt: Aussentemperatur
+- Physikalischer Bereich: −40 … +60 °C (PT1000 Bereich)
+- Plausibel: −25 … +45 °C (realistischer Wertebereich CH)
+- Alarm Untergrenze: −25 °C (Frostwarnung)
+- Alarm Obergrenze: +40 °C (ungewöhnlich, Sensor prüfen)
+- Fühlerbruch-Erkennung: < −40 °C oder > 100 °C = Kabelbruch
 
 ## Normen
 
 - **VDI 3814** — Gebäudeautomation, MSR-Technik (Datenpunktstruktur)
-- **SIA 386.110** (CH) — Gebäudeautomation
+- **SIA 386.110** (CH) — Schweizer Ausgabe von EN 15232
 - **AMEV BACnet** — Empfehlung für BACnet-Datenpunkte in öffentlichen Gebäuden
 - **VDI/VDE 3699** — Prozessführung mit Bildschirmen (Datenpunkt-Visualisierung)
 
@@ -316,18 +314,16 @@ The DPL also serves as a commissioning checklist:
 
 Every analogue data point should have limits for plausibility checking:
 
-```
-Data point: Outdoor temperature
-  Physical range: −40 … +60 °C (PT1000 range)
-  Plausible: −25 … +45 °C (realistic value range CH)
-  Low alarm: −25 °C (frost warning)
-  High alarm: +40 °C (unusual, check sensor)
-  Wire break detection: < −40 °C or > 100 °C = cable break
-```
+- Data point: Outdoor temperature
+- Physical range: −40 … +60 °C (PT1000 range)
+- Plausible: −25 … +45 °C (realistic value range CH)
+- Low alarm: −25 °C (frost warning)
+- High alarm: +40 °C (unusual, check sensor)
+- Wire break detection: < −40 °C or > 100 °C = cable break
 
 ## Standards
 
 - **VDI 3814** — Building automation, instrumentation and control (data point structure)
-- **SIA 386.110** (CH) — Building automation
+- **SIA 386.110** (CH) — Swiss edition of EN 15232
 - **AMEV BACnet** — Recommendation for BACnet data points in public buildings
 - **VDI/VDE 3699** — Process control with screens (data point visualisation)

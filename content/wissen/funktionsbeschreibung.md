@@ -23,7 +23,7 @@ difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, tab-protokoll, glt-grundlagen, ddc-programmierung, alarmmanagement]
 norm: [VDI 3814, SIA 386.110, AMEV Hinweis GA 2017]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -33,15 +33,14 @@ Die Funktionsbeschreibung (FB) ist das zentrale Planungsdokument der GA. Sie bes
 
 ## Zweck und Adressaten
 
-```
-Funktionsbeschreibung dient:
-  1. Auftraggeber:    Prüfung ob Anforderungen erfüllt
-  2. Elektroplaner:   Basis für Schaltpläne und DPL
-  3. GA-Unternehmer:  Grundlage für Offerte und Programmierung
-  4. DDC-Programmierer: Direkter Programmierauftrag
-  5. IBN-Techniker:   Prüfgrundlage (Was soll passieren?)
-  6. Betreiber:       Verständnis der Anlage für Betrieb
-```
+**Funktionsbeschreibung dient:**
+
+1. Auftraggeber: Prüfung ob Anforderungen erfüllt
+2. Elektroplaner: Basis für Schaltpläne und DPL
+3. GA-Unternehmer: Grundlage für Offerte und Programmierung
+4. DDC-Programmierer: Direkter Programmierauftrag
+5. IBN-Techniker: Prüfgrundlage (Was soll passieren?)
+6. Betreiber: Verständnis der Anlage für Betrieb
 
 ---
 
@@ -49,17 +48,14 @@ Funktionsbeschreibung dient:
 
 ### Kopf jeder Anlage
 
-```
-Anlage: RLT-Anlage 1 (RLT-01)
-Beschreibung: Zuluft-Anlage Bürozone EG West, ca. 3500 m³/h
-Betriebszeiten: MO–FR 06:00–20:00 (Zeitprogramm)
-Vorlage: VDI 6022 Hygienegeprüft Klasse B
-Sicherheitsfunktionen: Frostschutz, Brandschutzklappen-Verriegelung
-```
+- Anlage: RLT-Anlage 1 (RLT-01)
+- Beschreibung: Zuluft-Anlage Bürozone EG West, ca. 3500 m³/h
+- Betriebszeiten: MO–FR 06:00–20:00 (Zeitprogramm)
+- Hygiene: Ausführung und Betrieb nach SWKI VA104-01 bzw. VDI 6022
+- Sicherheitsfunktionen: Frostschutz, Brandschutzklappen-Verriegelung
 
 ### Kapitelstruktur
 
-```
 1. Allgemein (Anlage, Zweck, Normen)
 2. Anlage-Bestandteile (Komponenten-Liste)
 3. Betriebsarten (Normal, Nacht, Absenkung, Hand, Störung)
@@ -69,7 +65,6 @@ Sicherheitsfunktionen: Frostschutz, Brandschutzklappen-Verriegelung
 7. Alarmierungen (je Alarm: Grenzwert, Verzögerung, Priorität)
 8. Schnittstellen (zu anderen Anlagen, GLT)
 9. Datenpunktliste (Verweis)
-```
 
 ---
 
@@ -77,29 +72,31 @@ Sicherheitsfunktionen: Frostschutz, Brandschutzklappen-Verriegelung
 
 Jede Anlage hat definierte Betriebsarten:
 
-```
-Betriebsart 0 — AUS (Frostschutz):
-  Ausserhalb Betriebszeiten
-  Ventilator: 0
-  Klappen: geschlossen
-  Frost-Schutz: aktiv (wenn TA < 3 °C → Pumpe auf min. 20 %)
+**Betriebsart 0 — AUS (Frostschutz):**
 
-Betriebsart 1 — ABSENKEN:
-  Werktage 20:00–06:00
-  Temp-Soll: 17 °C (statt 22 °C)
-  Luftmenge: 30 % (Mindestlüftung)
+- Ausserhalb Betriebszeiten
+- Ventilator: 0
+- Klappen: geschlossen
+- Frost-Schutz: aktiv (wenn TA < 3 °C → Pumpe auf min. 20 %)
 
-Betriebsart 2 — KOMFORT (Normal):
-  MO–FR 06:00–20:00
-  Temp-Soll: 22 °C (heizen) / 26 °C (kühlen)
-  Luftmenge: DCV nach CO2, min. 30 %, max. 100 %
+**Betriebsart 1 — ABSENKEN:**
 
-Betriebsart 3 — HANDBETRIEB:
-  Manuell durch Techniker
-  Alle Stellglieder manuell verfahrbar
-  Kein automatischer Eingriff
-  Timeout: nach 4 h zurück auf Auto
-```
+- Werktage 20:00–06:00
+- Temp-Soll: 17 °C (statt 22 °C)
+- Luftmenge: 30 % (Mindestlüftung)
+
+**Betriebsart 2 — KOMFORT (Normal):**
+
+- MO–FR 06:00–20:00
+- Temp-Soll: 22 °C (heizen) / 26 °C (kühlen)
+- Luftmenge: DCV nach CO2, min. 30 %, max. 100 %
+
+**Betriebsart 3 — HANDBETRIEB:**
+
+- Manuell durch Techniker
+- Alle Stellglieder manuell verfahrbar
+- Kein automatischer Eingriff
+- Timeout: nach 4 h zurück auf Auto
 
 ---
 
@@ -107,28 +104,27 @@ Betriebsart 3 — HANDBETRIEB:
 
 Jeder Regelkreis erhält einen eigenen Abschnitt:
 
-```
-Regelkreis: Zuluft-Temperatur RLT-01
+- Regelkreis: Zuluft-Temperatur RLT-01
 
-Regelgrösse:    Zuluft-Temperatur (nach Heizregister)
-Messort:        TE-01 (Tauchfühler Zuluftkanal nach WRG)
-Sollwert:       18 °C (winter) / 22 °C (sommer, Nachtauskühlung)
-Sollwertquelle: Fixwert, einstellbar via GLT
+- Regelgrösse: Zuluft-Temperatur (nach Heizregister)
+- Messort: TE-01 (Kanalfühler im Zuluftkanal nach Heizregister und Ventilator)
+- Sollwert: 18 °C (winter) / 22 °C (sommer, Nachtauskühlung)
+- Sollwertquelle: Fixwert, einstellbar via GLT
 
-Stellglied:     Heizventil YV-01 (2-Wege, Kv 6.3, DN25)
-Stellbereich:   0–100 % (0–10 V)
-Fail-Safe:      Offen (bei Ausfall Signal → Ventil öffnet)
+- Stellglied: Heizventil YV-01 (2-Wege, Kv 6.3, DN25)
+- Stellbereich: 0–100 % (0–10 V)
+- Fail-Safe: Offen (bei Ausfall Signal → Ventil öffnet)
 
-Regler:         PID
-  Kp = 2.0, Ti = 4 min, Td = 0
-  Regelbeginn: wenn Betriebsart ≥ 1 (nicht bei Betriebsart 0)
+- Regler: PID
+- Kp = 2.0, Ti = 4 min, Td = 0
+- Regelbeginn: wenn Betriebsart ≥ 1 (nicht bei Betriebsart 0)
 
-Grenzen:
-  Min. Stellwert: 0 % (ausser Frostschutz-Logik)
-  Max. Stellwert: 100 %
-  Zuluft-Max: 28 °C (Übertemperatur-Alarm wenn > 30 °C)
-  Zuluft-Min: Frostschutz wenn < 5 °C (Sofortabschaltung Ventilator)
-```
+**Grenzen:**
+
+- Min. Stellwert: 0 % (ausser Frostschutz-Logik)
+- Max. Stellwert: 100 %
+- Zuluft-Max: 28 °C (Übertemperatur-Alarm wenn > 30 °C)
+- Zuluft-Min: Frostschutz wenn < 5 °C (Sofortabschaltung Ventilator)
 
 ---
 
@@ -136,24 +132,27 @@ Grenzen:
 
 Sicherheitsfunktionen IMMER explizit beschreiben:
 
-```
-Frostschutz RLT-01:
+**Frostschutz RLT-01:**
 
-Auslösung: Wenn Zuluft-Temp TE-01 < 5 °C mit Verzögerung 30 s
+- **Messung:** Frostschutzthermostat mit Kapillarfühler über die ganze Fläche nach dem Heizregister, zusätzlich Rücklauffühler am Heizregister
+- **Vorwarnung:** Rücklauf oder Luft nach Register unter etwa 8 °C → Heizventil öffnet zwangsweise, Pumpe läuft
+- **Auslösung:** Frostschutzthermostat unter 5 °C, ohne Verzögerung
 
-Sofortmassnahmen (ohne Verzögerung):
-  - Ventilator AUS
-  - Klappe Aussenluft schliessen (100 % zu)
-  - Klappe Umluft öffnen (wenn vorhanden)
-  - Heizventil: 100 % auf
+**Massnahmen bei Auslösung:**
 
-Freigabe (Reset):
-  - Nur manuell nach Quittierung
-  - Bedingung: Zuluft-Temp > 12 °C UND Vorlauf-Temp > 40 °C
+- Ventilator AUS
+- Aussenluftklappe ZU
+- Umluftklappe AUF, wenn vorhanden
+- Heizventil 100 % AUF, Pumpe EIN
 
-Meldung: Alarm "Frostschutz RLT-01 ausgelöst" → Priorität KRITISCH
-  → Email an Gebäudetechnik, SMS an Pikett
-```
+**Freigabe (Reset):**
+
+- Nur manuell nach Quittierung
+- Bedingung: Temperatur nach Register über 12 °C und Heizungsvorlauf verfügbar
+
+- Meldung: Alarm «Frostschutz RLT-01 ausgelöst», Priorität hoch, an Gebäudetechnik und Pikett
+
+Die Auslösung durch den Frostschutzthermostat ist fest verdrahtet und wirkt auch im Handbetrieb.
 
 ---
 
@@ -186,7 +185,7 @@ Meldung: Alarm "Frostschutz RLT-01 ausgelöst" → Priorität KRITISCH
 ## Normen
 
 - **VDI 3814** — Inhalt und Aufbau von Funktionsbeschreibungen GA
-- **SIA 386.110** — Anforderungen an Planungsunterlagen GA (Schweiz)
+- **SIA 386.110** — Schweizer Ausgabe von EN 15232, Funktionen und Effizienzklassen der GA
 - **AMEV Hinweis GA 2017** — Funktionsbeschreibung für öffentliche Bauten (DE)
 
 <!-- EN -->
@@ -197,15 +196,14 @@ The functional description (FD) is the central planning document in BA. It preci
 
 ## Purpose and Audience
 
-```
-Functional description serves:
-  1. Client:           Verify that requirements are met
-  2. Electrical planner: Basis for circuit diagrams and DPL
-  3. BA contractor:    Basis for quotation and programming
-  4. DDC programmer:  Direct programming specification
-  5. Commissioning technician: Test basis (what should happen?)
-  6. Operator:        Understanding the system for operation
-```
+**Functional description serves:**
+
+1. Client: Verify that requirements are met
+2. Electrical planner: Basis for circuit diagrams and DPL
+3. BA contractor: Basis for quotation and programming
+4. DDC programmer: Direct programming specification
+5. Commissioning technician: Test basis (what should happen?)
+6. Operator: Understanding the system for operation
 
 ---
 
@@ -213,17 +211,14 @@ Functional description serves:
 
 ### Header for Each System
 
-```
-System: AHU-01 (RLT-01)
-Description: Supply air system office zone ground floor west, approx. 3500 m³/h
-Operating hours: Mon–Fri 06:00–20:00 (time programme)
-Standard: VDI 6022 hygiene-inspected class B
-Safety functions: frost protection, fire damper interlock
-```
+- System: AHU-01 (RLT-01)
+- Description: Supply air system office zone ground floor west, approx. 3500 m³/h
+- Operating hours: Mon–Fri 06:00–20:00 (time programme)
+- Hygiene: design and operation per SWKI VA104-01 or VDI 6022
+- Safety functions: frost protection, fire damper interlock
 
 ### Chapter Structure
 
-```
 1. General (system, purpose, standards)
 2. System components (component list)
 3. Operating modes (normal, night, setback, manual, fault)
@@ -233,7 +228,6 @@ Safety functions: frost protection, fire damper interlock
 7. Alarms (per alarm: limit, delay, priority)
 8. Interfaces (to other systems, BMS)
 9. Data point list (reference)
-```
 
 ---
 
@@ -241,29 +235,31 @@ Safety functions: frost protection, fire damper interlock
 
 Every system has defined operating modes:
 
-```
-Mode 0 — OFF (frost protection):
-  Outside operating hours
-  Fan: 0
-  Dampers: closed
-  Frost protection: active (if T_outdoor < 3 °C → pump at min. 20 %)
+**Mode 0 — OFF (frost protection):**
 
-Mode 1 — SETBACK:
-  Weekdays 20:00–06:00
-  Temp setpoint: 17 °C (instead of 22 °C)
-  Air volume: 30 % (minimum ventilation)
+- Outside operating hours
+- Fan: 0
+- Dampers: closed
+- Frost protection: active (if T_outdoor < 3 °C → pump at min. 20 %)
 
-Mode 2 — COMFORT (normal):
-  Mon–Fri 06:00–20:00
-  Temp setpoint: 22 °C (heating) / 26 °C (cooling)
-  Air volume: DCV to CO₂, min. 30 %, max. 100 %
+**Mode 1 — SETBACK:**
 
-Mode 3 — MANUAL:
-  Manually by technician
-  All actuators manually adjustable
-  No automatic intervention
-  Timeout: return to auto after 4 h
-```
+- Weekdays 20:00–06:00
+- Temp setpoint: 17 °C (instead of 22 °C)
+- Air volume: 30 % (minimum ventilation)
+
+**Mode 2 — COMFORT (normal):**
+
+- Mon–Fri 06:00–20:00
+- Temp setpoint: 22 °C (heating) / 26 °C (cooling)
+- Air volume: DCV to CO₂, min. 30 %, max. 100 %
+
+**Mode 3 — MANUAL:**
+
+- Manually by technician
+- All actuators manually adjustable
+- No automatic intervention
+- Timeout: return to auto after 4 h
 
 ---
 
@@ -271,28 +267,27 @@ Mode 3 — MANUAL:
 
 Each control loop gets its own section:
 
-```
-Control loop: Supply air temperature AHU-01
+- Control loop: Supply air temperature AHU-01
 
-Controlled variable:  Supply air temperature (after heating coil)
-Measurement point:    TE-01 (duct immersion sensor after HRC)
-Setpoint:             18 °C (winter) / 22 °C (summer, night cooling)
-Setpoint source:      Fixed value, adjustable via BMS
+- Controlled variable: Supply air temperature (after heating coil)
+- Measurement point: TE-01 (duct sensor in the supply duct after heating coil and fan)
+- Setpoint: 18 °C (winter) / 22 °C (summer, night cooling)
+- Setpoint source: Fixed value, adjustable via BMS
 
-Actuator:             Heating valve YV-01 (2-way, Kv 6.3, DN25)
-Control range:        0–100 % (0–10 V)
-Fail-safe:            Open (signal loss → valve opens)
+- Actuator: Heating valve YV-01 (2-way, Kv 6.3, DN25)
+- Control range: 0–100 % (0–10 V)
+- Fail-safe: Open (signal loss → valve opens)
 
-Controller:           PID
-  Kp = 2.0, Ti = 4 min, Td = 0
-  Active when: operating mode ≥ 1 (not in mode 0)
+- Controller: PID
+- Kp = 2.0, Ti = 4 min, Td = 0
+- Active when: operating mode ≥ 1 (not in mode 0)
 
-Limits:
-  Min. output: 0 % (except frost-protection logic)
-  Max. output: 100 %
-  Supply air max: 28 °C (overtemperature alarm if > 30 °C)
-  Supply air min: frost protection if < 5 °C (immediate fan shutdown)
-```
+**Limits:**
+
+- Min. output: 0 % (except frost-protection logic)
+- Max. output: 100 %
+- Supply air max: 28 °C (overtemperature alarm if > 30 °C)
+- Supply air min: frost protection if < 5 °C (immediate fan shutdown)
 
 ---
 
@@ -300,24 +295,27 @@ Limits:
 
 Safety functions MUST always be described explicitly:
 
-```
-Frost protection AHU-01:
+**Frost protection AHU-01:**
 
-Trigger: if supply air temp TE-01 < 5 °C with 30 s delay
+- **Measurement:** frost thermostat with capillary sensor across the whole face after the heating coil, plus a return sensor on the heating coil
+- **Pre-warning:** return or air after coil below about 8 °C → heating valve forced open, pump runs
+- **Trip:** frost thermostat below 5 °C, without delay
 
-Immediate actions (without delay):
-  - Fan OFF
-  - Outdoor air damper close (100 % shut)
-  - Recirculation damper open (if present)
-  - Heating valve: 100 % open
+**Actions on trip:**
 
-Reset:
-  - Manual only, after acknowledgement
-  - Condition: supply air temp > 12 °C AND flow temp > 40 °C
+- Fan OFF
+- Outdoor air damper CLOSED
+- Recirculation damper OPEN, if present
+- Heating valve 100 % OPEN, pump ON
 
-Alarm: "Frost protection AHU-01 triggered" → priority CRITICAL
-  → Email to building services, SMS to on-call
-```
+**Reset:**
+
+- Manual only, after acknowledgement
+- Condition: temperature after coil above 12 °C and heating flow available
+
+- Message: alarm "Frost protection AHU-01 triggered", high priority, to building services and on-call
+
+Tripping by the frost thermostat is hard-wired and also works in manual mode.
 
 ---
 
@@ -350,5 +348,5 @@ Alarm: "Frost protection AHU-01 triggered" → priority CRITICAL
 ## Standards
 
 - **VDI 3814** — Content and structure of functional descriptions in BA
-- **SIA 386.110** — Requirements for BA planning documents (Switzerland)
+- **SIA 386.110** — Swiss edition of EN 15232, BA functions and efficiency classes
 - **AMEV Hinweis GA 2017** — Functional descriptions for public buildings (DE)

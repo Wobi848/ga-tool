@@ -24,8 +24,8 @@ tags:
 difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, glt-grundlagen, alarmmanagement, ibn-vorbereitung]
-norm: [VDI 3814, SIA 386.110, SIA 118]
-updated: 2026-05-14
+norm: [VDI 3814, SIA 118/380, SIA 118]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -35,15 +35,13 @@ Das **TAB-Protokoll** (Technische Abnahme Betrieb) ist das abschliessende Dokume
 
 ## Zweck des TAB-Protokolls
 
-```
-IBN fertig → TAB-Protokoll erstellen → Übergabe an Betreiber
-                      ↑
-              Beweisdokument:
-              - Alles wurde geprüft
-              - Wer hat was freigegeben
-              - Offene Mängel dokumentiert
-              - Grundlage für Abschlag-/Schlusszahlung
-```
+- IBN fertig → TAB-Protokoll erstellen → Übergabe an Betreiber
+  - ↑
+  - Beweisdokument:
+  - Alles wurde geprüft
+  - Wer hat was freigegeben
+  - Offene Mängel dokumentiert
+  - Grundlage für Abschlag-/Schlusszahlung
 
 ---
 
@@ -51,28 +49,26 @@ IBN fertig → TAB-Protokoll erstellen → Übergabe an Betreiber
 
 ### Teil 1: Projektdaten
 
-```
-Projekt:          Neubau Verwaltungsgebäude Muster AG
-Adresse:          Musterstrasse 1, 3000 Bern
-IBN-Verantwortlicher: Max Mustermann, GA-Firma AG
-Bauherr-Vertreter:    Maria Muster, Muster AG
-Datum IBN:        12.05.2026 – 14.05.2026
-Datum TAB:        14.05.2026
-GA-System:        Siemens Desigo CC + PXC-Controller
-Protokoll-Nr.:    TAB-2026-001
-```
+- Projekt: Neubau Verwaltungsgebäude Muster AG
+- Adresse: Musterstrasse 1, 3000 Bern
+- IBN-Verantwortlicher: Max Mustermann, GA-Firma AG
+- Bauherr-Vertreter: Maria Muster, Muster AG
+- Datum IBN: 12.05.2026 – 14.05.2026
+- Datum TAB: 14.05.2026
+- GA-System: Siemens Desigo CC + PXC-Controller
+- Protokoll-Nr.: TAB-2026-001
 
 ### Teil 2: Datenpunktliste mit Abnahme-Status
 
 Jeder DPL-Eintrag wird abgehakt:
 
-| ID               | Typ | Beschreibung            | Messwert | OK  | Bemerkung      |
-| ---------------- | --- | ----------------------- | -------- | --- | -------------- |
-| HZG-K1-VL-T-IST  | AI  | Vorlauftemp Heizkreis 1 | 45.3 °C  | ✓   |                |
-| HZG-K1-P1-EIN    | DO  | Pumpe HK1 EIN/AUS       | EIN      | ✓   |                |
-| HZG-K1-P1-LFG    | DI  | Pumpe HK1 Laufmeldung   | 1        | ✓   |                |
-| HZG-K1-P1-STR    | DI  | Pumpe HK1 Störmeldung   | 0        | ✓   |                |
-| LFT-RLT1-FA1-STR | DI  | Filter-Alarm RLT1       | 0        | ✗   | Filter neu, OK |
+| ID               | Typ | Beschreibung            | Messwert | OK  | Bemerkung                              |
+| ---------------- | --- | ----------------------- | -------- | --- | -------------------------------------- |
+| HZG-K1-VL-T-IST  | AI  | Vorlauftemp Heizkreis 1 | 45.3 °C  | ✓   |                                        |
+| HZG-K1-P1-EIN    | DO  | Pumpe HK1 EIN/AUS       | EIN      | ✓   |                                        |
+| HZG-K1-P1-LFG    | DI  | Pumpe HK1 Laufmeldung   | 1        | ✓   |                                        |
+| HZG-K1-P1-STR    | DI  | Pumpe HK1 Störmeldung   | 0        | ✓   |                                        |
+| LFT-RLT1-FA1-STR | DI  | Filter-Alarm RLT1       | 0        | ✓   | mit simulierter Druckdifferenz geprüft |
 
 ### Teil 3: Regelkreise
 
@@ -87,12 +83,12 @@ Jeder DPL-Eintrag wird abgehakt:
 
 Jeder Alarm wird bewusst ausgelöst und geprüft:
 
-| Alarm                   | Auslösung             | Meldung in GLT   | Eskalation | OK  |
-| ----------------------- | --------------------- | ---------------- | ---------- | --- |
-| Pumpe HK1 Störung       | Motorschutz ausgelöst | Kritisch → Email | −          | ✓   |
-| Frostschutz RLT1        | Zuluft T < 5 °C       | Kritisch         | SMS        | ✓   |
-| Filter verschmutzt RLT1 | Δp > 300 Pa           | Mittel           | −          | ✓   |
-| Kommunikation DDC-01    | LAN-Kabel ziehen      | Hoch → 60s       | −          | ✓   |
+| Alarm                   | Auslösung                       | Meldung in GLT   | Eskalation | OK  |
+| ----------------------- | ------------------------------- | ---------------- | ---------- | --- |
+| Pumpe HK1 Störung       | Motorschutz ausgelöst           | Kritisch → Email | −          | ✓   |
+| Frostschutz RLT1        | Frostschutzthermostat ausgelöst | Kritisch         | SMS        | ✓   |
+| Filter verschmutzt RLT1 | Δp > 300 Pa                     | Mittel           | −          | ✓   |
+| Kommunikation DDC-01    | LAN-Kabel ziehen                | Hoch → 60s       | −          | ✓   |
 
 ### Teil 5: Visualisierung
 
@@ -128,22 +124,20 @@ Prüfung der GLT-Visualisierung:
 
 ## Unterschriften
 
-```
-Inbetriebnahme abgenommen mit offenen Mängeln (siehe Mängelliste):
+**Inbetriebnahme abgenommen mit offenen Mängeln (siehe Mängelliste):**
 
-Inbetriebnehmer: _______________  Datum: 14.05.2026
-                 Max Mustermann
+- Inbetriebnehmer: ******\_\_\_****** Datum: 14.05.2026
+  - Max Mustermann
 
-Bauherr-Vertreter: _____________  Datum: 14.05.2026
-                   Maria Muster
-```
+- Bauherr-Vertreter: ******\_****** Datum: 14.05.2026
+  - Maria Muster
 
 ---
 
 ## Normen
 
 - **VDI 3814** — GA, Abnahme und Übergabe
-- **SIA 386.110** — GA-Norm Schweiz (Abnahmeanforderungen)
+- **SIA 118/380** — Allgemeine Bedingungen für Gebäudetechnik, Abnahme (CH)
 - **SIA 118** — Allgemeine Bedingungen für Bauarbeiten (Abnahme-Regelung)
 
 <!-- EN -->
@@ -152,15 +146,13 @@ The **TAB protocol** (Technische Abnahme Betrieb — Technical Commissioning Acc
 
 ## Purpose of the TAB Protocol
 
-```
-Commissioning complete → create TAB protocol → handover to operator
-                                 ↑
-                        Evidence document:
-                        - Everything was tested
-                        - Who approved what
-                        - Open defects documented
-                        - Basis for final payment
-```
+- Commissioning complete → create TAB protocol → handover to operator
+  - ↑
+  - Evidence document:
+  - Everything was tested
+  - Who approved what
+  - Open defects documented
+  - Basis for final payment
 
 ---
 
@@ -168,28 +160,26 @@ Commissioning complete → create TAB protocol → handover to operator
 
 ### Part 1: Project Data
 
-```
-Project:            New office building, Sample AG
-Address:            Sample Street 1, 3000 Bern
-Commissioning lead: Max Sample, BA Company Ltd
-Client representative: Maria Sample, Sample AG
-Commissioning date: 12.05.2026 – 14.05.2026
-TAB date:           14.05.2026
-BA system:          Siemens Desigo CC + PXC controllers
-Protocol no.:       TAB-2026-001
-```
+- Project: New office building, Sample AG
+- Address: Sample Street 1, 3000 Bern
+- Commissioning lead: Max Sample, BA Company Ltd
+- Client representative: Maria Sample, Sample AG
+- Commissioning date: 12.05.2026 – 14.05.2026
+- TAB date: 14.05.2026
+- BA system: Siemens Desigo CC + PXC controllers
+- Protocol no.: TAB-2026-001
 
 ### Part 2: Data Point List with Acceptance Status
 
 Each DPL entry is checked off:
 
-| ID               | Type | Description                 | Reading | OK  | Note           |
-| ---------------- | ---- | --------------------------- | ------- | --- | -------------- |
-| HTG-C1-FL-T-ACT  | AI   | Flow temp heating circuit 1 | 45.3 °C | ✓   |                |
-| HTG-C1-P1-ON     | DO   | Pump HC1 ON/OFF             | ON      | ✓   |                |
-| HTG-C1-P1-RUN    | DI   | Pump HC1 run feedback       | 1       | ✓   |                |
-| HTG-C1-P1-FLT    | DI   | Pump HC1 fault              | 0       | ✓   |                |
-| AHU-RLT1-FA1-FLT | DI   | Filter alarm AHU1           | 0       | ✗   | New filter, OK |
+| ID               | Type | Description                 | Reading | OK  | Note                                        |
+| ---------------- | ---- | --------------------------- | ------- | --- | ------------------------------------------- |
+| HTG-C1-FL-T-ACT  | AI   | Flow temp heating circuit 1 | 45.3 °C | ✓   |                                             |
+| HTG-C1-P1-ON     | DO   | Pump HC1 ON/OFF             | ON      | ✓   |                                             |
+| HTG-C1-P1-RUN    | DI   | Pump HC1 run feedback       | 1       | ✓   |                                             |
+| HTG-C1-P1-FLT    | DI   | Pump HC1 fault              | 0       | ✓   |                                             |
+| AHU-RLT1-FA1-FLT | DI   | Filter alarm AHU1           | 0       | ✓   | tested with simulated differential pressure |
 
 ### Part 3: Control Loops
 
@@ -207,7 +197,7 @@ Each alarm is deliberately triggered and verified:
 | Alarm                 | Trigger                  | Message in BMS   | Escalation | OK  |
 | --------------------- | ------------------------ | ---------------- | ---------- | --- |
 | Pump HC1 fault        | Motor protection tripped | Critical → Email | —          | ✓   |
-| Frost protection AHU1 | Supply air T < 5 °C      | Critical         | SMS        | ✓   |
+| Frost protection AHU1 | Frost thermostat tripped | Critical         | SMS        | ✓   |
 | Filter dirty AHU1     | Δp > 300 Pa              | Medium           | —          | ✓   |
 | Communication DDC-01  | LAN cable unplugged      | High → 60 s      | —          | ✓   |
 
@@ -245,20 +235,18 @@ Check of BMS visualisation screens:
 
 ## Signatures
 
-```
-Commissioning accepted with open defects (see defect list):
+**Commissioning accepted with open defects (see defect list):**
 
-Commissioning engineer: _______________  Date: 14.05.2026
-                        Max Sample
+- Commissioning engineer: ******\_\_\_****** Date: 14.05.2026
+  - Max Sample
 
-Client representative:  _______________  Date: 14.05.2026
-                        Maria Sample
-```
+- Client representative: ******\_\_\_****** Date: 14.05.2026
+  - Maria Sample
 
 ---
 
 ## Standards
 
 - **VDI 3814** — BA, acceptance and handover
-- **SIA 386.110** — BA standard Switzerland (acceptance requirements)
+- **SIA 118/380** — General conditions for building services, acceptance (CH)
 - **SIA 118** — General conditions for construction work (acceptance provisions)

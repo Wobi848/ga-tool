@@ -30,8 +30,8 @@ related:
     ddc-programmierung,
     bim-digitaler-zwilling
   ]
-norm: [VDI 3814, SIA 386.110, SIA 118, ÖNORM B 2061]
-updated: 2026-05-15
+norm: [VDI 3814, SIA 118/380, SIA 118]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -41,19 +41,20 @@ Die As-Built Dokumentation ist die vollständige Bestandsdokumentation nach Absc
 
 ## Grundsatz: Plan vs. As-Built
 
-```
-Planungsphase:
-  → Planerstellung, Ausschreibung, Ausführung
-  → Dokumente spiegeln Planung
+**Planungsphase:**
 
-Während IBN:
-  → Abweichungen entstehen (andere Komponenten, Adressänderungen)
-  → Dokumente werden angepasst
+- Planerstellung, Ausschreibung, Ausführung
+- Dokumente spiegeln Planung
 
-As-Built:
-  → Dokumentation zeigt was WIRKLICH installiert ist
-  → Grundlage für Betrieb und Wartung
-```
+**Während IBN:**
+
+- Abweichungen entstehen (andere Komponenten, Adressänderungen)
+- Dokumente werden angepasst
+
+**As-Built:**
+
+- Dokumentation zeigt was WIRKLICH installiert ist
+- Grundlage für Betrieb und Wartung
 
 ---
 
@@ -63,88 +64,79 @@ As-Built:
 
 Die wichtigste Unterlage:
 
-```
-Enthalten:
-  - Alle realisierten Datenpunkte (keine geplanten, nicht realisierten)
-  - Tatsächliche Adressen (BACnet Object-ID, Modbus-Register etc.)
-  - Tatsächliche Klemmen und Kabelbezeichnungen
-  - Endgültige Skalierungen und Wertebereiche
-  - IBN-Status: geprüft ✓
+**Enthalten:**
 
-Format: Excel oder CSV (maschinenlesbar)
-Pflichtfelder: DPL-ID, Bezeichnung, Typ, Adresse, Einheit, Min, Max, Status
-```
+- Alle realisierten Datenpunkte (keine geplanten, nicht realisierten)
+- Tatsächliche Adressen (BACnet Object-ID, Modbus-Register etc.)
+- Tatsächliche Klemmen und Kabelbezeichnungen
+- Endgültige Skalierungen und Wertebereiche
+- IBN-Status: geprüft ✓
+
+- Format: Excel oder CSV (maschinenlesbar)
+- Pflichtfelder: DPL-ID, Bezeichnung, Typ, Adresse, Einheit, Min, Max, Status
 
 ### 2. Schemen (R&I-Schemata)
 
-```
-Revisionsschemen:
-  - Hydraulik-Schema (Heizung, Kühlung, Sanitär)
-  - Lüftungsschema (RLT mit allen Komponenten)
-  - Elektroschema (Schaltschrank-Aufbau)
-  - MSR-Schema (alle Sensoren und Aktoren eingezeichnet)
+**Revisionsschemen:**
 
-Format: PDF (finalisiert) + CAD-Quelldatei (DWG / DXF)
-Revisions-Index: aktueller Stand mit Datum
-```
+- Hydraulik-Schema (Heizung, Kühlung, Sanitär)
+- Lüftungsschema (RLT mit allen Komponenten)
+- Elektroschema (Schaltschrank-Aufbau)
+- MSR-Schema (alle Sensoren und Aktoren eingezeichnet)
+
+- Format: PDF (finalisiert) + CAD-Quelldatei (DWG / DXF)
+- Revisions-Index: aktueller Stand mit Datum
 
 ### 3. DDC-Programm-Backup
 
-```
-Enthalten:
-  - Vollständiges Programm-Backup je DDC/Controller
-  - Software-Version des Controllers (Hardware + Firmware)
-  - Kompiliertes Programm (Binär) + Quellcode
-  - Parameterlisten (Regler-Einstellwerte, Zeitprogramme)
+**Enthalten:**
 
-Format: Hersteller-spezifisch (Siemens PXCT, Sauter SAUTERnet, etc.)
-Speicherung: Datenträger abgegeben + Cloud-Backup
-```
+- Vollständiges Programm-Backup je DDC/Controller
+- Software-Version des Controllers (Hardware + Firmware)
+- Kompiliertes Programm (Binär) + Quellcode
+- Parameterlisten (Regler-Einstellwerte, Zeitprogramme)
+
+- Format: herstellerspezifisch, mit dem Engineering-Werkzeug des Herstellers wieder einlesbar
+- Speicherung: Datenträger abgegeben + Cloud-Backup
 
 ### 4. GLT-Konfiguration Backup
 
-```
-  - Export der gesamten GLT-Konfiguration
-  - Benutzerverwaltung (ohne Klartext-Passwörter!)
-  - Alarmkonfiguration
-  - Trendkonfiguration
-  - Visualisierungs-Bilder
-  - Schnittstellen-Konfiguration (BACnet, Modbus, OPC)
-```
+- Export der gesamten GLT-Konfiguration
+- Benutzerverwaltung (ohne Klartext-Passwörter!)
+- Alarmkonfiguration
+- Trendkonfiguration
+- Visualisierungs-Bilder
+- Schnittstellen-Konfiguration (BACnet, Modbus, OPC)
 
 ### 5. Passwort-Dokument
 
-```
-Enthält (verschlüsselt / separates Dokument):
-  - DDC-Passwörter (Service, Admin)
-  - GLT-Login (Admin, Service, Betrieb)
-  - Netzwerk-Passwörter (Switches, Router)
-  - Fernzugriff-Zugangsdaten (VPN)
+**Enthält (verschlüsselt / separates Dokument):**
 
-SICHERHEIT: Nie im Klartext per Email versenden!
-Empfehlung: Passwort-Manager Export, übergabe persönlich
-```
+- DDC-Passwörter (Service, Admin)
+- GLT-Login (Admin, Service, Betrieb)
+- Netzwerk-Passwörter (Switches, Router)
+- Fernzugriff-Zugangsdaten (VPN)
+
+- SICHERHEIT: Nie im Klartext per Email versenden!
+- Empfehlung: Passwort-Manager Export, übergabe persönlich
 
 ### 6. Bedienungsanleitungen
 
-```
-Je Komponente:
-  - Bedienungsanleitung Regelgerät / DDC
-  - Bedienungsanleitung GLT-Software
-  - Technische Datenblätter aller Sensoren, Aktoren
-  - Wartungsanleitungen (Hersteller-Service-Manual)
+**Je Komponente:**
 
-Format: PDF, in Ablage nach Gewerken geordnet
-```
+- Bedienungsanleitung Regelgerät / DDC
+- Bedienungsanleitung GLT-Software
+- Technische Datenblätter aller Sensoren, Aktoren
+- Wartungsanleitungen (Hersteller-Service-Manual)
+
+- Format: PDF, in Ablage nach Gewerken geordnet
 
 ### 7. Netzwerkdokumentation
 
-```
-  - IP-Adressplan (alle Geräte, VLANs)
-  - Switch-Konfiguration (Backup)
-  - Netzwerkplan (Topologie)
-  - WLAN-Zugangsdaten (falls vorhanden)
-```
+- IP-Adressplan (alle Geräte, VLANs)
+- Switch-Konfiguration (Backup)
+- Netzwerkplan (Topologie)
+- WLAN-Zugangsdaten (falls vorhanden)
 
 ---
 
@@ -196,7 +188,7 @@ GA_Dokumentation_Projekt-XY/
 ## Normen
 
 - **VDI 3814** — Gebäudeautomation, Anforderungen Dokumentation
-- **SIA 386.110** — GA Schweiz, Abnahme und Dokumentation
+- **SIA 118/380** — Allgemeine Bedingungen für Gebäudetechnik, mit Abnahme und Dokumentation (CH)
 - **SIA 118** — Allgemeine Bedingungen für Bauarbeiten (Dokumentationspflichten)
 
 <!-- EN -->
@@ -207,19 +199,20 @@ As-built documentation is the complete record of the installation after commissi
 
 ## Principle: Plan vs. As-Built
 
-```
-Planning phase:
-  → Drawings prepared, tendering, execution
-  → Documents reflect the design
+**Planning phase:**
 
-During commissioning:
-  → Deviations arise (different components, address changes)
-  → Documents are updated
+- Drawings prepared, tendering, execution
+- Documents reflect the design
 
-As-built:
-  → Documentation shows what is ACTUALLY installed
-  → Basis for operation and maintenance
-```
+**During commissioning:**
+
+- Deviations arise (different components, address changes)
+- Documents are updated
+
+**As-built:**
+
+- Documentation shows what is ACTUALLY installed
+- Basis for operation and maintenance
 
 ---
 
@@ -229,88 +222,79 @@ As-built:
 
 The most important document:
 
-```
-Contains:
-  - All realised data points (not planned, unrealised ones)
-  - Actual addresses (BACnet Object-ID, Modbus register, etc.)
-  - Actual terminal and cable designations
-  - Final scaling and value ranges
-  - Commissioning status: verified ✓
+**Contains:**
 
-Format: Excel or CSV (machine-readable)
-Required fields: DPL-ID, description, type, address, unit, min, max, status
-```
+- All realised data points (not planned, unrealised ones)
+- Actual addresses (BACnet Object-ID, Modbus register, etc.)
+- Actual terminal and cable designations
+- Final scaling and value ranges
+- Commissioning status: verified ✓
+
+- Format: Excel or CSV (machine-readable)
+- Required fields: DPL-ID, description, type, address, unit, min, max, status
 
 ### 2. Schematics (P&ID / Flow Diagrams)
 
-```
-Revision drawings:
-  - Hydraulic diagram (heating, cooling, plumbing)
-  - Ventilation diagram (AHU with all components)
-  - Electrical diagram (control panel layout)
-  - Instrumentation diagram (all sensors and actuators shown)
+**Revision drawings:**
 
-Format: PDF (finalised) + CAD source file (DWG / DXF)
-Revision index: current status with date
-```
+- Hydraulic diagram (heating, cooling, plumbing)
+- Ventilation diagram (AHU with all components)
+- Electrical diagram (control panel layout)
+- Instrumentation diagram (all sensors and actuators shown)
+
+- Format: PDF (finalised) + CAD source file (DWG / DXF)
+- Revision index: current status with date
 
 ### 3. DDC Programme Backup
 
-```
-Contains:
-  - Complete programme backup per DDC/controller
-  - Controller software version (hardware + firmware)
-  - Compiled programme (binary) + source code
-  - Parameter lists (controller setpoints, time programmes)
+**Contains:**
 
-Format: manufacturer-specific (Siemens PXCT, Sauter SAUTERnet, etc.)
-Storage: physical media handed over + cloud backup
-```
+- Complete programme backup per DDC/controller
+- Controller software version (hardware + firmware)
+- Compiled programme (binary) + source code
+- Parameter lists (controller setpoints, time programmes)
+
+- Format: manufacturer-specific, re-importable with the manufacturer's engineering tool
+- Storage: physical media handed over + cloud backup
 
 ### 4. BMS Configuration Backup
 
-```
-  - Full BMS configuration export
-  - User management (without plain-text passwords!)
-  - Alarm configuration
-  - Trend configuration
-  - Visualisation graphics
-  - Interface configuration (BACnet, Modbus, OPC)
-```
+- Full BMS configuration export
+- User management (without plain-text passwords!)
+- Alarm configuration
+- Trend configuration
+- Visualisation graphics
+- Interface configuration (BACnet, Modbus, OPC)
 
 ### 5. Password Document
 
-```
-Contains (encrypted / separate document):
-  - DDC passwords (service, admin)
-  - BMS login (admin, service, operator)
-  - Network passwords (switches, router)
-  - Remote access credentials (VPN)
+**Contains (encrypted / separate document):**
 
-SECURITY: Never send in plain text by email!
-Recommendation: password manager export, hand over in person
-```
+- DDC passwords (service, admin)
+- BMS login (admin, service, operator)
+- Network passwords (switches, router)
+- Remote access credentials (VPN)
+
+- SECURITY: Never send in plain text by email!
+- Recommendation: password manager export, hand over in person
 
 ### 6. Operating Manuals
 
-```
-Per component:
-  - Operating manual for controller / DDC
-  - BMS software user guide
-  - Technical data sheets for all sensors, actuators
-  - Maintenance manuals (manufacturer service manual)
+**Per component:**
 
-Format: PDF, filed by trade
-```
+- Operating manual for controller / DDC
+- BMS software user guide
+- Technical data sheets for all sensors, actuators
+- Maintenance manuals (manufacturer service manual)
+
+- Format: PDF, filed by trade
 
 ### 7. Network Documentation
 
-```
-  - IP address plan (all devices, VLANs)
-  - Switch configuration (backup)
-  - Network plan (topology)
-  - Wi-Fi credentials (if applicable)
-```
+- IP address plan (all devices, VLANs)
+- Switch configuration (backup)
+- Network plan (topology)
+- Wi-Fi credentials (if applicable)
 
 ---
 
@@ -362,5 +346,5 @@ BA_Documentation_Project-XY/
 ## Standards
 
 - **VDI 3814** — Building automation, documentation requirements
-- **SIA 386.110** — BA Switzerland, acceptance and documentation
+- **SIA 118/380** — General conditions for building services, including acceptance and documentation (CH)
 - **SIA 118** — General conditions for construction work (documentation obligations)

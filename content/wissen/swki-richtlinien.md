@@ -163,7 +163,7 @@ SWKI-Publikationen:
 - **SIA 382/1** — Lüftungs- und Klimaanlagen in Gebäuden (Schweiz)
 - **SIA 384.201** — Heizungsanlagen in Gebäuden (Schweiz)
 - **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweiz)
-- **SIA 386.110** — Gebäudeautomation (Schweiz)
+- **SIA 386.110** — Schweizer Ausgabe von EN 15232
 
 <!-- EN -->
 
@@ -301,4 +301,4 @@ SWKI publications:
 - **SIA 382/1** — Ventilation and air conditioning systems in buildings (Switzerland)
 - **SIA 384.201** — Heating systems in buildings (Switzerland)
 - **SIA 385/1** — Domestic hot water installations (Switzerland)
-- **SIA 386.110** — Building automation (Switzerland)
+- **SIA 386.110** — Swiss edition of EN 15232
