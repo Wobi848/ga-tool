@@ -426,6 +426,12 @@
 		background: var(--surface);
 	}
 
+	@media (max-width: 480px) {
+		.prose :global(figure.schema) {
+			padding: 0.5rem 0.25rem;
+		}
+	}
+
 	.prose :global(figure.schema svg) {
 		display: block;
 		width: 100%;
