@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [mqtt, enocean, knx, lora, matter-thread, zwave]
 norm: [IEEE 802.15.4, Zigbee Alliance / CSA]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -38,14 +38,10 @@ lang: de
 
 Zigbee verwendet ein **Mesh-Netzwerk** — Geräte können als Router fungieren und Nachrichten weiterleiten:
 
-```
-Coordinator (1x)
-    ├── Router A ──── End-Device (Sensor)
-    │       └───────── End-Device (Taster)
-    ├── Router B ──── End-Device (Leuchtmittel)
-    │       └── Router C ──── End-Device (Steckdose)
-    └── End-Device (direkt, kein Router nötig)
-```
+- **Coordinator**, genau einer pro Netz
+  - **Router A**, mit einem Sensor und einem Taster als End-Devices
+  - **Router B**, mit einer Leuchte als End-Device und dahinter **Router C** mit einer Steckdose
+  - ein End-Device direkt am Coordinator
 
 ### Geräte-Rollen
 
@@ -85,7 +81,7 @@ Im Gegensatz zu EnOcean (kein Anlernen nötig) muss Zigbee-Geräte den Coordinat
 4. Coordinator bestätigt → Gerät ist Mitglied
 5. Gerät sendet IEEE-Adresse (64 bit) und erhält kurze Netzwerkadresse (16 bit)
 
-**Wichtig:** In Zigbee2MQTT kann das Pairing-Fenster zeitlich begrenzt werden (Sicherheit).
+**Wichtig:** Das Anlernen nur für kurze Zeit freigeben. In Zigbee2MQTT ab Version 2 geschieht das über das Frontend mit Zeitbegrenzung, nicht mehr über die Konfigurationsdatei.
 
 ---
 
@@ -93,9 +89,7 @@ Im Gegensatz zu EnOcean (kein Anlernen nötig) muss Zigbee-Geräte den Coordinat
 
 **Zigbee2MQTT** ist die beliebteste Open-Source-Bridge:
 
-```
-Zigbee-Geräte → Zigbee-USB-Stick (Coordinator) → Zigbee2MQTT → MQTT-Broker → Home Assistant / GLT
-```
+Zigbee-Geräte → USB-Stick als Coordinator → Zigbee2MQTT → MQTT-Broker → Home Assistant oder GLT
 
 ### Vorteile Zigbee2MQTT
 
@@ -112,7 +106,6 @@ mqtt:
   server: mqtt://localhost:1883
 serial:
   port: /dev/ttyUSB0
-permit_join: false # nach Inbetriebnahme schliessen!
 ```
 
 MQTT-Ausgabe für Sensor:
@@ -137,20 +130,20 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 
 ### Einschränkungen
 
-| Einschränkung            | Warum                                     |
-| ------------------------ | ----------------------------------------- |
-| 2.4 GHz Interferenz      | WLAN, BT, Mikrowellen                     |
-| Coordinator-Abhängigkeit | Coordinator ausfallkritisch               |
-| Keine Normierung für GA  | Kein BACnet, kein IEC-Standard            |
-| Kein energieharvestig    | Batterien nötig (ausser Netzgeräte)       |
-| Koordinator nur 1x       | Netzwerk-Split bei mehreren Coordinatoren |
+| Einschränkung            | Warum                                                                  |
+| ------------------------ | ---------------------------------------------------------------------- |
+| 2.4 GHz Interferenz      | WLAN, BT, Mikrowellen                                                  |
+| Coordinator-Abhängigkeit | Coordinator ausfallkritisch                                            |
+| Keine Normierung für GA  | Kein BACnet, kein IEC-Standard                                         |
+| Meist Batterien          | Energy Harvesting nur mit Zigbee Green Power, etwa bei manchen Tastern |
+| Koordinator nur 1x       | Netzwerk-Split bei mehreren Coordinatoren                              |
 
 ### Typische GA-Anwendungen mit Zigbee
 
 - **Lichtsteuerung:** IKEA TRÅDFRI, Philips Hue (günstig, grosse Auswahl)
 - **Taster und Schalter:** Kein Kabel nötig, Retrofit
 - **Temperatur-/Feuchte-Sensoren:** Aqara, Sonoff (günstig)
-- **Thermostate:** Radiatorventile (WISER, Devolo)
+- **Thermostate:** Heizkörperventile verschiedener Hersteller
 - **Türen/Fenster:** Aqara Türsensoren
 - **Bewegungsmelder:** Aqara, IKEA
 
@@ -177,7 +170,7 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 
 - Einheitliches Protokoll über IP
 - Läuft über **Thread** (ebenfalls IEEE 802.15.4 Mesh) oder WLAN/Ethernet
-- Zigbee-Geräte sind **nicht** kompatibel zu Matter
+- Zigbee-Geräte sind **nicht** direkt Matter-fähig; eine Matter-Bridge kann sie aber einbinden
 - Übergangszeit: Zigbee noch Jahre relevant (riesige Gerätebasis)
 
 ## Normen
@@ -194,14 +187,10 @@ zigbee2mqtt/mein-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85,
 
 Zigbee uses a **mesh network** — devices can act as routers and forward messages:
 
-```
-Coordinator (1×)
-    ├── Router A ──── End-Device (sensor)
-    │       └───────── End-Device (push-button)
-    ├── Router B ──── End-Device (lamp)
-    │       └── Router C ──── End-Device (socket)
-    └── End-Device (direct, no router needed)
-```
+- **Coordinator**, exactly one per network
+  - **Router A**, with a sensor and a switch as end devices
+  - **Router B**, with a luminaire as end device and behind it **router C** with a socket
+  - one end device directly at the coordinator
 
 ### Device Roles
 
@@ -241,7 +230,7 @@ Unlike EnOcean (no pairing required), Zigbee devices must know the coordinator:
 4. Coordinator confirms → device is a member
 5. Device sends IEEE address (64 bit) and receives short network address (16 bit)
 
-**Note:** In Zigbee2MQTT the pairing window can be time-limited (security).
+**Note:** only allow joining for a short time. In Zigbee2MQTT from version 2 this is done in the frontend with a time limit, no longer in the configuration file.
 
 ---
 
@@ -249,9 +238,7 @@ Unlike EnOcean (no pairing required), Zigbee devices must know the coordinator:
 
 **Zigbee2MQTT** is the most popular open-source bridge:
 
-```
-Zigbee devices → Zigbee USB stick (coordinator) → Zigbee2MQTT → MQTT broker → Home Assistant / BMS
-```
+Zigbee devices → USB stick as coordinator → Zigbee2MQTT → MQTT broker → Home Assistant or BMS
 
 ### Advantages of Zigbee2MQTT
 
@@ -268,7 +255,6 @@ mqtt:
   server: mqtt://localhost:1883
 serial:
   port: /dev/ttyUSB0
-permit_join: false # close after commissioning!
 ```
 
 MQTT output for sensor:
@@ -293,20 +279,20 @@ zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "
 
 ### Limitations
 
-| Limitation             | Why                                             |
-| ---------------------- | ----------------------------------------------- |
-| 2.4 GHz interference   | Wi-Fi, Bluetooth, microwave ovens               |
-| Coordinator dependency | Coordinator is a single point of failure        |
-| No BA standardisation  | No BACnet, no IEC standard                      |
-| No energy harvesting   | Batteries needed (except mains-powered devices) |
-| Only one coordinator   | Network split with multiple coordinators        |
+| Limitation             | Why                                                                |
+| ---------------------- | ------------------------------------------------------------------ |
+| 2.4 GHz interference   | Wi-Fi, Bluetooth, microwave ovens                                  |
+| Coordinator dependency | Coordinator is a single point of failure                           |
+| No BA standardisation  | No BACnet, no IEC standard                                         |
+| Mostly batteries       | Energy harvesting only with Zigbee Green Power, e.g. some switches |
+| Only one coordinator   | Network split with multiple coordinators                           |
 
 ### Typical BA Applications with Zigbee
 
 - **Lighting control:** IKEA TRÅDFRI, Philips Hue (low cost, wide choice)
 - **Push-buttons and switches:** No cabling needed, retrofit
 - **Temperature/humidity sensors:** Aqara, Sonoff (low cost)
-- **Thermostats:** Radiator valves (WISER, Devolo)
+- **Thermostats:** radiator valves from various manufacturers
 - **Doors/windows:** Aqara door sensors
 - **Motion detectors:** Aqara, IKEA
 
@@ -333,7 +319,7 @@ zigbee2mqtt/my-sensor → {"temperature": 22.5, "humidity": 55, "battery": 85, "
 
 - Unified protocol over IP
 - Runs over **Thread** (also IEEE 802.15.4 mesh) or Wi-Fi/Ethernet
-- Zigbee devices are **not** compatible with Matter
+- Zigbee devices are **not** natively Matter-capable; a Matter bridge can integrate them, though
 - Transition period: Zigbee still relevant for years (huge installed base)
 
 ## Standards

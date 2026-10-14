@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [ga]
 related: [bacnet, modbus, knx, glt-grundlagen, opc-ua]
 norm: [EN 14908, ANSI/CEA-709.1, ISO/IEC 14908]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -36,7 +36,7 @@ lang: de
 
 ## Was ist LON?
 
-LON wurde von **Echelon Corporation** (heute Adesto) entwickelt und basiert auf einem speziellen Chip, dem **Neuron-Chip**:
+LON wurde von **Echelon Corporation** (später Adesto, heute Teil von Renesas) entwickelt und basiert auf einem speziellen Chip, dem **Neuron-Chip**:
 
 - Jedes LON-Gerät hat einen Neuron-Chip mit 3 Prozessoren (Kommunikation + Anwendung)
 - Firmware: programmiert in Neuron C (C-ähnlich)
@@ -54,19 +54,19 @@ LON wurde von **Echelon Corporation** (heute Adesto) entwickelt und basiert auf 
 | Lichtwellenleiter | FOD     | 1.25 Mbps | Punkt-zu-Punkt                   | Grosse Distanzen         |
 | IP-Tunnel         | IP-852  | Ethernet  | IP-Netz                          | LON über IP (Modern)     |
 
-**FTT-10 (Free Topology):** Der häufigste LON-Typ. Bis 128 Geräte pro Segment, max. 500 m Kabellänge. Keine fixe Topologie — Stern, Bus oder Misch-Topologie möglich.
+**FTT-10 (Free Topology):** Der häufigste LON-Typ. Bis 64 Geräte pro Segment, bei freier Topologie max. 500 m Kabel insgesamt, in Linie mit Abschluss deutlich mehr. Keine fixe Topologie — Stern, Bus oder Misch-Topologie möglich.
 
 ---
 
 ## LON-Adressierung
 
-| Ebene     | Beschreibung                              |
-| --------- | ----------------------------------------- |
-| Neuron-ID | 48-bit eindeutige Geräte-ID (ab Werk)     |
-| Domain    | Netzwerkbereich (bis 255 Geräte)          |
-| Subnet    | Unterbereich (bis 127 Subnets pro Domain) |
-| Node      | Gerät im Subnet (bis 127 Nodes)           |
-| Group     | Multicast-Adresse für Broadcast an Gruppe |
+| Ebene     | Beschreibung                                  |
+| --------- | --------------------------------------------- |
+| Neuron-ID | 48-bit eindeutige Geräte-ID (ab Werk)         |
+| Domain    | Netzwerkbereich (bis 255 Subnets × 127 Nodes) |
+| Subnet    | Unterbereich (bis 255 Subnets pro Domain)     |
+| Node      | Gerät im Subnet (bis 127 Nodes)               |
+| Group     | Multicast-Adresse für Broadcast an Gruppe     |
 
 ---
 
@@ -99,15 +99,13 @@ Konfiguration und Inbetriebnahme mit **LNS** (LonWorks Network Services):
 ### LON weiter betreiben
 
 - Original-Geräte laufen oft 20–30 Jahre problemlos
-- Ersatzteile werden seltener (Echelon-Chips nicht mehr produziert)
+- Ersatzteile werden seltener, viele Geräte sind abgekündigt
 - Tool-Support schwierig (Windows XP, LNS aus 2003...)
 - **Strategie:** LON behalten, GLT über LON-IP Gateway oder OPC-UA anbinden
 
 ### LON-Gateway zu BACnet/IP
 
-```
-LON-Netz → [LON-BACnet-Gateway] → BACnet/IP → GLT
-```
+LON-Netz → LON-BACnet-Gateway → BACnet/IP → GLT
 
 Gateway mappt LON-Network-Variables auf BACnet-Objekte (AI, AO, BI, BO). Kein LON-Knowhow in GLT nötig — GLT sieht normale BACnet-Geräte.
 
@@ -115,12 +113,10 @@ Gateway mappt LON-Network-Variables auf BACnet-Objekte (AI, AO, BI, BO). Kein LO
 
 ### Schrittweise Migration
 
-```
-Phase 1: Gateway einbauen → LON-Daten in GLT sichtbar
-Phase 2: Neue DDCs mit BACnet, alte LON-Stationen weiter laufen
-Phase 3: LON-Stationen bei Erneuerung durch BACnet ersetzen
-Phase 4: LON-Segment leer → abschalten
-```
+1. Gateway einbauen, die LON-Daten werden in der GLT sichtbar.
+2. Neue Automationsstationen mit BACnet, alte LON-Stationen laufen weiter.
+3. LON-Stationen bei Erneuerung durch BACnet ersetzen.
+4. Ist das LON-Segment leer, wird es abgeschaltet.
 
 ---
 
@@ -149,7 +145,7 @@ Phase 4: LON-Segment leer → abschalten
 
 ## What Is LON?
 
-LON was developed by **Echelon Corporation** (now Adesto) and is based on a dedicated chip, the **Neuron Chip**:
+LON was developed by **Echelon Corporation** (later Adesto, now part of Renesas) and is based on a dedicated chip, the **Neuron Chip**:
 
 - Every LON device contains a Neuron Chip with 3 processors (communication + application)
 - Firmware: programmed in Neuron C (C-like language)
@@ -167,19 +163,19 @@ LON was developed by **Echelon Corporation** (now Adesto) and is based on a dedi
 | Fibre optic  | FOD     | 1.25 Mbps | Point-to-point                  | Long distances             |
 | IP tunnel    | IP-852  | Ethernet  | IP network                      | LON over IP (modern)       |
 
-**FTT-10 (Free Topology):** The most common LON type. Up to 128 devices per segment, max. 500 m cable length. No fixed topology — star, bus, or mixed topology all possible.
+**FTT-10 (Free Topology):** The most common LON type. Up to 64 devices per segment, with free topology max. 500 m of cable in total, considerably more in a terminated line. No fixed topology — star, bus, or mixed topology all possible.
 
 ---
 
 ## LON Addressing
 
-| Level     | Description                             |
-| --------- | --------------------------------------- |
-| Neuron ID | 48-bit unique device ID (factory-set)   |
-| Domain    | Network area (up to 255 devices)        |
-| Subnet    | Sub-area (up to 127 subnets per domain) |
-| Node      | Device in subnet (up to 127 nodes)      |
-| Group     | Multicast address for group broadcast   |
+| Level     | Description                                  |
+| --------- | -------------------------------------------- |
+| Neuron ID | 48-bit unique device ID (factory-set)        |
+| Domain    | Network area (up to 255 subnets × 127 nodes) |
+| Subnet    | Sub-area (up to 255 subnets per domain)      |
+| Node      | Device in subnet (up to 127 nodes)           |
+| Group     | Multicast address for group broadcast        |
 
 ---
 
@@ -212,15 +208,13 @@ Configuration and commissioning with **LNS** (LonWorks Network Services):
 ### Keeping LON Running
 
 - Original devices often run trouble-free for 20–30 years
-- Spare parts becoming scarcer (Echelon chips no longer manufactured)
+- Spare parts becoming scarcer, many devices discontinued
 - Tool support difficult (Windows XP, LNS from 2003...)
 - **Strategy:** keep LON running, connect BMS via LON-IP gateway or OPC-UA
 
 ### LON Gateway to BACnet/IP
 
-```
-LON network → [LON-BACnet gateway] → BACnet/IP → BMS
-```
+LON network → LON-BACnet gateway → BACnet/IP → BMS
 
 Gateway maps LON Network Variables to BACnet objects (AI, AO, BI, BO). No LON expertise needed at BMS level — the BMS sees standard BACnet devices.
 
@@ -228,12 +222,10 @@ Gateway maps LON Network Variables to BACnet objects (AI, AO, BI, BO). No LON ex
 
 ### Step-by-Step Migration
 
-```
-Phase 1: Install gateway → LON data visible in BMS
-Phase 2: New DDCs with BACnet, old LON stations continue running
-Phase 3: Replace LON stations with BACnet at end of life
-Phase 4: LON segment empty → decommission
-```
+1. Install a gateway; the LON data become visible in the BMS.
+2. New automation stations with BACnet; old LON stations keep running.
+3. Replace LON stations with BACnet when renewed.
+4. When the LON segment is empty, switch it off.
 
 ---
 

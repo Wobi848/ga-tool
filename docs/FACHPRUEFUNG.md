@@ -212,27 +212,27 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### kommunikation
 
-- ⬜ can-bus
-- ⬜ dmx512
-- ⬜ iec61850
-- ⬜ matter-thread
-- ⬜ profibus
+- ✅ can-bus
+- ✅ dmx512
+- ✅ iec61850
+- ✅ matter-thread
+- ✅ profibus
 - ✅ rs485
-- ⬜ zwave
+- ✅ zwave
 
 ### protokolle
 
 - ✅ bacnet
 - ✅ dali
-- ⬜ enocean
+- ✅ enocean
 - ✅ knx
-- ⬜ lon
-- ⬜ lora
+- ✅ lon
+- ✅ lora
 - ✅ mbus
 - ✅ modbus
-- ⬜ mqtt
-- ⬜ opc-ua
-- ⬜ zigbee
+- ✅ mqtt
+- ✅ opc-ua
+- ✅ zigbee
 
 ### it
 
@@ -410,3 +410,15 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | rs485                               | M-Bus, DALI, LON FTT-10 als RS-485-Varianten (eigene Bitübertragung); MS/TP als 4-Draht; M-Bus-Zähler am RS-485-Bus im Übersichtsbild                                                                                                                                        | korrigiert                                                                                                                                  | TIA-485                                                             |
 | 14.10.2026 | mbus                                | Master-Sendepegel «12 V» (12 V unter Ruhespannung); Sonderadressen 253–255 falsch; Sekundäradresse «8-stellig hex»; «Extron», «mbmaster»                                                                                                                                     | korrigiert; libmbus                                                                                                                         | EN 13757-2/-3                                                       |
 | 14.10.2026 | dali                                | ARC 128 «10 %», 200 «40 %» (≈ 3 %, 23 %); ARC 255 «letzter Wert» (MASK); DT4/DT5 falsch; DALI «auf SELV-Kabel» (nicht SELV); Notlicht-Funktionstest «täglich»                                                                                                                | korrigiert                                                                                                                                  | IEC 62386-101/-102                                                  |
+| 14.10.2026 | enocean                             | Taster «Piezo» (elektrodynamisch); Fensterkontakt «Induktion» (Solar + Reed); EEP F6-10-00 als Fensterkontakt (Griff; Kontakt D5-00-01), A5-02-05 «−40…+60 °C» (0…40), A5-06-01 Bereich; Zigbee-Störung auf 868 MHz                                                          | korrigiert                                                                                                                                  | EnOcean EEP 2.6                                                     |
+| 14.10.2026 | lon                                 | FTT-10 «128 Geräte» (64); Domain «255 Geräte» (255 Subnets × 127 Nodes); Subnets «127»                                                                                                                                                                                       | korrigiert                                                                                                                                  | ISO/IEC 14908                                                       |
+| 14.10.2026 | mqtt                                | Kleinigkeiten (Node-RED, Sparkplug-Norm, Umlaute in Topics)                                                                                                                                                                                                                  | ISO/IEC 20237                                                                                                                               | —                                                                   |
+| 14.10.2026 | opc-ua                              | StatusCode als Knotenattribut; unbelegte Companion Specs für GA/HVAC/Energie                                                                                                                                                                                                 | korrigiert                                                                                                                                  | IEC 62541                                                           |
+| 14.10.2026 | zigbee                              | «kein Energy Harvesting» (Green Power); Matter-Inkompatibilität absolut; permit_join in Z2M-Config (seit v2 entfernt)                                                                                                                                                        | korrigiert                                                                                                                                  | —                                                                   |
+| 14.10.2026 | lora                                | Nutzdaten «242 Bytes» (222); wM-Bus «32 kbps»; ChirpStack-Architektur v3                                                                                                                                                                                                     | korrigiert                                                                                                                                  | LoRaWAN RP002                                                       |
+| 14.10.2026 | can-bus                             | CiA 417 als «GA-Profil» (ist Aufzüge); «Belimo CAN»; EN 81-28 (Notruf, nicht CAN)                                                                                                                                                                                            | korrigiert                                                                                                                                  | CiA 301/417                                                         |
+| 14.10.2026 | dmx512                              | «44 ms, 22 Hz» (≈ 23 ms, 44 Hz); Pins 4/5 «Universum 2»; Helvar DIGIDIM als DMX-Gateway                                                                                                                                                                                      | korrigiert                                                                                                                                  | ANSI E1.11                                                          |
+| 14.10.2026 | profibus                            | GSD «XML» (Text; GSDML = PROFINET); 93.75 kBaud «1000 m» (1200 m); Desigo über Profibus/FLN; Schirm einseitig (PI: beidseitig)                                                                                                                                               | korrigiert                                                                                                                                  | PI-Aufbaurichtlinie                                                 |
+| 14.10.2026 | zwave                               | «proprietär, kein freier Stack»; «keine Gerät-zu-Gerät-Kommunikation» (Assoziationen); LR-Frequenz Europa                                                                                                                                                                    | korrigiert, LR vorsichtig formuliert                                                                                                        | ITU-T G.9959                                                        |
+| 14.10.2026 | iec61850                            | GOOSE mit «IGMP Snooping Pflicht» (Layer 2, kein IP); MMTN statt MMTR                                                                                                                                                                                                        | VLAN/statische Multicast-Filter                                                                                                             | IEC 61850-7-4/-8-1                                                  |
+| 14.10.2026 | matter-thread                       | Zigbee «proprietär»; HVAC «in Entwicklung»; unbelegte BACnet-Bridge/Metering-Roadmap                                                                                                                                                                                         | Matter 1.2/1.4 Gerätetypen                                                                                                                  | CSA                                                                 |

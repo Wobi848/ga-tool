@@ -26,7 +26,7 @@ area: [ga, hlk, elektro]
 related: [rs485, modbus, bacnet, frequenzumrichter, motorventile, klappenantriebe]
 rechner: []
 norm: [ISO 11898-1, ISO 11898-2, CiA 301 CANopen, CiA 417]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -48,8 +48,7 @@ CAN (Controller Area Network) wurde 1986 von Bosch für die Fahrzeugelektronik e
 
 Typische GA-Anwendungen:
 
-- **Belimo CAN** — Klappenantriebe und Ventile mit CAN-Interface
-- **Aufzugssteuerungen** — Fahrkorbkommunikation gemäss EN 81-28
+- **Aufzugssteuerungen** — mit dem CANopen-Profil CiA 417 (CANopen Lift)
 - **EC-Ventilatoren** — z.B. ebm-papst mit CANopen-Interface
 - **Wärmepumpen und Kältemaschinen** — Geräte-interne Kommunikation
 - **Brandschutzsysteme** — CAN in Löschanlagen-Steuerungen
@@ -86,12 +85,14 @@ Für GA mit Kabellängen > 100 m: 125 kbit/s oder 250 kbit/s wählen.
 
 CAN ist **nachrichtenbasiert**, nicht adressbasiert. Jede Nachricht hat eine ID — der Empfänger entscheidet selbst, ob er eine Nachricht verarbeitet.
 
-```
-┌──────┬──────┬────────┬──────────────────┬─────┬────┐
-│ SOF  │  ID  │  DLC   │   DATA (0–8 Byte) │ CRC │ EOF│
-│ 1 Bit│11/29B│ 4 Bit  │   0–8 Byte        │15 B │    │
-└──────┴──────┴────────┴──────────────────┴─────┴────┘
-```
+| Feld     | Länge          | Inhalt                         |
+| -------- | -------------- | ------------------------------ |
+| SOF      | 1 Bit          | Start of Frame                 |
+| ID       | 11 oder 29 Bit | Identifier, zugleich Priorität |
+| DLC      | 4 Bit          | Anzahl Datenbytes              |
+| Data     | 0–8 Byte       | Nutzdaten                      |
+| CRC      | 15 Bit         | Prüfsumme                      |
+| ACK, EOF |                | Bestätigung und Rahmenende     |
 
 - **ID (11 Bit Standard / 29 Bit Extended):** Identifiziert die Nachrichtenart und bestimmt die Priorität (niedrigere ID = höhere Priorität)
 - **DLC:** Data Length Code — Anzahl Datenbytes
@@ -120,14 +121,9 @@ CANopen (CiA 301) ist das wichtigste CAN-Applikationsprotokoll in der GA:
 | Emergency           | EMCY   | Fehlermeldungen                              |
 | Sync                | SYNC   | Zeitsynchronisation                          |
 
-### Geräteprofil CiA 417 — Gebäudeautomation
+### Geräteprofile
 
-CiA 417 definiert CANopen-Geräteklassen speziell für GA:
-
-- **Raumbediengeräte** (Thermostat, CO₂-Sensor)
-- **Ventilantriebe** (Heiz-/Kühlventile)
-- **Lüftungsklappen**
-- **Rollladensteuerungen**
+CANopen kennt Geräteprofile für viele Branchen, etwa **CiA 402** für Antriebe und **CiA 417** für Aufzüge. Für die klassische Raum- und HLK-Automation gibt es kein verbreitetes CANopen-Profil; dort dominieren BACnet, KNX und Modbus. CAN steckt in der GA vor allem **innerhalb** von Geräten und Aufzügen.
 
 ---
 
@@ -172,7 +168,7 @@ In der GA noch selten, aber in neueren HVAC-Geräten zunehmend anzutreffen.
 - **PEAK PCAN-USB** — günstiger CAN-Analysator
 - **CANalyzer (Vector)** — professionelle Analyse
 - **Wireshark + SocketCAN** (Linux) — kostenlos
-- **Herstellertools** (z.B. Belimo Assistant, ebm-papst CAN-Tool)
+- **Herstellertools** des Geräteherstellers
 
 ---
 
@@ -180,23 +176,9 @@ In der GA noch selten, aber in neueren HVAC-Geräten zunehmend anzutreffen.
 
 Die meisten GA-Systeme sprechen Modbus RTU oder BACnet nativ. CAN-Geräte werden üblicherweise über **CAN-Gateway** angebunden:
 
-```
-GLT / BACnet/IP
-      │
-   BACnet/IP ↔ Modbus RTU Gateway
-      │
-   RS-485 Bus
-      │
-   CAN-Gateway (z.B. WAGO 750-657, Anybus)
-      │
-   CAN Bus (CANopen)
-      │
-   ├── Belimo Antrieb
-   ├── EC-Ventilator
-   └── Wärmepumpe
-```
+GLT über BACnet/IP → Gateway → CANopen-Bus → Geräte wie EC-Ventilatoren oder Wärmepumpen. Je nach Gateway läuft der Weg direkt von BACnet oder Modbus auf CANopen oder über eine SPS mit CAN-Schnittstelle.
 
-Alternativ bieten einige DDC-Systeme direkte CAN-Schnittstellen (z.B. WAGO 750, Phoenix Contact ILC).
+Alternativ bieten einige DDC-Systeme direkte CAN-Schnittstellen (etwa modulare SPS mit CAN-Klemme).
 
 <!-- EN -->
 
@@ -216,8 +198,7 @@ CAN (Controller Area Network) was developed by Bosch in 1986 for automotive elec
 
 Typical BA applications:
 
-- **Belimo CAN** — damper actuators and valves with CAN interface
-- **Lift controls** — car communication per EN 81-28
+- **Lift controls** — with the CANopen profile CiA 417 (CANopen Lift)
 - **EC fans** — e.g. ebm-papst with CANopen interface
 - **Heat pumps and chillers** — internal device communication
 - **Fire suppression systems** — CAN in extinguishing system controls
@@ -254,12 +235,14 @@ For BA with cable lengths > 100 m: choose 125 kbit/s or 250 kbit/s.
 
 CAN is **message-based**, not address-based. Every message has an ID — the receiver decides itself whether to process a given message.
 
-```
-┌──────┬──────┬────────┬──────────────────┬─────┬────┐
-│ SOF  │  ID  │  DLC   │   DATA (0–8 byte) │ CRC │ EOF│
-│ 1 bit│11/29b│ 4 bit  │   0–8 bytes       │15 b │    │
-└──────┴──────┴────────┴──────────────────┴─────┴────┘
-```
+| Field    | Length        | Content                          |
+| -------- | ------------- | -------------------------------- |
+| SOF      | 1 bit         | start of frame                   |
+| ID       | 11 or 29 bits | identifier, also the priority    |
+| DLC      | 4 bits        | number of data bytes             |
+| Data     | 0–8 bytes     | payload                          |
+| CRC      | 15 bits       | checksum                         |
+| ACK, EOF |               | acknowledgement and end of frame |
 
 - **ID (11-bit standard / 29-bit extended):** Identifies the message type and determines priority (lower ID = higher priority)
 - **DLC:** Data Length Code — number of data bytes
@@ -288,14 +271,9 @@ CANopen (CiA 301) is the most important CAN application protocol in BA:
 | Emergency           | EMCY         | Error messages                                      |
 | Sync                | SYNC         | Time synchronisation                                |
 
-### Device Profile CiA 417 — Building Automation
+### Device Profiles
 
-CiA 417 defines CANopen device classes specifically for BA:
-
-- **Room operating units** (thermostat, CO₂ sensor)
-- **Valve actuators** (heating/cooling valves)
-- **Ventilation dampers**
-- **Blind/shutter controls**
+CANopen has device profiles for many industries, for example **CiA 402** for drives and **CiA 417** for lifts. For classic room and HVAC automation there is no widespread CANopen profile; BACnet, KNX and Modbus dominate there. In BA, CAN is found mainly **inside** devices and lifts.
 
 ---
 
@@ -340,7 +318,7 @@ Still rare in BA, but increasingly found in newer HVAC equipment.
 - **PEAK PCAN-USB** — affordable CAN analyser
 - **CANalyzer (Vector)** — professional analysis
 - **Wireshark + SocketCAN** (Linux) — free
-- **Manufacturer tools** (e.g. Belimo Assistant, ebm-papst CAN Tool)
+- **Manufacturer tools** of the device manufacturer
 
 ---
 
@@ -348,20 +326,6 @@ Still rare in BA, but increasingly found in newer HVAC equipment.
 
 Most BA systems natively speak Modbus RTU or BACnet. CAN devices are typically connected via a **CAN gateway**:
 
-```
-BMS / BACnet/IP
-      │
-   BACnet/IP ↔ Modbus RTU gateway
-      │
-   RS-485 bus
-      │
-   CAN gateway (e.g. WAGO 750-657, Anybus)
-      │
-   CAN bus (CANopen)
-      │
-   ├── Belimo actuator
-   ├── EC fan
-   └── Heat pump
-```
+BMS via BACnet/IP → gateway → CANopen bus → devices such as EC fans or heat pumps. Depending on the gateway, the path runs directly from BACnet or Modbus to CANopen or via a PLC with a CAN interface.
 
-Some DDC systems also offer direct CAN interfaces (e.g. WAGO 750, Phoenix Contact ILC).
+Some DDC systems also offer direct CAN interfaces (for example modular PLCs with a CAN module).

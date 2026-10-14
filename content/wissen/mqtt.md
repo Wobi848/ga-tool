@@ -27,27 +27,19 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, opc-ua, modbus]
 norm: [ISO/IEC 20922, OASIS MQTT 5.0]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
 # MQTT — Messaging für IoT und GA
 
-**MQTT** (Message Queuing Telemetry Transport, ISO/IEC 20922) ist ein leichtgewichtiges Publish-Subscribe-Protokoll ursprünglich für Satelliten-Telemetrie entwickelt. Heute ist es der de-facto-Standard für IoT-Kommunikation und findet zunehmend in der GA Verwendung — als Brücke zwischen Feld und Cloud, für Node-RED-Automationen und als Alternative zu klassischen GLT-Protokollen.
+**MQTT** (Message Queuing Telemetry Transport, ISO/IEC 20922) ist ein leichtgewichtiges Publish-Subscribe-Protokoll ursprünglich 1999 für die Überwachung von Ölpipelines über Satellit entwickelt. Heute ist es der de-facto-Standard für IoT-Kommunikation und findet zunehmend in der GA Verwendung — als Brücke zwischen Feld und Cloud, für Node-RED-Automationen und als Alternative zu klassischen GLT-Protokollen.
 
 ## Publish-Subscribe Prinzip
 
 Im Gegensatz zu Modbus oder BACnet (Client-Server) funktioniert MQTT nach dem **Pub/Sub-Muster**:
 
-```
-Sensor/DDC            MQTT-Broker           GLT/Dashboard
-(Publisher)              (Server)           (Subscriber)
-    │                      │                      │
-    ├── Publish ──────────►│                      │
-    │   Topic: "Anlage1/   │──── Push ───────────►│
-    │   VL/Temperatur"     │  (wenn subscribed)   │
-    │   Value: 45.3        │                      │
-```
+Ein Sensor oder eine DDC **publiziert** den Wert 45.3 auf dem Topic `anlage1/vl/temperatur` an den **Broker**. Der Broker schickt ihn sofort an alle Clients weiter, die dieses Topic **abonniert** haben, etwa die GLT oder ein Dashboard.
 
 - **Publisher:** sendet Nachrichten zu einem Topic
 - **Broker:** empfängt, speichert und verteilt Nachrichten
@@ -63,8 +55,8 @@ Topics sind **hierarchisch strukturierte Strings** mit `/` als Trennzeichen:
 ga-tool/anlage1/heizung/vorlauf/temperatur
 ga-tool/anlage1/heizung/vorlauf/sollwert
 ga-tool/anlage1/heizung/pumpe1/status
-ga-tool/anlage1/lüftung/zuluft/volumenstrom
-ga-tool/anlage2/kälte/chiller1/eer
+ga-tool/anlage1/lueftung/zuluft/volumenstrom
+ga-tool/anlage2/kaelte/chiller1/eer
 ```
 
 ### Wildcards
@@ -74,7 +66,9 @@ ga-tool/anlage2/kälte/chiller1/eer
 | `+`      | Einzelne Ebene                      | `ga-tool/+/heizung/vorlauf/temperatur` |
 | `#`      | Alle Ebenen ab hier (immer am Ende) | `ga-tool/anlage1/#`                    |
 
-`ga-tool/#` subscribed alles unter diesem Präfix.
+`ga-tool/#` abonniert alles unter diesem Präfix.
+
+Topics dürfen UTF-8 enthalten. Umlaute, Leerzeichen und Sonderzeichen machen aber Ärger in Skripten und Tools; besser nur Kleinbuchstaben, Ziffern und Bindestriche.
 
 ## QoS — Quality of Service
 
@@ -152,7 +146,7 @@ password_file /etc/mosquitto/passwords
 
 ### Node-RED als MQTT-Brücke
 
-**Node-RED** (Open Source, von IBM, läuft auf Node.js) ist das meistverwendete Tool um MQTT mit GA-Protokollen zu verbinden:
+**Node-RED** (Open Source, ursprünglich von IBM, heute bei der OpenJS Foundation, läuft auf Node.js) ist das meistverwendete Tool um MQTT mit GA-Protokollen zu verbinden:
 
 ```
 Modbus-Gerät → Node-RED → MQTT-Broker → Dashboard / Cloud
@@ -174,12 +168,12 @@ Node-RED bietet graphisches Flowprogramming — ideal für GA-Integrationen ohne
 ### Typisches MQTT-Topic-Schema für GA
 
 ```
-{kunde}/{standort}/{anlage}/{system}/{gerät}/{datenpunkt}
-acme/hauptgebäude/heizung/kreis1/pumpe1/status
-acme/hauptgebäude/heizung/kreis1/vorlauf/temperatur-ist
-acme/hauptgebäude/heizung/kreis1/vorlauf/temperatur-soll
-acme/hauptgebäude/lüftung/rlt1/zuluft/volumenstrom
-acme/hauptgebäude/lüftung/rlt1/filter/differenzdruck
+{kunde}/{standort}/{anlage}/{system}/{geraet}/{datenpunkt}
+acme/hauptgebaeude/heizung/kreis1/pumpe1/status
+acme/hauptgebaeude/heizung/kreis1/vorlauf/temperatur-ist
+acme/hauptgebaeude/heizung/kreis1/vorlauf/temperatur-soll
+acme/hauptgebaeude/lueftung/rlt1/zuluft/volumenstrom
+acme/hauptgebaeude/lueftung/rlt1/filter/differenzdruck
 ```
 
 ## MQTT 5.0 vs. 3.1.1
@@ -224,7 +218,7 @@ Für neue Projekte **MQTT 5.0 empfohlen** wenn Broker und Clients unterstützen.
 
 - **ISO/IEC 20922** — MQTT v3.1.1
 - **OASIS MQTT 5.0** — Standard
-- **Sparkplug B** — Eclipse Foundation (GitHub: eclipse/tahu)
+- **Sparkplug 3.0** — Eclipse Foundation, als ISO/IEC 20237 genormt
 
 <!-- EN -->
 
@@ -236,15 +230,7 @@ Für neue Projekte **MQTT 5.0 empfohlen** wenn Broker und Clients unterstützen.
 
 Unlike Modbus or BACnet (client-server), MQTT uses the **pub/sub pattern**:
 
-```
-Sensor/DDC            MQTT Broker           BMS/Dashboard
-(Publisher)            (Server)             (Subscriber)
-    │                      │                      │
-    ├── Publish ──────────►│                      │
-    │   Topic: "Plant1/    │──── Push ───────────►│
-    │   FL/Temperature"    │  (when subscribed)   │
-    │   Value: 45.3        │                      │
-```
+A sensor or DDC **publishes** the value 45.3 on the topic `plant1/flow/temperature` to the **broker**. The broker immediately forwards it to all clients that have **subscribed** to this topic, such as the BMS or a dashboard.
 
 - **Publisher:** sends messages to a topic
 - **Broker:** receives, stores and distributes messages
@@ -272,6 +258,8 @@ ba-tool/plant2/cooling/chiller1/eer
 | `#`      | All levels from here (always at end) | `ba-tool/plant1/#`                   |
 
 `ba-tool/#` subscribes to everything under this prefix.
+
+Topics may contain UTF-8. Umlauts, spaces and special characters cause trouble in scripts and tools, though; better use only lowercase letters, digits and hyphens.
 
 ## QoS — Quality of Service
 
@@ -349,7 +337,7 @@ password_file /etc/mosquitto/passwords
 
 ### Node-RED as MQTT Bridge
 
-**Node-RED** (open source, from IBM, runs on Node.js) is the most widely used tool for connecting MQTT with BA protocols:
+**Node-RED** (open source, originally by IBM, now at the OpenJS Foundation, runs on Node.js) is the most widely used tool for connecting MQTT with BA protocols:
 
 ```
 Modbus device → Node-RED → MQTT broker → Dashboard / cloud
@@ -421,4 +409,4 @@ MQTT 5.0 (2019) brings important improvements:
 
 - **ISO/IEC 20922** — MQTT v3.1.1
 - **OASIS MQTT 5.0** — Standard
-- **Sparkplug B** — Eclipse Foundation (GitHub: eclipse/tahu)
+- **Sparkplug 3.0** — Eclipse Foundation, standardised as ISO/IEC 20237

@@ -25,7 +25,7 @@ difficulty: experte
 area: [ga, it]
 related: [bacnet, modbus, knx]
 norm: [IEC 62541, OPC 10000]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -50,18 +50,14 @@ lang: de
 
 Das Herzstück von OPC UA ist der **Adressraum** — ein objektorientiertes, hierarchisches Datenmodell:
 
-```
-Root
-  └── Objects
-        ├── Server (Serverinformationen)
-        ├── Anlage_1
-        │     ├── Vorlauftemperatur (Variable, Float, °C)
-        │     ├── Pumpe_1
-        │     │     ├── Drehzahl (Variable, Float, %)
-        │     │     └── Status (Variable, Boolean)
-        │     └── Alarme
-        └── Anlage_2
-```
+- **Root**
+  - **Objects**
+    - Server, mit Informationen über den Server selbst
+    - Anlage_1
+      - Vorlauftemperatur (Variable, Float, °C)
+      - Pumpe_1 mit Drehzahl (Variable, Float, %) und Status (Variable, Boolean)
+      - Alarme
+    - Anlage_2
 
 ### Node ID
 
@@ -78,6 +74,8 @@ Jeder Knoten im Adressraum hat eine eindeutige **Node ID**:
 
 ### Attribute
 
+Zu jedem gelesenen Wert gehören ausserdem ein **StatusCode** (Good, Uncertain, Bad mit Unterstatus) und Zeitstempel. Sie sind Teil des DataValue, nicht des Knotens.
+
 Jeder Node hat Attribute:
 
 | Attribut      | Beschreibung                       |
@@ -88,7 +86,6 @@ Jeder Node hat Attribute:
 | `Value`       | **Aktueller Wert** (nur Variables) |
 | `DataType`    | Boolean, Int32, Float, String, …   |
 | `AccessLevel` | Read, Write, HistoryRead, …        |
-| `StatusCode`  | Good, Bad, Uncertain + Substatus   |
 
 ## Services (Kommunikation)
 
@@ -107,14 +104,9 @@ OPC UA Services sind Request/Response-Paare:
 
 Das effizienteste Muster für GLT-Anbindungen:
 
-```
-Client erstellt Subscription (z.B. alle 500 ms)
-  └── MonitoredItem: Vorlauftemperatur (Deadband 0,5 °C)
-  └── MonitoredItem: Pumpe_Status
-  └── MonitoredItem: Alarm_Liste
-
-Server sendet Notifications bei Änderung oder im Takt
-```
+- Der Client legt eine **Subscription** an, etwa mit 500 ms Publishing Interval.
+- Darin **MonitoredItems**: Vorlauftemperatur mit Deadband 0.5 °C, Pumpenstatus, Alarmliste.
+- Der Server meldet Änderungen gesammelt im Takt der Subscription.
 
 - **Publishing Interval:** wie oft der Server Notifications sendet
 - **Sampling Interval:** wie oft der Server den Wert abtastet
@@ -175,9 +167,7 @@ URL-Schema: `opc.tcp://192.168.1.100:4840/UA/Server`
 
 Neuere Ergänzung zu Client-Server: **Publisher** sendet Daten an einen Broker (MQTT, AMQP) oder per UDP-Multicast, **Subscriber** empfängt.
 
-```
-OPC UA Publisher (Feld) → MQTT Broker → OPC UA Subscriber (GLT/Cloud)
-```
+OPC UA Publisher im Feld → MQTT-Broker → OPC UA Subscriber in GLT oder Cloud
 
 Gut für: IoT-Integration, viele Geräte, unidirektionale Datenströme.
 
@@ -185,21 +175,14 @@ Gut für: IoT-Integration, viele Geräte, unidirektionale Datenströme.
 
 OPC UA ersetzt zunehmend proprietäre Hersteller-Protokolle als **vertikale Integrationsschicht**:
 
-```
-Feldebene:   BACnet / Modbus / KNX / M-Bus
-                    ↓
-Automationsebene:  DDC mit OPC UA Server
-                    ↓
-GLT:          OPC UA Client (liest alle DDCs)
-                    ↓
-Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
-```
+| Ebene      | Rolle von OPC UA                                  |
+| ---------- | ------------------------------------------------- |
+| Feld       | BACnet, Modbus, KNX, M-Bus                        |
+| Automation | Automationsstation oder Gateway mit OPC UA Server |
+| GLT        | OPC UA Client, liest alle Stationen               |
+| Cloud, ERP | OPC UA Client oder Pub/Sub über MQTT              |
 
-**Companion Specifications:** standardisierte Adressraummodelle für Gerätetypen:
-
-- `OPC UA for Building Automation` (in Entwicklung)
-- `OPC UA for HVAC` (Honeywell, Siemens aktiv beteiligt)
-- `OPC UA for Energy` (Energiemanagement)
+**Companion Specifications** legen standardisierte Informationsmodelle für bestimmte Geräte oder Branchen fest. Für Maschinenbau und Industrie gibt es viele davon. In der Gebäudeautomation ist die Abdeckung noch klein, dort bleibt BACnet der verbreitete Standard; OPC UA dient vor allem als Brücke zu Leit- und IT-Systemen.
 
 ## Werkzeuge
 
@@ -223,7 +206,7 @@ Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
 
 ## Normen
 
-- **IEC 62541** (Teile 1–14) — vollständige OPC UA Spezifikation
+- **IEC 62541** — OPC UA, mehrteilige Norm
 - **OPC 10000-x** — OPC Foundation Spezifikationen
 - **IEC 62443** — Industrial Cyber Security (OPC UA als Transportlayer)
 
@@ -250,18 +233,14 @@ Cloud/ERP:    OPC UA Client oder Pub/Sub → MQTT
 
 The heart of OPC UA is the **address space** — an object-oriented, hierarchical data model:
 
-```
-Root
-  └── Objects
-        ├── Server (server information)
-        ├── Plant_1
-        │     ├── FlowTemperature (Variable, Float, °C)
-        │     ├── Pump_1
-        │     │     ├── Speed (Variable, Float, %)
-        │     │     └── Status (Variable, Boolean)
-        │     └── Alarms
-        └── Plant_2
-```
+- **Root**
+  - **Objects**
+    - Server, with information about the server itself
+    - Plant_1
+      - Flow temperature (variable, float, °C)
+      - Pump_1 with speed (variable, float, %) and status (variable, boolean)
+      - Alarms
+    - Plant_2
 
 ### Node ID
 
@@ -278,6 +257,8 @@ Every node in the address space has a unique **Node ID**:
 
 ### Attributes
 
+Every value read also comes with a **StatusCode** (good, uncertain, bad with substatus) and time stamps. They are part of the DataValue, not of the node.
+
 Every node has attributes:
 
 | Attribute     | Description                        |
@@ -288,7 +269,6 @@ Every node has attributes:
 | `Value`       | **Current value** (variables only) |
 | `DataType`    | Boolean, Int32, Float, String, …   |
 | `AccessLevel` | Read, Write, HistoryRead, …        |
-| `StatusCode`  | Good, Bad, Uncertain + substatus   |
 
 ## Services (Communication)
 
@@ -307,14 +287,9 @@ OPC UA services are request/response pairs:
 
 The most efficient pattern for BMS connections:
 
-```
-Client creates subscription (e.g. every 500 ms)
-  └── MonitoredItem: FlowTemperature (deadband 0.5 °C)
-  └── MonitoredItem: Pump_Status
-  └── MonitoredItem: Alarm_List
-
-Server sends notifications on change or at interval
-```
+- The client creates a **subscription**, for example with a 500 ms publishing interval.
+- Inside it **monitored items**: flow temperature with a 0.5 °C deadband, pump status, alarm list.
+- The server reports changes collectively at the subscription rate.
 
 - **Publishing interval:** how often the server sends notifications
 - **Sampling interval:** how often the server samples the value
@@ -375,9 +350,7 @@ URL scheme: `opc.tcp://192.168.1.100:4840/UA/Server`
 
 Newer addition to client-server: **Publisher** sends data to a broker (MQTT, AMQP) or via UDP multicast; **Subscriber** receives.
 
-```
-OPC UA Publisher (field) → MQTT Broker → OPC UA Subscriber (BMS/cloud)
-```
+OPC UA publisher in the field → MQTT broker → OPC UA subscriber in the BMS or cloud
 
 Good for: IoT integration, many devices, unidirectional data streams.
 
@@ -385,21 +358,14 @@ Good for: IoT integration, many devices, unidirectional data streams.
 
 OPC UA increasingly replaces proprietary manufacturer protocols as the **vertical integration layer**:
 
-```
-Field level:       BACnet / Modbus / KNX / M-Bus
-                          ↓
-Automation level:  DDC with OPC UA server
-                          ↓
-BMS:               OPC UA client (reads all DDCs)
-                          ↓
-Cloud/ERP:         OPC UA client or pub/sub → MQTT
-```
+| Level      | Role of OPC UA                                   |
+| ---------- | ------------------------------------------------ |
+| Field      | BACnet, Modbus, KNX, M-Bus                       |
+| Automation | automation station or gateway with OPC UA server |
+| BMS        | OPC UA client, reads all stations                |
+| Cloud, ERP | OPC UA client or Pub/Sub via MQTT                |
 
-**Companion specifications:** standardised address space models for device types:
-
-- `OPC UA for Building Automation` (in development)
-- `OPC UA for HVAC` (Honeywell, Siemens actively involved)
-- `OPC UA for Energy` (energy management)
+**Companion specifications** define standardised information models for particular devices or industries. There are many for machinery and industry. In building automation coverage is still limited, BACnet remains the common standard there; OPC UA serves mainly as a bridge to management and IT systems.
 
 ## Tools
 

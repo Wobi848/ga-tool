@@ -25,7 +25,7 @@ difficulty: grundlagen
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen]
 norm: [ISO/IEC 14543-3-1X, EN 300 220]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -35,25 +35,25 @@ lang: de
 
 ## Energy Harvesting — Woher kommt der Strom?
 
-| Quelle                        | Mechanismus                           | Typische Anwendung              |
-| ----------------------------- | ------------------------------------- | ------------------------------- |
-| **Piezo (Druck)**             | Tastendruck erzeugt Spannung (~50 µJ) | Lichtschalter, Taster           |
-| **Photovoltaik**              | Kleines Solarpanel (Innenraum reicht) | Raumfühler, CO₂-Sensor          |
-| **Temperaturdifferenz (TEG)** | Peltier-Element auf Heizkörper        | Heizkörperthermostat            |
-| **Induktion / Magnetfeld**    | Bewegung in Magnetfeld                | Fensterkontakt (Magnetschalter) |
+| Quelle                          | Mechanismus                                      | Typische Anwendung     |
+| ------------------------------- | ------------------------------------------------ | ---------------------- |
+| **Elektrodynamisch**            | Tastendruck bewegt einen Magneten in einer Spule | Lichtschalter, Taster  |
+| **Photovoltaik**                | Kleines Solarpanel (Innenraum reicht)            | Raumfühler, CO₂-Sensor |
+| **Temperaturdifferenz (TEG)**   | Peltier-Element auf Heizkörper                   | Heizkörperthermostat   |
+| **Photovoltaik + Reed-Kontakt** | Solarzelle speist, Magnet schaltet den Kontakt   | Fensterkontakt         |
 
-> Pro Tastendruck werden ~4 Funk-Telegramme gesendet. Die Energie reicht gerade für diese 4 Telegramme — dann ist der Kondensator leer bis zur nächsten Betätigung.
+> Beim Drücken und beim Loslassen wird je ein Telegramm gesendet, mehrfach wiederholt. Die Energie aus der Bewegung reicht genau dafür.
 
 ## Technische Spezifikationen
 
-| Parameter       | Wert                                  |
-| --------------- | ------------------------------------- |
-| Frequenz        | 868,3 MHz (Europa), 315/902 MHz (USA) |
-| Reichweite      | 30 m (innen), 300 m (freies Feld)     |
-| Telegramm-Länge | 14 Bytes (kurz und kompakt)           |
-| Protokoll-Stack | ESP3 (EnOcean Serial Protocol v3)     |
-| Verschlüsselung | AES-128 (Security Profile)            |
-| ID-Länge        | 32 Bit (4 Milliarden Adressen)        |
+| Parameter          | Wert                                                            |
+| ------------------ | --------------------------------------------------------------- |
+| Frequenz           | 868,3 MHz (Europa), 315/902 MHz (USA)                           |
+| Reichweite         | 30 m (innen), 300 m (freies Feld)                               |
+| Telegramm-Länge    | 14 Bytes (kurz und kompakt)                                     |
+| Host-Schnittstelle | ESP3 (EnOcean Serial Protocol 3) zwischen Funkmodul und Gateway |
+| Verschlüsselung    | AES-128 (Security Profile)                                      |
+| ID-Länge           | 32 Bit (4 Milliarden Adressen)                                  |
 
 ## Teach-In (Anlernvorgang)
 
@@ -83,10 +83,11 @@ Das **EEP** definiert das Datenformat eines Sensors. Jedes Gerät hat ein EEP-Pr
 | EEP      | Beschreibung                              |
 | -------- | ----------------------------------------- |
 | F6-02-01 | 2-Kanal-Taster (Rocker Switch)            |
-| F6-10-00 | Fensterkontakt (offen/geschlossen)        |
-| A5-02-05 | Temperatursensor −40…+60 °C               |
+| D5-00-01 | Fensterkontakt (offen/geschlossen)        |
+| F6-10-00 | Fenstergriff (offen, gekippt, zu)         |
+| A5-02-05 | Temperatursensor 0…+40 °C                 |
 | A5-04-01 | Temperatur + Feuchte                      |
-| A5-06-01 | Helligkeitssensor 300–30000 Lux           |
+| A5-06-01 | Helligkeitssensor 300–60000 lx            |
 | A5-07-01 | Präsenzmelder                             |
 | A5-09-04 | CO₂-Sensor + Temperatur                   |
 | D2-01-0E | Schaltaktor mit Energiemessung (2-Wege!)  |
@@ -122,13 +123,7 @@ EnOcean-Signale brauchen einen **Empfänger** der die Funk-Telegramme in ein ver
 
 ### Systemintegration
 
-```
-EnOcean-Sensor (868 MHz)
-    ↓ Funk
-EnOcean-Gateway (z.B. Eltako FAM14)
-    ↓ RS-485 / Modbus oder proprietär
-DDC / GLT
-```
+EnOcean-Sensor (868 MHz, Funk) → Gateway, etwa mit RS-485, Modbus oder IP → DDC oder GLT
 
 Viele Systeme (KNX, BACnet) unterstützen EnOcean direkt via Gateway — kein separates EnOcean-System nötig.
 
@@ -136,19 +131,19 @@ Viele Systeme (KNX, BACnet) unterstützen EnOcean direkt via Gateway — kein se
 
 Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und theoretisch Telegramme imitieren.
 
-**EnOcean Security Level 3:** AES-128-CCM-Verschlüsselung + Rolling Code (verhindert Replay-Angriffe). Aktivierbar auf unterstützten Geräten.
+**EnOcean Security:** AES-128-Verschlüsselung, Authentisierung mit CMAC und Rolling Code gegen Replay-Angriffe. Nur auf Geräten verfügbar, die es unterstützen, und muss beim Anlernen eingerichtet werden.
 
-> Für sicherheitskritische Anwendungen (Zutrittskontrolle, Alarmanlage) nur SecurityLevel-3-Geräte verwenden oder auf verdrahtete Systeme setzen.
+> Für sicherheitskritische Anwendungen wie Zutrittskontrolle oder Einbruchmeldung nur gesicherte Geräte verwenden oder verdrahtete Systeme.
 
 ## Reichweite & Probleme
 
-| Problem                              | Ursache                                | Massnahme                             |
-| ------------------------------------ | -------------------------------------- | ------------------------------------- |
-| Sensor wird nicht empfangen          | Entfernung, Wände, Metallhindernisse   | Repeater einsetzen                    |
-| Sporadische Ausfälle                 | Interferenzen 868 MHz (Zigbee, Z-Wave) | Frequenz-Scan, Position ändern        |
-| Teach-In schlägt fehl                | Empfänger zu weit weg                  | Für Anlernvorgang näher heranführen   |
-| Falsches EEP konfiguriert            | Werte werden falsch interpretiert      | EEP auf Geräteetikette prüfen         |
-| Helligkeitssensor funktioniert nicht | Zu dunkel (Solar-Harvesting!)          | Mindesthelligkeit beachten (~200 Lux) |
+| Problem                              | Ursache                                                                             | Massnahme                             |
+| ------------------------------------ | ----------------------------------------------------------------------------------- | ------------------------------------- |
+| Sensor wird nicht empfangen          | Entfernung, Wände, Metallhindernisse                                                | Repeater einsetzen                    |
+| Sporadische Ausfälle                 | Störungen durch andere Funksysteme im 868-MHz-Band, etwa Z-Wave oder Wireless M-Bus | Frequenz-Scan, Position ändern        |
+| Teach-In schlägt fehl                | Empfänger zu weit weg                                                               | Für Anlernvorgang näher heranführen   |
+| Falsches EEP konfiguriert            | Werte werden falsch interpretiert                                                   | EEP auf Geräteetikette prüfen         |
+| Helligkeitssensor funktioniert nicht | Zu dunkel (Solar-Harvesting!)                                                       | Mindesthelligkeit beachten (~200 Lux) |
 
 ### EnOcean Repeater
 
@@ -168,25 +163,25 @@ Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und 
 
 ## Energy Harvesting — Where Does the Power Come From?
 
-| Source                             | Mechanism                                      | Typical application          |
-| ---------------------------------- | ---------------------------------------------- | ---------------------------- |
-| **Piezo (pressure)**               | Button press generates voltage (~50 µJ)        | Light switches, push-buttons |
-| **Photovoltaic**                   | Small solar panel (indoor light is sufficient) | Room sensors, CO₂ sensor     |
-| **Temperature differential (TEG)** | Peltier element on radiator                    | Radiator thermostat          |
-| **Induction / magnetic field**     | Movement in magnetic field                     | Window contact (reed switch) |
+| Source                             | Mechanism                                        | Typical application          |
+| ---------------------------------- | ------------------------------------------------ | ---------------------------- |
+| **Electrodynamic**                 | button press moves a magnet in a coil            | Light switches, push-buttons |
+| **Photovoltaic**                   | Small solar panel (indoor light is sufficient)   | Room sensors, CO₂ sensor     |
+| **Temperature differential (TEG)** | Peltier element on radiator                      | Radiator thermostat          |
+| **Photovoltaic + reed contact**    | solar cell supplies, magnet operates the contact | Window contact               |
 
-> Each button press sends ~4 radio telegrams. The energy is just sufficient for these 4 telegrams — then the capacitor is empty until the next actuation.
+> One telegram is sent on pressing and one on releasing, each repeated several times. The energy from the movement is just enough for that.
 
 ## Technical Specifications
 
-| Parameter       | Value                                 |
-| --------------- | ------------------------------------- |
-| Frequency       | 868.3 MHz (Europe), 315/902 MHz (USA) |
-| Range           | 30 m (indoors), 300 m (open field)    |
-| Telegram length | 14 bytes (short and compact)          |
-| Protocol stack  | ESP3 (EnOcean Serial Protocol v3)     |
-| Encryption      | AES-128 (Security Profile)            |
-| ID length       | 32 bit (4 billion addresses)          |
+| Parameter       | Value                                                             |
+| --------------- | ----------------------------------------------------------------- |
+| Frequency       | 868.3 MHz (Europe), 315/902 MHz (USA)                             |
+| Range           | 30 m (indoors), 300 m (open field)                                |
+| Telegram length | 14 bytes (short and compact)                                      |
+| Host interface  | ESP3 (EnOcean Serial Protocol 3) between radio module and gateway |
+| Encryption      | AES-128 (Security Profile)                                        |
+| ID length       | 32 bit (4 billion addresses)                                      |
 
 ## Teach-In (Pairing)
 
@@ -216,10 +211,11 @@ The **EEP** defines the data format of a sensor. Every device has an EEP profile
 | EEP      | Description                                      |
 | -------- | ------------------------------------------------ |
 | F6-02-01 | 2-channel push-button (rocker switch)            |
-| F6-10-00 | Window contact (open/closed)                     |
-| A5-02-05 | Temperature sensor −40…+60 °C                    |
+| D5-00-01 | Window contact (open/closed)                     |
+| F6-10-00 | Window handle (open, tilted, closed)             |
+| A5-02-05 | Temperature sensor 0…+40 °C                      |
 | A5-04-01 | Temperature + humidity                           |
-| A5-06-01 | Light sensor 300–30,000 lux                      |
+| A5-06-01 | Light sensor 300–60,000 lux                      |
 | A5-07-01 | Presence detector                                |
 | A5-09-04 | CO₂ sensor + temperature                         |
 | D2-01-0E | Switching actuator with energy metering (2-way!) |
@@ -255,13 +251,7 @@ EnOcean signals require a **receiver** that translates radio telegrams into a wi
 
 ### System Integration
 
-```
-EnOcean sensor (868 MHz)
-    ↓ Radio
-EnOcean gateway (e.g. Eltako FAM14)
-    ↓ RS-485 / Modbus or proprietary
-DDC / BMS
-```
+EnOcean sensor (868 MHz, radio) → gateway, e.g. with RS-485, Modbus or IP → DDC or BMS
 
 Many systems (KNX, BACnet) support EnOcean directly via gateway — no separate EnOcean system required.
 
@@ -269,19 +259,19 @@ Many systems (KNX, BACnet) support EnOcean directly via gateway — no separate 
 
 By default EnOcean transmits **unencrypted** — anyone can listen and theoretically imitate telegrams.
 
-**EnOcean Security Level 3:** AES-128-CCM encryption + rolling code (prevents replay attacks). Activatable on supported devices.
+**EnOcean Security:** AES-128 encryption, authentication with CMAC and a rolling code against replay attacks. Only available on devices that support it, and must be set up during teach-in.
 
-> For safety-critical applications (access control, alarm systems) use only Security Level 3 devices or opt for wired systems.
+> For security-critical applications such as access control or intrusion detection use only secured devices, or wired systems.
 
 ## Range and Issues
 
-| Problem                  | Cause                                    | Remedy                                 |
-| ------------------------ | ---------------------------------------- | -------------------------------------- |
-| Sensor not received      | Distance, walls, metal obstacles         | Use repeater                           |
-| Sporadic dropouts        | Interference at 868 MHz (Zigbee, Z-Wave) | Frequency scan, change position        |
-| Teach-in fails           | Receiver too far away                    | Bring closer for pairing               |
-| Wrong EEP configured     | Values interpreted incorrectly           | Check EEP on device label              |
-| Light sensor not working | Too dark (solar harvesting!)             | Observe minimum illuminance (~200 lux) |
+| Problem                  | Cause                                                                                    | Remedy                                 |
+| ------------------------ | ---------------------------------------------------------------------------------------- | -------------------------------------- |
+| Sensor not received      | Distance, walls, metal obstacles                                                         | Use repeater                           |
+| Sporadic dropouts        | Interference from other radio systems in the 868 MHz band, e.g. Z-Wave or wireless M-Bus | Frequency scan, change position        |
+| Teach-in fails           | Receiver too far away                                                                    | Bring closer for pairing               |
+| Wrong EEP configured     | Values interpreted incorrectly                                                           | Check EEP on device label              |
+| Light sensor not working | Too dark (solar harvesting!)                                                             | Observe minimum illuminance (~200 lux) |
 
 ### EnOcean Repeater
 

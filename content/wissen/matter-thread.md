@@ -28,7 +28,7 @@ area: [ga, elektro]
 related: [zigbee, zwave, knx, enocean, mqtt, raumautomation]
 rechner: []
 norm: [Matter 1.x (CSA), Thread 1.3 (Thread Group), IEEE 802.15.4, RFC 6550 RPL]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -95,20 +95,20 @@ Matter läuft über:
 
 ### Gerätetypen (Auswahl)
 
-| Matter-Gerätetyp        | Beispiel                     |
-| ----------------------- | ---------------------------- |
-| On/Off Light            | LED-Strahler                 |
-| Dimmable Light          | Dimmer                       |
-| Color Temperature Light | Tunable White                |
-| Extended Color Light    | RGBW                         |
-| Thermostat              | Raumthermostat               |
-| Door Lock               | Türschloss                   |
-| Window Covering         | Jalousie, Rollladen          |
-| Occupancy Sensor        | Präsenzmelder                |
-| Contact Sensor          | Tür-/Fensterkontakt          |
-| Air Quality Sensor      | CO₂, VOC                     |
-| Pump Controller         | Pumpsteuerung                |
-| HVAC                    | Klimaanlage (in Entwicklung) |
+| Matter-Gerätetyp                | Beispiel                                 |
+| ------------------------------- | ---------------------------------------- |
+| On/Off Light                    | LED-Strahler                             |
+| Dimmable Light                  | Dimmer                                   |
+| Color Temperature Light         | Tunable White                            |
+| Extended Color Light            | RGBW                                     |
+| Thermostat                      | Raumthermostat                           |
+| Door Lock                       | Türschloss                               |
+| Window Covering                 | Jalousie, Rollladen                      |
+| Occupancy Sensor                | Präsenzmelder                            |
+| Contact Sensor                  | Tür-/Fensterkontakt                      |
+| Air Quality Sensor              | CO₂, VOC                                 |
+| Pump Controller                 | Pumpsteuerung                            |
+| Room Air Conditioner, Heat Pump | Klimagerät, Wärmepumpe (ab 1.2 bzw. 1.4) |
 
 ### Commissioning mit QR-Code
 
@@ -125,13 +125,7 @@ Neues Matter-Gerät einbinden:
 
 Matter erlaubt **Multi-Admin**: Ein Gerät kann gleichzeitig von mehreren Smart-Home-Systemen gesteuert werden — ohne Cloud-Kopplung:
 
-```
-Matter-Thermostat
-    │ (Thread)
-    ├── Apple HomeKit ✓
-    ├── Google Home ✓
-    └── Home Assistant ✓ (über Matter-Integration)
-```
+Ein Matter-Thermostat im Thread-Netz lässt sich gleichzeitig in Apple Home, Google Home und Home Assistant einbinden.
 
 ---
 
@@ -141,9 +135,8 @@ Matter-Thermostat
 
 Matter ist für **Wohngebäude** optimiert. In der professionellen GA fehlen noch:
 
-- **BACnet-Bridge** (in Entwicklung, CSA Bridge-Spec)
 - **Komplexe HVAC-Objekte** (Lüftungsanlagen, Kältemaschinen)
-- **Gruppen-Adressierung** wie KNX-Gruppentelgramme
+- **Gruppen-Adressierung** wie KNX-Gruppentelegramme
 - **Normativer Rahmen** für Gewerbe (EN 15232, SIA 386)
 
 ### Sinnvolle GA-Nutzung heute
@@ -157,46 +150,35 @@ Matter ist für **Wohngebäude** optimiert. In der professionellen GA fehlen noc
 
 ### Home Assistant als Matter-Bridge
 
-```
-KNX / BACnet Anlage
-      │
-Home Assistant
-  ├── KNX-Integration (nativer Stack)
-  ├── BACnet-Integration
-  ├── Matter Controller (Thread Border Router)
-  └── MQTT-Broker
-         │
-    Matter-Geräte (Thread-Mesh)
-```
+Home Assistant verbindet beide Welten: KNX- und BACnet-Integration auf der einen Seite, Matter-Controller mit Thread Border Router und MQTT-Broker auf der anderen. Die Matter-Geräte hängen im Thread-Mesh.
 
 ---
 
 ## Thread vs. Zigbee vs. Z-Wave
 
-| Merkmal             | Thread                      | Zigbee              | Z-Wave     |
-| ------------------- | --------------------------- | ------------------- | ---------- |
-| Frequenz            | 2,4 GHz                     | 2,4 GHz             | 868 MHz    |
-| Protokollstack      | IPv6/UDP (offener Standard) | Proprietär (ZigBee) | Proprietär |
-| Anwendungsprotokoll | Matter (offener Standard)   | ZigBee / Matter\*   | Z-Wave     |
-| Interoperabilität   | Sehr hoch (Matter)          | Mittel              | Hoch       |
-| Batterie            | Ja (Sleepy ED)              | Ja                  | Ja         |
-| IP-nativ            | Ja (IPv6)                   | Nein                | Nein       |
-| Reife               | Jung (2022+)                | Ausgereift          | Ausgereift |
+| Merkmal             | Thread                      | Zigbee                   | Z-Wave                                |
+| ------------------- | --------------------------- | ------------------------ | ------------------------------------- |
+| Frequenz            | 2,4 GHz                     | 2,4 GHz                  | 868 MHz                               |
+| Protokollstack      | IPv6/UDP (offener Standard) | offener Standard der CSA | Z-Wave Alliance, offene Spezifikation |
+| Anwendungsprotokoll | Matter (offener Standard)   | ZigBee / Matter\*        | Z-Wave                                |
+| Interoperabilität   | Sehr hoch (Matter)          | Mittel                   | Hoch                                  |
+| Batterie            | Ja (Sleepy ED)              | Ja                       | Ja                                    |
+| IP-nativ            | Ja (IPv6)                   | Nein                     | Nein                                  |
+| Reife               | Jung (2022+)                | Ausgereift               | Ausgereift                            |
 
-\*Zigbee-Hardware kann via Matter over Thread neu bespielt werden (Silabs, NXP).
+\*Manche Funkchips können per Firmware-Update von Zigbee auf Thread umgestellt werden, das hängt vom Gerät ab.
 
 ---
 
 ## Roadmap und Ausblick
 
-| Version             | Jahr    | Highlights                                       |
-| ------------------- | ------- | ------------------------------------------------ |
-| Matter 1.0          | 2022    | Licht, Schalter, Schlösser, Thermostate          |
-| Matter 1.1          | 2023    | Bugfixes, ICD (Intermittently Connected Device)  |
-| Matter 1.2          | 2023    | Kühlschrank, Raumluft, Smoke-Melder, Roboter     |
-| Matter 1.3          | 2024    | Wassersteuerung, EV-Charging, Energie-Monitoring |
-| Matter 1.4          | 2024/25 | Enhanced Multi-Admin, Wasserheizer               |
-| Matter for Metering | geplant | Smart Meter, BACnet Bridge                       |
+| Version    | Jahr | Highlights                                                                           |
+| ---------- | ---- | ------------------------------------------------------------------------------------ |
+| Matter 1.0 | 2022 | Licht, Schalter, Schlösser, Thermostate                                              |
+| Matter 1.1 | 2023 | Bugfixes, ICD (Intermittently Connected Device)                                      |
+| Matter 1.2 | 2023 | Kühlschrank, Raumluft, Smoke-Melder, Roboter                                         |
+| Matter 1.3 | 2024 | Wassersteuerung, EV-Charging, Energie-Monitoring                                     |
+| Matter 1.4 | 2024 | Wärmepumpen, PV-Wechselrichter, Batteriespeicher, Warmwasser, Multi-Admin verbessert |
 
 <!-- EN -->
 
@@ -263,20 +245,20 @@ Matter runs over:
 
 ### Device Types (Selection)
 
-| Matter Device Type      | Example                           |
-| ----------------------- | --------------------------------- |
-| On/Off Light            | LED spotlight                     |
-| Dimmable Light          | Dimmer                            |
-| Color Temperature Light | Tunable White                     |
-| Extended Color Light    | RGBW                              |
-| Thermostat              | Room thermostat                   |
-| Door Lock               | Door lock                         |
-| Window Covering         | Blind, roller shutter             |
-| Occupancy Sensor        | Presence detector                 |
-| Contact Sensor          | Door/window contact               |
-| Air Quality Sensor      | CO₂, VOC                          |
-| Pump Controller         | Pump control                      |
-| HVAC                    | Air conditioning (in development) |
+| Matter Device Type              | Example                                       |
+| ------------------------------- | --------------------------------------------- |
+| On/Off Light                    | LED spotlight                                 |
+| Dimmable Light                  | Dimmer                                        |
+| Color Temperature Light         | Tunable White                                 |
+| Extended Color Light            | RGBW                                          |
+| Thermostat                      | Room thermostat                               |
+| Door Lock                       | Door lock                                     |
+| Window Covering                 | Blind, roller shutter                         |
+| Occupancy Sensor                | Presence detector                             |
+| Contact Sensor                  | Door/window contact                           |
+| Air Quality Sensor              | CO₂, VOC                                      |
+| Pump Controller                 | Pump control                                  |
+| Room Air Conditioner, Heat Pump | air conditioner, heat pump (from 1.2 and 1.4) |
 
 ### Commissioning with QR Code
 
@@ -293,13 +275,7 @@ Adding a new Matter device:
 
 Matter allows **Multi-Admin**: a device can be controlled simultaneously by multiple smart home systems — without cloud coupling:
 
-```
-Matter Thermostat
-    │ (Thread)
-    ├── Apple HomeKit ✓
-    ├── Google Home ✓
-    └── Home Assistant ✓ (via Matter integration)
-```
+A Matter thermostat on the Thread network can be added to Apple Home, Google Home and Home Assistant at the same time.
 
 ---
 
@@ -309,7 +285,6 @@ Matter Thermostat
 
 Matter is optimised for **residential buildings**. Professional BA still lacks:
 
-- **BACnet bridge** (in development, CSA bridge spec)
 - **Complex HVAC objects** (ventilation systems, chillers)
 - **Group addressing** like KNX group telegrams
 - **Normative framework** for commercial use (EN 15232, SIA 386)
@@ -325,43 +300,32 @@ Matter is optimised for **residential buildings**. Professional BA still lacks:
 
 ### Home Assistant as Matter Bridge
 
-```
-KNX / BACnet System
-      │
-Home Assistant
-  ├── KNX integration (native stack)
-  ├── BACnet integration
-  ├── Matter Controller (Thread Border Router)
-  └── MQTT broker
-         │
-    Matter devices (Thread mesh)
-```
+Home Assistant connects both worlds: KNX and BACnet integration on one side, Matter controller with Thread border router and MQTT broker on the other. The Matter devices sit in the Thread mesh.
 
 ---
 
 ## Thread vs. Zigbee vs. Z-Wave
 
-| Feature              | Thread                   | Zigbee               | Z-Wave      |
-| -------------------- | ------------------------ | -------------------- | ----------- |
-| Frequency            | 2.4 GHz                  | 2.4 GHz              | 868 MHz     |
-| Protocol stack       | IPv6/UDP (open standard) | Proprietary (ZigBee) | Proprietary |
-| Application protocol | Matter (open standard)   | ZigBee / Matter\*    | Z-Wave      |
-| Interoperability     | Very high (Matter)       | Medium               | High        |
-| Battery              | Yes (Sleepy ED)          | Yes                  | Yes         |
-| IP-native            | Yes (IPv6)               | No                   | No          |
-| Maturity             | Young (2022+)            | Mature               | Mature      |
+| Feature              | Thread                   | Zigbee            | Z-Wave                              |
+| -------------------- | ------------------------ | ----------------- | ----------------------------------- |
+| Frequency            | 2.4 GHz                  | 2.4 GHz           | 868 MHz                             |
+| Protocol stack       | IPv6/UDP (open standard) | open CSA standard | Z-Wave Alliance, open specification |
+| Application protocol | Matter (open standard)   | ZigBee / Matter\* | Z-Wave                              |
+| Interoperability     | Very high (Matter)       | Medium            | High                                |
+| Battery              | Yes (Sleepy ED)          | Yes               | Yes                                 |
+| IP-native            | Yes (IPv6)               | No                | No                                  |
+| Maturity             | Young (2022+)            | Mature            | Mature                              |
 
-\*Zigbee hardware can be re-flashed for Matter over Thread (Silabs, NXP).
+\*Some radio chips can be switched from Zigbee to Thread by firmware update; this depends on the device.
 
 ---
 
 ## Roadmap and Outlook
 
-| Version             | Year    | Highlights                                          |
-| ------------------- | ------- | --------------------------------------------------- |
-| Matter 1.0          | 2022    | Lights, switches, locks, thermostats                |
-| Matter 1.1          | 2023    | Bug fixes, ICD (Intermittently Connected Device)    |
-| Matter 1.2          | 2023    | Refrigerators, air quality, smoke detectors, robots |
-| Matter 1.3          | 2024    | Water control, EV charging, energy monitoring       |
-| Matter 1.4          | 2024/25 | Enhanced Multi-Admin, water heaters                 |
-| Matter for Metering | planned | Smart meters, BACnet bridge                         |
+| Version    | Year | Highlights                                                                  |
+| ---------- | ---- | --------------------------------------------------------------------------- |
+| Matter 1.0 | 2022 | Lights, switches, locks, thermostats                                        |
+| Matter 1.1 | 2023 | Bug fixes, ICD (Intermittently Connected Device)                            |
+| Matter 1.2 | 2023 | Refrigerators, air quality, smoke detectors, robots                         |
+| Matter 1.3 | 2024 | Water control, EV charging, energy monitoring                               |
+| Matter 1.4 | 2024 | heat pumps, solar inverters, batteries, water heaters, improved multi-admin |

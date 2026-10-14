@@ -26,7 +26,7 @@ area: [ga, elektro]
 related: [rs485, modbus, bacnet, frequenzumrichter, ddc-programmierung]
 rechner: []
 norm: [IEC 61158, IEC 61784, EN 50170]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -56,13 +56,13 @@ Veraltet, heute nicht mehr relevant.
 
 PROFIBUS DP basiert auf **RS-485** (EIA-485):
 
-| Parameter            | Wert                                     |
-| -------------------- | ---------------------------------------- |
-| Leitung              | 2-Draht, verdrilltes Paar, geschirmt     |
-| Abschlusswiderstände | 220 Ω (aktiv, im Stecker integriert)     |
-| Max. Teilnehmer      | 126 (Adresse 0–125)                      |
-| Segmente             | Max. 9 (mit 8 Repeatern)                 |
-| Segment-Länge        | 100 m (12 Mbit/s) bis 1200 m (9,6 kBaud) |
+| Parameter            | Wert                                                     |
+| -------------------- | -------------------------------------------------------- |
+| Leitung              | 2-Draht, verdrilltes Paar, geschirmt                     |
+| Abschlusswiderstände | 220 Ω (aktiv, im Stecker integriert)                     |
+| Max. Teilnehmer      | 126 (Adresse 0–125)                                      |
+| Segmente             | mit Repeatern erweiterbar, max. 32 Teilnehmer je Segment |
+| Segment-Länge        | 100 m (12 Mbit/s) bis 1200 m (9,6 kBaud)                 |
 
 ### Baudrate vs. Segmentlänge
 
@@ -70,7 +70,7 @@ PROFIBUS DP basiert auf **RS-485** (EIA-485):
 | ----------- | ----------------- |
 | 9,6 kBaud   | 1200 m            |
 | 19,2 kBaud  | 1200 m            |
-| 93,75 kBaud | 1000 m            |
+| 93,75 kBaud | 1200 m            |
 | 187,5 kBaud | 1000 m            |
 | 500 kBaud   | 400 m             |
 | 1,5 MBaud   | 200 m             |
@@ -91,10 +91,10 @@ PROFIBUS DP verwendet ein **Token-Ring-Verfahren** für Master-Teilnehmer und **
 
 ## GSD-Dateien (Gerätestammdaten)
 
-Jedes PROFIBUS-Gerät wird durch eine **GSD-Datei** (XML-Format) beschrieben:
+Jedes PROFIBUS-Gerät wird durch eine **GSD-Datei** beschrieben, eine Textdatei mit Schlüsselwörtern. Bei PROFINET heisst das Gegenstück GSDML und ist XML:
 
 - Verfügbare Module und E/A-Daten
-- Baudratten-Unterstützung
+- Baudraten-Unterstützung
 - Diagnose-Informationen
 - Parametrierdaten
 
@@ -108,23 +108,7 @@ GSD-Dateien werden vom Hersteller bereitgestellt und in das Engineering-Tool imp
 
 Der häufigste Anwendungsfall in der GA: Lüftungs- und Pumpenantriebe werden via PROFIBUS DP an die DDC angebunden.
 
-```
-Simatic S7 / PCS 7 (Master)
-        │
-   PROFIBUS DP (RS-485, 500 kBaud)
-        ├── Siemens SINAMICS G120 (Lüftungsantrieb)
-        ├── Siemens SINAMICS S120 (Pumpenantrieb)
-        ├── ABB ACS880 (Kompressor)
-        └── Dezentrale ET200 E/A-Baugruppe
-```
-
-### Gebäudeleittechnik Siemens Desigo
-
-In älteren Siemens-Desigo-Anlagen kommuniziert die GLT via PROFIBUS DP mit:
-
-- PXC Automation Station
-- FLN-Field Level Network (PROFIBUS-basiert)
-- Dezentralen MEC-Aktoren
+Eine SPS als DP-Master, zum Beispiel mit 500 kBaud, und daran als Slaves: Frequenzumrichter für Lüftung und Pumpen, dezentrale E/A-Baugruppen.
 
 ---
 
@@ -147,13 +131,13 @@ PROFIBUS DP bietet eine integrierte Diagnosefunktion — jeder Slave meldet Fehl
 
 ### Häufige Fehler
 
-| Fehler                     | Ursache                       | Massnahme                                    |
-| -------------------------- | ----------------------------- | -------------------------------------------- |
-| Slave nicht erreichbar     | Adresse falsch                | Adresse am Gerät prüfen                      |
-| Sporadische Ausfälle       | Fehlende Abschlusswiderstände | Aktive Abschlüsse in Bus-Steckern aktivieren |
-| Gerät meldet Config-Fehler | GSD-Version falsch            | GSD-Datei erneuern                           |
-| Hohe Zykluszeit            | Zu viele Slaves               | Baudrate erhöhen, Segmentierung              |
-| EMV-Störungen              | Schirmung fehlerhaft          | Schirm einseitig am Master erden             |
+| Fehler                     | Ursache                       | Massnahme                                                                     |
+| -------------------------- | ----------------------------- | ----------------------------------------------------------------------------- |
+| Slave nicht erreichbar     | Adresse falsch                | Adresse am Gerät prüfen                                                       |
+| Sporadische Ausfälle       | Fehlende Abschlusswiderstände | Aktive Abschlüsse in Bus-Steckern aktivieren                                  |
+| Gerät meldet Config-Fehler | GSD-Version falsch            | GSD-Datei erneuern                                                            |
+| Hohe Zykluszeit            | Zu viele Slaves               | Baudrate erhöhen, Segmentierung                                               |
+| EMV-Störungen              | Schirmung fehlerhaft          | Schirm nach PI-Richtlinie beidseitig und flächig auflegen, Potenzialausgleich |
 
 ---
 
@@ -196,13 +180,13 @@ Obsolete, no longer relevant today.
 
 PROFIBUS DP is based on **RS-485** (EIA-485):
 
-| Parameter             | Value                                    |
-| --------------------- | ---------------------------------------- |
-| Cable                 | 2-wire, twisted pair, shielded           |
-| Termination resistors | 220 Ω (active, integrated in connector)  |
-| Max. participants     | 126 (address 0–125)                      |
-| Segments              | Max. 9 (with 8 repeaters)                |
-| Segment length        | 100 m (12 Mbit/s) to 1,200 m (9.6 kBaud) |
+| Parameter             | Value                                                  |
+| --------------------- | ------------------------------------------------------ |
+| Cable                 | 2-wire, twisted pair, shielded                         |
+| Termination resistors | 220 Ω (active, integrated in connector)                |
+| Max. participants     | 126 (address 0–125)                                    |
+| Segments              | extendable with repeaters, max. 32 devices per segment |
+| Segment length        | 100 m (12 Mbit/s) to 1,200 m (9.6 kBaud)               |
 
 ### Baud Rate vs. Segment Length
 
@@ -210,7 +194,7 @@ PROFIBUS DP is based on **RS-485** (EIA-485):
 | ----------- | ------------------- |
 | 9.6 kBaud   | 1,200 m             |
 | 19.2 kBaud  | 1,200 m             |
-| 93.75 kBaud | 1,000 m             |
+| 93.75 kBaud | 1,200 m             |
 | 187.5 kBaud | 1,000 m             |
 | 500 kBaud   | 400 m               |
 | 1.5 MBaud   | 200 m               |
@@ -231,7 +215,7 @@ PROFIBUS DP uses a **token ring procedure** for master participants and **master
 
 ## GSD Files (Device Master Data)
 
-Every PROFIBUS device is described by a **GSD file** (XML format):
+Every PROFIBUS device is described by a **GSD file**, a text file with keywords. For PROFINET the counterpart is called GSDML and is XML:
 
 - Available modules and I/O data
 - Supported baud rates
@@ -248,23 +232,7 @@ GSD files are supplied by the manufacturer and imported into the engineering too
 
 The most common use case in BA: ventilation and pump drives are connected to the DDC via PROFIBUS DP.
 
-```
-Simatic S7 / PCS 7 (master)
-        │
-   PROFIBUS DP (RS-485, 500 kBaud)
-        ├── Siemens SINAMICS G120 (ventilation drive)
-        ├── Siemens SINAMICS S120 (pump drive)
-        ├── ABB ACS880 (compressor)
-        └── Decentralised ET200 I/O module
-```
-
-### Building Management — Siemens Desigo
-
-In older Siemens Desigo installations the BMS communicates via PROFIBUS DP with:
-
-- PXC automation station
-- FLN field level network (PROFIBUS-based)
-- Decentralised MEC actuators
+A PLC as DP master, for example at 500 kBaud, with slaves: variable speed drives for fans and pumps, distributed I/O modules.
 
 ---
 
@@ -287,13 +255,13 @@ PROFIBUS DP has an integrated diagnostics function — each slave actively repor
 
 ### Common Faults
 
-| Fault                       | Cause                         | Remedy                                        |
-| --------------------------- | ----------------------------- | --------------------------------------------- |
-| Slave unreachable           | Wrong address                 | Check address on device                       |
-| Sporadic dropouts           | Missing termination resistors | Activate active termination in bus connectors |
-| Device reports config error | Wrong GSD version             | Renew GSD file                                |
-| High cycle time             | Too many slaves               | Increase baud rate, segment network           |
-| EMC interference            | Incorrect shielding           | Ground shield at master end only              |
+| Fault                       | Cause                         | Remedy                                                               |
+| --------------------------- | ----------------------------- | -------------------------------------------------------------------- |
+| Slave unreachable           | Wrong address                 | Check address on device                                              |
+| Sporadic dropouts           | Missing termination resistors | Activate active termination in bus connectors                        |
+| Device reports config error | Wrong GSD version             | Renew GSD file                                                       |
+| High cycle time             | Too many slaves               | Increase baud rate, segment network                                  |
+| EMC interference            | Incorrect shielding           | Bond the shield at both ends per PI guideline, equipotential bonding |
 
 ---
 

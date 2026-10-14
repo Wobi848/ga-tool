@@ -29,7 +29,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [mqtt, mbus, enocean, zigbee, opc-ua]
 norm: [LoRaWAN Specification 1.0.x / 1.1, ITU-R SM.1538]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
@@ -59,7 +59,7 @@ lang: de
 | Spreading Factor    | SF7 (schnell, kurz) bis SF12 (langsam, weit) |
 | Sendeleistung       | max. 25 mW (EU)                              |
 | Batterielebensdauer | Monate bis Jahre                             |
-| Paketgrösse         | max. 242 Bytes (SF7), ~51 Bytes (SF12)       |
+| Nutzdaten           | max. 222 Bytes (SF7), 51 Bytes (SF12), EU868 |
 
 ### Spreading Factor (SF)
 
@@ -83,15 +83,7 @@ In Europa gilt 1 % Duty Cycle (EU-Regulierung):
 
 ## LoRaWAN Netzwerkarchitektur
 
-```
-End-Device (Sensor/Aktor)
-    ↓ LoRa (868 MHz)
-Gateway (empfängt alle Pakete im Funkbereich)
-    ↓ IP (Ethernet/LTE)
-LoRaWAN Network Server (LNS)
-    ↓ MQTT / REST API
-Applikation (GLT, Dashboard, Datenbank)
-```
+End-Device (Sensor oder Aktor) → Funk 868 MHz → Gateway, empfängt alle Pakete in Reichweite → IP über Ethernet oder Mobilfunk → LoRaWAN Network Server → MQTT oder REST → Applikation, etwa GLT, Dashboard oder Datenbank
 
 ### Klassen von End-Devices
 
@@ -125,13 +117,7 @@ Applikation (GLT, Dashboard, Datenbank)
 
 ### Zähler-Fernauslesung
 
-```
-Wärme/Kälte/Wasser-Zähler mit LoRa-Modul
-    ↓ Täglich Messwert senden
-LoRaWAN-Gateway (auf Dach)
-    ↓
-GLT-Auswertung (Verbrauchsanalyse, Abrechnung)
-```
+Zähler mit LoRa-Modul sendet zum Beispiel einmal täglich → Gateway auf dem Dach → Network Server → GLT für Verbrauchsanalyse und Abrechnung
 
 LoRa ersetzt hier das physische Ablesen oder teure M-Bus-Verkabelung über grosse Distanzen.
 
@@ -155,7 +141,7 @@ LoRa ersetzt hier das physische Ablesen oder teure M-Bus-Verkabelung über gross
 | ------------------- | ------------------ | ----------- | ---------------- | --------------- |
 | Reichweite          | 1–15 km            | 30 m (Mesh) | 30 m             | 10 km           |
 | Batterie (Jahre)    | 2–10               | 0.5–2       | 2–5              | 1–3             |
-| Datenrate           | 0.3–50 kbps        | 250 kbps    | 32 kbps          | 200 kbps        |
+| Datenrate           | 0.3–50 kbps        | 250 kbps    | bis 100 kbps     | 200 kbps        |
 | Aktualisierungsrate | Min.–Std.          | Sekunden    | Min.             | Min.–Std.       |
 | Infrastruktur       | Gateway nötig      | Coordinator | Zähler           | Mobilfunknetz   |
 | Kosten Betrieb      | Niedrig (TTN free) | Niedrig     | Niedrig          | Laufende Kosten |
@@ -184,9 +170,7 @@ LoRa ersetzt hier das physische Ablesen oder teure M-Bus-Verkabelung über gross
 
 **ChirpStack** (open source, on-premise):
 
-```
-End-Devices → LoRa-Gateway → ChirpStack Network Server → ChirpStack Application Server → MQTT → GLT
-```
+End-Devices → LoRa-Gateway → ChirpStack → MQTT → GLT. Seit Version 4 vereint ChirpStack Network und Application Server in einem Dienst.
 
 ## Normen
 
@@ -220,7 +204,7 @@ End-Devices → LoRa-Gateway → ChirpStack Network Server → ChirpStack Applic
 | Spreading factor | SF7 (fast, short) to SF12 (slow, long range) |
 | Transmit power   | max. 25 mW (EU)                              |
 | Battery life     | Months to years                              |
-| Packet size      | max. 242 bytes (SF7), ~51 bytes (SF12)       |
+| Payload          | max. 222 bytes (SF7), 51 bytes (SF12), EU868 |
 
 ### Spreading Factor (SF)
 
@@ -244,15 +228,7 @@ In Europe a 1 % duty cycle applies (EU regulation):
 
 ## LoRaWAN Network Architecture
 
-```
-End device (sensor/actuator)
-    ↓ LoRa (868 MHz)
-Gateway (receives all packets in radio range)
-    ↓ IP (Ethernet/LTE)
-LoRaWAN Network Server (LNS)
-    ↓ MQTT / REST API
-Application (BMS, dashboard, database)
-```
+End device (sensor or actuator) → radio 868 MHz → gateway, receives all packets in range → IP over Ethernet or cellular → LoRaWAN network server → MQTT or REST → application, such as BMS, dashboard or database
 
 ### End-Device Classes
 
@@ -286,13 +262,7 @@ Application (BMS, dashboard, database)
 
 ### Remote Meter Reading
 
-```
-Heat/cooling/water meter with LoRa module
-    ↓ Send reading daily
-LoRaWAN gateway (on roof)
-    ↓
-BMS evaluation (consumption analysis, billing)
-```
+Meter with LoRa module sends, for example, once a day → gateway on the roof → network server → BMS for consumption analysis and billing
 
 LoRa replaces physical reading or expensive M-Bus cabling over long distances.
 
@@ -316,7 +286,7 @@ LoRa replaces physical reading or expensive M-Bus cabling over long distances.
 | --------------- | -------------- | ----------- | ---------------- | -------------- |
 | Range           | 1–15 km        | 30 m (mesh) | 30 m             | 10 km          |
 | Battery (years) | 2–10           | 0.5–2       | 2–5              | 1–3            |
-| Data rate       | 0.3–50 kbps    | 250 kbps    | 32 kbps          | 200 kbps       |
+| Data rate       | 0.3–50 kbps    | 250 kbps    | up to 100 kbps   | 200 kbps       |
 | Update rate     | min.–hours     | seconds     | min.             | min.–hours     |
 | Infrastructure  | Gateway needed | Coordinator | Meter            | Mobile network |
 | Operating cost  | Low (TTN free) | Low         | Low              | Ongoing costs  |
@@ -345,9 +315,7 @@ LoRa replaces physical reading or expensive M-Bus cabling over long distances.
 
 **ChirpStack** (open source, on-premise):
 
-```
-End devices → LoRa gateway → ChirpStack Network Server → ChirpStack Application Server → MQTT → BMS
-```
+End devices → LoRa gateway → ChirpStack → MQTT → BMS. Since version 4 ChirpStack combines network and application server in one service.
 
 ## Standards
 
