@@ -1,6 +1,6 @@
 ---
-title: Trinkwasser-Erwärmung — Speicher, Durchfluss, Hygiene
-title_en: Domestic Hot Water Heating — Storage, Instantaneous and Hygiene
+title: Trinkwarmwasser — Speicher, Frischwasserstation, Zirkulation
+title_en: Domestic Hot Water — Cylinder, Fresh-Water Station, Circulation
 slug: trinkwasser-erwaermung
 category: sanitaer
 subcategory: warmwasser
@@ -24,331 +24,149 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, sanitaer, ga]
 related: [legionellen, heizung-grundlagen, waermemengenzaehler, pufferspeicher]
-norm: [DVGW W551, DIN 1988, EN 806, SIA 385/1, ÖNORM B 5019]
-updated: 2026-05-15
+norm: [SIA 385/1, SVGW W3/E3, EN 806, DVGW W 551]
+updated: 2026-10-14
 lang: de
 ---
 
-# Trinkwasser-Erwärmung — Speicher, Durchfluss, Hygiene
+# Trinkwarmwasser — Speicher, Frischwasserstation, Zirkulation
 
-Trinkwarmwasser (TWW) verbindet Komfortanforderungen mit strengen Hygiene-Vorschriften. Temperaturen unter 60 °C im Speicher oder unter 55 °C im Zirkulationssystem führen zu Legionellen-Risiko.
+Trinkwarmwasser verbindet Komfort mit Hygiene. Die Temperaturen sind deshalb nicht Geschmackssache, sondern vorgeschrieben. Welche, steht in [Legionellen](/wissen/legionellen). Hier geht es um die Systeme und ihre Regelung.
 
-## Systemtypen
+## Systeme
 
-### Zentrales Speichersystem
+| System                  | Prinzip                                                                                                     | Eignet sich für                               |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| **Speicher**            | Warmwasser wird auf Vorrat gehalten, über Register oder externen Wärmetauscher geladen                      | Wohnbauten, Hotels, Spitäler                  |
+| **Frischwasserstation** | Heizungswasser aus einem Pufferspeicher erwärmt das Trinkwasser erst beim Zapfen über einen Plattentauscher | Wärmepumpen, Solaranlagen, Mehrfamilienhäuser |
+| **Durchlauferhitzer**   | elektrisch oder mit Gas direkt an der Zapfstelle                                                            | einzelne, entfernte Zapfstellen               |
 
-```
-Wärmerzeuger (Kessel / WP / Fernwärme)
-    ↓ Primärkreis
-Wärmetauscher (Speicher-Ladesystem)
-    ↓
-Warmwasserspeicher (60 °C, oben)
-    ↓
-Zirkulationsleitung (> 55 °C)
-    ↓
-Zapfstellen
-```
+**Frischwasserstationen** und **Durchlauferhitzer** speichern kein Trinkwarmwasser, das ist hygienisch ein Vorteil. Die Leitungen dahinter können aber trotzdem stehendes Warmwasser enthalten. Kurze Leitungen ohne Warmhaltung sind hygienisch unproblematisch, in Deutschland gilt dafür die 3-Liter-Regel, lange brauchen Zirkulation oder Heizband.
 
-- Geeignet für Mehrfamilienhäuser, Hotels, Krankenhäuser
-- Speichervolumen: 30–80 l pro Person (Wohngebäude)
-- Großanlagen: nach DVGW W551 Dimensionierung
+Elektrische Durchlauferhitzer brauchen hohe Anschlussleistungen, für eine Dusche etwa 18 bis 27 kW.
 
-### Durchfluss-Erwärmer (dezentral)
+## Speicherladung
 
-```
-Kaltwasser → Wärmetauscher → Warmwasser sofort
-(kein Speicher, kein Hygieneproblem)
-```
+Der Speicher wird nach Fühler geladen, typischerweise:
 
-- Kein Legionellen-Risiko (kein stehendes Warmwasser)
-- Benötigt hohe Anschlussleistung (Elektro: 18–30 kW für 1 Zapfstelle)
-- Gasdurchlauferhitzer: effizienter, aber CO-Risiko (nur in Küchen/Bad mit Zuluft)
+- **Laden** beginnt, wenn der Fühler oben unter den Sollwert minus Schaltdifferenz fällt.
+- **Laden** endet, wenn der Fühler unten den Sollwert erreicht. So wird der ganze Speicher warm, nicht nur die obere Hälfte.
+- Der **Vorlauf zum Speicher** muss einige Kelvin über dem Speichersollwert liegen, bei 60 °C also etwa 65 bis 70 °C. Für Wärmepumpen ist das anspruchsvoll, siehe unten.
+- Warmwasser hat meist **Vorrang** vor der Heizung, die Heizkreise werden während der Ladung begrenzt.
 
----
+### Wärmepumpe und 60 °C
 
-## Temperaturen und Hygiene
+Viele Wärmepumpen erreichen die 60 °C im Speicher nur mit schlechtem COP oder gar nicht. Seit SIA 385/1:2020 gibt es keine Ausnahme mehr für tiefere Temperaturen. Lösungen:
 
-```
-Kritische Temperaturbereiche:
-  < 20 °C: Legionellen sterben ab (zu kalt zum Wachsen)
-  20–45 °C: Optimales Wachstumsbereich Legionellen!
-  45–60 °C: Legionellen wachsen langsam
-  > 60 °C: Legionellen sterben innerhalb Minuten ab
-  > 70 °C: Sofortige Abtötung
+- Wärmepumpe, die für hohe Vorlauftemperaturen geeignet ist, oder eine Warmwasser-Wärmepumpe
+- Nachheizung der letzten Kelvin elektrisch oder mit einem zweiten Erzeuger
+- Frischwasserstation, deren Puffer warm genug ist
 
-DVGW W551 Anforderungen:
-  Speicher:            ≥ 60 °C (oben gemessen)
-  Zirkulation:         ≥ 55 °C (überall)
-  Zapftemperatur:      ≥ 55 °C nach max. 60 s Fliesszeit
-  Kaltwasser:          ≤ 25 °C (dauerhaft), ≤ 20 °C (empfohlen)
-```
+## Zirkulation
 
----
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Warmwasser mit Zirkulation: Speicher 60 °C, warmgehaltene Leitungen überall mindestens 55 °C, Zapfstellen mindestens 50 °C, Kaltwasser höchstens 25 °C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="20" y="40" width="60" height="140" rx="3" class="bauteil bg"/><path class="vl" d="M80 55L400 55L400 85" stroke-width="3"/><path class="mix" d="M400 85L400 150L80 150" stroke-width="3"/><circle cx="160" cy="150" r="9" class="bauteil bg"/><path d="M164 144L153 150L164 156Z" class="bauteil"/><circle class="vl fill" cx="200" cy="55" r="3"/><path class="vl" d="M200 55L200 22" stroke-width="3"/><circle class="vl fill" cx="280" cy="55" r="3"/><path class="vl" d="M280 55L280 22" stroke-width="3"/><circle class="vl fill" cx="360" cy="55" r="3"/><path class="vl" d="M360 55L360 22" stroke-width="3"/><path class="rl" d="M20 195L50 195L50 180" stroke-width="3"/><path class="vl fill" d="M135 51L145 55L135 59Z" stroke-width="1"/><path class="mix fill" d="M305 146L295 150L305 154Z" stroke-width="1"/><path class="rl fill" d="M30 191L40 195L30 199Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="50" y="113.33333333333333" text-anchor="middle" font-size="10"></text><text x="50" y="105" text-anchor="middle" font-size="11">Speicher</text><text x="50" y="122" text-anchor="middle" font-size="11" font-weight="600">60 °C</text><text x="200" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="280" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="360" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="86" y="199" text-anchor="start" font-size="10.5">Kaltwasser ≤ 25 °C</text><text x="240" y="78" text-anchor="middle" font-size="11" font-weight="600">warmgehalten: überall ≥ 55 °C</text><text x="240" y="140" text-anchor="middle" font-size="10.5">Zirkulation</text><text x="392" y="120" text-anchor="end" font-size="10.5">≥ 55 °C</text><text x="366" y="40" text-anchor="start" font-size="10">≥ 50 °C</text></g></svg><figcaption>Die Zirkulation hält die Verteilleitungen warm. Massgebend ist der Strang mit der tiefsten Temperatur.</figcaption></figure>
 
-## Zirkulationssystem
+Die Zirkulation führt das abgekühlte Wasser zum Speicher zurück, damit die Leitungen überall mindestens 55 °C haben. Darauf kommt es an:
 
-```
-Warmwasserspeicher 60 °C
-    ↓ Vorlauf (60 °C)
-    → Steigetrassen → Stockwerkleitungen → Zapfstellen
-    ← Rücklauf (> 55 °C)
-    ↑ Zirkulationspumpe
+- **Hydraulischer Abgleich der Stränge** mit thermostatischen oder einstellbaren Zirkulationsventilen. Ohne ihn bleiben entfernte Stränge zu kalt.
+- **Dämmung** aller warmgehaltenen Leitungen
+- **Temperatur je Strang messen**, siehe [Legionellen](/wissen/legionellen)
 
-Zirkulationstemperatur sinkt:
-  OK: RL-Temp > 55 °C
-  Nicht OK: RL-Temp < 55 °C → Legionellen-Risiko!
-  → Ursache: Wärmeabgabe durch schlecht isolierte Leitungen
-```
+**Zirkulation abschalten?** In Deutschland erlaubt DVGW W 551 eine Unterbrechung von höchstens 8 Stunden pro Tag in Anlagen mit einwandfreien hygienischen Verhältnissen. Wer in der Schweiz Zeitprogramme einsetzt, muss sicherstellen, dass die 55 °C trotzdem überall eingehalten werden; im Zweifel durchlaufen lassen.
 
-**Regelung Zirkulationspumpe:**
+## Verbrühschutz
 
-```
-Zeitsteuerung:
-  Betrieb: 06:00–23:00 (Nutzungszeiten)
-  Abschaltung: 23:00–06:00 (wenn Leitungen isoliert und kurz)
+60 °C an der Zapfstelle verbrühen innerhalb weniger Sekunden. Geschützt wird **dezentral**: mit Thermostat-Mischbatterien an der Zapfstelle oder einem Mischer vor einer Gruppe von Zapfstellen, mit kurzer Leitung danach.
 
-  ACHTUNG: Bei langen Leitungen → auch nachts gefährdet
-  → Thermischer Betrieb: Pumpe läuft wenn T_RL < 55 °C
+Den ganzen Speicherausgang zentral auf 45 °C herunterzumischen, ist **hygienisch falsch**: Dann liegt das ganze Verteilnetz im Bereich, in dem sich Legionellen vermehren.
 
-Besser: Temperatur-Regelung
-  Wenn T_RL < 56 °C → Pumpe EIN
-  Wenn T_RL > 58 °C → Pumpe AUS (Hysterese)
-```
+## GA-Datenpunkte
 
----
-
-## Thermische Desinfektion
-
-Periodisches Aufheizen zum Abtöten aller Legionellen:
-
-```
-DVGW W551:
-  Grosse Anlagen (> 400 l Speicher oder > 3 l je Leitungsabschnitt):
-    → Wöchentliche thermische Desinfektion
-    → T_Speicher ≥ 70 °C
-    → Alle Zapfstellen 3 min auf ≥ 70 °C durchspülen
-
-Kleine Anlagen:
-  Dauerbetrieb 60 °C (keine periodische Desinfektion nötig)
-```
-
-**GA-Programm thermische Desinfektion:**
-
-```
-Wöchentlich (z.B. Montag 02:00):
-  Speicher-Sollwert: 70 °C
-  Ladung bis T_Speicher_Oben ≥ 70 °C
-  Zirkulation: 100 % (Maximaldurchfluss)
-  Dauer: 30–60 min bei ≥ 70 °C halten
-
-  Nach Abschluss:
-    Rückkehr auf Normal-Sollwert 60 °C
-    Protokollierung: Datum, Zeit, Temperaturverlauf → Compliance
-```
-
----
-
-## Brühschutz / Verbrühschutz
-
-Warmwasser > 60 °C an Zapfstellen ist eine Verbrühungsgefahr:
-
-```
-Lösung: Thermostat-Mischbatterie an Zapfstelle
-  Mischventil 3-Wege: TWW 60 °C + KW → gemischt 45 °C
-
-Oder: Zentrales Mischventil nach Speicher
-  Speicher 60 °C → Mischventil → Verteilung 45 °C
-
-ACHTUNG: Zirkulation muss trotzdem ≥ 55 °C haben
-  → Mischventil nur am Ende der Verteilung, nach Zirkulations-Rücklauf-Anschluss
-```
-
----
-
-## GA-Datenpunkte TWW
-
-| Datenpunkt                 | Typ | Einheit | Beschreibung                 |
-| -------------------------- | --- | ------- | ---------------------------- |
-| TWW-Speicher Temp Oben     | AI  | °C      | Hygiene-Monitoring           |
-| TWW-Speicher Temp Mitte    | AI  | °C      | Ladezustand                  |
-| TWW-Speicher Temp Unten    | AI  | °C      | Kaltzone                     |
-| TWW-Sollwert               | AV  | °C      | Normal 60 °C / Desinf. 70 °C |
-| Zirkulations-RL Temperatur | AI  | °C      | Hygiene-Überwachung          |
-| Zirkulationspumpe          | DO  | —       | EIN/AUS                      |
-| Ladepumpe                  | DO  | —       | EIN/AUS                      |
-| Ladeventil                 | AO  | %       | 0–100 %                      |
-| Desinfektion aktiv         | DV  | —       | Wochenprogramm-Status        |
-| TWW-Zapfvolumen            | AI  | l       | Verbrauchsmessung            |
-
----
+| Datenpunkt                     | Typ     | Einheit | Bemerkung                     |
+| ------------------------------ | ------- | ------- | ----------------------------- |
+| Speicher oben, unten           | AI      | °C      | Ladung, Hygiene               |
+| Speichersollwert               | AV      | °C      | 60 °C                         |
+| Zirkulation Rücklauf je Strang | AI      | °C      | ≥ 55 °C, Alarm                |
+| Kaltwasser Eintritt            | AI      | °C      | ≤ 25 °C                       |
+| Ladepumpe, Ladeventil          | DO / AO | —       |                               |
+| Zirkulationspumpe              | DO      | —       | mit Betriebs- und Störmeldung |
+| Warmwasserzähler               | Zähler  | l, kWh  | Verbrauch, Energie            |
+| Desinfektion aktiv             | BV      | —       | nur bei Sanierung             |
 
 ## Normen
 
-- **DVGW W551** — Trinkwassererwärmungs- und Leitungsanlagen (Legionellenprophylaxe)
-- **DIN 1988** — Technische Regeln für Trinkwasser-Installationen
+- **SIA 385/1:2020** — Anlagen für Trinkwarmwasser in Gebäuden
+- **SVGW W3 mit E3** — Trinkwasserinstallationen, Hygiene
 - **EN 806** — Trinkwasser-Installationen in Gebäuden
-- **SIA 385/1** — Anlagen für Trinkwarmwasser (Schweizer Norm)
-- **ÖNORM B 5019** — Hygienisch einwandfreie Trinkwasser-Erwärmungsanlagen
+- **DVGW W 551, DIN 1988** — Deutschland
 
 <!-- EN -->
 
-## Domestic Hot Water Heating — Storage, Instantaneous and Hygiene
+Domestic hot water combines comfort with hygiene. Its temperatures are therefore not a matter of taste but prescribed; which ones is in [Legionella](/wissen/legionellen). This article covers the systems and their control.
 
-Domestic hot water (DHW) combines comfort requirements with strict hygiene regulations. Temperatures below 60 °C in the storage tank or below 55 °C in the circulation system create a Legionella risk.
+## Systems
 
-## System Types
+| System                   | Principle                                                                                             | Suits                                  |
+| ------------------------ | ----------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| **Cylinder**             | Hot water is kept in stock, charged via a coil or external heat exchanger                             | Residential, hotels, hospitals         |
+| **Fresh-water station**  | Heating water from a buffer tank heats the drinking water only when drawn, via a plate heat exchanger | Heat pumps, solar, apartment buildings |
+| **Instantaneous heater** | electric or gas, directly at the outlet                                                               | single, remote outlets                 |
 
-### Central Storage System
+**Fresh-water stations** and **instantaneous heaters** store no hot drinking water, which is a hygienic advantage. The pipes downstream can still contain standing hot water. Short pipes without warm-keeping are hygienically unproblematic (in Germany the 3-litre rule applies); long ones need circulation or trace heating.
 
-```
-Heat source (boiler / HP / district heat)
-    ↓ Primary circuit
-Heat exchanger (storage loading system)
-    ↓
-DHW storage tank (60 °C, top)
-    ↓
-Circulation pipe (> 55 °C)
-    ↓
-Draw-off points
-```
+Electric instantaneous heaters need high connected loads, about 18 to 27 kW for one shower.
 
-- Suitable for multi-family dwellings, hotels, hospitals
-- Storage volume: 30–80 l per person (residential)
-- Large systems: sized to DVGW W551
+## Cylinder Charging
 
-### Instantaneous Water Heater (decentralised)
+The cylinder is charged by sensor, typically:
 
-```
-Cold water → heat exchanger → hot water immediately
-(no storage, no hygiene problem)
-```
+- **Charging** starts when the top sensor falls below the setpoint minus the differential.
+- **Charging** ends when the bottom sensor reaches the setpoint. That way the whole cylinder gets warm, not just the top half.
+- The **flow to the cylinder** must be a few kelvin above the cylinder setpoint, about 65 to 70 °C for 60 °C. That is demanding for heat pumps, see below.
+- Hot water usually has **priority** over heating; heating circuits are limited during charging.
 
-- No Legionella risk (no standing hot water)
-- Requires high connected load (electric: 18–30 kW for 1 draw-off point)
-- Gas instantaneous heaters: more efficient, but CO risk (only in kitchen/bathroom with supply air)
+### Heat Pumps and 60 °C
 
----
+Many heat pumps reach 60 °C in the cylinder only with a poor COP or not at all. Since SIA 385/1:2020 there is no exception for lower temperatures. Solutions:
 
-## Temperatures and Hygiene
+- a heat pump suitable for high flow temperatures, or a hot water heat pump
+- reheating the last few kelvin electrically or with a second generator
+- a fresh-water station whose buffer is warm enough
 
-```
-Critical temperature ranges:
-  < 20 °C: Legionella die off (too cold to grow)
-  20–45 °C: Optimal Legionella growth range!
-  45–60 °C: Legionella grow slowly
-  > 60 °C: Legionella die within minutes
-  > 70 °C: Instantaneous kill
+## Circulation
 
-DVGW W551 requirements:
-  Storage:             ≥ 60 °C (measured at top)
-  Circulation:         ≥ 55 °C (everywhere)
-  Draw-off temp.:      ≥ 55 °C after max. 60 s flow time
-  Cold water:          ≤ 25 °C (permanent), ≤ 20 °C (recommended)
-```
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Hot water with circulation: cylinder 60 °C, warm-kept pipes at least 55 °C everywhere, outlets at least 50 °C, cold water at most 25 °C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="20" y="40" width="60" height="140" rx="3" class="bauteil bg"/><path class="vl" d="M80 55L400 55L400 85" stroke-width="3"/><path class="mix" d="M400 85L400 150L80 150" stroke-width="3"/><circle cx="160" cy="150" r="9" class="bauteil bg"/><path d="M164 144L153 150L164 156Z" class="bauteil"/><circle class="vl fill" cx="200" cy="55" r="3"/><path class="vl" d="M200 55L200 22" stroke-width="3"/><circle class="vl fill" cx="280" cy="55" r="3"/><path class="vl" d="M280 55L280 22" stroke-width="3"/><circle class="vl fill" cx="360" cy="55" r="3"/><path class="vl" d="M360 55L360 22" stroke-width="3"/><path class="rl" d="M20 195L50 195L50 180" stroke-width="3"/><path class="vl fill" d="M135 51L145 55L135 59Z" stroke-width="1"/><path class="mix fill" d="M305 146L295 150L305 154Z" stroke-width="1"/><path class="rl fill" d="M30 191L40 195L30 199Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="50" y="113.33333333333333" text-anchor="middle" font-size="10"></text><text x="50" y="105" text-anchor="middle" font-size="11">Cylinder</text><text x="50" y="122" text-anchor="middle" font-size="11" font-weight="600">60 °C</text><text x="200" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="280" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="360" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="86" y="199" text-anchor="start" font-size="10.5">Cold water ≤ 25 °C</text><text x="240" y="78" text-anchor="middle" font-size="11" font-weight="600">kept warm: ≥ 55 °C everywhere</text><text x="240" y="140" text-anchor="middle" font-size="10.5">Circulation</text><text x="392" y="120" text-anchor="end" font-size="10.5">≥ 55 °C</text><text x="366" y="40" text-anchor="start" font-size="10">≥ 50 °C</text></g></svg><figcaption>Circulation keeps the distribution pipes warm. The branch with the lowest temperature is decisive.</figcaption></figure>
 
----
+Circulation returns the cooled water to the cylinder so the pipes have at least 55 °C everywhere. What matters:
 
-## Circulation System
+- **Hydraulic balancing of the branches** with thermostatic or adjustable circulation valves. Without it, remote branches stay too cold.
+- **Insulation** of all warm-kept pipes
+- **Measure the temperature per branch**, see [Legionella](/wissen/legionellen)
 
-```
-DHW storage 60 °C
-    ↓ Flow (60 °C)
-    → Risers → Floor distribution → Draw-off points
-    ← Return (> 55 °C)
-    ↑ Circulation pump
-
-Circulation temperature drops:
-  OK: return temp. > 55 °C
-  Not OK: return temp. < 55 °C → Legionella risk!
-  → Cause: heat loss through poorly insulated pipes
-```
-
-**Circulation pump control:**
-
-```
-Time control:
-  Operation: 06:00–23:00 (occupancy hours)
-  Shutdown: 23:00–06:00 (if pipes insulated and short)
-
-  CAUTION: Long pipes → at risk overnight too
-  → Thermal operation: pump runs when T_return < 55 °C
-
-Better: temperature control
-  When T_return < 56 °C → pump ON
-  When T_return > 58 °C → pump OFF (hysteresis)
-```
-
----
-
-## Thermal Disinfection
-
-Periodic heating to kill all Legionella:
-
-```
-DVGW W551:
-  Large systems (> 400 l storage or > 3 l per pipe section):
-    → Weekly thermal disinfection
-    → T_storage ≥ 70 °C
-    → All draw-off points flushed 3 min at ≥ 70 °C
-
-Small systems:
-  Continuous operation at 60 °C (no periodic disinfection required)
-```
-
-**BA programme for thermal disinfection:**
-
-```
-Weekly (e.g. Monday 02:00):
-  Storage setpoint: 70 °C
-  Load until T_storage_top ≥ 70 °C
-  Circulation: 100 % (maximum flow)
-  Duration: hold at ≥ 70 °C for 30–60 min
-
-  After completion:
-    Return to normal setpoint 60 °C
-    Log: date, time, temperature profile → compliance
-```
-
----
+**Switching circulation off?** In Germany, DVGW W 551 allows an interruption of at most 8 hours per day in systems with flawless hygienic conditions. Anyone using time programs in Switzerland must ensure that the 55 °C are still maintained everywhere; when in doubt, let it run.
 
 ## Scald Protection
 
-Hot water > 60 °C at draw-off points is a scalding hazard:
+60 °C at the outlet scalds within a few seconds. Protection is **decentralised**: thermostatic mixing taps at the outlet or a mixer ahead of a group of outlets, with a short pipe after it.
 
-```
-Solution: thermostatic mixing valve at draw-off point
-  3-way mixing valve: DHW 60 °C + CW → mixed 45 °C
+Mixing the whole cylinder outlet down to 45 °C centrally is **hygienically wrong**: the entire distribution network would then lie in the range where Legionella multiply.
 
-Or: central mixing valve after storage
-  Storage 60 °C → mixing valve → distribution 45 °C
+## BA Data Points
 
-CAUTION: Circulation must still maintain ≥ 55 °C
-  → Mixing valve only at end of distribution, after circulation return connection
-```
-
----
-
-## BA Data Points DHW
-
-| Data point              | Type | Unit | Description                       |
-| ----------------------- | ---- | ---- | --------------------------------- |
-| DHW storage temp top    | AI   | °C   | Hygiene monitoring                |
-| DHW storage temp mid    | AI   | °C   | Charge state                      |
-| DHW storage temp bot    | AI   | °C   | Cold zone                         |
-| DHW setpoint            | AV   | °C   | Normal 60 °C / Disinfection 70 °C |
-| Circulation return temp | AI   | °C   | Hygiene monitoring                |
-| Circulation pump        | DO   | —    | ON/OFF                            |
-| Loading pump            | DO   | —    | ON/OFF                            |
-| Loading valve           | AO   | %    | 0–100 %                           |
-| Disinfection active     | DV   | —    | Weekly programme status           |
-| DHW draw-off volume     | AI   | l    | Consumption measurement           |
-
----
+| Data point                    | Type    | Unit   | Remark                     |
+| ----------------------------- | ------- | ------ | -------------------------- |
+| Cylinder top, bottom          | AI      | °C     | charging, hygiene          |
+| Cylinder setpoint             | AV      | °C     | 60 °C                      |
+| Circulation return per branch | AI      | °C     | ≥ 55 °C, alarm             |
+| Cold water inlet              | AI      | °C     | ≤ 25 °C                    |
+| Charging pump, charging valve | DO / AO | —      |                            |
+| Circulation pump              | DO      | —      | with run and fault signals |
+| Hot water meter               | meter   | l, kWh | consumption, energy        |
+| Disinfection active           | BV      | —      | only for remediation       |
 
 ## Standards
 
-- **DVGW W551** — Domestic hot water heating and piping systems (Legionella prevention)
-- **DIN 1988** — Technical rules for drinking water installations
+- **SIA 385/1:2020** — Domestic hot water systems in buildings
+- **SVGW W3 with E3** — Drinking water installations, hygiene
 - **EN 806** — Specifications for installations inside buildings conveying water for human consumption
-- **SIA 385/1** — Domestic hot water installations (Swiss standard)
-- **ÖNORM B 5019** — Hygienic domestic hot water heating systems
+- **DVGW W 551, DIN 1988** — Germany

@@ -24,319 +24,183 @@ tags:
 difficulty: fortgeschritten
 area: [sanitaer, ga, hlk]
 related: [vdi6022, signaltypen, alarmmanagement, trinkwasser-erwaermung]
-norm: [DVGW W 551, VDI 6023, EN 806-5, WHO Guidelines, SWKI BT102-01]
-updated: 2026-05-14
+norm: [SIA 385/1, SVGW W3/E3, BAG/BLV, TBDV, DVGW W 551]
+updated: 2026-10-14
 lang: de
 ---
 
 # Legionellen — Schutz in Trinkwasseranlagen
 
-**Legionellen** (Legionella pneumophila) sind Bakterien die bei 25–45 °C optimal gedeihen und beim Einatmen von Wassernebel (Aerosol) eine schwere Lungenentzündung (Legionellose) verursachen können. In der GA ist der Schutz vor Legionellenwachstum eine Kernaufgabe der Sanitärautomation.
+**Legionellen** sind Bakterien, die sich im warmen Wasser vermehren. Gefährlich werden sie, wenn man sie mit feinen Wassertröpfchen einatmet, etwa beim Duschen. Das kann eine schwere Lungenentzündung auslösen, die Legionärskrankheit. Trinken ist dagegen unbedenklich.
 
-## Wachstumsbedingungen
+Die GA kann viel dazu beitragen, dass sich Legionellen gar nicht erst vermehren: Temperaturen halten, Stagnation vermeiden, beides lückenlos dokumentieren.
 
-| Temperatur | Verhalten                              |
-| ---------- | -------------------------------------- |
-| < 20 °C    | Kein Wachstum (aber Überleben möglich) |
-| 25–45 °C   | **Optimales Wachstum**                 |
-| 50 °C      | Wachstum gestoppt                      |
-| 55 °C      | Absterben (langsam, nach Minuten)      |
-| 60 °C      | Zuverlässiges Absterben                |
-| 70 °C      | Sofortiges Absterben                   |
+## Temperatur
 
-> **Kritische Zone: 25–55 °C** — jeder Warmwasserspeicher oder jede Leitung in diesem Bereich ist ein Risiko.
+| Temperatur  | Legionellen                         |
+| ----------- | ----------------------------------- |
+| unter 20 °C | überleben, vermehren sich aber kaum |
+| 25–45 °C    | **vermehren sich am stärksten**     |
+| ab 50 °C    | Vermehrung hört auf                 |
+| 55 °C       | sterben langsam ab                  |
+| 60 °C       | sterben innerhalb von Minuten ab    |
+| 70 °C       | sterben sehr schnell ab             |
 
-## Übertragungsweg
+Daraus ergeben sich die zwei Grundregeln: **Warmwasser heiss halten, Kaltwasser kalt halten.**
 
-**Nur Aerosol** ist gefährlich — nicht das Trinken von kontaminiertem Wasser:
+## Was in der Schweiz gilt
 
-- Duschen (feinste Tröpfchen)
-- Whirlpool, Jacuzzi
-- Luftbefeuchter (unkontrollierte Wassertemperatur!)
-- Kühltürme (Verdunstungskühlung)
-- Wasserhähne mit Perlator (Aerosolbildung)
+Nach SIA 385/1:2020, der SVGW-Richtlinie W3 mit Ergänzung E3 und den Empfehlungen von BAG und BLV:
 
-## Schutzmassnahmen nach DVGW W 551
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Warmwasser mit Zirkulation: Speicher 60 °C, warmgehaltene Leitungen überall mindestens 55 °C, Zapfstellen mindestens 50 °C, Kaltwasser höchstens 25 °C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="20" y="40" width="60" height="140" rx="3" class="bauteil bg"/><path class="vl" d="M80 55L400 55L400 85" stroke-width="3"/><path class="mix" d="M400 85L400 150L80 150" stroke-width="3"/><circle cx="160" cy="150" r="9" class="bauteil bg"/><path d="M164 144L153 150L164 156Z" class="bauteil"/><circle class="vl fill" cx="200" cy="55" r="3"/><path class="vl" d="M200 55L200 22" stroke-width="3"/><circle class="vl fill" cx="280" cy="55" r="3"/><path class="vl" d="M280 55L280 22" stroke-width="3"/><circle class="vl fill" cx="360" cy="55" r="3"/><path class="vl" d="M360 55L360 22" stroke-width="3"/><path class="rl" d="M20 195L50 195L50 180" stroke-width="3"/><path class="vl fill" d="M135 51L145 55L135 59Z" stroke-width="1"/><path class="mix fill" d="M305 146L295 150L305 154Z" stroke-width="1"/><path class="rl fill" d="M30 191L40 195L30 199Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="50" y="113.33333333333333" text-anchor="middle" font-size="10"></text><text x="50" y="105" text-anchor="middle" font-size="11">Speicher</text><text x="50" y="122" text-anchor="middle" font-size="11" font-weight="600">60 °C</text><text x="200" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="280" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="360" y="16" text-anchor="middle" font-size="10">Zapfstelle</text><text x="86" y="199" text-anchor="start" font-size="10.5">Kaltwasser ≤ 25 °C</text><text x="240" y="78" text-anchor="middle" font-size="11" font-weight="600">warmgehalten: überall ≥ 55 °C</text><text x="240" y="140" text-anchor="middle" font-size="10.5">Zirkulation</text><text x="392" y="120" text-anchor="end" font-size="10.5">≥ 55 °C</text><text x="366" y="40" text-anchor="start" font-size="10">≥ 50 °C</text></g></svg><figcaption>Warmwasser mit warmgehaltenen Leitungen: die 55 °C gelten an jedem Punkt, auch im entferntesten Strang.</figcaption></figure>
 
-### Warmwasser-Speicher
+| Ort                                      | Mit warmgehaltenen Leitungen | Ohne warmgehaltene Leitungen |
+| ---------------------------------------- | ---------------------------- | ---------------------------- |
+| Speicher oder Frischwasserstation        | 60 °C (W3/E3, BAG/BLV)       | 55 °C                        |
+| Warmgehaltene Leitungen, **jeder Punkt** | **mindestens 55 °C**         | —                            |
+| Entnahmestelle                           | 50 °C                        | 50 °C                        |
+| Kaltwasser                               | höchstens 25 °C              | höchstens 25 °C              |
 
-| Kriterium            | Anforderung                         |
-| -------------------- | ----------------------------------- |
-| Speichertemperatur   | **≥ 60 °C** dauerhaft               |
-| Vorlauftemperatur    | ≥ 60 °C                             |
-| Zirkulationsrücklauf | ≥ 55 °C (am kältesten Punkt!)       |
-| Max. Abkühlzeit      | Kein Bereich unter 55 °C nach 5 min |
+Warmgehalten heisst: mit Zirkulation oder Heizband. Die SIA 385/1:2020 kennt **keine Ausnahme mehr** für tiefere Temperaturen, etwa bei Wärmepumpen. Früher wurde eine tägliche Aufheizung auf 60 °C während einer Stunde als ausreichend betrachtet, diese Regel gibt es nicht mehr.
 
-### Zirkulationssystem
+In Deutschland gelten nach DVGW W 551 vergleichbare Werte: 60 °C am Speicheraustritt und höchstens 5 K Abfall in der Zirkulation.
 
-```
-Speicher (≥60°C) → Vorlauf → Strang 1 → Strang 2 → Strang N
-                              ↓           ↓           ↓
-                           Zapfstelle  Zapfstelle  Zapfstelle
-                              ↑           ↑           ↑
-Rücklauf (≥55°C) ←───────────────────────────────────
-```
+## Wo die Gefahr entsteht
 
-Die Zirkulationspumpe muss laufen bis jeder Punkt im System ≥ 55 °C erreicht.
+- **Zu tiefe Temperaturen:** Speicher zu kalt eingestellt, ein Zirkulationsstrang ohne Abgleich, schlecht gedämmte Leitungen
+- **Stagnation:** wenig genutzte Zapfstellen (Gäste-WC, leere Hotelzimmer), tote Leitungsenden nach Umbauten
+- **Warmes Kaltwasser:** Kaltwasserleitungen neben Warmwasser- oder Heizungsleitungen, in warmen Schächten
+- **Aerosole:** Duschen, Whirlpools, Luftbefeuchter, Kühltürme
 
-**Messung:** Rücklauftemperatur kontrollieren — wenn Rücklauf < 55 °C: Stagnation oder unzureichende Dämmung.
+## Was die GA tun kann
 
-### Kaltwasser
+### Temperaturen überwachen
 
-| Kriterium            | Anforderung                                 |
-| -------------------- | ------------------------------------------- |
-| Kaltwassertemperatur | **≤ 25 °C** (dauerhaft < 20 °C optimal)     |
-| Kein Kontakt mit WW  | Leitungsführung getrennt                    |
-| Keine Stagnation     | Wenig genutzte Leitungen regelmässig spülen |
+| Messstelle                      | Soll    | Alarm (Beispiel)   |
+| ------------------------------- | ------- | ------------------ |
+| Speicher oben bzw. Austritt     | 60 °C   | unter 58 °C        |
+| Zirkulation, Rücklauf je Strang | ≥ 55 °C | unter 55 °C        |
+| Kaltwasser Eintritt             | ≤ 25 °C | Warnung über 22 °C |
 
-> ⚠️ In schlecht gedämmten Gebäuden erwärmt sich Kaltwasser durch benachbarte Warmwasserleitungen auf > 25 °C — Legionellengefahr!
+Ein Fühler **je Zirkulationsstrang** ist ideal: Unterschreitet ein einzelner Strang die 55 °C, fehlt meist der hydraulische Abgleich.
 
-## Thermische Desinfektion
+### Stagnation vermeiden
 
-Einmalige oder periodische Erhitzung des gesamten Systems auf **≥ 70 °C** an jedem Punkt:
+Wenig genutzte Zapfstellen lassen sich mit **Spülventilen** automatisch spülen. Die GA öffnet sie nach Zeitplan oder wenn eine Zapfstelle zu lange nicht benutzt wurde, prüft die erreichte Temperatur und protokolliert. Tote Leitungsenden gehören zurückgebaut, nicht gespült.
 
-### Ablauf
+### Thermische Desinfektion
 
-1. Speicher auf 70–75 °C aufheizen (1–2 Stunden)
-2. Jeden Zapfhahn einzeln öffnen bis 70 °C fliesst (mind. 3 Minuten)
-3. Protokollierung: Datum, Uhrzeit, Punkt, Temperatur, Dauer
-4. Systemtemperatur wieder auf Normalbetrieb zurücksetzen
+Ist eine Anlage belastet, kann sie thermisch desinfiziert werden: Speicher und Leitungen auf **mindestens 70 °C**, jede Entnahmestelle mehrere Minuten mit dieser Temperatur spülen. Das ist eine **Sanierungsmassnahme**, kein Normalbetrieb. Sie verkalkt die Anlage, kostet Energie, und es besteht Verbrühungsgefahr. Durchführen nach Rücksprache mit dem Sanitärplaner und mit abgesperrten oder bewachten Zapfstellen.
 
-### GA-Automatisierung
+Die GA unterstützt mit einem Programm, das den Speicher hochfährt, die Zirkulationspumpe laufen lässt, die Temperaturen an allen Fühlern aufzeichnet und alarmiert, wenn ein Punkt die Temperatur nicht erreicht.
 
-```
-Wochenprogramm:
-  Mo–Fr: Zirkulation aktiv (7–22 Uhr), WW-Speicher 60 °C
-  Tägl. 22:00: Thermische Desinfektion
-    → Speicher auf 70 °C
-    → Zirkulation Vollast
-    → 1 h halten
-    → Rücklauftemperatur ≥ 65 °C? → OK
-    → Alarm wenn nicht erreicht
-```
+## Dokumentation
 
-**Tipp:** Thermische Desinfektion über Nacht automatisieren. Tageszeit wählen wenn Anlage nicht in Benutzung (Verbrühungsschutz beachten!).
+Betreiber müssen nachweisen können, dass ihre Anlage hygienisch betrieben wird, besonders bei öffentlichen Duschen, Hotels, Spitälern und Heimen. Die Trinkwasserverordnung (TBDV) legt einen Höchstwert für Legionellen im Duschwasser fest. Die GA liefert:
 
-## Stagnationsproblematik
+- Temperaturverläufe von Speicher und Zirkulation
+- Protokolle von Spülungen und Desinfektionen
+- Alarmhistorie
 
-**Stagnation** = stehendes Wasser → Brutstätte für Legionellen:
+## Risikogruppen und Risikoobjekte
 
-- Selten genutzte Leitungen (Gäste-WC, Ferienanlagen)
-- Leitungsenden (blind ends)
-- Leitungen nach Umbau still gelegt aber nicht entfernt
+- Spitäler, Alters- und Pflegeheime: immungeschwächte Personen
+- Hotels: viele zeitweise leere Zimmer
+- Sportanlagen: viele Duschen, Whirlpools
+- Grosse Wohnüberbauungen: lange Leitungswege
 
-### Massnahmen gegen Stagnation
+## Normen und Grundlagen
 
-| Massnahme                  | Beschreibung                                       |
-| -------------------------- | -------------------------------------------------- |
-| **Spülprogramme**          | Automatisch wenig genutzte Zapfstellen spülen      |
-| **Zirkulation überprüfen** | Alle Stränge müssen Rücklauftemperatur erreichen   |
-| **Totstücke entfernen**    | Nicht genutzte Leitungsenden physisch trennen      |
-| **Temperaturüberwachung**  | Mehrere Fühler im System → Alarm wenn < 55 °C (WW) |
-
-## Spülprogramm in der GA
-
-Beispiel für automatisches Spülen von Seltennutzungs-Zapfstellen:
-
-```
-Täglich 06:00:
-  Für jeden gesteuerten Zapfhahn:
-    1. Magnetventil öffnen
-    2. Durchfluss kontrollieren (DI vom Durchflusssensor)
-    3. Temperatur ≥ 55 °C warten (max. 3 min)
-    4. Wenn 55 °C erreicht: 60 s spülen
-    5. Ventil schliessen
-    6. Protokoll: Datum, Punkt, Temperatur, OK/NOK
-    7. Alarm wenn Temperatur nicht erreicht
-```
-
-## Messstellen für GA
-
-| Messstelle           | Sensor | Grenzwert | Alarm                |
-| -------------------- | ------ | --------- | -------------------- |
-| Speicher Warmwasser  | PT1000 | ≥ 60 °C   | Alarm wenn < 58 °C   |
-| Zirkulation Rücklauf | PT1000 | ≥ 55 °C   | Alarm wenn < 53 °C   |
-| Kaltwassereintritt   | PT1000 | ≤ 25 °C   | Warnung wenn > 22 °C |
-| Vorlauf jeder Strang | PT1000 | ≥ 55 °C   | optional             |
-
-## Dokumentationspflicht
-
-In vielen Ländern gesetzlich vorgeschrieben (CH: SWKI BT102-01):
-
-- **Temperaturbuch:** täglich Speicher- und Zirkulationstemperaturen
-- **Desinfektionsprotokoll:** Datum, Umfang, Messwerte
-- **Wasseruntersuchungen:** je nach Anlagengrösse (Probenentnahme + Labor)
-- **Wartungsberichte:** Filter, Wasserbehandlung, Armaturen
-
-> Für gewerbliche Anlagen (Hotels, Spitäler, Sportanlagen) sind regelmässige Untersuchungen gesetzlich Pflicht. Die GA hilft diese Dokumentation zu automatisieren.
-
-## Besondere Risikogruppen
-
-- Hotels (viele selten genutzte Zimmer, wechselnde Belegung)
-- Krankenhäuser / Altersheime (immungeschwächte Personen)
-- Sportzentren (Duschen, Whirlpools)
-- Grosse Wohnüberbauungen (lange Leitungswege)
-
-## Normen
-
-- **DVGW W 551** (DE) — Trinkwassererwärmungs- und Leitungsanlagen, Technische Massnahmen zur Verminderung des Legionellenwachstums
-- **VDI 6023** — Hygiene in Trinkwasser-Installationen
-- **EN 806-5** — Spülen, Desinfektion, Inbetriebnahme
-- **SWKI BT102-01** (CH) — Hygiene von Raumlufttechnischen Anlagen (auch WW-Hygiene)
-- **WHO Guidelines for Drinking Water Quality** — internationale Referenz
+- **SIA 385/1:2020** — Anlagen für Trinkwarmwasser in Gebäuden
+- **SVGW W3 mit E3** — Richtlinie für Trinkwasserinstallationen, Hygiene
+- **BAG/BLV** — Legionellen und Legionellose, Empfehlungen (Module)
+- **TBDV** — Trinkwasser-, Bade- und Duschwasserverordnung (CH)
+- **DVGW W 551 / VDI 6023** — Deutschland
 
 <!-- EN -->
 
-**Legionella** (Legionella pneumophila) are bacteria that thrive optimally at 25–45 °C and can cause severe pneumonia (Legionnaires' disease) when water droplets (aerosol) are inhaled. In BA, protection against Legionella growth is a core task of sanitary automation.
+**Legionella** are bacteria that multiply in warm water. They become dangerous when inhaled with fine water droplets, for example in the shower. This can cause severe pneumonia, Legionnaires' disease. Drinking the water, by contrast, is harmless.
 
-## Growth Conditions
+BA can do a lot to stop Legionella from multiplying in the first place: maintain temperatures, avoid stagnation, document both without gaps.
 
-| Temperature | Behaviour                         |
-| ----------- | --------------------------------- |
-| < 20 °C     | No growth (but survival possible) |
-| 25–45 °C    | **Optimal growth**                |
-| 50 °C       | Growth stopped                    |
-| 55 °C       | Die-off (slowly, after minutes)   |
-| 60 °C       | Reliable die-off                  |
-| 70 °C       | Immediate die-off                 |
+## Temperature
 
-> **Critical zone: 25–55 °C** — any hot water storage or pipework in this range is a risk.
+| Temperature | Legionella                  |
+| ----------- | --------------------------- |
+| below 20 °C | survive but hardly multiply |
+| 25–45 °C    | **multiply fastest**        |
+| from 50 °C  | multiplication stops        |
+| 55 °C       | die slowly                  |
+| 60 °C       | die within minutes          |
+| 70 °C       | die very quickly            |
 
-## Transmission Route
+This gives the two basic rules: **keep hot water hot, keep cold water cold.**
 
-**Only aerosol** is hazardous — not drinking contaminated water:
+## What Applies in Switzerland
 
-- Showering (fine droplets)
-- Whirlpool, Jacuzzi
-- Humidifiers (uncontrolled water temperature!)
-- Cooling towers (evaporative cooling)
-- Tap aerators (aerosol formation)
+Per SIA 385/1:2020, SVGW guideline W3 with supplement E3 and the recommendations of BAG and BLV:
 
-## Protective Measures per DVGW W 551
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 215" role="img" aria-label="Hot water with circulation: cylinder 60 °C, warm-kept pipes at least 55 °C everywhere, outlets at least 50 °C, cold water at most 25 °C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="20" y="40" width="60" height="140" rx="3" class="bauteil bg"/><path class="vl" d="M80 55L400 55L400 85" stroke-width="3"/><path class="mix" d="M400 85L400 150L80 150" stroke-width="3"/><circle cx="160" cy="150" r="9" class="bauteil bg"/><path d="M164 144L153 150L164 156Z" class="bauteil"/><circle class="vl fill" cx="200" cy="55" r="3"/><path class="vl" d="M200 55L200 22" stroke-width="3"/><circle class="vl fill" cx="280" cy="55" r="3"/><path class="vl" d="M280 55L280 22" stroke-width="3"/><circle class="vl fill" cx="360" cy="55" r="3"/><path class="vl" d="M360 55L360 22" stroke-width="3"/><path class="rl" d="M20 195L50 195L50 180" stroke-width="3"/><path class="vl fill" d="M135 51L145 55L135 59Z" stroke-width="1"/><path class="mix fill" d="M305 146L295 150L305 154Z" stroke-width="1"/><path class="rl fill" d="M30 191L40 195L30 199Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="50" y="113.33333333333333" text-anchor="middle" font-size="10"></text><text x="50" y="105" text-anchor="middle" font-size="11">Cylinder</text><text x="50" y="122" text-anchor="middle" font-size="11" font-weight="600">60 °C</text><text x="200" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="280" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="360" y="16" text-anchor="middle" font-size="10">Outlet</text><text x="86" y="199" text-anchor="start" font-size="10.5">Cold water ≤ 25 °C</text><text x="240" y="78" text-anchor="middle" font-size="11" font-weight="600">kept warm: ≥ 55 °C everywhere</text><text x="240" y="140" text-anchor="middle" font-size="10.5">Circulation</text><text x="392" y="120" text-anchor="end" font-size="10.5">≥ 55 °C</text><text x="366" y="40" text-anchor="start" font-size="10">≥ 50 °C</text></g></svg><figcaption>Hot water with warm-kept pipes: the 55 °C apply at every point, even in the most remote branch.</figcaption></figure>
 
-### Hot Water Storage
+| Location                         | With warm-kept pipes   | Without warm-kept pipes |
+| -------------------------------- | ---------------------- | ----------------------- |
+| Cylinder or fresh-water station  | 60 °C (W3/E3, BAG/BLV) | 55 °C                   |
+| Warm-kept pipes, **every point** | **at least 55 °C**     | —                       |
+| Outlet                           | 50 °C                  | 50 °C                   |
+| Cold water                       | at most 25 °C          | at most 25 °C           |
 
-| Criterion           | Requirement                     |
-| ------------------- | ------------------------------- |
-| Storage temperature | **≥ 60 °C** continuously        |
-| Supply temperature  | ≥ 60 °C                         |
-| Circulation return  | ≥ 55 °C (at the coldest point!) |
-| Max. cool-down time | No area below 55 °C after 5 min |
+Warm-kept means: with circulation or trace heating. SIA 385/1:2020 **no longer allows exceptions** for lower temperatures, for example with heat pumps. A daily heat-up to 60 °C for one hour used to be considered sufficient; that rule no longer exists.
 
-### Circulation System
+In Germany, DVGW W 551 sets comparable values: 60 °C at the cylinder outlet and at most 5 K drop in the circulation.
 
-```
-Storage (≥60 °C) → supply → riser 1 → riser 2 → riser N
-                              ↓           ↓           ↓
-                           Draw-off    Draw-off    Draw-off
-                              ↑           ↑           ↑
-Return (≥55 °C) ←───────────────────────────────────
-```
+## Where the Risk Arises
 
-The circulation pump must run until every point in the system reaches ≥ 55 °C.
+- **Temperatures too low:** cylinder set too cold, a circulation branch without balancing, poorly insulated pipes
+- **Stagnation:** rarely used outlets (guest toilet, empty hotel rooms), dead pipe ends after alterations
+- **Warm cold water:** cold water pipes next to hot water or heating pipes, in warm shafts
+- **Aerosols:** showers, whirlpools, humidifiers, cooling towers
 
-**Measurement:** Monitor return temperature — if return < 55 °C: stagnation or insufficient insulation.
+## What BA Can Do
 
-### Cold Water
+### Monitor Temperatures
 
-| Criterion              | Requirement                                |
-| ---------------------- | ------------------------------------------ |
-| Cold water temperature | **≤ 25 °C** (continuously < 20 °C optimal) |
-| No contact with HW     | Separate pipe routing                      |
-| No stagnation          | Flush infrequently used pipework regularly |
+| Measuring point               | Target  | Alarm (example)     |
+| ----------------------------- | ------- | ------------------- |
+| Cylinder top or outlet        | 60 °C   | below 58 °C         |
+| Circulation return per branch | ≥ 55 °C | below 55 °C         |
+| Cold water inlet              | ≤ 25 °C | warning above 22 °C |
 
-> ⚠️ In poorly insulated buildings, cold water is warmed above 25 °C by adjacent hot water pipes — Legionella risk!
+One sensor **per circulation branch** is ideal: if a single branch falls below 55 °C, hydraulic balancing is usually missing.
 
-## Thermal Disinfection
+### Avoid Stagnation
 
-Single or periodic heating of the entire system to **≥ 70 °C** at every point:
+Rarely used outlets can be flushed automatically with **flushing valves**. The BA opens them on a schedule or when an outlet has not been used for too long, checks the temperature reached and records it. Dead pipe ends should be removed, not flushed.
 
-### Procedure
+### Thermal Disinfection
 
-1. Heat storage to 70–75 °C (1–2 hours)
-2. Open each draw-off point individually until 70 °C flows (minimum 3 minutes)
-3. Record: date, time, point, temperature, duration
-4. Return system temperature to normal operation
+If a system is contaminated, it can be thermally disinfected: cylinder and pipes to **at least 70 °C**, every outlet flushed at this temperature for several minutes. This is a **remediation measure**, not normal operation. It causes scaling, costs energy and carries a scalding risk. Carry it out after consulting the plumbing designer and with outlets closed off or supervised.
 
-### BA Automation
+The BA supports it with a program that raises the cylinder, runs the circulation pump, records the temperatures at all sensors and raises an alarm if a point does not reach the temperature.
 
-```
-Weekly programme:
-  Mon–Fri: circulation active (07:00–22:00), HW storage 60 °C
-  Daily 22:00: thermal disinfection
-    → Storage to 70 °C
-    → Circulation full load
-    → Hold 1 h
-    → Return temperature ≥ 65 °C? → OK
-    → Alarm if not reached
-```
+## Documentation
 
-**Tip:** Automate thermal disinfection overnight. Choose a time when the system is not in use (observe scalding protection!).
+Operators must be able to show that their system is run hygienically, especially for public showers, hotels, hospitals and care homes. The Swiss drinking water ordinance (TBDV) sets a maximum value for Legionella in shower water. The BA supplies:
 
-## Stagnation Problem
+- temperature trends of cylinder and circulation
+- records of flushing and disinfection
+- alarm history
 
-**Stagnation** = standing water → breeding ground for Legionella:
+## Risk Groups and Risk Buildings
 
-- Infrequently used pipework (guest WC, holiday facilities)
-- Dead ends (blind ends)
-- Pipework decommissioned after renovation but not removed
+- Hospitals, nursing and care homes: immunocompromised people
+- Hotels: many temporarily empty rooms
+- Sports facilities: many showers, whirlpools
+- Large residential complexes: long pipe runs
 
-### Measures Against Stagnation
+## Standards and Guidance
 
-| Measure                    | Description                                           |
-| -------------------------- | ----------------------------------------------------- |
-| **Flushing programmes**    | Automatically flush infrequently used draw-off points |
-| **Circulation check**      | All risers must reach return temperature              |
-| **Remove dead legs**       | Physically disconnect unused pipe ends                |
-| **Temperature monitoring** | Multiple sensors in system → alarm if < 55 °C (HW)    |
-
-## Flushing Programme in BA
-
-Example of automatic flushing for infrequently used draw-off points:
-
-```
-Daily 06:00:
-  For each controlled tap:
-    1. Open solenoid valve
-    2. Check flow (DI from flow sensor)
-    3. Wait for temperature ≥ 55 °C (max. 3 min)
-    4. If 55 °C reached: flush for 60 s
-    5. Close valve
-    6. Record: date, point, temperature, OK/NOK
-    7. Alarm if temperature not reached
-```
-
-## Measuring Points for BA
-
-| Measuring point    | Sensor | Limit value | Alarm              |
-| ------------------ | ------ | ----------- | ------------------ |
-| Hot water storage  | PT1000 | ≥ 60 °C     | Alarm if < 58 °C   |
-| Circulation return | PT1000 | ≥ 55 °C     | Alarm if < 53 °C   |
-| Cold water inlet   | PT1000 | ≤ 25 °C     | Warning if > 22 °C |
-| Supply each riser  | PT1000 | ≥ 55 °C     | optional           |
-
-## Documentation Requirements
-
-Legally required in many countries (CH: SWKI BT102-01):
-
-- **Temperature log:** daily storage and circulation temperatures
-- **Disinfection record:** date, scope, measured values
-- **Water testing:** depending on system size (sampling + laboratory)
-- **Maintenance reports:** filters, water treatment, fittings
-
-> For commercial installations (hotels, hospitals, sports facilities), regular testing is a legal obligation. BA helps automate this documentation.
-
-## Particularly At-Risk Groups
-
-- Hotels (many infrequently used rooms, changing occupancy)
-- Hospitals / care homes (immunocompromised persons)
-- Sports centres (showers, whirlpools)
-- Large residential complexes (long pipe runs)
-
-## Standards
-
-- **DVGW W 551** (DE) — Drinking water heating and piping systems, technical measures to reduce Legionella growth
-- **VDI 6023** — Hygiene in drinking water installations
-- **EN 806-5** — Flushing, disinfection, commissioning
-- **SWKI BT102-01** (CH) — Hygiene of ventilation systems (also hot water hygiene)
-- **WHO Guidelines for Drinking Water Quality** — international reference
+- **SIA 385/1:2020** — Domestic hot water systems in buildings
+- **SVGW W3 with E3** — Guideline for drinking water installations, hygiene
+- **BAG/BLV** — Legionella and legionellosis, recommendations (modules)
+- **TBDV** — Swiss ordinance on drinking, bathing and shower water
+- **DVGW W 551 / VDI 6023** — Germany
