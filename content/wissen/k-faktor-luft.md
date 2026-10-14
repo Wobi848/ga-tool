@@ -51,7 +51,7 @@ Der Hersteller **misst** seine Box/Düse durch und packt α, A und die Norm-Dich
 | Drall-Auslass       | 15 – 80   | je nach Bauart und Grösse          |
 | Messblende ISO 5167 | berechnet | aus Beta-Verhältnis + Δp-Anschluss |
 
-> **Wichtig:** Diese Werte sind nur Hausnummern. **Der reale k steht im Datenblatt** der konkreten Box oder wird beim Hydraulischen Abgleich vor Ort ermittelt.
+> **Wichtig:** Diese Werte sind nur Hausnummern. **Der reale k steht im Datenblatt** der konkreten Box oder wird bei der Einregulierung vor Ort ermittelt.
 
 ## Wofür der Rechner nützlich ist
 
@@ -76,7 +76,6 @@ Der Hersteller-k gilt für **Norm-Luft** (20 °C, 1.013 bar, ρ ≈ 1.204 kg/m³
 | Aussenluft im Winter (−15 °C)            | Eher ja — Fehler ~6 %      |
 | Heisse Abluft (Küche, Industrie, 60 °C+) | **Ja**                     |
 | Höhenlage (Berghütte > 1500 m)           | **Ja** — ρ deutlich tiefer |
-| RLT-Klasse Reinraum mit Über-/Unterdruck | **Ja**                     |
 
 Im Rechner ist die Dichtekorrektur als optionaler Toggle aktivierbar.
 
@@ -102,7 +101,7 @@ Bei sehr kleinen ΔP (< 5 Pa) wird das Verhältnis Signal/Rauschen schlecht — 
 
 - **Filterzeit am AI-Objekt** auf 5–15 s setzen (siehe [Polynom-Approximation](/wissen/polynom-approximation) für ähnliche Hinweise bei Sensoren)
 - **Minimale ΔP-Schwelle** im Code: unter z.B. 2 Pa Q auf 0 setzen (Box ist eh quasi zu)
-- **Klappenposition mitloggen** — bei 0 % Klappe + ΔP > 0 ist meist die Box undicht oder Vor-/Rücklauf vertauscht
+- **Klappenposition mitloggen** — bei 0 % Klappe + ΔP > 0 ist meist die Klappe undicht oder die Messleitungen Plus/Minus sind vertauscht
 
 ## Verwandt
 
@@ -184,7 +183,6 @@ The manufacturer's k applies to **standard air** (20 °C, 1.013 bar, ρ ≈ 1.20
 | Outdoor air in winter (−15 °C)              | Probably — error ~6 %      |
 | Hot exhaust air (kitchen, industry, 60 °C+) | **Yes**                    |
 | Altitude (mountain lodge > 1500 m)          | **Yes** — ρ markedly lower |
-| Cleanroom AHU with over- or under-pressure  | **Yes**                    |
 
 The calculator offers density correction as an optional toggle.
 

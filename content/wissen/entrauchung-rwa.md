@@ -39,13 +39,7 @@ Rauchabzugsanlagen (RWA = Rauch- und Wärmeabzugsanlagen) sind sicherheitskritis
 
 ### Natürliche RWA (NRWA)
 
-```
-Wärme → Rauch steigt auf → Auftriebskraft
-    ↓
-Rauchklappen im Dach / obere Wandbereiche öffnen
-    ↓
-Rauch strömt aus → Frischluft strömt unten nach
-```
+Heisser Rauch steigt durch seinen Auftrieb nach oben. Öffnungen im Dach oder oben in der Wand lassen ihn hinaus, unten strömt frische Luft nach.
 
 - Keine elektrische Energie für Entrauchung nötig (wichtig bei Ausfall)
 - Rauchklappen: pneumatisch (CO₂-Patrone) oder elektrisch ausgelöst
@@ -53,10 +47,7 @@ Rauch strömt aus → Frischluft strömt unten nach
 
 ### Maschinelle RWA (MRWA)
 
-```
-Ventilator saugt Rauch ab → Abluft nach aussen
-Gleichzeitig: Zuluft durch separate Anlage oder Öffnungen
-```
+Ventilatoren saugen den Rauch ab und fördern ihn ins Freie. Gleichzeitig muss Luft nachströmen, über Öffnungen oder eine eigene Zuluftanlage.
 
 - Für unterirdische Parkgaragen, Tunnel, Grossräume ohne Oberlicht
 - Leistungsstarke Ventilatoren (Hochtemperatur-Ventilatoren 300 °C / 1 h oder 400 °C / 2 h)
@@ -79,36 +70,26 @@ Gleichzeitig: Zuluft durch separate Anlage oder Öffnungen
 
 ## Auslösung und Steuerungslogik
 
-```
-Brandmeldezentrale (BMZ) → RWA-Zentrale
-    ↓ Meldergruppe auslöst
-    ↓
-RWA-Zentrale:
-  1. Rauchklappen in Brandabschnitt ÖFFNEN
-  2. Brandschutzklappen in Abschnitt SCHLIESSEN
-  3. Lüftungsanlage ABSCHALTEN (oder Umschaltung auf Entrauchung)
-  4. Meldung an GLT (Störung / Betriebsart "Brand")
-  5. Meldung an BMA (für Feuerwehr-Tableau)
-```
+Die **Brandmeldeanlage** löst aus und meldet an die **RWA-Steuerung**. Diese führt für den betroffenen Abschnitt aus:
+
+1. Rauchabzugsöffnungen und Nachströmöffnungen **öffnen**
+2. Brandschutzklappen **schliessen**
+3. Lüftungsanlage **abschalten** oder in den Entrauchungsbetrieb umschalten, je nach Brandschutzkonzept
+4. Zustand an die GLT melden
+5. Zustand an die Brandmeldeanlage bzw. das Feuerwehrbedienfeld melden
 
 **Priorität:** RWA-Zentrale hat **absoluten Vorrang** vor GA/GLT. Lüftungsregler darf RWA-Signal nicht überschreiben.
 
 ### Verriegelung mit Lüftungsanlage
 
-```
-Normal-Betrieb Lüftung:
-  RLT läuft normal, BSK offen
+Bei einem Brandsignal empfängt die DDC einen Eingang «Brand aktiv» und führt aus, was das **Brandschutzkonzept** verlangt, typisch:
 
-Brand-Auslösung:
-  RWA-Signal → DDC empfängt DI "Brand aktiv"
-    → Zuluft-Klappen SCHLIESSEN
-    → Umluft SPERREN (kein Rauchkreislauf)
-    → Lüftungs-FU auf 0 (Abschaltung)
-    → Entrauchungsventilator STARTEN (wenn vorhanden)
+- Aussen- und Zuluftklappen schliessen
+- Umluft sperren, damit kein Rauch verteilt wird
+- Lüftungsventilatoren aus
+- Entrauchungsventilator starten, wenn vorhanden
 
-  AUSNAHME: Überdruckanlagen Treppenhaus
-    → Zuluft-Ventilator WEITERLÄUFT (hält Überdruck aufrecht)
-```
+**Ausnahme Überdruckanlagen** in Treppenhäusern: Deren Zuluftventilator läuft gerade im Brandfall, er hält den Überdruck.
 
 ---
 
@@ -116,15 +97,7 @@ Brand-Auslösung:
 
 Grosse Gebäude werden in **Rauchabschnitte (Zonen)** unterteilt:
 
-```
-Zone 1: EG West
-Zone 2: EG Ost
-Zone 3: OG West
-Zone 4: Parkgarage
-
-Auslösung: Nur betroffene Zone entraucht
-Andere Zonen: bleiben im Normalbetrieb (Verhinderung Rauchausbreitung)
-```
+Grosse Gebäude sind in **Rauchabschnitte** unterteilt, zum Beispiel EG West, EG Ost, OG West, Einstellhalle. Entraucht wird nur der betroffene Abschnitt, die anderen bleiben im Normalbetrieb oder werden gegen Raucheintritt geschützt.
 
 **Handauslösetaster je Zone** — Feuerwehr kann gezielt Zonen auslösen.
 
@@ -150,29 +123,24 @@ Andere Zonen: bleiben im Normalbetrieb (Verhinderung Rauchausbreitung)
 
 Fluchtwege (Treppenhäuser) werden unter **Überdruck** gehalten, damit kein Rauch eindringt:
 
-```
-Treppenhaus-Überdruckanlage:
-  Sollwert: 50 Pa Überdruck gegenüber Brandabschnitt
-  Ventilator: Zuluft von aussen → Treppenhaus
-  Regelung: Druckdifferenzsensor Treppenhaus / Korridor
-
-  Türöffnung: Druck fällt kurz → Regelung erhöht Volumenstrom
-  Max. Druck: 80 Pa (sonst Türe nicht mehr öffenbar → max. 100 N Öffnungskraft)
-```
+- **Sollwert:** typisch etwa 50 Pa Überdruck des Treppenhauses gegenüber dem Brandgeschoss
+- **Zuluft** von aussen in das Treppenhaus, geregelt über einen Differenzdrucksensor
+- **Tür geht auf:** Der Druck fällt, die Regelung erhöht den Volumenstrom, damit an der offenen Tür eine Luftströmung vom Treppenhaus weg entsteht
+- **Obergrenze:** Die Türöffnungskraft darf nicht über 100 N steigen, sonst bringt man die Türe nicht mehr auf. Darum gibt es Druckentlastung oder eine Begrenzung
 
 ---
 
 ## Normen und Anforderungen
 
-| Norm           | Inhalt                                        |
-| -------------- | --------------------------------------------- |
-| **EN 12101-1** | Schlauchabschlüsse, Anforderungen RWA         |
-| **EN 12101-2** | NRWA — natürliche Entrauchungsklappen         |
-| **EN 12101-3** | MRWA — maschinelle Entrauchungsventilatoren   |
-| **EN 12101-6** | Druckdifferenz-Systeme (Überdruck Fluchtwege) |
-| **VDI 6019**   | Maschinelle Entrauchung — Planung und Betrieb |
-| **MBO § 35**   | Notwendige Treppenhäuser (Rauchschutz)        |
-| **VKF (CH)**   | Brandschutzrichtlinien Schweiz — Entrauchung  |
+| Norm           | Inhalt                                              |
+| -------------- | --------------------------------------------------- |
+| **EN 12101-1** | Rauchschürzen                                       |
+| **EN 12101-2** | NRWA — natürliche Entrauchungsklappen               |
+| **EN 12101-3** | MRWA — maschinelle Entrauchungsventilatoren         |
+| **EN 12101-6** | Druckdifferenz-Systeme (Überdruck Fluchtwege)       |
+| **VDI 6019**   | Maschinelle Entrauchung — Planung und Betrieb       |
+| **MBO § 35**   | Notwendige Treppenhäuser (Rauchschutz)              |
+| **VKF (CH)**   | Brandschutzrichtlinie Rauch- und Wärmeabzugsanlagen |
 
 ---
 
@@ -191,13 +159,7 @@ Smoke and heat exhaust systems (SHEV) are safety-critical systems. Their failure
 
 ### Natural SHEV (NSHEV)
 
-```
-Heat → smoke rises → buoyancy force
-    ↓
-Smoke vents in roof / upper wall areas open
-    ↓
-Smoke exits → fresh air enters from below
-```
+Hot smoke rises because of its buoyancy. Openings in the roof or high in the wall let it out; fresh air flows in at the bottom.
 
 - No electrical power required for smoke extraction (important on power failure)
 - Smoke vents: pneumatically (CO₂ cartridge) or electrically triggered
@@ -205,10 +167,7 @@ Smoke exits → fresh air enters from below
 
 ### Mechanical SHEV (MSHEV)
 
-```
-Fan extracts smoke → exhaust to outside
-Simultaneously: fresh air via separate system or openings
-```
+Fans extract the smoke and discharge it outdoors. At the same time air must flow in, through openings or a dedicated supply system.
 
 - For underground car parks, tunnels, large spaces without roof lights
 - High-capacity fans (high-temperature fans 300 °C / 1 h or 400 °C / 2 h)
@@ -231,36 +190,26 @@ Simultaneously: fresh air via separate system or openings
 
 ## Triggering and Control Logic
 
-```
-Fire alarm panel (FAP) → SHEV control panel
-    ↓ Detector group activates
-    ↓
-SHEV control panel:
-  1. OPEN smoke vents in fire compartment
-  2. CLOSE fire dampers in compartment
-  3. SWITCH OFF ventilation (or switch to smoke extraction mode)
-  4. Report to BMS (fault / operating mode "fire")
-  5. Report to FAP (for fire brigade panel)
-```
+The **fire alarm system** triggers and reports to the **smoke control panel**, which carries out for the affected section:
+
+1. **open** smoke vents and inlet openings
+2. **close** fire dampers
+3. **switch off** the ventilation system or switch it to smoke extraction mode, depending on the fire safety concept
+4. report the state to the BMS
+5. report the state to the fire alarm system or fire brigade panel
 
 **Priority:** SHEV control panel has **absolute precedence** over BA/BMS. The ventilation controller must not override the SHEV signal.
 
 ### Interlocking with Ventilation System
 
-```
-Normal ventilation operation:
-  AHU runs normally, FDs open
+On a fire signal the DDC receives an input "fire active" and executes what the **fire safety concept** requires, typically:
 
-Fire activation:
-  SHEV signal → DDC receives DI "Fire active"
-    → Close supply air dampers
-    → Disable recirculation (no smoke recirculation)
-    → VSD to 0 (shutdown)
-    → Start smoke extraction fan (if present)
+- close outdoor and supply air dampers
+- block recirculation so no smoke is distributed
+- ventilation fans off
+- start the smoke extraction fan if present
 
-  EXCEPTION: Stairwell pressurisation systems
-    → Supply fan CONTINUES RUNNING (maintains positive pressure)
-```
+**Exception pressurisation systems** in stairwells: their supply fan runs precisely during a fire to maintain overpressure.
 
 ---
 
@@ -268,15 +217,7 @@ Fire activation:
 
 Large buildings are divided into **smoke compartments (zones)**:
 
-```
-Zone 1: Ground floor west
-Zone 2: Ground floor east
-Zone 3: First floor west
-Zone 4: Car park
-
-Activation: Only affected zone is smoke-extracted
-Other zones: remain in normal operation (prevent smoke spread)
-```
+Large buildings are divided into **smoke sections**, for example ground floor west, ground floor east, upper floor west, car park. Only the affected section is smoke-extracted; the others remain in normal operation or are protected against smoke ingress.
 
 **Manual release button per zone** — fire brigade can activate zones selectively.
 
@@ -302,15 +243,10 @@ Other zones: remain in normal operation (prevent smoke spread)
 
 Escape routes (stairwells) are maintained at **positive pressure** to prevent smoke ingress:
 
-```
-Stairwell pressurisation system:
-  Setpoint: 50 Pa positive pressure relative to fire compartment
-  Fan: fresh air from outside → stairwell
-  Control: differential pressure sensor stairwell / corridor
-
-  Door opening: pressure drops briefly → control increases volume flow
-  Max. pressure: 80 Pa (otherwise door cannot be opened → max. 100 N opening force)
-```
+- **Setpoint:** typically about 50 Pa overpressure of the stairwell against the fire floor
+- **Supply air** from outside into the stairwell, controlled via a differential pressure sensor
+- **Door opens:** the pressure drops, the control increases the airflow so an air current away from the stairwell forms at the open door
+- **Upper limit:** the door opening force must not exceed 100 N, otherwise the door can no longer be opened. Hence pressure relief or a limit
 
 ---
 
@@ -318,7 +254,7 @@ Stairwell pressurisation system:
 
 | Standard          | Content                                                  |
 | ----------------- | -------------------------------------------------------- |
-| **EN 12101-1**    | Hose assemblies, SHEV requirements                       |
+| **EN 12101-1**    | Smoke barriers                                           |
 | **EN 12101-2**    | NSHEV — natural smoke vents                              |
 | **EN 12101-3**    | MSHEV — mechanical smoke extraction fans                 |
 | **EN 12101-6**    | Differential pressure systems (stairwell pressurisation) |

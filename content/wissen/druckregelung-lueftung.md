@@ -25,7 +25,7 @@ area: [hlk, ga]
 related:
   [vav-cav, rlt-anlage, frequenzumrichter, pid-regler, ec-motoren, regelkreise, k-faktor-luft]
 rechner: [pid-simulator]
-norm: [EN 16798, EN 13779, VDI 3803]
+norm: [EN 16798, SIA 382/1]
 updated: 2026-05-15
 lang: de
 ---
@@ -36,39 +36,19 @@ Die Kanaldruck-Regelung hält den Luftdruck im Lüftungskanal konstant, damit al
 
 ## Warum Druckregelung?
 
-```
-VAV-System ohne Druckregelung:
-  VAV-Box 1 schliesst → weniger Luftwiderstand im Netz
-  → Ventilator fördert bei gleicher Drehzahl zu viel Luft
-  → Druck steigt → andere VAV-Boxen erhalten zu viel Druck
-  → Geräusche, Regelprobleme, Energieverschwendung
+**Ohne Druckregelung:** Schliesst ein VAV-Regler, steigt bei gleicher Ventilatordrehzahl der Druck im Kanal. Die übrigen VAV-Regler bekommen mehr Druck als nötig: Strömungsgeräusche, unruhige Regelung, Energie für nichts.
 
-VAV-System MIT Druckregelung:
-  VAV-Box 1 schliesst → Druck würde steigen
-  → Druckregler erkennt Druckanstieg
-  → FU reduziert Ventilator-Drehzahl
-  → Druck bleibt konstant → alle VAV-Boxen arbeiten korrekt
-```
+**Mit Druckregelung:** Der Druckregler sieht den Anstieg und senkt die Drehzahl, bis der Kanaldruck wieder auf dem Sollwert liegt.
 
 ---
 
 ## Druckfühler-Position
 
-```
-Position des Druckfühlers im Hauptkanal:
+Üblich ist ein Messpunkt bei etwa **zwei Dritteln** des Hauptkanals, vom Ventilator aus gesehen:
 
-Empfehlung: 2/3 des Weges entlang des Hauptkanals
-
-  Ventilator → [1/3] → [2/3 ← Fühler hier] → [Ende]
-
-  Warum nicht am Anfang (nach Ventilator)?
-    → Druck am Anfang immer hoch, VAV-Boxen am Ende zu wenig
-
-  Warum nicht am Ende?
-    → Fühler reagiert zu träge, Ventilator schwingt
-
-  Richtig: 2/3 vom Ventilator → Representative Messung
-```
+- **Direkt nach dem Ventilator** ist der Druck immer hoch. Regelt man dort, verschenkt man Energie, und am Ende fehlt bei grossen Netzen trotzdem Druck.
+- **Ganz am Ende** misst man in verzweigten Netzen nur einen Ast, die anderen können zu wenig bekommen.
+- Bei mehreren Ästen misst man besser in jedem und regelt auf den ungünstigsten, oder man nutzt die Klappenstellungen der VAV-Regler (siehe Gleitdruck).
 
 ---
 
@@ -76,33 +56,15 @@ Empfehlung: 2/3 des Weges entlang des Hauptkanals
 
 ### Konstantdruck-Regelung
 
-```
-Drucksollwert: z.B. 150 Pa (fest eingestellt)
-
-PID → FU-Sollwert:
-  Ist < Soll → FU erhöhen
-  Ist > Soll → FU reduzieren
-
-Einfach, stabil. Nachteil: im Teillastbetrieb oft zu hoher Druck
-→ Mehr Lärm, mehr Energie als nötig
-```
+Der Druck wird auf einen festen Sollwert geregelt, zum Beispiel 150 Pa. Das ist einfach und stabil, bei Teillast aber oft mehr Druck als nötig: mehr Lärm, mehr Energie.
 
 ### Gleitdruck-Regelung (besser, energiesparend)
 
-```
-Drucksollwert wird laufend angepasst:
+Der Sollwert wird laufend nachgeführt (Trim and Respond):
 
-  Alle VAV-Boxen melden Öffnungsgrad
-  Wenn alle VAV-Boxen < 90 % geöffnet:
-    → Drucksollwert um 5 Pa reduzieren (alle 2 min)
-  Wenn eine VAV-Box 100 % geöffnet:
-    → Drucksollwert um 5 Pa erhöhen
-
-  Ziel: Immer genau eine VAV-Box auf 100 % geöffnet
-    → Maximale Energieeinsparung bei vollem Komfort
-
-Energieeinsparung vs. Konstantdruck: 10–25 %
-```
+- Sind **alle VAV-Regler unter etwa 90 %** geöffnet, sinkt der Drucksollwert schrittweise, etwa um 5 Pa alle 2 Minuten.
+- Ist **ein VAV-Regler ganz offen** und erreicht seinen Sollwert nicht, steigt der Drucksollwert wieder.
+- So stellt sich der kleinste Druck ein, bei dem alle Zonen ihre Luft bekommen. Einsparung gegenüber Konstantdruck typisch 10–25 %.
 
 ---
 
@@ -110,61 +72,29 @@ Energieeinsparung vs. Konstantdruck: 10–25 %
 
 Für Anlagen mit stark wechselndem Bedarf:
 
-```
-Tag-Betrieb (hoher Bedarf):
-  Drucksollwert: 180 Pa
-  Ventilator: 60–100 %
+- **Tag:** Drucksollwert z.B. 180 Pa, Ventilator 60–100 %
+- **Nacht, Wochenende:** Drucksollwert z.B. 80 Pa, Ventilator 20–40 %
 
-Nacht-/Wochenend-Betrieb (Absenkung):
-  Drucksollwert: 80 Pa
-  Ventilator: 20–40 %
-
-→ Bei tiefer Drehzahl: n³-Gesetz!
-  Halbierte Drehzahl = 1/8 Leistung!
-  50 % Drehzahl → 12.5 % Leistung
-```
+Bei tiefer Drehzahl wirkt das Affinitätsgesetz: Die Leistung sinkt mit der dritten Potenz der Drehzahl, halbe Drehzahl heisst theoretisch ein Achtel der Leistung.
 
 ---
 
 ## Regelkreis-Einstellungen
 
-```
-Typische PID-Einstellwerte Druckregelung Lüftung:
-
-Kp (Proportionalanteil): 0.5–2.0
-  Zu hoch → Pendeln (Ventilator beschleunigt/bremst ständig)
-  Zu niedrig → Träge Reaktion bei Druckänderungen
-
-Ti (Nachstellzeit): 60–180 s
-  Lüftungskanal hat relativ schnelle Dynamik
-  Aber: FU-Beschleunigung begrenzen (Verschleiss!)
-
-Td: meist 0 (kein D-Anteil bei Druckregelung)
-
-Wichtig: FU hat eigene Rampe (Hoch- und Runterlauf)
-  Rampe zu schnell → mechanischer Stress Ventilator
-  Empfehlung: 20–60 s Hoch/Runterfahrzeit
-```
+| Parameter     | Typischer Bereich | Bemerkung                                      |
+| ------------- | ----------------- | ---------------------------------------------- |
+| Verstärkung   | klein beginnen    | zu hoch: Ventilator pendelt                    |
+| Nachstellzeit | 60–180 s          | Kanaldruck reagiert schnell, der FU aber träge |
+| Vorhaltzeit   | 0                 | kein D-Anteil, das Drucksignal ist unruhig     |
+| Rampe im FU   | 20–60 s           | schont Ventilator und Antrieb                  |
 
 ---
 
 ## Mehrkanal-Systeme (Mehrzonensysteme)
 
-```
-Anlage mit Zu- und Abluft:
-
-Zuluftventilator: Konstantdruck-Regelung
-  Fühler: Zuluftkanal
-  Ziel: Kanal-Sollwert halten
-
-Abluftventilator: Volumenstrom-Kopplung
-  Variante A: Drehzahl Abluft = Drehzahl Zuluft (1:1 Kopplung)
-  Variante B: Abluft-Volumenstrom = Zuluft − Überströmmenge
-
-Überdruckhaltung (leichter Überdruck Gebäude):
-  Zuluft etwas mehr als Abluft → Gebäude leicht unter Überdruck
-  Verhindert Einzug unkontrollierter Aussenluft (Zugluft)
-```
+- **Zuluftventilator:** regelt auf den Kanaldruck in der Zuluft.
+- **Abluftventilator:** folgt der Zuluft, entweder über die gleiche Drehzahl oder besser über die Volumenströme: Abluft = Zuluft minus gewollte Überströmmenge.
+- **Leichter Überdruck im Gebäude:** etwas mehr Zuluft als Abluft verhindert, dass ungefilterte Aussenluft durch Ritzen einströmt.
 
 ---
 
@@ -185,8 +115,7 @@ Abluftventilator: Volumenstrom-Kopplung
 ## Normen
 
 - **EN 16798-3** — Energieeffizienz Lüftungsanlagen (Druckregelung)
-- **EN 13779** — Lüftung Nichtwohngebäude (Systemanforderungen)
-- **VDI 3803** — Lüftungsanlagen, Energiebedarf
+- **SIA 382/1** — Lüftungs- und Klimaanlagen
 
 <!-- EN -->
 
@@ -194,39 +123,19 @@ Duct pressure control maintains the air pressure in the ventilation duct at a co
 
 ## Why Pressure Control?
 
-```
-VAV system without pressure control:
-  VAV box 1 closes → less air resistance in network
-  → Fan delivers too much air at same speed
-  → Pressure rises → other VAV boxes receive too much pressure
-  → Noise, control problems, energy waste
+**Without pressure control:** if a VAV controller closes, the duct pressure rises at the same fan speed. The other VAV controllers get more pressure than needed: airflow noise, unsteady control, energy for nothing.
 
-VAV system WITH pressure control:
-  VAV box 1 closes → pressure would rise
-  → Pressure controller detects pressure increase
-  → VSD reduces fan speed
-  → Pressure remains constant → all VAV boxes work correctly
-```
+**With pressure control:** the pressure controller sees the rise and lowers the speed until the duct pressure is back at the setpoint.
 
 ---
 
 ## Pressure Sensor Position
 
-```
-Pressure sensor position in main duct:
+A measuring point at about **two thirds** of the main duct, seen from the fan, is common:
 
-Recommendation: 2/3 of the way along the main duct
-
-  Fan → [1/3] → [2/3 ← sensor here] → [end]
-
-  Why not at the start (after fan)?
-    → Pressure at start always high, VAV boxes at end get too little
-
-  Why not at the end?
-    → Sensor reacts too slowly, fan oscillates
-
-  Correct: 2/3 from fan → representative measurement
-```
+- **Directly after the fan** the pressure is always high. Controlling there wastes energy, and large networks still lack pressure at the end.
+- **At the very end** you measure only one branch in branched networks; the others may get too little.
+- With several branches, measure in each and control to the least favourable, or use the VAV damper positions (see variable pressure).
 
 ---
 
@@ -234,33 +143,15 @@ Recommendation: 2/3 of the way along the main duct
 
 ### Constant Pressure Control
 
-```
-Pressure setpoint: e.g. 150 Pa (fixed)
-
-PID → VSD setpoint:
-  Actual < setpoint → increase VSD
-  Actual > setpoint → reduce VSD
-
-Simple, stable. Disadvantage: often too high pressure at part load
-→ More noise, more energy than necessary
-```
+The pressure is controlled to a fixed setpoint, for example 150 Pa. Simple and stable, but at part load often more pressure than needed: more noise, more energy.
 
 ### Variable Pressure Control (Better, Energy-Saving)
 
-```
-Pressure setpoint is continuously adjusted:
+The setpoint is adjusted continuously (trim and respond):
 
-  All VAV boxes report their opening degree
-  If all VAV boxes < 90 % open:
-    → Reduce pressure setpoint by 5 Pa (every 2 min)
-  If any VAV box is 100 % open:
-    → Increase pressure setpoint by 5 Pa
-
-  Goal: always exactly one VAV box at 100 % open
-    → Maximum energy saving at full comfort
-
-Energy saving vs. constant pressure: 10–25 %
-```
+- If **all VAV controllers are below about 90 %** open, the pressure setpoint drops step by step, for example by 5 Pa every 2 minutes.
+- If **one VAV controller is fully open** and misses its setpoint, the pressure setpoint rises again.
+- This finds the lowest pressure at which all zones get their air. Savings compared with constant pressure typically 10–25 %.
 
 ---
 
@@ -268,61 +159,29 @@ Energy saving vs. constant pressure: 10–25 %
 
 For systems with strongly varying demand:
 
-```
-Day operation (high demand):
-  Pressure setpoint: 180 Pa
-  Fan: 60–100 %
+- **Day:** pressure setpoint e.g. 180 Pa, fan 60–100 %
+- **Night, weekend:** pressure setpoint e.g. 80 Pa, fan 20–40 %
 
-Night/weekend operation (setback):
-  Pressure setpoint: 80 Pa
-  Fan: 20–40 %
-
-→ At low speed: cube law!
-  Halved speed = 1/8 power!
-  50 % speed → 12.5 % power
-```
+At low speed the affinity law applies: power falls with the cube of speed; half speed means theoretically one eighth of the power.
 
 ---
 
 ## Control Loop Settings
 
-```
-Typical PID settings for duct pressure control:
-
-Kp (proportional gain): 0.5–2.0
-  Too high → oscillation (fan constantly accelerates/brakes)
-  Too low → sluggish response to pressure changes
-
-Ti (reset time): 60–180 s
-  Ventilation duct has relatively fast dynamics
-  But: limit VSD acceleration (wear!)
-
-Td: usually 0 (no D-component for pressure control)
-
-Important: VSD has its own ramp (acceleration and deceleration)
-  Ramp too fast → mechanical stress on fan
-  Recommendation: 20–60 s ramp-up/ramp-down time
-```
+| Parameter       | Typical range | Remark                                      |
+| --------------- | ------------- | ------------------------------------------- |
+| Gain            | start small   | too high: fan hunts                         |
+| Integral time   | 60–180 s      | duct pressure reacts fast, the drive slowly |
+| Derivative time | 0             | no D action, the pressure signal is noisy   |
+| Drive ramp      | 20–60 s       | protects fan and drive                      |
 
 ---
 
 ## Multi-Duct Systems (Multi-Zone)
 
-```
-Installation with supply and extract:
-
-Supply fan: constant pressure control
-  Sensor: supply duct
-  Goal: maintain duct setpoint
-
-Extract fan: volume flow coupling
-  Variant A: extract speed = supply speed (1:1 coupling)
-  Variant B: extract volume flow = supply − transfer air
-
-Positive pressure control (slight building overpressure):
-  Supply slightly more than extract → building at slight overpressure
-  Prevents uncontrolled outdoor air infiltration (draughts)
-```
+- **Supply fan:** controls to the supply duct pressure.
+- **Extract fan:** follows the supply, either at the same speed or better via the airflows: extract = supply minus the intended overflow.
+- **Slight overpressure in the building:** a little more supply than extract prevents unfiltered outdoor air from entering through gaps.
 
 ---
 
@@ -343,5 +202,4 @@ Positive pressure control (slight building overpressure):
 ## Standards
 
 - **EN 16798-3** — Energy efficiency of ventilation systems (pressure control)
-- **EN 13779** — Ventilation of non-residential buildings (system requirements)
-- **VDI 3803** — Ventilation systems, energy demand
+- **SIA 382/1** — Ventilation and air-conditioning systems

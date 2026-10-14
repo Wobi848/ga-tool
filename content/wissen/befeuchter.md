@@ -35,17 +35,9 @@ Luftbefeuchtung im Winterbetrieb ist hygienisch komplex und energetisch teuer. D
 
 Im Winter: Kalte Aussenluft enthält wenig Feuchte (geringe absolute Feuchte). Wird sie aufgeheizt, sinkt die **relative Feuchte** stark:
 
-```
-Aussenluft: −5 °C, 80 % rF → absolute Feuchte: ~1.9 g/kg
-Aufgeheizt auf 20 °C: dieselbe absolute Feuchte →  relative Feuchte: ~11 %!
+Aussenluft mit −5 °C und 80 % relativer Feuchte enthält rund 2.1 g Wasser pro kg Luft. Auf 20 °C aufgeheizt, bleibt dieser Wassergehalt gleich, die relative Feuchte fällt aber auf **etwa 14 %**. Das ist sehr trocken: Schleimhäute trocknen aus, es gibt statische Aufladung, Holz und Parkett reissen.
 
-→ 11 % rF ist extrem trocken:
-  - Schleimhäute austrocknen
-  - Statische Aufladung
-  - Holzmöbel, Parkett leiden
-```
-
-**Norm-Empfehlung (Büro, Komfort):** 30–60 % rF. Mindestens 35 % für akzeptablen Komfort.
+**Komfortbereich:** üblich sind etwa 30 bis 60 % relative Feuchte. Ob überhaupt befeuchtet wird, ist eine Planungsentscheidung: Befeuchtung kostet viel Energie und Wartung.
 
 ---
 
@@ -55,37 +47,31 @@ Aufgeheizt auf 20 °C: dieselbe absolute Feuchte →  relative Feuchte: ~11 %!
 
 **Prinzip:** Elektrisches Heizelement verdampft Wasser → hygienisch reiner Dampf.
 
-```
-Wasser (Trinkwasserqualität)
-    ↓ Erhitzen auf 100 °C
-Sattdampf → in Luftstrom eingedüst → absorbiert in Luft
-```
+Ein Heizelement oder Elektroden verdampfen Wasser, der Dampf wird über ein Dampfverteilrohr in den Luftstrom eingebracht.
 
-| Eigenschaft      | Wert                                |
-| ---------------- | ----------------------------------- |
-| **Hygiene**      | Sehr gut (100 °C tötet alle Keime)  |
-| Energieverbrauch | Hoch (580 Wh/kg Dampf)              |
-| Wartung          | Entkalkung nötig (alle 1–3 Monate)  |
-| Regelung         | Proportional (Leistung 0–100 %)     |
-| Einsatz          | Büro, Spital, kritische Anwendungen |
+| Eigenschaft      | Wert                                            |
+| ---------------- | ----------------------------------------------- |
+| **Hygiene**      | Sehr gut, der Dampf ist praktisch keimfrei      |
+| Energieverbrauch | Hoch, rund 0.73 kWh pro kg Dampf aus Kaltwasser |
+| Wartung          | Entkalkung nötig (alle 1–3 Monate)              |
+| Regelung         | Proportional (Leistung 0–100 %)                 |
+| Einsatz          | Büro, Spital, kritische Anwendungen             |
 
 **Steuerung GA:** 0–10 V Leistungsvorgabe (0 = aus, 10 V = 100 % Leistung).
 
 ### 2. Verdunstungsbefeuchter (Umlaufverdunstung)
 
-**Prinzip:** Wasser wird durch Ventilatoren über Filterpads geleitet, Luft wird daran vorbeigeführt.
+**Prinzip:** Wasser rieselt über Verdunstungsmatten, die Luft strömt hindurch.
 
-```
-Umwälzpumpe → Wasser über Filterpads → Luft führt Feuchte mit
-```
+Eine Pumpe benetzt Verdunstungsmatten, die Luft streicht hindurch und nimmt Feuchte auf. Dabei kühlt sie ab (adiabatisch).
 
-| Eigenschaft      | Wert                                                |
-| ---------------- | --------------------------------------------------- |
-| **Hygiene**      | **Problematisch** (stehendes Wasser → Legionellen!) |
-| Energieverbrauch | Niedrig (nur Pumpe/Ventilator)                      |
-| Befeuchtungsgrad | Maximal 80–90 % rF (enthalpie-begrenzt)             |
-| Wartung          | Intensiv! Wassertank regelmässig reinigen           |
-| VDI 6022         | Klasse A: **Schwierig zu erfüllen**                 |
+| Eigenschaft           | Wert                                                 |
+| --------------------- | ---------------------------------------------------- |
+| **Hygiene**           | **Problematisch** (stehendes Wasser → Legionellen!)  |
+| Energieverbrauch      | Niedrig (nur Pumpe/Ventilator)                       |
+| Befeuchtungsgrad      | Maximal 80–90 % rF (enthalpie-begrenzt)              |
+| Wartung               | Intensiv! Wassertank regelmässig reinigen            |
+| Hygiene nach VDI 6022 | nur mit konsequenter Wasserbehandlung und Kontrollen |
 
 > ⚠️ Verdunstungsbefeuchter in RLT-Anlagen sind hygienisch kritisch. Bei unzureichender Wartung → Legionellen und Schimmelbildung. Für neue Anlagen **nicht empfohlen**.
 
@@ -93,9 +79,7 @@ Umwälzpumpe → Wasser über Filterpads → Luft führt Feuchte mit
 
 **Prinzip:** Wasser wird durch Hochdruckdüsen (70–100 bar) zu Tröpfchen < 10 µm vernebelt.
 
-```
-Umkehrosmose-Wasser (sehr rein) → Hochdruck-Pumpe → Düsen → Tröpfchennebel
-```
+Eine Hochdruckpumpe drückt aufbereitetes Wasser, meist aus Umkehrosmose, durch feine Düsen, typisch mit 70 bis 100 bar. Die Tröpfchen verdunsten im Luftstrom.
 
 | Eigenschaft      | Wert                                             |
 | ---------------- | ------------------------------------------------ |
@@ -109,9 +93,7 @@ Umkehrosmose-Wasser (sehr rein) → Hochdruck-Pumpe → Düsen → Tröpfchenneb
 
 Wo Niederdruckdampf verfügbar (Industrie, Krankenhäuser):
 
-```
-Dampfnetz → Druckminderer → Befeuchterdampf → Luftstrom
-```
+Niederdruckdampf aus dem Netz wird über einen Druckminderer und ein Regelventil in den Luftstrom gegeben.
 
 - Sehr hygiensich (Dampf > 100 °C)
 - Keine elektrische Eigenheizleistung
@@ -119,31 +101,24 @@ Dampfnetz → Druckminderer → Befeuchterdampf → Luftstrom
 
 ---
 
-## Hygiene-Anforderungen (VDI 6022)
+## Hygiene
 
-**VDI 6022 Klasse A** (Krankenhaus, Reinraum): Strikte Anforderungen:
+Befeuchter sind die hygienisch heikelste Stelle einer Lüftungsanlage. Nach **VDI 6022** (in der Schweiz zusätzlich **SWKI VA104-01**) gilt unter anderem:
 
-- Dampfbefeuchter bevorzugt (keine Wasserwanne)
-- Wenn Wasser-Befeuchter: vollständige Entwässerung und Austrocknung möglich
-- Regelmässige mikrobiologische Probenahme
-- Temperaturen immer > 55 °C an allen Wasserkontakt-Flächen
+- **Wasser** mindestens in Trinkwasserqualität, bei Sprüh- und Hochdruckbefeuchtern aufbereitet
+- **Keine stehenden Wasserreste**: Wannen und Leitungen müssen sich vollständig entleeren und abtrocknen lassen
+- **Regelmässige Kontrollen** und mikrobiologische Untersuchungen des Befeuchterwassers bei wasserführenden Befeuchtern
+- **Hygieneinspektionen** der Anlage in festen Abständen
 
----
+Für Spitäler gelten mit **DIN 1946-4** (bzw. SWKI 99-3 in der Schweiz) strengere Regeln. Dampfbefeuchter sind dort die Regel.
 
 ## Regelung der Luftbefeuchtung
 
-```
-Fühler: Relative Feuchte Zuluft oder Abluft (Kombi-Sensor)
-Sollwert: 45–55 % rF (typisch)
-
-PID-Regler:
-  Eingang: Ist-Feuchte
-  Sollwert: 50 % rF
-  Ausgang: Befeuchter-Leistung 0–100 %
-
-Begrenzung: Zuluft-Taupunkt > Rohroberfläche (sonst Kondensation!)
-Sicherheit: Überfeuchte-Alarm wenn > 70 % rF (Kondensationsrisiko)
-```
+- **Fühler:** Feuchte im Raum oder in der Abluft als Regelgrösse, dazu ein **Begrenzungsfühler** in der Zuluft nach dem Befeuchter
+- **Sollwert:** im Winter typisch 30–40 % rF, je nach Nutzung
+- **Regler:** PI auf die Befeuchterleistung 0–100 %
+- **Maximalbegrenzung:** Die Zuluftfeuchte nach dem Befeuchter wird begrenzt, typisch auf 80–85 % rF, damit im Kanal nichts kondensiert
+- **Freigabe** nur bei laufendem Ventilator und Strömung (Strömungswächter)
 
 ### Hysterese und Verzögerung
 
@@ -164,7 +139,8 @@ Feuchteänderungen in der Luft sind träge → Pi-Regler mit langer Nachstellzei
 
 ## Normen
 
-- **VDI 6022** — Hygieneanforderungen für RLT-Anlagen (Befeuchter Klasse A/B)
+- **VDI 6022 Blatt 1** — Hygieneanforderungen an raumlufttechnische Anlagen
+- **SWKI VA104-01** — Hygieneanforderungen an Lüftungs- und Klimaanlagen (CH)
 - **EN 13053** — Zentrale Raumlufttechnische Anlagen (Befeuchtungsabschnitt)
 - **DIN 1946-4** — Raumlufttechnik in Krankenhäusern (strikte Hygieneregeln)
 
@@ -176,17 +152,9 @@ Air humidification in winter operation is hygienically complex and energetically
 
 In winter: cold outdoor air contains little moisture (low absolute humidity). When heated, the **relative humidity** drops sharply:
 
-```
-Outdoor air: −5 °C, 80 % RH → absolute humidity: ~1.9 g/kg
-Heated to 20 °C: same absolute humidity → relative humidity: ~11 %!
+Outdoor air at −5 °C and 80 % relative humidity contains about 2.1 g of water per kg of air. Heated to 20 °C, this water content stays the same, but the relative humidity drops to **about 14 %**. That is very dry: mucous membranes dry out, static charges build up, wood and parquet crack.
 
-→ 11 % RH is extremely dry:
-  - Mucous membranes dry out
-  - Static charge build-up
-  - Wooden furniture and parquet suffer
-```
-
-**Standard recommendation (office, comfort):** 30–60 % RH. At least 35 % for acceptable comfort.
+**Comfort range:** typically about 30 to 60 % relative humidity. Whether to humidify at all is a design decision: humidification costs a lot of energy and maintenance.
 
 ---
 
@@ -196,29 +164,23 @@ Heated to 20 °C: same absolute humidity → relative humidity: ~11 %!
 
 **Principle:** Electric heating element evaporates water → hygienically pure steam.
 
-```
-Water (drinking water quality)
-    ↓ Heated to 100 °C
-Saturated steam → injected into airflow → absorbed by air
-```
+A heating element or electrodes evaporate water; the steam is introduced into the airflow through a steam distribution pipe.
 
-| Property           | Value                                   |
-| ------------------ | --------------------------------------- |
-| **Hygiene**        | Very good (100 °C kills all germs)      |
-| Energy consumption | High (580 Wh/kg steam)                  |
-| Maintenance        | Descaling required (every 1–3 months)   |
-| Control            | Proportional (output 0–100 %)           |
-| Application        | Office, hospital, critical applications |
+| Property           | Value                                                |
+| ------------------ | ---------------------------------------------------- |
+| **Hygiene**        | Very good, the steam is practically sterile          |
+| Energy consumption | High, about 0.73 kWh per kg of steam from cold water |
+| Maintenance        | Descaling required (every 1–3 months)                |
+| Control            | Proportional (output 0–100 %)                        |
+| Application        | Office, hospital, critical applications              |
 
 **BA control:** 0–10 V power setpoint (0 = off, 10 V = 100 % output).
 
 ### 2. Evaporative Humidifier (Recirculating Evaporation)
 
-**Principle:** Water is circulated by fans over filter pads; air is passed over them.
+**Principle:** water trickles over evaporation pads, the air flows through them.
 
-```
-Recirculating pump → water over filter pads → air carries moisture away
-```
+A pump wets evaporation pads; the air passes through and picks up moisture. It cools down in the process (adiabatically).
 
 | Property             | Value                                           |
 | -------------------- | ----------------------------------------------- |
@@ -226,7 +188,7 @@ Recirculating pump → water over filter pads → air carries moisture away
 | Energy consumption   | Low (pump/fan only)                             |
 | Humidification level | Maximum 80–90 % RH (enthalpy-limited)           |
 | Maintenance          | Intensive! Water tank requires regular cleaning |
-| VDI 6022             | Class A: **difficult to comply with**           |
+| Hygiene per VDI 6022 | only with consistent water treatment and checks |
 
 > ⚠️ Evaporative humidifiers in AHU systems are hygienically critical. With inadequate maintenance → Legionella and mould growth. **Not recommended** for new installations.
 
@@ -234,9 +196,7 @@ Recirculating pump → water over filter pads → air carries moisture away
 
 **Principle:** Water is atomised through high-pressure nozzles (70–100 bar) into droplets < 10 µm.
 
-```
-Reverse-osmosis water (very pure) → high-pressure pump → nozzles → droplet mist
-```
+A high-pressure pump forces treated water, usually from reverse osmosis, through fine nozzles, typically at 70 to 100 bar. The droplets evaporate in the airflow.
 
 | Property             | Value                                       |
 | -------------------- | ------------------------------------------- |
@@ -250,9 +210,7 @@ Reverse-osmosis water (very pure) → high-pressure pump → nozzles → droplet
 
 Where low-pressure steam is available (industry, hospitals):
 
-```
-Steam network → pressure reducer → humidifier steam → airflow
-```
+Low-pressure steam from the network is fed into the airflow via a pressure reducer and a control valve.
 
 - Very hygienic (steam > 100 °C)
 - No electrical self-heating required
@@ -260,31 +218,24 @@ Steam network → pressure reducer → humidifier steam → airflow
 
 ---
 
-## Hygiene Requirements (VDI 6022)
+## Hygiene
 
-**VDI 6022 Class A** (hospital, clean room): strict requirements:
+Humidifiers are the most hygienically sensitive point of a ventilation system. Per **VDI 6022** (in Switzerland additionally **SWKI VA104-01**), among other things:
 
-- Steam humidifier preferred (no water tray)
-- If water-based humidifier: complete draining and drying must be possible
-- Regular microbiological sampling
-- Temperatures always > 55 °C at all water-contact surfaces
+- **Water** at least of drinking water quality, treated for spray and high-pressure humidifiers
+- **No standing water**: trays and pipes must drain completely and dry out
+- **Regular checks** and microbiological tests of the humidifier water for water-based humidifiers
+- **Hygiene inspections** of the system at fixed intervals
 
----
+Hospitals are subject to stricter rules with **DIN 1946-4** (or SWKI 99-3 in Switzerland). Steam humidifiers are the norm there.
 
 ## Humidity Control
 
-```
-Sensor: Relative humidity — supply air or extract air (combined sensor)
-Setpoint: 45–55 % RH (typical)
-
-PID controller:
-  Input: Actual humidity
-  Setpoint: 50 % RH
-  Output: Humidifier output 0–100 %
-
-Limit: Supply air dew point > pipe surface temperature (otherwise condensation!)
-Safety: Over-humidity alarm if > 70 % RH (condensation risk)
-```
+- **Sensors:** humidity in the room or extract air as the controlled variable, plus a **limiting sensor** in the supply air after the humidifier
+- **Setpoint:** typically 30–40 % RH in winter, depending on use
+- **Controller:** PI on humidifier output 0–100 %
+- **Maximum limit:** the supply air humidity after the humidifier is limited, typically to 80–85 % RH, so nothing condenses in the duct
+- **Enable** only with fan running and airflow proven (flow switch)
 
 ### Hysteresis and Delay
 
@@ -305,6 +256,7 @@ Humidity changes in air are slow → use PI controller with long reset time (Ti 
 
 ## Standards
 
-- **VDI 6022** — Hygiene requirements for AHU systems (humidifier Class A/B)
+- **VDI 6022 Part 1** — Hygiene requirements for ventilation and air-conditioning systems
+- **SWKI VA104-01** — Hygiene requirements for ventilation and air-conditioning systems (CH)
 - **EN 13053** — Central air handling units (humidifier section)
 - **DIN 1946-4** — Ventilation in hospitals (strict hygiene rules)

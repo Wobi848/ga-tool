@@ -86,12 +86,12 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### lueftung
 
-- ⬜ befeuchter
-- ⬜ druckregelung-lueftung
-- ⬜ entrauchung-rwa
-- ⬜ k-faktor-luft
-- ⬜ klappenantriebe
-- ⬜ nachtauskuehlung
+- ✅ befeuchter
+- ✅ druckregelung-lueftung
+- ✅ entrauchung-rwa
+- ✅ k-faktor-luft
+- ✅ klappenantriebe
+- ✅ nachtauskuehlung
 - ⬜ raumluftqualitaet
 - ✅ rlt-anlage
 - ⬜ taupunkt
@@ -337,3 +337,8 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | rlt-anlage                          | Fortluft als «ODA = exhaust»; ISO-16890-Zuordnung (F7 = ePM2.5); Plattentauscher 60–75 %; Sequenzregelung «Kaskade» genannt; «niemals gleichzeitig heizen und kühlen» ohne Entfeuchtung                                                                                      | EHA; F7 ≈ ePM1 50–65 %; Gegenstrom 75–90 %; Sequenz; Entfeuchtung als Ausnahme; Lüftungsgerät gezeichnet                                    | ISO 16890, EN 16798-3                                               |
 | 14.10.2026 | vav-cav                             | Unbelegte Faustregel zur Amortisation; Lüfterersparnis ohne Hinweis auf Druckregelung; EN 15232/EN 13779 (ersetzt)                                                                                                                                                           | Hinweis auf Mindestdruck; ISO 52120-1, EN 16798-1                                                                                           | —                                                                   |
 | 14.10.2026 | 9 Artikel, Daten                    | «SIA 382.1» (51×)                                                                                                                                                                                                                                                            | SIA 382/1                                                                                                                                   | SIA                                                                 |
+| 14.10.2026 | befeuchter                          | Dampf «580 Wh/kg» (richtig ≈ 0.73 kWh/kg aus Kaltwasser); «VDI 6022 Klasse A (Krankenhaus)» existiert nicht; «> 55 °C an Wasserkontaktflächen»; Verdunster mit «Ventilatoren»; Beispiel 11 statt 14 % rF                                                                     | korrigiert, Hygiene nach VDI 6022 / SWKI VA104-01, Spital DIN 1946-4                                                                        | Stoffwerte Wasser, VDI 6022                                         |
+| 14.10.2026 | druckregelung-lueftung              | Fühlerposition am Kanalende «reagiert zu träge»; VDI 3803 als Energienorm; EN 13779                                                                                                                                                                                          | Begründung über verzweigte Netze; SIA 382/1                                                                                                 | —                                                                   |
+| 14.10.2026 | entrauchung-rwa                     | EN 12101-1 «Schlauchabschlüsse»                                                                                                                                                                                                                                              | Rauchschürzen; VKF-Richtlinie RWA ergänzt                                                                                                   | EN 12101                                                            |
+| 14.10.2026 | klappenantriebe                     | erfundene Drehmomentformel; «EN ISO 6020-2 Hydraulikzylinder (Analogie)» als Norm; falsche Begründung Startreihenfolge                                                                                                                                                       | Herstellerangabe Nm/m²; EN 1751                                                                                                             | EN 1751                                                             |
+| 14.10.2026 | nachtauskuehlung                    | 2–4 K im Text, 5–7 K in der Tabelle; fehlende Abbruchbedingung (Raum-Untergrenze)                                                                                                                                                                                            | konsistent 2–4 K; Abbruch bei 20–21 °C                                                                                                      | —                                                                   |

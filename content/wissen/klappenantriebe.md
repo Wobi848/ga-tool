@@ -51,20 +51,16 @@ Klappenantriebe setzen elektrische Signale in mechanische Klappenstellungen um. 
 
 ### 2-Punkt (Federrückstell)
 
-```
-24 V = AUF (Motor dreht gegen Feder)
-0 V  = ZU (Feder schliesst Klappe automatisch)
-```
+- **24 V an:** Der Motor dreht die Klappe auf und spannt dabei die Feder.
+- **24 V weg:** Die Feder schliesst die Klappe.
 
 **Anwendung:** Aussenluft-Klappe (fail-safe geschlossen). Bei Stromausfall → Klappe schliesst automatisch (Frostschutz!).
 
 ### 3-Punkt (Motorisch, ohne Rückmeldung)
 
-```
-Ausgang 1 = AUF → Motor dreht auf
-Ausgang 2 = ZU  → Motor dreht zu
-Beide = 0       → Motor steht (hält Position)
-```
+- **Ausgang AUF** aktiv: Der Motor dreht auf.
+- **Ausgang ZU** aktiv: Der Motor dreht zu.
+- **Beide aus:** Der Motor bleibt stehen und hält die Stellung.
 
 **Achtung:** Nie beide Ausgänge gleichzeitig! DDC-Verriegelung nötig.
 
@@ -72,10 +68,8 @@ Beide = 0       → Motor steht (hält Position)
 
 ### Stetig 0–10 V (mit Positionsrückmeldung)
 
-```
-Eingang 0–10 V → Klappe 0–100 % öffnen
-Ausgang 0–10 V → Rückmeldung Ist-Position
-```
+- **Eingang 0–10 V:** Sollstellung 0–100 %
+- **Ausgang 0–10 V:** Rückmeldung der Iststellung
 
 **Anwendung:** VAV-Boxen, Mischklappen, genaue Positionsregelung.
 
@@ -94,11 +88,7 @@ Ausgang 0–10 V → Rückmeldung Ist-Position
 
 ### Drehmoment berechnen
 
-```
-M_Antrieb ≥ M_Klappe × Sicherheitsfaktor (1.5–2.0)
-
-M_Klappe [Nm] = p_Diff [Pa] × A_Klappe [m²] × L_Hebelarm [m] / 2
-```
+Hersteller geben das nötige Drehmoment **je m² Klappenfläche** an, abhängig von Klappenbauart, Dichtheitsklasse und Druck. Typisch sind etwa 5 bis 10 Nm/m², bei dicht schliessenden Klappen und hohen Drücken mehr. Den Antrieb mit etwas Reserve wählen.
 
 Typische Faustregel: **4–8 Nm/m² Klappenfläche** (abhängig von Druckdifferenz und Klappentyp).
 
@@ -120,40 +110,21 @@ Typische Faustregel: **4–8 Nm/m² Klappenfläche** (abhängig von Druckdiffere
 
 ### Aussenluft-Klappe (typisch)
 
-```
-Signal von DDC: DO (24 V = AUF)
-Fail-Safe: Federrückstellung → ZU
-Rückmeldung: DI Endschalter AUF + DI Endschalter ZU
+- **Ansteuerung:** DO, 24 V = auf, Federrücklauf zu
+- **Rückmeldung:** Endschalter AUF und ZU als DI
+- **Start:** Klappe öffnen, auf die Rückmeldung AUF warten, dann den Ventilator freigeben
+- **Stopp:** Ventilator aus, auslaufen lassen, dann Klappe schliessen
 
-Logik DDC:
-  RLT startet → Klappe öffnen → warte auf Rückmeldung AUF → Ventilator freigeben
-  RLT stoppt → Ventilator stoppen → warte 30 s → Klappe schliessen
-```
-
-> ⚠️ Ventilator **niemals starten** bevor Klappe geöffnet! Sonst Unterdruck → Klappe bläst wieder zu.
+> ⚠️ Den Ventilator **nie gegen eine geschlossene Klappe** starten: Der Unterdruck oder Überdruck kann Kanäle und Gerätegehäuse verformen, und die Klappe lässt sich gegen den Druck schwer öffnen.
 
 ### Mischklappen (Umluft-Aussenluft)
 
-```
-Signal: AO 0–10 V
-0 V = 100 % Aussenluft / 0 % Umluft
-5 V = 50 % Aussenluft / 50 % Umluft
-10 V = 0 % Aussenluft / 100 % Umluft
-
-Gekoppelt: Aussenluft-Klappe + Umluft-Klappe mechanisch gegengekoppelt
-(oder zwei separate Antriebe mit invertiertem Signal)
-```
+- **Ansteuerung:** AO 0–10 V, z.B. 0 V = 100 % Aussenluft, 10 V = 100 % Umluft; die Richtung legt das Projekt fest
+- **Kopplung:** Aussenluft- und Umluftklappe gegenläufig, mechanisch über ein Gestänge oder mit zwei Antrieben und invertiertem Signal
 
 ### VAV-Klappe
 
-```
-Volumenstrom-Regler DDC:
-  Messeingang: Differenzdruck (→ Volumenstrom)
-  Ausgang: 0–10 V → Klappen-Sollposition
-  Rückmeldung: 0–10 V Klappenstellung-Ist
-
-Regelziel: Volumenstrom = Soll (z.B. 200 m³/h)
-```
+Der VAV-Regler misst den Wirkdruck, rechnet daraus den Volumenstrom und stellt die Klappe über 0–10 V nach, bis der Sollwert erreicht ist, zum Beispiel 200 m³/h. Die Klappenstellung meldet er zurück.
 
 ---
 
@@ -169,7 +140,7 @@ Regelziel: Volumenstrom = Soll (z.B. 200 m³/h)
 
 ## Normen
 
-- **EN ISO 6020-2** — Hydraulikzylinder (Analogie für Antriebe)
+- **EN 1751** — Aerodynamische Prüfung von Klappen, Dichtheitsklassen
 - **Hersteller-Normen:** Belimo, Siemens, Sauter, Johnson Controls (je eigene Kennlinie und Montagevorschrift)
 
 <!-- EN -->
@@ -193,20 +164,16 @@ Damper actuators convert electrical signals into mechanical damper positions. Th
 
 ### 2-Position (Spring Return)
 
-```
-24 V = OPEN (motor turns against spring)
-0 V  = CLOSED (spring closes damper automatically)
-```
+- **24 V on:** the motor opens the damper and tensions the spring.
+- **24 V off:** the spring closes the damper.
 
 **Application:** Outdoor air damper (fail-safe closed). On power failure → damper closes automatically (frost protection!).
 
 ### 3-Position (Motorised, No Position Feedback)
 
-```
-Output 1 = OPEN → motor drives open
-Output 2 = CLOSE → motor drives closed
-Both = 0       → motor stops (holds position)
-```
+- **Output OPEN** active: the motor drives open.
+- **Output CLOSE** active: the motor drives closed.
+- **Both off:** the motor stops and holds its position.
 
 **Caution:** Never activate both outputs simultaneously! DDC interlock required.
 
@@ -214,10 +181,8 @@ Both = 0       → motor stops (holds position)
 
 ### Modulating 0–10 V (with Position Feedback)
 
-```
-Input 0–10 V → damper opens 0–100 %
-Output 0–10 V → feedback of actual position
-```
+- **Input 0–10 V:** target position 0–100 %
+- **Output 0–10 V:** feedback of the actual position
 
 **Application:** VAV boxes, mixing dampers, precise position control.
 
@@ -236,11 +201,7 @@ Output 0–10 V → feedback of actual position
 
 ### Torque Calculation
 
-```
-M_actuator ≥ M_damper × safety factor (1.5–2.0)
-
-M_damper [Nm] = p_diff [Pa] × A_damper [m²] × L_lever [m] / 2
-```
+Manufacturers state the required torque **per m² of damper area**, depending on damper design, leakage class and pressure. About 5 to 10 Nm/m² is typical, more for tight-closing dampers and high pressures. Choose the actuator with some margin.
 
 Typical rule of thumb: **4–8 Nm/m² damper area** (depending on differential pressure and damper type).
 
@@ -262,40 +223,21 @@ Typical rule of thumb: **4–8 Nm/m² damper area** (depending on differential p
 
 ### Outdoor Air Damper (Typical)
 
-```
-Signal from DDC: DO (24 V = OPEN)
-Fail-safe: spring return → CLOSED
-Feedback: DI end switch OPEN + DI end switch CLOSED
+- **Control:** DO, 24 V = open, spring return closed
+- **Feedback:** end switches OPEN and CLOSED as DI
+- **Start:** open the damper, wait for OPEN feedback, then enable the fan
+- **Stop:** fan off, let it run down, then close the damper
 
-DDC logic:
-  AHU starts → open damper → wait for OPEN feedback → enable fan
-  AHU stops → stop fan → wait 30 s → close damper
-```
-
-> ⚠️ **Never start fan** before damper is open! Otherwise negative pressure → damper blows shut again.
+> ⚠️ **Never start the fan against a closed damper:** the negative or positive pressure can deform ducts and unit casings, and the damper is hard to open against the pressure.
 
 ### Mixing Dampers (Recirculated/Outdoor Air)
 
-```
-Signal: AO 0–10 V
-0 V = 100 % outdoor air / 0 % recirculation
-5 V = 50 % outdoor air / 50 % recirculation
-10 V = 0 % outdoor air / 100 % recirculation
-
-Coupled: outdoor air damper + recirculation damper mechanically cross-coupled
-(or two separate actuators with inverted signal)
-```
+- **Control:** AO 0–10 V, e.g. 0 V = 100 % outdoor air, 10 V = 100 % recirculation; the direction is set by the project
+- **Coupling:** outdoor air and recirculation dampers opposed, mechanically via linkage or with two actuators and an inverted signal
 
 ### VAV Damper
 
-```
-DDC volume flow controller:
-  Measurement input: differential pressure (→ volume flow)
-  Output: 0–10 V → damper position setpoint
-  Feedback: 0–10 V actual damper position
-
-Control objective: volume flow = setpoint (e.g. 200 m³/h)
-```
+The VAV controller measures the differential pressure, calculates the flow from it and adjusts the damper via 0–10 V until the setpoint is reached, for example 200 m³/h. It reports the damper position back.
 
 ---
 
