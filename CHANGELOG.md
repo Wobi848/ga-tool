@@ -1,5 +1,28 @@
 # Changelog
 
+## v0.17.0 — 2026-10-14
+
+### Fachprüfung aller Inhalte
+
+Sämtliche Rechner, 129 Wissensartikel, 19 Referenztabellen, 10 Checklisten
+und 233 Abkürzungen wurden fachlich geprüft und korrigiert. Das vollständige
+Protokoll mit Quellen steht in `docs/FACHPRUEFUNG.md`.
+
+- **Rechner:** Feuchtkugeltemperatur im Psychrometrie-Rechner rechnete falsch
+  (z.B. 18.7 statt rund 17 °C bei 32 °C / 20 %)
+- **Schweizer Grundlagen:** SIA 386.110 richtig als Schweizer Ausgabe von
+  EN 15232 eingeordnet, SWKI-Richtlinien (VA104-01, VA105-01, BT102-01),
+  SIA 385/1 für Legionellen, ChemRRV für Kältemittel, PV-Regeln 2026 mit
+  ZEV, vZEV und LEG
+- **Sicherheit:** Handbetrieb und fest verdrahtete Sicherheitskette,
+  DALI ist nicht SELV, Docker umgeht die Host-Firewall, kein GLT-Zugang
+  ohne VPN
+- **Zahlen:** Heizgradtage HGT 20/12, EN-1434-Klassen, KNX-DPT-Bereiche,
+  DALI-Parts, Motor-IE-Wirkungsgrade, EN-16798-Werte, cos φ und viele mehr
+- **Schemata:** rund 100 ASCII-Zeichnungen durch Text, Tabellen und neue
+  SVG-Blockschaltbilder ersetzt (Regelkreis, Sprungantwort, Kaskade,
+  Störgrössenaufschaltung, Leistungsdreieck)
+
 ## v0.16.0 — 2026-10-14
 
 ### Elektro für GA-Techniker
