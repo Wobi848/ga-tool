@@ -13,353 +13,237 @@ tags:
     brenner,
     therme,
     rücklauftemperatur,
+    rücklaufanhebung,
     taupunkt,
     kondensation,
     heizwert,
     brennwert,
-    kesselkreis,
-    mischer,
-    vorlauftemperatur,
-    abgasverlust
+    kaskade,
+    abgasverlust,
+    siegert
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [heizkurve, heizung-grundlagen, pufferspeicher, hydraulische-schaltungen, kaskadenregelung]
-norm: [EN 303, EN 12953, BImSchV, ÖNORM H 5170, SIA 384.201]
-updated: 2026-05-15
+related: [heizkurve, heizung-grundlagen, pufferspeicher, ventil-schaltungen, kaskadenregelung]
+norm: [EN 303, EN 15502, LRV, 1. BImSchV, SIA 384/1]
+updated: 2026-10-14
 lang: de
 ---
 
 # Kesselregelung — Modulierend, gleitend, zweistufig
 
-Die Kesselregelung bestimmt Vorlauftemperatur und Brennerleistung. Modernes Ziel: maximale Effizienz durch niedrige Kesseltemperatur und Kondensationsbetrieb.
+Die Kesselregelung bestimmt, wie warm der Kessel ist und mit welcher Leistung der Brenner läuft. Das Ziel heute: so tief wie möglich fahren, damit ein Brennwertkessel kondensiert, und so wenig wie möglich takten.
 
-## Brenner-Typen und Regelungsarten
+## Brennerarten
 
-### Einstufiger Brenner
+| Brenner         | Leistung                    | Regelung                                                      | Nachteil                                  |
+| --------------- | --------------------------- | ------------------------------------------------------------- | ----------------------------------------- |
+| **Einstufig**   | Ein oder aus                | Zweipunkt mit Schaltdifferenz um den Kesselsollwert           | Viele Starts, Verschleiss, Anfahrverluste |
+| **Zweistufig**  | z.B. 60 % und 100 %         | Stufe 1 bei kleiner Abweichung, Stufe 2 bei grosser           | Immer noch Takten bei kleiner Last        |
+| **Modulierend** | stufenlos, typisch 20–100 % | PI-Regler: Abweichung vom Sollwert ergibt die Brennerleistung | Unter der Mindestleistung taktet auch er  |
 
-```
-Brenner: EIN oder AUS
-  Takt: z.B. 10 min EIN / 5 min AUS
+Die **Mindestleistung** ist der kritische Punkt: Braucht das Gebäude weniger, als der Brenner mindestens liefert, taktet auch ein modulierender Kessel. Darum der Modulationsbereich im Datenblatt (z.B. 1:5 oder 1:10) und, bei grossen Schwankungen, ein [Pufferspeicher](/wissen/pufferspeicher).
 
-Nachteil:
-  Hohe Taktzahl → Verschleiss
-  Stets volle Leistung → Übertemperatur → Abtaktverluste
-```
+## Gleitende Kesseltemperatur
 
-### Zweistufiger Brenner
+Statt fix auf 70 °C fährt der Kessel nur so warm, wie es die Heizkreise gerade brauchen. Der Sollwert kommt aus der Aussentemperatur, also aus der [Heizkurve](/wissen/heizkurve), oder als höchste Anforderung aller Heizkreise plus einige Kelvin Überhöhung für die Mischventile.
 
-```
-Stufe 1 (Grundlast): 60 % Leistung
-Stufe 2 (Volllast): 100 % Leistung
+| Aussentemperatur | Kesselsollwert (Beispiel) |
+| ---------------- | ------------------------- |
+| −8 °C            | 70 °C                     |
+| 0 °C             | 60 °C                     |
+| 10 °C            | 45 °C                     |
+| über Heizgrenze  | aus, ausser Warmwasser    |
 
-Regelung:
-  Kesseltemperatur < Soll − 5 K: Stufe 1 einschalten
-  Kesseltemperatur < Soll − 10 K: Stufe 2 einschalten
-  Kesseltemperatur > Soll: AUS
-```
+Vorteile: weniger Bereitschaftsverluste, beim Brennwertkessel mehr Kondensation. Kommt eine Warmwasserladung, darf der Sollwert vorübergehend steigen.
 
-### Modulierender Brenner (Modulating)
+## Heizwert und Brennwert
 
-```
-Leistungsbereich: 20–100 % (Modulationsbereich 1:5)
+- **Heizwert Hi:** Energie des Brennstoffs ohne die Kondensationswärme des Wasserdampfs im Abgas
+- **Brennwert Hs:** mit dieser Kondensationswärme, bei Erdgas rund 11 % mehr als Hi, bei Heizöl rund 6 %
 
-Regelung:
-  Kesseltemperatur − Sollwert = Δ
-  PID → Leistungssignal 20–100 %
+Ein **Brennwertkessel** kühlt das Abgas unter seinen Taupunkt, bei Erdgas etwa 55 bis 57 °C. Weil Wirkungsgrade traditionell auf Hi bezogen werden, kommen dabei Werte über 100 % heraus.
 
-Vorteil:
-  Kein Takten, konstante Temperatur
-  Besserer Wirkungsgrad im Teillastbetrieb
-  Kondensationsbetrieb möglich (Abgastemperatur < 57 °C)
-```
+Entscheidend ist der **Rücklauf**: Nur wenn das Wasser kalt genug zurückkommt, kann der Wärmetauscher das Abgas unter den Taupunkt kühlen.
 
----
+| Rücklauf   | Kondensation    | Normnutzungsgrad bezogen auf Hi (Erdgas) |
+| ---------- | --------------- | ---------------------------------------- |
+| 30 °C      | stark           | um 105–108 %                             |
+| 45 °C      | teilweise       | um 102–104 %                             |
+| über 55 °C | praktisch keine | wie ein guter Niedertemperaturkessel     |
 
-## Gleitende Kesselregelung (Witterungsgeführt)
+Die Werte sind Richtwerte, die Kurve des eigenen Kessels steht im Datenblatt. Für die GA heisst das: Alles, was den Rücklauf anhebt, kostet Effizienz. Typische Ursachen sind Umlenkschaltungen, offene Überströmventile und fehlender [hydraulischer Abgleich](/wissen/hydraulischer-abgleich).
 
-Der Kessel-Sollwert wird aus der Aussentemperatur berechnet:
+## Mindesttemperatur und Rücklaufanhebung
 
-```
-T_Kessel_Soll = f(T_Aussen)
+Ein **herkömmlicher Kessel** (kein Brennwert) darf nicht kondensieren: Das saure Kondensat greift den Wärmetauscher an. Die Hersteller schreiben deshalb eine Mindesttemperatur vor, je nach Bauart etwa 50 bis 60 °C. Ein Brennwertkessel braucht keine, er ist dafür gebaut.
 
-Beispiel:
-  T_Aussen = 0 °C   → T_Kessel = 70 °C
-  T_Aussen = 10 °C  → T_Kessel = 55 °C
-  T_Aussen = 20 °C  → T_Kessel = 40 °C (Grenztemperatur → Abschalten)
+Die GA hält die Mindesttemperatur auf zwei Wegen:
 
-Vorteil: Kessel läuft immer auf minimaler nötiger Temperatur
-→ Längere Brennerdauer pro Takt (weniger Taktverluste)
-→ Bei Brennwertkesseln: mehr Kondensationsbetrieb
-```
+- **Rücklaufanhebung:** Ein Mischventil oder eine Pumpe mischt heisses Vorlaufwasser in den Kesselrücklauf, bis der Rücklauf die Mindesttemperatur hat.
+- **Verbraucher drosseln:** Solange der Kessel zu kalt ist, fahren die Mischventile der Heizkreise zu. Der Kessel bekommt wenig kaltes Wasser zurück und wärmt sich schnell auf.
 
----
+Bei mehreren Kesseln oder viel Anlagenvolumen ist das besonders beim Anfahren am Morgen wichtig.
 
-## Brennwert vs. Heizwert
+## Kaskade mehrerer Kessel
 
-```
-Heizwert Hi: Energie ohne Kondensationswärme des Abgases
-Brennwert Hs: Energie + Kondensationswärme (ca. +11 % bei Erdgas)
+Bei grossen Anlagen teilen sich mehrere Kessel die Leistung. Beispiel 3 × 200 kW:
 
-Kondensation tritt auf wenn:
-  T_Abgas < Taupunkt Abgas ≈ 57 °C (bei Erdgas)
+- **Führungskessel** moduliert allein, solange er reicht.
+- Reicht seine Leistung eine Weile nicht, wird der **zweite Kessel** zugeschaltet. Die Bedingung lautet etwa „über 90 % Leistung oder Vorlauf unter Soll“, mit einer Verzögerung, damit kurze Spitzen ihn nicht starten.
+- **Abschalten** mit Hysterese, damit die Kessel nicht pendeln.
+- **Führungswechsel** nach Betriebsstunden oder wöchentlich, damit alle Kessel gleich altern.
+- **Störung:** Fällt ein Kessel aus, übernimmt der nächste automatisch.
 
-→ Brennwertkessel: Abgastemperatur absichtlich < 57 °C
-→ Wirkungsgrad bezogen auf Hi: 95–109 %
-→ Nur möglich mit tiefen Rücklauftemperaturen (< 50 °C)
-```
+Mehr zur Logik in [Kaskadenregelung](/wissen/kaskadenregelung).
 
-**Rücklauftemperatur-Einfluss:**
+## GA-Datenpunkte
 
-| RL-Temperatur | Kondensation | Wirkungsgrad |
-| ------------- | ------------ | ------------ |
-| 30 °C         | Stark        | 107–109 %    |
-| 45 °C         | Teilweise    | 103–105 %    |
-| 55 °C         | Grenzbereich | 100 %        |
-| 70 °C         | Keine        | 93–95 %      |
+| Datenpunkt                     | Typ    | Einheit | Bemerkung                            |
+| ------------------------------ | ------ | ------- | ------------------------------------ |
+| Kesselvorlauf Ist              | AI     | °C      |                                      |
+| Kesselrücklauf Ist             | AI     | °C      | Kondensation, Rücklaufanhebung       |
+| Kesselsollwert                 | AV     | °C      | gleitend                             |
+| Kesselfreigabe                 | DO     | —       |                                      |
+| Leistungsvorgabe               | AO     | %       | sofern der Kessel sie extern annimmt |
+| Brenner Betrieb                | DI     | —       |                                      |
+| Störung (Sammelstörung)        | DI     | —       |                                      |
+| Abgastemperatur                | AI     | °C      | Verschmutzung, Effizienz             |
+| Wärmezähler Kessel             | Zähler | kWh     | Leistung und Energie                 |
+| Brennerstarts, Betriebsstunden | Zähler | —       | Takten erkennen                      |
 
----
+Viele moderne Kessel haben einen eigenen Regler und werden über **Bus** (Modbus, BACnet, OpenTherm) oder **0–10 V** als Sollwert oder Leistung angesteuert. Was der Kessel annimmt, steht in seiner Anschlussanleitung.
 
-## Kesselmindesttemperatur und Taupunktschutz
+## Abgasverlust
 
-**Problem:** Bei zu tiefer Kesseltemperatur: Korrosion durch Säurekondensation (Heizwertkessel, Ölkessel).
+Den Abgasverlust misst der Kaminfeger nach der Formel von **Siegert**:
 
-```
-Taupunktschutz:
-  Heizwertkessel Öl: T_Kessel_min = 60–65 °C
-  Heizwertkessel Gas: T_Kessel_min = 55 °C
-  Brennwertkessel:    keine Mindesttemperatur (säurefest)
+$$q_A = (t_A - t_L) \cdot \left( \frac{A_2}{21 - O_2} + B \right)$$
 
-GA-Umsetzung:
-  Wenn T_Kessel < T_min → Rücklaufbeimischung sperren
-  → Kessel-Rücklauf = Kesselbeipass (Hochtemperaturrücklauf)
-```
+| Grösse | Bedeutung                                                             |
+| ------ | --------------------------------------------------------------------- |
+| q_A    | Abgasverlust in % (bezogen auf Hi)                                    |
+| t_A    | Abgastemperatur in °C                                                 |
+| t_L    | Verbrennungslufttemperatur in °C                                      |
+| O₂     | Sauerstoffgehalt im Abgas in %                                        |
+| A₂, B  | Brennstoffkonstanten: Erdgas 0.66 und 0.009, Heizöl EL 0.68 und 0.007 |
 
----
+**Beispiel Erdgas:** Abgas 120 °C, Luft 20 °C, O₂ 3 %: q_A = 100 × (0.66 / 18 + 0.009) ≈ **4.6 %**.
 
-## Kaskadenregelung mehrerer Kessel
-
-Grosse Anlagen mit mehreren Kesseln:
-
-```
-Wärmebedarf 500 kW, 3 Kessel à 200 kW:
-
-  Leistung < 200 kW: Kessel 1 modulierend
-  Leistung > 180 kW: Kessel 2 zuschalten
-  Leistung > 380 kW: Kessel 3 zuschalten
-
-Führungswechsel:
-  Stunden-Zähler → Führungskessel wechselt täglich
-  → gleichmässiger Verschleiss, Redundanz
-
-Sperrsignal:
-  Kessel 1 Störung → automatisch Kessel 2 übernimmt
-```
-
----
-
-## GA-Datenpunkte Kesselanlage
-
-| Datenpunkt              | Typ | Einheit | Beschreibung                |
-| ----------------------- | --- | ------- | --------------------------- |
-| Kesseltemperatur VL Ist | AI  | °C      | Vorlauf Kessel              |
-| Kesseltemperatur RL Ist | AI  | °C      | Rücklauf (Taupunktschutz)   |
-| Kessel-Sollwert         | AV  | °C      | Vorgabe gleitend            |
-| Brenner Freigabe        | DO  | —       | Freigabe EIN/AUS            |
-| Brenner Leistungssignal | AO  | %       | 0–10 V modulierend          |
-| Brenner Betrieb         | DI  | —       | Laufmeldung                 |
-| Brenner Störung         | DI  | —       | Übertemperatur, Abschaltung |
-| Gasventil Störung       | DI  | —       | Gasversorgung               |
-| Abgastemperatur         | AI  | °C      | Effizienz-Monitoring        |
-| Wärmemenge Kessel       | AI  | kWh     | Zähler                      |
-
----
-
-## Abgasverlust-Monitoring
-
-```
-Abgasverlust nach Siegert (näherungsweise):
-
-  q_A = (q_CO2_max / q_CO2 − 1) × (t_A − t_L) × A2
-
-  Vereinfacht: je 1 K Abgastemperatur > Optimum → ~0.3 % mehr Verlust
-
-  Optimale Abgastemperatur Erdgas: 80–120 °C (Heizwert) / < 57 °C (Brennwert)
-```
-
----
+Die Abgastemperatur ist der einfachste Indikator für die GA: Steigt sie bei gleicher Leistung über Wochen an, verschmutzt der Wärmetauscher.
 
 ## Normen
 
-- **EN 303** — Heizkessel (Gas- und Ölbrenner)
-- **BImSchV (DE)** — Emissionsgrenzwerte, Abgasmessungen
-- **SIA 384.201** — Heizungsanlagen (Auslegung, Kessel)
-- **ÖNORM H 5170** — Kesselanlagen, Betrieb, Wartung
+- **EN 303** — Heizkessel mit Gebläsebrenner
+- **EN 15502** — Gasheizkessel
+- **LRV (CH) / 1. BImSchV (DE)** — Emissionen und Abgasverlust
+- **SIA 384/1** — Heizungsanlagen in Gebäuden, Grundlagen und Anforderungen
 
 <!-- EN -->
 
-## Boiler Control — Modulating, Sliding and Two-Stage
+Boiler control determines how warm the boiler is and at which output the burner runs. Today's goal: run as low as possible so a condensing boiler condenses, and cycle as little as possible.
 
-Boiler control determines flow temperature and burner output. The modern goal is maximum efficiency through low boiler temperature and condensing operation.
+## Burner Types
 
-## Burner Types and Control Modes
+| Burner           | Output                         | Control                                                    | Drawback                           |
+| ---------------- | ------------------------------ | ---------------------------------------------------------- | ---------------------------------- |
+| **Single-stage** | on or off                      | On/off with switching differential around the setpoint     | Many starts, wear, start-up losses |
+| **Two-stage**    | e.g. 60 % and 100 %            | Stage 1 for small deviation, stage 2 for large             | Still cycles at low load           |
+| **Modulating**   | continuous, typically 20–100 % | PI controller: deviation from setpoint gives burner output | Below minimum output it cycles too |
 
-### Single-Stage Burner
+The **minimum output** is the critical point: if the building needs less than the burner can deliver at minimum, even a modulating boiler cycles. Hence the modulation range in the datasheet (e.g. 1:5 or 1:10) and, with large fluctuations, a [buffer tank](/wissen/pufferspeicher).
 
-```
-Burner: ON or OFF
-  Cycling: e.g. 10 min ON / 5 min AUS
+## Sliding Boiler Temperature
 
-Disadvantage:
-  High cycle count → wear
-  Always full output → overtemperature → cyclic losses
-```
+Instead of a fixed 70 °C, the boiler runs only as warm as the heating circuits currently need. The setpoint comes from the outdoor temperature, i.e. the [heating curve](/wissen/heizkurve), or as the highest demand of all circuits plus a few kelvin margin for the mixing valves.
 
-### Two-Stage Burner
+| Outdoor temperature | Boiler setpoint (example) |
+| ------------------- | ------------------------- |
+| −8 °C               | 70 °C                     |
+| 0 °C                | 60 °C                     |
+| 10 °C               | 45 °C                     |
+| above heating limit | off, except hot water     |
 
-```
-Stage 1 (base load): 60 % output
-Stage 2 (full load): 100 % output
+Benefits: lower standby losses, more condensation with a condensing boiler. During hot water charging the setpoint may rise temporarily.
 
-Control:
-  Boiler temperature < setpoint − 5 K: switch on stage 1
-  Boiler temperature < setpoint − 10 K: switch on stage 2
-  Boiler temperature > setpoint: OFF
-```
+## Net and Gross Calorific Value
 
-### Modulating Burner
+- **Net calorific value Hi:** energy of the fuel without the condensation heat of the water vapour in the flue gas
+- **Gross calorific value Hs:** including that condensation heat, about 11 % more than Hi for natural gas, about 6 % for heating oil
 
-```
-Output range: 20–100 % (modulation ratio 1:5)
+A **condensing boiler** cools the flue gas below its dew point, about 55 to 57 °C for natural gas. Because efficiencies are traditionally referred to Hi, values above 100 % result.
 
-Control:
-  Boiler temperature − setpoint = Δ
-  PID → output signal 20–100 %
+The **return** is what matters: only if the water comes back cold enough can the heat exchanger cool the flue gas below the dew point.
 
-Advantage:
-  No cycling, constant temperature
-  Better part-load efficiency
-  Condensing operation possible (flue gas temp < 57 °C)
-```
+| Return      | Condensation     | Seasonal efficiency referred to Hi (natural gas) |
+| ----------- | ---------------- | ------------------------------------------------ |
+| 30 °C       | strong           | around 105–108 %                                 |
+| 45 °C       | partial          | around 102–104 %                                 |
+| above 55 °C | practically none | like a good low-temperature boiler               |
 
----
+These are guide values; your boiler's curve is in its datasheet. For BA this means: anything that raises the return costs efficiency. Typical causes are diverting circuits, open bypass valves and missing [hydraulic balancing](/wissen/hydraulischer-abgleich).
 
-## Sliding Boiler Control (Weather-Compensated)
+## Minimum Temperature and Return Temperature Boost
 
-The boiler setpoint is calculated from outdoor temperature:
+A **conventional boiler** (non-condensing) must not condense: the acidic condensate attacks the heat exchanger. Manufacturers therefore specify a minimum temperature, about 50 to 60 °C depending on design. A condensing boiler needs none; it is built for it.
 
-```
-T_boiler_setpoint = f(T_outdoor)
+The BA maintains the minimum temperature in two ways:
 
-Example:
-  T_outdoor = 0 °C   → T_boiler = 70 °C
-  T_outdoor = 10 °C  → T_boiler = 55 °C
-  T_outdoor = 20 °C  → T_boiler = 40 °C (limit → switch off)
+- **Return temperature boost:** a mixing valve or pump mixes hot flow water into the boiler return until the return reaches the minimum temperature.
+- **Throttling the consumers:** while the boiler is too cold, the mixing valves of the heating circuits close. The boiler gets little cold water back and warms up quickly.
 
-Advantage: boiler always runs at the minimum required temperature
-→ Longer burner run time per cycle (fewer cyclic losses)
-→ In condensing boilers: more condensing operation
-```
+With several boilers or a large system volume this matters especially at morning start-up.
 
----
+## Cascade of Several Boilers
 
-## Condensing vs. Standard (Gross/Net Calorific Value)
+In large plants several boilers share the load. Example 3 × 200 kW:
 
-```
-Net calorific value Hi: energy without condensation heat from flue gas
-Gross calorific value Hs: energy + condensation heat (~+11 % for natural gas)
+- The **lead boiler** modulates alone as long as it is sufficient.
+- If its output is insufficient for a while, the **second boiler** is switched on. The condition is something like "above 90 % output or flow below setpoint", with a delay so short peaks do not start it.
+- **Switch-off** with hysteresis so the boilers do not hunt.
+- **Lead rotation** by operating hours or weekly so all boilers age evenly.
+- **Fault:** if one boiler fails, the next takes over automatically.
 
-Condensation occurs when:
-  T_flue gas < dew point of flue gas ≈ 57 °C (natural gas)
+More on the logic in [Cascade Control](/wissen/kaskadenregelung).
 
-→ Condensing boiler: flue gas temperature intentionally < 57 °C
-→ Efficiency based on Hi: 95–109 %
-→ Only possible with low return temperatures (< 50 °C)
-```
+## BA Data Points
 
-**Return temperature influence:**
+| Data point               | Type  | Unit | Remark                              |
+| ------------------------ | ----- | ---- | ----------------------------------- |
+| Boiler flow actual       | AI    | °C   |                                     |
+| Boiler return actual     | AI    | °C   | condensation, return boost          |
+| Boiler setpoint          | AV    | °C   | sliding                             |
+| Boiler enable            | DO    | —    |                                     |
+| Output demand            | AO    | %    | if the boiler accepts it externally |
+| Burner running           | DI    | —    |                                     |
+| Fault (common alarm)     | DI    | —    |                                     |
+| Flue gas temperature     | AI    | °C   | fouling, efficiency                 |
+| Heat meter boiler        | meter | kWh  | output and energy                   |
+| Burner starts, run hours | meter | —    | detect cycling                      |
 
-| Return temp | Condensation | Efficiency |
-| ----------- | ------------ | ---------- |
-| 30 °C       | Intensive    | 107–109 %  |
-| 45 °C       | Partial      | 103–105 %  |
-| 55 °C       | Borderline   | 100 %      |
-| 70 °C       | None         | 93–95 %    |
+Many modern boilers have their own controller and are driven via **bus** (Modbus, BACnet, OpenTherm) or **0–10 V** as setpoint or output. What the boiler accepts is in its connection manual.
 
----
+## Flue Gas Loss
 
-## Minimum Boiler Temperature and Dew Point Protection
+The chimney sweep measures flue gas loss with the **Siegert** formula:
 
-**Problem:** Boiler temperature too low → corrosion from acid condensation (non-condensing boilers, oil boilers).
+$$q_A = (t_A - t_L) \cdot \left( \frac{A_2}{21 - O_2} + B \right)$$
 
-```
-Dew point protection:
-  Non-condensing oil boiler: T_boiler_min = 60–65 °C
-  Non-condensing gas boiler: T_boiler_min = 55 °C
-  Condensing boiler:         no minimum temperature (acid-resistant)
+| Quantity | Meaning                                                                   |
+| -------- | ------------------------------------------------------------------------- |
+| q_A      | flue gas loss in % (referred to Hi)                                       |
+| t_A      | flue gas temperature in °C                                                |
+| t_L      | combustion air temperature in °C                                          |
+| O₂       | oxygen content of the flue gas in %                                       |
+| A₂, B    | fuel constants: natural gas 0.66 and 0.009, heating oil EL 0.68 and 0.007 |
 
-BA implementation:
-  If T_boiler < T_min → block return blending
-  → Boiler return = boiler bypass (high-temperature return)
-```
+**Example natural gas:** flue gas 120 °C, air 20 °C, O₂ 3 %: q_A = 100 × (0.66 / 18 + 0.009) ≈ **4.6 %**.
 
----
-
-## Cascade Control of Multiple Boilers
-
-Large systems with multiple boilers:
-
-```
-Heat demand 500 kW, 3 boilers × 200 kW:
-
-  Demand < 200 kW: boiler 1 modulating
-  Demand > 180 kW: bring on boiler 2
-  Demand > 380 kW: bring on boiler 3
-
-Lead rotation:
-  Hour counter → lead boiler changes daily
-  → Even wear, redundancy
-
-Lock-out signal:
-  Boiler 1 fault → boiler 2 takes over automatically
-```
-
----
-
-## BA Data Points Boiler System
-
-| Data point                | Type | Unit | Description                   |
-| ------------------------- | ---- | ---- | ----------------------------- |
-| Boiler flow temp actual   | AI   | °C   | Boiler flow                   |
-| Boiler return temp actual | AI   | °C   | Return (dew point protection) |
-| Boiler setpoint           | AV   | °C   | Sliding setpoint              |
-| Burner enable             | DO   | —    | Enable ON/OFF                 |
-| Burner output signal      | AO   | %    | 0–10 V modulating             |
-| Burner running            | DI   | —    | Run status                    |
-| Burner fault              | DI   | —    | Overtemperature, lockout      |
-| Gas valve fault           | DI   | —    | Gas supply                    |
-| Flue gas temperature      | AI   | °C   | Efficiency monitoring         |
-| Boiler heat quantity      | AI   | kWh  | Meter                         |
-
----
-
-## Flue Gas Loss Monitoring
-
-```
-Flue gas loss after Siegert (approximation):
-
-  q_A = (q_CO2_max / q_CO2 − 1) × (t_A − t_L) × A2
-
-  Simplified: every 1 K flue gas temp above optimum → ~0.3 % more loss
-
-  Optimum flue gas temperature natural gas: 80–120 °C (standard) / < 57 °C (condensing)
-```
-
----
+Flue gas temperature is the simplest indicator for BA: if it rises over weeks at the same output, the heat exchanger is fouling.
 
 ## Standards
 
-- **EN 303** — Heating boilers (gas and oil burners)
-- **BImSchV (DE)** — Emission limits, flue gas measurements
-- **SIA 384.201** — Heating systems (design, boilers)
-- **ÖNORM H 5170** — Boiler systems, operation, maintenance
+- **EN 303** — Heating boilers with forced draught burners
+- **EN 15502** — Gas-fired heating boilers
+- **LRV (CH) / 1. BImSchV (DE)** — Emissions and flue gas loss
+- **SIA 384/1** — Heating systems in buildings, fundamentals and requirements

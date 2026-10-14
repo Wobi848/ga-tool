@@ -22,262 +22,159 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [heizung-grundlagen, waermemengenzaehler, hydraulische-schaltungen, pid-regler, heizkurve]
-norm: [EN 14336, AGFW FW 401, SIA 384.201]
-updated: 2026-05-14
+related:
+  [
+    heizung-grundlagen,
+    waermemengenzaehler,
+    hydraulische-schaltungen,
+    pid-regler,
+    heizkurve,
+    ventil-schaltungen,
+    hydraulischer-abgleich
+  ]
+norm: [TAB des Versorgers, EN 14336, SIA 384/1]
+updated: 2026-10-14
 lang: de
 ---
 
 # Fernwärme — Übergabestation und GA-Anbindung
 
-Fernwärme liefert Heizwärme und Warmwasser über ein städtisches Netz. An der **Übergabestation** (Hausübergabestation, HÜS) trennen sich Fernwärmenetz und Hausinstallation. Die GA-Aufgabe: die Sekundärseite optimal regeln.
+Fernwärme liefert Wärme über ein Leitungsnetz. In der **Übergabestation** treffen Netz und Hausanlage aufeinander, getrennt durch einen Wärmetauscher. Die Netzseite gehört meist dem Versorger, die Hausseite regelt die GA.
 
-## System-Übersicht
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 200" role="img" aria-label="Fernwärme-Übergabestation: Wärmezähler, Regelventil und Rücklauffühler auf der Netzseite, Wärmetauscher, Pumpe und Vorlauffühler auf der Hausseite" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path class="vl" d="M14 50L183 50" stroke-width="3"/><path class="rl" d="M183 140L14 140" stroke-width="3"/><rect x="47" y="131" width="26" height="18" rx="3" class="bauteil bg"/><path d="M103 133L103 147L117 133L117 147Z" class="bauteil bg"/><path d="M110 147V157" class="bauteil"/><rect x="103" y="157" width="14" height="12" class="bauteil bg"/><path d="M140 140V155" class="bauteil" stroke-width="1"/><circle cx="140" cy="162" r="7" class="bauteil bg" stroke-width="1.2"/><rect x="183" y="45" width="34" height="100" rx="2" class="bauteil bg"/><path d="M183 145L217 45" class="bauteil"/><path class="vl" d="M217 50L400 50" stroke-width="3"/><path class="rl" d="M400 140L217 140" stroke-width="3"/><circle cx="255" cy="50" r="9" class="bauteil bg"/><path d="M251 44L262 50L251 56Z" class="bauteil"/><path d="M295 50V35" class="bauteil" stroke-width="1"/><circle cx="295" cy="28" r="7" class="bauteil bg" stroke-width="1.2"/><rect x="340" y="72" width="64" height="46" rx="3" class="bauteil bg"/><path class="vl" d="M372 50L372 72" stroke-width="3"/><path class="rl" d="M372 118L372 140" stroke-width="3"/><path class="vl fill" d="M35 46L45 50L35 54Z" stroke-width="1"/><path class="rl fill" d="M95 136L85 140L95 144Z" stroke-width="1"/><path class="vl fill" d="M315 46L325 50L315 54Z" stroke-width="1"/><path class="rl fill" d="M325 136L315 140L325 144Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="14" y="30" text-anchor="start" font-size="11" font-weight="600">Fernwärmenetz</text><text x="416" y="30" text-anchor="end" font-size="11" font-weight="600">Hausanlage</text><text x="60" y="144" text-anchor="middle" font-size="9.5">WZ</text><text x="110" y="166.5" text-anchor="middle" font-size="9.5">M</text><text x="140" y="165.5" text-anchor="middle" font-size="10">T</text><text x="295" y="31.5" text-anchor="middle" font-size="10">T</text><text x="372" y="98.33333333333333" text-anchor="middle" font-size="10"></text><text x="372" y="92" text-anchor="middle" font-size="10">Heizkreise,</text><text x="372" y="105" text-anchor="middle" font-size="10">Warmwasser</text><text x="140" y="180" text-anchor="middle" font-size="10">RL-Begrenzung</text><text x="222" y="165" text-anchor="start" font-size="10">Wärmetauscher</text></g></svg><figcaption>Indirekter Anschluss: Wärmezähler, Regelventil und Rücklaufbegrenzung auf der Netzseite, Wärmetauscher, Pumpe und Vorlauffühler auf der Hausseite.</figcaption></figure>
 
-```
-Fernwärmenetz (Primärseite)
-  Vorlauf 70–130 °C, Rücklauf < 55 °C
-        ↓ Übergabestation (HÜS)
-  ┌────────────────────────────────┐
-  │  Übergabestation               │
-  │  ├── Wärmezähler (Primär)     │
-  │  ├── Regelventil (Primär)     │
-  │  └── Plattentauscher          │
-  └────────────────────────────────┘
-        ↓ Sekundärseite (Hausinstallation)
-  Heizkreise, Warmwasser, Lüftung
-```
+## Die Komponenten
 
----
+### Netzseite (primär)
 
-## Übergabestation — Komponenten
-
-### Primärseite (Fernwärmenetz)
-
-| Komponente             | Funktion                                     |
-| ---------------------- | -------------------------------------------- |
-| Hauptabsperrventil     | Trennt Gebäude vom Netz                      |
-| Schmutzfänger          | Schutz der Armaturen                         |
-| Primärdurchflussmesser | Abrechnung (geeichter WMZ)                   |
-| Regelventil (Primär)   | Steuert Wärmeübertrag via Primärvolumenstrom |
-| Rückflussbegrenzer     | Begrenzt RL-Temp (Vertragsanforderung!)      |
+| Komponente                                  | Aufgabe                                                                     |
+| ------------------------------------------- | --------------------------------------------------------------------------- |
+| Absperrarmaturen, Schmutzfänger             | Trennen vom Netz, Schutz der Armaturen                                      |
+| **Wärmezähler**                             | Abrechnung, geeicht, gehört meist dem Versorger                             |
+| **Regelventil**                             | Bestimmt über den Volumenstrom, wie viel Wärme übertragen wird              |
+| **Differenzdruck- oder Volumenstromregler** | Hält die Verhältnisse am Regelventil stabil, begrenzt die Anschlussleistung |
+| **Rücklauftemperaturbegrenzung**            | Schliesst das Ventil, wenn der Rücklauf zu warm wird                        |
 
 ### Wärmetauscher
 
-Plattentauscher trennt Primär- von Sekundärnetz:
+Ein Plattenwärmetauscher trennt Netz und Haus hydraulisch. Das Netzwasser fliesst nie durch die Heizkörper, der Netzdruck bleibt draussen. Das nennt man **indirekten Anschluss**. Bei direkten Anschlüssen fliesst das Netzwasser durch die Hausanlage; das ist heute selten.
 
-- Primär und Sekundär sind nicht hydraulisch verbunden (kein Flüssigkeitsaustausch)
-- Leistung abhängig von: Primärvolumenstrom, Temperaturdifferenz, WT-Grösse
+### Hausseite (sekundär)
 
-### Sekundärseite
+Ab dem Wärmetauscher ist es eine normale Heizungsanlage: Verteiler, Heizkreise mit Pumpen und Mischventilen, Warmwasserbereitung, Lufterhitzer.
 
-Ab dem Wärmetauscher ist alles "normale" Hausanlage:
+## Der Rücklauf ist die wichtigste Zahl
 
-- Heizkreis-Pumpe, Mischventil, Heizkörper/FBH
-- Warmwasser-Speicher oder Durchlauferhitzer
-- Lüftungsanlage-Lufterhitzer
+Die **technischen Anschlussbedingungen (TAB)** des Versorgers schreiben eine maximale Rücklauftemperatur vor, typisch 40 bis 55 °C. Warum der Versorger so darauf pocht:
 
----
+- **Gleiche Leistung bei grosser Spreizung braucht weniger Wasser.** Kommt der Rücklauf zu warm zurück, muss mehr Wasser zirkulieren, und das kostet Pumpenstrom und Netzkapazität.
+- **Wärmeverluste des Netzes** steigen mit der Rücklauftemperatur.
+- **Viele Wärmequellen** (Wärmepumpen, Abwärme, Kondensation in Kesseln) arbeiten nur mit kaltem Rücklauf gut.
 
-## Rücklauftemperatur-Begrenzung
+Manche Versorger rechnen deshalb einen Malus für zu warmen Rücklauf ab. Für die GA heisst das: Schaltungen mit tiefem Rücklauf wählen (siehe [Grundschaltungen](/wissen/ventil-schaltungen), Umlenk- und Einspritzschaltungen mit Dreiwegventil sind ungeeignet), [hydraulischen Abgleich](/wissen/hydraulischer-abgleich) machen, Überströmventile prüfen.
 
-**Wichtigste Anforderung** des Fernwärmeversorgers: Maximale Primär-Rücklauftemperatur!
+## Regelung
 
-Typisch: Primär-RL ≤ 45–55 °C (je nach Vertrag)
+Die GA regelt die **Vorlauftemperatur auf der Hausseite** über das Regelventil auf der Netzseite. Der Sollwert kommt aus der [Heizkurve](/wissen/heizkurve) oder als höchste Anforderung der Heizkreise.
 
-**Warum:** Wenn Primär-RL zu warm → Fernwärmeversorger kann keine weitere Wärme abführen → Effizienzverlust im Netz.
+Dazu kommt die **Rücklaufbegrenzung** als zweiter Regler: Steigt der Rücklauf auf der Netzseite über den Grenzwert, begrenzt sie das Ventil, auch wenn der Vorlauf dann etwas unter Soll fällt. Umgesetzt als Minimalauswahl der beiden Stellgrössen.
 
-### Regelung
+Eine Besonderheit: Es gibt kein «Heizen ein/aus» wie beim Kessel. Das Netz liefert jederzeit Wärme, die Station bestimmt nur, wie viel sie abnimmt.
 
-```
-Primär-Regelventil steuert Primärvolumenstrom:
-  → Mehr Primärflow = mehr Wärmeleistung
-  → Aber: wenn Primär-RL zu warm → Flow reduzieren
+## Leistungsbegrenzung
 
-Kaskade:
-  Sekundär-VL-Regler (Heizkurve) → Primär-Sollflow
-                                         ↓
-                                   Primär-RL-Begrenzer
-                                   (begrenzt wenn RL > Max)
-```
+Viele Verträge enthalten eine **Anschlussleistung** und einen Leistungspreis. Die GA hilft, Spitzen zu vermeiden:
 
----
+- Warmwasserladung in Zeiten geringer Heizlast verschieben
+- Lufterhitzer kurzzeitig begrenzen
+- Morgendliches Aufheizen staffeln statt alle Gruppen gleichzeitig starten
 
-## GA-Datenpunkte Übergabestation
+## GA-Datenpunkte
 
-| Datenpunkt                  | Typ | Einheit | Beschreibung                  |
-| --------------------------- | --- | ------- | ----------------------------- |
-| Primär VL-Temperatur        | AI  | °C      | Fernwärme-Vorlauf             |
-| Primär RL-Temperatur        | AI  | °C      | Fernwärme-Rücklauf (Pflicht!) |
-| Primär Volumenstrom         | AI  | m³/h    | Durchfluss Primär             |
-| Primär Wärmemenge           | AI  | kWh     | Zählerstand (M-Bus)           |
-| Primär Regelventil          | AO  | %       | 0–10 V Stellsignal            |
-| Sekundär VL-Temperatur      | AI  | °C      | Hausanlage Vorlauf            |
-| Sekundär RL-Temperatur      | AI  | °C      | Hausanlage Rücklauf           |
-| Sekundär Leistung           | AV  | kW      | Berechnete Sekundärleistung   |
-| Alarm RL-Temp überschritten | BI  | —       | Primär-RL > Grenzwert         |
-| Alarm Durchfluss 0          | BI  | —       | Keine Wärmezufuhr             |
+| Datenpunkt                                   | Typ | Einheit       | Bemerkung                                     |
+| -------------------------------------------- | --- | ------------- | --------------------------------------------- |
+| Vorlauf Netzseite                            | AI  | °C            |                                               |
+| Rücklauf Netzseite                           | AI  | °C            | Grenzwert nach TAB                            |
+| Vorlauf Hausseite Ist                        | AI  | °C            | Regelgrösse                                   |
+| Rücklauf Hausseite                           | AI  | °C            | Diagnose                                      |
+| Regelventil Netzseite                        | AO  | %             |                                               |
+| Wärmezähler: Energie, Leistung, Volumenstrom | Bus | kWh, kW, m³/h | meist M-Bus, Zugriff mit dem Versorger klären |
+| Alarm Rücklauf zu hoch                       | BV  | —             | aus dem Grenzwert                             |
+| Pumpe Hausseite Betrieb/Störung              | DI  | —             |                                               |
 
----
+## Normen und Vorgaben
 
-## Heizkurven-Regelung mit Fernwärme
-
-Die Sekundärseite wird exakt wie eine konventionelle Heizung geregelt:
-
-```
-Aussentemperatur → Heizkurve → Sek. VL-Sollwert
-    ↓ PID-Regler
-    ↓ Stellgrösse → Primär-Regelventil öffnen/schliessen
-    ↑ Sek. VL-Istwert (Rückmeldung)
-```
-
-**Besonderheit:** Es gibt kein "Heizen ein/aus" — das Fernwärmenetz liefert immer Wärme. Nur das Regelventil bestimmt wie viel entnommen wird.
-
----
-
-## Leistungsregelung und Peaks
-
-Fernwärme-Vertrag enthält oft **Leistungsgrenze** (z.B. max. 200 kW):
-
-```
-Aktuelle Leistung überschreitet Grenze:
-  → EMS begrenzt Leistungsabruf
-  → z.B. Warmwasser-Speicherladung verzögern
-  → Lüftungserhitzer temporär reduzieren
-```
-
-**Folge:** Leistungs-Peak-Überschreitungen kosten oft extra (Leistungspreis im FW-Tarif).
-
-## Normen
-
-- **EN 14336** — Installation und Abnahme Heizungsanlagen
-- **AGFW FW 401** (DE) — Rohrweitenbemessung Fernwärme
-- **SIA 384.201** (CH) — Heizungsanlagen in Gebäuden
-- **AGFW FW 301** — Allgemeine Bedingungen für die Versorgung mit Fernwärme
+- **TAB des Versorgers** — massgebend für Anschluss, Rücklauftemperatur, Leistung
+- **EN 14336** — Installation und Abnahme von Warmwasser-Heizungsanlagen
+- **SIA 384/1** — Heizungsanlagen in Gebäuden
 
 <!-- EN -->
 
-District heating supplies heating and domestic hot water via an urban network. At the **transfer station** (building heat interface unit, HIU) the district heating network and the building installation are separated. The BA task: optimally control the secondary side.
+District heating delivers heat through a pipe network. In the **substation**, network and building system meet, separated by a heat exchanger. The network side usually belongs to the utility, the building side is controlled by the BA.
 
-## System Overview
+<figure class="schema"><svg class="hyd" viewBox="0 0 430 200" role="img" aria-label="District heating substation: heat meter, control valve and return sensor on the network side, heat exchanger, pump and flow sensor on the building side" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path class="vl" d="M14 50L183 50" stroke-width="3"/><path class="rl" d="M183 140L14 140" stroke-width="3"/><rect x="47" y="131" width="26" height="18" rx="3" class="bauteil bg"/><path d="M103 133L103 147L117 133L117 147Z" class="bauteil bg"/><path d="M110 147V157" class="bauteil"/><rect x="103" y="157" width="14" height="12" class="bauteil bg"/><path d="M140 140V155" class="bauteil" stroke-width="1"/><circle cx="140" cy="162" r="7" class="bauteil bg" stroke-width="1.2"/><rect x="183" y="45" width="34" height="100" rx="2" class="bauteil bg"/><path d="M183 145L217 45" class="bauteil"/><path class="vl" d="M217 50L400 50" stroke-width="3"/><path class="rl" d="M400 140L217 140" stroke-width="3"/><circle cx="255" cy="50" r="9" class="bauteil bg"/><path d="M251 44L262 50L251 56Z" class="bauteil"/><path d="M295 50V35" class="bauteil" stroke-width="1"/><circle cx="295" cy="28" r="7" class="bauteil bg" stroke-width="1.2"/><rect x="340" y="72" width="64" height="46" rx="3" class="bauteil bg"/><path class="vl" d="M372 50L372 72" stroke-width="3"/><path class="rl" d="M372 118L372 140" stroke-width="3"/><path class="vl fill" d="M35 46L45 50L35 54Z" stroke-width="1"/><path class="rl fill" d="M95 136L85 140L95 144Z" stroke-width="1"/><path class="vl fill" d="M315 46L325 50L315 54Z" stroke-width="1"/><path class="rl fill" d="M325 136L315 140L325 144Z" stroke-width="1"/><g fill="currentColor" stroke="none"><text x="14" y="30" text-anchor="start" font-size="11" font-weight="600">District heating network</text><text x="416" y="30" text-anchor="end" font-size="11" font-weight="600">Building system</text><text x="60" y="144" text-anchor="middle" font-size="9.5">HM</text><text x="110" y="166.5" text-anchor="middle" font-size="9.5">M</text><text x="140" y="165.5" text-anchor="middle" font-size="10">T</text><text x="295" y="31.5" text-anchor="middle" font-size="10">T</text><text x="372" y="98.33333333333333" text-anchor="middle" font-size="10"></text><text x="372" y="92" text-anchor="middle" font-size="10">Heating,</text><text x="372" y="105" text-anchor="middle" font-size="10">hot water</text><text x="140" y="180" text-anchor="middle" font-size="10">Return limit</text><text x="222" y="165" text-anchor="start" font-size="10">Heat exchanger</text></g></svg><figcaption>Indirect connection: heat meter, control valve and return limitation on the network side, heat exchanger, pump and flow sensor on the building side.</figcaption></figure>
 
-```
-District heating network (primary side)
-  Supply 70–130 °C, return < 55 °C
-        ↓ Transfer station (HIU)
-  ┌────────────────────────────────┐
-  │  Transfer station               │
-  │  ├── Heat meter (primary)      │
-  │  ├── Control valve (primary)   │
-  │  └── Plate heat exchanger      │
-  └────────────────────────────────┘
-        ↓ Secondary side (building installation)
-  Heating circuits, domestic hot water, ventilation
-```
+## The Components
 
----
+### Network Side (Primary)
 
-## Transfer Station — Components
-
-### Primary Side (District Heating Network)
-
-| Component                  | Function                                             |
-| -------------------------- | ---------------------------------------------------- |
-| Main shut-off valve        | Isolates building from the network                   |
-| Y-strainer                 | Protects valves and fittings                         |
-| Primary flow meter         | Billing (calibrated heat meter)                      |
-| Control valve (primary)    | Controls heat transfer via primary flow rate         |
-| Return temperature limiter | Limits return temperature (contractual requirement!) |
+| Component                                 | Purpose                                                                 |
+| ----------------------------------------- | ----------------------------------------------------------------------- |
+| Isolating valves, strainer                | Separate from the network, protect the valves                           |
+| **Heat meter**                            | Billing, calibrated, usually owned by the utility                       |
+| **Control valve**                         | Determines through the flow rate how much heat is transferred           |
+| **Differential pressure or flow limiter** | Keeps conditions at the control valve stable, limits the connected load |
+| **Return temperature limitation**         | Closes the valve when the return gets too warm                          |
 
 ### Heat Exchanger
 
-Plate heat exchanger separates the primary and secondary network:
+A plate heat exchanger separates network and building hydraulically. Network water never flows through the radiators, and the network pressure stays outside. This is called an **indirect connection**. In direct connections the network water flows through the building system; that is rare today.
 
-- Primary and secondary are not hydraulically connected (no fluid exchange)
-- Output depends on: primary flow rate, temperature differential, heat exchanger size
+### Building Side (Secondary)
 
-### Secondary Side
+From the heat exchanger on it is a normal heating system: header, heating circuits with pumps and mixing valves, hot water production, air heaters.
 
-Everything downstream of the heat exchanger is a conventional building installation:
+## The Return Is the Key Figure
 
-- Heating circuit pump, mixing valve, radiators/underfloor heating
-- Domestic hot water storage or instantaneous heater
-- AHU air heater coil
+The utility's **technical connection conditions** prescribe a maximum return temperature, typically 40 to 55 °C. Why the utility insists on it:
 
----
+- **The same output with a large temperature difference needs less water.** If the return comes back too warm, more water must circulate, which costs pumping energy and network capacity.
+- **Network heat losses** rise with the return temperature.
+- **Many heat sources** (heat pumps, waste heat, condensation in boilers) only work well with a cold return.
 
-## Return Temperature Limitation
+Some utilities therefore charge a penalty for too warm a return. For the BA this means: choose circuits with a low return (see [Basic Circuits](/wissen/ventil-schaltungen); diverting circuits and injection circuits with three-way valve are unsuitable), carry out [hydraulic balancing](/wissen/hydraulischer-abgleich), check bypass valves.
 
-**Most important requirement** from the district heating supplier: maximum primary return temperature!
+## Control
 
-Typical: primary return ≤ 45–55 °C (depending on contract)
+The BA controls the **flow temperature on the building side** through the control valve on the network side. The setpoint comes from the [heating curve](/wissen/heizkurve) or as the highest demand of the heating circuits.
 
-**Why:** If primary return is too warm → district heating supplier cannot reject further heat → efficiency loss in the network.
+The **return limitation** acts as a second controller: if the network-side return rises above the limit, it limits the valve, even if the flow then drops slightly below setpoint. Implemented as a minimum selection of the two control signals.
 
-### Control Logic
+One peculiarity: there is no "heating on/off" as with a boiler. The network supplies heat at all times; the substation only decides how much it takes.
 
-```
-Primary control valve regulates primary flow rate:
-  → More primary flow = more heat output
-  → But: if primary return too warm → reduce flow
+## Load Limitation
 
-Cascade:
-  Secondary flow temp controller (heating curve) → primary target flow
-                                                         ↓
-                                              Primary return temp limiter
-                                              (limits when return > max)
-```
+Many contracts include a **connected load** and a demand charge. The BA helps avoid peaks:
 
----
+- shift hot water charging to times of low heating load
+- limit air heaters briefly
+- stagger morning heat-up instead of starting all groups at once
 
-## BA Data Points — Transfer Station
+## BA Data Points
 
-| Data point                   | Type | Unit | Description                          |
-| ---------------------------- | ---- | ---- | ------------------------------------ |
-| Primary supply temperature   | AI   | °C   | District heating supply              |
-| Primary return temperature   | AI   | °C   | District heating return (mandatory!) |
-| Primary flow rate            | AI   | m³/h | Primary flow                         |
-| Primary heat energy          | AI   | kWh  | Meter reading (M-Bus)                |
-| Primary control valve        | AO   | %    | 0–10 V control signal                |
-| Secondary supply temperature | AI   | °C   | Building supply                      |
-| Secondary return temperature | AI   | °C   | Building return                      |
-| Secondary power              | AV   | kW   | Calculated secondary output          |
-| Alarm: return temp exceeded  | BI   | —    | Primary return > limit               |
-| Alarm: flow = 0              | BI   | —    | No heat supply                       |
+| Data point                      | Type | Unit          | Remark                                         |
+| ------------------------------- | ---- | ------------- | ---------------------------------------------- |
+| Network-side flow               | AI   | °C            |                                                |
+| Network-side return             | AI   | °C            | limit per connection conditions                |
+| Building-side flow actual       | AI   | °C            | controlled variable                            |
+| Building-side return            | AI   | °C            | diagnosis                                      |
+| Network-side control valve      | AO   | %             |                                                |
+| Heat meter: energy, power, flow | bus  | kWh, kW, m³/h | usually M-Bus, clarify access with the utility |
+| Alarm return too high           | BV   | —             | from the limit                                 |
+| Building-side pump run/fault    | DI   | —             |                                                |
 
----
+## Standards and Requirements
 
-## Heating Curve Control with District Heating
-
-The secondary side is controlled exactly like a conventional heating system:
-
-```
-Outdoor temperature → heating curve → secondary supply setpoint
-    ↓ PID controller
-    ↓ Control output → primary control valve open/close
-    ↑ Secondary supply actual value (feedback)
-```
-
-**Special feature:** There is no "heating on/off" — the district heating network always supplies heat. Only the control valve determines how much is drawn.
-
----
-
-## Power Control and Peak Loads
-
-District heating contracts often include a **power limit** (e.g. max. 200 kW):
-
-```
-Current power exceeds limit:
-  → EMS limits power draw
-  → e.g. delay DHW storage charging
-  → Temporarily reduce AHU heater coil output
-```
-
-**Consequence:** Power peak overruns often incur additional charges (demand charge in the district heating tariff).
-
-## Standards
-
-- **EN 14336** — Installation and commissioning of heating systems
-- **AGFW FW 401** (DE) — Pipe sizing for district heating
-- **SIA 384.201** (CH) — Heating systems in buildings
-- **AGFW FW 301** — General conditions for district heating supply
+- **Utility's technical connection conditions** — decisive for connection, return temperature, load
+- **EN 14336** — Installation and commissioning of water-based heating systems
+- **SIA 384/1** — Heating systems in buildings

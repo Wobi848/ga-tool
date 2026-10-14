@@ -23,337 +23,191 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [hydraulische-schaltungen, hydraulischer-abgleich, waermepumpe, pid-regler, pufferspeicher]
-norm: [EN 1264, EN 15377, SIA 384.201]
-updated: 2026-05-14
+norm: [EN 1264, ISO 11855, SIA 384/1]
+updated: 2026-10-14
 lang: de
 ---
 
 # Fussbodenheizung — Aufbau, Regelung und Trägheit
 
-Die Fussbodenheizung ist ein Flächenheizsystem — die gesamte Bodenfläche ist der Heizkörper. Sie bietet hohen Komfort bei niedrigen Vorlauftemperaturen, hat aber besondere Regelungsanforderungen durch ihre grosse thermische Trägheit.
+Bei der Fussbodenheizung ist der ganze Boden der Heizkörper. Sie heizt mit tiefen Vorlauftemperaturen und ist deshalb ideal für Wärmepumpen. Der Estrich, der das möglich macht, macht sie aber auch träge, und das bestimmt die Regelung.
 
 ## Aufbau
 
-```
-Raumnutzfläche (Fliesen, Parkett, Vinylboden)
-    ↑
-Estrich (5–8 cm) ← Thermische Masse (Wärmespeicher)
-    ↑
-Heizrohr (PE-X oder PEX-AL-PEX, Ø16–20 mm, Abstand 10–25 cm)
-    ↑
-Trittschalldämmung / Wärmedämmung
-    ↑
-Tragkonstruktion
-```
+Von oben nach unten:
 
-### Systemvarianten
+| Schicht          | Typisch                                                          |
+| ---------------- | ---------------------------------------------------------------- |
+| Bodenbelag       | Platten, Parkett, Vinyl. Je dünner und leitfähiger, desto besser |
+| **Estrich**      | 45–80 mm Zement- oder Calciumsulfatestrich, die Speichermasse    |
+| **Heizrohr**     | PE-X oder Mehrschichtverbund, 14–20 mm, Verlegeabstand 10–30 cm  |
+| Dämmung          | Wärme- und Trittschalldämmung, damit die Wärme nach oben geht    |
+| Tragkonstruktion | Betondecke, Bodenplatte                                          |
 
-| Variante       | Aufbauhöhe | Trägheit | Einsatz                          |
-| -------------- | ---------- | -------- | -------------------------------- |
-| Nassestrich    | 65–100 mm  | Hoch     | Neubau Standard                  |
-| Trockenestrich | 30–50 mm   | Mittel   | Renovation, leichte Konstruktion |
-| Dünnschicht    | < 30 mm    | Niedrig  | Renovation mit wenig Aufbauhöhe  |
+| Variante          | Aufbauhöhe  | Trägheit | Einsatz                        |
+| ----------------- | ----------- | -------- | ------------------------------ |
+| Nassestrich       | 65–100 mm   | hoch     | Neubau, Standard               |
+| Trockenestrich    | 30–50 mm    | mittel   | Sanierung, Holzbau             |
+| Dünnschichtsystem | unter 30 mm | gering   | Sanierung mit wenig Aufbauhöhe |
 
----
+## Tiefe Vorlauftemperatur
 
-## Vorlauftemperatur — Niedrigtemperatur-System
+| System                       | Vorlauf      | Spreizung |
+| ---------------------------- | ------------ | --------- |
+| Heizkörper, Bestand          | 60–75 °C     | 10–20 K   |
+| Heizkörper, Niedertemperatur | 45–55 °C     | 10 K      |
+| **Fussbodenheizung**         | **28–40 °C** | 5–8 K     |
 
-Die FBH benötigt deutlich **niedrigere Vorlauftemperaturen** als Heizkörper:
+Die Vorlauftemperatur ist durch die **Oberflächentemperatur** begrenzt. Nach EN 1264 gelten als Höchstwerte **29 °C** in der Aufenthaltszone, **35 °C** in der Randzone und **33 °C** in Bädern. Darüber wird es unangenehm an den Füssen.
 
-| System              | Vorlauftemperatur | Spreizung |
-| ------------------- | ----------------- | --------- |
-| Radiatoren (alt)    | 70–90 °C          | 20 K      |
-| Radiatoren (modern) | 55–70 °C          | 15 K      |
-| Fussbodenheizung    | **30–45 °C**      | 5–10 K    |
+Je tiefer der Vorlauf, desto besser der COP einer [Wärmepumpe](/wissen/waermepumpe). Fussbodenheizung und Wärmepumpe passen deshalb gut zusammen.
 
-**Warum niedrig?** Fussbodentemperatur darf 29 °C (Wohnbereich) bzw. 33 °C (Randzonen) nicht überschreiten (Komfort + Hygiene).
+## Trägheit
 
-**Ideal für Wärmepumpen:** Je niedriger die Vorlauftemperatur, desto höher der COP der Wärmepumpe. FBH + WP = optimale Kombination.
+Ein 6.5 cm dicker Zementestrich wiegt rund 130 kg pro m². Mit einer Wärmekapazität von etwa 1.0 kJ/(kg·K) speichert er bei 10 K Temperaturhub rund 1300 kJ, also **0.36 kWh pro m²**. Bei einer Heizlast von 20 W/m² reicht das rechnerisch für viele Stunden.
 
----
+Die Folgen für die Regelung:
 
-## Thermische Trägheit — das zentrale Problem
+1. **Langsame Reaktion:** Der Raum spürt eine Änderung am Ventil erst nach Stunden.
+2. **Überschwingen:** Ein zu scharf eingestellter Raumregler schwingt mit grosser Amplitude.
+3. **Nachtabsenkung bringt wenig:** Der Estrich gibt nachts weiter Wärme ab, und am Morgen dauert das Aufheizen lange.
+4. **Selbstregeleffekt:** Weil Boden und Raum nur wenige Kelvin auseinanderliegen, gibt der Boden von selbst weniger ab, wenn der Raum wärmer wird, etwa durch Sonne.
 
-Der Estrich hat eine hohe thermische Masse (spezifische Wärmekapazität Beton ≈ 2.0 kJ/(kg·K)):
+## Regelung
 
-```
-Estrich Masse: ~100–150 kg/m² (bei 6 cm Dicke)
-Wärmeinhalt:   bei ΔT = 10 K → 200–300 kJ/m²
-Aufheizzeit:   1–3 Stunden bis Vollleistung (nach Kaltstart)
-Abkühlzeit:    4–8 Stunden nach Abschalten
-```
+### Vorlauf nach Heizkurve (Grundlage)
 
-### Konsequenzen für die Regelung
+Die [Heizkurve](/wissen/heizkurve) gibt aus der Aussentemperatur den Vorlauf-Sollwert vor, ein Mischventil regelt ihn. Typische Neigung 0.3 bis 0.6. Der Estrich wird so gleichmässig temperiert.
 
-1. **Langsame Reaktion:** Raumtemperatur reagiert erst nach Stunden auf Ventilveränderungen
-2. **Überschwingen:** Wenn Regler zu aggressiv → schwingt mit grosser Amplitude
-3. **Aufheizoptimierung:** Vorheizen nötig (1–3 Stunden vor Belegung)
-4. **Nachtabsenkung:** Wenig sinnvoll — Estrich gibt Wärme noch Stunden ab
+### Einzelraumregelung
 
----
+Am Verteiler sitzen thermische Stellantriebe, ein Raumthermostat öffnet oder schliesst die Kreise seines Raums. Wegen der Trägheit regelt man **langsam**: PI mit Nachstellzeit von einer bis zwei Stunden oder Zweipunkt mit grosser Schaltdifferenz.
 
-## Regelung der Fussbodenheizung
+### Raumaufschaltung
 
-### Raumtemperatur-Regelung (Standard)
+Die Raumtemperatur eines Referenzraums korrigiert den Vorlauf-Sollwert um wenige Kelvin. Das fängt Fremdwärme und Wetterumschwünge ab.
 
-```
-Raumfühler → Raumregler → Stellantrieb (Thermoventil am Verteiler)
-```
+## Verteiler und Abgleich
 
-Problem: Rückkopplung durch Estrich-Trägheit → sehr langsamer Regelkreis.
+Jeder Raum hat einen oder mehrere Kreise am **Heizkreisverteiler**, jeder Kreis mit Stellantrieb und Einstellventil.
 
-**Empfehlung:** P-Regler oder PI-Regler mit **sehr langer Nachstellzeit** (Ti = 60–120 min) → sanfte Nachregelung.
+Die Kreise sind verschieden lang und versorgen verschieden grosse Räume. Ohne Abgleich bekommen kurze Kreise zu viel Wasser. Beim [hydraulischen Abgleich](/wissen/hydraulischer-abgleich) bekommt **jeder Kreis den Volumenstrom, den sein Raum braucht**. Der ergibt sich aus Heizlast, Kreislänge und Spreizung, nicht gleich viel für alle. Kreislängen über etwa 100 m bei 16-mm-Rohr werden schwer abzugleichen.
 
-### Witterungsgeführter Vorlauf (bevorzugt)
+## Funktionsheizen
 
-```
-Aussentemperatur → Heizkurve → Vorlauf-Soll (30–45 °C)
-    ↓
-[Mischventil-Regler] → Mischventil
-    ↑ Vorlauf-Ist
-```
+Bevor ein neuer Estrich belegt wird, wird er nach EN 1264-4 **funktionsgeheizt**:
 
-Die Heizkurve liefert kontinuierlich passende Vorlauftemperatur → Estrich wird gleichmässig temperiert → kaum Schwankungen.
+- Beginn bei Zementestrich frühestens **21 Tage**, bei Calciumsulfatestrich frühestens **7 Tage** nach dem Einbringen, oder nach Angabe des Herstellers
+- **3 Tage** Vorlauf zwischen 20 und 25 °C
+- danach **4 Tage** mit der maximalen Auslegungs-Vorlauftemperatur
+- Temperaturen und Daten protokollieren
 
-### Kombination (optimal)
-
-```
-Heizkurve → Vorlauf-Basis-Soll
-    +
-Raumtemperatur → Korrektur ±3 K auf Vorlauf-Soll
-    =
-Vorlauf-Soll (kombiniert) → Mischventil
-```
-
----
-
-## Verteiler und Kreise
-
-### Heizkreis-Verteiler
-
-Jede FBH-Zone hat einen **Verteiler** mit individuellen Stellantrieben:
-
-```
-Vorlauf → [Verteiler] ─┬─ Kreis 1 (Wohnzimmer)
-                        ├─ Kreis 2 (Küche)
-                        ├─ Kreis 3 (Schlafzimmer)
-                        └─ Kreis 4 (Bad)
-                            ↓ alle zurück zum Verteiler-Rücklauf
-```
-
-Jeder Kreis hat:
-
-- Einstellventil (hydraulischer Abgleich)
-- Thermostatischer oder motorischer Stellantrieb (EIN/AUS oder stetig)
-- Rücklauftemperatur-Anzeige (optional)
-
-### Hydraulischer Abgleich FBH
-
-Entscheidend! FBH-Kreise sind unterschiedlich lang → ohne Abgleich bekommen kurze Kreise zu viel Durchfluss:
-
-```
-Kreislänge 50 m → Δp gering → Ventil wenig öffnen
-Kreislänge 120 m → Δp hoch → Ventil weiter öffnen
-```
-
-Voreinstellventile am Verteiler setzen den Durchfluss aller Kreise auf den gleichen Wert.
-
----
-
-## Estrich-Aufheizprotokoll
-
-Frischer Estrich muss **vor dem ersten Betrieb** konditioniert werden:
-
-```
-Tag 1: Vorlauf 25 °C (3 Tage halten)
-Steigerung: täglich +5 K
-Tag 5: Vorlauf 45 °C (4 Tage halten)
-Abkühlung: täglich −5 K
-Dokumentation: Temperaturen täglich aufzeichnen
-```
-
-**Warum:** Feuchtigkeitsabgabe des Estrichs (Trocknungsschwindung). Zu schnelles Aufheizen → Rissbildung.
-
----
+Das Funktionsheizen prüft die Anlage und baut Spannungen im Estrich ab. Es ist **nicht** dasselbe wie das **Belegreifheizen**, das den Estrich bis zur Belegreife trocknet. Dieses geschieht nach Vorgabe des Estrichlegers, und die Belegreife wird gemessen.
 
 ## Typische Fehler
 
-| Fehler                    | Symptom                         | Lösung                             |
-| ------------------------- | ------------------------------- | ---------------------------------- |
-| Vorlauf zu hoch (> 50 °C) | Boden zu warm, Schäden          | Heizkurve anpassen                 |
-| Kein Aufheizprotokoll     | Estrichrisse                    | Protokoll nachholen (wenn möglich) |
-| Kein hydr. Abgleich       | Ungleichmässige Erwärmung       | Voreinstellventile einstellen      |
-| Regler zu aggressiv       | Raumtemperatur schwingt (±3 K)  | Nachstellzeit vergrössern          |
-| Nachtabsenkung zu tief    | Aufheizung morgens nicht fertig | Absenkniveau erhöhen oder weg      |
+| Fehler               | Folge                          | Abhilfe                               |
+| -------------------- | ------------------------------ | ------------------------------------- |
+| Vorlauf zu hoch      | Boden zu warm, Belag leidet    | Heizkurve senken, Vorlaufbegrenzung   |
+| Kein Funktionsheizen | Risse, Mängelrügen             | Vor dem Belegen nachholen             |
+| Kein Abgleich        | einzelne Räume kalt            | Kreise einstellen                     |
+| Raumregler zu scharf | Temperatur schwingt            | Nachstellzeit verlängern              |
+| Tiefe Nachtabsenkung | morgens kalt, hohe Spitzenlast | Absenkung klein halten oder weglassen |
 
 ## Normen
 
-- **EN 1264** — Raumflächenintegrierte Heiz- und Kühlsysteme
-- **EN 15377** — Heizungsanlagen in Gebäuden
-- **SIA 384.201** (CH) — Heizungsanlagen in Gebäuden
+- **EN 1264** — Raumflächenintegrierte Heiz- und Kühlsysteme (Teil 4: Installation, Funktionsheizen)
+- **ISO 11855** — Flächenheiz- und -kühlsysteme, Auslegung
+- **SIA 384/1** — Heizungsanlagen in Gebäuden
 
 <!-- EN -->
 
-## Underfloor Heating — Construction, Control and Thermal Lag
-
-Underfloor heating (UFH) is a radiant floor heating system — the entire floor surface acts as the heat emitter. It provides high comfort at low flow temperatures, but has specific control requirements due to its large thermal mass.
+With underfloor heating the whole floor is the radiator. It heats with low flow temperatures and is therefore ideal for heat pumps. The screed that makes this possible also makes it sluggish, and that shapes the control.
 
 ## Construction
 
-```
-Floor covering (tiles, parquet, vinyl)
-    ↑
-Screed (5–8 cm) ← Thermal mass (heat store)
-    ↑
-Heating pipe (PE-X or PEX-AL-PEX, Ø16–20 mm, spacing 10–25 cm)
-    ↑
-Impact sound insulation / thermal insulation
-    ↑
-Structural floor
-```
+From top to bottom:
 
-### System Variants
+| Layer            | Typical                                                            |
+| ---------------- | ------------------------------------------------------------------ |
+| Floor covering   | Tiles, parquet, vinyl. The thinner and more conductive, the better |
+| **Screed**       | 45–80 mm cement or calcium sulphate screed, the storage mass       |
+| **Heating pipe** | PE-X or multilayer composite, 14–20 mm, spacing 10–30 cm           |
+| Insulation       | Thermal and impact sound insulation so heat goes upwards           |
+| Structure        | Concrete slab, base plate                                          |
 
-| Variant    | Build-up height | Lag    | Application                             |
-| ---------- | --------------- | ------ | --------------------------------------- |
-| Wet screed | 65–100 mm       | High   | Standard new build                      |
-| Dry screed | 30–50 mm        | Medium | Renovation, lightweight construction    |
-| Thin-bed   | < 30 mm         | Low    | Renovation with minimal build-up height |
+| Variant           | Build-up height | Inertia | Use                                |
+| ----------------- | --------------- | ------- | ---------------------------------- |
+| Wet screed        | 65–100 mm       | high    | New build, standard                |
+| Dry screed        | 30–50 mm        | medium  | Refurbishment, timber construction |
+| Thin-layer system | under 30 mm     | low     | Refurbishment with little height   |
 
----
+## Low Flow Temperature
 
-## Flow Temperature — Low-Temperature System
+| System                     | Flow         | Temperature difference |
+| -------------------------- | ------------ | ---------------------- |
+| Radiators, existing        | 60–75 °C     | 10–20 K                |
+| Radiators, low temperature | 45–55 °C     | 10 K                   |
+| **Underfloor heating**     | **28–40 °C** | 5–8 K                  |
 
-UFH requires significantly **lower flow temperatures** than radiators:
+The flow temperature is limited by the **surface temperature**. Per EN 1264 the maximum values are **29 °C** in the occupied zone, **35 °C** in the perimeter zone and **33 °C** in bathrooms. Above that it becomes uncomfortable for the feet.
 
-| System             | Flow temperature | Spread |
-| ------------------ | ---------------- | ------ |
-| Radiators (old)    | 70–90 °C         | 20 K   |
-| Radiators (modern) | 55–70 °C         | 15 K   |
-| Underfloor heating | **30–45 °C**     | 5–10 K |
+The lower the flow, the better the COP of a [heat pump](/wissen/waermepumpe). Underfloor heating and heat pumps therefore go well together.
 
-**Why low?** Floor surface temperature must not exceed 29 °C (occupied zones) or 33 °C (perimeter zones) — comfort and hygiene.
+## Inertia
 
-**Ideal for heat pumps:** The lower the flow temperature, the higher the COP. UFH + HP = optimum combination.
+A 6.5 cm cement screed weighs about 130 kg per m². With a heat capacity of about 1.0 kJ/(kg·K) it stores about 1300 kJ for a 10 K temperature rise, i.e. **0.36 kWh per m²**. At a heating load of 20 W/m² that lasts, in theory, for many hours.
 
----
+Consequences for control:
 
-## Thermal Lag — the Central Challenge
+1. **Slow response:** the room feels a change at the valve only after hours.
+2. **Overshoot:** a room controller set too aggressively oscillates with a large amplitude.
+3. **Night setback achieves little:** the screed keeps releasing heat at night, and morning heat-up takes long.
+4. **Self-regulating effect:** because floor and room are only a few kelvin apart, the floor releases less by itself when the room gets warmer, for example from sunshine.
 
-The screed has a high thermal mass (specific heat capacity of concrete ≈ 2.0 kJ/(kg·K)):
+## Control
 
-```
-Screed mass:  ~100–150 kg/m² (at 6 cm depth)
-Heat content: at ΔT = 10 K → 200–300 kJ/m²
-Heat-up time: 1–3 hours to full output (from cold start)
-Cool-down:    4–8 hours after shutdown
-```
+### Flow by Heating Curve (Basis)
 
-### Consequences for Control
+The [heating curve](/wissen/heizkurve) sets the flow setpoint from the outdoor temperature; a mixing valve controls it. Typical slope 0.3 to 0.6. The screed is thus heated evenly.
 
-1. **Slow response:** Room temperature only reacts hours after valve changes
-2. **Overshoot:** Aggressive controller → large-amplitude oscillation
-3. **Pre-heat optimisation:** Pre-heating required (1–3 hours before occupancy)
-4. **Night setback:** Rarely worthwhile — screed continues radiating heat for hours
+### Individual Room Control
 
----
+Thermal actuators sit on the manifold; a room thermostat opens or closes the circuits of its room. Because of the inertia, control is **slow**: PI with an integral time of one to two hours, or on/off with a large switching differential.
 
-## Underfloor Heating Control
+### Room Influence
 
-### Room Temperature Control (standard)
+The temperature of a reference room corrects the flow setpoint by a few kelvin. This compensates internal gains and weather changes.
 
-```
-Room sensor → room controller → actuator (thermostatic valve at manifold)
-```
+## Manifold and Balancing
 
-Problem: feedback through screed lag → very slow control loop.
+Each room has one or more circuits on the **manifold**, each circuit with actuator and balancing valve.
 
-**Recommendation:** P-controller or PI-controller with **very long integral time** (Ti = 60–120 min) → gentle correction.
+The circuits differ in length and supply rooms of different size. Without balancing, short circuits get too much water. In [hydraulic balancing](/wissen/hydraulischer-abgleich) **each circuit receives the flow its room needs**. It follows from heating load, circuit length and temperature difference, not the same for all. Circuit lengths above about 100 m with 16 mm pipe become hard to balance.
 
-### Weather-Compensated Flow Control (preferred)
+## Functional Heating
 
-```
-Outdoor temperature → heating curve → flow setpoint (30–45 °C)
-    ↓
-[Mixing valve controller] → mixing valve
-    ↑ Flow actual
-```
+Before new screed is covered, it is **functionally heated** per EN 1264-4:
 
-The heating curve continuously delivers the right flow temperature → screed is tempered evenly → minimal fluctuation.
+- start for cement screed at the earliest **21 days**, for calcium sulphate screed at the earliest **7 days** after laying, or as specified by the manufacturer
+- **3 days** flow between 20 and 25 °C
+- then **4 days** at the maximum design flow temperature
+- record temperatures and dates
 
-### Combined (optimal)
-
-```
-Heating curve → flow base setpoint
-    +
-Room temperature → correction ±3 K on flow setpoint
-    =
-Flow setpoint (combined) → mixing valve
-```
-
----
-
-## Manifold and Circuits
-
-### Heating Circuit Manifold
-
-Each UFH zone has a **manifold** with individual actuators:
-
-```
-Flow → [Manifold] ─┬─ Circuit 1 (living room)
-                    ├─ Circuit 2 (kitchen)
-                    ├─ Circuit 3 (bedroom)
-                    └─ Circuit 4 (bathroom)
-                        ↓ all return to manifold return header
-```
-
-Each circuit has:
-
-- Pre-setting valve (hydraulic balancing)
-- Thermostatic or motorised actuator (on/off or modulating)
-- Return temperature indicator (optional)
-
-### Hydraulic Balancing for UFH
-
-Critical! UFH circuits have different lengths — without balancing, short circuits get too much flow:
-
-```
-Circuit length 50 m → low Δp → close valve more
-Circuit length 120 m → high Δp → open valve more
-```
-
-Pre-setting valves at the manifold set the flow rate of all circuits to the same value.
-
----
-
-## Screed Heat-Up Protocol
-
-Fresh screed must be **conditioned before first operation**:
-
-```
-Day 1: Flow 25 °C (hold 3 days)
-Increase: +5 K per day
-Day 5: Flow 45 °C (hold 4 days)
-Cool-down: −5 K per day
-Documentation: record temperatures daily
-```
-
-**Why:** Moisture release from screed (drying shrinkage). Too rapid heat-up → cracking.
-
----
+Functional heating tests the system and relieves stresses in the screed. It is **not** the same as **heating for readiness to cover**, which dries the screed until it can be covered. That follows the screed layer's instructions, and readiness is measured.
 
 ## Typical Faults
 
-| Fault                     | Symptom                          | Solution                         |
-| ------------------------- | -------------------------------- | -------------------------------- |
-| Flow too high (> 50 °C)   | Floor too warm, damage           | Adjust heating curve             |
-| No heat-up protocol       | Screed cracks                    | Carry out protocol (if possible) |
-| No hydraulic balancing    | Uneven warming                   | Set pre-setting valves           |
-| Controller too aggressive | Room temp oscillates (±3 K)      | Increase integral time           |
-| Night setback too deep    | Pre-heat not complete by morning | Raise setback level or disable   |
+| Fault                          | Consequence                         | Remedy                          |
+| ------------------------------ | ----------------------------------- | ------------------------------- |
+| Flow too high                  | Floor too warm, covering suffers    | Lower heating curve, flow limit |
+| No functional heating          | Cracks, complaints                  | Do it before covering           |
+| No balancing                   | Individual rooms cold               | Set the circuits                |
+| Room controller too aggressive | Temperature oscillates              | Lengthen integral time          |
+| Deep night setback             | Cold in the morning, high peak load | Keep setback small or drop it   |
 
 ## Standards
 
-- **EN 1264** — Floor heating systems and cooling — systems and components
-- **EN 15377** — Heating systems in buildings
-- **SIA 384.201** (CH) — Heating systems in buildings
+- **EN 1264** — Water-based surface embedded heating and cooling systems (Part 4: installation, functional heating)
+- **ISO 11855** — Radiant heating and cooling systems, design
+- **SIA 384/1** — Heating systems in buildings

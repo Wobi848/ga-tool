@@ -20,260 +20,185 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk]
-related: [druckverlust, heizkurve, waermepumpe]
-norm: [EN 14336, DIN EN ISO 52120, GEG]
-updated: 2026-05-14
+related:
+  [druckverlust, heizkurve, waermepumpe, ventil-schaltungen, hydraulische-schaltungen, pumpen]
+norm: [SIA 384/1, EN 14336, VDI 2073]
+updated: 2026-10-14
 lang: de
 ---
 
 # Hydraulischer Abgleich
 
-Der **hydraulische Abgleich** sorgt dafür, dass jeder Heizkreis exakt die berechnete Wassermenge erhält — nicht mehr, nicht weniger. Ohne Abgleich fliessen grosse Mengen durch kurze/warme Kreise, während entfernte Kreise auskühlen.
+Der **hydraulische Abgleich** sorgt dafür, dass jeder Heizkörper und jeder Strang den berechneten Volumenstrom bekommt, nicht mehr und nicht weniger. Ohne Abgleich fliesst zu viel Wasser durch die kurzen, pumpennahen Kreise, während die entfernten zu wenig bekommen.
 
-## Warum ist er wichtig?
+## Warum er wichtig ist
 
-- **Energiesparen:** Pumpen können kleiner dimensioniert / gedrosselt werden (hydraulisch nahe Kreise nicht überversorgen)
-- **Komfort:** Gleichmässige Raumtemperaturen, kein Überheizen/Unterheizen
-- **Gesetzlich:** Seit GEG (ehem. EnEV) bei Heizungsanlagen ab 50 kW Pflicht bei Sanierung
-- **Wärmepumpen:** Besonders kritisch — WP braucht niedrige Vorlauftemperatur, Überströmung erhöht Spreizung, senkt COP
+- **Komfort:** gleichmässige Raumtemperaturen, kein Überheizen nahe der Pumpe, keine kalten Räume am Strangende
+- **Energie:** Die Pumpe kann kleiner eingestellt werden. Die Vorlauftemperatur muss nicht erhöht werden, nur damit auch der letzte Raum warm wird.
+- **Tiefer Rücklauf:** Überversorgte Heizkörper kühlen das Wasser kaum ab. Der Rücklauf kommt zu warm zurück, und das kostet bei Brennwertkesseln, Wärmepumpen und Fernwärme Effizienz.
+- **Wärmepumpen:** Weil sie mit tiefer Vorlauftemperatur arbeiten, fällt eine schlechte Verteilung sofort auf. Wer dann die Heizkurve anhebt, senkt den COP.
 
-## Methoden
+In der Schweiz verlangt **SIA 384/1** den Abgleich bei der Inbetriebnahme. In Deutschland schreibt ihn das Gebäudeenergiegesetz für viele Anlagen vor.
 
-### Methode 1 — Einfache Voreinstellung (T-Abgleich)
+## Vorgehen
 
-Jedes Heizkörperventil oder Strangventil wird auf einen **vorberechneten Kv-Wert** eingestellt. Die Voreinstellung entspricht dem hydraulischen Widerstand für den berechneten Volumenstrom.
+### Voreinstellung nach Berechnung
 
-**Vorgehen:**
+1. **Heizlast je Raum** nach SIA 384.201 bzw. EN 12831
+2. **Volumenstrom je Heizkörper** aus Heizlast und Spreizung, siehe Formel unten
+3. **Voreinstellung** des Ventils aus Volumenstrom und verfügbarem Differenzdruck, mit dem Diagramm des Ventilherstellers
+4. Ventile einstellen und **protokollieren**
 
-1. Heizlastberechnung nach EN 12831 → Normheizlast je Raum
-2. Aus Vorlauf-/Rücklauftemperatur → Normvolumenstrom je Heizkörper: `V̇ = Q / (c_p · ρ · ΔT)`
-3. Aus Normvolumenstrom + verfügbarer Druckdifferenz → Ventil-Voreinstellung
-4. Ventile einstellen
+### Mess-Abgleich
 
-### Methode 2 — Mess-Abgleich (Durchflussmessung)
+Bei Strängen und grösseren Anlagen wird gemessen: An Strangregulierventilen mit Messnippeln misst ein Messcomputer den Differenzdruck und rechnet ihn in einen Volumenstrom um. Man stellt so lange nach, bis alle Stränge ihren Sollwert haben.
 
-Präziser: Volumenstrom je Kreis messen, Einstellwerte iterativ anpassen bis Sollwerte erreicht.
+### Druckunabhängige Ventile
 
-**Messgeräte:** Ultraschall-Clamp-on, magnetisch-induktiv, Differenzdruck-Durchflussmesser
+Druckunabhängige Regelventile (PICV) haben einen Differenzdruckregler eingebaut. Man stellt den maximalen Volumenstrom direkt ein, und er bleibt erhalten, egal was der Rest der Anlage tut. Der Abgleich ist damit Teil des Ventils.
 
-### Methode 3 — Digitaler Abgleich
+## Die Armaturen
 
-Moderne Systeme (z.B. Danfoss Eco, IMI Hydronic Engineering TA-Balance) messen und berechnen automatisch. App-basierte Protokollierung.
+| Armatur                               | Aufgabe                                                                             |
+| ------------------------------------- | ----------------------------------------------------------------------------------- |
+| **Voreinstellbares Thermostatventil** | Begrenzt den Volumenstrom je Heizkörper. Stufen und kv-Werte je nach Fabrikat       |
+| **Strangregulierventil**              | Stellt den Volumenstrom je Strang ein, mit Messnippeln zum Messen                   |
+| **Differenzdruckregler**              | Hält den Differenzdruck an einem Strang konstant, egal wie viele Ventile offen sind |
+| **Überströmventil**                   | Lässt einen Mindestvolumenstrom durch, wenn fast alle Ventile zu sind               |
 
-## Ventiltypen
+**Differenzdruckregler** sitzen am Strang oder am Verteiler, typisch eingestellt auf 5 bis 30 kPa. Sie schützen die Thermostatventile vor zu hohem Differenzdruck, der Pfeifgeräusche und schlechtes Regeln verursacht. Bei grossen Anlagen mit vielen Thermostatventilen sind sie fast unverzichtbar.
 
-### Voreinstellbare Heizkörperventile
+> ⚠️ **Ein Überströmventil ersetzt den Abgleich nicht.** Es schützt die Pumpe davor, gegen geschlossene Ventile zu laufen. Mit drehzahlgeregelten Pumpen ist es oft überflüssig. Ein zu weit offenes Überströmventil hebt den Rücklauf an.
 
-Thermostatventil mit einstellbarem **Voreinstellkv**:
+## Pumpe nach dem Abgleich
 
-- Einstellbereich typisch 1–8 (entspricht Kv 0,07–0,95 m³/h)
-- Hersteller: Danfoss, IMI Heimeier, Oventrop
+Nach dem Abgleich wird die Pumpe neu eingestellt:
 
-### Strangregulierventile (SRV)
+- **Förderhöhe** auf den Druckverlust des ungünstigsten Kreises, nicht mehr
+- **Regelart:** Proportionaldruck für Heizkörperanlagen mit Thermostatventilen, Konstantdruck bei Fussbodenheizungen und kurzen Netzen
 
-Absperr- + Regulierventil für jeden Heizkreisstrang oder jede Steigeleitung:
+Nach den Affinitätsgesetzen sinkt die Pumpenleistung mit der dritten Potenz der Drehzahl: halber Volumenstrom heisst theoretisch ein **Achtel** der Leistung. In der Praxis spart man weniger, weil die Anlagenkennlinie nicht durch null geht und der Wirkungsgrad der Pumpe bei Teillast sinkt. Es bleibt trotzdem viel.
 
-- Mit Messventilen für Differenzdruck-Durchflussmessung
-- Hersteller: TA Hydronics, Oventrop, Danfoss
-
-### Differenzdruckregler (DDR / ΔP-Regler)
-
-Halten den Differenzdruck am Strang / am Verteiler konstant, unabhängig vom Pumpendruck:
-
-```
-Heizkreisverteiler
-  ├── Strang A ─── ΔP-Regler A ─── Heizkörper 1…n
-  ├── Strang B ─── ΔP-Regler B ─── Heizkörper 1…m
-  └── Strang C ─── ΔP-Regler C ─── ...
-```
-
-- **Einstellung:** Differenzdruck (z.B. 10–30 kPa je Strang)
-- **Vorteil:** Kompensiert Pumpdruckschwankungen, schützt Thermostatventile vor zu hohem Δp
-- **Wichtig bei grossen Anlagen** mit variablem Volumenstrom (Thermostatventile regeln zu/auf)
-
-### Überströmventil
-
-Mindest-Volumenstrom sicherstellen wenn alle Thermostatventile zugeregelt sind. Verhindert Kavitation / Pumpenschäden bei kleinsten Volumenströmen.
-
-> ⚠️ **Überströmventil ≠ Abgleich:** Es ist eine Sicherheitskomponente, kein Ersatz für den hydraulischen Abgleich!
-
-## Pumpenauslegung nach Abgleich
-
-Nach dem Abgleich kann (und soll) die Pumpe neu eingestellt werden:
-
-- **Förderhöhe:** Nur noch der berechnete Nenndruckverlust des Auslegungskreises
-- **Drehzahlregelung:** Proportionaldruckregelung oder konstantem Δp je nach Anlage
-
-**Faustregel Energieeinsparung:** Halbierung des Volumenstroms → Viertelung der Pumpenleistung (kubisches Gesetz)!
-
-## Berechnung Normvolumenstrom
+## Volumenstrom berechnen
 
 $$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
 
-| Grösse | Wert (Wasser)                     |
+| Grösse | Wasser                            |
 | ------ | --------------------------------- |
-| c_p    | 4,182 kJ/(kg·K)                   |
-| ρ      | 1000 kg/m³ (bei 50 °C: 988 kg/m³) |
-| ΔT     | Vorlauf − Rücklauf (z.B. 10 K)    |
+| c_p    | 4.18 kJ/(kg·K)                    |
+| ρ      | 1000 kg/m³, bei 50 °C 988 kg/m³   |
+| ΔT     | Vorlauf minus Rücklauf, z.B. 10 K |
 
-**Beispiel:** Heizkörper 1 kW, VL/RL 60/50 °C (ΔT = 10 K):
+**Beispiel:** Heizkörper 1 kW, 60/50 °C, also ΔT = 10 K:
+V̇ = 1000 W / (4182 J/(kg·K) × 988 kg/m³ × 10 K) ≈ 0.024 l/s ≈ **87 l/h**.
 
-`V̇ = 1000 / (4182 · 988 · 10) ≈ 0,024 l/s = 1,45 l/min = 86 l/h`
+## Was die GA davon sieht
 
-## GA-Relevanz
+Der Abgleich selbst ist in der GA unsichtbar, die Folgen eines fehlenden Abgleichs nicht:
 
-Der hydraulische Abgleich ist selten direkt in der GA-Messwarte sichtbar — aber die Folgen fehlenden Abgleichs schon:
+- Klagen über ungleiche Raumtemperaturen
+- Rücklauf zu warm, Spreizung zu klein
+- Vorlauftemperatur wird immer weiter angehoben
+- Wärmepumpe taktet, Heizstab springt an
+- Pumpe läuft auf hoher Stufe bei mässiger Leistung
 
-- Ungleichmässige Raumtemperaturen (Klagen der Nutzer)
-- Erhöhte Vorlauftemperatur wegen schlechter Wärmeübertragung in entfernten Kreisen
-- Hoher Pumpenstrom trotz mässiger Heizleistung
-- Wärmepumpe taktet häufig oder Heizstab springt an
+**Diagnose:** Vor- und Rücklauftemperatur je Strang vergleichen, Volumenströme aus Wärmezählern, Pumpenleistung über den Tag.
 
-**Diagnose via GA:** Vergleich Vorlauf-/Rücklauftemperaturen je Strang, Volumenstrom-Messwerte (falls vorhanden), Pumpenstrom.
+## Protokoll
 
-## Protokoll & Dokumentation
-
-Nach dem Abgleich ist ein **Abgleichprotokoll** zu erstellen:
-
-- Ventiltyp, Einstellwert, Volumenstrom-Ist / -Soll je Heizkörper / Strang
-- Gesamtvolumenstrom, Pumpenkennpunkt
-- Datum, Ausführender, Unterschrift
-
-**Wichtig für:**
-
-- Gewährleistung
-- Übergabe an Betreiber
-- Nachweis gegenüber Energieberater / Gutachter (GEG-Pflicht)
+Zum Abgleich gehört ein Protokoll mit Ventiltyp, Einstellwert und Soll- und Istvolumenstrom je Heizkörper oder Strang, Pumpeneinstellung, Datum und Ausführendem. Es gehört zur Übergabe und hilft bei späteren Reklamationen.
 
 ## Normen
 
-- **EN 14336** — Hydraulischer Abgleich Heizungsanlagen, Inbetriebnahme
-- **DIN EN ISO 52120** — Energieeffizienz durch GA (früher DIN V 18599-11)
-- **GEG §60** — Pflicht hydraulischer Abgleich bei Heizungsmodernisierungen
-- **VDI 2073** — Hydraulische Schaltungen in Wärmepumpenanlagen
+- **SIA 384/1** — Heizungsanlagen in Gebäuden, Grundlagen und Anforderungen
+- **EN 14336** — Installation und Abnahme von Warmwasser-Heizungsanlagen
+- **VDI 2073 Blatt 2** — Hydraulischer Abgleich
+- **SIA 384.201 / EN 12831** — Norm-Heizlast
 
 <!-- EN -->
 
-**Hydraulic balancing** ensures that every heating circuit receives exactly the calculated water flow — no more, no less. Without balancing, large flows pass through short or warm circuits while remote circuits stay cold.
+**Hydraulic balancing** ensures that every radiator and every branch receives its design flow rate, no more and no less. Without balancing, too much water flows through the short circuits close to the pump while the remote ones get too little.
 
-## Why Is It Important?
+## Why It Matters
 
-- **Energy savings:** Pumps can be sized smaller / throttled (nearby circuits are not over-supplied)
-- **Comfort:** Even room temperatures, no overheating or under-heating
-- **Legal requirement:** Mandatory under the GEG (formerly EnEV) for heating systems ≥ 50 kW when renovating
-- **Heat pumps:** Especially critical — heat pumps need low flow temperatures; excess flow increases temperature spread and lowers COP
+- **Comfort:** even room temperatures, no overheating near the pump, no cold rooms at the end of the branch
+- **Energy:** the pump can be set lower. The flow temperature need not be raised just to get the last room warm.
+- **Low return:** oversupplied radiators barely cool the water. The return comes back too warm, which costs efficiency with condensing boilers, heat pumps and district heating.
+- **Heat pumps:** because they work at low flow temperatures, poor distribution shows immediately. Raising the heating curve to compensate lowers the COP.
 
-## Methods
+In Switzerland, **SIA 384/1** requires balancing at commissioning. In Germany the Buildings Energy Act prescribes it for many systems.
 
-### Method 1 — Simple Presetting (T-Balancing)
+## Procedure
 
-Every radiator valve or circuit valve is set to a **pre-calculated Kv value**. The presetting corresponds to the hydraulic resistance needed for the calculated flow rate.
+### Presetting by Calculation
 
-**Procedure:**
+1. **Heating load per room** per SIA 384.201 or EN 12831
+2. **Flow rate per radiator** from heating load and temperature difference, see formula below
+3. **Presetting** of the valve from flow rate and available differential pressure, using the valve manufacturer's chart
+4. Set the valves and **record** them
 
-1. Heat load calculation per EN 12831 → design heat load per room
-2. From supply/return temperature → design flow rate per radiator: `V̇ = Q / (c_p · ρ · ΔT)`
-3. From design flow rate + available differential pressure → valve presetting
-4. Set valves
+### Balancing by Measurement
 
-### Method 2 — Measurement Balancing (Flow Measurement)
+For branches and larger systems you measure: at balancing valves with test points, a measuring computer reads the differential pressure and converts it into a flow rate. Adjust until every branch reaches its target.
 
-More precise: measure flow rate per circuit, iteratively adjust settings until target values are reached.
+### Pressure-Independent Valves
 
-**Instruments:** Ultrasonic clamp-on, electromagnetic, differential-pressure flow meters
+Pressure-independent control valves (PICV) have a built-in differential pressure controller. You set the maximum flow directly and it is maintained whatever the rest of the system does. Balancing becomes part of the valve.
 
-### Method 3 — Digital Balancing
+## The Valves
 
-Modern systems (e.g. Danfoss Eco, IMI Hydronic Engineering TA-Balance) measure and calculate automatically. App-based reporting.
+| Valve                                | Purpose                                                                                |
+| ------------------------------------ | -------------------------------------------------------------------------------------- |
+| **Presettable thermostatic valve**   | Limits the flow per radiator. Settings and kv values depend on the make                |
+| **Balancing valve**                  | Sets the flow per branch, with test points for measurement                             |
+| **Differential pressure controller** | Keeps the differential pressure across a branch constant, however many valves are open |
+| **Bypass valve**                     | Lets a minimum flow through when almost all valves are closed                          |
 
-## Valve Types
+**Differential pressure controllers** sit on the branch or at the header, typically set to 5 to 30 kPa. They protect thermostatic valves from excessive differential pressure, which causes whistling and poor control. In large systems with many thermostatic valves they are almost indispensable.
 
-### Presettable Radiator Valves
+> ⚠️ **A bypass valve does not replace balancing.** It protects the pump from running against closed valves. With variable-speed pumps it is often unnecessary. A bypass valve set too wide raises the return temperature.
 
-Thermostatic valve with adjustable **presetting Kv**:
+## The Pump After Balancing
 
-- Setting range typically 1–8 (corresponding to Kv 0.07–0.95 m³/h)
-- Manufacturers: Danfoss, IMI Heimeier, Oventrop
+After balancing the pump is reset:
 
-### Circuit Balancing Valves (CBV)
+- **Head** to the pressure drop of the least favourable circuit, no more
+- **Control mode:** proportional pressure for radiator systems with thermostatic valves, constant pressure for underfloor heating and short networks
 
-Isolation + regulation valve for each heating circuit or riser:
+By the affinity laws, pump power falls with the cube of speed: half the flow means theoretically one **eighth** of the power. In practice you save less, because the system curve does not pass through zero and pump efficiency drops at part load. It is still a lot.
 
-- With measuring valves for differential-pressure flow measurement
-- Manufacturers: TA Hydronics, Oventrop, Danfoss
-
-### Differential Pressure Controllers (DPC / ΔP Controller)
-
-Maintain constant differential pressure at the circuit or manifold, independent of pump pressure:
-
-```
-Heating manifold
-  ├── Circuit A ─── ΔP controller A ─── Radiators 1…n
-  ├── Circuit B ─── ΔP controller B ─── Radiators 1…m
-  └── Circuit C ─── ΔP controller C ─── ...
-```
-
-- **Setting:** Differential pressure (e.g. 10–30 kPa per circuit)
-- **Advantage:** Compensates for pump pressure fluctuations, protects thermostatic valves from excessive Δp
-- **Important for large systems** with variable flow (thermostatic valves open and close)
-
-### Bypass / Overflow Valve
-
-Ensures minimum flow when all thermostatic valves are closed. Prevents cavitation and pump damage at minimum flow conditions.
-
-> ⚠️ **Overflow valve ≠ balancing:** It is a safety component, not a substitute for hydraulic balancing!
-
-## Pump Sizing After Balancing
-
-After balancing, the pump should (and must) be re-set:
-
-- **Head:** Only the calculated design pressure loss of the index circuit
-- **Speed control:** Proportional pressure control or constant Δp, depending on the system
-
-**Rule of thumb for energy savings:** Halving the flow rate → quarter of the pump power (cube law)!
-
-## Calculating Design Flow Rate
+## Calculating the Flow Rate
 
 $$\dot{V} = \frac{Q}{c_p \cdot \rho \cdot \Delta T}$$
 
-| Parameter | Value (water)                    |
-| --------- | -------------------------------- |
-| c_p       | 4.182 kJ/(kg·K)                  |
-| ρ         | 1000 kg/m³ (at 50 °C: 988 kg/m³) |
-| ΔT        | Supply − return (e.g. 10 K)      |
+| Quantity | Water                          |
+| -------- | ------------------------------ |
+| c_p      | 4.18 kJ/(kg·K)                 |
+| ρ        | 1000 kg/m³, at 50 °C 988 kg/m³ |
+| ΔT       | flow minus return, e.g. 10 K   |
 
-**Example:** Radiator 1 kW, supply/return 60/50 °C (ΔT = 10 K):
+**Example:** radiator 1 kW, 60/50 °C, so ΔT = 10 K:
+V̇ = 1000 W / (4182 J/(kg·K) × 988 kg/m³ × 10 K) ≈ 0.024 l/s ≈ **87 l/h**.
 
-`V̇ = 1000 / (4182 · 988 · 10) ≈ 0.024 l/s = 1.45 l/min = 86 l/h`
+## What the BA Sees
 
-## BA Relevance
+Balancing itself is invisible in the BA, the consequences of missing balancing are not:
 
-Hydraulic balancing is rarely directly visible in the BMS operator station — but the consequences of missing balancing are:
+- complaints about uneven room temperatures
+- return too warm, temperature difference too small
+- flow temperature raised again and again
+- heat pump cycling, electric heater kicking in
+- pump on a high setting at moderate output
 
-- Uneven room temperatures (user complaints)
-- Elevated flow temperature due to poor heat transfer in remote circuits
-- High pump current despite moderate heating output
-- Heat pump cycling frequently or backup heater activating
+**Diagnosis:** compare flow and return temperatures per branch, flow rates from heat meters, pump power over the day.
 
-**Diagnosis via BA:** Compare supply/return temperatures per circuit, flow rate readings (if available), pump current.
+## Record
 
-## Report and Documentation
-
-After balancing, a **balancing report** must be prepared:
-
-- Valve type, setting value, actual/target flow rate per radiator/circuit
-- Total flow rate, pump operating point
-- Date, technician, signature
-
-**Required for:**
-
-- Warranty
-- Handover to building operator
-- Evidence for energy consultant / auditor (GEG obligation)
+Balancing comes with a record of valve type, setting and target and actual flow per radiator or branch, pump setting, date and who did it. It belongs to the handover and helps with later complaints.
 
 ## Standards
 
-- **EN 14336** — Hydraulic balancing of heating systems, commissioning
-- **DIN EN ISO 52120** — Energy efficiency through BA (formerly DIN V 18599-11)
-- **GEG §60** — Mandatory hydraulic balancing for heating system modernisation
-- **VDI 2073** — Hydraulic circuits in heat pump systems
+- **SIA 384/1** — Heating systems in buildings, fundamentals and requirements
+- **EN 14336** — Installation and commissioning of water-based heating systems
+- **VDI 2073 Part 2** — Hydraulic balancing
+- **SIA 384.201 / EN 12831** — Design heating load
