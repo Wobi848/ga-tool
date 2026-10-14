@@ -33,7 +33,8 @@ related:
     5plus5-regeln,
     messen-fehlersuche,
     drehstrom,
-    nin-niv
+    nin-niv,
+    lastarten
   ]
 norm: [EN 60898-1, EN 61008-1, EN 61009-1, EN 60947-2, EN 60947-4-1, IEC 60364]
 updated: 2026-10-14

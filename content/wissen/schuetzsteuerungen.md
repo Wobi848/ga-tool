@@ -23,7 +23,16 @@ tags:
 difficulty: fortgeschritten
 area: [elektro, ga]
 related:
-  [schemalesen, hand-0-auto, signaltypen, selv-pelv, frequenzumrichter, ec-motoren, schutzorgane]
+  [
+    schemalesen,
+    hand-0-auto,
+    signaltypen,
+    selv-pelv,
+    frequenzumrichter,
+    ec-motoren,
+    schutzorgane,
+    lastarten
+  ]
 norm: [EN 60947-4-1, EN 60947-5-1, EN 50005, EN 60204-1]
 updated: 2026-10-14
 lang: de
@@ -43,7 +52,7 @@ Grundlagen zum Lesen der Pläne stehen in [Schemalesen](/wissen/schemalesen), di
 | **Hilfsschütz**     | Steuerstromkreise            | Verknüpfungen, Freigaben, Verriegelungen   |
 | **Leistungsschütz** | Motoren, Heizregister        | Ventilator, Pumpe, Elektroheizung          |
 
-Ein Schütz hat **Hauptkontakte** (1-2, 3-4, 5-6) für den Laststrom und **Hilfskontakte** (13-14, 21-22 …) für die Steuerung. Ausgelegt wird nach **Gebrauchskategorie**: AC-3 für Käfigläufermotoren, AC-1 für ohmsche Last wie Heizregister. Ein Schütz für 9 A in AC-3 schaltet in AC-1 deutlich mehr.
+Ein Schütz hat **Hauptkontakte** (1-2, 3-4, 5-6) für den Laststrom und **Hilfskontakte** (13-14, 21-22 …) für die Steuerung. Ausgelegt wird nach **Gebrauchskategorie**: AC-3 für Käfigläufermotoren, AC-1 für ohmsche Last wie Heizregister. Ein Schütz für 9 A in AC-3 schaltet in AC-1 deutlich mehr. Mehr dazu, auch zu LED-Lasten und Gleichstrom, in [Lastarten](/wissen/lastarten).
 
 Die **Spulenspannung** steht auf dem Schütz und im Schema: 24 VAC, 24 VDC oder 230 VAC. Ein 24-V-Schütz an 230 V brennt sofort durch, ein 230-V-Schütz an 24 V zieht einfach nicht an.
 
@@ -161,7 +170,7 @@ The basics of reading diagrams are in [Reading Circuit Diagrams](/wissen/schemal
 | **Auxiliary contactor** | Control circuits                | Logic, enables, interlocks                   |
 | **Power contactor**     | Motors, heater batteries        | Fan, pump, electric heater                   |
 
-A contactor has **main contacts** (1-2, 3-4, 5-6) for the load current and **auxiliary contacts** (13-14, 21-22 …) for control. It is sized by **utilisation category**: AC-3 for squirrel-cage motors, AC-1 for resistive loads such as heaters. A contactor rated 9 A in AC-3 switches considerably more in AC-1.
+A contactor has **main contacts** (1-2, 3-4, 5-6) for the load current and **auxiliary contacts** (13-14, 21-22 …) for control. It is sized by **utilisation category**: AC-3 for squirrel-cage motors, AC-1 for resistive loads such as heaters. A contactor rated 9 A in AC-3 switches considerably more in AC-1. More on this, including LED loads and DC, in [Load Types](/wissen/lastarten).
 
 The **coil voltage** is printed on the contactor and in the diagram: 24 VAC, 24 VDC or 230 VAC. A 24 V contactor on 230 V burns out instantly; a 230 V contactor on 24 V simply does not pull in.
 

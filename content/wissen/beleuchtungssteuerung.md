@@ -33,7 +33,8 @@ related:
     en15232,
     thermische-behaglichkeit,
     praesenzsensoren,
-    helligkeitssensoren
+    helligkeitssensoren,
+    lastarten
   ]
 
 norm: [EN 12464-1, EN 15232, DIN 5035, SIA 380/4]
