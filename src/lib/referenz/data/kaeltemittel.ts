@@ -11,11 +11,11 @@ export const kaeltemittel: ReferenceTable = {
 	color: '#0891b2',
 	areas: ['hlk', 'normen'],
 	norm: ['ISO 817', 'ASHRAE 34', 'F-Gase-Verordnung'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	description:
-		'Standard-Kältemittel in WP und Kälteanlagen. GWP-Werte nach AR5 (IPCC). Sicherheitsklasse nach ASHRAE 34.',
+		'Standard-Kältemittel in WP und Kälteanlagen. GWP-Werte nach IPCC AR4, 100 Jahre. Sicherheitsklasse nach ASHRAE 34.',
 	description_en:
-		'Standard refrigerants in heat pumps and refrigeration systems. GWP values per AR5 (IPCC). Safety class per ASHRAE 34.',
+		'Standard refrigerants in heat pumps and refrigeration systems. GWP values per IPCC AR4, 100 years. Safety class per ASHRAE 34.',
 	columns: [
 		{ key: 'name', label: 'Bezeichnung', label_en: 'Designation', mono: true, highlight: true },
 		{ key: 'chem', label: 'Chemisch', label_en: 'Chemical' },
@@ -80,7 +80,7 @@ export const kaeltemittel: ReferenceTable = {
 			chem: 'Difluormethan',
 			gwp: 675,
 			odp: 0,
-			tcrit: 78.4,
+			tcrit: 78.1,
 			safety: 'A2L',
 			use: 'Klima-Split, kleine WP',
 			use_en: 'Split air conditioning, small heat pumps'
@@ -157,7 +157,7 @@ export const kaeltemittel: ReferenceTable = {
 		}
 	],
 	notes:
-		'F-Gase-Verordnung 2024: Quotenreduktion bis 2030 um 95 %. Neuanlagen verstärkt mit natürlichen Kältemitteln (R290, R744, R717) oder HFOs.',
+		'EU-F-Gas-Verordnung 2024/573: schrittweise Reduktion der HFKW-Mengen bis zum Ausstieg 2050, dazu Verbote für bestimmte Neuanlagen. In der Schweiz regelt die ChemRRV die Verwendung. Neuanlagen setzen zunehmend auf natürliche Kältemittel (R290, R744, R717) oder HFO.',
 	notes_en:
-		'F-Gas Regulation 2024: quota reduction of 95 % by 2030. New systems increasingly use natural refrigerants (R290, R744, R717) or HFOs.'
+		'EU F-gas Regulation 2024/573: stepwise reduction of HFC quantities to a phase-out in 2050, plus bans for certain new systems. In Switzerland the ChemRRV governs use. New systems increasingly use natural refrigerants (R290, R744, R717) or HFOs.'
 };

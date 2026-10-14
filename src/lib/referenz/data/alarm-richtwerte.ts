@@ -10,8 +10,8 @@ export const alarmRichtwerte: ReferenceTable = {
 	icon: 'bell',
 	color: '#dc2626',
 	areas: ['ga'],
-	norm: ['EEMUA 191', 'ISA-18.2', 'VDI 3814-4', 'EN 54 (Brand)'],
-	updated: '2026-05-15',
+	norm: ['EEMUA 191', 'ISA-18.2', 'VDI 3814', 'EN 54 (Brand)'],
+	updated: '2026-10-14',
 	description:
 		'Richtwerte für typische Alarmgrenzen und Einschaltverzögerungen in GA-Anlagen. Alle Werte sind Ausgangspunkte — im Projekt immer auf die konkreten Anlagenbedingungen anpassen.',
 	description_en:
@@ -67,12 +67,14 @@ export const alarmRichtwerte: ReferenceTable = {
 			datenpunkt: 'Frostschutz Lüftungsanlage',
 			datenpunkt_en: 'AHU frost protection',
 			grenze_hoch: '—',
-			grenze_tief: '< 3°C',
+			grenze_tief: '< 5°C (Frostschutzthermostat)',
+			grenze_tief_en: '< 5°C (frost thermostat)',
 			verzoegerung: '0 s',
 			prioritaet: 'Kritisch',
 			prioritaet_en: 'Critical',
-			bemerkung: 'Sofortabschalten — Kein Frost-Delay!',
-			bemerkung_en: 'Immediate shutdown — no frost delay!'
+			bemerkung: 'Sofort: Ventilator aus, Aussenluftklappe zu, Heizventil auf. Fest verdrahtet',
+			bemerkung_en:
+				'Immediately: fan off, outdoor air damper closed, heating valve open. Hard-wired'
 		},
 		{
 			datenpunkt: 'Differenzdruck Filter',
@@ -82,8 +84,9 @@ export const alarmRichtwerte: ReferenceTable = {
 			verzoegerung: '2 min',
 			prioritaet: 'Mittel',
 			prioritaet_en: 'Medium',
-			bemerkung: 'Klassenabhängig: F7 ca. 150–250 Pa',
-			bemerkung_en: 'Class-dependent: F7 approx. 150–250 Pa'
+			bemerkung: 'Enddruckdifferenz nach Hersteller, z.B. ePM1 50–70 % (früher F7) 200–300 Pa',
+			bemerkung_en:
+				'Final pressure drop per manufacturer, e.g. ePM1 50–70 % (formerly F7) 200–300 Pa'
 		},
 		{
 			datenpunkt: 'CO₂ Büro',
@@ -121,13 +124,16 @@ export const alarmRichtwerte: ReferenceTable = {
 		{
 			datenpunkt: 'Systemdruck Heizung',
 			datenpunkt_en: 'Heating system pressure',
-			grenze_hoch: '> 3.5 bar',
+			grenze_hoch: 'knapp unter Sicherheitsventil',
+			grenze_hoch_en: 'just below safety valve',
 			grenze_tief: '< 1.0 bar',
 			verzoegerung: '30 s',
 			prioritaet: 'Hoch',
 			prioritaet_en: 'High',
-			bemerkung: 'Leckage oder Überdruck',
-			bemerkung_en: 'Leakage or overpressure'
+			bemerkung:
+				'Leckage oder Überdruck; z.B. Alarm bei 2.5 bar, wenn das Sicherheitsventil bei 3 bar anspricht',
+			bemerkung_en:
+				'Leakage or overpressure; e.g. alarm at 2.5 bar if the safety valve opens at 3 bar'
 		},
 		{
 			datenpunkt: 'Kaltwassertemperatur VL',
@@ -157,7 +163,7 @@ export const alarmRichtwerte: ReferenceTable = {
 			datenpunkt_en: 'Run feedback missing',
 			grenze_hoch: '—',
 			grenze_tief: '—',
-			verzoegerung: '5–10 s',
+			verzoegerung: '10–60 s',
 			prioritaet: 'Hoch',
 			prioritaet_en: 'High',
 			bemerkung: 'Soll=EIN, Rückmeldung=AUS nach Anlaufzeit',
@@ -206,8 +212,9 @@ export const alarmRichtwerte: ReferenceTable = {
 			verzoegerung: '0 s',
 			prioritaet: 'Kritisch',
 			prioritaet_en: 'Critical',
-			bemerkung: 'Integration Brandmeldeanlage — keine Verzögerung',
-			bemerkung_en: 'Fire alarm integration — no delay'
+			bemerkung: 'Auslösung durch BMA und Brandfallsteuerung; die GA meldet nur, ohne Verzögerung',
+			bemerkung_en:
+				'Triggered by fire alarm and fire control system; the BA only reports, without delay'
 		}
 	],
 	notes:

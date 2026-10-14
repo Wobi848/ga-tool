@@ -11,7 +11,7 @@ export const daliGeraetetypen: ReferenceTable = {
 	color: '#d97706',
 	areas: ['elektro', 'ga'],
 	norm: ['IEC 62386-201…208 (Control Gear)', 'IEC 62386-301…304 (Control Devices)'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	description:
 		'DALI unterscheidet Control Gear (Betriebsgeräte, DT 0–8) und Control Devices (Eingabegeräte, Part 3xx). DALI-2 zertifiziert Interoperabilität zwischen Geräten verschiedener Hersteller.',
 	description_en:
@@ -71,12 +71,12 @@ export const daliGeraetetypen: ReferenceTable = {
 		},
 		{
 			dt: 'DT 5',
-			name: 'DC Voltage',
+			name: 'Conversion to DC Voltage',
 			norm: 'IEC 62386-206',
-			beschreibung: 'Gleichspannungs-Konverter für LED-Stripes',
-			beschreibung_en: 'DC voltage converter for LED strips',
-			einsatz: 'LED-Stripes, indirektes Licht',
-			einsatz_en: 'LED strips, indirect lighting'
+			beschreibung: 'Umsetzer von DALI auf ein 1–10-V-Steuersignal',
+			beschreibung_en: 'Converter from DALI to a 1–10 V control signal',
+			einsatz: 'Ansteuerung von Geräten mit 1–10-V-Eingang',
+			einsatz_en: 'Driving devices with a 1–10 V input'
 		},
 		{
 			dt: 'DT 6',
@@ -107,43 +107,43 @@ export const daliGeraetetypen: ReferenceTable = {
 		},
 		{
 			dt: 'Part 301',
-			name: 'Light Sensor',
+			name: 'Push Buttons',
 			norm: 'IEC 62386-301',
-			beschreibung: 'Helligkeitssensor — liefert Lux-Wert',
-			beschreibung_en: 'Light sensor — provides lux value',
-			einsatz: 'Konstantlichtregelung',
-			einsatz_en: 'Constant light control'
+			beschreibung: 'Taster, mit kurzem und langem Druck',
+			beschreibung_en: 'Push buttons, with short and long press',
+			einsatz: 'Bedienung, Szenen, Dimmen',
+			einsatz_en: 'Operation, scenes, dimming'
 		},
 		{
 			dt: 'Part 302',
-			name: 'Input Device (Generic)',
+			name: 'Absolute Input Devices',
 			norm: 'IEC 62386-302',
-			beschreibung: 'Taster, Schnittstelle',
-			beschreibung_en: 'Push button, interface',
-			einsatz: 'Bedientableaus, Schalter',
-			einsatz_en: 'Control panels, switches'
+			beschreibung: 'Schalter und Stellungsgeber mit festem Zustand',
+			beschreibung_en: 'Switches and position inputs with a fixed state',
+			einsatz: 'Schalter, Drehsteller, Kontakte',
+			einsatz_en: 'Switches, rotary controls, contacts'
 		},
 		{
 			dt: 'Part 303',
-			name: 'Occupancy Sensor',
+			name: 'Occupancy Sensors',
 			norm: 'IEC 62386-303',
-			beschreibung: 'Präsenzmelder — belegt/unbelegt',
-			beschreibung_en: 'Presence detector — occupied / unoccupied',
+			beschreibung: 'Präsenz- und Bewegungsmelder, belegt/unbelegt',
+			beschreibung_en: 'Presence and motion detectors, occupied / unoccupied',
 			einsatz: 'Automatische Beleuchtungssteuerung',
 			einsatz_en: 'Automatic lighting control'
 		},
 		{
 			dt: 'Part 304',
-			name: 'Push Button',
+			name: 'Light Sensors',
 			norm: 'IEC 62386-304',
-			beschreibung: 'Taster mit kurz/lang Unterscheidung',
-			beschreibung_en: 'Push button with short/long press distinction',
-			einsatz: 'Szenen-Bedienung, Dimmen',
-			einsatz_en: 'Scene control, dimming'
+			beschreibung: 'Helligkeitssensor, liefert einen Lux-Wert',
+			beschreibung_en: 'Light sensor, provides a lux value',
+			einsatz: 'Konstantlichtregelung',
+			einsatz_en: 'Constant light control'
 		}
 	],
 	notes:
-		'DALI-2 Zertifizierung: Nur DT 6 (LED), DT 8 (Farbe) und DT 1 (Notlicht) sind in DALI-2 weit verbreitet. DALI-2 garantiert Interoperabilität auch zwischen verschiedenen Herstellern.',
+		'Eingabegeräte nach Part 3xx brauchen einen Application Controller nach Part 103. Heute sind vor allem DT 6 (LED), DT 8 (Farbe) und DT 1 (Notlicht) verbreitet. Die DALI-2-Zertifizierung der DiiA prüft die Interoperabilität zwischen Herstellern.',
 	notes_en:
-		'DALI-2 certification: Only DT 6 (LED), DT 8 (colour) and DT 1 (emergency) are widely used in DALI-2. DALI-2 guarantees interoperability even between different manufacturers.'
+		'Input devices per Part 3xx need an application controller per Part 103. Today mainly DT 6 (LED), DT 8 (colour) and DT 1 (emergency) are common. DALI-2 certification by the DiiA tests interoperability between manufacturers.'
 };

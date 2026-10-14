@@ -10,8 +10,8 @@ export const steuerkabel: ReferenceTable = {
 	icon: 'zap',
 	color: '#f59e0b',
 	areas: ['elektro', 'ga'],
-	norm: ['NIN 2020 (CH)', 'VDE 0100', 'EN 60228', 'IEC 60189'],
-	updated: '2026-05-15',
+	norm: ['NIN (CH)', 'VDE 0100', 'EN 60228', 'IEC 60189'],
+	updated: '2026-10-14',
 	description:
 		'Richtwerte für Steuerkabel-Querschnitte in der GA. Beachte: Bei 4–20 mA ist der Spannungsabfall unkritisch (Stromschnittstelle), bei 0–10 V und 24V-Signalen ist die Leitungslänge zu begrenzen.',
 	description_en:
@@ -96,8 +96,10 @@ export const steuerkabel: ReferenceTable = {
 			max_laenge: '≤ 300 m',
 			abschirmung: 'Ja',
 			abschirmung_en: 'Yes',
-			bemerkung: 'PT1000: Leitungswiderstand < 10% des Nennwiderstands',
-			bemerkung_en: 'PT1000: lead resistance < 10 % of nominal resistance'
+			bemerkung:
+				'Leitungswiderstand kompensieren: 1 Ω ergibt bei PT1000 rund 0.26 K Fehler, 0.5 mm² hat rund 0.07 Ω pro Meter Hin- und Rückleiter',
+			bemerkung_en:
+				'Compensate lead resistance: 1 Ω gives about 0.26 K error with PT1000; 0.5 mm² has about 0.07 Ω per metre of outgoing and return conductor'
 		},
 		{
 			signal: 'Modbus RTU / RS-485',
@@ -106,18 +108,22 @@ export const steuerkabel: ReferenceTable = {
 			max_laenge: '≤ 1200 m',
 			abschirmung: 'Ja',
 			abschirmung_en: 'Yes',
-			bemerkung: 'Verdrilltes Paar, Schirm einseitig am Master, 120 Ω Abschluss',
-			bemerkung_en: 'Twisted pair, shield grounded at master end, 120 Ω termination'
+			bemerkung:
+				'Verdrilltes Paar mit 120 Ω Wellenwiderstand, Abschluss an beiden Enden, Schirm nach Herstellerangabe',
+			bemerkung_en:
+				'Twisted pair with 120 Ω characteristic impedance, termination at both ends, shield per manufacturer'
 		},
 		{
 			signal: 'KNX TP Bus',
 			signal_en: 'KNX TP Bus',
 			quer: '0.8 mm²',
-			max_laenge: '≤ 350 m',
+			max_laenge: '≤ 1000 m je Linie',
 			abschirmung: 'Ja (YCYM)',
 			abschirmung_en: 'Yes (YCYM)',
-			bemerkung: 'KNX-spezifisches Kabel oder JY(St)Y 2×2×0.8',
-			bemerkung_en: 'KNX-specific cable or JY(St)Y 2×2×0.8'
+			bemerkung:
+				'KNX-Kabel oder J-Y(St)Y 2×2×0.8; max. 350 m von der Spannungsversorgung zum Teilnehmer, 700 m zwischen zwei Teilnehmern',
+			bemerkung_en:
+				'KNX cable or J-Y(St)Y 2×2×0.8; max. 350 m from power supply to device, 700 m between two devices'
 		},
 		{
 			signal: 'DALI Bus',

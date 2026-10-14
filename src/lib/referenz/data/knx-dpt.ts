@@ -11,7 +11,7 @@ export const knxDpt: ReferenceTable = {
 	color: '#ea580c',
 	areas: ['ga', 'hlk'],
 	norm: ['EN 50090', 'KNX Spec. 03.01.02'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	description:
 		'Gebräuchlichste KNX-Datenpunkttypen. Der DPT bestimmt Encoding, Wertebereich und physikalische Einheit eines Gruppenobjekts.',
 	description_en:
@@ -159,7 +159,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.001',
 			name: 'DPT_Value_Temp',
 			size: '2 Byte',
-			range: '-273..+670',
+			range: '-273..+670760',
 			unit: '°C',
 			use: 'Temperatur (Raum, Vorlauf, Aussen)',
 			use_en: 'Temperature (room, flow, outdoor)'
@@ -168,7 +168,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.002',
 			name: 'DPT_Value_Tempd',
 			size: '2 Byte',
-			range: '-670..+670',
+			range: '-670760..+670760',
 			unit: 'K',
 			use: 'Temperaturdifferenz ΔT',
 			use_en: 'Temperature difference ΔT'
@@ -186,7 +186,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.005',
 			name: 'DPT_Value_Wsp',
 			size: '2 Byte',
-			range: '0..+670',
+			range: '0..+670760',
 			unit: 'm/s',
 			use: 'Windgeschwindigkeit',
 			use_en: 'Wind speed'
@@ -195,7 +195,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.007',
 			name: 'DPT_Value_Humidity',
 			size: '2 Byte',
-			range: '0..+670',
+			range: '0..+670760',
 			unit: '%',
 			use: 'Relative Luftfeuchtigkeit',
 			use_en: 'Relative humidity'
@@ -213,25 +213,25 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.010',
 			name: 'DPT_Value_Time1',
 			size: '2 Byte',
-			range: '-670..+670',
+			range: '-670760..+670760',
 			unit: 's',
 			use: 'Zeitwert in Sekunden',
 			use_en: 'Time value in seconds'
 		},
 		{
-			dpt: '9.016',
+			dpt: '9.025',
 			name: 'DPT_Value_Volume_Flow',
 			size: '2 Byte',
-			range: '-671..+670',
+			range: '-670760..+670760',
 			unit: 'l/h',
 			use: 'Volumenstrom',
 			use_en: 'Volume flow'
 		},
 		{
-			dpt: '9.017',
+			dpt: '9.026',
 			name: 'DPT_Rain_Amount',
 			size: '2 Byte',
-			range: '-671..+670',
+			range: '-670760..+670760',
 			unit: 'l/m²',
 			use: 'Regenmenge',
 			use_en: 'Rainfall amount'
@@ -240,7 +240,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.020',
 			name: 'DPT_Value_Volt',
 			size: '2 Byte',
-			range: '-671..+670',
+			range: '-670760..+670760',
 			unit: 'mV',
 			use: 'Spannung (Sensor)',
 			use_en: 'Voltage (sensor)'
@@ -249,7 +249,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '9.021',
 			name: 'DPT_Value_Curr',
 			size: '2 Byte',
-			range: '-671..+670',
+			range: '-670760..+670760',
 			unit: 'mA',
 			use: 'Strom (Sensor)',
 			use_en: 'Current (sensor)'
@@ -293,22 +293,22 @@ export const knxDpt: ReferenceTable = {
 			use_en: 'Electric current (high precision)'
 		},
 		{
-			dpt: '14.031',
+			dpt: '14.036',
 			name: 'DPT_Value_Heat_FlowRate',
 			size: '4 Byte',
 			range: 'IEEE 754',
 			unit: 'W',
-			use: 'Wärmeleistung',
+			use: 'Wärmestrom, Wärmeleistung',
 			use_en: 'Heat flow rate'
 		},
 		{
 			dpt: '14.033',
-			name: 'DPT_Value_Humidity',
+			name: 'DPT_Value_Frequency',
 			size: '4 Byte',
 			range: 'IEEE 754',
-			unit: '%',
-			use: 'Feuchte (hohe Auflösung)',
-			use_en: 'Humidity (high resolution)'
+			unit: 'Hz',
+			use: 'Frequenz',
+			use_en: 'Frequency'
 		},
 		{
 			dpt: '14.056',
@@ -320,7 +320,7 @@ export const knxDpt: ReferenceTable = {
 			use_en: 'Power (energy metering)'
 		},
 		{
-			dpt: '14.065',
+			dpt: '14.058',
 			name: 'DPT_Value_Pressure',
 			size: '4 Byte',
 			range: 'IEEE 754',
@@ -329,8 +329,8 @@ export const knxDpt: ReferenceTable = {
 			use_en: 'Pressure (high resolution)'
 		},
 		{
-			dpt: '14.076',
-			name: 'DPT_Value_Temp_F',
+			dpt: '14.068',
+			name: 'DPT_Value_Common_Temperature',
 			size: '4 Byte',
 			range: 'IEEE 754',
 			unit: '°C',
@@ -342,7 +342,7 @@ export const knxDpt: ReferenceTable = {
 			dpt: '10.001',
 			name: 'DPT_TimeOfDay',
 			size: '3 Byte',
-			range: '0-6/0-23/0-63',
+			range: 'Tag 0–7, h 0–23, min 0–59, s 0–59',
 			unit: '—',
 			use: 'Wochentag + Uhrzeit',
 			use_en: 'Day of week + time of day'
@@ -404,13 +404,13 @@ export const knxDpt: ReferenceTable = {
 			use_en: 'HVAC controller operating mode'
 		},
 		{
-			dpt: '20.108',
+			dpt: '20.002',
 			name: 'DPT_BuildingMode',
 			size: '1 Byte',
-			range: '0–4',
+			range: '0–2',
 			unit: '—',
-			use: 'Gebäudebetriebsart (Anwesenheit)',
-			use_en: 'Building operating mode (occupancy)'
+			use: 'Gebäude genutzt, nicht genutzt, Schutz',
+			use_en: 'Building in use, not in use, protection'
 		}
 	],
 	notes:

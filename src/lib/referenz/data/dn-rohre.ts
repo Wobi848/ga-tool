@@ -10,12 +10,12 @@ export const dnRohre: ReferenceTable = {
 	icon: 'pipe',
 	color: '#0891b2',
 	areas: ['hlk', 'sanitaer'],
-	norm: ['EN 10220', 'DIN 2448'],
-	updated: '2026-05-14',
+	norm: ['EN 10220', 'EN 10255', 'EN 10216'],
+	updated: '2026-10-14',
 	description:
-		'Nahtlose Stahlrohre für Heizung, Sanitär und industrielle Anwendungen. Werte für Standard-Wandstärke (Serie 1).',
+		'Stahlrohre mit Aussendurchmessern nach EN 10220 und üblichen Wandstärken für Heizungs- und Kälteleitungen. Gewinderohre nach EN 10255 haben dickere Wände, nahtlose Rohre nach EN 10216 je nach Druckstufe ebenfalls.',
 	description_en:
-		'Seamless steel pipes for heating, plumbing and industrial applications. Values for standard wall thickness (Series 1).',
+		'Steel pipes with outside diameters per EN 10220 and common wall thicknesses for heating and chilled water lines. Threaded pipes per EN 10255 have thicker walls, as do seamless pipes per EN 10216 depending on pressure rating.',
 	columns: [
 		{ key: 'dn', label: 'DN', mono: true, highlight: true },
 		{ key: 'od', label: 'Aussen-Ø', label_en: 'Outer Ø', unit: 'mm', type: 'number' },
@@ -57,7 +57,7 @@ export const dnRohre: ReferenceTable = {
 		{ dn: 'DN 300', od: 323.9, s: 7.1, id: 309.7, mass: 55.5 }
 	],
 	notes:
-		'Für Kupferrohre (CU) sowie nichtrostende Stahlrohre gelten andere Wandstärken — siehe separate Tabellen.',
+		'Für Kupferrohre siehe die Tabelle Kupferrohre. Nichtrostende Pressfittingrohre haben eigene, dünnere Wandstärken nach Herstellerangabe.',
 	notes_en:
-		'Copper pipes (CU) and stainless steel pipes have different wall thicknesses — see separate tables.'
+		'For copper pipes see the copper pipe table. Stainless steel press-fit pipes have their own, thinner wall thicknesses per manufacturer.'
 };

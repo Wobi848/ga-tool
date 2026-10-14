@@ -11,7 +11,7 @@ export const filterMapping: ReferenceTable = {
 	color: '#16a34a',
 	areas: ['hlk'],
 	norm: ['ISO 16890', 'EN 779 (abgelöst)'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	description:
 		'Mapping zwischen alten Filterklassen (EN 779) und neuen ePM-Klassen nach ISO 16890. Bei Sanierung/Umrüstung wichtig.',
 	description_en:
@@ -32,16 +32,16 @@ export const filterMapping: ReferenceTable = {
 		{
 			old: 'G3',
 			new: 'ISO Coarse 60 %',
-			efficiency: '> 60 % > 10 µm',
-			efficiency_en: '> 60 % at > 10 µm',
+			efficiency: 'Abscheidegrad gravimetrisch ≥ 60 %',
+			efficiency_en: 'gravimetric arrestance ≥ 60 %',
 			use: 'Vorfilter Aussenluft Grob',
 			use_en: 'Outdoor air pre-filter, coarse'
 		},
 		{
 			old: 'G4',
 			new: 'ISO Coarse 90 %',
-			efficiency: '> 90 % > 10 µm',
-			efficiency_en: '> 90 % at > 10 µm',
+			efficiency: 'Abscheidegrad gravimetrisch ≥ 90 %',
+			efficiency_en: 'gravimetric arrestance ≥ 90 %',
 			use: 'Vorfilter Standard',
 			use_en: 'Standard pre-filter'
 		},
@@ -127,7 +127,7 @@ export const filterMapping: ReferenceTable = {
 		}
 	],
 	notes:
-		'EN 779 wurde 2018 durch ISO 16890 abgelöst. Die neuen Klassen testen nach Partikelgrösse (PM1 / PM2.5 / PM10) statt nach Gesamteffizienz.',
+		'EN 779 wurde 2018 durch ISO 16890 abgelöst. Die neuen Klassen testen nach Partikelgrösse (PM1 / PM2.5 / PM10) statt nach Gesamteffizienz. Eine exakte Umrechnung gibt es nicht; die Zuordnung ist ein Anhaltspunkt, massgebend ist die Prüfung des konkreten Filters.',
 	notes_en:
-		'EN 779 was superseded by ISO 16890 in 2018. The new classes test by particle size (PM1 / PM2.5 / PM10) rather than overall efficiency.'
+		'EN 779 was superseded by ISO 16890 in 2018. The new classes test by particle size (PM1 / PM2.5 / PM10) rather than overall efficiency. There is no exact conversion; the mapping is a guide, the test of the actual filter is decisive.'
 };

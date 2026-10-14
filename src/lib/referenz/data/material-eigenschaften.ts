@@ -11,7 +11,7 @@ export const materialEigenschaften: ReferenceTable = {
 	color: '#7c3aed',
 	areas: ['hlk', 'normen'],
 	norm: ['EN ISO 10456', 'SIA 381/1'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	description:
 		'Stoffwerte für Wärmebedarfsrechnung und Speicherauslegung. Werte bei 20 °C falls nicht anders angegeben.',
 	description_en:
@@ -95,8 +95,8 @@ export const materialEigenschaften: ReferenceTable = {
 			name: 'Beton (Normalbeton)',
 			name_en: 'Concrete (normal weight)',
 			rho: 2300,
-			cp: 880,
-			lambda: 1.65,
+			cp: 1000,
+			lambda: 2.0,
 			category: 'Baustoff',
 			category_en: 'Building material'
 		},

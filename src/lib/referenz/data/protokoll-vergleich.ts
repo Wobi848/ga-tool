@@ -23,7 +23,7 @@ export const protokollVergleich: ReferenceTable = {
 		'EN 13757 (M-Bus)',
 		'Modbus Application Protocol V1.1b3'
 	],
-	updated: '2026-09-14',
+	updated: '2026-10-14',
 	description:
 		'Gegenüberstellung der Protokolle, die in der Gebäudeautomation tatsächlich vorkommen. Die Zahlen sind Richtwerte für den Normalfall — Repeater, Router und Koppler verschieben sie nach oben, schlechte Verlegung nach unten. Entscheidend ist selten die technische Obergrenze, sondern was der Kunde schon hat und wer es später wartet.',
 	description_en:
@@ -50,8 +50,10 @@ export const protokollVergleich: ReferenceTable = {
 			speisung: 'nein',
 			einsatz: 'Feldgeräte an DDC — Ventile, Klappen, Raumregler',
 			einsatz_en: 'Field devices on DDC — valves, dampers, room controllers',
-			achtung: 'Abschlusswiderstände an beiden Enden, MAC-Adressen lückenlos ab 0',
-			achtung_en: 'Terminators at both ends, MAC addresses contiguous from 0'
+			achtung:
+				'Abschlusswiderstände an beiden Enden; Max_Master auf die höchste vergebene MAC-Adresse setzen, sonst sucht der Token unnötig',
+			achtung_en:
+				'Terminators at both ends; set Max_Master to the highest MAC address in use, otherwise the token searches needlessly'
 		},
 		{
 			protokoll: 'BACnet/IP',
@@ -103,7 +105,8 @@ export const protokollVergleich: ReferenceTable = {
 			topologie: 'Linie, Stern, Baum (kein Ring)',
 			topologie_en: 'Line, star, tree (no ring)',
 			laenge: '≤ 1000 m je Linie',
-			geraete: '64 je Linie, 256 mit Netzteilen',
+			geraete: '64 je Liniensegment, bis 256 mit Linienverstärkern',
+			geraete_en: '64 per line segment, up to 256 with line repeaters',
 			speisung: 'ja, 29 V',
 			speisung_en: 'yes, 29 V',
 			einsatz: 'Raumautomation — Licht, Storen, Raumtemperatur, Präsenz',
@@ -171,8 +174,10 @@ export const protokollVergleich: ReferenceTable = {
 			speisung: 'nein',
 			einsatz: 'Übergabe an IT und übergeordnete Systeme, Energiemonitoring',
 			einsatz_en: 'Handover to IT and higher-level systems, energy monitoring',
-			achtung: 'Bringt Verschlüsselung und Benutzerverwaltung mit — anders als alle darüber',
-			achtung_en: 'Brings encryption and user management — unlike everything above'
+			achtung:
+				'Bringt Verschlüsselung und Benutzerverwaltung von Haus aus mit; bei BACnet und KNX gibt es das nur mit BACnet/SC bzw. KNX Secure',
+			achtung_en:
+				'Brings encryption and user management built in; BACnet and KNX only have this with BACnet/SC or KNX Secure'
 		},
 		{
 			protokoll: 'MQTT',

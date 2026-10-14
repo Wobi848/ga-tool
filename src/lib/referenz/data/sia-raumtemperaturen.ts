@@ -11,11 +11,11 @@ export const siaRaumtemperaturen: ReferenceTable = {
 	color: '#dc2626',
 	areas: ['hlk', 'normen'],
 	norm: ['SIA 2024:2015', 'EN 16798-1:2019', 'EN ISO 7730', 'SIA 380/1'],
-	updated: '2026-05-15',
+	updated: '2026-10-14',
 	description:
-		'Richtwerte für Raumsolltemperaturen nach Nutzungsart und Komfortkategorie. Kategorie I = hohe Anforderungen (Krankenhäuser, Schulen), Kategorie II = normal (Büros, Wohnen), Kategorie III = moderat.',
+		'Richtwerte für Raumsolltemperaturen nach Nutzungsart und Komfortkategorie. Kategorie I = hohe Anforderungen, etwa für empfindliche Personen, Kategorie II = normal (Büros, Wohnen), Kategorie III = moderat.',
 	description_en:
-		'Reference values for room setpoint temperatures by occupancy type and comfort category. Category I = high requirements (hospitals, schools), Category II = normal (offices, residential), Category III = moderate.',
+		'Reference values for room setpoint temperatures by occupancy type and comfort category. Category I = high requirements, e.g. for sensitive occupants, Category II = normal (offices, residential), Category III = moderate.',
 	columns: [
 		{ key: 'nutzung', label: 'Nutzungsart', label_en: 'Occupancy Type', highlight: true },
 		{

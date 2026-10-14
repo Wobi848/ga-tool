@@ -10,7 +10,7 @@ export const glykolSole: ReferenceTable = {
 	icon: 'droplet',
 	color: '#0d9488',
 	areas: ['hlk'],
-	updated: '2026-05-14',
+	updated: '2026-10-14',
 	description:
 		'Eigenschaften von Ethylenglykol-Wasser-Mischungen bei 20 °C. Wichtig für Wärmepumpen-Solekreis und Kälteanlagen.',
 	description_en:
@@ -20,7 +20,7 @@ export const glykolSole: ReferenceTable = {
 			key: 'pct',
 			label: 'Glykol-Anteil',
 			label_en: 'Glycol content',
-			unit: '%',
+			unit: 'Vol.-%',
 			type: 'number',
 			mono: true,
 			highlight: true
@@ -69,7 +69,7 @@ export const glykolSole: ReferenceTable = {
 		{ pct: 60, freeze: -52, rho: 1088, cp: 3.2, nu: 7.2, lambda: 0.35 }
 	],
 	notes:
-		'Faustregel Wärmepumpe: Sole-Eingangstemp − 7 K Sicherheit zum Gefrierpunkt. Bei ungünstigen Bedingungen ≥ −10 K. Propylenglykol (lebensmittelecht) hat höhere Viskosität und niedrigere Wärmekapazität.',
+		'Faustregel Wärmepumpe: Sole-Eingangstemp − 7 K Sicherheit zum Gefrierpunkt. Bei ungünstigen Bedingungen ≥ −10 K. Propylenglykol (weniger giftig) braucht für denselben Gefrierpunkt eine höhere Konzentration und ist zäher; Druckverluste und Pumpenleistung steigen.',
 	notes_en:
-		'Heat pump rule of thumb: brine inlet temperature should be ≥ 7 K above freezing point as a safety margin; ≥ 10 K under adverse conditions. Propylene glycol (food-safe) has higher viscosity and lower heat capacity.'
+		'Heat pump rule of thumb: brine inlet temperature should be ≥ 7 K above freezing point as a safety margin; ≥ 10 K under adverse conditions. Propylene glycol (less toxic) needs a higher concentration for the same freezing point and is more viscous; pressure drops and pump power increase.'
 };
