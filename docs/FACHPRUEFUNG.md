@@ -92,13 +92,13 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ✅ k-faktor-luft
 - ✅ klappenantriebe
 - ✅ nachtauskuehlung
-- ⬜ raumluftqualitaet
+- ✅ raumluftqualitaet
 - ✅ rlt-anlage
-- ⬜ taupunkt
+- ✅ taupunkt
 - ✅ vav-cav
-- ⬜ vdi6022
-- ⬜ waermerueckgewinnung
-- ⬜ zonendruckhaltung
+- ✅ vdi6022
+- ✅ waermerueckgewinnung
+- ✅ zonendruckhaltung
 
 ### klima
 
@@ -342,3 +342,8 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | entrauchung-rwa                     | EN 12101-1 «Schlauchabschlüsse»                                                                                                                                                                                                                                              | Rauchschürzen; VKF-Richtlinie RWA ergänzt                                                                                                   | EN 12101                                                            |
 | 14.10.2026 | klappenantriebe                     | erfundene Drehmomentformel; «EN ISO 6020-2 Hydraulikzylinder (Analogie)» als Norm; falsche Begründung Startreihenfolge                                                                                                                                                       | Herstellerangabe Nm/m²; EN 1751                                                                                                             | EN 1751                                                             |
 | 14.10.2026 | nachtauskuehlung                    | 2–4 K im Text, 5–7 K in der Tabelle; fehlende Abbruchbedingung (Raum-Untergrenze)                                                                                                                                                                                            | konsistent 2–4 K; Abbruch bei 20–21 °C                                                                                                      | —                                                                   |
+| 14.10.2026 | raumluftqualitaet                   | IDA-Klassen mit EN-16798-Kategoriewerten vermischt; «WHO: TVOC < 300 µg/m³» (ist UBA); Harvard-Studie falsch wiedergegeben; Lüftungsraten-Tabelle inkonsistent                                                                                                               | IDA 400/600/1000 ppm über aussen; UBA-Stufen; Studie korrekt eingeordnet                                                                    | EN 16798-3, UBA                                                     |
+| 14.10.2026 | vdi6022                             | Blätter falsch (Blatt 4 = Personalqualifizierung, nicht Gesundheitswesen); erfundene Grenzwerte «≤ 100 KBE/m³ Zuluft»; «TRBA 430»; Filterfristen nach Klasse statt Stufe                                                                                                     | neu geschrieben; Zuluft-Aussenluft-Vergleich; 12/24 Monate je Stufe; SWKI VA104-01                                                          | VDI 6022 Blatt 1/4                                                  |
+| 14.10.2026 | waermerueckgewinnung                | Sommerbeispiel mit Wirkungsgrad über 100 %; Frostgrenze −8 bis −15 °C; «VDI 6022 Klasse A»                                                                                                                                                                                   | Beispiel mit η = 75 %; Fortluft-/Δp-Überwachung; Ökodesign 1253/2014 (73 %)                                                                 | VO (EU) 1253/2014                                                   |
+| 14.10.2026 | zonendruckhaltung                   | OP «≥ 1200 m³/h, 20–25-fach» (passt nicht zu Raumklasse Ia)                                                                                                                                                                                                                  | Verweis auf DIN 1946-4 / SWKI 99-3                                                                                                          | —                                                                   |
+| 14.10.2026 | taupunkt                            | Tippfehler, «Mindest-U-Wert»                                                                                                                                                                                                                                                 | Beispielwerte nachgerechnet, korrekt                                                                                                        | Magnus                                                              |

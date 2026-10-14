@@ -25,305 +25,175 @@ tags:
 difficulty: grundlagen
 area: [hlk, ga]
 related: [sensoren, vav-cav, rlt-anlage, vdi6022, co2-sensoren, voc-sensoren, feuchtesensoren]
-norm: [EN 16798-1, EN 13779, WHO, SWKI VA102-01]
-updated: 2026-05-14
+norm: [EN 16798-1, EN 16798-3, SIA 382/1, WHO AQG 2021]
+updated: 2026-10-14
 lang: de
 ---
 
 # Raumluftqualität — CO₂, VOC, Partikel
 
-Menschen verbringen 90 % ihrer Zeit in Innenräumen. Die Luftqualität beeinflusst Gesundheit, Wohlbefinden und Leistungsfähigkeit direkt. Die GA kann mit bedarfsgeführter Lüftung sowohl Komfort als auch Energieeffizienz optimieren.
+Wir verbringen den grössten Teil unserer Zeit in Innenräumen. Wie gut die Luft dort ist, beeinflusst Wohlbefinden, Konzentration und Gesundheit. Die GA misst die Luftqualität und lüftet danach: genug, wenn Leute da sind, wenig, wenn nicht.
 
-## Luftkategorien (EN 16798-1 / EN 13779)
+## Klassen nach EN 16798-3
 
-### Aussenluft (ODA — Outdoor Air)
+### Aussenluft (ODA)
 
-| Klasse | Beschreibung            | Vorfilter                |
-| ------ | ----------------------- | ------------------------ |
-| ODA 1  | Reine Luft, nur Staub   | F7                       |
-| ODA 2  | Staub + Gerüche (urban) | F7 + Aktivkohle          |
-| ODA 3  | Stark verschmutzt       | F7 + Hochleistungsfilter |
+| Klasse | Bedeutung                                                            |
+| ------ | -------------------------------------------------------------------- |
+| ODA 1  | Aussenluft hält die WHO-Richtwerte ein                               |
+| ODA 2  | Richtwerte für Partikel oder Gase leicht überschritten               |
+| ODA 3  | Richtwerte deutlich überschritten, z.B. an stark befahrenen Strassen |
 
-### Innenluft (IDA — Indoor Air)
+Je schlechter die Aussenluft, desto besser muss gefiltert werden. Die Filterwahl folgt EN 16798-3 mit den Klassen nach ISO 16890, typisch zweistufig, z.B. ePM10 50 % als Vorfilter und ePM1 50 % in der Zuluft.
 
-| Klasse    | Beschreibung      | CO₂ über Aussenluft | Anwendung              |
-| --------- | ----------------- | ------------------- | ---------------------- |
-| **IDA 1** | Hohe Qualität     | ≤ 400 ppm           | Kindergärten, Kliniken |
-| **IDA 2** | Gute Qualität     | ≤ 800 ppm           | Büros, Schulen, Hotels |
-| **IDA 3** | Mittlere Qualität | ≤ 1350 ppm          | Einfache Büros         |
-| **IDA 4** | Niedrige Qualität | > 1350 ppm          | Nicht empfohlen        |
+### Raumluft (IDA)
 
-**Aussenluft-Referenz:** 400–420 ppm CO₂ (2024, steigend ~2 ppm/Jahr).
+| Klasse    | Qualität | CO₂ über Aussenluft (Richtwert) |
+| --------- | -------- | ------------------------------- |
+| **IDA 1** | hoch     | bis 400 ppm                     |
+| **IDA 2** | mittel   | 400–600 ppm                     |
+| **IDA 3** | mässig   | 600–1000 ppm                    |
+| **IDA 4** | niedrig  | über 1000 ppm                   |
 
----
+Daneben kennt EN 16798-1 die **Kategorien I bis IV** mit eigenen CO₂-Werten (550/800/1350 ppm über aussen). Beide Systeme kommen in Ausschreibungen vor, man muss wissen, welches gemeint ist. Zum Rechnen: [Luftbedarf-Rechner](/rechner/luftbedarf).
 
-## CO₂ — Hauptindikator für Belegung
+Die Aussenluft hat heute etwa 420 ppm CO₂, in Städten etwas mehr.
 
-CO₂ ist das wichtigste Signal für **bedarfsgeführte Lüftung** (DCV — Demand Controlled Ventilation):
+## CO₂ als Leitgrösse
 
-### Warum CO₂?
+Menschen atmen CO₂ aus, in der Ausatemluft rund 4 % (40'000 ppm). Im Raum steigt der CO₂-Gehalt deshalb mit der Belegung. CO₂ ist selbst bei üblichen Innenraumwerten nicht giftig, aber ein guter **Indikator** dafür, wie viel verbrauchte Luft im Raum ist.
 
-Menschen atmen CO₂ aus (~38000 ppm in der Ausatemluft). Mehr Menschen → mehr CO₂. CO₂ korreliert direkt mit der Belegungsdichte und dem Frischluftbedarf.
+| CO₂ im Raum    | Einordnung                                 |
+| -------------- | ------------------------------------------ |
+| unter 1000 ppm | hygienisch unbedenklich (Pettenkofer-Zahl) |
+| 1000–2000 ppm  | hygienisch auffällig, lüften               |
+| über 2000 ppm  | inakzeptabel (Einstufung Umweltbundesamt)  |
+| 5000 ppm       | Arbeitsplatzgrenzwert (MAK) für 8 Stunden  |
 
-### Grenzwerte und Wirkung
+In Studien schnitten Testpersonen in gut belüfteten Büros mit wenig Schadstoffen deutlich besser in kognitiven Tests ab als unter üblichen Bedingungen (Allen et al., Harvard 2015). Welcher Anteil dabei auf CO₂ und welcher auf andere Stoffe fällt, ist umstritten.
 
-| CO₂-Konzentration | Wirkung                                      |
-| ----------------- | -------------------------------------------- |
-| 400–800 ppm       | Frische Luft, gute Konzentration             |
-| 800–1000 ppm      | Leichte Müdigkeit bei empfindlichen Personen |
-| 1000–1500 ppm     | Merkliche Leistungsminderung                 |
-| > 1500 ppm        | Kopfschmerzen, Schläfrigkeit                 |
-| > 5000 ppm        | MAK-Wert (DE) — Grenze 8h-Arbeitszeit        |
-| > 40000 ppm       | Akute Gefahr (sehr seltene Innenräume)       |
+### Bedarfsgeführte Lüftung mit CO₂
 
-**Studie Harvard (2015):** Bei CO₂-Reduktion von 1000 auf 550 ppm verbessern sich kognitive Leistungsscores um 50–100 %. Gute Raumluft ist produktivitätssteigernd.
+Ein CO₂-Fühler im Raum oder in der Abluft gibt den Volumenstrom vor: Steigt der Wert über den Sollwert, öffnet der VAV-Regler oder dreht der Ventilator hoch; sinkt er, wird zurückgefahren. Ein Mindestvolumenstrom bleibt immer, siehe [VAV und CAV](/wissen/vav-cav).
 
-### DCV-Regelung mit CO₂
+## VOC — flüchtige organische Verbindungen
 
-```
-CO₂-Sensor misst: 950 ppm
-Soll: < 800 ppm
-→ Lüftungsrate erhöhen (VAV-Box aufmachen, FU beschleunigen)
+VOC stammen aus Möbeln, Bodenbelägen, Farben, Reinigungsmitteln und vom Menschen selbst. Sensoren messen meist eine **Summe** (TVOC oder ein «Luftqualitätssignal»), nicht einzelne Stoffe, und sind nicht absolut kalibriert.
 
-CO₂ sinkt auf 700 ppm:
-→ Lüftungsrate reduzieren (Energie sparen)
-```
+Das deutsche Umweltbundesamt ordnet TVOC so ein: bis 0.3 mg/m³ hygienisch unbedenklich, 1 bis 3 mg/m³ auffällig, über 10 mg/m³ inakzeptabel.
 
----
+VOC-Sensoren ergänzen CO₂ dort, wo nicht nur Menschen die Luft belasten: Sanitärräume, Küchen, Sitzungszimmer, Neubauten in den ersten Monaten. **Ersetzen** können sie den CO₂-Fühler nicht.
 
-## VOC — Flüchtige Organische Verbindungen
+## Partikel
 
-**VOC** = Volatile Organic Compounds — breite Klasse von Verbindungen:
+| Grösse       | Herkunft                           | Wirkung                  |
+| ------------ | ---------------------------------- | ------------------------ |
+| PM10         | Strassenstaub, Pollen, Abrieb      | obere Atemwege           |
+| PM2.5        | Verbrennung, Verkehr, Holzfeuerung | dringt bis in die Lunge  |
+| PM1          | Verbrennung, Russ                  | dringt tief in die Lunge |
+| UFP < 0.1 µm | frisch gebildete Partikel          | gelangen bis ins Blut    |
 
-- Formaldehyd (Möbel, Spanplatten)
-- Toluol, Xylol (Farben, Lacke)
-- Limonene, Alpha-Pinen (Reinigungsmittel, natürlich)
-- Aceton (Nagellack)
+Die WHO hat 2021 ihre Richtwerte verschärft: **PM2.5 im Jahresmittel 5 µg/m³**, PM10 15 µg/m³.
 
-### Messung
+Gegen Aussenluftpartikel helfen gute Filter in der Zuluft. Gegen Quellen im Raum (Kochen, Drucker, Kerzen) helfen Abluft an der Quelle, mehr Aussenluft oder Luftreiniger.
 
-VOC-Sensoren messen meist die **Summe** aller VOC (TVOC = Total VOC), nicht spezifische Verbindungen. Einheit: µg/m³ oder ppm Ethanol-Äquivalent.
+## Fühler in der GA
 
-**Grenzwerte:**
+| Fühler                     | Misst             | Typisches Signal       |
+| -------------------------- | ----------------- | ---------------------- |
+| CO₂ + Temperatur + Feuchte | Belegung, Komfort | 0–10 V, Modbus, BACnet |
+| VOC / Luftqualität         | Summe der Gase    | 0–10 V                 |
+| Partikel                   | PM1, PM2.5, PM10  | Modbus                 |
 
-- WHO: TVOC < 300 µg/m³ (Komfort), < 3000 µg/m³ (Grenzwert)
-- EU: Produktvorschriften für Formaldehyd in Holzwerkstoffen
-
-### Einsatz in GA
-
-VOC-Sensoren als Ergänzung zu CO₂ — vor allem in:
-
-- Sanitärräumen (Gerüche)
-- Küchen
-- Konferenzräumen nach langer Belegung
-- Chemie-Labors (Konzentration flüchtiger Stoffe)
-
-> **Wichtig:** VOC-Sensor kann CO₂-Sensor **nicht ersetzen** — misst andere Verbindungen, keine absolute Kalibrierung.
-
----
-
-## Feinststaub und Partikel
-
-### Partikelgrössen
-
-| Bezeichnung | Grösse   | Herkunft                        | Gesundheitseffekt     |
-| ----------- | -------- | ------------------------------- | --------------------- |
-| PM10        | ≤ 10 µm  | Strassenstaub, Pollen           | Atemwege obere        |
-| PM2.5       | ≤ 2.5 µm | Verbrennungsprozesse, Diesel    | Lungenalveolen        |
-| PM1         | ≤ 1 µm   | Ultrafeine Verbrennungspartikel | Blutkreislauf         |
-| UFP         | ≤ 0.1 µm | Frisch gebildete Partikel       | Sehr tief eindringend |
-
-**WHO Richtwerte (2021):** PM2.5 Jahresmittel ≤ 5 µg/m³ (verschärft), PM10 ≤ 15 µg/m³
-
-### Partikel in Innenräumen
-
-- Aussenluft filtern (F7 oder F9 Zuluftfilter)
-- Innenquellen: Kochen (PM2.5!), Drucker (Toner), Kerzen, Tabakrauch
-- Lüftungsanlage mit guten Filtern schützt vor Aussenluft-Partikel
-- Gegen Innenquellen: Luftreiniger oder mehr Frischluft
-
----
-
-## Kombisensoren in der GA
-
-Moderne Raumluftqualitätssensoren messen mehrere Parameter:
-
-| Sensor-Typ               | Gemessene Grössen        | Ausgangssignal |
-| ------------------------ | ------------------------ | -------------- |
-| CO₂ + T + rF             | CO₂, Temperatur, Feuchte | Modbus, 0–10V  |
-| IAQ (Indoor Air Quality) | CO₂, VOC, T, rF, PM      | Modbus         |
-| PM-Sensor                | PM1, PM2.5, PM10         | Modbus, 4–20mA |
-
-**Typischer Raumfühler GA:** CO₂ + Temperatur + Feuchte (3-in-1), Modbus-RTU, Wandmontage.
-
----
-
-## Mindest-Luftmengen nach Nutzung
-
-EN 16798 / EN 13779 definiert Luftmengen für verschiedene Nutzungen:
-
-| Nutzung      | IDA-Klasse | Volumenstrom (Person) |
-| ------------ | ---------- | --------------------- |
-| Büro         | IDA 2      | 36 m³/(h·Person)      |
-| Konferenz    | IDA 2      | 36 m³/(h·Person)      |
-| Schulzimmer  | IDA 1      | 54 m³/(h·Person)      |
-| Hotel Zimmer | IDA 2      | 36 m³/(h·Person)      |
-| Gastronomie  | IDA 3      | 29 m³/(h·Person)      |
-
-Diese Werte gelten für die **Auslegung** (Volllastbetrieb). DCV reduziert im Teillastbetrieb proportional.
+Mehr in [CO₂-Sensoren](/wissen/co2-sensoren) und [VOC-Sensoren](/wissen/voc-sensoren).
 
 ## Normen
 
-- **EN 16798-1** — Energetische Bewertung von Gebäuden, Eingangsparameter Innenraumklima
-- **EN 13779** — Lüftung von Nichtwohngebäuden, Anforderungen Raumluftsysteme
-- **WHO Air Quality Guidelines (2021)** — Grenzwerte PM, NO₂, Ozon
-- **SWKI VA102-01** (CH) — Lüftungs- und Klimaanlagen
+- **EN 16798-1** — Eingangsparameter für das Innenraumklima (Kategorien I–IV)
+- **EN 16798-3** — Lüftung von Nichtwohngebäuden (ODA, IDA, Filter)
+- **SIA 382/1** — Lüftungs- und Klimaanlagen (CH)
+- **WHO Global Air Quality Guidelines (2021)**
 
 <!-- EN -->
 
-People spend 90 % of their time indoors. Air quality directly affects health, wellbeing, and cognitive performance. BA can optimise both comfort and energy efficiency through demand-controlled ventilation.
+We spend most of our time indoors. How good the air is there affects well-being, concentration and health. The BA measures air quality and ventilates accordingly: enough when people are present, little when not.
 
-## Air Categories (EN 16798-1 / EN 13779)
+## Classes per EN 16798-3
 
 ### Outdoor Air (ODA)
 
-| Class | Description           | Pre-filter                   |
-| ----- | --------------------- | ---------------------------- |
-| ODA 1 | Clean air, dust only  | F7                           |
-| ODA 2 | Dust + odours (urban) | F7 + activated carbon        |
-| ODA 3 | Heavily polluted      | F7 + high-performance filter |
+| Class | Meaning                                                   |
+| ----- | --------------------------------------------------------- |
+| ODA 1 | Outdoor air meets the WHO guideline values                |
+| ODA 2 | Guideline values for particles or gases slightly exceeded |
+| ODA 3 | Guideline values clearly exceeded, e.g. at busy roads     |
+
+The worse the outdoor air, the better it must be filtered. Filter selection follows EN 16798-3 with classes per ISO 16890, typically two stages, e.g. ePM10 50 % as pre-filter and ePM1 50 % in the supply air.
 
 ### Indoor Air (IDA)
 
-| Class     | Description    | CO₂ above outdoor air | Application              |
-| --------- | -------------- | --------------------- | ------------------------ |
-| **IDA 1** | High quality   | ≤ 400 ppm             | Kindergartens, clinics   |
-| **IDA 2** | Good quality   | ≤ 800 ppm             | Offices, schools, hotels |
-| **IDA 3** | Medium quality | ≤ 1350 ppm            | Simple offices           |
-| **IDA 4** | Low quality    | > 1350 ppm            | Not recommended          |
+| Class     | Quality  | CO₂ above outdoor (guide value) |
+| --------- | -------- | ------------------------------- |
+| **IDA 1** | high     | up to 400 ppm                   |
+| **IDA 2** | medium   | 400–600 ppm                     |
+| **IDA 3** | moderate | 600–1000 ppm                    |
+| **IDA 4** | low      | above 1000 ppm                  |
 
-**Outdoor air reference:** 400–420 ppm CO₂ (2024, rising ~2 ppm/year).
+EN 16798-1 additionally has **categories I to IV** with their own CO₂ values (550/800/1350 ppm above outdoor). Both systems appear in specifications; you need to know which is meant. To calculate: [air demand calculator](/rechner/luftbedarf).
 
----
+Outdoor air today has about 420 ppm CO₂, somewhat more in cities.
 
-## CO₂ — Primary Indicator of Occupancy
+## CO₂ as the Lead Variable
 
-CO₂ is the most important signal for **demand-controlled ventilation** (DCV):
+People exhale CO₂, about 4 % (40,000 ppm) in exhaled air. Indoor CO₂ therefore rises with occupancy. At usual indoor levels CO₂ itself is not toxic, but it is a good **indicator** of how much stale air is in the room.
 
-### Why CO₂?
+| Indoor CO₂     | Assessment                                |
+| -------------- | ----------------------------------------- |
+| below 1000 ppm | hygienically harmless (Pettenkofer value) |
+| 1000–2000 ppm  | hygienically conspicuous, ventilate       |
+| above 2000 ppm | unacceptable (German Environment Agency)  |
+| 5000 ppm       | occupational exposure limit for 8 hours   |
 
-People exhale CO₂ (~38,000 ppm in exhaled air). More people → more CO₂. CO₂ correlates directly with occupancy density and fresh air demand.
+In studies, test subjects in well-ventilated offices with few pollutants scored considerably better in cognitive tests than under usual conditions (Allen et al., Harvard 2015). How much of this is due to CO₂ and how much to other substances is debated.
 
-### Limit Values and Effects
+### Demand-Controlled Ventilation with CO₂
 
-| CO₂ concentration | Effect                              |
-| ----------------- | ----------------------------------- |
-| 400–800 ppm       | Fresh air, good concentration       |
-| 800–1000 ppm      | Mild fatigue in sensitive persons   |
-| 1000–1500 ppm     | Noticeable reduction in performance |
-| > 1500 ppm        | Headaches, drowsiness               |
-| > 5000 ppm        | OEL (DE) — 8-hour working limit     |
-| > 40,000 ppm      | Acute danger (very rare indoors)    |
-
-**Harvard study (2015):** Reducing CO₂ from 1000 to 550 ppm improves cognitive performance scores by 50–100 %. Good indoor air quality increases productivity.
-
-### DCV Control with CO₂
-
-```
-CO₂ sensor reads: 950 ppm
-Setpoint: < 800 ppm
-→ Increase ventilation rate (open VAV box, accelerate VSD)
-
-CO₂ drops to 700 ppm:
-→ Reduce ventilation rate (save energy)
-```
-
----
+A CO₂ sensor in the room or extract air sets the airflow: if the value rises above the setpoint, the VAV controller opens or the fan speeds up; if it falls, it ramps down. A minimum airflow always remains, see [VAV and CAV](/wissen/vav-cav).
 
 ## VOC — Volatile Organic Compounds
 
-**VOC** = a broad class of compounds:
+VOCs come from furniture, floor coverings, paints, cleaning agents and people themselves. Sensors usually measure a **sum** (TVOC or an "air quality signal"), not individual substances, and are not absolutely calibrated.
 
-- Formaldehyde (furniture, chipboard)
-- Toluene, xylene (paints, varnishes)
-- Limonene, alpha-pinene (cleaning products, natural)
-- Acetone (nail polish)
+The German Environment Agency classifies TVOC as follows: up to 0.3 mg/m³ hygienically harmless, 1 to 3 mg/m³ conspicuous, above 10 mg/m³ unacceptable.
 
-### Measurement
+VOC sensors complement CO₂ where not only people pollute the air: sanitary rooms, kitchens, meeting rooms, new buildings in the first months. They cannot **replace** the CO₂ sensor.
 
-VOC sensors typically measure the **sum** of all VOCs (TVOC = Total VOC), not individual compounds. Unit: µg/m³ or ppm ethanol equivalent.
+## Particles
 
-**Limit values:**
+| Size         | Source                            | Effect                      |
+| ------------ | --------------------------------- | --------------------------- |
+| PM10         | road dust, pollen, abrasion       | upper airways               |
+| PM2.5        | combustion, traffic, wood burning | reaches the lungs           |
+| PM1          | combustion, soot                  | reaches deep into the lungs |
+| UFP < 0.1 µm | freshly formed particles          | reach the bloodstream       |
 
-- WHO: TVOC < 300 µg/m³ (comfort), < 3000 µg/m³ (limit)
-- EU: product regulations for formaldehyde in wood-based panels
+In 2021 the WHO tightened its guideline values: **PM2.5 annual mean 5 µg/m³**, PM10 15 µg/m³.
 
-### Application in BA
+Good supply air filters help against outdoor particles. Against indoor sources (cooking, printers, candles), extraction at the source, more outdoor air or air purifiers help.
 
-VOC sensors complement CO₂ — especially in:
+## Sensors in BA
 
-- Sanitary areas (odours)
-- Kitchens
-- Conference rooms after extended occupancy
-- Chemistry laboratories (concentration of volatile substances)
+| Sensor                       | Measures           | Typical signal         |
+| ---------------------------- | ------------------ | ---------------------- |
+| CO₂ + temperature + humidity | occupancy, comfort | 0–10 V, Modbus, BACnet |
+| VOC / air quality            | sum of gases       | 0–10 V                 |
+| Particles                    | PM1, PM2.5, PM10   | Modbus                 |
 
-> **Important:** A VOC sensor **cannot replace** a CO₂ sensor — it measures different compounds and has no absolute calibration.
-
----
-
-## Particulate Matter and Particles
-
-### Particle Sizes
-
-| Designation | Size     | Source                          | Health effect         |
-| ----------- | -------- | ------------------------------- | --------------------- |
-| PM10        | ≤ 10 µm  | Road dust, pollen               | Upper airways         |
-| PM2.5       | ≤ 2.5 µm | Combustion, diesel              | Lung alveoli          |
-| PM1         | ≤ 1 µm   | Ultra-fine combustion particles | Bloodstream           |
-| UFP         | ≤ 0.1 µm | Freshly formed particles        | Very deep penetration |
-
-**WHO guideline values (2021):** PM2.5 annual mean ≤ 5 µg/m³ (tightened), PM10 ≤ 15 µg/m³
-
-### Particles Indoors
-
-- Filter outdoor air (F7 or F9 supply air filter)
-- Indoor sources: cooking (PM2.5!), printers (toner), candles, tobacco smoke
-- AHU with good filters protects against outdoor air particles
-- Against indoor sources: air purifiers or increased fresh air supply
-
----
-
-## Combination Sensors in BA
-
-Modern indoor air quality sensors measure multiple parameters:
-
-| Sensor type              | Measured quantities        | Output signal   |
-| ------------------------ | -------------------------- | --------------- |
-| CO₂ + T + RH             | CO₂, temperature, humidity | Modbus, 0–10 V  |
-| IAQ (Indoor Air Quality) | CO₂, VOC, T, RH, PM        | Modbus          |
-| PM sensor                | PM1, PM2.5, PM10           | Modbus, 4–20 mA |
-
-**Typical room sensor in BA:** CO₂ + temperature + humidity (3-in-1), Modbus RTU, wall mounting.
-
----
-
-## Minimum Air Flow Rates by Use
-
-EN 16798 / EN 13779 defines air flow rates for various uses:
-
-| Use        | IDA class | Flow rate (per person) |
-| ---------- | --------- | ---------------------- |
-| Office     | IDA 2     | 36 m³/(h·person)       |
-| Conference | IDA 2     | 36 m³/(h·person)       |
-| Classroom  | IDA 1     | 54 m³/(h·person)       |
-| Hotel room | IDA 2     | 36 m³/(h·person)       |
-| Restaurant | IDA 3     | 29 m³/(h·person)       |
-
-These values apply for **design** (full load). DCV reduces proportionally in part-load operation.
+More in [CO₂ Sensors](/wissen/co2-sensoren) and [VOC Sensors](/wissen/voc-sensoren).
 
 ## Standards
 
-- **EN 16798-1** — Energy performance of buildings, input parameters for indoor climate
-- **EN 13779** — Ventilation of non-residential buildings, requirements for ventilation systems
-- **WHO Air Quality Guidelines (2021)** — Limits for PM, NO₂, ozone
-- **SWKI VA102-01** (CH) — Ventilation and air conditioning systems
+- **EN 16798-1** — Input parameters for the indoor environment (categories I–IV)
+- **EN 16798-3** — Ventilation for non-residential buildings (ODA, IDA, filters)
+- **SIA 382/1** — Ventilation and air-conditioning systems (CH)
+- **WHO Global Air Quality Guidelines (2021)**

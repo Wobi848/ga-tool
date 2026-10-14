@@ -36,17 +36,8 @@ Zonendruckhaltung verhindert, dass kontaminierte Luft in sensible Bereiche eindr
 
 ## Grundprinzip
 
-```
-Überdruck-Zone:
-  P_innen > P_aussen → Luft strömt nach aussen
-  → verhindert Eindringen von Keimen / Partikeln
-  Einsatz: OP-Saal, Reinraum, Frühgeborenen-Station
-
-Unterdruck-Zone:
-  P_innen < P_aussen → Luft strömt nach innen
-  → verhindert Austreten von Keimen / Chemikalien
-  Einsatz: Infektionsstation, Chemielabor, Pathologie
-```
+- **Überdruck:** Im Raum ist der Druck höher als ringsum, Luft strömt durch Fugen und offene Türen hinaus. Keime und Partikel kommen nicht hinein. Einsatz: OP-Säle, Reinräume, Neonatologie.
+- **Unterdruck:** Der Druck ist tiefer, Luft strömt hinein. Was im Raum ist, bleibt drin. Einsatz: Infektionszimmer, Labore, Pathologie.
 
 **Typische Druckdifferenzen:**
 
@@ -64,17 +55,12 @@ Unterdruck-Zone:
 
 Mehrere Räume bilden eine Kaskade — jede Stufe hat definierten Druck:
 
-```
-Korridor    →  Schleuse  →  Reinraum
-  0 Pa      →  +5 Pa    →  +15 Pa
+Mehrere Räume bilden eine Abstufung, jede Stufe einige Pascal auseinander. Die Luft strömt immer **vom saubereren zum weniger sauberen** Bereich:
 
-Stufung: je Schleuse +5...+10 Pa
-Luft strömt immer vom saubereren in den weniger sauberen Bereich
+- Reinraum: Korridor 0 Pa → Schleuse +5 Pa → Reinraum +15 Pa
+- Infektionszimmer, umgekehrt: Korridor 0 Pa → Vorraum −5 Pa → Zimmer −12 Pa
 
-Für Infektionsstation (umgekehrt):
-  Korridor  →  Vorraum  →  Isolationszimmer
-  0 Pa      →  −5 Pa   →  −12 Pa
-```
+Typisch sind 5 bis 15 Pa je Stufe.
 
 ---
 
@@ -82,35 +68,16 @@ Für Infektionsstation (umgekehrt):
 
 ### VAV-Regelung (häufig)
 
-```
-Drucksensor DP im Raum (relativ zum Korridor):
-  Istwert: +18 Pa
-  Sollwert: +15 Pa
-  Abweichung: +3 Pa → Zuluft-VAV schliessen / Abluft-VAV öffnen
+Der Raumdruck entsteht aus der **Differenz von Zu- und Abluft**: mehr Zuluft heisst Überdruck. Beide Volumenströme werden von VAV-Reglern gehalten. Ein Drucksensor zwischen Raum und Referenz (meist Korridor) korrigiert die Differenz:
 
-Regelung:
-  Zuluft-VAV: Volumenstrom-Regler (Istwert via Pitot)
-  Abluft-VAV: Volumenstrom-Regler
+- Druck zu hoch: Zuluft etwas weniger oder Abluft etwas mehr
+- Druck zu tief: umgekehrt
 
-  ΔV = V_Zuluft − V_Abluft → Druckdifferenz-Ergebnis
-
-  Korrekt:
-    V_Zuluft > V_Abluft → Überdruck aufgebaut
-    Differenz: typisch 50–200 m³/h (je nach Raumgrösse)
-```
+Wie viel Differenz nötig ist, hängt vor allem von der Dichtheit des Raums ab, bei üblichen Räumen einige zehn bis wenige hundert m³/h.
 
 ### Kaskaden-Algorithmus im DDC
 
-```
-Stufe 1: Drucksensor DP1 (Reinraum vs. Schleuse)
-  PID-1 → Zuluft-Sollwert anpassen
-
-Stufe 2: Drucksensor DP2 (Schleuse vs. Korridor)
-  PID-2 → Abluft-Sollwert anpassen
-
-Kopplung: DP1 und DP2 interagieren → sorgfältige Entkopplung nötig
-  Ti_1 ≠ Ti_2 (unterschiedliche Nachstellzeiten, keine Resonanz)
-```
+Bei mehreren gekoppelten Stufen beeinflussen sich die Regelkreise gegenseitig. Bewährt: jede Stufe regelt einen eigenen Volumenstrom, die Regler bekommen deutlich verschiedene Geschwindigkeiten, und Türkontakte frieren die Regelung beim Öffnen kurz ein, statt nachzuregeln.
 
 ---
 
@@ -123,25 +90,15 @@ Kopplung: DP1 und DP2 interagieren → sorgfältige Entkopplung nötig
 | ISO 7        | ≤ 352.000              | Klasse C Pharma            |
 | ISO 8        | ≤ 3.520.000            | Klasse D Pharma, Technikum |
 
-**Luftwechsel OP-Saal (DIN 1946-4):** ≥ 1200 m³/h, LAF-Decke (Laminar Air Flow) 0,24–0,45 m/s.
-
 ---
 
 ## OP-Saal Druckhaltung
 
-```
-OP-Saal Lüftung nach DIN 1946-4:
-  Überdruck: +15 Pa zum Korridor
-  LAF-Decke (UDF = Unidirectional Air Flow): senkrecht nach unten
-  Zuluft-Temperatur: 16–26 °C regelbar
-  Zuluft-Feuchte: 30–60 % rF
-  Luftwechsel: typ. 20–25 fach pro Stunde
+- **Betrieb:** volle Luftmenge, Überdruck zu den Nebenräumen
+- **Pause, Nacht:** abgesenkt, der Überdruck bleibt erhalten
+- **Reinigung:** volle Luftmenge, Freigabe erst nach Spülzeit
 
-GA-Freigabe:
-  OP-Leuchte EIN → Lüftung auf 100 % Volumenstrom
-  OP-Pause → Absenkbetrieb (50 %) mit Druckerhalt
-  OP-Reinigung → Spülbetrieb 100 %, danach Freigabe
-```
+Luftmengen, Temperaturen und Feuchten richten sich nach der Raumklasse nach DIN 1946-4 (in der Schweiz SWKI 99-3) und dem Hygieneplan des Spitals. Raumklasse Ia hat über dem OP-Feld eine turbulenzarme Verdrängungsströmung mit entsprechend grossen Luftmengen.
 
 ---
 
@@ -179,6 +136,7 @@ GA-Freigabe:
 - **EU GMP Annex 1** — Herstellung steriler Arzneimittel (Reinraumklassen A–D)
 - **DIN 1946-4** — Raumlufttechnik in Gebäuden des Gesundheitswesens
 - **VDI 2167** — Gebäudetechnik in Krankenhäusern
+- **SWKI 99-3** — Lüftung in Spitälern (CH)
 
 <!-- EN -->
 
@@ -186,17 +144,8 @@ Zone pressure control prevents contaminated air from entering sensitive areas (p
 
 ## Basic Principle
 
-```
-Positive pressure zone:
-  P_inside > P_outside → air flows outward
-  → prevents ingress of microorganisms / particles
-  Application: operating theatre, clean room, neonatal unit
-
-Negative pressure zone:
-  P_inside < P_outside → air flows inward
-  → prevents escape of microorganisms / chemicals
-  Application: infectious isolation, chemistry lab, pathology
-```
+- **Overpressure:** the pressure in the room is higher than around it; air flows out through gaps and open doors. Germs and particles stay out. Use: operating theatres, cleanrooms, neonatology.
+- **Underpressure:** the pressure is lower; air flows in. Whatever is in the room stays in. Use: infection rooms, laboratories, pathology.
 
 **Typical pressure differentials:**
 
@@ -214,17 +163,12 @@ Negative pressure zone:
 
 Multiple rooms form a cascade — each level has a defined pressure:
 
-```
-Corridor    →  Airlock   →  Clean room
-  0 Pa      →  +5 Pa    →  +15 Pa
+Several rooms form a gradation, each step a few pascals apart. Air always flows **from the cleaner to the less clean** area:
 
-Step: +5...+10 Pa per airlock
-Air always flows from the cleaner into the less clean area
+- Cleanroom: corridor 0 Pa → airlock +5 Pa → cleanroom +15 Pa
+- Infection room, the other way round: corridor 0 Pa → anteroom −5 Pa → room −12 Pa
 
-For infectious disease unit (reversed):
-  Corridor  →  Anteroom →  Isolation room
-  0 Pa      →  −5 Pa   →  −12 Pa
-```
+5 to 15 Pa per step is typical.
 
 ---
 
@@ -232,35 +176,16 @@ For infectious disease unit (reversed):
 
 ### VAV Control (Most Common)
 
-```
-Differential pressure sensor in room (relative to corridor):
-  Actual: +18 Pa
-  Setpoint: +15 Pa
-  Deviation: +3 Pa → close supply VAV / open extract VAV
+Room pressure results from the **difference between supply and extract**: more supply means overpressure. Both airflows are held by VAV controllers. A pressure sensor between room and reference (usually the corridor) corrects the difference:
 
-Control:
-  Supply VAV: volume flow controller (actual via Pitot)
-  Extract VAV: volume flow controller
+- pressure too high: slightly less supply or slightly more extract
+- pressure too low: the other way round
 
-  ΔV = V_supply − V_extract → pressure differential result
-
-  Correctly:
-    V_supply > V_extract → positive pressure established
-    Difference: typically 50–200 m³/h (depending on room size)
-```
+How much difference is needed depends mainly on the airtightness of the room, for usual rooms a few tens to a few hundred m³/h.
 
 ### Cascade Algorithm in DDC
 
-```
-Level 1: Pressure sensor DP1 (clean room vs. airlock)
-  PID-1 → adjust supply setpoint
-
-Level 2: Pressure sensor DP2 (airlock vs. corridor)
-  PID-2 → adjust extract setpoint
-
-Coupling: DP1 and DP2 interact → careful decoupling required
-  Ti_1 ≠ Ti_2 (different reset times, avoid resonance)
-```
+With several coupled steps the control loops influence each other. Proven: each step controls its own airflow, the controllers get clearly different speeds, and door contacts freeze the control briefly while a door is open instead of chasing it.
 
 ---
 
@@ -279,19 +204,11 @@ Coupling: DP1 and DP2 interact → careful decoupling required
 
 ## Operating Theatre Pressure Control
 
-```
-OR ventilation per DIN 1946-4:
-  Positive pressure: +15 Pa to corridor
-  LAF ceiling (UDF = Unidirectional Air Flow): vertically downward
-  Supply air temperature: 16–26 °C controllable
-  Supply air humidity: 30–60 % RH
-  Air changes: typically 20–25 per hour
+- **Operation:** full airflow, overpressure towards adjacent rooms
+- **Break, night:** reduced, overpressure maintained
+- **Cleaning:** full airflow, release only after a purge time
 
-BA enable:
-  OR light ON → ventilation to 100 % volume flow
-  OR pause → setback mode (50 %) maintaining pressure
-  OR cleaning → purge mode 100 %, then enable
-```
+Airflows, temperatures and humidities follow the room class per DIN 1946-4 (in Switzerland SWKI 99-3) and the hospital's hygiene plan. Room class Ia has a low-turbulence displacement flow over the operating field with correspondingly large airflows.
 
 ---
 
@@ -329,3 +246,4 @@ BA enable:
 - **EU GMP Annex 1** — Manufacture of sterile medicinal products (clean room classes A–D)
 - **DIN 1946-4** — Ventilation in healthcare buildings
 - **VDI 2167** — Building services in hospitals
+- **SWKI 99-3** — Ventilation in hospitals (CH)

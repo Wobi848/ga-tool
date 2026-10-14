@@ -28,7 +28,7 @@ lang: de
 
 # Taupunkt & Bauteilkondensation
 
-**Kondensation** entsteht, wenn eine Oberfläche kühler ist als die **Taupunkttemperatur** der umgebenden Luft. In der GA ist dies besonders relevant bei **Kühldecken**, **Kältebalkens**, **Kaltwasserleitungen** und im **Kühlbetrieb** allgemein.
+**Kondensation** entsteht, wenn eine Oberfläche kühler ist als die **Taupunkttemperatur** der umgebenden Luft. In der GA ist dies besonders relevant bei **Kühldecken**, **Kühlbalken**, **Kaltwasserleitungen** und im **Kühlbetrieb** allgemein.
 
 ## Psychrometrische Grundbegriffe
 
@@ -92,7 +92,7 @@ Kondensation entsteht, wenn **T_Oberfläche ≤ T_Taupunkt**.
 | --------------------------------- | ----------------------------------------- | ------------------------------------------ |
 | Kühldecke (Kaltwasser)            | Kondenswasser tropft auf Boden/Equipment  | Taupunktwächter, VL-Temperatur > T_d + 2 K |
 | Kaltwasserleitung ungedämmt       | Kondensation auf Rohrmantel, Schimmel     | Dampfdiffusionsdichte Dämmung              |
-| Fensterscheibe (einf. Verglasung) | Kondensation innen bei kalter Aussentemp. | Mindest-U-Wert einhalten                   |
+| Fensterscheibe (einf. Verglasung) | Kondensation innen bei kalter Aussentemp. | Verglasung mit gutem U-Wert, Lüften        |
 | Aussenluftdurchlässe              | Kalte Zuluft unter Taupunkt der Raumluft  | Vorwärmregister, Mischung                  |
 | Kühlbalken (Induktionsgerät)      | Kondensation wenn Raumluft-RH zu hoch     | RH < 60 % sicherstellen                    |
 
@@ -106,13 +106,9 @@ Ein **Taupunktwächter** misst Lufttemperatur und Luftfeuchte und berechnet den 
 
 ### Typischer DDC-Regelkreis Kühldecke:
 
-```
-Taupunktsensor (T_d) ───────────────────────────────┐
-                                                      ↓
-Raumluft T + RH → Taupunkt-Berechnung → T_d + 2K = T_VL,min
-                                                      ↓
-T_VL,Ist ──── Vergleich ──── Falls T_VL,Ist < T_VL,min → Kühlventil schliessen / Alarm
-```
+- Der Fühler misst Raumlufttemperatur und Feuchte, die DDC rechnet den Taupunkt.
+- Mindest-Vorlauftemperatur = Taupunkt + Sicherheitsabstand.
+- Liegt der Vorlauf darunter: Kühlventil schliessen oder Vorlauf anheben, Alarm.
 
 **Sicherheitsabstand:** mindestens **+2 K** über Taupunkttemperatur, bei hoher Trägheit der Anlage **+3–5 K**.
 
@@ -251,13 +247,9 @@ A **dew point monitor** measures air temperature and humidity and calculates the
 
 ### Typical DDC Control Loop — Chilled Ceiling:
 
-```
-Dew point sensor (T_d) ──────────────────────────────────┐
-                                                           ↓
-Room air T + RH → dew point calculation → T_d + 2 K = T_supply,min
-                                                           ↓
-T_supply,actual ─── comparison ─── if T_supply,actual < T_supply,min → close cooling valve / alarm
-```
+- The sensor measures room air temperature and humidity; the DDC calculates the dew point.
+- Minimum flow temperature = dew point + safety margin.
+- If the flow is below that: close the cooling valve or raise the flow temperature, alarm.
 
 **Safety margin:** at least **+2 K** above dew point temperature; with high system inertia **+3–5 K**.
 

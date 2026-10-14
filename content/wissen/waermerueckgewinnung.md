@@ -36,24 +36,17 @@ Die **Wärmerückgewinnung** ist eine der wirkungsvollsten Energiesparmassnahmen
 
 ## Grundprinzip
 
-```
-Aussenluft (ODA) −10 °C  →  [WRG]  →  +15 °C Zuluft (Vorwärmung)
-Abluft (ETA)     +22 °C  →  [WRG]  →  Fortluft (EHA) kühler
-```
+Die Abluft (z.B. 22 °C) gibt Wärme an die Aussenluft (z.B. −10 °C) ab. Die Aussenluft kommt vorgewärmt als Zuluft heraus, die Abluft geht abgekühlt als Fortluft hinaus.
 
 Die Abluft gibt ihre Wärme an die Aussenluft ab — ohne dass die Luftströme sich vermischen (ausser Rotationstauscher mit minimalem Übertrag).
 
 ## Leistungskennzahl: Temperaturänderungsgrad
 
-```
-ηT = (T_Zuluft_nach_WRG − T_Aussenluft) / (T_Abluft − T_Aussenluft) × 100 %
-```
+<p class="formel">η<sub>T</sub> = (T<sub>Zuluft nach WRG</sub> − T<sub>Aussen</sub>) / (T<sub>Abluft</sub> − T<sub>Aussen</sub>)</p>
 
 **Beispiel:** T_Außen = −5 °C, T_Abluft = 22 °C, T_Zuluft nach WRG = 18 °C
 
-```
-ηT = (18 − (−5)) / (22 − (−5)) × 100 % = 23 / 27 × 100 % = **85 %**
-```
+<p class="formel">η<sub>T</sub> = (18 − (−5)) / (22 − (−5)) = 23 / 27 ≈ 85 %</p>
 
 ---
 
@@ -61,29 +54,18 @@ Die Abluft gibt ihre Wärme an die Aussenluft ab — ohne dass die Luftströme s
 
 ### 1. Rotationstauscher (Drehrad)
 
-```
-        ↑ Abluft (ETA)
-    ┌───┤                ├───┐
-    │   │   Rotor dreht  │   │
-    └───┤                ├───┘
-        ↓ Aussenluft (ODA)
-    → Abluft gibt Wärme an Rotor ab, Rotor dreht in Aussenluft → übergibt Wärme
-```
+Ein Speicherrad dreht langsam durch beide Luftströme. In der Abluft nimmt es Wärme auf, in der Aussenluft gibt es sie wieder ab. Ein Sorptionsrotor überträgt dabei auch Feuchte.
 
 **Eigenschaften:**
 
 - Wirkungsgrad: **70–85 %**
 - Feuchtewärme möglich (hygroskopisches Adsorbens)
-- **Nachteil:** Geringe Überströmung (1–3 %) — Hygieneanforderung prüfen! (VDI 6022 Klasse A kritisch)
+- **Nachteil:** Ein kleiner Teil der Abluft gelangt in die Zuluft (Leckage, Mitrotation). Mit Spülzone und richtigen Druckverhältnissen klein halten, siehe [VDI 6022](/wissen/vdi6022).
 - Frostschutz: Drehzahl reduzieren oder Umluft-Bypass
 
 ### 2. Platten-Wärmetauscher (Kreuzgegenstrom)
 
-```
-    Abluft →→→→→→→→→→
-                    ↕ (kein Kontakt, nur Wärmeleitung durch Blechwände)
-    ← Zuluft ←←←←←←←
-```
+Abluft und Aussenluft strömen durch getrennte Kanäle aus dünnen Platten. Die Wärme geht durch die Plattenwand, die Luftströme berühren sich nicht.
 
 **Eigenschaften:**
 
@@ -95,11 +77,7 @@ Die Abluft gibt ihre Wärme an die Aussenluft ab — ohne dass die Luftströme s
 
 ### 3. Kreislaufverbund (Wasser-Kreislauf)
 
-```
-Abluft → [Kühler A] → Fortluft
-              ↑ Wasser-Kreislauf (Pumpe)
-Aussenluft → [Erhitzer B] → Zuluft
-```
+Ein Register in der Abluft und eines in der Zuluft sind über einen Wasser-Glykol-Kreislauf mit Pumpe verbunden. Die Luftströme können beliebig weit auseinanderliegen.
 
 **Eigenschaften:**
 
@@ -110,7 +88,7 @@ Aussenluft → [Erhitzer B] → Zuluft
 
 ### 4. Wärmerohr (Heat Pipe)
 
-- Wärmerohr mit Kältemittel füllt sich auf warmer Seite (Abluft) und kondensiert auf kalter Seite (Aussenluft)
+- Ein Kältemittel verdampft im Rohr auf der warmen Seite (Abluft) und kondensiert auf der kalten Seite (Aussenluft). Die Wärme wandert ohne Pumpe mit.
 - Wirkungsgrad: **50–65 %**
 - Keine beweglichen Teile — sehr wartungsarm
 - Nur sensible Wärme (keine Feuchteübertragung)
@@ -139,7 +117,7 @@ Aussenluft → [Erhitzer B] → Zuluft
 | **Abluft-Bypass**      | Platte           | Warme Abluft erwärmt WRG periodisch       |
 | **Glykol-Wasser**      | Kreislaufverbund | Tiefere Einfrierpunkt-Temperatur          |
 
-**Frostschutz-Grenzwert:** Sobald Abluft-Taupunkt unterschritten → Kondensat gefriert. Typisch: WRG-Bypass aktivieren ab ODA < −8 °C bis −15 °C (je nach System).
+**Wann Frostgefahr besteht:** Kühlt die Abluft im Tauscher unter ihren Taupunkt, entsteht Kondensat, und unter 0 °C gefriert es. Bei Plattentauschern beginnt das je nach Abluftfeuchte schon bei Aussentemperaturen um −3 bis −10 °C. Überwacht wird die **Fortlufttemperatur** (nicht unter etwa +1 bis +2 °C) oder der **Druckverlust** über dem Tauscher.
 
 ---
 
@@ -147,10 +125,7 @@ Aussenluft → [Erhitzer B] → Zuluft
 
 Im Sommer dreht die WRG die Funktion um: Heisse Aussenluft wird durch die kühlere Abluft vorgekühlt:
 
-```
-Aussenluft 32 °C → [WRG] → 24 °C Zuluft (vorgekühlt)
-Abluft 25 °C → Fortluft 33 °C
-```
+Beispiel mit η = 75 %: Aussenluft 32 °C, Abluft 25 °C. Die Zuluft kommt mit etwa 27 °C heraus, die Fortluft mit etwa 30 °C.
 
 Wenn die Aussenluft kühler als die Abluft ist (z.B. kühle Nacht, freie Kühlung) → WRG optimal nutzen. Bypass aktivieren wenn ODA kühler als Raumtemperatur → direkte freie Kühlung.
 
@@ -174,7 +149,8 @@ Wenn die Aussenluft kühler als die Abluft ist (z.B. kühle Nacht, freie Kühlun
 - **EN 13053** — Lüftung von Gebäuden, Zentrale Lüftungsgeräte
 - **EN 308** — Wärmeaustauscher, Prüfverfahren für Leistungsnachweis
 - **SIA 382/1** — Lüftungs- und Klimaanlagen
-- **VDI 6022** — Hygieneanforderungen (Rotationstauscher Klasse A: restriktiv)
+- **VDI 6022** — Hygieneanforderungen
+- **Ökodesign-Verordnung (EU) 1253/2014** — Lüftungsgeräte für Nichtwohngebäude: WRG Pflicht, Wirkungsgrad mindestens 73 % (Kreislaufverbund 68 %)
 
 <!-- EN -->
 
@@ -182,24 +158,17 @@ Wenn die Aussenluft kühler als die Abluft ist (z.B. kühle Nacht, freie Kühlun
 
 ## Basic Principle
 
-```
-Outdoor air (ODA) −10 °C  →  [HR]  →  +15 °C supply air (pre-heated)
-Extract air (ETA) +22 °C  →  [HR]  →  Exhaust air (EHA) cooler
-```
+The extract air (e.g. 22 °C) gives heat to the outdoor air (e.g. −10 °C). The outdoor air leaves preheated as supply air, the extract leaves cooled as exhaust.
 
 The extract air transfers its heat to the outdoor air — without the two airstreams mixing (except for rotary heat exchangers with minimal carryover).
 
 ## Performance Indicator: Temperature Efficiency
 
-```
-ηT = (T_supply_after_HR − T_outdoor) / (T_extract − T_outdoor) × 100 %
-```
+<p class="formel">η<sub>T</sub> = (T<sub>supply after HR</sub> − T<sub>outdoor</sub>) / (T<sub>extract</sub> − T<sub>outdoor</sub>)</p>
 
 **Example:** T_outdoor = −5 °C, T_extract = 22 °C, T_supply after HR = 18 °C
 
-```
-ηT = (18 − (−5)) / (22 − (−5)) × 100 % = 23 / 27 × 100 % = 85 %
-```
+<p class="formel">η<sub>T</sub> = (18 − (−5)) / (22 − (−5)) = 23 / 27 ≈ 85 %</p>
 
 ---
 
@@ -207,29 +176,18 @@ The extract air transfers its heat to the outdoor air — without the two airstr
 
 ### 1. Rotary Heat Exchanger (Thermal Wheel)
 
-```
-        ↑ Extract air (ETA)
-    ┌───┤                ├───┐
-    │   │   Rotor turns  │   │
-    └───┤                ├───┘
-        ↓ Outdoor air (ODA)
-    → Extract air heats rotor; rotor turns into outdoor air → transfers heat
-```
+A storage wheel rotates slowly through both air streams. In the extract it absorbs heat, in the outdoor air it releases it again. A sorption rotor also transfers moisture.
 
 **Characteristics:**
 
 - Efficiency: **70–85 %**
 - Latent heat recovery possible (hygroscopic adsorbent)
-- **Disadvantage:** Minor carryover (1–3 %) — check hygiene requirements! (VDI 6022 Class A: critical)
+- **Disadvantage:** a small part of the extract air reaches the supply (leakage, carry-over). Keep it small with a purge sector and correct pressure conditions, see [VDI 6022](/wissen/vdi6022).
 - Frost protection: reduce speed or recirculation bypass
 
 ### 2. Plate Heat Exchanger (Cross-Counterflow)
 
-```
-    Extract air →→→→→→→→→→
-                        ↕ (no contact, heat conduction through metal plates only)
-    ← Supply air ←←←←←←←
-```
+Extract and outdoor air flow through separate channels of thin plates. Heat passes through the plate wall; the air streams do not touch.
 
 **Characteristics:**
 
@@ -241,11 +199,7 @@ The extract air transfers its heat to the outdoor air — without the two airstr
 
 ### 3. Run-Around Coil (Water Circuit)
 
-```
-Extract air → [Cooler A] → Exhaust air
-                  ↑ Water circuit (pump)
-Outdoor air → [Heater B] → Supply air
-```
+A coil in the extract and one in the supply are linked by a water-glycol loop with a pump. The air streams can be any distance apart.
 
 **Characteristics:**
 
@@ -256,7 +210,7 @@ Outdoor air → [Heater B] → Supply air
 
 ### 4. Heat Pipe
 
-- Heat pipe filled with refrigerant absorbs heat on warm side (extract air) and condenses on cool side (outdoor air)
+- A refrigerant evaporates in the pipe on the warm side (extract) and condenses on the cold side (outdoor air). The heat travels without a pump.
 - Efficiency: **50–65 %**
 - No moving parts — very low maintenance
 - Sensible heat only (no moisture transfer)
@@ -285,7 +239,7 @@ Outdoor air → [Heater B] → Supply air
 | **Extract air bypass**    | Plate      | Warm extract air periodically re-heats HR |
 | **Glycol-water**          | Run-around | Lower freezing point temperature          |
 
-**Frost protection threshold:** Once extract air dew point is undercut → condensate freezes. Typically: activate HR bypass below ODA < −8 °C to −15 °C (system-dependent).
+**When there is a frost risk:** if the extract air cools below its dew point in the exchanger, condensate forms, and below 0 °C it freezes. With plate exchangers this starts, depending on extract humidity, at outdoor temperatures of about −3 to −10 °C. What is monitored is the **exhaust air temperature** (not below about +1 to +2 °C) or the **pressure drop** across the exchanger.
 
 ---
 
@@ -293,10 +247,7 @@ Outdoor air → [Heater B] → Supply air
 
 In summer, the HR reverses its function: hot outdoor air is pre-cooled by the cooler extract air:
 
-```
-Outdoor air 32 °C → [HR] → 24 °C supply air (pre-cooled)
-Extract air 25 °C → Exhaust air 33 °C
-```
+Example with η = 75 %: outdoor air 32 °C, extract 25 °C. Supply air leaves at about 27 °C, exhaust at about 30 °C.
 
 When outdoor air is cooler than extract air (e.g. cool night, free cooling) → make optimal use of HR. Activate bypass when ODA is cooler than room temperature → direct free cooling.
 
@@ -320,4 +271,5 @@ When outdoor air is cooler than extract air (e.g. cool night, free cooling) → 
 - **EN 13053** — Ventilation of buildings, central air handling units
 - **EN 308** — Heat exchangers, test procedures for performance assessment
 - **SIA 382/1** — Ventilation and air conditioning systems
-- **VDI 6022** — Hygiene requirements (rotary exchanger Class A: restrictive)
+- **VDI 6022** — Hygiene requirements
+- **Ecodesign Regulation (EU) 1253/2014** — Non-residential ventilation units: heat recovery mandatory, thermal efficiency at least 73 % (run-around coil 68 %)
