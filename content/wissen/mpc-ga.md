@@ -31,7 +31,7 @@ related:
     thermische-behaglichkeit
   ]
 
-norm: [ISO 52016, EN 15232]
+norm: [EN ISO 52016-1, EN ISO 52120-1]
 updated: 2026-05-15
 lang: de
 ---
@@ -44,13 +44,13 @@ Model Predictive Control ist ein fortgeschrittenes Regelungsverfahren, das ein m
 
 MPC löst in jedem Zeitschritt ein Optimierungsproblem:
 
-```
-Gegeben:   aktueller Zustand x(t), Modell des Gebäudes
-Prognose:  Wetterdaten, Nutzerverhalten, Strompreise (N Schritte voraus)
-Optimiere: Stellgrössen u(t), u(t+1), ..., u(t+N)
-Ziel:      Komfort maximieren, Energie/Kosten minimieren
-Wende an:  nur u(t), nächster Schritt → wiederholen (Receding Horizon)
-```
+| Schritt        | Inhalt                                                                    |
+| -------------- | ------------------------------------------------------------------------- |
+| **Gegeben**    | aktueller Zustand x(t), Modell des Gebäudes                               |
+| **Prognose**   | Wetter, Belegung, Strompreise für N Schritte voraus                       |
+| **Optimieren** | Stellgrössen u(t), u(t+1) … u(t+N)                                        |
+| **Ziel**       | Komfort einhalten, Energie oder Kosten minimieren                         |
+| **Anwenden**   | nur u(t), dann im nächsten Schritt alles neu berechnen (Receding Horizon) |
 
 Das **Receding-Horizon**-Prinzip macht MPC robust: Der Plan wird jedes Mal neu berechnet, sobald neue Messwerte vorliegen.
 
@@ -66,14 +66,11 @@ Analogie Wärme ↔ Elektrizität:
 - **Wärmekapazität C** [Wh/K] = m × cp — thermische Masse (Beton, Estrich)
 - Zustand **x** = Temperaturen der Knoten (Raumluft, Wand, Fussboden)
 
-```
-        R_Wand           R_Fenster
-Taussen ──┤├── T_Wand ──┤├── T_Raum
-               │                │
-              C_Wand            C_Luft
-               │                │
-              GND              GND
-```
+Ein einfaches Modell für einen Raum hat zwei Knoten:
+
+- **Wandknoten** mit der Wärmekapazität C_Wand, verbunden über R_aussen mit der Aussenluft und über R_innen mit der Raumluft
+- **Raumknoten** mit der kleinen Kapazität C_Luft, zusätzlich über R_Fenster direkt mit der Aussenluft verbunden, weil Fenster kaum speichern
+- Wärmeeinträge von Heizung, Sonne und Personen wirken auf den Raumknoten, Sonne zum Teil auch auf die Wand
 
 Solche Modelle haben 3–20 Zustände und können auf echten Messdaten kalibriert werden.
 
@@ -102,7 +99,7 @@ In der Praxis werden diese Ziele gewichtet kombiniert:
 MPC nutzt typischerweise:
 
 - **Kurzfristprognose** (1–48h): Temperatur, Strahlung, Windgeschwindigkeit
-- Quellen: Meteoblue, DWD, open-meteo API (kostenlos)
+- Quellen: MeteoSchweiz (offene Daten), Meteoblue, open-meteo
 - Ungewissheit: Je länger der Horizont, desto grösser der Fehler → Robustheit wichtig
 
 **Beispiel Vorkühlung:** Bei einer Hitzewelle kann MPC das Gebäude nachts auf 21°C abkühlen (freie Kühlung, günstiger Strom) und so tagsüber die Klimaanlage entlasten — ein klassischer PID-Regler kann das nicht.
@@ -131,22 +128,22 @@ Kopplung Erzeugung–Verteilung–Zone–Nutzerverhalten. Benötigt umfangreiche
 
 ## Vergleich MPC vs. klassische Regelung
 
-|                         | PID       | MPC                       |
-| ----------------------- | --------- | ------------------------- |
-| Horizon                 | Gegenwart | Zukunft (N Schritte)      |
-| Modell nötig            | Nein      | Ja                        |
-| Implementierungsaufwand | Gering    | Hoch                      |
-| Energieeinsparung       | Basis     | 10–30% zusätzlich möglich |
-| Demand Response         | Schwierig | Natürlich integriert      |
-| Robustheit              | Hoch      | Abhängig von Modellgüte   |
-| Kosten                  | Gering    | Mittel–hoch               |
-| Stand heute             | Standard  | Forschung / Grossbauten   |
+|                         | PID       | MPC                                                         |
+| ----------------------- | --------- | ----------------------------------------------------------- |
+| Horizon                 | Gegenwart | Zukunft (N Schritte)                                        |
+| Modell nötig            | Nein      | Ja                                                          |
+| Implementierungsaufwand | Gering    | Hoch                                                        |
+| Energieeinsparung       | Basis     | in Studien oft 10–30 %, stark abhängig von der Ausgangslage |
+| Demand Response         | Schwierig | Natürlich integriert                                        |
+| Robustheit              | Hoch      | Abhängig von Modellgüte                                     |
+| Kosten                  | Gering    | Mittel–hoch                                                 |
+| Stand heute             | Standard  | Forschung / Grossbauten                                     |
 
 ## Praxisbeispiele
 
-- **ETH Zürich DFAB HOUSE**: MPC für Heizung/Lüftung mit Solarpanelen, 20% Energieeinsparung vs. Baseline
-- **Siemens Desigo Optic**: Kommerzielle MPC-Lösung für Grossbauten
-- **Google DeepMind Google Datacenter**: RL-basierte Kühlungsoptimierung, −40% Kühlenergie
+- **Empa NEST, Dübendorf:** Forschungsgebäude, in dem prädiktive und lernende Regelungen an echten Einheiten getestet werden
+- **Rechenzentren:** DeepMind meldete 2016 für Google-Rechenzentren rund 40 % weniger Kühlenergie mit einer lernenden Optimierung
+- **Kommerzielle Angebote:** Mehrere GA-Hersteller und Start-ups bieten prädiktive Optimierung als Cloud-Dienst an, meist als Sollwertvorgabe an die bestehende DDC
 
 ## Reinforcement Learning als Alternative
 
@@ -157,11 +154,11 @@ Reinforcement Learning (RL) lernt die optimale Strategie **ohne explizites Model
 - Vorteil: Kein Modell nötig, lernt nichtlineare Zusammenhänge
 - Nachteil: Lernphase (Monate), wenig Interpretierbarkeit, Sicherheitsrisiken
 
-**Status 2024**: RL in realen Gebäuden noch selten, aber aktives Forschungsfeld (DeepMind, Berkeley, EPFL).
+**Stand heute:** In realen Gebäuden ist RL noch selten, aber ein aktives Forschungsfeld, unter anderem an der EPFL und der Empa.
 
 ## Praktische Einstiegspunkte für GA-Praktiker
 
-1. **Wetterdaten API**: open-meteo.com — kostenlos, REST-API, kein Key nötig
+1. **Wetterdaten:** open-meteo.com ist für nicht-kommerzielle Nutzung kostenlos, für kommerzielle Projekte kostenpflichtig. MeteoSchweiz stellt Mess- und Prognosedaten als offene Daten bereit.
 2. **Python MPC-Bibliotheken**: `do-mpc`, `casadi` — für Prototypen
 3. **Simple Prädiktivregelung**: Zeitprogramm mit Wetterkorrektur in jedem DDC umsetzbar
 4. **Datengrundlage**: Trendaufzeichnung (15-min-Intervall, 1 Jahr) als Basis für Modellkalibrierung
@@ -174,13 +171,13 @@ Model Predictive Control is an advanced control technique that uses a mathematic
 
 MPC solves an optimisation problem at every time step:
 
-```
-Given:     current state x(t), building model
-Forecast:  weather data, occupancy, electricity prices (N steps ahead)
-Optimise:  control inputs u(t), u(t+1), ..., u(t+N)
-Objective: maximise comfort, minimise energy / cost
-Apply:     only u(t), then repeat at next step (Receding Horizon)
-```
+| Step         | Content                                                                    |
+| ------------ | -------------------------------------------------------------------------- |
+| **Given**    | current state x(t), model of the building                                  |
+| **Forecast** | weather, occupancy, electricity prices for N steps ahead                   |
+| **Optimise** | outputs u(t), u(t+1) … u(t+N)                                              |
+| **Goal**     | keep comfort, minimise energy or cost                                      |
+| **Apply**    | only u(t), then recalculate everything at the next step (receding horizon) |
 
 The **Receding Horizon** principle makes MPC robust: the plan is recalculated every time new measurements arrive.
 
@@ -196,14 +193,11 @@ Heat ↔ electricity analogy:
 - **Thermal capacitance C** [Wh/K] = m × cp — thermal mass (concrete, screed)
 - State **x** = temperatures of nodes (room air, wall, floor)
 
-```
-        R_wall           R_window
-T_out ──┤├── T_wall ──┤├── T_room
-               │                │
-             C_wall           C_air
-               │                │
-              GND              GND
-```
+A simple model of a room has two nodes:
+
+- **Wall node** with heat capacity C_wall, connected to the outdoor air via R_out and to the room air via R_in
+- **Room node** with the small capacity C_air, also connected directly to the outdoor air via R_window, because windows store hardly any heat
+- Heat gains from heating, sun and people act on the room node, sun partly also on the wall
 
 Such models have 3–20 states and can be calibrated on real measurement data.
 
@@ -232,7 +226,7 @@ In practice these objectives are combined with weights:
 MPC typically uses:
 
 - **Short-term forecast** (1–48 h): temperature, solar irradiance, wind speed
-- Sources: Meteoblue, DWD, open-meteo API (free)
+- Sources: MeteoSwiss (open data), Meteoblue, open-meteo
 - Uncertainty: the longer the horizon, the larger the error → robustness is important
 
 **Pre-cooling example:** During a heat wave, MPC can cool the building to 21 °C overnight (free cooling, cheap electricity) and thereby relieve the air-conditioning system during the day — a classical PID controller cannot do this.
@@ -261,22 +255,22 @@ Coupling of generation–distribution–zone–occupancy. Requires extensive dat
 
 ## MPC vs. Classical Control
 
-|                       | PID       | MPC                        |
-| --------------------- | --------- | -------------------------- |
-| Horizon               | Present   | Future (N steps)           |
-| Model required        | No        | Yes                        |
-| Implementation effort | Low       | High                       |
-| Energy savings        | Baseline  | 10–30% additional possible |
-| Demand response       | Difficult | Naturally integrated       |
-| Robustness            | High      | Depends on model quality   |
-| Cost                  | Low       | Medium–high                |
-| Current status        | Standard  | Research / large buildings |
+|                       | PID       | MPC                                                                |
+| --------------------- | --------- | ------------------------------------------------------------------ |
+| Horizon               | Present   | Future (N steps)                                                   |
+| Model required        | No        | Yes                                                                |
+| Implementation effort | Low       | High                                                               |
+| Energy savings        | Baseline  | in studies often 10–30 %, strongly dependent on the starting point |
+| Demand response       | Difficult | Naturally integrated                                               |
+| Robustness            | High      | Depends on model quality                                           |
+| Cost                  | Low       | Medium–high                                                        |
+| Current status        | Standard  | Research / large buildings                                         |
 
 ## Practical Examples
 
-- **ETH Zurich DFAB HOUSE**: MPC for heating/ventilation with solar panels, 20% energy savings vs. baseline
-- **Siemens Desigo Optic**: Commercial MPC solution for large buildings
-- **Google DeepMind data centres**: RL-based cooling optimisation, −40% cooling energy
+- **Empa NEST, Dübendorf:** research building where predictive and learning controls are tested on real units
+- **Data centres:** in 2016 DeepMind reported about 40 % less cooling energy for Google data centres with learning optimisation
+- **Commercial offerings:** several BA manufacturers and start-ups offer predictive optimisation as a cloud service, usually as setpoints sent to the existing DDC
 
 ## Reinforcement Learning as an Alternative
 
@@ -287,11 +281,11 @@ Reinforcement Learning (RL) learns the optimal strategy **without an explicit mo
 - Advantage: no model required, learns non-linear relationships
 - Disadvantage: long training period (months), limited interpretability, safety risks
 
-**Status 2024**: RL in real buildings still rare, but an active research field (DeepMind, Berkeley, EPFL).
+**Today:** RL is still rare in real buildings, but an active research field, among others at EPFL and Empa.
 
 ## Practical Entry Points for BA Practitioners
 
-1. **Weather data API**: open-meteo.com — free, REST API, no key required
+1. **Weather data:** open-meteo.com is free for non-commercial use and paid for commercial projects. MeteoSwiss provides measured and forecast data as open data.
 2. **Python MPC libraries**: `do-mpc`, `casadi` — for prototyping
 3. **Simple predictive control**: Time schedule with weather correction is implementable in any DDC
 4. **Data foundation**: Trend logging (15-min interval, 1 year) as the basis for model calibration

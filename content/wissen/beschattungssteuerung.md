@@ -114,6 +114,26 @@ Sobald jemand den Raum betritt, gilt wieder die Sonnenautomatik mit Blendschutz 
 
 Beschattung und Beleuchtung beeinflussen sich gegenseitig. Fährt der Sonnenschutz zu, regelt die Konstantlichtregelung das Kunstlicht nach, bis die Beleuchtungsstärke am Arbeitsplatz wieder erreicht ist, im Büro typisch 500 lx. Je mehr Tageslicht die Lamellennachführung hereinlässt, desto weniger Kunstlicht braucht es. Siehe [Beleuchtungssteuerung](/wissen/beleuchtungssteuerung).
 
+## Antriebe und Ansteuerung
+
+Die meisten Raffstoren und Rollläden haben einen **230-V-Motor mit zwei Wicklungen**, eine für Auf und eine für Ab. Die Endlagen schaltet der Motor selbst ab.
+
+- **Auf und Ab dürfen nie gleichzeitig anliegen.** Jalousieaktoren verriegeln das intern. Wer mit einzelnen Relais schaltet, braucht eine Verriegelung und eine Umschaltpause von einigen hundert Millisekunden.
+- **Position aus der Laufzeit:** Der Aktor kennt die Position nur, weil er die Fahrzeit misst. Darum braucht er die gemessenen Laufzeiten für Auf, Ab und die Lamellenwendung. Nach Stromausfall oder bei Abweichungen fährt man zur Referenz in eine Endlage.
+- **SMI-Antriebe** (Standard Motor Interface) haben einen digitalen Bus und melden ihre Position und Störungen zurück.
+
+**KNX** ist in der Schweiz für Beschattung sehr verbreitet. Typische Objekte eines Jalousieaktors:
+
+| Objekt             | Datenpunkttyp | Bedeutung                                  |
+| ------------------ | ------------- | ------------------------------------------ |
+| Auf/Ab             | DPT 1.008     | Langzeitbefehl, fährt bis Endlage          |
+| Schritt/Stopp      | DPT 1.007     | Lamelle verstellen oder anhalten           |
+| Position           | DPT 5.001     | Höhe in %                                  |
+| Lamellenposition   | DPT 5.001     | Winkel in %                                |
+| Wind, Regen, Frost | DPT 1.005     | Sicherheitsobjekte, oft zyklisch überwacht |
+
+Die Sicherheitsobjekte sollten zyklisch gesendet und im Aktor überwacht werden. Bleibt das Telegramm aus, fährt der Aktor in die Sicherheitsstellung.
+
 ## Typische Datenpunkte
 
 | Datenpunkt                           | Typ   | Einheit  | Bemerkung                         |
@@ -227,6 +247,26 @@ As soon as someone enters, the sun automatic with glare protection and daylight 
 ## Together with Lighting
 
 Shading and lighting affect each other. When the sun protection closes, constant light control raises the artificial light until the illuminance at the workplace is reached again, typically 500 lx in offices. The more daylight slat tracking lets in, the less artificial light is needed. See [Lighting Control](/wissen/beleuchtungssteuerung).
+
+## Drives and Control
+
+Most venetian blinds and roller shutters have a **230 V motor with two windings**, one for up and one for down. The motor switches off at the end positions by itself.
+
+- **Up and down must never be applied at the same time.** Blind actuators interlock this internally. Switching with individual relays needs an interlock and a changeover pause of a few hundred milliseconds.
+- **Position from travel time:** the actuator only knows the position because it measures the travel time. It therefore needs the measured travel times for up, down and slat rotation. After a power failure or on deviation, it drives to an end position as reference.
+- **SMI drives** (Standard Motor Interface) have a digital bus and report their position and faults.
+
+**KNX** is very common for shading in Switzerland. Typical objects of a blind actuator:
+
+| Object            | Datapoint type | Meaning                                    |
+| ----------------- | -------------- | ------------------------------------------ |
+| Up/down           | DPT 1.008      | long command, moves to end position        |
+| Step/stop         | DPT 1.007      | adjust slats or stop                       |
+| Position          | DPT 5.001      | height in %                                |
+| Slat position     | DPT 5.001      | angle in %                                 |
+| Wind, rain, frost | DPT 1.005      | safety objects, often monitored cyclically |
+
+The safety objects should be sent cyclically and monitored in the actuator. If the telegram stops, the actuator moves to the safe position.
 
 ## Typical Data Points
 

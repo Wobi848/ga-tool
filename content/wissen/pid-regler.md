@@ -40,9 +40,7 @@ Der **PID-Regler** ist der wichtigste Standard-Regler in der Gebäudeautomation.
 
 Reagiert **sofort** auf die Regelabweichung. Stark = aggressiv, aber bleibende Regelabweichung.
 
-```
-u_P = K_p × e(t)
-```
+<p class="formel">u<sub>P</sub> = K<sub>p</sub> × e(t)</p>
 
 - **Wirkung:** Stellgrösse proportional zum Fehler
 - **Problem:** Bleibende Abweichung (stationärer Fehler)
@@ -52,9 +50,7 @@ u_P = K_p × e(t)
 
 **Eliminiert den stationären Fehler.** Integriert die Abweichung über die Zeit.
 
-```
-u_I = K_i × ∫ e(t) dt
-```
+<p class="formel">u<sub>I</sub> = K<sub>i</sub> × ∫ e(t) dt, &nbsp; K<sub>i</sub> = K<sub>p</sub> / T<sub>n</sub></p>
 
 - **Wirkung:** Korrigiert solange, bis Soll = Ist
 - **Problem:** Verzögert die Reaktion, kann zu Schwingungen führen (Wind-Up)
@@ -62,15 +58,13 @@ u_I = K_i × ∫ e(t) dt
 
 ### D — Differenzial
 
-**Reagiert auf die Geschwindigkeit der Änderung.** Dämpft schnelle Sollwertsprünge.
+**Reagiert auf die Geschwindigkeit der Änderung.** Er wirkt einer schnellen Änderung entgegen und dämpft so das Überschwingen. Damit ein Sollwertsprung keinen Stellstoss auslöst, rechnen die meisten Regler den D-Anteil nur aus dem Istwert.
 
-```
-u_D = K_d × de(t)/dt
-```
+<p class="formel">u<sub>D</sub> = K<sub>d</sub> × de(t)/dt</p>
 
 - **Wirkung:** Bremst Überschwingen
 - **Problem:** Verstärkt Rauschen — bei lauten Sensoren oft weggelassen (PI statt PID)
-- **In HLK:** Oft nur bei trägen Strecken sinnvoll
+- **In HLK:** selten nötig; am ehesten bei trägen Strecken mit mehreren Verzögerungen
 
 ## Tuning nach Ziegler-Nichols
 
@@ -93,9 +87,7 @@ In der Literatur steht **K_p**, am Regler im Schaltschrank steht **Xp**. Beides
 beschreibt dasselbe, nur andersherum: Xp ist der **Proportionalbereich** — die
 Abweichung, die nötig ist, damit das Stellsignal den vollen Bereich durchläuft.
 
-```
-Xp [%] = 100 / K_p          K_p = 100 / Xp [%]
-```
+<p class="formel">Xp [%] = 100 / K<sub>p</sub>, &nbsp; K<sub>p</sub> = 100 / Xp [%]</p>
 
 Bei Temperaturreglern wird Xp meist direkt in **Kelvin** angegeben:
 
@@ -127,8 +119,9 @@ Fall instabil.
 
 **Faustregel: T_n mindestens zehnmal die Abtastzeit.** Bei 1 s Zyklus also
 T_n ≥ 10 s. Für träge Strecken — Fussbodenheizung, Speicher — ist eine
-langsamere Abtastung nicht nur zulässig, sondern sinnvoll: sie glättet
-Sensorrauschen, das sonst über den D-Anteil auf das Stellglied durchschlägt.
+langsamere Abtastung zulässig. Gegen Sensorrauschen hilft sie nicht, dafür
+gehört ein Filter auf den Messwert, sonst schlägt das Rauschen über den D-Anteil
+auf das Stellglied durch.
 
 ## Anti-Windup
 
@@ -170,7 +163,7 @@ darin, dass man nicht bei null anfängt — und dass man merkt, wenn ein
 
 - **Raumtemperatur:** PI reicht meist — Strecke ist langsam, kein D nötig
 - **Vorlaufregelung:** PID kann sinnvoll sein wenn schnelle Lastwechsel auftreten
-- **Drucklufthaltung:** P oder PI — schnelle Reaktion gefragt
+- **Kanaldruck:** PI mit kurzem T_n — schnelle Reaktion gefragt
 - **Frequenzumrichter / Pumpen:** PI mit kurzem T_n
 - **Bei Schwingen:** zuerst K_p halbieren, dann T_n verdoppeln
 
@@ -183,9 +176,10 @@ darin, dass man nicht bei null anfängt — und dass man merkt, wenn ein
 
 ## Siehe auch
 
-- Regelkreise (allgemein)
-- Heizkurve (überlagerte Vorsteuerung)
-- Frequenzumrichter
+- [Regelkreise](/wissen/regelkreise)
+- [Heizkurve](/wissen/heizkurve) — witterungsgeführte Vorsteuerung
+- [Kaskadenregelung](/wissen/kaskadenregelung)
+- [Frequenzumrichter](/wissen/frequenzumrichter)
 
 <!-- EN -->
 
@@ -197,9 +191,7 @@ The **PID controller** is the most important standard controller in building aut
 
 Responds **immediately** to the control deviation. High gain = aggressive response, but with a persistent steady-state offset.
 
-```
-u_P = K_p × e(t)
-```
+<p class="formel">u<sub>P</sub> = K<sub>p</sub> × e(t)</p>
 
 - **Effect:** Output proportional to the error
 - **Problem:** Persistent offset (steady-state error)
@@ -209,9 +201,7 @@ u_P = K_p × e(t)
 
 **Eliminates the steady-state error.** Integrates the deviation over time.
 
-```
-u_I = K_i × ∫ e(t) dt
-```
+<p class="formel">u<sub>I</sub> = K<sub>i</sub> × ∫ e(t) dt, &nbsp; K<sub>i</sub> = K<sub>p</sub> / T<sub>n</sub></p>
 
 - **Effect:** Corrects until setpoint = actual value
 - **Problem:** Slows response, can cause oscillation (wind-up)
@@ -219,15 +209,13 @@ u_I = K_i × ∫ e(t) dt
 
 ### D — Derivative
 
-**Responds to the rate of change.** Dampens rapid setpoint steps.
+**Responds to the rate of change.** It counteracts fast changes and so dampens overshoot. To keep a setpoint step from causing an output kick, most controllers calculate the D term from the actual value only.
 
-```
-u_D = K_d × de(t)/dt
-```
+<p class="formel">u<sub>D</sub> = K<sub>d</sub> × de(t)/dt</p>
 
 - **Effect:** Reduces overshoot
 - **Problem:** Amplifies noise — often omitted with noisy sensors (PI instead of PID)
-- **In HVAC:** Mainly useful for slow processes
+- **In HVAC:** rarely needed; most likely for slow processes with several lags
 
 ## Tuning by Ziegler-Nichols
 
@@ -250,9 +238,7 @@ Textbooks say **K_p**, the controller in the panel says **Xp**. Both describe
 the same thing the other way round: Xp is the **proportional band** — the
 deviation needed for the output to travel its full range.
 
-```
-Xp [%] = 100 / K_p          K_p = 100 / Xp [%]
-```
+<p class="formel">Xp [%] = 100 / K<sub>p</sub>, &nbsp; K<sub>p</sub> = 100 / Xp [%]</p>
 
 On temperature controllers Xp is usually given directly in **kelvin**:
 
@@ -283,8 +269,9 @@ unstable.
 
 **Rule of thumb: T_n at least ten times the scan time.** At a 1 s cycle that
 means T_n ≥ 10 s. For slow processes — underfloor heating, storage tanks — a
-slower scan is not merely acceptable but useful: it smooths sensor noise that
-would otherwise reach the actuator through the derivative term.
+slower scan is acceptable. It does not help against sensor noise; that needs a
+filter on the measured value, otherwise the noise reaches the actuator through
+the derivative term.
 
 ## Anti-windup
 
@@ -325,7 +312,7 @@ is off by an order of magnitude.
 
 - **Room temperature:** PI usually sufficient — slow process, no D needed
 - **Flow temperature control:** PID can be useful when rapid load changes occur
-- **Duct pressure control:** P or PI — fast response required
+- **Duct pressure control:** PI with short T_n — fast response required
 - **VFDs / pumps:** PI with short T_n
 - **When oscillating:** first halve K_p, then double T_n
 
@@ -338,6 +325,7 @@ is off by an order of magnitude.
 
 ## See also
 
-- Control loops (general)
-- Heating curve (feedforward overlay)
-- Variable speed drive
+- [Control loops](/wissen/regelkreise)
+- [Heating curve](/wissen/heizkurve) — weather-compensated feedforward
+- [Cascade control](/wissen/kaskadenregelung)
+- [Variable speed drive](/wissen/frequenzumrichter)

@@ -22,8 +22,8 @@ tags:
 difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, steuern-regeln, alarmmanagement, glt-grundlagen]
-norm: [DIN IEC 60050-351, VDI 3540]
-updated: 2026-05-14
+norm: [IEC 60050-351]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -37,13 +37,12 @@ In der GA werden zwei grundlegend verschiedene Regelungsarten eingesetzt: die ei
 
 Der Regler kennt nur zwei Zustände: **EIN** oder **AUS**. Eine Hysterese verhindert ständiges Schalten:
 
-```
-Sollwert: 22 °C, Hysterese: 1 K (→ Schaltpunkte: 21.5 und 22.5 °C)
+Beispiel Heizung, Sollwert 22 °C, Schaltdifferenz 1 K:
 
-Temperatur sinkt auf 21.5 °C → Heizung EIN
-Temperatur steigt auf 22.5 °C → Heizung AUS
-→ Schwingung zwischen 21.5 und 22.5 °C
-```
+- Temperatur sinkt auf 21.5 °C → Heizung EIN
+- Temperatur steigt auf 22.5 °C → Heizung AUS
+
+In der Praxis schwankt die Temperatur mehr als die Schaltdifferenz. Nach dem Ausschalten gibt der Heizkörper noch Wärme ab, und nach dem Einschalten dauert es, bis er warm wird. Je grösser die Totzeit der Strecke, desto grösser das Überschwingen.
 
 ### Hysterese (Schaltdifferenz)
 
@@ -55,7 +54,11 @@ Die Hysterese ist entscheidend für die Regelqualität:
 | Zu gross  | Grosse Temperaturschwankungen → schlechter Komfort |
 | Optimal   | Seltenes Schalten, akzeptable Schwankung           |
 
-**Faustformel:** Hysterese = 2–5 % des Messbereichs oder 1–3 K für Raumtemperatur.
+**Richtwerte:** Raumthermostate 0.5 bis 1 K, Speicherladung 3 bis 5 K. Bei Wärmepumpen und Kältemaschinen bestimmt die Schaltdifferenz zusammen mit Mindestlauf- und Mindeststillstandszeiten, wie oft der Verdichter startet.
+
+### Thermische Stellantriebe und PWM
+
+Thermoelektrische Stellantriebe an Fussbodenheizungs-Verteilern kennen nur AUF und ZU und brauchen einige Minuten zum Öffnen. Viele Raumregler steuern sie mit **Pulsweitenmodulation**: Ein PI-Regler rechnet eine Stellgrösse, zum Beispiel 30 %, und der Ausgang ist dann 30 % einer Zykluszeit eingeschaltet, etwa 5 von 15 Minuten. Bei trägen Strecken wirkt das fast wie eine stetige Regelung.
 
 ### Vor- und Nachteile
 
@@ -81,21 +84,17 @@ Die Hysterese ist entscheidend für die Regelqualität:
 
 Der Reglerausgang ist stufenlos zwischen 0 und 100 % einstellbar. Die Stellgrösse ist proportional zur Regelabweichung (plus I- und D-Anteil bei PID):
 
-```
-Regelabweichung 5 K → Ventil öffnet auf 60 %
-Regelabweichung 2 K → Ventil öffnet auf 30 %
-Regelabweichung 0 K → Ventil auf Haltepunkt (I-Anteil)
-```
+Beispiel mit Xp = 10 K, also 10 % Stellgrösse je Kelvin:
+
+- Regelabweichung 5 K → Ventil 50 %
+- Regelabweichung 2 K → Ventil 20 %
+- Regelabweichung 0 K → beim reinen P-Regler Ventil 0 %, beim PI-Regler hält der I-Anteil die nötige Stellung
 
 ### P-Regler (Proportional)
 
-```
-Y = Kp × e
+<p class="formel">y = K<sub>p</sub> · e</p>
 
-Y = Stellgrösse (0–100 %)
-Kp = Verstärkung
-e = Regelabweichung (Soll − Ist)
-```
+y Stellgrösse in %, K_p Verstärkung, e Regelabweichung (Soll − Ist).
 
 **Problem P-Regler:** Bleibende Regelabweichung. Der Regler findet ein Gleichgewicht bei e ≠ 0 (sonst wäre Y = 0 und nichts heizen).
 
@@ -103,9 +102,7 @@ e = Regelabweichung (Soll − Ist)
 
 Der I-Anteil integriert die Abweichung über die Zeit → beseitigt die bleibende Abweichung:
 
-```
-Y = Kp × e + Ki × ∫e dt
-```
+<p class="formel">y = K<sub>p</sub> · e + K<sub>i</sub> · ∫ e dt</p>
 
 Im eingeschwungenen Zustand: e = 0, Y ≠ 0 (gehalten durch Integrator).
 
@@ -117,51 +114,40 @@ Im eingeschwungenen Zustand: e = 0, Y ≠ 0 (gehalten durch Integrator).
 
 Erweiterung der Zweipunktregelung für motorische Antriebe:
 
-```
-Zu gross (> Soll + Δ): Signal "AUF" → Ventil öffnet
-Zu klein (< Soll − Δ): Signal "ZU" → Ventil schliesst
-Im Bereich: kein Signal → Ventil bleibt stehen (integrierendes Verhalten)
-```
+Der Dreipunktausgang hat zwei Relais, AUF und ZU. Liegt keines an, bleibt der Antrieb stehen. Der Motor wirkt dadurch wie ein Integrator: Je länger AUF anliegt, desto weiter öffnet das Ventil.
 
-**Typisch für:** Motorische 3-Punkt-Antriebe ohne Rückmeldung (günstige Variante)
+In der GA steckt hinter einem Dreipunktausgang fast immer ein **Dreipunkt-Schrittregler**: ein PI-Regler, dessen Ausgang in Auf- und Zu-Impulse umgerechnet wird. Er braucht dafür die **Laufzeit** des Antriebs, also die Zeit von ganz zu bis ganz offen. Gut eingestellt regelt er fast so gut wie ein stetiger Regler.
 
-**Stellzeit:** Antrieb braucht Zeit für Auf/Zu (z.B. 60–120 s) → träges Regelverhalten.
+**Typisch für:** motorische Antriebe ohne Stellungsrückmeldung, an Ventilen und Klappen
+
+**Laufzeit:** typisch 30 bis 150 s. Stimmt die eingestellte Laufzeit nicht mit dem Antrieb überein, rechnet der Regler mit einer falschen Stellung. Damit sich der Fehler nicht aufsummiert, fahren viele Regler in den Endlagen etwas länger nach und synchronisieren so.
 
 ---
 
 ## Vergleich auf einen Blick
 
-| Merkmal             | Zweipunkt       | Dreipunkt      | Stetig (PI)             |
-| ------------------- | --------------- | -------------- | ----------------------- |
-| Ausgangssignal      | 0/1 (Relais)    | Auf/Zu/Stop    | 0–10 V / 4–20 mA        |
-| Regelgüte           | Schlecht        | Mittel         | Gut                     |
-| Kosten              | Sehr gering     | Gering         | Mittel                  |
-| Ventil-/Antriebstyp | Schützschaltung | 3-Punkt-Motor  | Stetigantrieb           |
-| Verschleiss         | Relais (hoch)   | Motor (mittel) | Antrieb (gering)        |
-| Tuning              | Nur Hysterese   | Stellzeit      | Kp, Ti, Td              |
-| Typischer Einsatz   | Thermostat      | Einfache HK    | Klima, Lüftung, Kühlung |
+| Merkmal             | Zweipunkt                   | Dreipunkt             | Stetig (PI)      |
+| ------------------- | --------------------------- | --------------------- | ---------------- |
+| Ausgangssignal      | 0/1 (Relais)                | Auf/Zu/Stop           | 0–10 V / 4–20 mA |
+| Regelgüte           | Schlecht                    | Gut als Schrittregler | Gut              |
+| Kosten              | Sehr gering                 | Gering                | Mittel           |
+| Ventil-/Antriebstyp | Thermischer Antrieb, Schütz | 3-Punkt-Motor         | Stetigantrieb    |
+| Verschleiss         | Relais (hoch)               | Motor (mittel)        | Antrieb (gering) |
+| Einstellung         | Schaltdifferenz             | Xp, Tn, Laufzeit      | Xp, Tn           |
+| Typischer Einsatz   | Thermostat, FBH             | Heizkreis, Klappe     | Lüftung, Klima   |
 
 ---
 
 ## Entscheidungshilfe
 
-```
-Frage 1: Muss präzise auf ±1 K geregelt werden?
-  Ja → Stetige Regelung (PI)
-  Nein → weiter
-
-Frage 2: Haben wir einen motorischen Antrieb ohne Rückmeldung?
-  Ja → Dreipunkt
-  Nein → weiter
-
-Frage 3: Ist ±2–3 K akzeptabel und Kosten minimieren?
-  Ja → Zweipunkt mit Hysterese
-```
+1. **Muss die Grösse genau gehalten werden**, etwa Zulufttemperatur auf ±0.5 K? → stetiger PI-Regler mit 0–10-V-Antrieb oder Dreipunkt-Schrittregler.
+2. **Ist ein Dreipunktantrieb vorhanden** oder günstiger? → Dreipunkt-Schrittregler mit richtig eingestellter Laufzeit.
+3. **Ist ein thermischer Stellantrieb verbaut**, etwa bei Fussbodenheizung? → Zweipunkt oder PWM.
+4. **Reichen ±1 K und ist die Strecke träge**? → Zweipunkt mit Schaltdifferenz.
 
 ## Normen
 
-- **DIN IEC 60050-351** — Internationales Elektrotechnisches Wörterbuch
-- **VDI 3540** — Regelungstechnik für HLK-Anlagen
+- **IEC 60050-351** — Internationales Elektrotechnisches Wörterbuch, Leittechnik
 
 <!-- EN -->
 
@@ -173,13 +159,12 @@ Two fundamentally different control types are used in BA: the simple two-positio
 
 The controller has only two states: **ON** or **OFF**. A hysteresis band prevents constant switching:
 
-```
-Setpoint: 22 °C, hysteresis: 1 K (→ switching points: 21.5 and 22.5 °C)
+Example heating, setpoint 22 °C, switching differential 1 K:
 
-Temperature falls to 21.5 °C → heating ON
-Temperature rises to 22.5 °C → heating OFF
-→ Oscillation between 21.5 and 22.5 °C
-```
+- temperature falls to 21.5 °C → heating ON
+- temperature rises to 22.5 °C → heating OFF
+
+In practice the temperature swings more than the switching differential. After switching off the radiator still gives off heat, and after switching on it takes time to warm up. The larger the dead time of the process, the larger the overshoot.
 
 ### Hysteresis (Switching Differential)
 
@@ -191,7 +176,11 @@ The hysteresis is decisive for control quality:
 | Too large  | Large temperature swings → poor comfort    |
 | Optimal    | Infrequent switching, acceptable variation |
 
-**Rule of thumb:** Hysteresis = 2–5% of measuring range or 1–3 K for room temperature.
+**Guide values:** room thermostats 0.5 to 1 K, storage charging 3 to 5 K. For heat pumps and chillers, the switching differential together with minimum run and off times determines how often the compressor starts.
+
+### Thermal Actuators and PWM
+
+Thermoelectric actuators on underfloor heating manifolds only know OPEN and CLOSED and take a few minutes to open. Many room controllers drive them with **pulse-width modulation**: a PI controller calculates an output, for example 30 %, and the output is then on for 30 % of a cycle time, about 5 of 15 minutes. With slow processes this acts almost like modulating control.
 
 ### Advantages and Disadvantages
 
@@ -217,21 +206,17 @@ The hysteresis is decisive for control quality:
 
 The controller output is continuously adjustable between 0 and 100%. The control output is proportional to the control error (plus I and D components for PID):
 
-```
-Control error 5 K → valve opens to 60%
-Control error 2 K → valve opens to 30%
-Control error 0 K → valve at hold position (I component)
-```
+Example with Xp = 10 K, i.e. 10 % output per kelvin:
+
+- control error 5 K → valve 50 %
+- control error 2 K → valve 20 %
+- control error 0 K → with a pure P controller valve 0 %; with a PI controller the I term holds the required position
 
 ### P Controller (Proportional)
 
-```
-Y = Kp × e
+<p class="formel">y = K<sub>p</sub> · e</p>
 
-Y = control output (0–100%)
-Kp = gain
-e = control error (setpoint − actual)
-```
+y output in %, K_p gain, e control error (setpoint − actual).
 
 **Problem with P controller:** Persistent offset. The controller settles at e ≠ 0 (otherwise Y = 0 and nothing heats).
 
@@ -239,9 +224,7 @@ e = control error (setpoint − actual)
 
 The I component integrates the error over time → eliminates the persistent offset:
 
-```
-Y = Kp × e + Ki × ∫e dt
-```
+<p class="formel">y = K<sub>p</sub> · e + K<sub>i</sub> · ∫ e dt</p>
 
 At steady state: e = 0, Y ≠ 0 (maintained by integrator).
 
@@ -253,48 +236,37 @@ At steady state: e = 0, Y ≠ 0 (maintained by integrator).
 
 Extension of two-position control for motorised actuators:
 
-```
-Too high (> setpoint + Δ): "OPEN" signal → valve opens
-Too low (< setpoint − Δ):  "CLOSE" signal → valve closes
-Within band: no signal → valve stays (integrating behaviour)
-```
+The three-point output has two relays, OPEN and CLOSE. When neither is active, the actuator stops. The motor therefore acts like an integrator: the longer OPEN is applied, the further the valve opens.
 
-**Typical for:** Motorised 3-point actuators without position feedback (low-cost option)
+In BA a three-point output almost always hides a **three-point step controller**: a PI controller whose output is converted into open and close pulses. It needs the **running time** of the actuator, the time from fully closed to fully open. Well tuned, it controls almost as well as a modulating controller.
 
-**Stroke time:** Actuator requires time for open/close (e.g. 60–120 s) → sluggish control behaviour.
+**Typical for:** motorised actuators without position feedback, on valves and dampers
+
+**Running time:** typically 30 to 150 s. If the set running time does not match the actuator, the controller works with a wrong position. To keep the error from accumulating, many controllers drive a little longer at the end positions and so resynchronise.
 
 ---
 
 ## Comparison at a Glance
 
-| Feature             | Two-position        | Three-position         | Continuous (PI)            |
-| ------------------- | ------------------- | ---------------------- | -------------------------- |
-| Output signal       | 0/1 (relay)         | Open/close/stop        | 0–10 V / 4–20 mA           |
-| Control quality     | Poor                | Medium                 | Good                       |
-| Cost                | Very low            | Low                    | Medium                     |
-| Valve/actuator type | Contactor switching | 3-point motor          | Modulating actuator        |
-| Wear                | Relay (high)        | Motor (medium)         | Actuator (low)             |
-| Tuning              | Hysteresis only     | Stroke time            | Kp, Ti, Td                 |
-| Typical use         | Thermostat          | Simple heating circuit | HVAC, ventilation, cooling |
+| Feature             | Two-position                | Three-position          | Continuous (PI)               |
+| ------------------- | --------------------------- | ----------------------- | ----------------------------- |
+| Output signal       | 0/1 (relay)                 | Open/close/stop         | 0–10 V / 4–20 mA              |
+| Control quality     | Poor                        | Good as step controller | Good                          |
+| Cost                | Very low                    | Low                     | Medium                        |
+| Valve/actuator type | Thermal actuator, contactor | 3-point motor           | Modulating actuator           |
+| Wear                | Relay (high)                | Motor (medium)          | Actuator (low)                |
+| Settings            | Switching differential      | Xp, Tn, running time    | Xp, Tn                        |
+| Typical use         | Thermostat, UFH             | Heating circuit, damper | Ventilation, air conditioning |
 
 ---
 
 ## Decision Guide
 
-```
-Question 1: Does control need to be precise to ±1 K?
-  Yes → Continuous control (PI)
-  No → continue
-
-Question 2: Do we have a motorised actuator without position feedback?
-  Yes → Three-position
-  No → continue
-
-Question 3: Is ±2–3 K acceptable and is cost minimisation the goal?
-  Yes → Two-position with hysteresis
-```
+1. **Must the variable be held precisely**, such as supply air temperature to ±0.5 K? → modulating PI controller with 0–10 V actuator or three-point step controller.
+2. **Is a three-point actuator installed** or cheaper? → three-point step controller with correctly set running time.
+3. **Is a thermal actuator installed**, for example with underfloor heating? → on/off or PWM.
+4. **Is ±1 K enough and the process slow?** → on/off with switching differential.
 
 ## Standards
 
-- **DIN IEC 60050-351** — International electrotechnical vocabulary
-- **VDI 3540** — Control engineering for HVAC systems
+- **IEC 60050-351** — International Electrotechnical Vocabulary, control technology

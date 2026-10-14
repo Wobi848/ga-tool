@@ -41,15 +41,9 @@ Reine PID-Regelung reagiert immer erst, **nachdem** eine Abweichung (Regelabweic
 | Feedback (PID)             | Reagiert auf Regelabweichung             | Keine — universell                     |
 | Feedforward (Vorsteuerung) | Reagiert auf Stör-/Führungsgrösse direkt | Messung der Stör-/Führungsgrösse nötig |
 
-Beide Ansätze kombiniert ergeben das beste Ergebnis:
+Kombiniert ergeben beide das beste Ergebnis: Die Vorsteuerung liefert schnell den grössten Teil, die Rückführung korrigiert den Rest.
 
-```
-Sollwert w(t)  ─────────────────────────────────► Σ
-                                                   │
-Führungsgrösse → Vorsteuerblock → u_VS(t) ─────────►  Strecke → y(t)
-                                                   │              │
-                                    PID ◄──────────── e(t) ◄──────┘
-```
+<figure class="schema"><svg viewBox="0 0 640 230" role="img" aria-label="Störgrössenaufschaltung: Die gemessene Störgrösse wirkt über einen Aufschaltblock direkt auf die Stellgrösse, parallel zum Regler" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 130L60 130"/><path d="M60 130L52.0 134.0L52.0 126.0Z" fill="currentColor" stroke="none"/><circle cx="70" cy="130" r="10"/><path d="M63.0 123.0L77.0 137.0M63.0 137.0L77.0 123.0" stroke-width="1.2"/><path d="M80 130L110 130"/><path d="M110 130L102.0 134.0L102.0 126.0Z" fill="currentColor" stroke="none"/><rect x="110" y="106" width="96" height="48" rx="6"/><path d="M206 130L258 130"/><path d="M258 130L250.0 134.0L250.0 126.0Z" fill="currentColor" stroke="none"/><circle cx="268" cy="130" r="10"/><path d="M262 130H274M268 124V136" stroke-width="1.4"/><path d="M278 130L320 130"/><path d="M320 130L312.0 134.0L312.0 126.0Z" fill="currentColor" stroke="none"/><rect x="320" y="106" width="96" height="48" rx="6"/><path d="M416 130L458 130"/><path d="M458 130L450.0 134.0L450.0 126.0Z" fill="currentColor" stroke="none"/><rect x="458" y="106" width="96" height="48" rx="6"/><path d="M554 130L630 130"/><path d="M630 130L622.0 134.0L622.0 126.0Z" fill="currentColor" stroke="none"/><path d="M506 26L506 106"/><path d="M506 106L502.0 98.0L510.0 98.0Z" fill="currentColor" stroke="none"/><circle cx="506" cy="48" r="3" fill="currentColor"/><rect x="220" y="30" width="124" height="40" rx="6"/><path d="M506 48L344 48"/><path d="M344 48L352.0 44.0L352.0 52.0Z" fill="currentColor" stroke="none"/><path d="M268 70L268 120"/><path d="M268 120L264.0 112.0L272.0 112.0Z" fill="currentColor" stroke="none"/><circle cx="600" cy="130" r="3" fill="currentColor"/><path d="M600 130L600 200L70 200L70 140"/><path d="M70 140L74.0 148.0L66.0 148.0Z" fill="currentColor" stroke="none"/><g fill="currentColor" stroke="none"><text x="8" y="120" text-anchor="start" font-size="12" font-weight="600">w</text><text x="61" y="152" text-anchor="middle" font-size="13" font-weight="700">−</text><text x="95" y="122" text-anchor="middle" font-size="11.5" font-style="italic">e</text><text x="158.0" y="128.0" text-anchor="middle" font-size="12.5" font-weight="600">Regler</text><text x="158.0" y="142.0" text-anchor="middle" font-size="10.5">PI</text><text x="230" y="122" text-anchor="middle" font-size="11.5" font-style="italic">y<tspan font-size="8.5" dy="3">R</tspan></text><text x="299" y="122" text-anchor="middle" font-size="11.5" font-style="italic">y</text><text x="368.0" y="134.0" text-anchor="middle" font-size="12.5" font-weight="600">Stellglied</text><text x="506.0" y="134.0" text-anchor="middle" font-size="12.5" font-weight="600">Strecke</text><text x="628" y="122" text-anchor="end" font-size="11.5" font-style="italic">x</text><text x="506" y="18" text-anchor="middle" font-size="11">Störgrösse z, gemessen</text><text x="282.0" y="54.0" text-anchor="middle" font-size="12.5" font-weight="600">Aufschaltung</text><text x="276" y="96" font-size="11.5" font-style="italic">y<tspan font-size="8.5" dy="3">z</tspan></text></g></svg><figcaption>Störgrössenaufschaltung: Die gemessene Störgrösse z wird über die Aufschaltung direkt zur Stellgrösse addiert. Der Regler korrigiert nur noch, was die Aufschaltung nicht trifft.</figcaption></figure>
 
 ---
 
@@ -59,16 +53,7 @@ Eine bekannte **Störgrösse** wird gemessen und ihr Einfluss auf die Regelgrös
 
 ### Praxisbeispiel: Aussentemperatur auf Raumheizung
 
-```
-Aussentemperatur TA (Messung)
-         │
-    Aufschaltblock: u_AS = f(TA)
-         │
-         ▼
-    PID-Ausgang u_PID
-         │
-    Σ → Stellgrösse → Heizventil
-```
+Die Aussentemperatur θ_a wird gemessen. Die Aufschaltung rechnet daraus einen Anteil der Ventilstellung und addiert ihn zum Ausgang des Raumreglers.
 
 **Ohne Aufschaltung:** TA fällt → Raum kühlt ab → e steigt → PID erhöht Ventil — Verzögerung durch Trägheit der Heizfläche.
 
@@ -78,12 +63,9 @@ Aussentemperatur TA (Messung)
 
 Der Aufschaltfaktor bestimmt, wie stark die Stellgrösse auf die Störung reagiert:
 
-```
-u_AS = K_AS × (TA_Nenn − TA)
+<p class="formel">y<sub>z</sub> = K<sub>z</sub> · (θ<sub>i,Soll</sub> − θ<sub>a</sub>)</p>
 
-K_AS: empirisch eingestellt (Inbetriebnahme) oder berechnet aus Gebäudemodell
-TA_Nenn: Auslegungs-Aussentemperatur (z.B. −8°C)
-```
+K_z stellt man bei der Inbetriebnahme ein oder schätzt ihn aus der Heizlast: Bei Auslegungs-Aussentemperatur, zum Beispiel −8 °C, soll die Aufschaltung allein ungefähr die nötige Ventilstellung liefern. Der Regler gleicht den Rest aus.
 
 ---
 
@@ -91,15 +73,9 @@ TA_Nenn: Auslegungs-Aussentemperatur (z.B. −8°C)
 
 Bei **Führungsgrössenänderungen** (z.B. Sollwertsprung) wird die Stellgrösse sofort vorgesteuert:
 
-```
-Sollwert-Sprung von 20°C → 22°C
-     │
-Vorsteuerblock: u_VS = K_VS × Δw
-     │
-Stellgrösse springt sofort auf höheres Niveau
-     │
-PID passt fein nach
-```
+1. Der Sollwert springt von 20 auf 22 °C.
+2. Die Vorsteuerung setzt die Stellgrösse sofort um K_w · Δw höher. K_w ist ungefähr der Kehrwert der Streckenverstärkung.
+3. Der Regler korrigiert nur noch die Abweichung, die übrig bleibt.
 
 Verhindert das "Nachhinken" des PID bei Sollwertänderungen. Besonders relevant bei trägen Strecken (Fussbodenheizung, Grosse Räume).
 
@@ -109,14 +85,9 @@ Verhindert das "Nachhinken" des PID bei Sollwertänderungen. Besonders relevant 
 
 Die **Heizkurve** (witterungsgeführte Vorlauftemperatur) ist das klassische GA-Beispiel für Vorsteuerung:
 
-```
-TA (Aussentemperatur)
-     │
-Heizkurve-Kennlinie:
-  TV_Soll = f(TA, Raumtemperatur-Soll, Steilheit)
-     │
-Vorlauftemperatur-Regler (PID, Stellgrösse: Mischventil)
-```
+<p class="formel">θ<sub>VL,Soll</sub> = f(θ<sub>a</sub>, θ<sub>i,Soll</sub>, Steilheit, Parallelverschiebung)</p>
+
+Der Vorlaufregler, ein PI-Regler mit Mischventil, hält diesen Sollwert.
 
 Der Raumregler ist in vielen Heizungsanlagen nur noch ein Korrekturgrössen-Regler auf die Heizkurve: Er verschiebt die Heizkurve nach oben/unten (+/− Parallelverschiebung), aber die Grundregelung erfolgt feedforward über die TA.
 
@@ -126,15 +97,9 @@ Der Raumregler ist in vielen Heizungsanlagen nur noch ein Korrekturgrössen-Regl
 
 In der professionellen GA werden Kaskadenregelung und Aufschaltung kombiniert:
 
-```
-TA → Heizkurve → TV_Soll (Führungsgrösse für Vorlaufregler)
-                    │
-              Vorlaufregler (Meister-PID)
-                    │
-              TV_Ist ◄────── Vorlauftemperatur-Messung
-                    │
-              Ventilstellung → Heizkreis
-```
+1. Die Heizkurve berechnet aus der Aussentemperatur den Vorlauf-Sollwert. Das ist die Vorsteuerung.
+2. Der **Vorlaufregler** hält diesen Sollwert über das Mischventil. Er ist der schnelle, innere Regler.
+3. Ein **Raumregler** verschiebt den Sollwert, wenn der Raum dauerhaft vom Soll abweicht. Er ist der langsame, äussere Regler.
 
 Der Vorlaufregler übernimmt die schnelle, witterungsgeführte Grundregelung; ein übergeordneter Raumregler verschiebt den Sollwert bei dauerhafter Raumabweichung.
 
@@ -172,15 +137,9 @@ Pure PID control always reacts **after** a deviation (control error e) has alrea
 | Feedback (PID) | Reacts to control error                           | None — universal                              |
 | Feedforward    | Reacts directly to disturbance/reference variable | Measurement of disturbance/reference required |
 
-Both approaches combined give the best result:
+Combined, both give the best result: the feedforward quickly supplies most of the output, the feedback corrects the rest.
 
-```
-Setpoint w(t)  ─────────────────────────────────► Σ
-                                                   │
-Reference var. → Feedforward block → u_FF(t) ──────►  Plant → y(t)
-                                                   │              │
-                                    PID ◄──────────── e(t) ◄──────┘
-```
+<figure class="schema"><svg viewBox="0 0 640 230" role="img" aria-label="Disturbance feedforward: the measured disturbance acts directly on the output through a feedforward block, in parallel with the controller" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 130L60 130"/><path d="M60 130L52.0 134.0L52.0 126.0Z" fill="currentColor" stroke="none"/><circle cx="70" cy="130" r="10"/><path d="M63.0 123.0L77.0 137.0M63.0 137.0L77.0 123.0" stroke-width="1.2"/><path d="M80 130L110 130"/><path d="M110 130L102.0 134.0L102.0 126.0Z" fill="currentColor" stroke="none"/><rect x="110" y="106" width="96" height="48" rx="6"/><path d="M206 130L258 130"/><path d="M258 130L250.0 134.0L250.0 126.0Z" fill="currentColor" stroke="none"/><circle cx="268" cy="130" r="10"/><path d="M262 130H274M268 124V136" stroke-width="1.4"/><path d="M278 130L320 130"/><path d="M320 130L312.0 134.0L312.0 126.0Z" fill="currentColor" stroke="none"/><rect x="320" y="106" width="96" height="48" rx="6"/><path d="M416 130L458 130"/><path d="M458 130L450.0 134.0L450.0 126.0Z" fill="currentColor" stroke="none"/><rect x="458" y="106" width="96" height="48" rx="6"/><path d="M554 130L630 130"/><path d="M630 130L622.0 134.0L622.0 126.0Z" fill="currentColor" stroke="none"/><path d="M506 26L506 106"/><path d="M506 106L502.0 98.0L510.0 98.0Z" fill="currentColor" stroke="none"/><circle cx="506" cy="48" r="3" fill="currentColor"/><rect x="220" y="30" width="124" height="40" rx="6"/><path d="M506 48L344 48"/><path d="M344 48L352.0 44.0L352.0 52.0Z" fill="currentColor" stroke="none"/><path d="M268 70L268 120"/><path d="M268 120L264.0 112.0L272.0 112.0Z" fill="currentColor" stroke="none"/><circle cx="600" cy="130" r="3" fill="currentColor"/><path d="M600 130L600 200L70 200L70 140"/><path d="M70 140L74.0 148.0L66.0 148.0Z" fill="currentColor" stroke="none"/><g fill="currentColor" stroke="none"><text x="8" y="120" text-anchor="start" font-size="12" font-weight="600">w</text><text x="61" y="152" text-anchor="middle" font-size="13" font-weight="700">−</text><text x="95" y="122" text-anchor="middle" font-size="11.5" font-style="italic">e</text><text x="158.0" y="128.0" text-anchor="middle" font-size="12.5" font-weight="600">Controller</text><text x="158.0" y="142.0" text-anchor="middle" font-size="10.5">PI</text><text x="230" y="122" text-anchor="middle" font-size="11.5" font-style="italic">y<tspan font-size="8.5" dy="3">C</tspan></text><text x="299" y="122" text-anchor="middle" font-size="11.5" font-style="italic">y</text><text x="368.0" y="134.0" text-anchor="middle" font-size="12.5" font-weight="600">Actuator</text><text x="506.0" y="134.0" text-anchor="middle" font-size="12.5" font-weight="600">Process</text><text x="628" y="122" text-anchor="end" font-size="11.5" font-style="italic">x</text><text x="506" y="18" text-anchor="middle" font-size="11">Disturbance z, measured</text><text x="282.0" y="54.0" text-anchor="middle" font-size="12.5" font-weight="600">Feedforward</text><text x="276" y="96" font-size="11.5" font-style="italic">y<tspan font-size="8.5" dy="3">z</tspan></text></g></svg><figcaption>Disturbance feedforward: the measured disturbance z is added directly to the output through the feedforward block. The controller only corrects what the feedforward misses.</figcaption></figure>
 
 ---
 
@@ -190,16 +149,7 @@ A known **disturbance** is measured and its influence on the controlled variable
 
 ### Practical Example: Outdoor Temperature on Room Heating
 
-```
-Outdoor temperature TA (measurement)
-         │
-    Feedforward block: u_FF = f(TA)
-         │
-         ▼
-    PID output u_PID
-         │
-    Σ → Control output → heating valve
-```
+The outdoor temperature θ_a is measured. The feedforward calculates a share of the valve position from it and adds it to the room controller output.
 
 **Without feedforward:** TA drops → room cools down → error rises → PID increases valve — delay due to heating surface inertia.
 
@@ -209,12 +159,9 @@ Outdoor temperature TA (measurement)
 
 The feedforward factor determines how strongly the control output reacts to the disturbance:
 
-```
-u_FF = K_FF × (TA_design − TA)
+<p class="formel">y<sub>z</sub> = K<sub>z</sub> · (θ<sub>i,set</sub> − θ<sub>a</sub>)</p>
 
-K_FF: set empirically (commissioning) or calculated from building model
-TA_design: design outdoor temperature (e.g. −8 °C)
-```
+K_z is set during commissioning or estimated from the heating load: at the design outdoor temperature, for example −8 °C, the feedforward alone should deliver roughly the required valve position. The controller makes up the rest.
 
 ---
 
@@ -222,15 +169,9 @@ TA_design: design outdoor temperature (e.g. −8 °C)
 
 With **reference variable changes** (e.g. setpoint step), the control output is immediately pre-positioned:
 
-```
-Setpoint step from 20 °C → 22 °C
-     │
-Feedforward block: u_FF = K_FF × Δw
-     │
-Control output jumps immediately to higher level
-     │
-PID fine-tunes afterwards
-```
+1. The setpoint jumps from 20 to 22 °C.
+2. The feedforward immediately raises the output by K_w · Δw. K_w is roughly the inverse of the process gain.
+3. The controller only corrects the remaining deviation.
 
 Prevents the PID from "lagging behind" during setpoint changes. Particularly relevant for slow plants (underfloor heating, large rooms).
 
@@ -240,14 +181,9 @@ Prevents the PID from "lagging behind" during setpoint changes. Particularly rel
 
 The **heating curve** (weather-compensated flow temperature) is the classic BA example of feedforward control:
 
-```
-TA (outdoor temperature)
-     │
-Heating curve characteristic:
-  T_flow_setpoint = f(TA, room temp setpoint, slope)
-     │
-Flow temperature controller (PID, control output: mixing valve)
-```
+<p class="formel">θ<sub>flow,set</sub> = f(θ<sub>a</sub>, θ<sub>i,set</sub>, slope, parallel shift)</p>
+
+The flow controller, a PI controller with mixing valve, holds this setpoint.
 
 In many heating systems the room controller is now only a correction controller on top of the heating curve: it shifts the heating curve up/down (±parallel shift), but the basic control is done feedforward via TA.
 
@@ -257,15 +193,9 @@ In many heating systems the room controller is now only a correction controller 
 
 In professional BA, cascade control and feedforward are combined:
 
-```
-TA → Heating curve → T_flow_setpoint (reference for flow controller)
-                    │
-              Flow controller (master PID)
-                    │
-              T_flow_actual ◄────── Flow temperature measurement
-                    │
-              Valve position → heating circuit
-```
+1. The heating curve calculates the flow setpoint from the outdoor temperature. That is the feedforward.
+2. The **flow controller** holds this setpoint via the mixing valve. It is the fast, inner controller.
+3. A **room controller** shifts the setpoint when the room deviates from its setpoint for a long time. It is the slow, outer controller.
 
 The flow controller handles fast, weather-compensated base control; an outer room controller shifts the setpoint when a persistent room deviation occurs.
 

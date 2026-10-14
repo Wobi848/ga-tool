@@ -24,7 +24,7 @@ Damit die DDC oder SPS damit umgehen kann, muss die Kennlinie **linearisiert** o
 
 ## Grundidee
 
-Aus n Messpunkten $(x_i, y_i)$ wird ein Polynom
+Aus n Messpunkten (x<sub>i</sub>, y<sub>i</sub>) wird ein Polynom
 
 <p class="formel">y = a<sub>0</sub> + a<sub>1</sub>·x + a<sub>2</sub>·x<sup>2</sup> + … + a<sub>m</sub>·x<sup>m</sup></p>
 
@@ -35,7 +35,7 @@ so bestimmt, dass die Summe der quadrierten Abweichungen zwischen Polynom-Wert u
 Der **Grad m** wird gewählt nach Komplexität der Kennlinie:
 
 - **Grad 1 (linear):** für lineare Bereiche oder als Erstapproximation
-- **Grad 2 (quadratisch):** Differenzdruck → Volumenstrom (Wurzel-Kennlinie linearisiert), leicht gekrümmte Kennlinien
+- **Grad 2 (quadratisch):** leicht gekrümmte Kennlinien
 - **Grad 3 (kubisch):** typische Sensor-Linearisierung (NTC, Pt1000 im weiten Bereich)
 - **Grad 4–5:** wenn 3 nicht reicht, mit Vorsicht (Overfitting-Gefahr)
 
@@ -58,7 +58,11 @@ Wichtig: **immer auf den genutzten Bereich beschränken**. Ein Polynom-Fit für 
 
 ### Differenzdruck → Volumenstrom
 
-Bei Blenden oder Düsen gilt $\dot V \propto \sqrt{\Delta p}$. Ein quadratisches Polynom $\dot V = a_0 + a_1 \cdot \sqrt{\Delta p} + a_2 \cdot \Delta p$ approximiert das gut, wenn die DDC keine direkte Wurzel-Funktion hat.
+Bei Blenden, Messdüsen und Messkreuzen gilt:
+
+<p class="formel">V̇ = k · √Δp</p>
+
+Ein Polynom in Δp bildet die Wurzel gerade bei kleinen Drücken schlecht ab, weil sie dort sehr steil ist. Besser ist es, direkt mit der Wurzel zu rechnen. Fast jede DDC hat dafür eine Funktion, und den k-Wert gibt der Hersteller der Messeinrichtung an. Ein Polynom lohnt sich erst, wenn die gemessene Kennlinie von der Wurzel abweicht. Dann setzt man √Δp als x ein.
 
 ### Kalibrierkurven von 4–20 mA-Signalen
 
@@ -86,7 +90,7 @@ Wenn dein Sensor 4–20 mA → 0–10 bar liefert, lege fest: x = mA (Roh-Signal
 
 **Im DDC-Code:**
 
-Die meisten DDC-Hersteller (Siemens DESIGO, Sauter, Saia) erlauben Polynome bis Grad 3 oder 4 als Block. Die Koeffizienten aus dem Rechner lassen sich direkt eintragen. Bei höheren Graden Stützstellen-Tabellen mit linearer Interpolation als Alternative.
+Viele DDC-Systeme haben Bausteine für Polynome oder Kennlinien, in die sich die Koeffizienten aus dem Rechner direkt eintragen lassen. Wo das fehlt, schreibt man die Formel als Rechenbaustein aus oder nimmt eine Stützstellentabelle mit linearer Interpolation.
 
 ## Praxis-Beispiel: Sollwertversteller mit Widerstands-Signal
 
@@ -106,7 +110,7 @@ Ein typischer Drehknopf-Sollwertversteller (Wandgerät) verschiebt den Raumtempe
 2. **Grad: 1** (linear — die 3 Punkte liegen praktisch auf einer Geraden)
 3. **Notation: A·x² + B·x + C** im Dropdown wählen
 4. Ergebnis: `B ≈ 0.03427`, `C ≈ -37.31`, `A = 0`
-5. R² ≈ 0.9999 (sehr gut)
+5. R² ≈ 0.9995 (sehr gut)
 
 ### Einstellwerte
 
@@ -164,7 +168,7 @@ For a DDC or PLC to work with them, the curve has to be **linearised**, or at le
 
 ## Basic Idea
 
-From n measured points $(x_i, y_i)$ a polynomial
+From n measured points (x<sub>i</sub>, y<sub>i</sub>) a polynomial
 
 <p class="formel">y = a<sub>0</sub> + a<sub>1</sub>·x + a<sub>2</sub>·x<sup>2</sup> + … + a<sub>m</sub>·x<sup>m</sup></p>
 
@@ -175,7 +179,7 @@ is determined such that the sum of the squared deviations between the polynomial
 The **degree m** is chosen according to the complexity of the curve:
 
 - **Degree 1 (linear):** for linear ranges or as a first approximation
-- **Degree 2 (quadratic):** differential pressure → volume flow (square-root characteristic linearised), gently curved characteristics
+- **Degree 2 (quadratic):** gently curved characteristics
 - **Degree 3 (cubic):** typical sensor linearisation (NTC, Pt1000 over a wide range)
 - **Degree 4–5:** when 3 is not enough — handle with care, risk of overfitting
 
@@ -198,7 +202,11 @@ Important: **always restrict the fit to the range actually used**. A polynomial 
 
 ### Differential Pressure → Volume Flow
 
-For orifices and nozzles $\dot V \propto \sqrt{\Delta p}$ applies. A quadratic polynomial $\dot V = a_0 + a_1 \cdot \sqrt{\Delta p} + a_2 \cdot \Delta p$ approximates this well when the DDC has no direct square-root function.
+For orifices, flow nozzles and measuring crosses:
+
+<p class="formel">V̇ = k · √Δp</p>
+
+A polynomial in Δp represents the square root poorly at low pressures, where it is very steep. It is better to calculate with the square root directly. Almost every DDC has a function for it, and the k value comes from the manufacturer of the measuring device. A polynomial is only worth it if the measured characteristic deviates from the square root. Then use √Δp as x.
 
 ### Calibration Curves of 4–20 mA Signals
 
@@ -226,7 +234,7 @@ If your sensor delivers 4–20 mA → 0–10 bar, decide once: x = mA (raw signa
 
 **In the DDC code:**
 
-Most DDC manufacturers (Siemens DESIGO, Sauter, Saia) allow polynomials up to degree 3 or 4 as a block. The coefficients from the calculator can be entered directly. For higher degrees, look-up tables with linear interpolation are the alternative.
+Many DDC systems have function blocks for polynomials or characteristic curves into which the coefficients from the calculator can be entered directly. Where that is missing, write the formula out as a calculation block or use a look-up table with linear interpolation.
 
 ## Worked Example: Setpoint Adjuster with a Resistance Signal
 
@@ -246,7 +254,7 @@ A typical rotary setpoint adjuster (wall unit) shifts the room temperature setpo
 2. **Degree: 1** (linear — the three points lie practically on a straight line)
 3. Select **notation: A·x² + B·x + C** in the dropdown
 4. Result: `B ≈ 0.03427`, `C ≈ -37.31`, `A = 0`
-5. R² ≈ 0.9999 (very good)
+5. R² ≈ 0.9995 (very good)
 
 ### Parameter Values
 

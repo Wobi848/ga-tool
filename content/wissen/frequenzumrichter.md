@@ -25,8 +25,8 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, elektro, ga]
 related: [pid-regler, modbus, bacnet, profibus, can-bus, drehstrom]
-norm: [IEC 61800, EN 55011, EN 61000, VDE 0160]
-updated: 2026-05-14
+norm: [IEC 61800-3, IEC 61800-5-1, EN IEC 61800-9-2]
+updated: 2026-10-14
 lang: de
 ---
 
@@ -36,15 +36,14 @@ Ein **Frequenzumrichter** (FU, auch VFD / Variable Frequency Drive) regelt die D
 
 ## Wirkprinzip
 
-```
-Netz (50 Hz, 400 V)
-  → Gleichrichter (AC→DC, Zwischenkreis)
-  → Zwischenkreis (DC-Bus ~540 V)
-  → Wechselrichter (IGBT, PWM)
-  → Motor (variable Frequenz & Spannung)
-```
+| Stufe              | Was passiert                                                                                              |
+| ------------------ | --------------------------------------------------------------------------------------------------------- |
+| **Gleichrichter**  | richtet die Netzspannung, 3 × 400 V, 50 Hz, gleich                                                        |
+| **Zwischenkreis**  | Kondensatoren glätten, rund 540 V Gleichspannung                                                          |
+| **Wechselrichter** | IGBT schalten im kHz-Takt und bilden per PWM eine Wechselspannung mit einstellbarer Frequenz und Spannung |
+| **Motor**          | dreht mit der Frequenz, die der Umrichter vorgibt                                                         |
 
-Der Wechselrichter erzeugt durch **Pulsweitenmodulation (PWM)** eine quasi-sinusförmige Ausgangsspannung mit einstellbarer Frequenz (typisch 0–60 Hz, max. oft 120 Hz).
+Der Wechselrichter erzeugt durch **Pulsweitenmodulation (PWM)** eine quasi-sinusförmige Ausgangsspannung mit einstellbarer Frequenz (in der HLK meist 20 bis 50 Hz; über 50 Hz nur, wenn Motor und Ventilator dafür ausgelegt sind).
 
 ## Affinitätsgesetze (Ähnlichkeitsgesetze)
 
@@ -58,7 +57,7 @@ Für Kreiselpumpen und Ventilatoren gelten die Ähnlichkeitsgesetze:
 
 > 💡 **Praxisbeispiel:** Ventilator bei 100 % Drehzahl: 7,5 kW. Bei 75 % Drehzahl: 7,5 × 0,75³ = **3,2 kW**. Energieeinsparung: 57 %!
 
-Das macht FU-Regelung bei Ventilatoren und Pumpen so wirkungsvoll.
+Das macht FU-Regelung bei Ventilatoren und Pumpen so wirkungsvoll. **Aber:** Die dritte Potenz gilt nur, wenn die Anlagenkennlinie durch null geht. Wird auf konstanten Druck geregelt, etwa Kanaldruck oder Differenzdruck im Netz, sinkt die Förderhöhe nicht mit, und die Einsparung ist deutlich kleiner. Dazu kommen die Verluste von Motor und Umrichter bei Teillast.
 
 ## Regelungsmodi
 
@@ -78,22 +77,20 @@ Die meisten modernen FU haben einen eiggebauten PID-Regler:
 
 Beispiel: Pumpendruckregelung ohne externe SPS:
 
-```
-Drucksensor (4–20 mA) → FU-Analogeingang
-Drucksollwert (z.B. 2,5 bar) → FU-Parameter
-FU regelt Drehzahl selbst, sodass p_ist = p_soll
-```
+1. Der Drucksensor, 4–20 mA, hängt am Analogeingang des Umrichters.
+2. Der Sollwert, zum Beispiel 80 kPa Differenzdruck, ist als Parameter gesetzt oder kommt über den Bus.
+3. Der Umrichter regelt die Drehzahl selbst, bis Ist- und Sollwert übereinstimmen.
 
 ### Motorsteuerungs-Varianten (U/f vs. Feldorientiert)
 
-| Verfahren                     | Beschreibung                               | Einsatz                       |
-| ----------------------------- | ------------------------------------------ | ----------------------------- |
-| **U/f (linear)**              | Spannung proportional zur Frequenz         | Pumpen, Ventilatoren          |
-| **U/f (quadratisch)**         | Spannung ~ f²: energieoptimiert für Lüfter | Ventilatoren, hohe Einsparung |
-| **Sensorlose Vektorregelung** | Rechenmodell für Motor-Fluss               | Präzisere Drehmomentregelung  |
-| **Closed-Loop-Vektor**        | Mit Encoder-Rückführung                    | Aufzüge, Präzisionsantriebe   |
+| Verfahren                     | Beschreibung                                                  | Einsatz                       |
+| ----------------------------- | ------------------------------------------------------------- | ----------------------------- |
+| **U/f (linear)**              | Spannung proportional zur Frequenz                            | Pumpen, Ventilatoren          |
+| **U/f (quadratisch)**         | Spannung bei Teillast abgesenkt, passend zu Lasten mit M ~ n² | Ventilatoren, hohe Einsparung |
+| **Sensorlose Vektorregelung** | Rechenmodell für Motor-Fluss                                  | Präzisere Drehmomentregelung  |
+| **Closed-Loop-Vektor**        | Mit Encoder-Rückführung                                       | Aufzüge, Präzisionsantriebe   |
 
-Für HLK-Anwendungen reicht **U/f** in der Regel vollkommen aus.
+Für Asynchronmotoren an Pumpen und Ventilatoren reicht **U/f** meist aus. **Permanentmagnetmotoren** (PM, oft IE4 oder IE5) brauchen dagegen eine Vektorregelung; der Umrichter muss den Motortyp unterstützen.
 
 ## Wichtige Parametrierungsschritte
 
@@ -105,7 +102,7 @@ Für HLK-Anwendungen reicht **U/f** in der Regel vollkommen aus.
 6. **Kommunikationsparameter** (Baudrate, Parität)
 7. **Fehlerverhalten** (Auto-Reset, Fehleranzahl, Reaktionszeit)
 
-> ⚠️ **Motordaten-Autotuning:** Viele FU bieten Autotuning an — Motor dreht kurz mit geringer Spannung, FU misst Widerstand/Induktivität. Verbessert die Regelgüte erheblich.
+> ⚠️ **Motordaten-Autotuning:** Viele FU bieten Autotuning an — meist im Stillstand, der Umrichter misst Widerstand und Induktivität des Motors. Das verbessert Regelung und Wirkungsgrad, vor allem bei Vektorregelung.
 
 ## Schutzfunktionen
 
@@ -122,13 +119,15 @@ Für HLK-Anwendungen reicht **U/f** in der Regel vollkommen aus.
 
 FU erzeugen durch PWM erhebliche **leitungsgebundene und abgestrahlte Störungen**:
 
-- **EMV-Filter** am Eingang (Netzdrossel + Entstörfilter) — bei CE-Konformität oft vorgeschrieben
+- **EMV-Filter** am Eingang, je nach Umgebung nach IEC 61800-3 Kategorie C1 oder C2. In Wohn- und Bürogebäuden ist C1 oder C2 nötig, das ist bei den meisten HLK-Umrichtern eingebaut
 - **Motorleitung geschirmt**, Schirm beidseitig aufgelegt
-- **Motorleitung kurz halten** (<50 m ohne du/dt-Filter, >50 m du/dt-Filter)
+- **Motorleitung kurz halten.** Bis zu welcher Länge die EMV-Kategorie eingehalten wird, steht in der Herstellerangabe, oft 25 bis 50 m. Darüber du/dt- oder Sinusfilter
 - **FU und Steuerungsleitungen** getrennt führen (mind. 20 cm Abstand)
 - **Separater Schutzleiter** FU → Motor (grün-gelb, mind. Querschnitt Aussenleiter)
 
-> ⚠️ **RS-485 / Modbus neben FU:** Schirmung der Busleitung einseitig erden, räumlichen Abstand einhalten — FU-Störungen können Modbus-Kommunikation zerstören.
+> ⚠️ **RS-485 / Modbus neben FU:** Busleitung getrennt von Motorleitungen führen und den Schirm nach Herstellerangabe auflegen, bei Umrichtern meist beidseitig und mit gutem Potenzialausgleich. Sonst stören die Umrichter die Kommunikation. Siehe [Schirmung und Erdung](/wissen/schirmung-erdung).
+
+> ⚠️ **Fehlerstromschutz:** Umrichter erzeugen glatte Gleichfehlerströme. Ein RCD Typ A kann dadurch blind werden. Wo ein RCD nötig ist, braucht es bei dreiphasigen Umrichtern **Typ B**. Typ F ist nur für einphasige Umrichter gedacht.
 
 ## Typische GA-Datenpunkte (Modbus)
 
@@ -163,7 +162,8 @@ Die meisten FU-Hersteller (Danfoss, ABB, Siemens, Schneider) bieten Modbus RTU:
 
 - **IEC 61800-5-1** — FU-Sicherheitsanforderungen
 - **IEC 61800-3** — EMV-Anforderungen für Antriebssysteme
-- **EN 50598** — Energieeffizienz von Antriebssystemen (IE-Klassen für Umrichter: IES0–IES2)
+- **EN IEC 61800-9-2** — Energieeffizienz von Antriebssystemen, IE-Klassen für Umrichter (IE0–IE2) und für Antriebssysteme (IES0–IES2); ersetzt EN 50598-2
+- **VO (EU) 2019/1781** — Ökodesign für Motoren und Umrichter, Umrichter mindestens IE2
 
 <!-- EN -->
 
@@ -171,15 +171,14 @@ A **variable speed drive** (VSD, also VFD / Variable Frequency Drive) controls t
 
 ## Operating Principle
 
-```
-Mains (50 Hz, 400 V)
-  → Rectifier (AC→DC, DC link)
-  → DC link (~540 V)
-  → Inverter (IGBT, PWM)
-  → Motor (variable frequency & voltage)
-```
+| Stage         | What happens                                                                                     |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| **Rectifier** | rectifies the mains voltage, 3 × 400 V, 50 Hz                                                    |
+| **DC link**   | capacitors smooth it, about 540 V DC                                                             |
+| **Inverter**  | IGBTs switch at kHz rate and use PWM to form an AC voltage with adjustable frequency and voltage |
+| **Motor**     | turns at the frequency set by the converter                                                      |
 
-The inverter uses **pulse width modulation (PWM)** to generate a quasi-sinusoidal output voltage with adjustable frequency (typically 0–60 Hz, often max. 120 Hz).
+The inverter uses **pulse width modulation (PWM)** to generate a quasi-sinusoidal output voltage with adjustable frequency (in HVAC usually 20 to 50 Hz; above 50 Hz only if motor and fan are designed for it).
 
 ## Affinity Laws (Similarity Laws)
 
@@ -193,7 +192,7 @@ For centrifugal pumps and fans the affinity laws apply:
 
 > 💡 **Practical example:** Fan at 100% speed: 7.5 kW. At 75% speed: 7.5 × 0.75³ = **3.2 kW**. Energy saving: 57%!
 
-This is what makes VSD control so effective for fans and pumps.
+This is what makes VSD control so effective for fans and pumps. **However,** the cube law only holds if the system curve passes through zero. If the drive controls to a constant pressure, such as duct pressure or network differential pressure, the head does not fall with speed and the saving is much smaller. On top come the losses of motor and drive at part load.
 
 ## Control Modes
 
@@ -213,22 +212,20 @@ Most modern VSDs have a built-in PID controller:
 
 Example: pump pressure control without external PLC:
 
-```
-Pressure sensor (4–20 mA) → VSD analogue input
-Pressure setpoint (e.g. 2.5 bar) → VSD parameter
-VSD controls speed so that p_actual = p_setpoint
-```
+1. The pressure sensor, 4–20 mA, is connected to the analogue input of the drive.
+2. The setpoint, for example 80 kPa differential pressure, is set as a parameter or comes via the bus.
+3. The drive controls the speed itself until actual and setpoint agree.
 
 ### Motor Control Variants (V/f vs. Field-Oriented)
 
-| Method                 | Description                             | Application                 |
-| ---------------------- | --------------------------------------- | --------------------------- |
-| **V/f (linear)**       | Voltage proportional to frequency       | Pumps, fans                 |
-| **V/f (quadratic)**    | Voltage ~ f²: energy-optimised for fans | Fans, high savings          |
-| **Sensorless vector**  | Computational model for motor flux      | More precise torque control |
-| **Closed-loop vector** | With encoder feedback                   | Lifts, precision drives     |
+| Method                 | Description                                           | Application                 |
+| ---------------------- | ----------------------------------------------------- | --------------------------- |
+| **V/f (linear)**       | Voltage proportional to frequency                     | Pumps, fans                 |
+| **V/f (quadratic)**    | voltage reduced at part load, suits loads with T ~ n² | Fans, high savings          |
+| **Sensorless vector**  | Computational model for motor flux                    | More precise torque control |
+| **Closed-loop vector** | With encoder feedback                                 | Lifts, precision drives     |
 
-For HVAC applications **V/f** is generally fully adequate.
+For induction motors on pumps and fans **V/f** is usually enough. **Permanent magnet motors** (PM, often IE4 or IE5), on the other hand, need vector control; the drive must support the motor type.
 
 ## Key Commissioning Steps
 
@@ -240,7 +237,7 @@ For HVAC applications **V/f** is generally fully adequate.
 6. **Communication parameters** (baud rate, parity)
 7. **Fault behaviour** (auto-reset, fault count, response time)
 
-> ⚠️ **Motor data auto-tuning:** Many VSDs offer auto-tuning — the motor briefly rotates at low voltage while the VSD measures resistance/inductance. Significantly improves control quality.
+> ⚠️ **Motor data auto-tuning:** Many VSDs offer auto-tuning — usually at standstill, the drive measures resistance and inductance of the motor. This improves control and efficiency, especially with vector control.
 
 ## Protection Functions
 
@@ -257,13 +254,15 @@ For HVAC applications **V/f** is generally fully adequate.
 
 VSDs generate significant **conducted and radiated interference** through PWM:
 
-- **EMC filter** at input (line reactor + RFI filter) — often required for CE compliance
+- **EMC filter** at the input, depending on the environment per IEC 61800-3 category C1 or C2. Residential and office buildings need C1 or C2, which is built into most HVAC drives
 - **Motor cable shielded**, shield bonded at both ends
-- **Keep motor cable short** (<50 m without du/dt filter; >50 m use du/dt filter)
+- **Keep the motor cable short.** The length up to which the EMC category is met is in the manufacturer data, often 25 to 50 m. Beyond that use a du/dt or sine filter
 - **VSD and control cables** run separately (min. 20 cm clearance)
 - **Separate protective conductor** VSD → motor (green-yellow, min. same cross-section as phase)
 
-> ⚠️ **RS-485 / Modbus near a VSD:** Ground bus cable shield at one end only, maintain physical distance — VSD interference can destroy Modbus communication.
+> ⚠️ **RS-485 / Modbus near a VSD:** route the bus cable separately from motor cables and terminate the shield as the manufacturer specifies, with drives usually at both ends and with good equipotential bonding. Otherwise the drives disturb communication. See [Shielding and Earthing](/wissen/schirmung-erdung).
+
+> ⚠️ **Residual current protection:** drives produce smooth DC fault currents. A type A RCD can be blinded by them. Where an RCD is required, three-phase drives need **type B**. Type F is only intended for single-phase drives.
 
 ## Typical BA Data Points (Modbus)
 
@@ -298,4 +297,5 @@ Most VSD manufacturers (Danfoss, ABB, Siemens, Schneider) offer Modbus RTU:
 
 - **IEC 61800-5-1** — VSD safety requirements
 - **IEC 61800-3** — EMC requirements for drive systems
-- **EN 50598** — Energy efficiency of drive systems (IE classes for drives: IES0–IES2)
+- **EN IEC 61800-9-2** — Energy efficiency of drive systems, IE classes for converters (IE0–IE2) and power drive systems (IES0–IES2); replaces EN 50598-2
+- **Regulation (EU) 2019/1781** — Ecodesign for motors and drives, drives at least IE2

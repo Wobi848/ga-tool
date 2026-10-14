@@ -23,251 +23,205 @@ difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, heizkurve, kaskadenregelung, vorsteuerung-aufschaltung, regelkreise, mpc-ga]
 rechner: [heizkurve]
-norm: [EN 15232, VDI 3814, SIA 386.110]
+norm: [EN ISO 52120-1, SIA 386.110, VDI 3814]
 updated: 2026-05-15
 lang: de
 ---
 
 # Sollwertführung und gleitender Sollwert
 
-Bei einfachen Regelkreisen ist der Sollwert eine feste Grösse (z.B. Raumtemperatur 21°C). In der GA wird der Sollwert häufig **dynamisch geführt**: er ändert sich abhängig von der Aussentemperatur, der Tageszeit, der Belegung oder anderen Einflüssen. Diese Strategie heisst **Sollwertführung**.
-
----
+Bei einfachen Regelkreisen ist der Sollwert fest, zum Beispiel 21 °C Raumtemperatur. In der GA wird er oft **geführt**: Er ändert sich mit der Aussentemperatur, der Uhrzeit, der Belegung oder dem Zustand anderer Anlagenteile.
 
 ## Arten der Sollwertführung
 
-### 1. Festwertregelung
+### Festwert
 
-Der Sollwert ist fix vorgegeben und ändert sich nicht:
+Der Sollwert ist fest, zum Beispiel Zulufttemperatur 20 °C oder Speichertemperatur 60 °C. Das ist nicht veraltet, sondern für viele Kreise richtig. Geführt wird erst, wenn sich damit Energie sparen oder der Komfort verbessern lässt.
 
-```
-w = konstant (z.B. TV_soll = 60°C)
-```
+### Witterungsgeführt
 
-Einfachste Form, unflexibel. Wird in GA nur noch für unkritische Hilfsstrecken verwendet.
+Der Sollwert folgt der Aussentemperatur. Das bekannteste Beispiel ist die **Heizkurve**: Je kälter es draussen ist, desto höher der Vorlauf-Sollwert.
 
-### 2. Witterungsgeführte Regelung (Gleitender Sollwert)
+<p class="formel">θ<sub>VL,Soll</sub> = f(θ<sub>a</sub>)</p>
 
-Der Sollwert wird **in Abhängigkeit der Aussentemperatur** kontinuierlich angepasst:
+- Bei mildem Wetter tiefere Vorlauftemperaturen. Das verbessert den COP von Wärmepumpen und senkt Verteilverluste.
+- Gleichmässigere Raumtemperatur, weil die Heizleistung schon vorab zur Witterung passt.
 
-```
-TV_soll = f(TA)   [Heizkurve]
-```
+Siehe [Heizkurve](/wissen/heizkurve) und den [Heizkurven-Rechner](/rechner/heizkurve).
 
-Je kälter es aussen ist, desto höher der Vorlauftemperatur-Sollwert. → **Heizkurven-Rechner**
+### Zeitprogramm
 
-**Vorteile gegenüber Festwert:**
+Der Sollwert wechselt nach Uhrzeit und Wochentag, zum Beispiel:
 
-- Geringere Vorlauftemperaturen bei mildem Wetter → besserer Wärmepumpen-COP
-- Gleichmässigere Raumtemperatur, weniger Überhitzung
+| Zeit              | Betriebsart | Raum-Sollwert |
+| ----------------- | ----------- | ------------- |
+| Mo–Fr 06:00–18:00 | Komfort     | 21 °C         |
+| Mo–Fr 18:00–06:00 | Absenkung   | 17 °C         |
+| Sa–So             | Absenkung   | 17 °C         |
 
-### 3. Zeitprogramm (Absenkung, Schaltzeiten)
+### Witterung und Zeit kombiniert
 
-Der Sollwert wechselt nach Uhrzeit / Wochentag:
+Das ist die übliche Praxis. Die Absenkung wird als **Raum-Sollwert** eingegeben, zum Beispiel 4 K tiefer. Der Regler verschiebt die Heizkurve parallel. Beim Vorlauf ist die Verschiebung grösser als 4 K, je nach Steilheit der Kurve etwa das 1.5- bis 3-Fache.
 
-```
-Mo–Fr 06:00–22:00 → Komfort: 21°C
-Mo–Fr 22:00–06:00 → Nachtabsenkung: 16°C
-Sa–So ganztags    → 19°C
-```
+## Absenken oder abschalten?
 
-### 4. Kombiniert: Witterung + Zeit
+| Betriebsart     | Was passiert                                             |
+| --------------- | -------------------------------------------------------- |
+| **Absenkung**   | Raum-Sollwert tiefer, Heizung läuft weiter               |
+| **Abschaltung** | Heizung aus, bis die Raumtemperatur eine Grenze erreicht |
+| **Frostschutz** | nur noch Schutz von Gebäude und Anlage, etwa 5–8 °C Raum |
 
-Häufigste GA-Praxis: Heizkurve als Grundlage, Nachtabsenkung als additiver Eingriff:
+Ein verbreiteter Irrtum ist, dass das Wiederaufheizen am Morgen mehr Energie braucht, als die Nacht gespart hat. Physikalisch stimmt das nicht: Ein kühleres Gebäude verliert weniger Wärme, und mehr als die verlorene Wärme muss man nicht nachheizen. **Absenken spart fast immer.** Wie viel, hängt vom Gebäude ab:
 
-```
-TV_soll(t) = Heizkurve(TA) + Δ_Zeitprogramm(t)
+- **Leichte, schlecht gedämmte Gebäude** kühlen schnell aus. Die Absenkung spart viel.
+- **Schwere, gut gedämmte Gebäude** kühlen über Nacht kaum ab. Die Absenkung spart wenig, schadet aber nicht.
+- **Fussbodenheizung** reagiert so träge, dass eine Nachtabsenkung oft nur verschoben wirkt. Kleine Absenkungen von 1 bis 2 K sind hier üblich.
+- **Wärmepumpen:** Muss am Morgen mit höherer Vorlauftemperatur aufgeheizt werden, sinkt der COP. Ein Teil der Einsparung geht verloren, im schlechtesten Fall alles. Bei Wärmepumpen daher kleine Absenkungen und lange Aufheizzeiten oder gar keine Absenkung.
 
-Nacht: Δ = −8 K auf Vorlauf → entspricht ca. −2 K Raumtemperatur
-```
+Eine Grenze gibt es beim **Komfort**: Ist die Aufheizleistung knapp, wird es am Morgen nicht rechtzeitig warm. Dagegen hilft der optimierte Aufheizbeginn.
 
----
+## Optimierter Aufheizbeginn (Optimum Start)
 
-## Nachtabsenkung vs. Nachtabschaltung
+Die DDC berechnet den **spätestmöglichen Startzeitpunkt**, damit der Raum genau zu Nutzungsbeginn die Komforttemperatur erreicht. Je später sie startet, desto länger bleibt das Gebäude kühl und desto mehr wird gespart.
 
-| Strategie        | Beschreibung                                               | Wann sinnvoll                                    |
-| ---------------- | ---------------------------------------------------------- | ------------------------------------------------ |
-| Nachtabsenkung   | Sollwert reduziert, Heizung läuft mit reduzierter Leistung | Gut gedämmte Gebäude, schnelle Strecken          |
-| Nachtabschaltung | Heizung komplett aus                                       | Schlecht gedämmte Gebäude mit langer Aufheizzeit |
-| Frostschutz      | Mindestregelung bei 8°C                                    | Leerstand, Ferien                                |
+<p class="formel">t<sub>Start</sub> = t<sub>Nutzung</sub> − t<sub>Aufheiz</sub>(Δθ<sub>Raum</sub>, θ<sub>a</sub>)</p>
 
-**Faustregel:** Bei Gebäuden mit einer Aufheizzeit > 2–3 Stunden lohnt Nachtabschaltung nicht, weil morgens mehr Energie für das schnelle Aufheizen verbraucht wird als durch die Nacht gespart wurde.
+Gute Regler **lernen** die Aufheizzeit: Sie messen jeden Morgen, wie lange es gedauert hat, und passen den Startzeitpunkt an. Das Gegenstück am Abend ist der **optimierte Abschaltzeitpunkt** (Optimum Stop): Die Heizung geht schon vor Nutzungsende aus, wenn die Raumtemperatur bis dahin nur wenig sinkt.
 
----
+## Weitere Sollwertführungen
 
-## Optimaler Aufheizbeginn (Optimum Start)
+| Anwendung          | Führungsgrösse                                         | Geführter Sollwert        |
+| ------------------ | ------------------------------------------------------ | ------------------------- |
+| Heizkurve          | Aussentemperatur                                       | Vorlauftemperatur Heizung |
+| Kaltwasser-Reset   | Ventilstellungen der Verbraucher oder Aussentemperatur | Kaltwasser-Vorlauf        |
+| Zuluft-Reset       | Raumtemperatur oder Ventilstellungen                   | Zulufttemperatur          |
+| Druck-Reset        | Klappenstellungen der VAV-Regler                       | Kanaldruck                |
+| Sommerkompensation | Aussentemperatur                                       | Raum-Sollwert Kühlen      |
 
-Die DDC berechnet die **frühestmögliche Aufheizzeit**, damit der Raum pünktlich zur Nutzungszeit die Komforttemperatur erreicht:
+### Druck-Reset in der Lüftung
 
-```
-t_Start = t_Nutzungsbeginn − Aufheizzeit
+Sind alle VAV-Klappen deutlich unter ganz offen, ist der Kanaldruck höher als nötig. Der Druck-Sollwert wird schrittweise gesenkt, bis die am weitesten offene Klappe etwa 80 bis 90 % erreicht. Öffnet eine Klappe fast ganz, wird der Druck wieder angehoben. Diese Strategie heisst auch **Trim & Respond**. Sie spart viel Ventilatorstrom, weil die Leistung mit dem Druck stark sinkt.
 
-Aufheizzeit = f(ΔT_Raum, Gebäudezeitkonstante, Aussentemperatur)
-```
+- Klappe am weitesten offen unter 80 % → Sollwert um einen kleinen Schritt senken, zum Beispiel 10 Pa
+- Klappe am weitesten offen über 95 % → Sollwert um einen Schritt anheben
+- Zwischen den Schritten einige Minuten warten, damit die VAV-Regler nachziehen können
 
-**Adaptiver Algorithmus:** Die DDC lernt über mehrere Tage die tatsächliche Aufheizzeit des Gebäudes und passt t_Start automatisch an. Typische DDC-Parameter: "Aufheizgradient", "Lernfaktor".
+Ein einzelner VAV-Regler, der immer ganz offen steht, etwa wegen eines defekten Antriebs, blockiert die Strategie. Solche Regler müssen sich von der Auswertung ausnehmen lassen.
 
----
+## Grenzen für geführte Sollwerte
 
-## Kennlinienführung (allgemein)
+Jeder geführte Sollwert braucht ein **Minimum und ein Maximum**:
 
-Nicht nur Heizung: Viele GA-Regelkreise nutzen Sollwertkennlinien:
+| Sollwert                 | Minimum, Grund                           | Maximum, Grund                          |
+| ------------------------ | ---------------------------------------- | --------------------------------------- |
+| Vorlauf Heizkörper       | etwa 20–25 °C, darunter keine Wirkung    | Auslegungstemperatur, z.B. 55 °C        |
+| Vorlauf Fussbodenheizung | etwa 20 °C                               | 35–40 °C, Schutz des Estrichs           |
+| Kaltwasser Lüftung       | 6 °C, Abstand zum Gefrieren              | etwa 12–14 °C, sonst keine Entfeuchtung |
+| Kühldecke                | über dem Taupunkt im Raum, etwa 16–18 °C | —                                       |
+| Raum                     | 16–18 °C bei Absenkung                   | 26 °C                                   |
+| Zuluft                   | 16–18 °C, sonst Zugluft                  | etwa 28–32 °C bei Luftheizung           |
 
-| Anwendung          | Führungsgrösse      | Geführter Sollwert  |
-| ------------------ | ------------------- | ------------------- |
-| Heizkurve          | Aussentemperatur    | Vorlauftemperatur   |
-| Kühlkurve          | Aussentemperatur    | Kaltwasservorlauf   |
-| Zuluft-Reset       | Raumtemperatur      | Zuluft-Sollwert     |
-| Druckreset Lüftung | VAV-Klappenstellung | Kanaldruck-Sollwert |
+## Normen
 
-### Zuluft-Reset (Lüftung)
-
-Wenn alle Räume gut versorgt sind (alle VAV-Klappen < 80% offen), kann der Kanaldruck gesenkt werden → Ventilatoreinsparung:
-
-```
-VAV_max_offen < 80% → Druck_soll um 5 Pa senken
-VAV_max_offen > 95% → Druck_soll um 5 Pa erhöhen
-```
-
----
-
-## Sollwertgrenzwerte
-
-Geführte Sollwerte müssen immer durch **Min/Max-Grenzen** begrenzt werden:
-
-| Anwendung                 | Min                    | Max                       |
-| ------------------------- | ---------------------- | ------------------------- |
-| Vorlauftemperatur Heizung | 25°C (Frostschutz)     | 85°C (Kesselschutz)       |
-| Vorlauftemperatur Kühlung | 6°C (Vereisungsschutz) | 16°C                      |
-| Raumsollwert              | 16°C (Nacht/Frost)     | 26°C (Überhitzungsschutz) |
-| Zulufttemperatur          | 14°C (Kälteschutz)     | 28°C                      |
-
----
-
-## Normative Anforderungen
-
-- **EN 15232 Klasse A:** Vollständige Zeitprogramme, witterungsgeführte Regelung, optimaler Start/Stopp und selbstlernende Algorithmen
-- **EN 15232 Klasse B:** Zeitprogramme + witterungsgeführte Regelung
-- **SIA 386.110 §5.3:** Sollwertführung für Heizung und Kühlung gefordert
+- **EN ISO 52120-1** — Einfluss der GA auf die Energieeffizienz, Nachfolger von EN 15232. Bewertet Funktionen wie witterungsgeführte Vorlauftemperatur, Zeitprogramme und optimierten Start. Je mehr davon umgesetzt sind, desto besser die GA-Effizienzklasse von D bis A.
+- **SIA 386.110** — Schweizer Ausgabe von EN 15232
+- **VDI 3814** — Gebäudeautomation, Funktionen und Begriffe
 
 <!-- EN -->
 
-In simple control loops the setpoint is a fixed value (e.g. room temperature 21 °C). In building automation the setpoint is often **dynamically scheduled**: it changes depending on outdoor temperature, time of day, occupancy, or other influences. This strategy is called **setpoint scheduling**.
-
----
+In simple control loops the setpoint is fixed, for example a room temperature of 21 °C. In BA it is often **scheduled**: it changes with outdoor temperature, time of day, occupancy or the state of other parts of the plant.
 
 ## Types of Setpoint Scheduling
 
-### 1. Fixed Setpoint
+### Fixed Setpoint
 
-The setpoint is constant and does not change:
+The setpoint is fixed, for example supply air temperature 20 °C or storage temperature 60 °C. That is not outdated but right for many loops. Scheduling is only worth it when it saves energy or improves comfort.
 
-```
-w = constant (e.g. TV_setpoint = 60 °C)
-```
+### Weather-Compensated
 
-Simplest form, inflexible. Used in BA only for non-critical auxiliary circuits.
+The setpoint follows the outdoor temperature. The best-known example is the **heating curve**: the colder it is outside, the higher the flow setpoint.
 
-### 2. Weather-Compensated Control (Sliding Setpoint)
+<p class="formel">θ<sub>flow,set</sub> = f(θ<sub>a</sub>)</p>
 
-The setpoint is **continuously adjusted based on outdoor temperature**:
+- Lower flow temperatures in mild weather. This improves heat pump COP and reduces distribution losses.
+- More even room temperature, because the heat output already matches the weather.
 
-```
-TV_setpoint = f(TA)   [heating curve]
-```
+See [Heating Curve](/wissen/heizkurve) and the [heating curve calculator](/rechner/heizkurve).
 
-The colder it is outside, the higher the flow temperature setpoint. → **Heating Curve Calculator**
+### Time Schedule
 
-**Advantages over fixed setpoint:**
+The setpoint changes with time of day and day of week, for example:
 
-- Lower flow temperatures in mild weather → better heat pump COP
-- More consistent room temperature, less overheating
+| Time                | Mode    | Room setpoint |
+| ------------------- | ------- | ------------- |
+| Mon–Fri 06:00–18:00 | Comfort | 21 °C         |
+| Mon–Fri 18:00–06:00 | Setback | 17 °C         |
+| Sat–Sun             | Setback | 17 °C         |
 
-### 3. Time Schedule (Setback, Switching Times)
+### Weather and Time Combined
 
-The setpoint changes according to time of day / day of week:
+This is usual practice. The setback is entered as a **room setpoint**, for example 4 K lower. The controller shifts the heating curve in parallel. At the flow, the shift is larger than 4 K, roughly 1.5 to 3 times depending on the slope of the curve.
 
-```
-Mon–Fri 06:00–22:00 → Comfort: 21 °C
-Mon–Fri 22:00–06:00 → Night setback: 16 °C
-Sat–Sun all day     → 19 °C
-```
+## Setback or Shutdown?
 
-### 4. Combined: Weather + Time
+| Mode                 | What happens                                             |
+| -------------------- | -------------------------------------------------------- |
+| **Setback**          | lower room setpoint, heating keeps running               |
+| **Shutdown**         | heating off until room temperature reaches a limit       |
+| **Frost protection** | only protection of building and plant, about 5–8 °C room |
 
-Most common BA practice: heating curve as the basis, night setback as an additive offset:
+A common misconception is that reheating in the morning needs more energy than the night saved. Physically this is not true: a cooler building loses less heat, and you never have to reheat more than was lost. **Setback almost always saves.** How much depends on the building:
 
-```
-TV_setpoint(t) = HeatingCurve(TA) + Δ_TimeSchedule(t)
+- **Light, poorly insulated buildings** cool down quickly. Setback saves a lot.
+- **Heavy, well-insulated buildings** barely cool down overnight. Setback saves little but does no harm.
+- **Underfloor heating** reacts so slowly that a night setback often only shifts in time. Small setbacks of 1 to 2 K are usual here.
+- **Heat pumps:** if reheating in the morning needs a higher flow temperature, the COP drops. Part of the saving is lost, in the worst case all of it. With heat pumps, use small setbacks with long heat-up times, or none.
 
-Night: Δ = −8 K on flow → corresponds to approx. −2 K room temperature
-```
-
----
-
-## Night Setback vs. Night Shutdown
-
-| Strategy         | Description                                    | When appropriate                                  |
-| ---------------- | ---------------------------------------------- | ------------------------------------------------- |
-| Night setback    | Setpoint reduced, heating runs at lower output | Well-insulated buildings, fast response           |
-| Night shutdown   | Heating completely off                         | Poorly insulated buildings with long heat-up time |
-| Frost protection | Minimum control at 8 °C                        | Vacant periods, holidays                          |
-
-**Rule of thumb:** In buildings with a heat-up time > 2–3 hours, night shutdown is counterproductive — morning warm-up consumes more energy than was saved overnight.
-
----
+There is a limit on **comfort**: if the heating capacity is tight, it will not be warm in time in the morning. Optimum start helps against that.
 
 ## Optimum Start
 
-The DDC calculates the **latest possible start time** so the room reaches comfort temperature exactly at the start of occupancy:
+The DDC calculates the **latest possible start time** so that the room reaches comfort temperature exactly at the start of occupancy. The later it starts, the longer the building stays cool and the more is saved.
 
-```
-t_start = t_occupancy_start − heat_up_time
+<p class="formel">t<sub>start</sub> = t<sub>occupancy</sub> − t<sub>heat-up</sub>(Δθ<sub>room</sub>, θ<sub>a</sub>)</p>
 
-heat_up_time = f(ΔT_room, building_time_constant, outdoor_temperature)
-```
+Good controllers **learn** the heat-up time: they measure how long it took each morning and adjust the start time. The counterpart in the evening is **optimum stop**: heating switches off before the end of occupancy if the room temperature will only drop a little by then.
 
-**Adaptive algorithm:** The DDC learns the actual heat-up time of the building over several days and adjusts t_start automatically. Typical DDC parameters: "heating gradient", "learning factor".
+## Other Setpoint Schedules
 
----
+| Application         | Guide variable                                      | Scheduled setpoint       |
+| ------------------- | --------------------------------------------------- | ------------------------ |
+| Heating curve       | outdoor temperature                                 | heating flow temperature |
+| Chilled water reset | valve positions of consumers or outdoor temperature | chilled water flow       |
+| Supply air reset    | room temperature or valve positions                 | supply air temperature   |
+| Pressure reset      | damper positions of VAV boxes                       | duct pressure            |
+| Summer compensation | outdoor temperature                                 | room cooling setpoint    |
 
-## Characteristic-Based Scheduling (General)
+### Pressure Reset in Ventilation
 
-Not only for heating — many BA control loops use setpoint characteristic curves:
+If all VAV dampers are well below fully open, the duct pressure is higher than needed. The pressure setpoint is lowered step by step until the most open damper reaches about 80 to 90 %. If a damper opens almost fully, the pressure is raised again. This strategy is also called **trim & respond**. It saves a lot of fan power, because power falls sharply with pressure.
 
-| Application         | Guide variable      | Scheduled setpoint     |
-| ------------------- | ------------------- | ---------------------- |
-| Heating curve       | Outdoor temperature | Flow temperature       |
-| Cooling curve       | Outdoor temperature | Chilled water flow     |
-| Supply air reset    | Room temperature    | Supply air setpoint    |
-| Duct pressure reset | VAV damper position | Duct pressure setpoint |
+- Most open damper below 80 % → lower the setpoint by a small step, for example 10 Pa
+- Most open damper above 95 % → raise the setpoint by one step
+- Wait a few minutes between steps so the VAV controllers can follow
 
-### Supply Air Reset (Ventilation)
+A single VAV box that is always fully open, for example because of a faulty actuator, blocks the strategy. It must be possible to exclude such boxes from the evaluation.
 
-When all rooms are well served (all VAV dampers < 80% open), duct pressure can be reduced → fan energy savings:
+## Limits for Scheduled Setpoints
 
-```
-VAV_max_open < 80% → reduce pressure setpoint by 5 Pa
-VAV_max_open > 95% → raise pressure setpoint by 5 Pa
-```
+Every scheduled setpoint needs a **minimum and a maximum**:
 
----
+| Setpoint                  | Minimum, reason                      | Maximum, reason                               |
+| ------------------------- | ------------------------------------ | --------------------------------------------- |
+| Radiator flow             | about 20–25 °C, below that no effect | design temperature, e.g. 55 °C                |
+| Underfloor heating flow   | about 20 °C                          | 35–40 °C, protection of the screed            |
+| Chilled water ventilation | 6 °C, margin to freezing             | about 12–14 °C, otherwise no dehumidification |
+| Chilled ceiling           | above room dew point, about 16–18 °C | —                                             |
+| Room                      | 16–18 °C in setback                  | 26 °C                                         |
+| Supply air                | 16–18 °C, otherwise draught          | about 28–32 °C with air heating               |
 
-## Setpoint Limits
+## Standards
 
-Scheduled setpoints must always be bounded by **min/max limits**:
-
-| Application              | Min                      | Max                            |
-| ------------------------ | ------------------------ | ------------------------------ |
-| Heating flow temperature | 25 °C (frost protection) | 85 °C (boiler protection)      |
-| Cooling flow temperature | 6 °C (freeze protection) | 16 °C                          |
-| Room setpoint            | 16 °C (night/frost)      | 26 °C (overheating protection) |
-| Supply air temperature   | 14 °C (cold protection)  | 28 °C                          |
-
----
-
-## Normative Requirements
-
-- **EN 15232 Class A:** Full time schedules, weather-compensated control, optimum start/stop and self-learning algorithms
-- **EN 15232 Class B:** Time schedules + weather-compensated control
-- **SIA 386.110 §5.3:** Setpoint scheduling required for heating and cooling
+- **EN ISO 52120-1** — Contribution of BA to energy performance, successor to EN 15232. Rates functions such as weather-compensated flow temperature, time schedules and optimum start. The more are implemented, the better the BA efficiency class from D to A.
+- **SIA 386.110** — Swiss edition of EN 15232
+- **VDI 3814** — Building automation, functions and terms
