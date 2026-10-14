@@ -22,7 +22,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, elektro]
-related: [signaltypen, dali, knx, schirmung-erdung]
+related: [signaltypen, dali, knx, schirmung-erdung, nin-niv]
 norm: [IEC 61140, IEC 60364-4-41, EN 50178, VDE 0100-410]
 updated: 2026-05-14
 lang: de

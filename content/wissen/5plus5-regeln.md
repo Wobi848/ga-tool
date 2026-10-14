@@ -21,7 +21,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [elektro, ga]
-related: [frequenzumrichter]
+related: [frequenzumrichter, nin-niv]
 norm: [EN 50110-1, NIV (CH), SUVA 84042]
 updated: 2026-05-14
 lang: de

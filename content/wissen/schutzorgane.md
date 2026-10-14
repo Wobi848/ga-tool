@@ -32,7 +32,8 @@ related:
     ec-motoren,
     5plus5-regeln,
     messen-fehlersuche,
-    drehstrom
+    drehstrom,
+    nin-niv
   ]
 norm: [EN 60898-1, EN 61008-1, EN 61009-1, EN 60947-2, EN 60947-4-1, IEC 60364]
 updated: 2026-10-14
@@ -135,7 +136,7 @@ Faustregeln:
 
 ## Was der GA-Techniker darf
 
-Einen ausgelösten LS oder Motorschutz nach Klärung der Ursache wieder einschalten, gehört zum Betrieb. Schutzorgane tauschen, umdimensionieren oder neu verdrahten gehört zur Installation. Dafür braucht es in der Schweiz eine entsprechende Bewilligung nach NIV, und die Arbeit muss danach geprüft werden. Im Zweifel die zuständige Elektrofachperson beiziehen.
+Einen ausgelösten LS oder Motorschutz nach Klärung der Ursache wieder einschalten, gehört zum Betrieb. Schutzorgane tauschen, umdimensionieren oder neu verdrahten gehört zur Installation. Dafür braucht es in der Schweiz eine entsprechende Bewilligung nach NIV, und die Arbeit muss danach geprüft werden. Im Zweifel die zuständige Elektrofachperson beiziehen. Mehr dazu in [NIV und NIN](/wissen/nin-niv).
 
 Vor jeder Arbeit im Schrank gelten die [5+5 lebenswichtigen Regeln](/wissen/5plus5-regeln).
 
@@ -243,7 +244,7 @@ Rules of thumb:
 
 ## What the BA Technician May Do
 
-Switching a tripped MCB or motor protection back on after clarifying the cause is part of operation. Replacing, resizing or rewiring protective devices is installation work. In Switzerland this requires the corresponding authorisation under the NIV, and the work must be inspected afterwards. When in doubt, involve the responsible qualified electrician.
+Switching a tripped MCB or motor protection back on after clarifying the cause is part of operation. Replacing, resizing or rewiring protective devices is installation work. In Switzerland this requires the corresponding authorisation under the NIV, and the work must be inspected afterwards. When in doubt, involve the responsible qualified electrician. More in [NIV and NIN](/wissen/nin-niv).
 
 Before any work in the panel, the [5+5 life-saving rules](/wissen/5plus5-regeln) apply.
 
