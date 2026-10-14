@@ -1,5 +1,47 @@
 # Changelog
 
+## v0.16.0 — 2026-10-14
+
+### Elektro für GA-Techniker
+
+Die grösste Lücke der Wissensbasis war die Elektrotechnik: wer das Schema
+nicht lesen kann, steht bei der IBN vor dem Schrank und tauscht Teile auf
+Verdacht. Sechs neue Artikel und eine Referenztabelle, mit gezeichneten
+Schaltungen, die im Dunkelmodus mitgehen:
+
+- **Schemalesen** — Planarten, Ruhestellung, Querverweise, Kennzeichnung nach
+  IEC 81346, Anschlussziffern, Selbsthaltung mit Kontaktspiegel
+- **Schaltzeichen** — Referenztabelle mit 27 Zeichen nach IEC 60617,
+  Kennbuchstabe neu und alt
+- **Schützsteuerungen** — Verriegelung, Ansteuerung durch die DDC über
+  Koppelrelais, Befehl vs. Rückmeldung vs. Betriebsmeldung, Zeitrelais
+- **Schutzorgane** — LS-Charakteristiken, FI-Typen, Motorschutz, und warum
+  ein strombegrenztes 24-V-Netzteil einen LS nie auslöst
+- **Messen und Fehlersuche** — Messkategorien, Geisterspannungen, GA-Signale,
+  Pt1000-Tabelle, systematisches Vorgehen
+- **Drehstrom** — 230/400 V, Stern und Dreieck am Klemmbrett, Drehrichtung
+- **NIV und NIN** — wer was darf, und warum 24 V über 2 A nicht frei ist.
+  Als Überblick mit Quellen, kein Rechtsrat
+
+### Auf dem Handy
+
+- Untere Leiste: Home, Rechner, Wissen, **Objekte**, Mehr. Objekte,
+  Referenz, Abkürzungen und Einstellungen waren auf dem Handy bisher gar
+  nicht erreichbar
+- 44 px Tippfläche für die Knöpfe neben der Abhakzeile in Checklisten,
+  Favoriten-Stern und Suche
+- Orange Schrift, Typ-Badges und der Favoriten-Stern mit genug Kontrast,
+  hell wie dunkel
+- Deutlicher Fokusrahmen bei Tastaturbedienung
+- Tabellen in Artikeln brechen nicht mehr mitten im Wort um
+- Das Update-Banner belegt eine Zeile statt sechs
+
+### Behoben
+
+- **Neueste Einträge** zeigen alles vom neuesten Tag, nicht fünf zufällige
+- Im Dev-Server lud kein Artikel (403); im Build fiel das nicht auf
+- Der Suchindex enthielt HTML-Markup, sobald ein Artikel welches hatte
+
 ## v0.15.1 — 2026-09-14
 
 ### Einladungscode
