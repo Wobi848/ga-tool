@@ -463,6 +463,12 @@
 		padding: 0.5rem 0.75rem;
 		border: 1px solid var(--border);
 		vertical-align: top;
+		/* Der Fliesstext darf überall umbrechen, Tabellenzellen nicht: aus
+		   «Charakteristik» wurde sonst «Charak / teristi / k». Lieber
+		   trennen oder die Tabelle seitlich scrollen lassen. */
+		overflow-wrap: normal;
+		word-break: normal;
+		hyphens: auto;
 	}
 
 	.prose :global(th) {

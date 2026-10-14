@@ -22,7 +22,8 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [elektro, ga]
-related: [schemalesen, hand-0-auto, signaltypen, selv-pelv, frequenzumrichter, ec-motoren]
+related:
+  [schemalesen, hand-0-auto, signaltypen, selv-pelv, frequenzumrichter, ec-motoren, schutzorgane]
 norm: [EN 60947-4-1, EN 60947-5-1, EN 50005, EN 60204-1]
 updated: 2026-10-14
 lang: de
