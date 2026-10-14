@@ -25,253 +25,185 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [ems-lastmanagement, batteriespeicher, sg-ready, e-mobility-lademanagement, energiemessung]
+related:
+  [
+    ems-lastmanagement,
+    batteriespeicher,
+    sg-ready,
+    e-mobility-lademanagement,
+    energiemessung,
+    mpc-ga
+  ]
 rechner: []
-norm: [VDE-AR-N 4105, VDE-AR-N 4110, IEC 61727, SunSpec Alliance, EN 50549]
-updated: 2026-05-15
+norm: [EN 50549-1, VDE-AR-N 4105, SunSpec]
+updated: 2026-10-14
 lang: de
 ---
 
 # PV-Integration in die Gebäudeautomation
 
-Die Integration einer Photovoltaikanlage in das Gebäude-EMS erlaubt es, den solaren Eigenverbrauch zu maximieren, Spitzenlasten zu kappen und steuerbare Verbraucher (Batteriespeicher, Wärmepumpe, Ladeinfrastruktur) gezielt auf den PV-Ertrag abzustimmen.
+Wird die Photovoltaikanlage in die GA oder ein Energiemanagement eingebunden, lässt sich mehr Solarstrom im Gebäude selbst nutzen. Steuerbare Verbraucher wie Wärmepumpe, Ladestationen, Batterie oder Heizstab laufen dann bevorzugt, wenn die Sonne scheint.
 
----
+## Ertrag und Eigenverbrauch
 
-## PV-Ertragskurve und Eigenverbrauch
+Eine PV-Anlage liefert an einem klaren Tag ein glockenförmiges Profil mit dem Maximum um die Mittagszeit. Ohne Steuerung fliesst der Überschuss ins Netz, morgens und abends wird Strom bezogen.
 
-Eine PV-Anlage erzeugt tagsüber ein gauss-förmiges Ertragsprofil mit dem Maximum um die Mittagszeit. Ohne aktives Management wird überschüssige Energie ins Netz eingespeist, während in den Morgen- und Abendstunden Netzbezug stattfindet.
+Den Eigenverbrauch erhöhen:
 
-**Eigenverbrauchsquote erhöhen durch:**
+- **Lasten verschieben:** Warmwasser, Speicherladung der Wärmepumpe, E-Auto, Geräte mit Startzeit
+- **Speichern:** Batterie, aber auch thermisch in Warmwasser- und Pufferspeichern, was meist günstiger ist
+- **Heizstab:** einfach, aber mit COP 1 die am wenigsten wertvolle Nutzung. Eine Wärmepumpe macht aus derselben kWh drei bis vier kWh Wärme.
 
-- Verschiebung flexibler Lasten in Ertragsspitzen (Spülmaschinen, Wärmepumpen, E-Auto)
-- Pufferung überschüssiger Energie in Batteriespeichern
-- Warmwassererwärmung via Heizstab (einfach, kein Regelungsaufwand)
+## Schnittstellen der Wechselrichter
 
----
+Fast alle Wechselrichter lassen sich über **Modbus TCP** auslesen, viele auch über **Modbus RTU** (RS-485). Viele Hersteller halten sich an **SunSpec**, einen offenen Standard mit festgelegten Modbus-Registern für:
 
-## Wechselrichter-Schnittstellen
+- AC- und DC-Leistung, Energie, Spannung, Frequenz
+- Betriebszustand und Fehlercodes
+- Vorgaben für Wirkleistungsbegrenzung und Blindleistung
 
-| Hersteller   | Protokoll                       | Schnittstelle     |
-| ------------ | ------------------------------- | ----------------- |
-| SMA          | SunSpec Modbus TCP / SMA Modbus | Ethernet          |
-| Fronius      | SunSpec Modbus TCP / Solar API  | Ethernet          |
-| KOSTAL       | SunSpec Modbus TCP              | Ethernet          |
-| Huawei       | Modbus TCP (proprietär)         | Ethernet          |
-| Deye / Solis | Modbus RTU/TCP                  | RS-485 / Ethernet |
-| Growatt      | Modbus RTU                      | RS-485            |
+Ob und wie vollständig SunSpec unterstützt wird, steht in der Dokumentation des Herstellers. Manche bieten zusätzlich eigene Register oder eine REST-API.
 
-### SunSpec Alliance
+Für die Regelung braucht es vor allem einen **Zähler am Netzanschlusspunkt**, der Bezug und Einspeisung in Echtzeit liefert, etwa über Modbus. Nur damit weiss das EMS, wie viel Überschuss gerade vorhanden ist.
 
-**SunSpec** ist ein offener Standard (www.sunspec.org) für die Schnittstelle zwischen Wechselrichtern und EMS/Monitoring. Definiert standardisierte Modbus-Register für:
+## Einspeisung begrenzen
 
-- Momentanleistung (AC/DC), Energie (kWh), Frequenz, Spannung
-- Betriebszustand, Fehlercode
-- Leistungsregelung (Wirkleistungsbegrenzung, Blindleistung)
+**Schweiz:** Eine feste Begrenzung wie die frühere deutsche 70-%-Regel gibt es nicht. Seit 2026 darf der Netzbetreiber die Einspeisung netzdienlich abregeln. Der Produktionsverlust darf dabei höchstens 3 % der Jahresproduktion einer Anlage betragen. Einzelne Netzbetreiber verlangen bei grossen Anlagen im Anschlussgesuch eine Begrenzung.
 
-```
-EMS (Modbus TCP Client)
-     │
-     ├── WR 1: SunSpec Modbus TCP → P_AC = 3.4 kW
-     ├── WR 2: SunSpec Modbus TCP → P_AC = 2.1 kW
-     └── Batterie: SunSpec Modbus TCP → SOC = 72%
-```
+**Deutschland:** Die 70-%-Regel nach EEG ist für neue Anlagen seit 2023 weggefallen. Für Neuanlagen ab dem 25. Februar 2025 gilt nach dem «Solarspitzengesetz» eine Begrenzung der Einspeiseleistung auf 60 %, bis ein intelligentes Messsystem mit Steuerbox eingebaut ist.
 
----
+**Nulleinspeisung:** Das EMS regelt die Wechselrichterleistung so, dass am Netzanschlusspunkt nichts eingespeist wird. Das braucht eine schnelle Messung dort und einen Wechselrichter, der Leistungsvorgaben annimmt.
 
-## Einspeisebegrenzung (70%-Regel, Nulleinspeisung)
+## Eigenverbrauchsgemeinschaften (CH)
 
-### 70%-Begrenzung (DE, VDE-AR-N 4105)
-
-Netzanlagen bis 25 kWp dürfen maximal 70% der Nennleistung ins Netz einspeisen. Das EMS oder der Wechselrichter begrenzt die Ausgangsleistung entsprechend:
-
-```
-P_Einspeisung = P_PV − P_Verbrauch
-Wenn P_Einspeisung > 0.7 × P_Peak → Wechselrichter drosseln
-```
-
-### Nulleinspeisung
-
-Für Mieterstrom, Eigenverbrauchsanlagen ohne Einspeisevergütung: EMS regelt Wechselrichterleistung so, dass `P_Einspeisung ≈ 0`. Benötigt Echtzeit-Messung am Netzanschlusspunkt (4-20 mA oder Modbus-Zähler).
-
----
+- **ZEV**, Zusammenschluss zum Eigenverbrauch: Mehrere Parteien in einem Gebäude oder auf benachbarten Grundstücken nutzen den Solarstrom gemeinsam und haben nur einen Netzanschluss gegenüber dem Netzbetreiber. Die interne Abrechnung braucht eigene Zähler.
+- **vZEV**, virtueller ZEV: wie ZEV, aber mit den Zählern des Netzbetreibers
+- **LEG**, lokale Elektrizitätsgemeinschaft: seit dem 1. Januar 2026 möglich; Produzenten und Verbraucher in derselben Gemeinde und im Netz desselben Netzbetreibers teilen Strom über das öffentliche Netz mit reduziertem Netznutzungstarif. Alle brauchen Smart Meter.
 
 ## Überschusssteuerung
 
-Das EMS vergleicht kontinuierlich PV-Ertrag mit Verbrauch und steuert steuerbare Lasten:
+Das EMS vergleicht laufend Erzeugung und Verbrauch und schaltet Verbraucher nach einer festgelegten Reihenfolge zu, zum Beispiel:
 
-```
-PV-Überschuss (kW)
-       │
-  ┌────▼────────────────────────────────────────┐
-  │ EMS Überschuss-Logik                        │
-  │                                             │
-  │ 1. Batteriespeicher laden (Priorität hoch)  │
-  │ 2. E-Auto laden (dynamisch, min. 6A)        │
-  │ 3. Wärmepumpe WW-Ladung aktivieren          │
-  │ 4. Heizstab zuschalten                      │
-  └─────────────────────────────────────────────┘
-```
+1. Wärmepumpe: Warmwasser oder Puffer auf höheren Sollwert laden, etwa über SG-Ready
+2. E-Auto mit dynamischem Ladestrom
+3. Batterie laden
+4. Heizstab, nur wenn alles andere voll ist
 
-**Wichtig bei E-Auto-Laden:** Minimale Ladeleistung beachten (1-phasig min. ~1,4 kW, 3-phasig min. ~4,1 kW). Unter diesem Schwellwert kein PV-Laden sinnvoll → Hysterese notwendig.
+Die Reihenfolge hängt vom Gebäude ab. Ein Wärmespeicher nutzt die Energie oft besser als die Batterie, die Batterie verschiebt Strom dafür in den Abend.
 
----
+**E-Auto:** Ein Auto lädt mit mindestens 6 A. Das sind einphasig rund 1.4 kW und dreiphasig rund 4.1 kW. Liegt der Überschuss darunter, reicht er nicht. Damit das Laden nicht ständig startet und stoppt, braucht es eine Hysterese und Mindestzeiten. Wallboxen mit Phasenumschaltung können zwischen ein- und dreiphasig wechseln.
 
-## PV-Ertragsprognose
+## Prognose
 
-Für prädiktives Lastmanagement (Batterieverladeplanung, Warmwasserbooster):
+Mit einer Ertragsprognose lässt sich vorausplanen: Die Batterie morgens nicht aus dem Netz laden, wenn ein sonniger Tag kommt; die Wärmepumpe auf den Mittag verschieben. Quellen sind Wetterdienste mit Strahlungsprognosen und spezialisierte Anbieter. Siehe [Model Predictive Control](/wissen/mpc-ga).
 
-- **Wetterprognose-APIs**: Open-Meteo (frei), Solcast (kommerziell, sehr präzise)
-- **Strahlungsdaten**: Global Horizontal Irradiance (GHI), Direct Normal Irradiance (DNI)
-- Prognose ermöglicht: Batterie morgens nicht voll laden (Platz für PV-Überschuss), Spülmaschine auf Mittagszeit verschieben
+## Beispiel einer Einbindung
 
----
+| Komponente           | Anbindung                  | Aufgabe                                |
+| -------------------- | -------------------------- | -------------------------------------- |
+| PV-Wechselrichter    | Modbus TCP, SunSpec        | Leistung, Ertrag, Begrenzung           |
+| Zähler Netzanschluss | Modbus TCP oder RTU        | Bezug und Einspeisung in Echtzeit      |
+| Batterie             | Modbus TCP                 | Ladezustand, Lade- und Entladeleistung |
+| Ladestation          | OCPP oder Modbus           | Ladestrom vorgeben                     |
+| Wärmepumpe           | SG-Ready oder Modbus       | Betrieb mit erhöhtem Sollwert          |
+| EMS oder GLT         | sammelt alles, entscheidet | Überschusssteuerung, Lastmanagement    |
 
-## GA-Integration Beispiel
+## Kennwerte
 
-```
-PV-Anlage 10 kWp
-     │
-WR (SunSpec Modbus TCP) ──── EMS / Home Assistant
-     │                            │
-Netz ─── HAK ─────────────── Zähler (Modbus TCP)
-                                  │
-                        ┌─────────┼──────────────┐
-                        │         │              │
-                   Batterie   E-Ladestation   Wärmepumpe
-                 (SunSpec)   (OCPP)        (SG-Ready / Modbus)
-```
+| Grösse                                       | Richtwert             | Bemerkung                                      |
+| -------------------------------------------- | --------------------- | ---------------------------------------------- |
+| Jahresertrag Mittelland                      | etwa 900–1100 kWh/kWp | Ausrichtung Süd, gute Neigung                  |
+| Eigenverbrauch Einfamilienhaus ohne Speicher | etwa 25–35 %          | stark abhängig von Anlagengrösse und Verbrauch |
+| Eigenverbrauch mit Batterie                  | etwa 50–70 %          | je nach Speichergrösse                         |
+| Wirkungsgrad Wechselrichter                  | 96–98 %               | europäischer Wirkungsgrad                      |
 
----
+## Normen und Regeln
 
-## Typische Kennwerte PV-Anlage
-
-| Parameter                          | Wert                    | Bemerkung                       |
-| ---------------------------------- | ----------------------- | ------------------------------- |
-| Jahresertrag                       | 900–1100 kWh/kWp        | CH/Mitteleuropa, Südausrichtung |
-| Peak-Leistung Sommerhalbjahr       | 80–95% der Nennleistung | Klarwettertag                   |
-| Eigenverbrauchsquote ohne Speicher | 25–35%                  | typisches EFH                   |
-| Eigenverbrauchsquote mit Speicher  | 55–80%                  | je nach Speichergrösse          |
-| Wirkungsgrad Wechselrichter        | 96–98%                  | String-WR                       |
+- **Werkvorschriften und Branchendokumente** des VSE für den Netzanschluss (CH)
+- **EN 50549-1** — Anforderungen an Erzeugungsanlagen am Niederspannungsnetz
+- **VDE-AR-N 4105** — Erzeugungsanlagen am Niederspannungsnetz (DE)
+- **SunSpec** — offene Modbus-Informationsmodelle für Wechselrichter und Speicher
 
 <!-- EN -->
 
-Integrating a photovoltaic system into the building EMS makes it possible to maximise solar self-consumption, cap peak loads, and align controllable loads (battery storage, heat pumps, charging infrastructure) precisely with PV yield.
+When the photovoltaic system is integrated into the BA or an energy management system, more solar power can be used in the building itself. Controllable loads such as heat pump, charging stations, battery or immersion heater then run preferably when the sun is shining.
 
----
+## Yield and Self-Consumption
 
-## PV Yield Curve and Self-Consumption
+On a clear day a PV system delivers a bell-shaped profile with the maximum around noon. Without control the surplus flows into the grid, while power is drawn in the morning and evening.
 
-A PV system generates a bell-shaped yield profile during the day, peaking around midday. Without active management, surplus energy is exported to the grid while the morning and evening hours rely on grid import.
+Increasing self-consumption:
 
-**Ways to increase self-consumption:**
-
-- Shift flexible loads into yield peaks (dishwashers, heat pumps, EVs)
-- Buffer surplus energy in battery storage
-- Domestic hot water heating via immersion heater (simple, minimal control effort)
-
----
+- **Shift loads:** hot water, heat pump storage charging, electric car, appliances with start time
+- **Store:** battery, but also thermally in hot water and buffer tanks, which is usually cheaper
+- **Immersion heater:** simple, but with COP 1 the least valuable use. A heat pump turns the same kWh into three to four kWh of heat.
 
 ## Inverter Interfaces
 
-| Manufacturer | Protocol                        | Interface         |
-| ------------ | ------------------------------- | ----------------- |
-| SMA          | SunSpec Modbus TCP / SMA Modbus | Ethernet          |
-| Fronius      | SunSpec Modbus TCP / Solar API  | Ethernet          |
-| KOSTAL       | SunSpec Modbus TCP              | Ethernet          |
-| Huawei       | Modbus TCP (proprietary)        | Ethernet          |
-| Deye / Solis | Modbus RTU/TCP                  | RS-485 / Ethernet |
-| Growatt      | Modbus RTU                      | RS-485            |
+Almost all inverters can be read via **Modbus TCP**, many also via **Modbus RTU** (RS-485). Many manufacturers follow **SunSpec**, an open standard with defined Modbus registers for:
 
-### SunSpec Alliance
+- AC and DC power, energy, voltage, frequency
+- operating state and fault codes
+- setpoints for active power limitation and reactive power
 
-**SunSpec** is an open standard for the interface between inverters and EMS/monitoring. It defines standardised Modbus registers for:
+Whether and how completely SunSpec is supported is in the manufacturer documentation. Some also offer their own registers or a REST API.
 
-- Instantaneous power (AC/DC), energy (kWh), frequency, voltage
-- Operating state, error code
-- Power control (active power curtailment, reactive power)
+Control mainly needs a **meter at the grid connection point** that delivers import and export in real time, for example via Modbus. Only then does the EMS know how much surplus there is.
 
-```
-EMS (Modbus TCP client)
-     │
-     ├── Inverter 1: SunSpec Modbus TCP → P_AC = 3.4 kW
-     ├── Inverter 2: SunSpec Modbus TCP → P_AC = 2.1 kW
-     └── Battery: SunSpec Modbus TCP → SOC = 72%
-```
+## Limiting Export
 
----
+**Switzerland:** there is no fixed limit like the former German 70 % rule. Since 2026 the grid operator may curtail feed-in to support the grid. The production loss may be at most 3 % of a system's annual production. Some grid operators require a limit for large systems in the connection application.
 
-## Export Limitation (70% Rule, Zero Export)
+**Germany:** the 70 % rule under the EEG was dropped for new systems from 2023. Under the "solar peak law", new systems commissioned from 25 February 2025 are limited to 60 % export power until a smart metering system with control box is installed.
 
-### 70% Curtailment (DE, VDE-AR-N 4105)
+**Zero export:** the EMS controls the inverter output so that nothing is exported at the grid connection point. This needs fast measurement there and an inverter that accepts power setpoints.
 
-Grid-connected systems up to 25 kWp may export a maximum of 70% of rated capacity to the grid. The EMS or inverter limits output accordingly:
+## Self-Consumption Communities (CH)
 
-```
-P_export = P_PV − P_load
-If P_export > 0.7 × P_peak → curtail inverter output
-```
-
-### Zero Export
-
-For tenant electricity, self-consumption installations without feed-in tariff: the EMS controls inverter output so that `P_export ≈ 0`. Requires real-time measurement at the grid connection point (4–20 mA or Modbus meter).
-
----
+- **ZEV**, self-consumption association: several parties in a building or on neighbouring plots share solar power and have a single grid connection towards the grid operator. Internal billing needs its own meters.
+- **vZEV**, virtual ZEV: like a ZEV, but using the grid operator's meters
+- **LEG**, local electricity community: possible since 1 January 2026; producers and consumers in the same municipality and on the same grid operator's network share power over the public grid at a reduced network tariff. All need smart meters.
 
 ## Surplus Control
 
-The EMS continuously compares PV yield with consumption and controls flexible loads:
+The EMS continuously compares generation and consumption and switches on loads in a defined order, for example:
 
-```
-PV surplus (kW)
-       │
-  ┌────▼────────────────────────────────────────┐
-  │ EMS surplus logic                           │
-  │                                             │
-  │ 1. Charge battery storage (priority high)   │
-  │ 2. Charge EV (dynamic, min. 6 A)           │
-  │ 3. Activate heat pump DHW charging          │
-  │ 4. Switch on immersion heater               │
-  └─────────────────────────────────────────────┘
-```
+1. Heat pump: charge hot water or buffer to a higher setpoint, for example via SG-Ready
+2. Electric car with dynamic charging current
+3. Charge the battery
+4. Immersion heater, only when everything else is full
 
-**Important for EV charging:** Observe minimum charge power (single-phase min. ~1.4 kW, three-phase min. ~4.1 kW). Below this threshold PV charging is not viable → hysteresis required.
+The order depends on the building. A thermal store often uses the energy better than the battery; the battery, in turn, shifts power into the evening.
 
----
+**Electric car:** a car charges at 6 A minimum. That is about 1.4 kW single-phase and about 4.1 kW three-phase. If the surplus is below that, it is not enough. To keep charging from constantly starting and stopping, hysteresis and minimum times are needed. Wallboxes with phase switching can change between single- and three-phase.
 
-## PV Yield Forecast
+## Forecast
 
-For predictive load management (battery charge planning, DHW boosting):
+A yield forecast allows planning ahead: do not charge the battery from the grid in the morning if a sunny day is coming; shift the heat pump to noon. Sources are weather services with irradiance forecasts and specialised providers. See [Model Predictive Control](/wissen/mpc-ga).
 
-- **Weather forecast APIs**: Open-Meteo (free), Solcast (commercial, highly accurate)
-- **Irradiance data**: Global Horizontal Irradiance (GHI), Direct Normal Irradiance (DNI)
-- Forecast enables: not fully charging the battery in the morning (leaving room for PV surplus), shifting dishwasher to midday
+## Example Integration
 
----
+| Component             | Connection                   | Task                                        |
+| --------------------- | ---------------------------- | ------------------------------------------- |
+| PV inverter           | Modbus TCP, SunSpec          | power, yield, limitation                    |
+| Grid connection meter | Modbus TCP or RTU            | import and export in real time              |
+| Battery               | Modbus TCP                   | state of charge, charge and discharge power |
+| Charging station      | OCPP or Modbus               | set charging current                        |
+| Heat pump             | SG-Ready or Modbus           | operation with raised setpoint              |
+| EMS or BMS            | collects everything, decides | surplus control, load management            |
 
-## BA Integration Example
+## Typical Values
 
-```
-PV system 10 kWp
-     │
-Inverter (SunSpec Modbus TCP) ──── EMS / Home Assistant
-     │                                   │
-Grid ─── Meter ─────────────── Grid meter (Modbus TCP)
-                                         │
-                              ┌──────────┼────────────┐
-                              │          │             │
-                          Battery   EV charger   Heat pump
-                        (SunSpec)  (OCPP)    (SG-Ready / Modbus)
-```
+| Quantity                                             | Guide value            | Note                                              |
+| ---------------------------------------------------- | ---------------------- | ------------------------------------------------- |
+| Annual yield, Swiss Plateau                          | about 900–1100 kWh/kWp | south-facing, good tilt                           |
+| Self-consumption single-family house without storage | about 25–35 %          | strongly dependent on system size and consumption |
+| Self-consumption with battery                        | about 50–70 %          | depending on storage size                         |
+| Inverter efficiency                                  | 96–98 %                | European efficiency                               |
 
----
+## Standards and Rules
 
-## Typical PV System Parameters
-
-| Parameter                             | Value                 | Notes                           |
-| ------------------------------------- | --------------------- | ------------------------------- |
-| Annual yield                          | 900–1,100 kWh/kWp     | CH/Central Europe, south-facing |
-| Peak output summer half-year          | 80–95% of rated power | Clear day                       |
-| Self-consumption rate without storage | 25–35%                | Typical single-family home      |
-| Self-consumption rate with storage    | 55–80%                | Depending on storage size       |
-| Inverter efficiency                   | 96–98%                | String inverter                 |
+- **Utility technical requirements and VSE industry documents** for grid connection (CH)
+- **EN 50549-1** — Requirements for generating plants connected to the low-voltage grid
+- **VDE-AR-N 4105** — Generating plants on the low-voltage grid (DE)
+- **SunSpec** — open Modbus information models for inverters and storage

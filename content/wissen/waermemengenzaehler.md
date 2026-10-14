@@ -25,308 +25,186 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related: [mbus, sensoren, ems-lastmanagement, hydraulischer-abgleich, fernwaerme]
 norm: [EN 1434, MID (2014/32/EU), WELMEC 7.2]
-updated: 2026-05-14
+updated: 2026-10-14
 lang: de
 ---
 
 # Wärmemengenzähler — Funktion, Einbau und Auslesung
 
-Ein **Wärmemengenzähler (WMZ)** misst die übertragene Wärmemenge oder Kältemenge in einem hydraulischen Kreis. Er ist unverzichtbar für Energieabrechnung, Effizienzmonitoring und Lastmanagement.
+Ein **Wärmezähler** misst die Wärme- oder Kältemenge, die in einem Wasserkreis übertragen wird. Er wird für die Abrechnung, für das Energiemonitoring und für die Fehlersuche in der Hydraulik gebraucht.
 
 ## Messprinzip
 
-```
-Physikalische Grundformel:
+Der Zähler besteht aus drei Teilen:
 
-Q [kWh] = V̇ [m³/h] × ρ [kg/m³] × cp [kJ/(kg·K)] × ΔT [K] × t [h] / 3600
-```
+- **Durchflusssensor** im Vor- oder Rücklauf
+- **Temperaturfühlerpaar**, ein Fühler im Vorlauf, einer im Rücklauf
+- **Rechenwerk**, das aus beiden laufend die Leistung berechnet und die Energie aufsummiert
 
-Vereinfacht für Wasser (ρ × cp ≈ 4.18 kJ/(kg·K) → 1.163 kWh/(m³·K)):
+<p class="formel">Q = ∫ V̇ · ρ · c<sub>p</sub> · (θ<sub>VL</sub> − θ<sub>RL</sub>) dt</p>
 
-```
-Q [kWh] ≈ V̇ [m³/h] × 1.163 × ΔT [K] × Zeit
-```
+Für Wasser ist ρ · c<sub>p</sub> ≈ 4190 kJ/(m³·K) = 1.163 kWh/(m³·K):
 
-**Drei Komponenten** im Wärmemengenzähler:
+<p class="formel">P [kW] ≈ 1.163 · V̇ [m³/h] · ΔT [K]</p>
 
-```
-Vorlauf →──[Durchflussmesser]──────────►
-              ↑
-          Volumen V̇         [Rechenwerk: integriert Q]
-              ↑
-         [Temp.fühler VL]  [Temp.fühler RL]
-                               ↑
-                   Rücklauf ←──────────
-```
+Das Rechenwerk rechnet mit den temperaturabhängigen Stoffwerten von Wasser und ist deshalb genauer als diese Faustformel.
 
----
+## Durchflusssensoren
 
-## Messprinzipien Durchfluss
+| Prinzip                 | Eigenschaften                                                       |
+| ----------------------- | ------------------------------------------------------------------- |
+| **Ultraschall**         | keine beweglichen Teile, heute Standard                             |
+| **Flügelrad**           | mechanisch, günstig, empfindlich auf Schmutz, im Bestand verbreitet |
+| **Magnetisch-induktiv** | sehr genau, für grosse Nennweiten                                   |
 
-| Prinzip                | Beschreibung          | Genauigkeit | Einsatz                |
-| ---------------------- | --------------------- | ----------- | ---------------------- |
-| **Ultraschall**        | Laufzeitdifferenz     | ±1–3 %      | Standard, wartungsfrei |
-| **Flügelrad**          | Mechanisch, rotierend | ±2–5 %      | Einfach, günstig       |
-| **Magnetisch (MID)**   | Induktiv              | ±0.5–1 %    | Hohe Genauigkeit       |
-| **Wirkdruckverfahren** | Blende/Venturi        | ±1–2 %      | Grosse DN              |
+## Genauigkeitsklassen nach EN 1434
 
-**Ultraschall** ist heute Standard — keine beweglichen Teile, daher wartungsarm und langlebig.
+Die Klassen beziehen sich auf den Durchflusssensor. Die zulässige Abweichung hängt vom Durchfluss ab und wird bei kleinem Durchfluss grösser.
 
----
+| Klasse | Fehlergrenze Durchflusssensor   | Höchstens |
+| ------ | ------------------------------- | --------- |
+| **1**  | ±(1 + 0.01 · q<sub>p</sub>/q) % | 3.5 %     |
+| **2**  | ±(2 + 0.02 · q<sub>p</sub>/q) % | 5 %       |
+| **3**  | ±(3 + 0.05 · q<sub>p</sub>/q) % | 5 %       |
 
-## Genauigkeitsklassen (EN 1434)
+q_p ist der Nenndurchfluss, q der aktuelle. **Klasse 1 ist die genaueste.** Für Gebäude sind Klasse 2 und 3 üblich. Dazu kommen die Fehlergrenzen von Fühlerpaar und Rechenwerk.
 
-| Klasse     | Genauigkeit | Anwendung                           |
-| ---------- | ----------- | ----------------------------------- |
-| **1**      | ±5 %        | Einfache Systeme                    |
-| **2**      | ±3–5 %      | Standard Wohnbau-Abrechnung         |
-| **3**      | ±2 %        | Genauere Anwendungen                |
-| **MI-004** | MID-konform | Abrechnungsrelevant (Pflicht CH/EU) |
+Ein Zähler, der viel zu gross gewählt ist, läuft meist bei kleinem Durchfluss und misst dort ungenau. Den Zähler nach dem tatsächlichen Durchfluss auslegen, nicht nach der Rohrnennweite.
 
-**MID** (Measuring Instruments Directive, 2014/32/EU): Für Abrechnungszwecke muss WMZ MID-konform sein und darf nur durch geeichten Zähler ersetzt werden.
+## Eichung und Abrechnung
 
----
+Werden Kosten nach dem Zähler verrechnet, braucht es einen konformitätsbewerteten Zähler, und er muss periodisch nachgeprüft oder ersetzt werden.
 
-## Einbau-Anforderungen
+| Land | Rechtsgrundlage                                                                                              |
+| ---- | ------------------------------------------------------------------------------------------------------------ |
+| CH   | Messmittelverordnung und Verordnung des EJPD über Messmittel für thermische Energie; Auskunft gibt das METAS |
+| EU   | Messgeräterichtlinie 2014/32/EU (MID), Anhang MI-004 für Wärmezähler                                         |
+| DE   | Mess- und Eichgesetz, Eichfrist für Wärmezähler 5 Jahre                                                      |
 
-### Einbauort
+Die MID gilt für Wasser. **Kältezähler mit Glykol** brauchen ein Rechenwerk, das Art und Konzentration des Frostschutzmittels berücksichtigt. Ohne diese Korrektur misst der Zähler einige Prozent falsch.
 
-```
-Vorlauf:  besser → höhere Genauigkeit (weniger Gasblasen)
-Rücklauf: alternativ (oft einfacher)
+## Einbau
 
-Einbaulängen (Ultraschall):
-  Vorlauf (Einlauf): mind. 5× DN gerades Rohr
-  Nachlauf:          mind. 3× DN gerades Rohr
+- **Einbauort:** Die meisten Zähler sitzen im **Rücklauf**, weil die tiefere Temperatur den Durchflusssensor schont. Der Einbauort muss im Rechenwerk eingestellt sein, sonst stimmt die Dichtekorrektur nicht.
+- **Beruhigungsstrecken** nach Herstellerangabe. Viele Ultraschallzähler brauchen keine; Flügelradzähler und grosse Nennweiten oft schon.
+- **Absperrungen** vor und nach dem Zähler, damit er sich ohne Entleeren der Anlage tauschen lässt.
+- **Fühlerpaar:** Die beiden Fühler sind als Paar abgeglichen und dürfen nicht einzeln getauscht oder die Kabel gekürzt werden. Bei kleinen Nennweiten tauchen sie direkt ins Wasser ein, etwa über einen Kugelhahn mit Fühleranschluss.
+- **Kältezähler** brauchen ein für Kondensat geeignetes Gehäuse, oft mit abgesetztem Rechenwerk.
 
-Nicht direkt nach:
-  Pumpe, T-Stück, Ventil → Strömungsstörung → Messfehler
-```
+## Auslesung
 
-### Kugelhähne für Wartung
+| Schnittstelle              | Beschreibung                                          |
+| -------------------------- | ----------------------------------------------------- |
+| **M-Bus**                  | Standard für Zähler nach EN 13757, Zweidrahtbus       |
+| **Wireless M-Bus**         | Funk, meist 868 MHz, für Nachrüstung und Fernablesung |
+| **Modbus, BACnet**         | bei manchen Geräten als Option                        |
+| **Impulsausgang**          | ein Impuls je Energiemenge, nur Zählerstand           |
+| **Optische Schnittstelle** | Infrarot-Auslesekopf vor Ort                          |
 
-```
-Vorlauf → [Kugelhahn] → [WMZ] → [Kugelhahn] → weiter
-                              ↑
-                         Bypass (optional, für Wartung ohne Abschaltung)
-```
+Über M-Bus liefert der Zähler typisch: Energie und Volumen kumuliert, aktuelle Leistung und Durchfluss, Vor- und Rücklauftemperatur, Stichtagswerte und Fehlercode. Die Anbindung läuft über einen M-Bus-Pegelwandler oder ein Gateway an die GLT. Siehe [M-Bus](/wissen/mbus).
 
-### Temperaturpaare
+## Was die GA damit anfangen kann
 
-Beide Temperaturfühler (Vor- und Rücklauf) müssen **geeichtes Paar** sein (gleiche Kalibrierung → minimale Differenzfehler).
-
----
-
-## Auslesung und Schnittstellen
-
-| Schnittstelle         | Beschreibung                             | GA-Einsatz                |
-| --------------------- | ---------------------------------------- | ------------------------- |
-| **M-Bus**             | Primäres Protokoll für Zähler (EN 13757) | Standard in CH/DE/EU      |
-| **wM-Bus**            | Funk-M-Bus (868 MHz)                     | Nachrüstung, Fernablesung |
-| **Modbus RTU**        | Alternativ bei neueren Geräten           | GA-Integration            |
-| **Impulsausgang**     | S0-Schnittstelle, 1 Impuls = x kWh       | Einfache Zählung          |
-| **Optischer Ausgang** | IR-Auslesung (Ableseschwand)             | Manuelle Ablesung         |
-| **Display**           | Lokale Anzeige                           | Vor-Ort-Kontrolle         |
-
-### M-Bus Auslesung
-
-```
-GLT / M-Bus-Master → [M-Bus-Pegelwandler] → M-Bus-Linie → WMZ (Slave)
-
-Zähler-Datenpunkte (EN 13757):
-  - Wärmemenge kumuliert [kWh]
-  - Volumenstrom [m³/h]
-  - Vorlauftemperatur [°C]
-  - Rücklauftemperatur [°C]
-  - Leistung [kW]
-  - Betriebsstunden [h]
-  - Datums-/Zeitstempel
-```
-
----
-
-## Kalibrierung und Eichung
-
-**Kalibrierung:** Hersteller kalibriert bei Produktion, Zertifikat liegt bei.
-**Eichung:** Staatliche Eichung für Abrechnungszähler (Pflicht für Mieterabrechnung):
-
-| Land | Eichperiode                                 | Behörde               |
-| ---- | ------------------------------------------- | --------------------- |
-| DE   | 5 Jahre                                     | Eichamt               |
-| CH   | 5 Jahre (Ultraschall) / 2 Jahre (Flügelrad) | Metas / Kant. Eichamt |
-| AT   | 5 Jahre                                     | BEV                   |
-
----
-
-## Typische GA-Datenpunkte WMZ
-
-| Datenpunkt             | Einheit | Beschreibung        |
-| ---------------------- | ------- | ------------------- |
-| Wärmemenge kumuliert   | kWh     | Energiezählerstand  |
-| Volumenmenge kumuliert | m³      | Volumenzählerstand  |
-| Aktuelle Leistung      | kW      | Momentanleistung    |
-| Aktueller Volumenstrom | m³/h    | Momentan-Durchfluss |
-| Vorlauftemperatur      | °C      |                     |
-| Rücklauftemperatur     | °C      |                     |
-| Temperaturdifferenz ΔT | K       | Berechnet (VL − RL) |
-| Fehlercode             | —       | Zähler-Statusbyte   |
-
----
+| Auswertung                         | Zeigt                                                                         |
+| ---------------------------------- | ----------------------------------------------------------------------------- |
+| **Spreizung** ΔT über die Zeit     | zu kleine Spreizung heisst: zu viel Durchfluss, Abgleich oder Regelung prüfen |
+| **Leistung** über Aussentemperatur | Energie-Signatur, Heizgrenze, Fehlbetrieb im Sommer                           |
+| **Rücklauftemperatur**             | entscheidend für Brennwertkessel, Wärmepumpen, Fernwärme                      |
+| **Fehlercode**                     | Fühlerbruch, Luft im Durchflusssensor, Batterie                               |
 
 ## Normen
 
-- **EN 1434** — Wärmezähler, Anforderungen, Prüfung, Kennzeichnung
-- **MID 2014/32/EU** — Messgeräterichtlinie (Abrechnungspflicht)
-- **EN 13757** — M-Bus Kommunikationsprotokoll für Zähler
-- **WELMEC 7.2** — Leitfaden zur Anwendung der MID für Wärmezähler
+- **EN 1434** — Wärmezähler, Anforderungen, Prüfung, Einbau
+- **2014/32/EU (MID)**, Anhang MI-004 — Wärmezähler im EU-Recht
+- **EN 13757** — Kommunikationssysteme für Zähler, M-Bus und Wireless M-Bus
+- **WELMEC 7.2** — Leitfaden zur Software in Messgeräten
 
 <!-- EN -->
 
-A **heat meter (HM)** measures the heat energy or cooling energy transferred in a hydraulic circuit. It is indispensable for energy billing, efficiency monitoring, and load management.
+A **heat meter** measures the amount of heat or cooling transferred in a water circuit. It is used for billing, for energy monitoring and for troubleshooting the hydraulics.
 
-## Measurement Principle
+## Measuring Principle
 
-```
-Basic physical formula:
+The meter consists of three parts:
 
-Q [kWh] = V̇ [m³/h] × ρ [kg/m³] × cp [kJ/(kg·K)] × ΔT [K] × t [h] / 3600
-```
+- **Flow sensor** in the flow or return
+- **Temperature sensor pair**, one in the flow, one in the return
+- **Calculator**, which continuously computes the power from both and totals the energy
 
-Simplified for water (ρ × cp ≈ 4.18 kJ/(kg·K) → 1.163 kWh/(m³·K)):
+<p class="formel">Q = ∫ V̇ · ρ · c<sub>p</sub> · (θ<sub>flow</sub> − θ<sub>return</sub>) dt</p>
 
-```
-Q [kWh] ≈ V̇ [m³/h] × 1.163 × ΔT [K] × time
-```
+For water ρ · c<sub>p</sub> ≈ 4190 kJ/(m³·K) = 1.163 kWh/(m³·K):
 
-**Three components** in the heat meter:
+<p class="formel">P [kW] ≈ 1.163 · V̇ [m³/h] · ΔT [K]</p>
 
-```
-Supply →──[Flow meter]──────────────►
-              ↑
-          Volume V̇         [Calculator: integrates Q]
-              ↑
-         [Temp. sensor supply]  [Temp. sensor return]
-                                    ↑
-                    Return ←────────────
-```
+The calculator uses the temperature-dependent properties of water and is therefore more accurate than this rule of thumb.
 
----
+## Flow Sensors
 
-## Flow Measurement Principles
+| Principle           | Properties                                                               |
+| ------------------- | ------------------------------------------------------------------------ |
+| **Ultrasonic**      | no moving parts, standard today                                          |
+| **Vane wheel**      | mechanical, inexpensive, sensitive to dirt, common in existing buildings |
+| **Electromagnetic** | very accurate, for large nominal sizes                                   |
 
-| Principle                 | Description             | Accuracy | Application                |
-| ------------------------- | ----------------------- | -------- | -------------------------- |
-| **Ultrasonic**            | Transit time difference | ±1–3 %   | Standard, maintenance-free |
-| **Impeller**              | Mechanical, rotating    | ±2–5 %   | Simple, low cost           |
-| **Electromagnetic (MID)** | Inductive               | ±0.5–1 % | High accuracy              |
-| **Differential pressure** | Orifice / Venturi       | ±1–2 %   | Large DN                   |
+## Accuracy Classes per EN 1434
 
-**Ultrasonic** is today's standard — no moving parts, therefore low-maintenance and long-lasting.
+The classes refer to the flow sensor. The permissible error depends on the flow rate and grows at low flow.
 
----
+| Class | Error limit flow sensor         | Maximum |
+| ----- | ------------------------------- | ------- |
+| **1** | ±(1 + 0.01 · q<sub>p</sub>/q) % | 3.5 %   |
+| **2** | ±(2 + 0.02 · q<sub>p</sub>/q) % | 5 %     |
+| **3** | ±(3 + 0.05 · q<sub>p</sub>/q) % | 5 %     |
 
-## Accuracy Classes (EN 1434)
+q_p is the permanent flow rate, q the actual one. **Class 1 is the most accurate.** Classes 2 and 3 are usual for buildings. The error limits of the sensor pair and the calculator come on top.
 
-| Class      | Accuracy      | Application                        |
-| ---------- | ------------- | ---------------------------------- |
-| **1**      | ±5 %          | Simple systems                     |
-| **2**      | ±3–5 %        | Standard residential billing       |
-| **3**      | ±2 %          | More precise applications          |
-| **MI-004** | MID-compliant | Billing-relevant (mandatory CH/EU) |
+A meter that is much too large usually runs at low flow and measures inaccurately there. Size the meter for the actual flow, not for the pipe size.
 
-**MID** (Measuring Instruments Directive, 2014/32/EU): For billing purposes, the heat meter must be MID-compliant and may only be replaced by a verified meter.
+## Verification and Billing
 
----
+If costs are allocated by the meter, a conformity-assessed meter is required, and it must be periodically re-verified or replaced.
 
-## Installation Requirements
+| Country | Legal basis                                                                                                                |
+| ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| CH      | Measuring Instruments Ordinance and FDJP Ordinance on measuring instruments for thermal energy; METAS provides information |
+| EU      | Measuring Instruments Directive 2014/32/EU (MID), annex MI-004 for heat meters                                             |
+| DE      | Measurement and Verification Act, verification period for heat meters 5 years                                              |
 
-### Installation Location
+The MID applies to water. **Cooling meters with glycol** need a calculator that takes type and concentration of the antifreeze into account. Without this correction the meter is off by several percent.
 
-```
-Supply pipe:  preferred → higher accuracy (fewer gas bubbles)
-Return pipe:  alternative (often more accessible)
+## Installation
 
-Straight pipe lengths (ultrasonic):
-  Upstream (inlet): at least 5× DN straight pipe
-  Downstream:       at least 3× DN straight pipe
+- **Location:** most meters sit in the **return**, because the lower temperature is easier on the flow sensor. The location must be set in the calculator, otherwise the density correction is wrong.
+- **Straight runs** as specified by the manufacturer. Many ultrasonic meters need none; vane wheel meters and large sizes often do.
+- **Isolating valves** before and after the meter, so it can be replaced without draining the system.
+- **Sensor pair:** the two sensors are matched as a pair and must not be replaced individually or have their cables shortened. In small sizes they are immersed directly in the water, for example via a ball valve with sensor port.
+- **Cooling meters** need a housing suited for condensation, often with a remote calculator.
 
-Not immediately after:
-  Pump, T-piece, valve → flow disturbance → measurement error
-```
+## Readout
 
-### Ball Valves for Maintenance
+| Interface             | Description                                             |
+| --------------------- | ------------------------------------------------------- |
+| **M-Bus**             | standard for meters per EN 13757, two-wire bus          |
+| **Wireless M-Bus**    | radio, usually 868 MHz, for retrofit and remote reading |
+| **Modbus, BACnet**    | optional on some devices                                |
+| **Pulse output**      | one pulse per energy quantity, meter reading only       |
+| **Optical interface** | infrared reading head on site                           |
 
-```
-Supply → [Ball valve] → [HM] → [Ball valve] → onward
-                              ↑
-                         Bypass (optional, for maintenance without shutdown)
-```
+Via M-Bus the meter typically delivers: cumulative energy and volume, current power and flow, flow and return temperature, billing date values and error code. It connects to the BMS via an M-Bus level converter or a gateway. See [M-Bus](/wissen/mbus).
 
-### Temperature Pairs
+## What the BA Can Do with It
 
-Both temperature sensors (supply and return) must be a **matched pair** (same calibration → minimal differential errors).
-
----
-
-## Readout and Interfaces
-
-| Interface          | Description                            | BA application           |
-| ------------------ | -------------------------------------- | ------------------------ |
-| **M-Bus**          | Primary protocol for meters (EN 13757) | Standard in CH/DE/EU     |
-| **wM-Bus**         | Wireless M-Bus (868 MHz)               | Retrofit, remote reading |
-| **Modbus RTU**     | Alternative in newer devices           | BA integration           |
-| **Pulse output**   | S0 interface, 1 pulse = x kWh          | Simple counting          |
-| **Optical output** | IR readout (reading window)            | Manual readout           |
-| **Display**        | Local indication                       | On-site check            |
-
-### M-Bus Readout
-
-```
-BMS / M-Bus master → [M-Bus level converter] → M-Bus line → HM (slave)
-
-Meter data points (EN 13757):
-  - Heat energy cumulative [kWh]
-  - Volume flow [m³/h]
-  - Supply temperature [°C]
-  - Return temperature [°C]
-  - Power [kW]
-  - Operating hours [h]
-  - Date/time stamp
-```
-
----
-
-## Calibration and Verification
-
-**Calibration:** Manufacturer calibrates during production; certificate included.
-**Legal verification:** Statutory verification for billing meters (mandatory for tenant billing):
-
-| Country | Verification period                       | Authority                   |
-| ------- | ----------------------------------------- | --------------------------- |
-| DE      | 5 years                                   | Weights and Measures Office |
-| CH      | 5 years (ultrasonic) / 2 years (impeller) | Metas / Cantonal W&M Office |
-| AT      | 5 years                                   | BEV                         |
-
----
-
-## Typical BA Data Points — Heat Meter
-
-| Data point                  | Unit | Description                  |
-| --------------------------- | ---- | ---------------------------- |
-| Heat energy cumulative      | kWh  | Energy meter reading         |
-| Volume cumulative           | m³   | Volume meter reading         |
-| Current power               | kW   | Instantaneous power          |
-| Current volume flow         | m³/h | Instantaneous flow           |
-| Supply temperature          | °C   |                              |
-| Return temperature          | °C   |                              |
-| Temperature differential ΔT | K    | Calculated (supply − return) |
-| Error code                  | —    | Meter status byte            |
-
----
+| Evaluation                            | Shows                                                         |
+| ------------------------------------- | ------------------------------------------------------------- |
+| **Temperature difference** over time  | too small means too much flow; check balancing or control     |
+| **Power** against outdoor temperature | energy signature, heating limit, faulty operation in summer   |
+| **Return temperature**                | decisive for condensing boilers, heat pumps, district heating |
+| **Error code**                        | sensor break, air in the flow sensor, battery                 |
 
 ## Standards
 
-- **EN 1434** — Heat meters: requirements, testing, marking
-- **MID 2014/32/EU** — Measuring Instruments Directive (billing obligation)
-- **EN 13757** — M-Bus communication protocol for meters
-- **WELMEC 7.2** — Guide to MID application for heat meters
+- **EN 1434** — Heat meters, requirements, testing, installation
+- **2014/32/EU (MID)**, annex MI-004 — heat meters in EU law
+- **EN 13757** — Communication systems for meters, M-Bus and wireless M-Bus
+- **WELMEC 7.2** — Software guide for measuring instruments

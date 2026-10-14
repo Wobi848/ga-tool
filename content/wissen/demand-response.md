@@ -27,7 +27,7 @@ area: [ga, elektro]
 related: [ems-lastmanagement, sg-ready, pv-integration, batteriespeicher, iso50001]
 rechner: []
 norm: [EU Richtlinie 2019/944, USEF Framework, IEC 61968, ENTSO-E]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -55,14 +55,14 @@ lang: de
 Verbraucher reagieren auf variable Strompreise:
 
 - **Time-of-Use (ToU)**: Festgelegte Hoch-/Niedertarifzeiten
-- **Real-Time Pricing (RTP)**: Stündlicher Spotmarktpreis (EPEX SPOT)
+- **Real-Time Pricing (RTP)**: Spotmarktpreis, im Day-ahead-Markt seit Oktober 2025 in Viertelstunden
 - **Critical Peak Pricing (CPP)**: Stark erhöhter Preis an wenigen kritischen Stunden
 
 ### Anreizbasiertes DR (Incentive-Based DR)
 
 Netzbetreiber zahlen für bereitgestellte Flexibilität:
 
-- **FCR** (Frequency Containment Reserve): Sekundenreserve ±0,1 Hz, Reaktionszeit < 30 s
+- **FCR** (Frequency Containment Reserve): Primärregelung, voll aktiviert bei ±200 mHz Frequenzabweichung, innerhalb von 30 s
 - **aFRR** (automatic Frequency Restoration Reserve): Minutenreserve, automatisch aktiviert
 - **mFRR** (manual FRR): Manuelle Aktivierung, Reaktionszeit < 12,5 min
 - **Redispatch 2.0 (DE)**: Netzbetreiber kann Verbraucher/Erzeuger direktsteuern
@@ -85,15 +85,12 @@ Netzbetreiber zahlen für bereitgestellte Flexibilität:
 
 ## Architektur: Aggregator-Modell
 
-```
-Gebäude A (100 kW flex.)
-Gebäude B (50 kW flex.)    ────► Aggregator ────► Regelenergiemarkt
-Gebäude C (80 kW flex.)                           (ENTSO-E / Swissgrid)
-         │
-    GA / EMS ◄──── DR-Signal (Aktivierung, Menge, Dauer)
-         │
-   Flexible Lasten
-```
+| Ebene             | Aufgabe                                                         |
+| ----------------- | --------------------------------------------------------------- |
+| Regelenergiemarkt | Swissgrid schreibt Regelleistung aus                            |
+| Aggregator        | bündelt viele Gebäude zu einem Angebot, schickt Abrufe weiter   |
+| EMS oder GA       | empfängt das Signal mit Menge und Dauer, verteilt es auf Lasten |
+| flexible Lasten   | Wärmepumpe, Kälte, Batterie, Ladestationen                      |
 
 Der **Aggregator** bündelt Kleinflexibilitäten zu handelbaren Paketen (Mindestgrösse FCR: 1 MW). Er kommuniziert mit dem EMS über proprietäre APIs oder standardisierte Protokolle (CIM, USEF).
 
@@ -116,23 +113,18 @@ Der **Aggregator** bündelt Kleinflexibilitäten zu handelbaren Paketen (Mindest
 
 ### Einfaches Price-Based DR
 
-```
-EMS prüft stündlich EPEX-Spot-Preis (via API):
-  Wenn Preis < 5 ct/kWh:
-    → Batterie laden, WP-Leistung erhöhen (SG-Ready Zustand 4)
-  Wenn Preis > 25 ct/kWh:
-    → Batterie entladen, HVAC reduzieren (innerhalb Komfortgrenzen)
-```
+- Das EMS holt die Day-ahead-Preise, heute in Viertelstunden aufgelöst, über eine Schnittstelle des Lieferanten oder der Börse.
+- **Tiefer Preis:** Batterie laden, Wärmepumpe mit erhöhtem Sollwert, etwa SG-Ready Zustand 3 oder 4.
+- **Hoher Preis:** Batterie entladen, Kälte und Lüftung im Rahmen der Komfortgrenzen zurücknehmen.
+- Die Schwellen ergeben sich aus dem Tarif. Ohne dynamischen Tarif bringt Preis-DR dem Gebäude nichts.
 
 ### Peak-Shaving (Leistungspreisoptimierung)
 
-```
-EMS überwacht 15-min-Mittelwert am HAK:
-  Wenn P_15min > P_Peak_Limit:
-    → Batteriespeicher entladen
-    → E-Autos auf Mindestladestrom reduzieren
-    → Klimaanlage Sollwert +2 K anheben (temporär)
-```
+Das EMS überwacht den Viertelstunden-Mittelwert am Netzanschluss. Droht er das Limit zu überschreiten:
+
+1. Batterie entladen
+2. E-Autos auf Mindestladestrom reduzieren
+3. Kühlsollwert vorübergehend um 1 bis 2 K anheben
 
 ---
 
@@ -144,7 +136,7 @@ EMS überwacht 15-min-Mittelwert am HAK:
 | Schweiz     | Regelenergiemarkt Swissgrid, Ancillary Services         |
 | EU          | Clean Energy Package (EU 2019/944), ACER Guidelines     |
 
-In der Schweiz: DR-Teilnahme für Gebäude über Aggregatoren wie **Alpiq**, **BKW Energie**, **EDF Flexibilis** möglich — ab ca. 50 kW steuerbare Leistung wirtschaftlich.
+In der Schweiz nehmen Gebäude über Aggregatoren am Regelenergiemarkt teil. Ob sich das lohnt, hängt von der steuerbaren Leistung, der Verfügbarkeit und dem Aufwand für Messung und Kommunikation ab.
 
 <!-- EN -->
 
@@ -170,14 +162,14 @@ In der Schweiz: DR-Teilnahme für Gebäude über Aggregatoren wie **Alpiq**, **B
 Consumers respond to variable electricity prices:
 
 - **Time-of-Use (ToU)**: Fixed high-/low-tariff periods
-- **Real-Time Pricing (RTP)**: Hourly spot market price (EPEX SPOT)
+- **Real-Time Pricing (RTP)**: spot market price, in the day-ahead market in quarter hours since October 2025
 - **Critical Peak Pricing (CPP)**: Strongly elevated price during a few critical hours
 
 ### Incentive-Based DR
 
 Grid operators pay for provided flexibility:
 
-- **FCR** (Frequency Containment Reserve): Second-by-second reserve ±0.1 Hz, response time < 30 s
+- **FCR** (Frequency Containment Reserve): primary control, fully activated at ±200 mHz frequency deviation, within 30 s
 - **aFRR** (automatic Frequency Restoration Reserve): Minute reserve, automatically activated
 - **mFRR** (manual FRR): Manual activation, response time < 12.5 min
 - **Redispatch 2.0 (DE)**: Grid operator can directly control consumers/generators
@@ -200,15 +192,12 @@ Grid operators pay for provided flexibility:
 
 ## Architecture: Aggregator Model
 
-```
-Building A (100 kW flex.)
-Building B  (50 kW flex.)  ────► Aggregator ────► Balancing energy market
-Building C  (80 kW flex.)                         (ENTSO-E / Swissgrid)
-         │
-    BA / EMS ◄──── DR signal (activation, quantity, duration)
-         │
-   Flexible loads
-```
+| Level            | Task                                                                  |
+| ---------------- | --------------------------------------------------------------------- |
+| Balancing market | Swissgrid tenders balancing power                                     |
+| Aggregator       | pools many buildings into one offer, forwards activations             |
+| EMS or BA        | receives the signal with amount and duration, distributes it to loads |
+| Flexible loads   | heat pump, cooling, battery, charging stations                        |
 
 The **aggregator** bundles small flexibilities into tradeable packages (minimum size for FCR: 1 MW). It communicates with the EMS via proprietary APIs or standardised protocols (CIM, USEF).
 
@@ -231,23 +220,18 @@ The **aggregator** bundles small flexibilities into tradeable packages (minimum 
 
 ### Simple Price-Based DR
 
-```
-EMS checks EPEX spot price hourly (via API):
-  If price < 5 ct/kWh:
-    → Charge battery, increase heat pump output (SG-Ready state 4)
-  If price > 25 ct/kWh:
-    → Discharge battery, reduce HVAC (within comfort limits)
-```
+- The EMS retrieves the day-ahead prices, now in quarter-hour resolution, via an interface of the supplier or the exchange.
+- **Low price:** charge the battery, heat pump with raised setpoint, for example SG-Ready state 3 or 4.
+- **High price:** discharge the battery, cut back cooling and ventilation within comfort limits.
+- The thresholds follow from the tariff. Without a dynamic tariff, price-based DR brings the building nothing.
 
 ### Peak Shaving (Demand Charge Optimisation)
 
-```
-EMS monitors 15-min average at the meter:
-  If P_15min > P_peak_limit:
-    → Discharge battery storage
-    → Reduce EV charging to minimum current
-    → Raise air conditioning setpoint by +2 K (temporarily)
-```
+The EMS monitors the quarter-hour mean at the grid connection. If it threatens to exceed the limit:
+
+1. Discharge the battery
+2. Reduce electric cars to the minimum charging current
+3. Raise the cooling setpoint temporarily by 1 to 2 K
 
 ---
 
@@ -259,4 +243,4 @@ EMS monitors 15-min average at the meter:
 | Switzerland | Balancing energy market Swissgrid, Ancillary Services         |
 | EU          | Clean Energy Package (EU 2019/944), ACER Guidelines           |
 
-In Switzerland: DR participation for buildings is available via aggregators such as **Alpiq**, **BKW Energie**, **EDF Flexibilis** — economically viable from approx. 50 kW of controllable load.
+In Switzerland buildings take part in the balancing market via aggregators. Whether it pays depends on the controllable power, availability and the effort for metering and communication.

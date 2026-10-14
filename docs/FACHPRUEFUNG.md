@@ -175,22 +175,22 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 
 ### energie
 
-- ⬜ batteriespeicher
-- ⬜ demand-response
-- ⬜ e-mobility-lademanagement
-- ⬜ ems-lastmanagement
-- ⬜ energieausweis-kennzahlen
-- ⬜ energiemessung
-- ⬜ gradtage
-- ⬜ iso50001
-- ⬜ pv-integration
+- ✅ batteriespeicher
+- ✅ demand-response
+- ✅ e-mobility-lademanagement
+- ✅ ems-lastmanagement
+- ✅ energieausweis-kennzahlen
+- ✅ energiemessung
+- ✅ gradtage
+- ✅ iso50001
+- ✅ pv-integration
 - ✅ sg-ready
-- ⬜ waermemengenzaehler
+- ✅ waermemengenzaehler
 
 ### wirtschaftlichkeit
 
-- ⬜ amortisationsrechnung
-- ⬜ lebenszyklus-lcc
+- ✅ amortisationsrechnung
+- ✅ lebenszyklus-lcc
 
 ### gebaeude
 
@@ -383,3 +383,15 @@ Offen zum Gegenlesen: Normaussentemperaturen sind plausibel, aber nicht gegen SI
 | 14.10.2026 | ec-motoren                          | Vergleich: AC+FU «hoher Anlaufstrom», «Bürstenverschleiss»; EC ohne Oberschwingungen; unbelegtes Praxisbeispiel 30–40 %; IE4-Pflicht 2023 fehlte; RCD-Typ pauschal                                                                                                           | korrigiert; IEC TS 60034-30-2 für IE5                                                                                                       | VO (EU) 2019/1781                                                   |
 | 14.10.2026 | 5plus5-regeln                       | «VDE-geprüft»; Abnahme «nach NIV / EN 61557»; «Neutralleiter bei IT-Netzen»                                                                                                                                                                                                  | EN/IEC 60900; Erstprüfung, Schlusskontrolle, SiNa                                                                                           | Suva 84042, NIV                                                     |
 | 14.10.2026 | brandschutzklappen                  | «E90» statt EI 90 S; Rückstellung immer manuell (motorisch: automatisch); GA alarmiert Feuerwehr; erfundene Prüfintervalle «Vollprüfung 5–10 Jahre»; VdS 2226 und SIA 181 als BSK-Normen                                                                                     | neu: Ruhestromprinzip, Rolle BMA/Brandfallsteuerung, EN 15650 halbjährlich/jährlich, VKF                                                    | EN 15650, EN 13501-3                                                |
+| 14.10.2026 | gradtage                            | Definition Σ(12 − θ) statt HGT 20/12 = Σ(20 − θ) für θ < 12 °C; Stationstabelle passt zu keiner Definition (Zürich 2880 statt ≈ 3300 Kd); erfundene KGT- und Klimawandel-Tabellen; Pseudocode setzt Tageswert nicht zurück; «MeteoSchweiz ENET»                              | neu; Energiesignatur ergänzt; nur Warmwasser-freier Anteil bereinigen                                                                       | SIA 381/3 (HGT 20/12), MeteoSchweiz                                 |
+| 14.10.2026 | waermemengenzaehler                 | EN-1434-Klassen verkehrt (Klasse 1 ist die genaueste); «MI-004» als Klasse; CH-Eichfristen unbelegt; Einbau «besser im Vorlauf»; Glykol fehlte                                                                                                                               | neu; Fehlergrenzen je Klasse                                                                                                                | EN 1434                                                             |
+| 14.10.2026 | energiemessung                      | cos φ 0.9 = «10 % Blindleistung» (≈ 48 %); FU «cos φ 0.5» (cos φ ≈ 1, λ tief); Klassen A/B/C IEC 62053 zugeschrieben (EN 50470-3)                                                                                                                                            | Tabelle tan φ; λ vs cos φ; SVG Leistungsdreieck                                                                                             | IEC 62053, EN 50470-3                                               |
+| 14.10.2026 | pv-integration                      | 70-%-Regel als geltend (DE seit 2023 weg); CH-Regeln fehlten; Eigenverbrauch mit Speicher 55–80 %                                                                                                                                                                            | CH: Abregelung ≤ 3 % Jahresproduktion seit 2026, ZEV/vZEV/LEG; DE: 60 % ab 25.2.2025 ohne iMSys (Websuche)                                  | Swissolar, BSW-Solar                                                |
+| 14.10.2026 | batteriespeicher                    | LFP «kein thermisches Durchgehen»; Temperaturschutz pauschal; Herstellerzuordnungen                                                                                                                                                                                          | korrigiert                                                                                                                                  | —                                                                   |
+| 14.10.2026 | ems-lastmanagement                  | Regellogik am Netzanschluss vertauscht (bei Bezug Lasten zuschalten); SG-Ready falsch kodiert; «6 kW = 26 A»; Schieflast als Blindleistung; Audit «alle 3 Jahre»                                                                                                             | korrigiert, konsistent mit sg-ready                                                                                                         | BWP SG-Ready                                                        |
+| 14.10.2026 | demand-response                     | FCR «±0.1 Hz» (voll bei ±200 mHz); unbelegte Aggregatoren und 50-kW-Schwelle                                                                                                                                                                                                 | korrigiert; Day-ahead in Viertelstunden                                                                                                     | —                                                                   |
+| 14.10.2026 | e-mobility-lademanagement           | OCPP «IEC 63110-Basis» (2.0.1 = IEC 63584); OCPP 2.1 «Roaming»; Schieflast 16 A pauschal; Eichrecht als CH-Recht                                                                                                                                                             | korrigiert                                                                                                                                  | IEC 63584                                                           |
+| 14.10.2026 | energieausweis-kennzahlen           | GEAK-Klassen als feste kWh-Grenzen; alte Minergie-Zahlen; GEG Neubau 75 % (seit 2023: 55 %); 65-%-EE als «geplant»; Gewichtung «Öl 1.2»                                                                                                                                      | neu, ohne unbelegte Grenzwerte; MuKEn-Gewichtung                                                                                            | GEG 2024, MuKEn                                                     |
+| 14.10.2026 | iso50001                            | DE-Pflicht über §8a Spitzenausgleich (entfallen; heute EnEfG > 7.5 GWh); Auditzyklus verworren                                                                                                                                                                               | korrigiert                                                                                                                                  | EnEfG                                                               |
+| 14.10.2026 | amortisationsrechnung               | EN-15232-Einsparungen nicht aus der Norm, Prozente addiert; Förderbeträge unbelegt                                                                                                                                                                                           | f_BAC Büro aus EN ISO 52120-1; SIA 480                                                                                                      | EN ISO 52120-1                                                      |
+| 14.10.2026 | lebenszyklus-lcc                    | Rechnung korrekt; Ersatz im Endjahr ohne Restwert; ASCII                                                                                                                                                                                                                     | Tabelle, Hinweis Restwert                                                                                                                   | —                                                                   |

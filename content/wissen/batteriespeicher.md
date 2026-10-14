@@ -31,7 +31,7 @@ area: [ga, elektro]
 related: [pv-integration, ems-lastmanagement, sg-ready, energiemessung]
 rechner: []
 norm: [IEC 62619, IEC 62933, UL 9540, VDE-AR-E 2510-50]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -43,11 +43,11 @@ Ein **Battery Energy Storage System (BESS)** im Gebäude ermöglicht die zeitlic
 
 ## Zelltechnologien im Gebäudebereich
 
-| Technologie                     | Zellchemie | Vorteile                                               | Nachteile                |
-| ------------------------------- | ---------- | ------------------------------------------------------ | ------------------------ |
-| **LFP** (Lithium-Eisenphosphat) | LiFePO₄    | Sehr sicher, 4000+ Zyklen, kein Thermisches Durchgehen | Niedrigere Energiedichte |
-| **NMC** (Nickel-Mangan-Kobalt)  | LiNiMnCoO₂ | Höhere Energiedichte                                   | Teurer, empfindlicher    |
-| **NaS** (Natrium-Schwefel)      | —          | Grosse Kapazität (MW-Bereich)                          | Nur Industrieanwendung   |
+| Technologie                     | Zellchemie | Vorteile                                                                                         | Nachteile                |
+| ------------------------------- | ---------- | ------------------------------------------------------------------------------------------------ | ------------------------ |
+| **LFP** (Lithium-Eisenphosphat) | LiFePO₄    | sehr stabil, thermisches Durchgehen erst bei hohen Temperaturen und weniger heftig, 4000+ Zyklen | Niedrigere Energiedichte |
+| **NMC** (Nickel-Mangan-Kobalt)  | LiNiMnCoO₂ | Höhere Energiedichte                                                                             | Teurer, empfindlicher    |
+| **NaS** (Natrium-Schwefel)      | —          | Grosse Kapazität (MW-Bereich)                                                                    | Nur Industrieanwendung   |
 
 **Standard im Wohngebäude und KMU:** LFP — sicher, langlebig, kein Kobalteinsatz.
 
@@ -59,12 +59,7 @@ Ein **Battery Energy Storage System (BESS)** im Gebäude ermöglicht die zeitlic
 
 Batterie-Wechselrichter ist unabhängig vom PV-Wechselrichter am AC-Bus angeschlossen:
 
-```
-PV-WR ──┐
-         ├── AC-Bus (230/400V) ── Netz
-Bat-WR ──┘         │
-                Verbraucher
-```
+PV-Wechselrichter und Batteriewechselrichter hängen getrennt am AC-Netz des Gebäudes. Der PV-Strom wird zuerst in Wechselstrom gewandelt und für die Batterie wieder in Gleichstrom.
 
 - Vorteil: Flexibel, WR austauschbar, auch für Nachrüstung
 - Nachteil: Doppelwandlung (PV → AC → Batterie) reduziert Wirkungsgrad leicht
@@ -73,11 +68,7 @@ Bat-WR ──┘         │
 
 PV und Batterie am selben DC-Kreis, gemeinsamer Hybrid-Wechselrichter:
 
-```
-PV-Module ──── MPPT ──┐
-                       ├── Hybrid-WR ── AC-Bus ── Netz
-Batterie  ─────────────┘
-```
+PV-Module und Batterie hängen am Gleichstromkreis eines gemeinsamen Hybridwechselrichters, der ans AC-Netz des Gebäudes angeschlossen ist.
 
 - Vorteil: Höherer Wirkungsgrad, weniger Komponenten
 - Nachteil: PV und Batterie müssen kompatibel sein
@@ -88,23 +79,23 @@ Batterie  ─────────────┘
 
 Das BMS überwacht und schützt die Batteriezellen:
 
-| Funktion            | Beschreibung                                                 |
-| ------------------- | ------------------------------------------------------------ |
-| SoC-Berechnung      | State of Charge (0–100%), Coulomb-Counting + Spannungsmodell |
-| SoH-Bewertung       | State of Health — Kapazitätsverlust über Lebenszeit          |
-| Zellenbalancing     | Ausgleich zwischen über-/untergeladenen Zellen               |
-| Temperaturschutz    | Abschaltung bei > 55°C / < 0°C                               |
-| Überspannungsschutz | Schutz bei Zellenspannung > 3,65 V (LFP)                     |
-| Kurzschlussschutz   | Sofortabschaltung bei Überstrom                              |
+| Funktion            | Beschreibung                                                                                       |
+| ------------------- | -------------------------------------------------------------------------------------------------- |
+| SoC-Berechnung      | State of Charge (0–100%), Coulomb-Counting + Spannungsmodell                                       |
+| SoH-Bewertung       | State of Health — Kapazitätsverlust über Lebenszeit                                                |
+| Zellenbalancing     | Ausgleich zwischen über-/untergeladenen Zellen                                                     |
+| Temperaturschutz    | Laden unter etwa 0 °C gesperrt oder reduziert, Abschaltung bei zu hoher Temperatur nach Datenblatt |
+| Überspannungsschutz | Schutz bei Zellenspannung > 3,65 V (LFP)                                                           |
+| Kurzschlussschutz   | Sofortabschaltung bei Überstrom                                                                    |
 
 ### BMS-Kommunikation
 
-| Schnittstelle      | Einsatz                             |
-| ------------------ | ----------------------------------- |
-| **CAN Bus**        | Industrie-BESS, Pylontech, BYD, SMA |
-| **Modbus RTU/TCP** | Victron Lynx, SolarEdge, Fronius    |
-| **SunSpec Modbus** | Standardisiert (Model 802: Storage) |
-| **RS-485**         | Ältere Systeme                      |
+| Schnittstelle      | Einsatz                                                              |
+| ------------------ | -------------------------------------------------------------------- |
+| **CAN-Bus**        | Batterie zu Wechselrichter, herstellerspezifische Protokolle         |
+| **Modbus RTU/TCP** | Wechselrichter oder Batteriesystem zur GA                            |
+| **SunSpec Modbus** | Standardisiert (Model 802: Storage)                                  |
+| **RS-485**         | physikalische Schicht für Modbus RTU und manche Herstellerprotokolle |
 
 ---
 
@@ -119,10 +110,9 @@ Abends → Batterie entladen bis SoC-Min (typisch 10–20%).
 
 Leistungsspitzen am Netzanschlusspunkt kappen:
 
-```
-Wenn P_Netz > P_Peak_Limit:
-    Batterie entladen mit (P_Netz − P_Peak_Limit)
-```
+<p class="formel">P<sub>Entladen</sub> = P<sub>Netz</sub> − P<sub>Limit</sub> &nbsp; solange P<sub>Netz</sub> &gt; P<sub>Limit</sub></p>
+
+Damit das klappt, muss die Batterie zum Zeitpunkt der Spitze genug geladen sein. Peak Shaving und Eigenverbrauchsoptimierung konkurrieren um denselben Speicher.
 
 Relevant für Industriekunden mit Leistungspreiskomponente im Stromtarif.
 
@@ -142,18 +132,11 @@ Frequenzhaltung: BESS reagiert innerhalb von Sekunden auf Frequenzabweichungen. 
 
 ## Integration ins EMS / GA
 
-```
-EMS (Home Assistant / Loxone / Beckhoff)
-     │
-     ├── Wechselrichter (Modbus TCP / SunSpec)
-     │     ├── PV-Ertrag [kW]
-     │     ├── Batterie SoC [%]
-     │     ├── Lade-/Entladeleistung [kW]
-     │     └── Betriebsmodus setzen
-     │
-     └── Netz-Zähler (Modbus TCP)
-           └── Netzein-/-rückspeisung [kW]
-```
+| Quelle                                  | Daten                                                                       |
+| --------------------------------------- | --------------------------------------------------------------------------- |
+| Wechselrichter, Modbus TCP oder SunSpec | PV-Leistung, Ladezustand, Lade- und Entladeleistung, Betriebsmodus vorgeben |
+| Zähler am Netzanschluss, Modbus         | Bezug und Einspeisung in Echtzeit                                           |
+| EMS oder GLT                            | entscheidet und gibt Sollwerte vor                                          |
 
 **Wichtige Steuerbefehle über Modbus:**
 
@@ -188,11 +171,11 @@ A **Battery Energy Storage System (BESS)** in a building enables temporal energy
 
 ## Cell Technologies in the Building Sector
 
-| Technology                        | Cell Chemistry | Advantages                                  | Disadvantages                  |
-| --------------------------------- | -------------- | ------------------------------------------- | ------------------------------ |
-| **LFP** (Lithium Iron Phosphate)  | LiFePO₄        | Very safe, 4000+ cycles, no thermal runaway | Lower energy density           |
-| **NMC** (Nickel Manganese Cobalt) | LiNiMnCoO₂     | Higher energy density                       | More expensive, more sensitive |
-| **NaS** (Sodium Sulphur)          | —              | Large capacity (MW range)                   | Industrial applications only   |
+| Technology                        | Cell Chemistry | Advantages                                                                            | Disadvantages                  |
+| --------------------------------- | -------------- | ------------------------------------------------------------------------------------- | ------------------------------ |
+| **LFP** (Lithium Iron Phosphate)  | LiFePO₄        | very stable, thermal runaway only at high temperatures and less violent, 4000+ cycles | Lower energy density           |
+| **NMC** (Nickel Manganese Cobalt) | LiNiMnCoO₂     | Higher energy density                                                                 | More expensive, more sensitive |
+| **NaS** (Sodium Sulphur)          | —              | Large capacity (MW range)                                                             | Industrial applications only   |
 
 **Standard for residential and SME:** LFP — safe, long-lasting, no cobalt.
 
@@ -204,12 +187,7 @@ A **Battery Energy Storage System (BESS)** in a building enables temporal energy
 
 Battery inverter is connected independently from the PV inverter at the AC bus:
 
-```
-PV inverter ──┐
-               ├── AC bus (230/400 V) ── Grid
-Bat. inverter ─┘         │
-                      Loads
-```
+PV inverter and battery inverter are connected separately to the building AC network. PV power is first converted to AC and then back to DC for the battery.
 
 - Advantage: Flexible, inverters can be replaced independently, suitable for retrofit
 - Disadvantage: Double conversion (PV → AC → battery) reduces efficiency slightly
@@ -218,11 +196,7 @@ Bat. inverter ─┘         │
 
 PV and battery share the same DC link, with a common hybrid inverter:
 
-```
-PV modules ──── MPPT ──┐
-                         ├── Hybrid inverter ── AC bus ── Grid
-Battery    ─────────────┘
-```
+PV modules and battery share the DC circuit of a common hybrid inverter, which is connected to the building AC network.
 
 - Advantage: Higher efficiency, fewer components
 - Disadvantage: PV and battery must be compatible
@@ -233,23 +207,23 @@ Battery    ─────────────┘
 
 The BMS monitors and protects the battery cells:
 
-| Function                 | Description                                                |
-| ------------------------ | ---------------------------------------------------------- |
-| SoC calculation          | State of Charge (0–100%), Coulomb counting + voltage model |
-| SoH assessment           | State of Health — capacity loss over lifetime              |
-| Cell balancing           | Equalisation between over- and under-charged cells         |
-| Temperature protection   | Shutdown at > 55 °C / < 0 °C                               |
-| Overvoltage protection   | Protection at cell voltage > 3.65 V (LFP)                  |
-| Short-circuit protection | Immediate shutdown on overcurrent                          |
+| Function                 | Description                                                                                    |
+| ------------------------ | ---------------------------------------------------------------------------------------------- |
+| SoC calculation          | State of Charge (0–100%), Coulomb counting + voltage model                                     |
+| SoH assessment           | State of Health — capacity loss over lifetime                                                  |
+| Cell balancing           | Equalisation between over- and under-charged cells                                             |
+| Temperature protection   | charging blocked or reduced below about 0 °C, shutdown at excessive temperature per data sheet |
+| Overvoltage protection   | Protection at cell voltage > 3.65 V (LFP)                                                      |
+| Short-circuit protection | Immediate shutdown on overcurrent                                                              |
 
 ### BMS Communication
 
-| Interface          | Application                          |
-| ------------------ | ------------------------------------ |
-| **CAN Bus**        | Industrial BESS, Pylontech, BYD, SMA |
-| **Modbus RTU/TCP** | Victron Lynx, SolarEdge, Fronius     |
-| **SunSpec Modbus** | Standardised (Model 802: Storage)    |
-| **RS-485**         | Older systems                        |
+| Interface          | Application                                                   |
+| ------------------ | ------------------------------------------------------------- |
+| **CAN bus**        | battery to inverter, manufacturer-specific protocols          |
+| **Modbus RTU/TCP** | inverter or battery system to the BA                          |
+| **SunSpec Modbus** | Standardised (Model 802: Storage)                             |
+| **RS-485**         | physical layer for Modbus RTU and some manufacturer protocols |
 
 ---
 
@@ -264,10 +238,9 @@ Evening → discharge battery until SoC-min (typically 10–20%).
 
 Cap power peaks at the grid connection point:
 
-```
-If P_grid > P_peak_limit:
-    Discharge battery with (P_grid − P_peak_limit)
-```
+<p class="formel">P<sub>discharge</sub> = P<sub>grid</sub> − P<sub>limit</sub> &nbsp; as long as P<sub>grid</sub> &gt; P<sub>limit</sub></p>
+
+For this to work, the battery must be sufficiently charged when the peak occurs. Peak shaving and self-consumption optimisation compete for the same storage.
 
 Relevant for commercial customers with a demand charge component in their electricity tariff.
 
@@ -287,18 +260,11 @@ Frequency response: BESS reacts within seconds to frequency deviations. Only via
 
 ## Integration into EMS / BA
 
-```
-EMS (Home Assistant / Loxone / Beckhoff)
-     │
-     ├── Inverter (Modbus TCP / SunSpec)
-     │     ├── PV yield [kW]
-     │     ├── Battery SoC [%]
-     │     ├── Charge / discharge power [kW]
-     │     └── Set operating mode
-     │
-     └── Grid meter (Modbus TCP)
-           └── Grid import / export [kW]
-```
+| Source                          | Data                                                                      |
+| ------------------------------- | ------------------------------------------------------------------------- |
+| Inverter, Modbus TCP or SunSpec | PV power, state of charge, charge and discharge power, set operating mode |
+| Grid connection meter, Modbus   | import and export in real time                                            |
+| EMS or BMS                      | decides and sends setpoints                                               |
 
 **Key Modbus control commands:**
 

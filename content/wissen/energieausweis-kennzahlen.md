@@ -24,333 +24,191 @@ tags:
 difficulty: grundlagen
 area: [hlk, ga, normen]
 related: [ems-lastmanagement, energiemessung, en15232, en12831, waermepumpe, gradtage]
-norm: [SIA 380/1, GEAK, Minergie, EnEV (DE), GEG (DE), EPBD (EU)]
-updated: 2026-05-15
+norm: [SIA 380/1, SIA 416/1, MuKEn, GEAK, Minergie, GEG (DE), EPBD (EU)]
+updated: 2026-10-14
 lang: de
 ---
 
 # Energieausweis und Gebäudekennzahlen — GEAK, Minergie, kWh/m²
 
-Gebäudeenergiekennzahlen messen den Energiebedarf oder -verbrauch eines Gebäudes. Sie sind Grundlage für Optimierungen, Förderbeiträge und gesetzliche Anforderungen.
+Energiekennzahlen beschreiben, wie viel Energie ein Gebäude braucht oder verbraucht, bezogen auf seine Fläche. Sie sind Grundlage für Optimierungen, Förderbeiträge und gesetzliche Anforderungen.
 
-## Wichtigste Kennzahl: Heizenergiebedarf
+## Bedarf und Verbrauch
 
-### Spezifischer Heizwärmebedarf [kWh/(m²·a)]
+| Begriff       | Woher                                      | Wofür                                     |
+| ------------- | ------------------------------------------ | ----------------------------------------- |
+| **Bedarf**    | berechnet, mit Normnutzung und Normklima   | Planung, Nachweis, Vergleich von Gebäuden |
+| **Verbrauch** | gemessen, mit echter Nutzung und Witterung | Betrieb, Controlling, Fehlersuche         |
 
-```
-Heizenergiebedarf / Energiebezugsfläche (EBF) = kWh/m²a
+Beide weichen oft deutlich voneinander ab. Der Verbrauch hängt stark von Nutzung, Raumtemperatur und Betrieb ab. Genau dort setzt die GA an.
 
-Energiebezugsfläche (EBF):
-  = beheizte Bruttogeschossfläche
-  (NICHT Nettofläche / Wohnfläche!)
+## Energiebezugsfläche
 
-Typische Werte Schweiz (SIA 380/1):
-  Minergie-P:      ≤ 15 kWh/m²a
-  Minergie:        ≤ 38 kWh/m²a  (Wohnen)
-  Neubau Standard: 50–80 kWh/m²a
-  Altbau saniert:  80–150 kWh/m²a
-  Altbau unsaniert: 150–300 kWh/m²a
-```
+Bezugsgrösse in der Schweiz ist die **Energiebezugsfläche** EBF nach SIA 416/1: die Summe aller Geschossflächen, die beheizt oder klimatisiert werden, gemessen mit den Aussenwänden. Sie ist grösser als die Wohn- oder Nutzfläche.
 
-### Gesamtenergiebedarf (GED)
+<p class="formel">Energiekennzahl = Energie pro Jahr / EBF &nbsp; [kWh/(m²·a)]</p>
 
-```
-GED = Heizung + Warmwasser + Lüftung + Kühlung + Beleuchtung + Hilfsbetriebe
+## Gewichtung der Energieträger
 
-Energieträger-Wichtung (Primärenergie):
-  Strom: Faktor 2.0 (Herstellungsverluste)
-  Fernwärme (Holz): Faktor 0.5 (erneuerbar)
-  Erdgas: Faktor 1.0
-  Öl: Faktor 1.2
-```
+Eine kWh Strom ist nicht gleich viel wert wie eine kWh Holz. Für Nachweise werden die Energieträger gewichtet. In der Schweiz verwenden die kantonalen Vorschriften nach **MuKEn** nationale Gewichtungsfaktoren, zum Beispiel **2.0 für Strom** und **1.0 für fossile Brennstoffe**. Erneuerbare Brennstoffe und Fernwärme haben tiefere Faktoren. Die genauen Werte stehen in den kantonalen Energievorschriften.
 
----
+In Deutschland rechnet das GEG mit **Primärenergiefaktoren** nach DIN V 18599.
 
-## GEAK — Gebäudeenergieausweis Kantone (Schweiz)
+## GEAK — Gebäudeenergieausweis der Kantone
 
-```
-GEAK: Schweizer Energieausweis für Wohngebäude
-Pflicht: Bei Verkauf oder Vermietung (kantonal unterschiedlich)
-Klassen: A (beste) bis G (schlechteste)
-Zwei Bewertungen:
-  1. Gebäudehülle (Isolation, Fenster)
-  2. Gesamtenergieeffizienz (inkl. HLK-System)
-```
+Der GEAK bewertet ein bestehendes Gebäude mit Klassen von **A** (sehr effizient) bis **G** (wenig effizient), und zwar getrennt für:
 
-### GEAK-Klassen
+- **Effizienz der Gebäudehülle**
+- **Gesamtenergieeffizienz**, mit Haustechnik und gewichteten Energieträgern
+- **direkte CO₂-Emissionen**
 
-| Klasse | Heizenergiebedarf [kWh/m²a] |
-| ------ | --------------------------- |
-| A      | ≤ 35                        |
-| B      | 35–65                       |
-| C      | 65–95                       |
-| D      | 95–130                      |
-| E      | 130–175                     |
-| F      | 175–235                     |
-| G      | > 235                       |
+Die Klassengrenzen sind auf die Anforderungen für Neubauten nach SIA 380/1 bezogen, nicht feste kWh-Werte. Der **GEAK Plus** enthält zusätzlich einen Beratungsbericht mit Sanierungsvarianten.
 
----
+In einigen Kantonen ist ein GEAK bei Handänderung, bei Förderbeiträgen oder beim Heizungsersatz vorgeschrieben. Die Regeln unterscheiden sich von Kanton zu Kanton.
 
-## Minergie (Schweiz)
+## Minergie
 
-Minergie ist ein Qualitätslabel für Gebäude mit tiefem Energieverbrauch:
+Minergie ist ein freiwilliges Label für Komfort und tiefen Energiebedarf:
 
-| Label            | Anforderung Wärme | Besonderheit                           |
-| ---------------- | ----------------- | -------------------------------------- |
-| **Minergie**     | ≤ 38 kWh/m²a      | Kontrollierte Lüftung Pflicht          |
-| **Minergie-P**   | ≤ 15 kWh/m²a      | Passivhaus-Standard                    |
-| **Minergie-A**   | Plusenergie       | Mehr Energie produziert als verbraucht |
-| **Minergie-ECO** | + Minergie        | Zusätzlich Ökologie + Gesundheit       |
+| Label          | Schwerpunkt                                                           |
+| -------------- | --------------------------------------------------------------------- |
+| **Minergie**   | gute Hülle, erneuerbare Wärme, kontrollierter Luftwechsel, Eigenstrom |
+| **Minergie-P** | strengere Anforderungen an die Hülle, sehr tiefer Heizwärmebedarf     |
+| **Minergie-A** | in der Jahresbilanz deckt die Eigenproduktion den Bedarf weitgehend   |
+| **Zusatz ECO** | zusätzlich Gesundheit und Bauökologie                                 |
 
-**GA-Anforderungen für Minergie:**
+Die Grenzwerte werden als **Minergie-Kennzahl** mit gewichteter Endenergie angegeben und regelmässig angepasst. Aktuell gültige Werte stehen im Reglement auf minergie.ch. Für grössere Gebäude verlangt Minergie ein **Energiemonitoring**, was die GA direkt betrifft.
 
-- EN 15232 GA-Klasse B oder besser
-- Energiemonitoring / Submetering
-- Kontrollierte Wohnungslüftung mit WRG
+## Deutschland: GEG
 
----
+- **Gebäudeenergiegesetz** seit 2020, ersetzt EnEV, EnEG und EEWärmeG
+- **Neubau:** Primärenergiebedarf seit 2023 höchstens 55 % des Referenzgebäudes
+- **Heizungen:** Seit 2024 müssen neue Heizungen mindestens 65 % erneuerbare Energie nutzen, mit Übergangsfristen, die an die kommunale Wärmeplanung gekoppelt sind
+- **Energieausweis:** als Bedarfs- oder Verbrauchsausweis, Klassen A+ bis H
 
-## GEG / EnEV (Deutschland)
+## Kennzahlen in der GA
 
-```
-GEG (Gebäudeenergiegesetz, seit 2020):
-  Ersetzt EnEV + EEWärmeG
+### Monitoring
 
-Primärenergiebedarf [kWh/(m²a)]:
-  Neubau: ≤ 75 % des Referenzgebäudes (2023)
+Die GLT oder das EMS rechnet laufend:
 
-  GEG 2024 (geplante Verschärfung):
-  Neue Heizungsanlagen: mind. 65 % erneuerbare Energien
+- Wärmeverbrauch pro Monat geteilt durch die EBF
+- witterungsbereinigt mit den Heizgradtagen, siehe [Gradtage](/wissen/gradtage)
+- Vergleich mit dem Vorjahr und mit Kennwerten ähnlicher Gebäude
 
-Energieausweis (DE):
-  Bedarfsausweis: berechnet (Pflicht bei schlechten Gebäuden)
-  Verbrauchsausweis: gemessen (3 Jahre Verbrauchsdaten nötig)
-  Klassen A+ bis H (Buchstabenklassen)
-```
+Steigt der bereinigte Verbrauch deutlich, etwa um 20 % gegenüber dem Vorjahr, ist das ein Grund nachzusehen.
 
----
+### Zähler
 
-## Energiekennzahlen in der GA nutzen
+Aussagekräftige Kennzahlen brauchen getrennte Messungen:
 
-### Monitoring und Benchmarking
+| Messung                     | Zähler                                 |
+| --------------------------- | -------------------------------------- |
+| Heizung                     | Wärmezähler                            |
+| Warmwasser                  | Wärmezähler                            |
+| Lüftung, Kälte, Beleuchtung | Strom-Teilzähler                       |
+| Gas                         | Gaszähler; m³ mal Brennwert ergibt kWh |
 
-```
-GLT / EMS berechnet laufend:
-  Monatlicher Wärmeverbrauch [kWh]
-    ÷ Energiebezugsfläche [m²]
-    ÷ Heiztage (HGT, Heizgradtage)
-  = Witterungsbereinigter Energiekennzahl [kWh/(m²HGT)]
+Ohne Trennung von Heizung und Warmwasser lässt sich der Verbrauch nicht sauber witterungsbereinigen, weil das Warmwasser nicht von der Aussentemperatur abhängt.
 
-Vergleich:
-  Dieser Monat vs. Vorjahr (gleiche Periode)
-  Dieses Gebäude vs. Benchmark (Gebäudekategorie)
+## Normen und Regelwerke
 
-Alarm: Verbrauch > 20 % über Vorjahr → Untersuchung
-```
-
-### Heizgradtage (HGT / Gradtage)
-
-```
-HGT = Anzahl Heiztage × (T_Raum − T_Aussen_Mittel)
-
-Heizgrenztemperatur: typisch 12 °C (Schweiz SIA 381/1)
-Basistemperatur: 20 °C
-
-Jahres-HGT CH:
-  Zürich:  3306 Kd (Kelvingrade)
-  Bern:    3558 Kd
-  Davos:   5380 Kd
-  Lugano:  2062 Kd
-```
-
----
-
-## Submetering für Kennzahlen
-
-```
-Für aussagekräftige Kennzahlen:
-  Wärmezähler Heizung → kWh/a
-  Wärmezähler Warmwasser → kWh/a
-  Stromzähler je Gewerk → kWh/a
-  Gaszähler → m³/a → kWh/a (× Heizwert)
-
-Aufteilung:
-  Heizung: Wärmemenge-Zähler
-  Lüftung: Strom-Teilzähler (FU-Ventilatoren)
-  Kälte: Strom-Teilzähler (Kältekompressor)
-  Beleuchtung: Strom-Teilzähler
-```
-
----
-
-## Normen
-
-- **SIA 380/1** — Thermische Energie im Hochbau (Schweizer Grundnorm)
-- **GEAK** — Gebäudeenergieausweis der Kantone (Schweiz)
-- **Minergie** — Qualitätslabel (Anforderungskatalog, minergie.ch)
-- **GEG** — Gebäudeenergiegesetz (Deutschland, seit 2020)
-- **EPBD 2024** — EU-Gebäudeenergierichtlinie (Nullemissionsgebäude 2030/2050)
+- **SIA 380/1** — Heizwärmebedarf
+- **SIA 416/1** — Kennzahlen und Bezugsgrössen, Energiebezugsfläche
+- **MuKEn** — Mustervorschriften der Kantone im Energiebereich
+- **GEAK** — Gebäudeenergieausweis der Kantone
+- **Minergie** — Reglemente auf minergie.ch
+- **GEG** — Gebäudeenergiegesetz (DE)
+- **EPBD 2024** — EU-Gebäuderichtlinie: Nullemissionsgebäude für Neubauten ab 2030, für den Bestand bis 2050
 
 <!-- EN -->
 
-## Energy Performance Certificates and Building Metrics — GEAK, Minergie, kWh/m²
+Energy metrics describe how much energy a building needs or uses, relative to its floor area. They are the basis for optimisation, subsidies and legal requirements.
 
-Building energy metrics measure a building's energy demand or consumption. They are the basis for optimisation, subsidies and statutory requirements.
+## Demand and Consumption
 
-## Key Metric: Heating Energy Demand
+| Term            | Source                                    | Use                                       |
+| --------------- | ----------------------------------------- | ----------------------------------------- |
+| **Demand**      | calculated, with standard use and climate | planning, compliance, comparing buildings |
+| **Consumption** | measured, with real use and weather       | operation, monitoring, troubleshooting    |
 
-### Specific Space Heating Demand [kWh/(m²·a)]
+The two often differ considerably. Consumption depends heavily on use, room temperature and operation. That is exactly where the BA comes in.
 
-```
-Heating energy demand / Energy reference area (ERA) = kWh/m²a
+## Energy Reference Area
 
-Energy reference area (ERA):
-  = heated gross floor area
-  (NOT net area / living area!)
+The reference in Switzerland is the **energy reference area** (EBF) per SIA 416/1: the sum of all floor areas that are heated or air-conditioned, measured including the external walls. It is larger than the living or usable area.
 
-Typical values Switzerland (SIA 380/1):
-  Minergie-P:      ≤ 15 kWh/m²a
-  Minergie:        ≤ 38 kWh/m²a  (residential)
-  New build standard: 50–80 kWh/m²a
-  Renovated existing: 80–150 kWh/m²a
-  Unrenovated existing: 150–300 kWh/m²a
-```
+<p class="formel">Energy index = energy per year / EBF &nbsp; [kWh/(m²·a)]</p>
 
-### Total Energy Demand (TED)
+## Weighting of Energy Carriers
 
-```
-TED = Heating + DHW + Ventilation + Cooling + Lighting + Auxiliary
+A kWh of electricity is not worth the same as a kWh of wood. For compliance the energy carriers are weighted. In Switzerland the cantonal regulations based on **MuKEn** use national weighting factors, for example **2.0 for electricity** and **1.0 for fossil fuels**. Renewable fuels and district heating have lower factors. The exact values are in the cantonal energy regulations.
 
-Energy carrier weighting (primary energy):
-  Electricity: factor 2.0 (generation losses)
-  District heat (wood): factor 0.5 (renewable)
-  Natural gas: factor 1.0
-  Oil: factor 1.2
-```
+In Germany the GEG uses **primary energy factors** per DIN V 18599.
 
----
+## GEAK — Cantonal Building Energy Certificate
 
-## GEAK — Cantonal Building Energy Certificate (Switzerland)
+The GEAK rates an existing building with classes from **A** (very efficient) to **G** (inefficient), separately for:
 
-```
-GEAK: Swiss energy certificate for residential buildings
-Mandatory: On sale or rental (varies by canton)
-Classes: A (best) to G (worst)
-Two assessments:
-  1. Building envelope (insulation, windows)
-  2. Overall energy efficiency (incl. HVAC system)
-```
+- **efficiency of the building envelope**
+- **overall energy efficiency**, including building services and weighted energy carriers
+- **direct CO₂ emissions**
 
-### GEAK Classes
+The class limits relate to the requirements for new buildings per SIA 380/1, not to fixed kWh values. The **GEAK Plus** adds an advisory report with retrofit options.
 
-| Class | Heating energy demand [kWh/m²a] |
-| ----- | ------------------------------- |
-| A     | ≤ 35                            |
-| B     | 35–65                           |
-| C     | 65–95                           |
-| D     | 95–130                          |
-| E     | 130–175                         |
-| F     | 175–235                         |
-| G     | > 235                           |
+Some cantons require a GEAK on change of ownership, for subsidies or when replacing the heating system. The rules differ from canton to canton.
 
----
+## Minergie
 
-## Minergie (Switzerland)
+Minergie is a voluntary label for comfort and low energy demand:
 
-Minergie is a quality label for buildings with low energy consumption:
+| Label          | Focus                                                                        |
+| -------------- | ---------------------------------------------------------------------------- |
+| **Minergie**   | good envelope, renewable heat, controlled air exchange, own power generation |
+| **Minergie-P** | stricter requirements for the envelope, very low heating demand              |
+| **Minergie-A** | on an annual balance, own generation largely covers demand                   |
+| **ECO add-on** | additionally health and building ecology                                     |
 
-| Label            | Heat requirement | Special feature                    |
-| ---------------- | ---------------- | ---------------------------------- |
-| **Minergie**     | ≤ 38 kWh/m²a     | Controlled ventilation mandatory   |
-| **Minergie-P**   | ≤ 15 kWh/m²a     | Passive house standard             |
-| **Minergie-A**   | Plus energy      | Produces more energy than consumed |
-| **Minergie-ECO** | + Minergie       | Additionally ecology + health      |
+The limits are given as the **Minergie index** with weighted final energy and are adjusted regularly. Current values are in the regulations on minergie.ch. For larger buildings Minergie requires **energy monitoring**, which directly concerns the BA.
 
-**BA requirements for Minergie:**
+## Germany: GEG
 
-- EN 15232 BA class B or better
-- Energy monitoring / submetering
-- Controlled residential ventilation with heat recovery
+- **Buildings Energy Act** since 2020, replaces EnEV, EnEG and EEWärmeG
+- **New buildings:** primary energy demand since 2023 at most 55 % of the reference building
+- **Heating:** since 2024 new heating systems must use at least 65 % renewable energy, with transition periods linked to municipal heat planning
+- **Energy certificate:** demand or consumption based, classes A+ to H
 
----
+## Metrics in the BA
 
-## GEG / EnEV (Germany)
+### Monitoring
 
-```
-GEG (Building Energy Act, since 2020):
-  Replaces EnEV + EEWärmeG
+The BMS or EMS continuously calculates:
 
-Primary energy demand [kWh/(m²a)]:
-  New builds: ≤ 75 % of reference building (2023)
+- monthly heat consumption divided by the EBF
+- weather-corrected with heating degree days, see [Degree Days](/wissen/gradtage)
+- comparison with the previous year and with benchmarks of similar buildings
 
-  GEG 2024 (planned tightening):
-  New heating systems: min. 65 % renewable energy
+If corrected consumption rises clearly, say by 20 % over the previous year, that is a reason to investigate.
 
-Energy certificate (DE):
-  Demand certificate: calculated (mandatory for poor buildings)
-  Consumption certificate: measured (3 years consumption data required)
-  Classes A+ to H (letter classes)
-```
+### Meters
 
----
+Meaningful metrics need separate measurements:
 
-## Using Energy Metrics in BA
+| Measurement                    | Meter                                               |
+| ------------------------------ | --------------------------------------------------- |
+| Heating                        | heat meter                                          |
+| Hot water                      | heat meter                                          |
+| Ventilation, cooling, lighting | electricity sub-meters                              |
+| Gas                            | gas meter; m³ times gross calorific value gives kWh |
 
-### Monitoring and Benchmarking
+Without separating heating and hot water, consumption cannot be properly weather-corrected, because hot water does not depend on outdoor temperature.
 
-```
-BMS / EMS continuously calculates:
-  Monthly heat consumption [kWh]
-    ÷ Energy reference area [m²]
-    ÷ Heating degree days (HDD)
-  = Weather-corrected energy index [kWh/(m²·HDD)]
+## Standards and Regulations
 
-Comparison:
-  This month vs. prior year (same period)
-  This building vs. benchmark (building category)
-
-Alert: consumption > 20 % above prior year → investigation
-```
-
-### Heating Degree Days (HDD)
-
-```
-HDD = Number of heating days × (T_room − T_outdoor_mean)
-
-Heating limit temperature: typically 12 °C (Switzerland SIA 381/1)
-Base temperature: 20 °C
-
-Annual HDD CH:
-  Zurich:  3306 Kd (Kelvin-days)
-  Bern:    3558 Kd
-  Davos:   5380 Kd
-  Lugano:  2062 Kd
-```
-
----
-
-## Submetering for Metrics
-
-```
-For meaningful metrics:
-  Heat meter heating → kWh/a
-  Heat meter DHW → kWh/a
-  Sub-electricity meter per system → kWh/a
-  Gas meter → m³/a → kWh/a (× calorific value)
-
-Breakdown:
-  Heating: heat quantity meter
-  Ventilation: sub-electricity meter (VFD fans)
-  Cooling: sub-electricity meter (chiller compressor)
-  Lighting: sub-electricity meter
-```
-
----
-
-## Standards
-
-- **SIA 380/1** — Thermal energy in buildings (Swiss base standard)
-- **GEAK** — Cantonal building energy certificate (Switzerland)
-- **Minergie** — Quality label (requirements catalogue, minergie.ch)
-- **GEG** — Building Energy Act (Germany, since 2020)
-- **EPBD 2024** — EU Building Energy Performance Directive (zero-emission buildings 2030/2050)
+- **SIA 380/1** — Heating demand
+- **SIA 416/1** — Indicators and reference quantities, energy reference area
+- **MuKEn** — Model cantonal energy regulations
+- **GEAK** — Cantonal building energy certificate
+- **Minergie** — Regulations on minergie.ch
+- **GEG** — Buildings Energy Act (DE)
+- **EPBD 2024** — EU buildings directive: zero-emission buildings for new construction from 2030, for the existing stock by 2050

@@ -29,7 +29,7 @@ area: [ga, elektro]
 related: [ems-lastmanagement, pv-integration, batteriespeicher, sg-ready, energiemessung]
 rechner: []
 norm: [IEC 61851, ISO 15118, OCPP 1.6/2.0.1, OCPI 2.2, IEC 62196, DIN EN 17186]
-updated: 2026-05-15
+updated: 2026-10-14
 lang: de
 ---
 
@@ -62,13 +62,13 @@ Elektromobilität ist eine der grössten neuen Lasten im Gebäude. Ein **Lademan
 
 ## OCPP — Open Charge Point Protocol
 
-**OCPP** (IEC 63110-Basis) ist das Standard-Kommunikationsprotokoll zwischen **Ladestation (EVSE)** und **Lademanagementsystem (CSMS/Backend)**:
+**OCPP** ist das Standard-Kommunikationsprotokoll zwischen **Ladestation (EVSE)** und **Lademanagementsystem (CSMS/Backend)**. OCPP 2.0.1 ist seit 2024 auch als IEC 63584 genormt. In OCPP 2.0.1 ersetzt `TransactionEvent` die Nachrichten `StartTransaction` und `StopTransaction` aus 1.6.
 
-| Version    | Status          | Hauptmerkmale                                          |
-| ---------- | --------------- | ------------------------------------------------------ |
-| OCPP 1.6   | Weit verbreitet | Basis-Funktionen, JSON/SOAP über WebSocket             |
-| OCPP 2.0.1 | Aktuell         | Device Management, Smart Charging erweitert, ISO 15118 |
-| OCPP 2.1   | In Einführung   | V2G (Vehicle-to-Grid), Roaming                         |
+| Version    | Status          | Hauptmerkmale                                           |
+| ---------- | --------------- | ------------------------------------------------------- |
+| OCPP 1.6   | Weit verbreitet | Basis-Funktionen, JSON/SOAP über WebSocket              |
+| OCPP 2.0.1 | Aktuell         | Device Management, Smart Charging erweitert, ISO 15118  |
+| OCPP 2.1   | seit 2025       | bidirektionales Laden (V2G), erweitertes Smart Charging |
 
 ### Wichtige OCPP-Nachrichten
 
@@ -90,30 +90,19 @@ Elektromobilität ist eine der grössten neuen Lasten im Gebäude. Ein **Lademan
 
 Feste Leistungsverteilung auf alle Ladepunkte:
 
-```
-Gesamtlimit: 22 kW
-3 Ladepunkte aktiv → je 7,3 kW (gleichmässig)
-```
+Beispiel: Gesamtlimit 22 kW, drei Ladepunkte aktiv, also je rund 7.3 kW.
 
 ### Dynamisches Lastmanagement
 
 EMS misst Gesamtlast am Hausanschluss und passt Ladenleistung laufend an:
 
-```
-P_Anschluss_max = 100 kW
-P_Gebäude_aktuell = 75 kW
-P_Verfügbar_für_Laden = 25 kW
-→ Ladesäulen auf 25 kW begrenzen (per OCPP SetChargingProfile)
-```
+Beispiel: Anschluss 100 kW, Gebäude braucht gerade 75 kW. Für das Laden bleiben 25 kW. Das Lademanagement setzt per OCPP `SetChargingProfile` die Grenzen der Ladepunkte so, dass zusammen nicht mehr als 25 kW bezogen werden, und passt sie laufend an.
 
 ### PV-Überschuss-Laden
 
-```
-P_PV_Überschuss > 6A × 230V × Phasen:
-    → Ladestrom = min(P_Überschuss / U, I_max)
-Sonst:
-    → Ladestrom auf Minimum (6A) oder Pause
-```
+<p class="formel">I<sub>Laden</sub> = min(P<sub>Überschuss</sub> / (U · n<sub>Phasen</sub>), I<sub>max</sub>)</p>
+
+Liegt das Ergebnis unter 6 A, reicht der Überschuss nicht. Dann lädt das Auto mit 6 A aus dem Netz weiter oder pausiert, je nach Einstellung. U ist die Strangspannung, 230 V.
 
 Mindestladestrom IEC 61851: **6A pro Phase** — unter diesem Wert muss die Ladesession pausiert werden (nicht gedrosselt).
 
@@ -123,7 +112,7 @@ Mindestladestrom IEC 61851: **6A pro Phase** — unter diesem Wert muss die Lade
 
 Bei mehreren 1-phasigen Ladepunkten besteht das Risiko einer Schieflast im 3-Phasen-Netz:
 
-- Netzversorger-Grenzwert: typisch max. **16A Phasenungleichgewicht** im Niederspannungsnetz
+- **Schieflastgrenze** nach den Vorgaben des Netzbetreibers: in der Schweiz nach den Werkvorschriften meist rund 3.6 kVA, in Deutschland nach VDE-AR-N 4100 4.6 kVA
 - Lösung: Lademanagement verteilt Ladepunkte auf alle drei Phasen (Round-Robin oder messbasiert)
 - Norm: EN 50160 definiert Anforderungen an die Spannungsqualität
 
@@ -151,17 +140,13 @@ ISO 15118 definiert die Kommunikation zwischen **Fahrzeug und Ladesäule (V2G-Pr
 
 ## Lademanagement im Gebäude — Gesamtarchitektur
 
-```
-Hausanschluss (z.B. 63A / 43 kW)
-     │
-   Zähler (Modbus TCP) ─── EMS
-     │                      │
-     └── Unterverteilung     ├── OCPP-Backend (cloud oder lokal)
-           │                 │         │
-           ├── Wallbox 1     │    SetChargingProfile
-           ├── Wallbox 2 ◄───┘
-           └── Wallbox 3
-```
+| Ebene               | Komponente                                   |
+| ------------------- | -------------------------------------------- |
+| Hausanschluss       | zum Beispiel 63 A, rund 43 kW                |
+| Zähler am Anschluss | liefert die Gebäudelast, etwa per Modbus TCP |
+| EMS                 | rechnet die verfügbare Leistung aus          |
+| OCPP-Backend        | lokal oder in der Cloud, setzt Ladeprofile   |
+| Wallboxen           | in der Unterverteilung, laden nach Vorgabe   |
 
 **Lokales OCPP-Backend:** z.B. SteVe (Open Source), AMPECO, Chargepoint Cloud, oder Home Assistant OCPP-Integration.
 
@@ -177,7 +162,7 @@ Hausanschluss (z.B. 63A / 43 kW)
 | Zeit-basiert | Pro Minute               | Einfach, aber ungenau |
 | OCPI-Roaming | Fremdnutzer über Roaming | Öffentliche Säulen    |
 
-**Eichrechts-konforme Abrechnung (DE/CH):** Erfordert geeichte Messeinrichtung im Ladepunkt (MID-Zähler) und kalibrierte Software (OCMF-Format).
+**Abrechnung nach kWh:** In Deutschland verlangt das Eichrecht einen konformen Zähler im Ladepunkt und signierte Messwerte, etwa im OCMF-Format. In der Schweiz gelten die Vorgaben der Messmittelverordnung; für die Weiterverrechnung einen konformitätsbewerteten Zähler verwenden.
 
 <!-- EN -->
 
@@ -208,13 +193,13 @@ Electric mobility is one of the largest new loads in a building. A **charge mana
 
 ## OCPP — Open Charge Point Protocol
 
-**OCPP** (IEC 63110-based) is the standard communication protocol between **charging station (EVSE)** and **charge management system (CSMS/backend)**:
+**OCPP** is the standard communication protocol between **charging station (EVSE)** and **charge management system (CSMS/backend)**. OCPP 2.0.1 has also been standardised as IEC 63584 since 2024. In OCPP 2.0.1 `TransactionEvent` replaces the 1.6 messages `StartTransaction` and `StopTransaction`.
 
 | Version    | Status      | Key features                                          |
 | ---------- | ----------- | ----------------------------------------------------- |
 | OCPP 1.6   | Widely used | Basic functions, JSON/SOAP over WebSocket             |
 | OCPP 2.0.1 | Current     | Device management, extended smart charging, ISO 15118 |
-| OCPP 2.1   | Rolling out | V2G (Vehicle-to-Grid), roaming                        |
+| OCPP 2.1   | since 2025  | bidirectional charging (V2G), extended smart charging |
 
 ### Key OCPP Messages
 
@@ -236,30 +221,19 @@ Electric mobility is one of the largest new loads in a building. A **charge mana
 
 Fixed power distribution across all charging points:
 
-```
-Total limit: 22 kW
-3 active charging points → 7.3 kW each (evenly distributed)
-```
+Example: total limit 22 kW, three charging points active, so about 7.3 kW each.
 
 ### Dynamic Load Management
 
 EMS measures total load at the grid connection and continuously adjusts charging power:
 
-```
-P_connection_max = 100 kW
-P_building_current = 75 kW
-P_available_for_charging = 25 kW
-→ Limit chargers to 25 kW (via OCPP SetChargingProfile)
-```
+Example: connection 100 kW, the building currently needs 75 kW. 25 kW remain for charging. The charge management uses OCPP `SetChargingProfile` to set the charging point limits so that together they draw no more than 25 kW, and adjusts them continuously.
 
 ### PV Surplus Charging
 
-```
-P_PV_surplus > 6A × 230V × phases:
-    → Charging current = min(P_surplus / V, I_max)
-Otherwise:
-    → Charging current to minimum (6A) or pause
-```
+<p class="formel">I<sub>charge</sub> = min(P<sub>surplus</sub> / (U · n<sub>phases</sub>), I<sub>max</sub>)</p>
+
+If the result is below 6 A, the surplus is not enough. Then the car continues at 6 A from the grid or pauses, depending on the setting. U is the phase voltage, 230 V.
 
 Minimum charging current IEC 61851: **6A per phase** — below this, the charging session must be suspended (not throttled).
 
@@ -269,7 +243,7 @@ Minimum charging current IEC 61851: **6A per phase** — below this, the chargin
 
 With multiple single-phase charging points there is a risk of phase imbalance in the 3-phase grid:
 
-- Network operator limit: typically max. **16A phase imbalance** in the low-voltage grid
+- **Imbalance limit** set by the grid operator: in Switzerland per the utility technical requirements usually about 3.6 kVA, in Germany per VDE-AR-N 4100 4.6 kVA
 - Solution: charge management distributes charging points across all three phases (round-robin or measurement-based)
 - Standard: EN 50160 defines power quality requirements
 
@@ -297,17 +271,13 @@ ISO 15118 defines the communication between **vehicle and charging station (V2G 
 
 ## Charge Management in the Building — Overall Architecture
 
-```
-Grid connection (e.g. 63A / 43 kW)
-     │
-   Meter (Modbus TCP) ─── EMS
-     │                      │
-     └── Sub-distribution    ├── OCPP backend (cloud or local)
-           │                 │         │
-           ├── Wallbox 1     │    SetChargingProfile
-           ├── Wallbox 2 ◄───┘
-           └── Wallbox 3
-```
+| Level            | Component                                       |
+| ---------------- | ----------------------------------------------- |
+| Grid connection  | for example 63 A, about 43 kW                   |
+| Connection meter | delivers the building load, e.g. via Modbus TCP |
+| EMS              | calculates the available power                  |
+| OCPP backend     | local or cloud, sets charging profiles          |
+| Wallboxes        | in the sub-distribution, charge as instructed   |
 
 **Local OCPP backend:** e.g. SteVe (open source), AMPECO, Chargepoint Cloud, or Home Assistant OCPP integration.
 
@@ -323,4 +293,4 @@ Grid connection (e.g. 63A / 43 kW)
 | Time-based   | Per minute                    | Simple, but imprecise    |
 | OCPI roaming | Third-party users via roaming | Public charging stations |
 
-**Calibration law compliant billing (DE/CH):** Requires calibrated metering device in the charging point (MID meter) and certified software (OCMF format).
+**Billing per kWh:** in Germany calibration law requires a compliant meter in the charging point and signed readings, for example in OCMF format. In Switzerland the Measuring Instruments Ordinance applies; use a conformity-assessed meter for re-billing.
