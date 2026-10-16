@@ -28,7 +28,7 @@ difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, glt-grundlagen, thermische-behaglichkeit, rlt-anlage, beleuchtungssteuerung]
 norm: [SIA 342, EN 13659, EN 14501, EN ISO 52120-1, SIA 180]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -120,7 +120,7 @@ Die meisten Raffstoren und Rollläden haben einen **230-V-Motor mit zwei Wicklun
 
 - **Auf und Ab dürfen nie gleichzeitig anliegen.** Jalousieaktoren verriegeln das intern. Wer mit einzelnen Relais schaltet, braucht eine Verriegelung und eine Umschaltpause von einigen hundert Millisekunden.
 - **Position aus der Laufzeit:** Der Aktor kennt die Position nur, weil er die Fahrzeit misst. Darum braucht er die gemessenen Laufzeiten für Auf, Ab und die Lamellenwendung. Nach Stromausfall oder bei Abweichungen fährt man zur Referenz in eine Endlage.
-- **SMI-Antriebe** (Standard Motor Interface) haben einen digitalen Bus und melden ihre Position und Störungen zurück.
+- **SMI-Antriebe** (Standard Motor Interface) haben einen digitalen Bus und melden ihre Position und Störungen zurück. An einer Steuerung hängen bis zu 16 Antriebe, mit 2400 bit/s. Die zwei Busadern laufen meist im selben 5-adrigen Kabel wie die Versorgung. Der Standard wird vom Verein SMI herausgegeben.
 
 **KNX** ist in der Schweiz für Beschattung sehr verbreitet. Typische Objekte eines Jalousieaktors:
 
@@ -254,7 +254,7 @@ Most venetian blinds and roller shutters have a **230 V motor with two windings*
 
 - **Up and down must never be applied at the same time.** Blind actuators interlock this internally. Switching with individual relays needs an interlock and a changeover pause of a few hundred milliseconds.
 - **Position from travel time:** the actuator only knows the position because it measures the travel time. It therefore needs the measured travel times for up, down and slat rotation. After a power failure or on deviation, it drives to an end position as reference.
-- **SMI drives** (Standard Motor Interface) have a digital bus and report their position and faults.
+- **SMI drives** (Standard Motor Interface) have a digital bus and report their position and faults. Up to 16 drives connect to one controller, at 2400 bit/s. The two bus conductors usually run in the same 5-core cable as the supply. The standard is published by the SMI association.
 
 **KNX** is very common for shading in Switzerland. Typical objects of a blind actuator:
 

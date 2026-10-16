@@ -9,7 +9,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, mbus, knx, rs485]
 norm: [IEC 61158]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -87,6 +87,7 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 - Multiple Master möglich (TCP-Sessions parallel)
 - Slave-ID wird "Unit Identifier" genannt, oft 1
 - Kein CRC (TCP übernimmt Fehlersicherung)
+- Keine Authentisierung, keine Verschlüsselung. **Modbus/TCP Security** ergänzt TLS mit Zertifikaten auf Port 802, wird aber erst von wenigen Geräten unterstützt. Modbus TCP gehört deshalb in ein abgetrenntes Netz.
 - ADU = MBAP-Header (7 Bytes) + Function Code + Daten
 
 ## Werkzeuge zur Inbetriebnahme
@@ -101,6 +102,7 @@ Beide sprechen das gleiche Datenmodell. TCP ist nur ein anderer „Briefumschlag
 - [RS-485](/wissen/rs485) — die physikalische Schicht
 - [BACnet](/wissen/bacnet)
 - [M-Bus](/wissen/mbus)
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -176,6 +178,7 @@ Both use the same data model. TCP is just a different "envelope".
 - Multiple masters possible (parallel TCP sessions)
 - Slave ID is called "Unit Identifier", usually 1
 - No CRC (TCP handles error checking)
+- No authentication, no encryption. **Modbus/TCP Security** adds TLS with certificates on port 802, but few devices support it yet. Modbus TCP therefore belongs in a separated network.
 - ADU = MBAP header (7 bytes) + Function Code + Data
 
 ## Commissioning Tools
@@ -190,3 +193,4 @@ Both use the same data model. TCP is just a different "envelope".
 - [RS-485](/wissen/rs485) — the physical layer
 - [BACnet](/wissen/bacnet)
 - [M-Bus](/wissen/mbus)
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

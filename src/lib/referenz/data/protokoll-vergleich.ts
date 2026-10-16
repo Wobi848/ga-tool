@@ -23,7 +23,7 @@ export const protokollVergleich: ReferenceTable = {
 		'EN 13757 (M-Bus)',
 		'Modbus Application Protocol V1.1b3'
 	],
-	updated: '2026-10-14',
+	updated: '2026-10-16',
 	description:
 		'Gegenüberstellung der Protokolle, die in der Gebäudeautomation tatsächlich vorkommen. Die Zahlen sind Richtwerte für den Normalfall — Repeater, Router und Koppler verschieben sie nach oben, schlechte Verlegung nach unten. Entscheidend ist selten die technische Obergrenze, sondern was der Kunde schon hat und wer es später wartet.',
 	description_en:
@@ -122,14 +122,49 @@ export const protokollVergleich: ReferenceTable = {
 			topologie: 'Linie, Stern, Baum (kein Ring)',
 			topologie_en: 'Line, star, tree (no ring)',
 			laenge: '≤ 300 m',
-			geraete: '64 Vorschaltgeräte je Linie',
-			geraete_en: '64 control gear per line',
+			geraete: '64 Betriebsgeräte und 64 Steuergeräte je Linie',
+			geraete_en: '64 control gear and 64 control devices per line',
 			speisung: 'ja, aus dem DALI-Netzteil',
 			speisung_en: 'yes, from the DALI power supply',
 			einsatz: 'Beleuchtung — Dimmen, Szenen, Notlicht-Test, Leuchtenrückmeldung',
 			einsatz_en: 'Lighting — dimming, scenes, emergency light testing, luminaire feedback',
 			achtung: 'Busstrom rechnen, nicht schätzen: 2 mA je Gerät, Netzteil typisch 250 mA',
 			achtung_en: 'Calculate bus current, do not estimate: 2 mA per device, PSU typically 250 mA'
+		},
+		{
+			protokoll: 'SMI',
+			ebene: 'Feld',
+			medium: '2 Busadern, meist im 5-adrigen Kabel mit der Versorgung',
+			medium_en: '2 bus conductors, usually in the 5-core cable with the supply',
+			topologie: 'Linie, Stern',
+			topologie_en: 'Line, star',
+			laenge: '≤ 350 m',
+			geraete: '16 Antriebe je Steuerung',
+			geraete_en: '16 drives per controller',
+			speisung: 'nein, Antriebe mit 230 V versorgt',
+			speisung_en: 'no, drives supplied with 230 V',
+			einsatz: 'Sonnenschutz — Positionieren, Rückmeldung von Stellung und Störung',
+			einsatz_en: 'Sun shading — positioning, feedback of position and faults',
+			achtung: 'Antriebe vor dem Einbau adressieren oder per Suchlauf zuordnen; 2400 bit/s',
+			achtung_en: 'Address drives before installation or assign them by search run; 2400 bit/s'
+		},
+		{
+			protokoll: 'EnOcean',
+			ebene: 'Feld',
+			medium: 'Funk 868 MHz',
+			medium_en: 'Radio 868 MHz',
+			topologie: 'Stern, mit Repeatern bis 2 Stufen',
+			topologie_en: 'Star, with repeaters up to 2 levels',
+			laenge: '≈ 30 m im Gebäude',
+			laenge_en: '≈ 30 m indoors',
+			geraete: 'je nach Empfänger',
+			geraete_en: 'depending on receiver',
+			speisung: 'Energy Harvesting, batterielos',
+			speisung_en: 'energy harvesting, battery-free',
+			einsatz: 'Taster, Fensterkontakte, Raumfühler ohne Kabel',
+			einsatz_en: 'Push buttons, window contacts, room sensors without cables',
+			achtung: 'Funkplanung vor Ort prüfen: Stahlbeton und Metall dämpfen stark',
+			achtung_en: 'Check radio coverage on site: reinforced concrete and metal attenuate strongly'
 		},
 		{
 			protokoll: 'M-Bus',
@@ -197,7 +232,7 @@ export const protokollVergleich: ReferenceTable = {
 		}
 	],
 	notes:
-		'**Die Reichweiten sind Segmentwerte ohne Repeater.** Wer sie ausreizt, hat später keine Reserve für Erweiterungen — und genau die kommen. Bei RS-485 (BACnet MS/TP, Modbus RTU) ist die häufigste Störungsursache nicht die Länge, sondern ein fehlender oder doppelter Abschlusswiderstand.\n\n**Die Entscheidung fällt selten technisch.** Was der Kunde schon betreibt, wofür sein Wartungspartner Werkzeuge hat und was in zehn Jahren noch lieferbar ist, wiegt meist schwerer als jede Zeile dieser Tabelle. LON ist dafür das Lehrstück.',
+		'Vgl. O. Steiger, Gebäudeautomation – effizient vernetzen, Faktor Verlag 2026, Tabelle 10.1.\n\n**Die Reichweiten sind Segmentwerte ohne Repeater.** Wer sie ausreizt, hat später keine Reserve für Erweiterungen — und genau die kommen. Bei RS-485 (BACnet MS/TP, Modbus RTU) ist die häufigste Störungsursache nicht die Länge, sondern ein fehlender oder doppelter Abschlusswiderstand.\n\n**Die Entscheidung fällt selten technisch.** Was der Kunde schon betreibt, wofür sein Wartungspartner Werkzeuge hat und was in zehn Jahren noch lieferbar ist, wiegt meist schwerer als jede Zeile dieser Tabelle. LON ist dafür das Lehrstück.',
 	notes_en:
-		'**The ranges are per segment without repeaters.** Using them up leaves no headroom for extensions — and extensions always come. On RS-485 (BACnet MS/TP, Modbus RTU) the most common fault is not length but a missing or duplicated terminator.\n\n**The decision is rarely technical.** What the customer already runs, what their maintenance partner has tools for, and what will still be available in ten years usually outweighs every line in this table. LON is the object lesson.'
+		'Cf. O. Steiger, Gebäudeautomation – effizient vernetzen, Faktor Verlag 2026, table 10.1.\n\n**The ranges are per segment without repeaters.** Using them up leaves no headroom for extensions — and extensions always come. On RS-485 (BACnet MS/TP, Modbus RTU) the most common fault is not length but a missing or duplicated terminator.\n\n**The decision is rarely technical.** What the customer already runs, what their maintenance partner has tools for, and what will still be available in ten years usually outweighs every line in this table. LON is the object lesson.'
 };

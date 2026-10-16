@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [modbus, knx, opc-ua, iec61850]
 norm: [ASHRAE 135, ISO 16484-5, EN ISO 16484-5]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -36,13 +36,14 @@ lang: de
 
 ## Varianten / Datalinkschichten
 
-| Variante         | Transport          | Typischer Einsatz                      |
-| ---------------- | ------------------ | -------------------------------------- |
-| **BACnet/IP**    | UDP Port 47808     | GLT, DDC-Vernetzung, Ethernet-Backbone |
-| **BACnet MS/TP** | RS-485 (Token-Bus) | Feldebene, kostengünstige DDC          |
-| BACnet/SC        | WebSocket über TLS | Cloud, sichere WAN-Verbindungen (neu)  |
-| BACnet Ethernet  | Ethernet (raw)     | Legacy, selten                         |
-| BACnet ARCNET    | ARCNET             | Veraltet                               |
+| Variante            | Transport          | Typischer Einsatz                      |
+| ------------------- | ------------------ | -------------------------------------- |
+| **BACnet/IP**       | UDP Port 47808     | GLT, DDC-Vernetzung, Ethernet-Backbone |
+| **BACnet MS/TP**    | RS-485 (Token-Bus) | Feldebene, kostengünstige DDC          |
+| BACnet/SC           | WebSocket über TLS | Cloud, sichere WAN-Verbindungen (neu)  |
+| BACnet Ethernet     | Ethernet (raw)     | Legacy, selten                         |
+| BACnet ARCNET       | ARCNET             | Veraltet                               |
+| BACnet über LonTalk | LON-Medium         | selten, für Übergänge aus LON-Anlagen  |
 
 **BACnet/IP** und **MS/TP** sind in der Praxis die relevanten Varianten.
 
@@ -179,6 +180,7 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 - **ASHRAE 135** — die BACnet-Bibel (kostenpflichtig)
 - **ISO 16484-5** — internationale Fassung
 - **BACnet Testing Laboratories (BTL)** — Konformitätsprüfung, Interoperabilitätsliste
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -186,13 +188,14 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 
 ## Variants / Data Link Layers
 
-| Variant          | Transport          | Typical application                    |
-| ---------------- | ------------------ | -------------------------------------- |
-| **BACnet/IP**    | UDP port 47808     | BMS, DDC networking, Ethernet backbone |
-| **BACnet MS/TP** | RS-485 (token bus) | Field level, low-cost DDC              |
-| BACnet/SC        | WebSocket over TLS | Cloud, secure WAN connections (new)    |
-| BACnet Ethernet  | Ethernet (raw)     | Legacy, rare                           |
-| BACnet ARCNET    | ARCNET             | Obsolete                               |
+| Variant             | Transport          | Typical application                    |
+| ------------------- | ------------------ | -------------------------------------- |
+| **BACnet/IP**       | UDP port 47808     | BMS, DDC networking, Ethernet backbone |
+| **BACnet MS/TP**    | RS-485 (token bus) | Field level, low-cost DDC              |
+| BACnet/SC           | WebSocket over TLS | Cloud, secure WAN connections (new)    |
+| BACnet Ethernet     | Ethernet (raw)     | Legacy, rare                           |
+| BACnet ARCNET       | ARCNET             | Obsolete                               |
+| BACnet over LonTalk | LON medium         | rare, for transitions from LON systems |
 
 **BACnet/IP** and **MS/TP** are the relevant variants in practice.
 
@@ -329,3 +332,4 @@ Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 - **ASHRAE 135** — the BACnet bible (paid)
 - **ISO 16484-5** — international version
 - **BACnet Testing Laboratories (BTL)** — conformance testing, interoperability list
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

@@ -25,7 +25,7 @@ difficulty: grundlagen
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen]
 norm: [ISO/IEC 14543-3-1X, EN 300 220]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -49,6 +49,7 @@ lang: de
 | Parameter          | Wert                                                            |
 | ------------------ | --------------------------------------------------------------- |
 | Frequenz           | 868,3 MHz (Europa), 315/902 MHz (USA)                           |
+| Datenrate          | 125 kbit/s                                                      |
 | Reichweite         | 30 m (innen), 300 m (freies Feld)                               |
 | Telegramm-Länge    | 14 Bytes (kurz und kompakt)                                     |
 | Host-Schnittstelle | ESP3 (EnOcean Serial Protocol 3) zwischen Funkmodul und Gateway |
@@ -156,6 +157,7 @@ Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und 
 - **ISO/IEC 14543-3-1X** — EnOcean-Protokoll-Standard
 - **EN 300 220** — Funkanforderungen 868 MHz (Europa)
 - **EnOcean Alliance** (enocean-alliance.org) — Produktdatenbank, EEP-Dokumente, Zertifizierung
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -177,6 +179,7 @@ Standardmässig sendet EnOcean **unverschlüsselt** — jeder kann zuhören und 
 | Parameter       | Value                                                             |
 | --------------- | ----------------------------------------------------------------- |
 | Frequency       | 868.3 MHz (Europe), 315/902 MHz (USA)                             |
+| Data rate       | 125 kbit/s                                                        |
 | Range           | 30 m (indoors), 300 m (open field)                                |
 | Telegram length | 14 bytes (short and compact)                                      |
 | Host interface  | ESP3 (EnOcean Serial Protocol 3) between radio module and gateway |
@@ -284,3 +287,4 @@ By default EnOcean transmits **unencrypted** — anyone can listen and theoretic
 - **ISO/IEC 14543-3-1X** — EnOcean protocol standard
 - **EN 300 220** — Radio requirements 868 MHz (Europe)
 - **EnOcean Alliance** (enocean-alliance.org) — product database, EEP documents, certification
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

@@ -26,7 +26,7 @@ area: [ga, elektro]
 related: [bacnet, modbus]
 
 norm: [EN 50090, ISO/IEC 14543-3]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -42,6 +42,8 @@ lang: de
 | Powerline    | PL     | 230-V-Leitung              | Nachrüstung                        |
 | Funk         | RF     | 868 MHz                    | Nachrüstung, Sensoren ohne Kabel   |
 | IP           | IP     | Ethernet (UDP Port 3671)   | Backbone, GLT-Anbindung, KNXnet/IP |
+
+**Datenraten:** TP 9600 bit/s, Powerline 1200 bit/s, RF rund 16 kbit/s. Über IP entsprechend schneller.
 
 **Twisted Pair** ist die bei weitem häufigste Variante. Die Busleitung liefert gleichzeitig 29 V DC zur Versorgung der Geräte (max. 10 mA pro Gerät typisch).
 
@@ -162,6 +164,7 @@ Beides funktioniert nur mit Geräten, die es unterstützen, und wird in der ETS 
 - **EN 50090 / ISO/IEC 14543-3** — KNX-Standard
 - **KNX Association** (knx.org) — Schulungen, Produktdatenbank, ETS-Download
 - **KNX Certified** — Pflicht für alle KNX-Geräte
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -175,6 +178,8 @@ Beides funktioniert nur mit Geräten, die es unterstützen, und wird in der ETS 
 | Powerline    | PL   | 230 V mains cable         | Retrofit                             |
 | Radio        | RF   | 868 MHz                   | Retrofit, wireless sensors           |
 | IP           | IP   | Ethernet (UDP port 3671)  | Backbone, BMS integration, KNXnet/IP |
+
+**Data rates:** TP 9600 bit/s, powerline 1200 bit/s, RF about 16 kbit/s. Correspondingly faster over IP.
 
 **Twisted Pair** is by far the most common variant. The bus cable simultaneously supplies 29 V DC to power devices (typically max. 10 mA per device).
 
@@ -295,3 +300,4 @@ Both only work with devices that support them and are set up in the ETS. The key
 - **EN 50090 / ISO/IEC 14543-3** — KNX standard
 - **KNX Association** (knx.org) — training, product database, ETS download
 - **KNX Certified** — mandatory for all KNX devices
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

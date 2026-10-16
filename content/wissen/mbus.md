@@ -24,7 +24,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [modbus, bacnet, knx]
 norm: [EN 13757, IEC 62056]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -166,6 +166,7 @@ Viele Gateways bieten:
 - **EN 13757-3** — M-Bus Anwendungsschicht (Datentelegramme)
 - **EN 13757-4** — Wireless M-Bus
 - **IEC 62056 / OBIS** — Objektkennzeichnung für Energiedaten
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -305,3 +306,4 @@ Many gateways offer:
 - **EN 13757-3** — M-Bus application layer (data telegrams)
 - **EN 13757-4** — Wireless M-Bus
 - **IEC 62056 / OBIS** — Object identification for energy data
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

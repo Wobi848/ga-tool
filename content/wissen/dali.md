@@ -28,7 +28,7 @@ difficulty: fortgeschritten
 area: [ga, elektro]
 related: [knx, bacnet, signaltypen, dmx512]
 norm: [IEC 62386, EN 62386]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -137,7 +137,8 @@ DALI definiert verschiedene Gerätetypen für unterschiedliche Anwendungen:
 **DALI-2** (IEC 62386 Ausgabe 2) bringt vor allem:
 
 - **Interoperabilität:** Geräte verschiedener Hersteller müssen kompatibel sein (Zertifizierung)
-- **Input Devices:** Taster, Sensoren (PIR, Lux) direkt am DALI-Bus (nicht nur Ausgabegeräte)
+- **Input Devices:** Taster, Sensoren (PIR, Lux) direkt am DALI-Bus. Sie haben einen eigenen Adressraum: Auf einer Linie sind bis zu **64 Betriebsgeräte und zusätzlich 64 Steuergeräte** möglich, sofern der Busstrom reicht
+- **DALI+:** DALI-Befehle über Funk oder IP, etwa über Thread, ohne eigene Busleitung; zertifiziert von der DiiA
 - **Instanzen:** Ein Gerät kann mehrere Instanzen haben (z.B. Taster mit 2 Tasten = 2 Instanzen)
 - **Erweiterte Diagnose:** Mehr Statusinformationen
 - **DT8 Farbe:** Standardisiert (XY, RGB, RGBW, Farbtemperatur)
@@ -192,6 +193,7 @@ DALI-Notlicht-EVGs (DT1) sind komplex — vollständige Selbsttests:
 - **EN 62386** — Europäische Fassung
 - **DiiA** (Digital Illumination Interface Alliance) — Zertifizierung, Produktliste
 - **EN 62034** — Automatische Prüfsysteme für Notbeleuchtung (DALI-kompatibel)
+- **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
 
@@ -300,7 +302,8 @@ DALI defines various device types for different applications:
 **DALI-2** (IEC 62386 edition 2) primarily adds:
 
 - **Interoperability:** Devices from different manufacturers must be compatible (certification)
-- **Input devices:** Pushbuttons, sensors (PIR, lux) directly on the DALI bus (not just output devices)
+- **Input devices:** push buttons, sensors (PIR, lux) directly on the DALI bus. They have their own address space: a line can hold up to **64 control gear plus 64 control devices**, provided the bus current is sufficient
+- **DALI+:** DALI commands over radio or IP, for example over Thread, without a dedicated bus line; certified by the DiiA
 - **Instances:** One device can have multiple instances (e.g. pushbutton with 2 buttons = 2 instances)
 - **Extended diagnostics:** More status information
 - **DT8 colour:** Standardised (XY, RGB, RGBW, colour temperature)
@@ -355,3 +358,4 @@ DALI emergency lighting ballasts (DT1) are complex — full self-testing:
 - **EN 62386** — European version
 - **DiiA** (Digital Illumination Interface Alliance) — certification, product list
 - **EN 62034** — Automatic test systems for emergency lighting (DALI-compatible)
+- **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"
