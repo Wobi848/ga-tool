@@ -421,7 +421,9 @@ export const de = {
 		// Per-page strings
 		heizkurveUi: {
 			formulaNote:
-				'Die Formeln sind Annäherungen an die jeweiligen Hersteller-Algorithmen — exakte Werte können je nach Firmware abweichen. Bei Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3. Quellen: Herstellerunterlagen, SIA 384/1.',
+				'Honeywell (2 Punkte) und Sauter (Fusspunkt) rechnen als Gerade, wie die Regler selbst. Für Siemens, Viessmann und Buderus ist es eine gemeinsame Näherung mit Heizkörperexponent (Fussbodenheizung n ≈ 1.1, Radiatoren n ≈ 1.3): die Hersteller legen ihre Kennlinien nicht offen, der Regler kann bei gleicher Neigung einige Kelvin abweichen. Grundlage: SIA 384/1.',
+			approxHint:
+				'Näherung: die Kennlinie dieses Herstellers ist nicht veröffentlicht. Der Regler kann bei gleicher Neigung und gleichem Niveau einige Kelvin abweichen — zum Verständnis geeignet, zum Einstellen nur als Richtwert.',
 			manufacturerSystem: 'Hersteller / System',
 			heatEmitter: 'Wärmeübergabe',
 			radiator: 'Radiator (n ≈ 1.3)',

@@ -145,6 +145,9 @@
 				{/each}
 			</select>
 		</div>
+		{#if manufacturer === 'siemens' || manufacturer === 'viessmann' || manufacturer === 'buderus'}
+			<p class="calc-warning">{$_('rechner.heizkurveUi.approxHint')}</p>
+		{/if}
 		<div class="calc-field">
 			<label class="calc-field-label" for="sys-sel">{$_('rechner.heizkurveUi.heatEmitter')}</label>
 			<select id="sys-sel" bind:value={systemType} class="calc-select">

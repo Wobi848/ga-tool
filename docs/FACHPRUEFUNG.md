@@ -26,7 +26,7 @@ Gefundene Fehler stehen unten im Protokoll, mit Quelle.
 - ✅ druckverlust
 - ✅ elektro
 - ✅ gewichteter-mittelwert
-- ⚠️ heizkurve
+- ✅ heizkurve (Siemens/Viessmann/Buderus als Näherung gekennzeichnet)
 - ✅ heizlast
 - ✅ hydraulik-simulator
 - ✅ k-faktor

@@ -418,7 +418,9 @@ export const en = {
 		// Per-page strings
 		heizkurveUi: {
 			formulaNote:
-				'Formulas are approximations of the respective manufacturer algorithms — exact values may vary by firmware. For underfloor heating n ≈ 1.1, radiators n ≈ 1.3. Sources: manufacturer documentation, SIA 384/1.',
+				'Honeywell (2 points) and Sauter (base point) are straight lines, as in the controllers themselves. For Siemens, Viessmann and Buderus a common approximation with an emitter exponent is used (underfloor n ≈ 1.1, radiators n ≈ 1.3): the manufacturers do not publish their curves, the controller may differ by a few kelvin at the same slope. Basis: SIA 384/1.',
+			approxHint:
+				'Approximation: this manufacturer does not publish its curve. At the same slope and level the controller may differ by a few kelvin — fine for understanding, only a guide value for commissioning.',
 			manufacturerSystem: 'Manufacturer / System',
 			heatEmitter: 'Heat emitter',
 			radiator: 'Radiator (n ≈ 1.3)',
