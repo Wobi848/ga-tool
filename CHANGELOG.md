@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.17.2 — 2026-10-16
+
+- **Neuer Artikel Klimasysteme:** Nur-Luft und Luft-Wasser, Quelllüftung,
+  Kühldecke mit Taupunktschutz, Fan-Coil, Induktion, Zwei- bis Vierleiter
+- **Heizung:** STW und STB, Wassermangel- und thermische Ablaufsicherung,
+  Vorschaltgefäss beim MAG
+- **Hydraulik:** Stellverhältnis und kleinster regelbarer Durchfluss,
+  Energiebewertung der Verteilertypen
+- **Wärmerückgewinnung:** Klassen H1–H6 nach EN 13053, Umschaltspeicher,
+  Regelung des Kreislaufverbunds, Vereisung am Abluftregister
+
 ## v0.17.1 — 2026-10-16
 
 - **Protokolle:** Ergänzungen aus O. Steiger, _Gebäudeautomation – effizient

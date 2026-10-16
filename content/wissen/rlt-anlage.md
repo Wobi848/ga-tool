@@ -27,7 +27,7 @@ tags:
   ]
 difficulty: grundlagen
 area: [hlk, ga]
-related: [vav-cav, vdi6022, frequenzumrichter, kaelteanlagen, waermepumpe, pid-regler]
+related: [vav-cav, klimasysteme, vdi6022, frequenzumrichter, kaelteanlagen, waermepumpe, pid-regler]
 norm: [EN 16798-3, VDI 6022, SIA 382/1, EN 13053]
 updated: 2026-05-14
 lang: de

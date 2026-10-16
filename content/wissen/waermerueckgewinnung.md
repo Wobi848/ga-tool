@@ -25,8 +25,8 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vdi6022, frequenzumrichter, kaelteanlagen]
-norm: [EN 13053, EN 308, SIA 382/1]
-updated: 2026-05-14
+norm: [EN 13053, EN 308, SIA 382/1, VDI 3803-5]
+updated: 2026-10-16
 lang: de
 ---
 
@@ -47,6 +47,8 @@ Die Abluft gibt ihre Wärme an die Aussenluft ab — ohne dass die Luftströme s
 **Beispiel:** T_Aussen = −5 °C, T_Abluft = 22 °C, T_Zuluft nach WRG = 18 °C
 
 <p class="formel">η<sub>T</sub> = (18 − (−5)) / (22 − (−5)) = 23 / 27 ≈ 85 %</p>
+
+Der Temperaturänderungsgrad gilt für trockene Luft, ohne Kondensation. **EN 13053** bewertet die WRG zusätzlich nach dem Druckverlust, den sie auf beiden Luftseiten verursacht: Daraus ergibt sich eine Energieeffizienz und die Klasse **H1** (mindestens 71 %) bis **H6** (unter 36 %). Ein Tauscher mit hohem Temperaturänderungsgrad, aber grossem Druckverlust landet so in einer schlechteren Klasse.
 
 ---
 
@@ -85,6 +87,7 @@ Ein Register in der Abluft und eines in der Zuluft sind über einen Wasser-Glyko
 - **Kein Luftkontakt** möglich: ideal wenn Zuluft und Abluft weit getrennt sind
 - Einsatz: Trennung von Gebäudeteilen, Renovierungen
 - Frostschutz: Frostschutzmittel im Wasser (Glykol-Wasser-Gemisch)
+- **Regelung:** Dreiwegventil im Kreislauf, nahe beim Aussenluftregister. Bei variablem Luftvolumenstrom die Pumpe drehzahlregeln, damit der Wärmestrom von Kreislauf und Luft gleich gross bleibt (Wasserwertverhältnis 1). Erst wenn die Pumpe auf Mindestdrehzahl ist, übernimmt ein Ventil die Kleinlast. Das spart viel Pumpenstrom.
 
 ### 4. Wärmerohr (Heat Pipe)
 
@@ -92,6 +95,18 @@ Ein Register in der Abluft und eines in der Zuluft sind über einen Wasser-Glyko
 - Wirkungsgrad: **50–65 %**
 - Keine beweglichen Teile — sehr wartungsarm
 - Nur sensible Wärme (keine Feuchteübertragung)
+
+### 5. Umschaltspeicher
+
+Zwei Speicherpakete aus Aluminiumblech werden abwechselnd von Abluft und Aussenluft durchströmt, Klappen schalten in kurzen Abständen um. Das Paket in der Abluft lädt sich auf, das in der Aussenluft gibt ab.
+
+- Temperaturänderungsgrad bis rund **90 %**, auch Feuchte wird übertragen
+- **Kein Vereisungsschutz nötig**, weil jedes Paket regelmässig warm durchströmt wird
+- Nachteil: Klappen als Verschleissteil, Überströmung beim Umschalten, Druckverhältnisse nicht konstant
+
+### Umluft ist keine WRG
+
+Umluftbeimischung spart zwar Energie, gilt nach VDI 3803 Blatt 5 aber nicht als Wärmerückgewinnung: Es wird verbrauchte Luft wiederverwendet. Darf aus hygienischen Gründen höchstens etwa die Hälfte Umluft sein, lohnt sich die Kombination mit einer WRG.
 
 ---
 
@@ -104,20 +119,22 @@ Ein Register in der Abluft und eines in der Zuluft sind über einen Wasser-Glyko
 | Platte Gegenstrom | 75–85 %      | Nein               | Keine        | Hoher Wirkungsgrad gewünscht |
 | Kreislaufverbund  | 45–65 %      | Nein               | Keine        | Getrennte Gebäudeteile       |
 | Wärmerohr         | 50–65 %      | Nein               | Keine        | Wartungsarme Lösung          |
+| Umschaltspeicher  | 60–90 %      | Ja                 | Ja           | Kein Vereisungsschutz nötig  |
 
 ---
 
 ## Frostschutzstrategien
 
-| Strategie              | Typ              | Beschreibung                              |
-| ---------------------- | ---------------- | ----------------------------------------- |
-| **Bypass-Klappe**      | Alle             | ODA am WRG vorbeiführen → kein Einfrieren |
-| **Vorwärmung ODA**     | Alle             | Elektrischer oder WW-Erhitzer vor WRG     |
-| **Rotorverlangsamung** | Rotor            | Weniger Wärmeübertrag → weniger Kondensat |
-| **Abluft-Bypass**      | Platte           | Warme Abluft erwärmt WRG periodisch       |
-| **Glykol-Wasser**      | Kreislaufverbund | Tiefere Einfrierpunkt-Temperatur          |
+| Strategie              | Typ              | Beschreibung                                    |
+| ---------------------- | ---------------- | ----------------------------------------------- |
+| **Bypass-Klappe**      | Alle             | ODA am WRG vorbeiführen → kein Einfrieren       |
+| **Vorwärmung ODA**     | Alle             | Elektrischer oder WW-Erhitzer vor WRG           |
+| **Rotorverlangsamung** | Rotor            | Weniger Wärmeübertrag → weniger Kondensat       |
+| **Abluft-Bypass**      | Platte           | Warme Abluft erwärmt WRG periodisch             |
+| **Glykol-Wasser**      | Kreislaufverbund | Tiefere Einfrierpunkt-Temperatur                |
+| **Vorlauf begrenzen**  | Kreislaufverbund | Dreiwegventil hält das Abluftregister über 0 °C |
 
-**Wann Frostgefahr besteht:** Kühlt die Abluft im Tauscher unter ihren Taupunkt, entsteht Kondensat, und unter 0 °C gefriert es. Bei Plattentauschern beginnt das je nach Abluftfeuchte schon bei Aussentemperaturen um −3 bis −10 °C. Überwacht wird die **Fortlufttemperatur** (nicht unter etwa +1 bis +2 °C) oder der **Druckverlust** über dem Tauscher.
+**Wann Frostgefahr besteht:** Kühlt die Abluft im Tauscher unter ihren Taupunkt, entsteht Kondensat, und unter 0 °C gefriert es. Bei Plattentauschern beginnt das je nach Abluftfeuchte schon bei Aussentemperaturen um −3 bis −10 °C. Am gefährdetsten sind Plattentauscher und Kreislaufverbund: Das Glykol schützt nur den Kreislauf, nicht das Abluftregister, an dem das Kondensat gefriert. Rotoren werden erst bei sehr tiefen Aussentemperaturen kritisch. Überwacht wird die **Fortlufttemperatur** (nicht unter etwa +1 bis +2 °C) oder der **Druckverlust** über dem Tauscher.
 
 ---
 
@@ -170,6 +187,8 @@ The extract air transfers its heat to the outdoor air — without the two airstr
 
 <p class="formel">η<sub>T</sub> = (18 − (−5)) / (22 − (−5)) = 23 / 27 ≈ 85 %</p>
 
+The temperature efficiency applies to dry air, without condensation. **EN 13053** additionally rates heat recovery by the pressure drop it causes on both air sides: this gives an energy efficiency and the class **H1** (at least 71 %) to **H6** (below 36 %). An exchanger with high temperature efficiency but a large pressure drop thus ends up in a worse class.
+
 ---
 
 ## Types and Comparison
@@ -207,6 +226,7 @@ A coil in the extract and one in the supply are linked by a water-glycol loop wi
 - **No air contact** possible: ideal when supply and extract air are physically separated
 - Application: separating building sections, retrofits
 - Frost protection: antifreeze in water (glycol-water mixture)
+- **Control:** three-way valve in the loop, close to the outdoor air coil. With variable airflow, run the pump at variable speed so the heat capacity flow of loop and air stays equal (capacity ratio 1). Only once the pump is at minimum speed does a valve take over the low load. This saves a lot of pump power.
 
 ### 4. Heat Pipe
 
@@ -214,6 +234,18 @@ A coil in the extract and one in the supply are linked by a water-glycol loop wi
 - Efficiency: **50–65 %**
 - No moving parts — very low maintenance
 - Sensible heat only (no moisture transfer)
+
+### 5. Switchover Regenerator
+
+Two storage packs of aluminium sheet are passed alternately by extract and outdoor air; dampers switch over at short intervals. The pack in the extract charges, the one in the outdoor air discharges.
+
+- Temperature efficiency up to about **90 %**, moisture is transferred too
+- **No frost protection needed**, because each pack is regularly flushed with warm air
+- Drawback: dampers as wearing parts, carryover at switchover, pressure conditions not constant
+
+### Recirculation Is Not Heat Recovery
+
+Mixing in recirculated air saves energy but does not count as heat recovery under VDI 3803 Part 5: used air is reused. If hygiene limits recirculation to about half, combining it with heat recovery pays off.
 
 ---
 
@@ -226,20 +258,22 @@ A coil in the extract and one in the supply are linked by a water-glycol loop wi
 | Plate counter-flow | 75–85 %    | No                | None      | High efficiency required    |
 | Run-around coil    | 45–65 %    | No                | None      | Separated building sections |
 | Heat pipe          | 50–65 %    | No                | None      | Low-maintenance solution    |
+| Switchover regen.  | 60–90 %    | Yes               | Yes       | No frost protection needed  |
 
 ---
 
 ## Frost Protection Strategies
 
-| Strategy                  | Type       | Description                               |
-| ------------------------- | ---------- | ----------------------------------------- |
-| **Bypass damper**         | All        | Route ODA around HR → no freezing         |
-| **ODA pre-heating**       | All        | Electric or HW heater before HR           |
-| **Rotor speed reduction** | Rotary     | Less heat transfer → less condensate      |
-| **Extract air bypass**    | Plate      | Warm extract air periodically re-heats HR |
-| **Glycol-water**          | Run-around | Lower freezing point temperature          |
+| Strategy                  | Type       | Description                                       |
+| ------------------------- | ---------- | ------------------------------------------------- |
+| **Bypass damper**         | All        | Route ODA around HR → no freezing                 |
+| **ODA pre-heating**       | All        | Electric or HW heater before HR                   |
+| **Rotor speed reduction** | Rotary     | Less heat transfer → less condensate              |
+| **Extract air bypass**    | Plate      | Warm extract air periodically re-heats HR         |
+| **Glycol-water**          | Run-around | Lower freezing point temperature                  |
+| **Limit supply temp.**    | Run-around | Three-way valve keeps the extract coil above 0 °C |
 
-**When there is a frost risk:** if the extract air cools below its dew point in the exchanger, condensate forms, and below 0 °C it freezes. With plate exchangers this starts, depending on extract humidity, at outdoor temperatures of about −3 to −10 °C. What is monitored is the **exhaust air temperature** (not below about +1 to +2 °C) or the **pressure drop** across the exchanger.
+**When there is a frost risk:** if the extract air cools below its dew point in the exchanger, condensate forms, and below 0 °C it freezes. With plate exchangers this starts, depending on extract humidity, at outdoor temperatures of about −3 to −10 °C. Plate exchangers and run-around coils are most at risk: the glycol protects only the loop, not the extract coil on which the condensate freezes. Rotary wheels only become critical at very low outdoor temperatures. What is monitored is the **exhaust air temperature** (not below about +1 to +2 °C) or the **pressure drop** across the exchanger.
 
 ---
 

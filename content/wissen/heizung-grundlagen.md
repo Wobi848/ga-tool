@@ -38,7 +38,7 @@ related:
   ]
 
 norm: [EN 12828, VDI 2035, SIA 384/1]
-updated: 2026-05-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -98,12 +98,27 @@ Rechnen lässt sich das im [Rechner Ausdehnungsgefäss](/rechner/ausdehnungsgefa
 
 Zu kleines MAG → Sicherheitsventil öffnet → Wasserverlust.
 
+Das MAG gehört in den **Rücklauf, auf die Saugseite der Pumpe**: Dort ist das Wasser am kühlsten, und die Pumpe bekommt ihren Mindestzulaufdruck gegen Kavitation. Kann die Temperatur am Gefäss trotzdem über die zulässige Membrantemperatur steigen (Herstellerangabe, meist 70 °C), kommt ein ungedämmtes **Vorschalt- oder Zwischengefäss** davor, in dem das Wasser abkühlt.
+
 ### Sicherheitsventil
 
 - Öffnet bei Überdruck (schützt System vor Bersten)
 - Ansprechdruck: typisch 3 bar (Heizanlage)
 - **Abblaseleitung** sichtbar in einen Ablauf oder Auffangbehälter führen (heisses Wasser, Dampf)
 - Prüfpflicht: jährlich manuell betätigen
+
+### Temperatur- und Wassermangelsicherung
+
+| Einrichtung                            | Wirkung                                                                                 | Wiedereinschalten               |
+| -------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------------- |
+| **STW** Sicherheitstemperaturwächter   | schaltet den Erzeuger bei Übertemperatur ab                                             | selbsttätig, wenn wieder kühler |
+| **STB** Sicherheitstemperaturbegrenzer | schaltet ab und **verriegelt**, Störung wird angezeigt                                  | nur von Hand vor Ort            |
+| **Wassermangelsicherung**              | schaltet die Feuerung bei zu tiefem Wasserstand ab, verriegelt                          | nur von Hand vor Ort            |
+| **Thermische Ablaufsicherung**         | Holzkessel: öffnet bei Übertemperatur Kaltwasser durch einen Sicherheitswärmeübertrager | selbsttätig (Kapillarfühler)    |
+
+Die Wassermangelsicherung ist vor allem bei **Dachzentralen** wichtig, wo der Erzeuger am höchsten Punkt der Anlage sitzt. Die thermische Ablaufsicherung braucht keinen Strom, weil ein Holzfeuer sich nicht einfach abschalten lässt.
+
+**Für die GA:** STB und Wassermangelsicherung wirken **fest verdrahtet** auf den Erzeuger, nie über die DDC. Die GA bekommt nur die Störmeldung als Digitaleingang. Entriegeln ist Absicht: Jemand soll vor Ort nachsehen, warum es ausgelöst hat.
 
 ### Füllautomat / Druckhaltestation
 
@@ -237,12 +252,27 @@ Calculate it in the [expansion vessel calculator](/rechner/ausdehnungsgefaess). 
 
 Undersized EV → safety valve opens → water loss.
 
+The EV belongs in the **return, on the suction side of the pump**: the water is coolest there, and the pump gets its minimum inlet pressure against cavitation. If the temperature at the vessel can still exceed the permissible membrane temperature (manufacturer's data, usually 70 °C), an uninsulated **intermediate vessel** is fitted upstream, in which the water cools down.
+
 ### Safety Valve
 
 - Opens on overpressure (protects system from bursting)
 - Set pressure: typically 3 bar (heating system)
 - Route the **discharge pipe** visibly into a drain or collecting vessel (hot water, steam)
 - Test requirement: actuate manually once a year
+
+### Temperature and Low-Water Protection
+
+| Device                               | Action                                                                           | Restart                      |
+| ------------------------------------ | -------------------------------------------------------------------------------- | ---------------------------- |
+| **Safety temperature monitor** (STW) | switches the generator off on overtemperature                                    | automatic once cooler        |
+| **Safety temperature limiter** (STB) | switches off and **locks out**, fault is indicated                               | manual reset on site only    |
+| **Low-water cut-off**                | switches the burner off at too low a water level, locks out                      | manual reset on site only    |
+| **Thermal discharge safety device**  | wood boiler: on overtemperature opens cold water through a safety heat exchanger | automatic (capillary sensor) |
+
+The low-water cut-off matters mostly for **rooftop plant rooms**, where the generator sits at the highest point of the system. The thermal discharge safety device needs no power, because a wood fire cannot simply be switched off.
+
+**For BA:** the STB and the low-water cut-off act **hard-wired** on the generator, never via the DDC. BA only receives the fault signal as a digital input. The manual reset is deliberate: someone should check on site why it tripped.
 
 ### Automatic Filling Unit / Pressurisation Station
 

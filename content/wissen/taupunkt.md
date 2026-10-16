@@ -20,7 +20,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [pid-regler, heizkurve, luftfeuchtigkeit]
+related: [pid-regler, heizkurve, luftfeuchtigkeit, klimasysteme]
 norm: [EN ISO 13788, DIN 4108-3, SIA 180]
 updated: 2026-05-14
 lang: de

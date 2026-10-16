@@ -27,7 +27,7 @@ related:
 rechner: [hydraulik-simulator]
   [hydraulischer-abgleich, hydraulische-schaltungen, pid-regler, signaltypen, ventilautoritaet]
 norm: [EN 60534, IEC 60534, VDI/VDE 2173]
-updated: 2026-05-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -152,6 +152,8 @@ Die Kennlinie bestimmt, wie sich der k<sub>v</sub>-Wert mit dem Hub verändert:
 | 100 % | 100 %                          |
 
 Formel: k<sub>v</sub>/k<sub>vs</sub> = SV<sup>(h − 1)</sup>, hier mit Stellverhältnis SV = 50. Jeder gleiche Hubschritt erhöht den Durchfluss um denselben Prozentsatz.
+
+Das **Stellverhältnis** ist SV = k<sub>vs</sub> / k<sub>vr</sub>, üblich sind 50 bis über 150. k<sub>vr</sub> ist der **kleinste regelbare Durchfluss**: Darunter springt das Ventil beim Öffnen von zu auf einen Mindestdurchfluss, stetig regeln geht dort nicht mehr. Ein Ventil mit SV = 50 und k<sub>vs</sub> 10 m³/h regelt also erst ab etwa 0.2 m³/h sauber.
 
 - Logarithmische Kennlinie
 - **Empfehlen** für Wärmetauscher-Einbindung: kompensiert die nichtlineare Wärmeübergabe-Charakteristik
@@ -344,6 +346,8 @@ The characteristic (curve) determines how Kv changes with stroke:
 | 100 %  | 100 %                          |
 
 Formula: k<sub>v</sub>/k<sub>vs</sub> = SV<sup>(h − 1)</sup>, here with rangeability SV = 50. Each equal stroke step raises the flow by the same percentage.
+
+The **rangeability** is SV = k<sub>vs</sub> / k<sub>vr</sub>, typically 50 to over 150. k<sub>vr</sub> is the **smallest controllable flow**: below it the valve jumps from closed to a minimum flow when opening, continuous control is no longer possible there. A valve with SV = 50 and k<sub>vs</sub> 10 m³/h therefore only controls cleanly from about 0.2 m³/h.
 
 - Logarithmic characteristic
 - **Recommended** for heat exchanger connections: compensates for the non-linear heat transfer characteristic

@@ -34,7 +34,7 @@ related:
   ]
 rechner: [hydraulik-simulator]
 norm: [EN 12828, SIA 384/1, VDI 3814]
-updated: 2026-10-14
+updated: 2026-10-16
 lang: de
 ---
 
@@ -167,6 +167,10 @@ Der Verteiler und die Gruppen daran müssen zusammenpassen. **Am selben Verteile
 
 Wichtig für die Wahl ist der Erzeuger: Brennwertkessel, Wärmepumpen und Fernwärme wollen einen **tiefen Rücklauf**, ältere Kessel brauchen einen **Mindestrücklauf**, damit kein Kondensat entsteht.
 
+**Energetisch** schneidet der Verteiler mit variablem Volumenstrom am besten ab: Er bezieht nur so viel Wasser, wie die Gruppen brauchen, und die Spreizung wächst bei Teillast. Verteiler mit konstantem Volumenstrom fördern dauernd den Nennvolumenstrom, bei kleiner Last kommt fast so warmes Wasser zurück, wie hinausging. Das kostet Pumpenstrom und Wärmeverluste. Verteiler mit Bypass ohne Druckdifferenz liegen dazwischen.
+
+Ventile sind meist als **Mischventil** gebaut. Wer mit einem Dreiwegventil verteilen will (Umlenkschaltung), muss prüfen, ob es dafür zugelassen ist.
+
 ## Hinweise für die GA
 
 - **Regelfühler nach der Pumpe**, nicht direkt nach dem Mischventil. Dort ist das Wasser durchmischt. Bei Beimischschaltungen nicht weiter als etwa 20 m vom Bypass.
@@ -179,6 +183,7 @@ Wichtig für die Wahl ist der Erzeuger: Brennwertkessel, Wärmepumpen und Fernw�
 
 - Siemens Building Technologies: «Hydraulik in der Gebäudetechnik», Grundlagendokumentation
 - Belimo: Auswahltabelle hydraulische Grundschaltungen
+- Siemens Schweiz AG: «Einführung in die HLK- und Gebäudetechnik», Schulungsunterlage BT_0093, 2019, Kap. 5
 
 <!-- EN -->
 
@@ -309,6 +314,10 @@ The header and the groups on it must match. **Only groups with the same behaviou
 
 The generator matters most: condensing boilers, heat pumps and district heating want a **low return**; older boilers need a **minimum return** to avoid condensation.
 
+**In energy terms** the variable-flow header performs best: it draws only as much water as the groups need, and the temperature spread grows at part load. Constant-flow headers pump the design flow all the time; at low load the water returns almost as warm as it left. That costs pump power and heat losses. Headers with a bypass and no differential pressure lie in between.
+
+Valves are usually built as **mixing valves**. Anyone diverting with a three-way valve (diverting circuit) must check that it is approved for that.
+
 ## Notes for BA
 
 - **Control sensor after the pump**, not directly after the mixing valve. There the water is mixed. In mixing circuits, no further than about 20 m from the bypass.
@@ -321,3 +330,4 @@ The generator matters most: condensing boilers, heat pumps and district heating 
 
 - Siemens Building Technologies: "Hydraulik in der Gebäudetechnik", fundamentals documentation
 - Belimo: selection table of basic hydraulic circuits
+- Siemens Schweiz AG: "Einführung in die HLK- und Gebäudetechnik", training document BT_0093, 2019, ch. 5
