@@ -30,7 +30,10 @@ related:
     hydraulischer-abgleich,
     pid-regler,
     legionellen,
-    trinkwasser-erwaermung
+    trinkwasser-erwaermung,
+    bhkw,
+    holzheizung,
+    solarthermie
   ]
 norm: [EN 12977, VDI 2035]
 updated: 2026-05-14

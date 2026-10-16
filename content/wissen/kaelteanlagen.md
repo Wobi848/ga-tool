@@ -30,7 +30,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [waermepumpe, taupunkt, druckverlust]
+related: [waermepumpe, taupunkt, druckverlust, absorptionskaelte]
 norm: [EN 14511, EN 378, F-Gase-Verordnung, ChemRRV]
 updated: 2026-05-14
 lang: de

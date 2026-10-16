@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.18.0 — 2026-10-16
+
+### Vier neue Wissensartikel zu Erzeugern
+
+- **Absorptions- und Adsorptionskälte:** Kühlen mit Abwärme, Arbeitsstoffpaare,
+  Wärmeverhältnis, grössere Rückkühlung, Kristallisation bei Lithiumbromid
+- **Blockheizkraftwerk (BHKW):** Wärme-Kraft-Kopplung, wärme- und stromgeführt,
+  kühler Rücklauf, Pufferlogik, Brennstoffzelle
+- **Solarthermie:** Kollektorbauarten, Deckungsgrad, Stagnation,
+  Temperaturdifferenzregelung, Speichergrösse
+- **Holzheizung:** Stückholz, Pellets, Schnitzel, unterer Abbrand,
+  Rücklaufanhebung, CO im Pelletlager, Luftreinhaltung
+
 ## v0.17.2 — 2026-10-16
 
 - **Neuer Artikel Klimasysteme:** Nur-Luft und Luft-Wasser, Quelllüftung,

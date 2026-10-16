@@ -34,7 +34,8 @@ related:
     fussbodenheizung,
     fernwaerme,
     kesselregelung,
-    ventil-schaltungen
+    ventil-schaltungen,
+    holzheizung
   ]
 
 norm: [EN 12828, VDI 2035, SIA 384/1]
