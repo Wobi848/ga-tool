@@ -33,3 +33,4 @@ src/lib/referenz/referenz.generated.json
 src/lib/checklisten/checklisten.generated.json
 src/lib/search/corpus.generated.json
 docs/*.pdf
+docs/siemens/
