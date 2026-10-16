@@ -93,7 +93,9 @@ echo "════════════════════════�
 echo
 
 # Schritt 1: aktuelle Version anzeigen
-OLD_VERSION=$(grep "APP_VERSION" src/lib/version.ts | sed -E "s/.*'([0-9.]+)'.*/\1/")
+# Beim Neustart nach git pull steht in version.ts schon die neue Version;
+# die alte kommt deshalb ueber die Umgebung mit.
+OLD_VERSION=${GA_UPDATE_OLD_VERSION:-$(grep "APP_VERSION" src/lib/version.ts | sed -E "s/.*'([0-9.]+)'.*/\1/")}
 echo "Aktuelle Version: v$OLD_VERSION"
 echo
 
@@ -110,6 +112,7 @@ if [ "$LOCAL" != "$REMOTE" ]; then
 	if [ "${GA_UPDATE_REEXEC:-0}" != "1" ]; then
 		echo "  · Skript wurde mitaktualisiert — starte es neu."
 		export GA_UPDATE_REEXEC=1
+		export GA_UPDATE_OLD_VERSION="$OLD_VERSION"
 		exec "$0" "$@"
 	fi
 elif [ "$FORCE" = "1" ]; then

@@ -1064,7 +1064,7 @@ export const de = {
 			warnLowAuthority:
 				'Sehr kleiner Druckverlust am Ventil ({a} kPa). Das deutet auf ein zu grosses Ventil und eine schlechte Ventilautorität hin — mit dem Druckverlust der Anlage im Rechner «Ventilautorität» prüfen.',
 			formulaNote: 'Formel: Kv = V̇ × √(1 / Δp), Wasser bei 20 °C.',
-			stdKvsSeries: 'Standard-Kvs nach DIN EN 1267:'
+			stdKvsSeries: 'Übliche Kvs-Reihe (Normzahlen R5):'
 		}
 	},
 

@@ -1058,7 +1058,7 @@ export const en = {
 			warnLowAuthority:
 				'Very small pressure drop across the valve ({a} kPa). This points to an oversized valve and poor valve authority — check it with the system pressure drop in the "Valve authority" calculator.',
 			formulaNote: 'Formula: Kv = V̇ × √(1 / Δp), water at 20 °C.',
-			stdKvsSeries: 'Standard Kvs per DIN EN 1267:'
+			stdKvsSeries: 'Common Kvs series (preferred numbers R5):'
 		}
 	},
 
