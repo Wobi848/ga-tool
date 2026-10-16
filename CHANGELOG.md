@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.17.1 — 2026-10-16
+
+- **Protokolle:** Ergänzungen aus O. Steiger, _Gebäudeautomation – effizient
+  vernetzen_ (Faktor 2026), Kap. 10: KNX-Datenraten, DALI-2 mit 64
+  Steuergeräten und DALI+, Modbus/TCP Security, BACnet über LonTalk,
+  EnOcean-Datenrate; SMI und EnOcean neu im Protokollvergleich
+- **Luftbedarf:** CO₂ der Aussenluft mit 420 statt 400 ppm, wie in den Artikeln
+- **Heizkurve:** Kurven für Siemens, Viessmann und Buderus als Näherung
+  gekennzeichnet, da die Hersteller ihre Kennlinien nicht veröffentlichen
+
 ## v0.17.0 — 2026-10-14
 
 ### Fachprüfung aller Inhalte
