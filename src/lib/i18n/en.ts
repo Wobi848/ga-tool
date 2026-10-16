@@ -486,7 +486,7 @@ export const en = {
 
 		luftbedarfUi: {
 			formulaNote:
-				'Calculation per SN EN 16798-1: the larger of the two values applies (person + area requirement vs. CO₂ mass balance). Outdoor CO₂ = 400 ppm assumed.',
+				'Calculation per SN EN 16798-1: the larger of the two values applies (person + area requirement vs. CO₂ mass balance). Outdoor CO₂ = 420 ppm assumed.',
 			room: 'Room',
 			floorArea: 'Floor area',
 			roomHeight: 'Room height',

@@ -18,8 +18,8 @@ describe('luftbedarf', () => {
 		// recommended = max
 		expect(r.recommended).toBeCloseTo(113.4, 1);
 		expect(r.volume).toBeCloseTo(67.5, 1);
-		// Hoechstwert im Raum: 400 ppm aussen + 800 ppm = 1200 ppm
-		expect(r.co2Target).toBe(1200);
+		// Hoechstwert im Raum: 420 ppm aussen + 800 ppm = 1220 ppm
+		expect(r.co2Target).toBe(1220);
 	});
 
 	it('Kategorie I ist strenger als Kategorie IV', () => {

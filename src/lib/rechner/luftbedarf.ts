@@ -10,7 +10,7 @@ export type LuftActivity = Co2Activity;
  *  - perPerson [l/(s·Person)]
  *  - perArea [l/(s·m²)], schadstoffarmes Gebaeude
  *  - co2 [ppm] zulaessige Erhoehung UEBER der Aussenluft, nicht der
- *    absolute Raumwert. Kategorie II: 800 ppm ueber 400 ppm aussen = 1200 ppm.
+ *    absolute Raumwert. Kategorie II: 800 ppm ueber 420 ppm aussen = 1220 ppm.
  *
  *  Bis 0.16.0 standen die CO2-Werte als absolute Raumwerte da, und davon
  *  wurde die Aussenluft noch einmal abgezogen: bei Kategorie I blieb ein
@@ -26,8 +26,8 @@ export const CATEGORIES: Record<LuftCat, { perPerson: number; perArea: number; c
 /** CO2-Produktion je Person: dieselben Werte wie im CO2-Regelungsrechner. */
 export { ACTIVITY_CO2_LPH };
 
-/** CO2-Aussenluft (Default 400 ppm). */
-export const CO2_OUTDOOR = 400;
+/** CO2-Aussenluft (Default 420 ppm, Stand heute). */
+export const CO2_OUTDOOR = 420;
 
 export interface LuftbedarfInput {
 	/** Flaeche [m²] */
@@ -40,7 +40,7 @@ export interface LuftbedarfInput {
 	cat: LuftCat;
 	/** Aktivitaet */
 	activity: LuftActivity;
-	/** CO2 Aussenluft [ppm], default 400 */
+	/** CO2 Aussenluft [ppm], default 420 */
 	co2Outside?: number;
 }
 

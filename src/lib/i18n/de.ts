@@ -489,7 +489,7 @@ export const de = {
 
 		luftbedarfUi: {
 			formulaNote:
-				'Berechnung nach SN EN 16798-1: massgebend ist der grössere der beiden Werte (Personen- + Flächenbedarf vs. CO₂-Massenbilanz). Aussenluft-CO₂ = 400 ppm angenommen.',
+				'Berechnung nach SN EN 16798-1: massgebend ist der grössere der beiden Werte (Personen- + Flächenbedarf vs. CO₂-Massenbilanz). Aussenluft-CO₂ = 420 ppm angenommen.',
 			room: 'Raum',
 			floorArea: 'Bodenfläche',
 			roomHeight: 'Raumhöhe',
