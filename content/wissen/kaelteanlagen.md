@@ -30,9 +30,9 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [waermepumpe, taupunkt, druckverlust, absorptionskaelte]
+related: [waermepumpe, taupunkt, druckverlust, absorptionskaelte, kaeltekreislauf, eisspeicher]
 norm: [EN 14511, EN 378, F-Gase-Verordnung, ChemRRV]
-updated: 2026-05-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -44,7 +44,7 @@ Kälteanlagen entziehen einem Bereich Wärme und geben sie an eine Wärmesenke a
 
 Identisch mit der Wärmepumpe — nur der Nutzen liegt anders:
 
-Der Kreislauf ist derselbe wie bei der [Wärmepumpe](/wissen/waermepumpe): Verdampfer → Verdichter → Verflüssiger → Expansionsventil. Genutzt wird hier die Kälte im **Verdampfer**, die Wärme aus dem **Verflüssiger** geht über den Rückkühler weg oder wird zurückgewonnen.
+Der Kreislauf ist derselbe wie bei der [Wärmepumpe](/wissen/waermepumpe): Verdampfer → Verdichter → Verflüssiger → Expansionsventil. Ausführlich mit h,log p-Diagramm in [Kältekreislauf](/wissen/kaeltekreislauf). Genutzt wird hier die Kälte im **Verdampfer**, die Wärme aus dem **Verflüssiger** geht über den Rückkühler weg oder wird zurückgewonnen.
 
 | Grösse   | Wärmepumpe             | Kältemaschine             |
 | -------- | ---------------------- | ------------------------- |
@@ -173,6 +173,15 @@ Der Sollwert darf nur so weit steigen, wie die Verbraucher es zulassen. Lüftung
 
 **Energieeinsparung:** Jedes Kelvin höherer Verdampfungstemperatur verbessert EER um ~3 %.
 
+## Pumpen und Rückkühlung bedarfsgerecht
+
+Kälteanlagen laufen meist in Teillast, die Pumpen und Rückkühlerventilatoren aber oft mit voller Drehzahl. Das kostet doppelt:
+
+- **Kaltwasserseite:** Mit konstantem Volumenstrom sinkt bei Teillast die Spreizung über dem Verdampfer, der Pumpenstrom bleibt gleich. Besser: Pumpen drehzahlregeln und die Spreizung halten. Der Druck-Sollwert folgt dabei dem Volumenstrom, statt fest zu sein. Voraussetzung ist eine Hydraulik für variablen Volumenstrom.
+- **Rückkühlseite:** Bei Teillast und kühler Aussenluft brauchen Rückkühler und Rückkühlpumpe weniger. Drehzahl reduzieren, Spreizung halten. Kälteres Rückkühlwasser senkt zudem den Verflüssigungsdruck, unterkühlt das Kältemittel stärker und verbessert den EER, solange der Mindestdruck für das Expansionsventil bleibt.
+
+Siemens nennt für eine solche ganzheitliche Optimierung in einem Grossspital 26 % weniger Stromverbrauch der Kälteanlage. In den Kältekreis selbst greift man dabei nicht ein, die Garantie des Herstellers bleibt erhalten. Mehr zu den Vorgängen im Kreislauf in [Kältekreislauf](/wissen/kaeltekreislauf).
+
 ## F-Gase-Pflichten (Betreiber)
 
 | Füllmenge CO₂-Äquivalent | Pflicht                                           |
@@ -204,7 +213,7 @@ Refrigeration systems extract heat from an area and reject it to a heat sink. In
 
 Identical to the heat pump — only the useful effect differs:
 
-The cycle is the same as in the [heat pump](/wissen/waermepumpe): evaporator → compressor → condenser → expansion valve. Here the cooling in the **evaporator** is used; the heat from the **condenser** is rejected via the recooler or recovered.
+The cycle is the same as in the [heat pump](/wissen/waermepumpe): evaporator → compressor → condenser → expansion valve. In detail with the pressure-enthalpy diagram in [Refrigeration Cycle](/wissen/kaeltekreislauf). Here the cooling in the **evaporator** is used; the heat from the **condenser** is rejected via the recooler or recovered.
 
 | Quantity           | Heat pump           | Chiller                |
 | ------------------ | ------------------- | ---------------------- |
@@ -332,6 +341,15 @@ Instead of a fixed setpoint (e.g. always 6 °C), the chilled water setpoint is *
 The setpoint may only rise as far as the consumers allow. AHU coolers that must dehumidify need low temperatures.
 
 **Energy saving:** every kelvin higher evaporation temperature improves EER by ~3 %.
+
+## Demand-Based Pumps and Heat Rejection
+
+Chillers usually run at part load, but pumps and cooling tower fans often at full speed. That costs twice:
+
+- **Chilled water side:** with constant flow, the temperature spread across the evaporator drops at part load while pump power stays the same. Better: speed-control the pumps and hold the spread. The pressure setpoint follows the flow instead of being fixed. This requires hydraulics designed for variable flow.
+- **Heat rejection side:** at part load and with cool outdoor air, cooling towers and condenser pumps need less. Reduce speed, hold the spread. Colder condenser water also lowers the condensing pressure, subcools the refrigerant more and improves the EER, as long as the minimum pressure for the expansion valve is maintained.
+
+For such a holistic optimisation in a large hospital, Siemens reports 26 % lower electricity consumption of the chiller plant. The refrigerant circuit itself is not touched, so the manufacturer's warranty remains valid. More on what happens in the circuit in [Refrigeration Cycle](/wissen/kaeltekreislauf).
 
 ## F-Gas Obligations (Operator)
 

@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.18.4 — 2026-10-17
+
+Abgleich mit Siemens «Kältetechnik» (BT_0099).
+
+- **Neuer Artikel Kältekreislauf:** h,log p-Diagramm mit Grafik, Überhitzung und
+  Unterkühlung, Verdichter, Verdampfer, Verflüssiger, Expansionsventile,
+  Sicherheitsorgane, Leistungsregelung, Wärme aus dem Kältekreis, Störungsbilder
+- **Neuer Artikel Eis- und Kaltwasserspeicher:** Teil- und Vollspeicherung,
+  Betriebsarten, Regelung, Eisspeicher als Wärmepumpenquelle
+- **Kälteanlagen:** bedarfsgerechte Pumpen und Rückkühlung
+
 ## v0.18.3 — 2026-10-17
 
 Abgleich mit Siemens «Regeltechnik» (BT_0098).
