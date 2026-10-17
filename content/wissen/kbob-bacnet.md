@@ -274,6 +274,7 @@ Der Unternehmer liefert: Zertifikat, **PICS** aller Gerätetypen und auf Wunsch 
 
 - [Checkliste BACnet-Vorgaben (KBOB C1)](/checklisten/kbob-bacnet-vorgaben)
 - [Checkliste BACnet-Funktionstest (KBOB C2)](/checklisten/kbob-bacnet-funktionstest)
+- [Checkliste BACnet-Bauherrenvorgaben festlegen (KBOB E1)](/checklisten/kbob-bacnet-bauherrenvorgaben), für den Bauherrn vor der Ausschreibung
 
 Wer die Datenpunktliste aufbaut: [Datenpunktliste](/wissen/datenpunktliste).
 
@@ -536,6 +537,7 @@ The contractor supplies: certificate, **PICS** of all device types and on reques
 
 - [Checklist BACnet requirements (KBOB C1)](/checklisten/kbob-bacnet-vorgaben)
 - [Checklist BACnet functional test (KBOB C2)](/checklisten/kbob-bacnet-funktionstest)
+- [Checklist define owner BACnet requirements (KBOB E1)](/checklisten/kbob-bacnet-bauherrenvorgaben), for the owner before the tender
 
 Building the data point list: [Data Point List](/wissen/datenpunktliste).
 

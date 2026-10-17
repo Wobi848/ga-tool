@@ -96,7 +96,7 @@ Die Empfehlung ordnet jedes Dokument den Phasen Vorstudie bis Realisierung zu: z
 
 ## Wie man die KBOB im Projekt einsetzt
 
-1. **Bauherr klärt mit der Entscheidungsmatrix E1**, welche Punkte er übernimmt und wo er eigene Vorgaben braucht: Objektnamen, Device-ID-Struktur, Alarmkonzept, Trends, Netzwerk.
+1. **Bauherr klärt mit der Entscheidungsmatrix E1**, welche Punkte er übernimmt und wo er eigene Vorgaben braucht: Objektnamen, Device-ID-Struktur, Alarmkonzept, Trends, Netzwerk. Als Checkliste: [BACnet-Bauherrenvorgaben festlegen](/checklisten/kbob-bacnet-bauherrenvorgaben).
 2. **Bauherrenvorgaben** mit der Vorlage V1 schreiben. Sie stehen über der KBOB-Empfehlung und ergänzen sie.
 3. **Ausschreibung** verweist auf die Empfehlung und die Bauherrenvorgaben.
 4. **Unternehmer bestätigt** mit Beilage C1, dass Produkt und Engineering passen: [Checkliste BACnet-Vorgaben](/checklisten/kbob-bacnet-vorgaben).
@@ -172,7 +172,7 @@ The recommendation assigns every document to the phases from preliminary study t
 
 ## Using KBOB in a Project
 
-1. **The owner works through decision matrix E1** to decide which points to adopt and where own requirements are needed: object names, device ID structure, alarm concept, trends, network.
+1. **The owner works through decision matrix E1** to decide which points to adopt and where own requirements are needed: object names, device ID structure, alarm concept, trends, network. As a checklist: [Define owner BACnet requirements](/checklisten/kbob-bacnet-bauherrenvorgaben).
 2. **Write owner requirements** with template V1. They rank above the KBOB recommendation and complement it.
 3. **The tender** refers to the recommendation and the owner requirements.
 4. **The contractor confirms** with annex C1 that product and engineering fit: [Checklist BACnet requirements](/checklisten/kbob-bacnet-vorgaben).

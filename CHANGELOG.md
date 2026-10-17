@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.26.0 — 2026-10-17
+
+### Neu: Checkliste BACnet-Bauherrenvorgaben (KBOB E1)
+
+Die Entscheidungsmatrix E1 als Checkliste: 35 Fragen, die der Bauherr vor der
+Ausschreibung beantwortet, von der Device-ID-Struktur über Objektnamen,
+Alarmkonzept und Meldeklassen bis zu BBMD und IKT-Sicherheit. Abhaken, wenn
+entschieden, die Antwort als Notiz; der CSV-Export ist die Grundlage für das
+Vorgabendokument nach Vorlage V1. Im Hinweis stehen die Bemerkung und das
+Beispiel der KBOB.
+
 ## v0.25.0 — 2026-10-17
 
 ### Neu: EDE-Prüfer
