@@ -22,8 +22,8 @@ tags:
 difficulty: fortgeschritten
 area: [ga]
 related: [datenpunktliste, tab-protokoll, glt-grundlagen, ddc-programmierung, alarmmanagement]
-norm: [VDI 3814, SIA 386.110, AMEV Hinweis GA 2017]
-updated: 2026-10-14
+norm: [VDI 3814, SIA 386.111, AMEV Hinweis GA 2017]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -185,7 +185,7 @@ Die Auslösung durch den Frostschutzthermostat ist fest verdrahtet und wirkt auc
 ## Normen
 
 - **VDI 3814** — Inhalt und Aufbau von Funktionsbeschreibungen GA
-- **SIA 386.110** — Schweizer Ausgabe von EN 15232, Funktionen und Effizienzklassen der GA
+- **SIA 386.111** — Schweizer Ausgabe von EN ISO 52120-1 (früher SIA 386.110 = EN 15232), Funktionen und Effizienzklassen der GA
 - **AMEV Hinweis GA 2017** — Funktionsbeschreibung für öffentliche Bauten (DE)
 
 <!-- EN -->
@@ -348,5 +348,5 @@ Tripping by the frost thermostat is hard-wired and also works in manual mode.
 ## Standards
 
 - **VDI 3814** — Content and structure of functional descriptions in BA
-- **SIA 386.110** — Swiss edition of EN 15232, BA functions and efficiency classes
+- **SIA 386.111** — Swiss edition of EN ISO 52120-1 (formerly SIA 386.110 = EN 15232), BA functions and efficiency classes
 - **AMEV Hinweis GA 2017** — Functional descriptions for public buildings (DE)

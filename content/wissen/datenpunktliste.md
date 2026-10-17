@@ -23,8 +23,8 @@ tags:
 difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement, bim-digitaler-zwilling]
-norm: [VDI 3814, SIA 386.110, AMEV]
-updated: 2026-10-14
+norm: [VDI 3814, SIA 386.111, AMEV]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -174,7 +174,7 @@ Jeder analoge Datenpunkt sollte Grenzwerte für Plausibilitätsprüfung haben:
 ## Normen
 
 - **VDI 3814** — Gebäudeautomation, MSR-Technik (Datenpunktstruktur)
-- **SIA 386.110** (CH) — Schweizer Ausgabe von EN 15232
+- **SIA 386.111** (CH) — Schweizer Ausgabe von EN ISO 52120-1, früher SIA 386.110 = EN 15232
 - **AMEV BACnet** — Empfehlung für BACnet-Datenpunkte in öffentlichen Gebäuden
 - **VDI/VDE 3699** — Prozessführung mit Bildschirmen (Datenpunkt-Visualisierung)
 
@@ -324,6 +324,6 @@ Every analogue data point should have limits for plausibility checking:
 ## Standards
 
 - **VDI 3814** — Building automation, instrumentation and control (data point structure)
-- **SIA 386.110** (CH) — Swiss edition of EN 15232
+- **SIA 386.111** (CH) — Swiss edition of EN ISO 52120-1, formerly SIA 386.110 = EN 15232
 - **AMEV BACnet** — Recommendation for BACnet data points in public buildings
 - **VDI/VDE 3699** — Process control with screens (data point visualisation)

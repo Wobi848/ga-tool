@@ -14,7 +14,7 @@ export const dplReview: ChecklistTemplate = {
 	icon: 'table',
 	color: '#059669',
 	areas: ['ga'],
-	norm: ['VDI 3814-2', 'SIA 386.110'],
+	norm: ['VDI 3814-2', 'SIA 386.111'],
 	updated: '2026-10-14',
 	sections: [
 		{

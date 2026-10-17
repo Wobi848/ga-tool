@@ -14,7 +14,7 @@ export const funktionstest: ChecklistTemplate = {
 	icon: 'check-square',
 	color: '#0d9488',
 	areas: ['ga'],
-	norm: ['VDI 3814-4', 'SIA 386.110', 'VDMA 24186'],
+	norm: ['VDI 3814-4', 'SIA 386.111', 'VDMA 24186'],
 	updated: '2026-05-15',
 	sections: [
 		{

@@ -23,8 +23,8 @@ difficulty: grundlagen
 area: [ga, hlk]
 related: [pid-regler, heizkurve, kaskadenregelung, vorsteuerung-aufschaltung, regelkreise, mpc-ga]
 rechner: [heizkurve]
-norm: [EN ISO 52120-1, SIA 386.110, VDI 3814]
-updated: 2026-05-15
+norm: [EN ISO 52120-1, SIA 386.111, VDI 3814]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -124,7 +124,7 @@ Jeder geführte Sollwert braucht ein **Minimum und ein Maximum**:
 ## Normen
 
 - **EN ISO 52120-1** — Einfluss der GA auf die Energieeffizienz, Nachfolger von EN 15232. Bewertet Funktionen wie witterungsgeführte Vorlauftemperatur, Zeitprogramme und optimierten Start. Je mehr davon umgesetzt sind, desto besser die GA-Effizienzklasse von D bis A.
-- **SIA 386.110** — Schweizer Ausgabe von EN 15232
+- **SIA 386.111** — Schweizer Ausgabe von EN ISO 52120-1, früher SIA 386.110 = EN 15232
 - **VDI 3814** — Gebäudeautomation, Funktionen und Begriffe
 
 <!-- EN -->
@@ -223,5 +223,5 @@ Every scheduled setpoint needs a **minimum and a maximum**:
 ## Standards
 
 - **EN ISO 52120-1** — Contribution of BA to energy performance, successor to EN 15232. Rates functions such as weather-compensated flow temperature, time schedules and optimum start. The more are implemented, the better the BA efficiency class from D to A.
-- **SIA 386.110** — Swiss edition of EN 15232
+- **SIA 386.111** — Swiss edition of EN ISO 52120-1, formerly SIA 386.110 = EN 15232
 - **VDI 3814** — Building automation, functions and terms

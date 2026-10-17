@@ -1591,6 +1591,16 @@ export const abbreviations: Abbreviation[] = [
 		related: ['DIN', 'ISO']
 	},
 	{
+		short: 'eu.bac',
+		long: 'European Building Automation and Controls Association',
+		description:
+			'Europäischer Verband der GA-Hersteller. Zertifiziert Produkte, etwa Einzelraumregler nach ihrer Regelgenauigkeit, und bewertet bestehende GA-Systeme anhand der Funktionen von EN ISO 52120-1.',
+		descriptionEn:
+			'European association of BA manufacturers. Certifies products, such as room controllers by their control accuracy, and assesses existing BA systems based on the functions of EN ISO 52120-1.',
+		areas: ['normen', 'ga'],
+		related: ['EN', 'ISO']
+	},
+	{
 		short: 'ISO',
 		long: 'International Organization for Standardization',
 		description: 'Internationale Norm. Beispiele: ISO 16890 (Filter), ISO/IEC 14543 (KNX).',

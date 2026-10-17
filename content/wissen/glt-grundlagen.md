@@ -35,8 +35,8 @@ related:
     sps-grundlagen,
     visualisierung-hmi
   ]
-norm: [EN ISO 52120, VDI 3814, SIA 386.110]
-updated: 2026-10-14
+norm: [EN ISO 52120, VDI 3814, SIA 386.111]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -212,7 +212,7 @@ Jedes DDC-Programm folgt demselben Ablauf:
 
 - **VDI 3814** — Gebäudeautomation, MSR-Technik in Gebäuden
 - **EN ISO 52120-1** (früher EN 15232) — GA-Effizienzklassen
-- **SIA 386.110** (CH) — Schweizer Ausgabe von EN 15232
+- **SIA 386.111** (CH) — Schweizer Ausgabe von EN ISO 52120-1, früher SIA 386.110 = EN 15232
 - **EN ISO 16484** — Systeme der Gebäudeautomation, Teil 5 BACnet
 - **IEC 61131-3** — Programmiersprachen für SPS/DDC
 
@@ -390,6 +390,6 @@ Every DDC programme follows the same cycle:
 
 - **VDI 3814** — Building automation, instrumentation and control in buildings
 - **EN ISO 52120-1** (formerly EN 15232) — BA efficiency classes
-- **SIA 386.110** (CH) — Swiss edition of EN 15232
+- **SIA 386.111** (CH) — Swiss edition of EN ISO 52120-1, formerly SIA 386.110 = EN 15232
 - **EN ISO 16484** — Building automation and control systems, part 5 BACnet
 - **IEC 61131-3** — Programming languages for PLC/DDC

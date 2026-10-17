@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.18.9 — 2026-10-17
+
+- **Korrektur Normnummer:** Die gültige Schweizer Ausgabe der GA-Effizienznorm
+  ist **SIA 386.111** (SN EN ISO 52120-1:2022). SIA 386.110 war die Ausgabe
+  von EN 15232 und ist seit 2018 zurückgezogen. Alle Artikel und Checklisten
+  angepasst, Artikel SIA 386 mit der Nummernhistorie neu geschrieben.
+- **MuKEn richtiggestellt:** Modul 5 verlangt Überwachungsfunktionen für
+  grosse Nichtwohnbauten, keine GA-Klasse.
+- **EN 15232 / EN ISO 52120-1:** GA-Effizienzfaktoren für alle Gebäudetypen,
+  thermisch und elektrisch; eu.bac-Zertifizierung
+- **Abkürzungen:** eu.bac
+
 ## v0.18.8 — 2026-10-17
 
 Abgleich mit Siemens «Einführung in die HLK- und Gebäudetechnik», Ausgabe 2026.
