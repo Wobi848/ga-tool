@@ -24,6 +24,7 @@ difficulty: fortgeschritten
 area: [ga]
 related: [glt-grundlagen, bacnet, modbus, signaltypen, alarmmanagement, bim-digitaler-zwilling]
 norm: [VDI 3814, SIA 386.111, AMEV]
+rechner: [bacnet-dpl, aks]
 updated: 2026-10-17
 lang: de
 ---

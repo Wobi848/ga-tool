@@ -221,6 +221,16 @@ export const rechner: RechnerMeta[] = [
 		icon: 'tag',
 		color: '#0891b2',
 		updated: '2026-10-17'
+	},
+	{
+		slug: 'bacnet-dpl',
+		name: 'BACnet-Datenpunktliste',
+		name_en: 'BACnet Data Point List',
+		short: 'GA-Funktionen nach KBOB → BACnet-Objekte, Alarmliste, EDE-Export',
+		short_en: 'BA functions per KBOB → BACnet objects, alarm list, EDE export',
+		icon: 'list',
+		color: '#2563eb',
+		updated: '2026-10-17'
 	}
 ];
 

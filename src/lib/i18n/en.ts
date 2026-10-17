@@ -533,6 +533,46 @@ export const en = {
 			massFlow: 'Mass flow ṁ'
 		},
 
+		bacnetDpl: {
+			name: 'BACnet Data Point List',
+			short: 'BA functions per KBOB → BACnet objects, alarm list, EDE export'
+		},
+
+		dplUi: {
+			intro:
+				'Enter plants and BA functions; the generator creates the BACnet objects per KBOB recommendation ch. 7.2: object name from the labelling scheme, state texts, notification class, trend. Grey = owner-specific, black = mandatory. The data stays in this browser.',
+			project: 'Project',
+			projectName: 'Project name',
+			fktFrom: 'Function number from',
+			ncMapping: 'Notification classes per category',
+			ncHint:
+				'The owner decides which class an event gets. One class per category is suggested; the last digit determines what must be acknowledged.',
+			noAck: 'no acknowledgement',
+			plantName: 'Plant name',
+			label: 'Label',
+			stages: 'Stages',
+			quantity: 'Quantity',
+			optional: 'Also create owner-specific objects',
+			addFunction: 'BA function',
+			addPlant: 'Plant',
+			remove: 'Remove',
+			reset: 'Start over',
+			resetConfirm: 'Delete all plants and start over with the example?',
+			objects: 'BACnet objects',
+			alarms: 'Objects with notification class',
+			warnings: 'Warnings',
+			alarmCsv: 'Alarm list CSV',
+			saveJson: 'Save project',
+			loadJson: 'Load project',
+			objectList: 'Object list',
+			alarmList: 'Alarm list',
+			type: 'Type',
+			textsUnit: 'Texts / unit',
+			category: 'Category',
+			alarmState: 'Alarm state',
+			note: "EDE per B.I.G.-EU layout 2.3, semicolon, UTF-8; agree with the recipient before import. Notification classes, COV thresholds and instance numbers are suggestions: the owner requirements and the planner's data point list are binding."
+		},
+
 		aks: {
 			name: 'Plant Labelling Generator',
 			short: 'Create and decode KBOB plant labels and BACnet object names'

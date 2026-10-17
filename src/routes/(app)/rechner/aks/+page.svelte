@@ -22,7 +22,7 @@
 	const lang = $derived<Lang>($locale?.startsWith('en') ? 'en' : 'de');
 
 	let mode = $state<'build' | 'parse'>('build');
-	let ort = $state('apparat' as 'feld' | 'apparat');
+	let ort = $state('feld' as 'feld' | 'apparat');
 
 	let t = $state<Required<AksTeile>>({
 		anlage: '3022',
@@ -366,6 +366,22 @@
 	}
 	.row .calc-field.grow {
 		flex: 3 1 12rem;
+	}
+	.row .calc-field {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.25rem;
+		border-top: none;
+	}
+	.row .calc-field-label {
+		flex: none;
+		font-size: 0.75rem;
+		color: var(--muted);
+	}
+	.row .calc-input,
+	.row .calc-select {
+		width: 100%;
+		text-align: left;
 	}
 	.mono {
 		font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;

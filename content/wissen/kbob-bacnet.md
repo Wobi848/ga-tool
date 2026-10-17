@@ -26,6 +26,7 @@ difficulty: fortgeschritten
 area: [ga, it]
 related: [bacnet, kbob, alarmmanagement, trending-historisierung, datenpunktliste, netzwerk-ga]
 norm: [KBOB-Empfehlung BACnet 2021, ISO 16484-5, ASHRAE 135]
+rechner: [aks, bacnet-dpl]
 updated: 2026-10-17
 lang: de
 ---
@@ -266,6 +267,8 @@ Der Unternehmer liefert: Zertifikat, **PICS** aller Gerätetypen und auf Wunsch 
 - [Checkliste BACnet-Funktionstest (KBOB C2)](/checklisten/kbob-bacnet-funktionstest)
 
 Wer die Datenpunktliste aufbaut: [Datenpunktliste](/wissen/datenpunktliste).
+
+Werkzeuge dazu in dieser App: der [AKS-Generator](/rechner/aks) für Kennzeichen und Objektnamen und die [BACnet-Datenpunktliste](/rechner/bacnet-dpl), die aus GA-Funktionen die Objekte nach Kap. 7.2 erzeugt, mit Alarmliste und EDE-Export.
 
 ## Was in der Praxis oft schiefgeht
 
@@ -526,6 +529,8 @@ The contractor supplies: certificate, **PICS** of all device types and on reques
 - [Checklist BACnet functional test (KBOB C2)](/checklisten/kbob-bacnet-funktionstest)
 
 Building the data point list: [Data Point List](/wissen/datenpunktliste).
+
+Tools in this app: the [labelling generator](/rechner/aks) for labels and object names and the [BACnet data point list](/rechner/bacnet-dpl), which creates the objects per ch. 7.2 from BA functions, with alarm list and EDE export.
 
 ## What Often Goes Wrong in Practice
 

@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.22.0 — 2026-10-17
+
+### Neu: BACnet-Datenpunktliste nach KBOB
+
+Rechner → BACnet-Datenpunktliste. Anlagen und GA-Funktionen erfassen
+(Automationsstation, Schaltgerätekombination, Anlageschalter, Antriebe,
+Stellorgane, Messwertgeber, Wächter, Regler, Zähler); der Generator legt die
+BACnet-Objekte nach KBOB-Empfehlung Kap. 7.2 an.
+
+- **Objekte:** Pflichtobjekte immer, bauherrenspezifische einzeln wählbar;
+  Objektname nach AKS, Instanzen, Zustandstexte, Alarm_Value, Einheit,
+  Priority_Array, COV-Schwelle nach KBOB, Trend Logs mit POLLED oder COV
+- **Meldeklassen:** pro Kategorie wählbar (Vorschlag z.B. Störung NC98),
+  Quittierpflicht und Notify_Type nach KBOB; NC-Objekte werden mit angelegt
+- **Alarmliste** als eigene Ansicht und CSV
+- **Export:** CSV für Excel und EDE nach B.I.G.-EU Layout 2.3 (EDE,
+  StateTexts, Units, ObjTypes)
+- **Prüfung:** doppelte Objektnamen, zu lange Namen und Beschreibungen
+- Daten bleiben im Browser, Projekt als JSON speichern und laden
+- AKS-Generator: Apparateart im Feld vorgewählt
+
 ## v0.21.0 — 2026-10-17
 
 ### Neu: AKS-Generator

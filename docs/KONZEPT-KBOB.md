@@ -57,5 +57,5 @@ Quellenangabe übernommen, Strukturen und Prüfpunkte als Daten.
 ## Stand
 
 - [x] Phase 1 (v0.20.0)
-- [ ] Phase 2
+- [ ] Phase 2 (AKS-Generator v0.21.0, Datenpunktliste mit Alarmliste und EDE v0.22.0; offen: Device-ID-Planer)
 - [ ] Phase 3

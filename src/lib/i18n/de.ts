@@ -536,6 +536,46 @@ export const de = {
 			massFlow: 'Massenstrom ṁ'
 		},
 
+		bacnetDpl: {
+			name: 'BACnet-Datenpunktliste',
+			short: 'GA-Funktionen nach KBOB → BACnet-Objekte, Alarmliste, EDE-Export'
+		},
+
+		dplUi: {
+			intro:
+				'Anlagen und GA-Funktionen erfassen, der Generator legt die BACnet-Objekte nach KBOB-Empfehlung Kap. 7.2 an: Objektname nach AKS, Zustandstexte, Meldeklasse, Trend. Grau = bauherrenspezifisch, schwarz = Pflicht. Die Daten bleiben in diesem Browser.',
+			project: 'Projekt',
+			projectName: 'Projektname',
+			fktFrom: 'Funktionsnummer ab',
+			ncMapping: 'Meldeklassen je Kategorie',
+			ncHint:
+				'Welche Klasse eine Meldung bekommt, legt der Bauherr fest. Vorgeschlagen ist pro Kategorie eine Klasse; die Endziffer bestimmt, was quittiert werden muss.',
+			noAck: 'keine Quittierung',
+			plantName: 'Bezeichnung Anlage',
+			label: 'Bezeichnung',
+			stages: 'Stufen',
+			quantity: 'Messgrösse',
+			optional: 'Bauherrenspezifische Objekte mit erzeugen',
+			addFunction: 'GA-Funktion',
+			addPlant: 'Anlage',
+			remove: 'Entfernen',
+			reset: 'Neu beginnen',
+			resetConfirm: 'Alle Anlagen löschen und mit dem Beispiel neu beginnen?',
+			objects: 'BACnet-Objekte',
+			alarms: 'Objekte mit Meldeklasse',
+			warnings: 'Warnungen',
+			alarmCsv: 'Alarmliste CSV',
+			saveJson: 'Projekt speichern',
+			loadJson: 'Projekt laden',
+			objectList: 'Objektliste',
+			alarmList: 'Alarmliste',
+			type: 'Typ',
+			textsUnit: 'Texte / Einheit',
+			category: 'Kategorie',
+			alarmState: 'Alarmzustand',
+			note: 'EDE nach B.I.G.-EU Layout 2.3, Semikolon, UTF-8; vor dem Import mit dem Empfänger abstimmen. Meldeklassen, COV-Schwellen und Instanznummern sind Vorschläge: massgebend sind die Bauherrenvorgaben und die Datenpunktliste des Planers.'
+		},
+
 		aks: {
 			name: 'AKS-Generator',
 			short: 'Anlagenkennzeichen und BACnet-Objektname nach KBOB erzeugen und zerlegen'
