@@ -26,7 +26,7 @@ related: [regelkreise, heizkurve, motorventile, mpc-ga, ventilautoritaet, zweipu
 
 rechner: [pid-simulator]
 norm: []
-updated: 2026-09-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -80,6 +80,48 @@ Klassisches Verfahren — bewährt aber konservativ:
 | P         | 0.5 × K_krit  | —             | —              |
 | PI        | 0.45 × K_krit | 0.85 × T_krit | —              |
 | PID       | 0.6 × K_krit  | 0.5 × T_krit  | 0.125 × T_krit |
+
+Ziel von Ziegler-Nichols ist ein Einschwingen mit höchstens etwa 20 % Überschwingen. Für die meisten HLK-Kreise ist das schon eher sportlich.
+
+## Einstellregeln aus der Sprungantwort
+
+Ohne Dauerschwingung geht es mit einem Sprungversuch an der offenen Strecke: Stellgrösse von Hand um Δy verstellen, den Verlauf aufzeichnen und mit der Wendetangente **T<sub>u</sub>** (Verzugszeit), **T<sub>g</sub>** (Ausgleichszeit) und **K<sub>S</sub>** = Δx / Δy (Streckenverstärkung) ablesen. Wie das geht, steht in [Regelkreise](/wissen/regelkreise).
+
+**Ziegler-Nichols, Wendetangenten-Verfahren:**
+
+| Reglertyp | K<sub>p</sub>                                         | T<sub>n</sub>       | T<sub>v</sub>       |
+| --------- | ----------------------------------------------------- | ------------------- | ------------------- |
+| P         | 1.0 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | —                   | —                   |
+| PI        | 0.9 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | 3.3 · T<sub>u</sub> | —                   |
+| PID       | 1.2 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | 2 · T<sub>u</sub>   | 0.5 · T<sub>u</sub> |
+
+**Chien, Hrones und Reswick** (1952) unterscheiden zusätzlich, ob der Regler vor allem **Störungen** ausregeln oder einer **Sollwertänderung** folgen soll, und ob er **ohne Überschwingen** (aperiodisch) oder **mit höchstens 20 %** Überschwingen arbeiten soll. Für die PI-Regler in der GA:
+
+| PI-Regler                   | K<sub>p</sub> · K<sub>S</sub> · T<sub>u</sub> / T<sub>g</sub> | T<sub>n</sub>       |
+| --------------------------- | ------------------------------------------------------------- | ------------------- |
+| Störung, aperiodisch        | 0.6                                                           | 4 · T<sub>u</sub>   |
+| Störung, 20 % Überschwingen | 0.7                                                           | 2.3 · T<sub>u</sub> |
+| Führung, aperiodisch        | 0.35                                                          | 1.2 · T<sub>g</sub> |
+| Führung, 20 % Überschwingen | 0.6                                                           | 1.0 · T<sub>g</sub> |
+
+Für PID-Regler liegen die Werte etwas höher, mit T<sub>v</sub> von etwa 0.4 bis 0.5 · T<sub>u</sub>. In der GA ist meist das **Störverhalten** wichtig: Ein Raum soll trotz Sonne und Personen auf Sollwert bleiben, Sollwertsprünge sind selten.
+
+**Beispiel Zulufttemperatur:** T<sub>u</sub> = 30 s, T<sub>g</sub> = 180 s, Ventil 0 → 100 % ergibt 20 K, also K<sub>S</sub> = 0.2 K/%. Störung, aperiodisch: K<sub>p</sub> = 0.6 · 180 / (0.2 · 30) = 18 %/K, das ist ein X<sub>p</sub> von 100 / 18 ≈ 5.6 K. T<sub>n</sub> = 4 · 30 s = 2 min.
+
+**Kreisverstärkung:** Das Produkt V<sub>0</sub> = K<sub>S</sub> · K<sub>p</sub> sagt, wie stark ein Signal bei einem Durchlauf durch den Regelkreis verstärkt wird. Je schwieriger die Strecke, desto kleiner darf V<sub>0</sub> sein, bevor der Kreis instabil wird. Deshalb muss ein Regler nachgestellt werden, wenn sich die Strecke ändert, etwa ein grösseres Ventil oder ein anderes Register.
+
+## Wie gut regelt der Kreis?
+
+Nach einem Sollwertsprung oder einer Störung beurteilt man:
+
+- **Toleranzband:** die erlaubte Abweichung, z.B. 21 °C ± 0.5 K
+- **Überschwingweite:** die grösste vorübergehende Abweichung
+- **Anregelzeit:** bis die Regelgrösse zum ersten Mal ins Toleranzband kommt
+- **Ausregelzeit:** bis sie dauerhaft im Toleranzband bleibt
+
+In HLK-Anlagen gewünscht ist ein **aperiodischer** Verlauf, der sich ohne Überschwingen nähert, oder ein **gedämpfter** mit einem kleinen Überschwinger. Ein gut eingestellter PI-Regler hat eine kaum längere Anregelzeit, aber eine viel kürzere Ausregelzeit als ein vorsichtig eingestellter. Überschwingt er zu stark, verkleinert man K<sub>p</sub> (grösseres X<sub>p</sub>), ist er zu träge, verkleinert man T<sub>n</sub>.
+
+**P-Regler und Offset:** Ein reiner P-Regler hat immer eine bleibende Abweichung, je nach Last. Sein **Arbeitspunkt** (Offset) legt fest, bei welcher Last er genau auf Sollwert ist: Bei 0 % ist der Sollwert ohne Last erreicht, bei 100 % unter Volllast, bei 50 % liegt die Abweichung symmetrisch. Thermostatventile sind solche P-Regler.
 
 ## Xp statt K_p — was am Regler wirklich steht
 
@@ -174,6 +216,10 @@ darin, dass man nicht bei null anfängt — und dass man merkt, wenn ein
 3. **Anti-Wind-Up vergessen** → bei langer Stellgrössen-Begrenzung läuft Integral weg
 4. **Soll/Ist-Vertauschung** → der Regler dreht aus statt ein
 
+## Quellen
+
+- Siemens Schweiz AG: «Regeltechnik», Schulungsunterlage BT_0098, 2022, Kap. 5 und 6
+
 ## Siehe auch
 
 - [Regelkreise](/wissen/regelkreise)
@@ -231,6 +277,48 @@ Classic method — proven but conservative:
 | P               | 0.5 × K_crit  | —             | —              |
 | PI              | 0.45 × K_crit | 0.85 × T_crit | —              |
 | PID             | 0.6 × K_crit  | 0.5 × T_crit  | 0.125 × T_crit |
+
+Ziegler-Nichols aims at a response with at most about 20 % overshoot. For most HVAC loops that is already rather aggressive.
+
+## Tuning Rules from the Step Response
+
+Without sustained oscillation, a step test on the open loop works: move the output manually by Δy, record the response and read **T<sub>u</sub>** (dead time), **T<sub>g</sub>** (time constant) and **K<sub>S</sub>** = Δx / Δy (process gain) using the inflection tangent. How to do this is in [Control Loops](/wissen/regelkreise).
+
+**Ziegler-Nichols, inflection tangent method:**
+
+| Controller type | K<sub>p</sub>                                         | T<sub>n</sub>       | T<sub>v</sub>       |
+| --------------- | ----------------------------------------------------- | ------------------- | ------------------- |
+| P               | 1.0 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | —                   | —                   |
+| PI              | 0.9 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | 3.3 · T<sub>u</sub> | —                   |
+| PID             | 1.2 · T<sub>g</sub> / (K<sub>S</sub> · T<sub>u</sub>) | 2 · T<sub>u</sub>   | 0.5 · T<sub>u</sub> |
+
+**Chien, Hrones and Reswick** (1952) additionally distinguish whether the controller mainly has to reject **disturbances** or follow a **setpoint change**, and whether it should work **without overshoot** (aperiodic) or **with at most 20 %** overshoot. For PI controllers in BA:
+
+| PI controller               | K<sub>p</sub> · K<sub>S</sub> · T<sub>u</sub> / T<sub>g</sub> | T<sub>n</sub>       |
+| --------------------------- | ------------------------------------------------------------- | ------------------- |
+| Disturbance, aperiodic      | 0.6                                                           | 4 · T<sub>u</sub>   |
+| Disturbance, 20 % overshoot | 0.7                                                           | 2.3 · T<sub>u</sub> |
+| Setpoint, aperiodic         | 0.35                                                          | 1.2 · T<sub>g</sub> |
+| Setpoint, 20 % overshoot    | 0.6                                                           | 1.0 · T<sub>g</sub> |
+
+For PID controllers the values are somewhat higher, with T<sub>v</sub> of about 0.4 to 0.5 · T<sub>u</sub>. In BA the **disturbance response** usually matters most: a room should stay at setpoint despite sun and people; setpoint steps are rare.
+
+**Example supply air temperature:** T<sub>u</sub> = 30 s, T<sub>g</sub> = 180 s, valve 0 → 100 % gives 20 K, so K<sub>S</sub> = 0.2 K/%. Disturbance, aperiodic: K<sub>p</sub> = 0.6 · 180 / (0.2 · 30) = 18 %/K, i.e. an X<sub>p</sub> of 100 / 18 ≈ 5.6 K. T<sub>n</sub> = 4 · 30 s = 2 min.
+
+**Loop gain:** the product V<sub>0</sub> = K<sub>S</sub> · K<sub>p</sub> tells how strongly a signal is amplified in one pass round the loop. The more difficult the process, the smaller V<sub>0</sub> must be before the loop becomes unstable. That is why a controller must be retuned when the process changes, for instance a larger valve or a different coil.
+
+## How Well Does the Loop Control?
+
+After a setpoint step or a disturbance, one assesses:
+
+- **Tolerance band:** the permitted deviation, e.g. 21 °C ± 0.5 K
+- **Overshoot:** the largest temporary deviation
+- **Rise time:** until the controlled variable first enters the tolerance band
+- **Settling time:** until it stays in the tolerance band permanently
+
+In HVAC plants an **aperiodic** response approaching without overshoot is wanted, or a **damped** one with one small overshoot. A well-tuned PI controller has a barely longer rise time but a much shorter settling time than a cautiously tuned one. If it overshoots too much, reduce K<sub>p</sub> (larger X<sub>p</sub>); if it is too sluggish, reduce T<sub>n</sub>.
+
+**P controller and offset:** a pure P controller always has a steady-state deviation, depending on load. Its **operating point** (offset) defines at which load it is exactly at setpoint: at 0 % the setpoint is reached at no load, at 100 % at full load, at 50 % the deviation is symmetrical. Thermostatic radiator valves are such P controllers.
 
 ## Xp instead of K_p — what the controller actually shows
 
@@ -322,6 +410,10 @@ is off by an order of magnitude.
 2. **T_n too small** → oscillation buildup
 3. **Anti-wind-up forgotten** → integral runs away during prolonged output saturation
 4. **Setpoint/actual value swapped** → controller drives in the wrong direction
+
+## Sources
+
+- Siemens Schweiz AG: "Regeltechnik", training document BT_0098, 2022, ch. 5 and 6
 
 ## See also
 

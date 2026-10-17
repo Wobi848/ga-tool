@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.18.3 — 2026-10-17
+
+Abgleich mit Siemens «Regeltechnik» (BT_0098).
+
+- **PID-Regler:** Einstellregeln aus der Sprungantwort nach Ziegler-Nichols und
+  Chien/Hrones/Reswick, Rechenbeispiel, Kreisverstärkung, Gütekriterien für das
+  Einschwingen, Arbeitspunkt des P-Reglers
+
 ## v0.18.2 — 2026-10-17
 
 Abgleich mit Siemens «Regeln und Steuern von Lüftungs-/Klimaanlagen» (BT_0096).
