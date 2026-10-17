@@ -62,3 +62,29 @@ test.describe('BACnet-Datenpunktliste', () => {
 		await expect.poll(async () => Number(await zahl.innerText())).toBeLessThan(vorher);
 	});
 });
+
+test.describe('EDE-Prüfer', () => {
+	test('meldet Fehler einer hochgeladenen Datei', async ({ page }) => {
+		await page.goto('/rechner/ede-pruefer');
+		const ede = [
+			'PROJECT_NAME;Testprojekt',
+			'VERSION_OF_LAYOUT;2.3',
+			'# keyname;device obj.-instance;object-name;object-type;object-instance;description;present-value-default;min-present-value;max-present-value;settable;supports COV;hi-limit;low-limit;state-text-reference;unit-code;vendor-specific-address;notification-class',
+			'3022_HZ1_L13_D001;100;3022_HZ1_L13_D001;8;100;AS;;;;;;;;;;;',
+			'3022_HZ1_L13_B802_M0;100;3022_HZ1_L13_B802_M0;0;1;Zulufttemperatur;;;;N;;;;;62;;66',
+			'3022_HZ1_L13_B802_M0;100;3022_HZ1_L13_B802_M0;0;2;Doppelt;;;;N;;;;;;;300'
+		].join('\r\n');
+		await page
+			.locator('input[type=file]')
+			.first()
+			.setInputFiles({ name: 'test_EDE.csv', mimeType: 'text/csv', buffer: Buffer.from(ede) });
+		await expect(page.locator('.calc-result-section')).toContainText('Testprojekt');
+		await expect(page.locator('.calc-result-section')).toContainText('in 1 Gerät');
+		await expect(page.locator('.calc-result-section')).not.toContainText('Geräten');
+		const tabelle = page.locator('table.befunde');
+		await expect(tabelle).toContainText('Object_Name doppelt');
+		await expect(tabelle).toContainText('NC300');
+		await expect(tabelle).toContainText('Einheit (unit-code) fehlt');
+		if (SHOT) await page.screenshot({ path: `${SHOT}/ede.png`, fullPage: true });
+	});
+});

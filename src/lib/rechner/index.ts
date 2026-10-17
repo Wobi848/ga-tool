@@ -231,6 +231,16 @@ export const rechner: RechnerMeta[] = [
 		icon: 'list',
 		color: '#2563eb',
 		updated: '2026-10-17'
+	},
+	{
+		slug: 'ede-pruefer',
+		name: 'EDE-Prüfer',
+		name_en: 'EDE Checker',
+		short: 'EDE-Datei eines Unternehmers gegen die KBOB-BACnet-Vorgaben prüfen',
+		short_en: "Check a contractor's EDE file against the KBOB BACnet requirements",
+		icon: 'check-circle',
+		color: '#16a34a',
+		updated: '2026-10-17'
 	}
 ];
 

@@ -26,7 +26,8 @@
 		'polynom-fit': 'polynomFit',
 		'k-faktor': 'kFaktor',
 		aks: 'aks',
-		'bacnet-dpl': 'bacnetDpl'
+		'bacnet-dpl': 'bacnetDpl',
+		'ede-pruefer': 'edePruefer'
 	};
 
 	const iconPaths: Record<string, string> = {
@@ -41,6 +42,7 @@
 		cpu: 'M9 3H7a2 2 0 0 0-2 2v2M9 3h6M9 3V1m6 2h2a2 2 0 0 1 2 2v2M15 3V1M21 9v6M21 15h-2a2 2 0 0 1-2-2v-2M3 9v6M3 15h2a2 2 0 0 0 2-2v-2M9 21h6M9 21v2m6-2v2M15 21h2a2 2 0 0 0 2-2v-2M9 7h6v10H9z',
 		'chart-line': 'M3 3v18h18M7 14l4-4 4 4 5-7',
 		list: 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+		'check-circle': 'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3',
 		tag: 'M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82zM7 7h.01'
 	};
 </script>

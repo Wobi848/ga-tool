@@ -576,6 +576,32 @@ export const de = {
 			note: 'EDE nach B.I.G.-EU Layout 2.3, Semikolon, UTF-8; vor dem Import mit dem Empfänger abstimmen. Meldeklassen, COV-Schwellen und Instanznummern sind Vorschläge: massgebend sind die Bauherrenvorgaben und die Datenpunktliste des Planers.'
 		},
 
+		edePruefer: {
+			name: 'EDE-Prüfer',
+			short: 'EDE-Datei eines Unternehmers gegen die KBOB-BACnet-Vorgaben prüfen'
+		},
+
+		edeUi: {
+			intro:
+				'EDE-Datei (B.I.G.-EU, CSV) und optional die StateTexts-Datei wählen. Geprüft werden Eindeutigkeit, Längen, Bereiche, fehlende Zustandstexte und Einheiten, Meldeklassen und Objektnamen nach AKS. Die Dateien werden nur in diesem Browser gelesen und nirgends hochgeladen.',
+			edeFile: 'EDE-Datei',
+			stateFile: 'StateTexts-Datei (optional)',
+			checkAks: 'Objektnamen nach AKS prüfen',
+			descLimit: 'Description höchstens',
+			project: 'Projekt',
+			objects: 'Objekte',
+			inDevices: '{n, plural, one {in # Gerät} other {in # Geräten}}',
+			findings: 'Fehler / Warnungen / Hinweise',
+			f_alle: 'Alle',
+			f_fehler: 'Fehler',
+			f_warnung: 'Warnungen',
+			f_hinweis: 'Hinweise',
+			line: 'Zeile',
+			finding: 'Befund',
+			noFindings: 'Keine Befunde in dieser Auswahl',
+			note: 'Was sich aus der EDE-Datei nicht ablesen lässt, etwa Prioritäten, Trend-Einstellungen oder Quittiermuster, prüft der Funktionstest nach KBOB C2.'
+		},
+
 		aks: {
 			name: 'AKS-Generator',
 			short: 'Anlagenkennzeichen und BACnet-Objektname nach KBOB erzeugen und zerlegen'

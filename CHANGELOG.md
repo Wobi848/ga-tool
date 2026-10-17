@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.25.0 — 2026-10-17
+
+### Neu: EDE-Prüfer
+
+Rechner → EDE-Prüfer. Die EDE-Datei eines Unternehmers und optional die
+StateTexts-Datei laden; die App prüft gegen die KBOB-BACnet-Vorgaben. Die
+Dateien werden nur im Browser gelesen, nichts geht an den Server.
+
+- **Fehler:** doppelte Objektnamen, doppelte Typ/Instanz im selben Gerät,
+  Device- und Objektinstanzen ausserhalb 0 … 4 194 302, Objektnamen über 64
+  Zeichen, Zustandstext-Referenzen, die in der StateTexts-Datei fehlen
+- **Warnungen:** fehlende Zustandstexte bei binären und Multi-state-Objekten,
+  fehlende Einheiten bei Analogobjekten, fehlende oder zu lange
+  Beschreibungen, Meldeklassen ausserhalb der KBOB-Nummern, proprietäre
+  Objekttypen, Objektnamen nicht nach AKS
+- **Hinweise:** Gerät ohne Device-Objekt, Layout unter 2.3, keyname ungleich
+  Objektname
+- Übersicht nach Objekttyp, Filter nach Schwere; Excel-Exporte in
+  Windows-1252 werden erkannt
+
 ## v0.24.0 — 2026-10-17
 
 ### KBOB: Messkonzept, Kabel, Netz, Labor, Übergabe

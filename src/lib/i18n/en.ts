@@ -573,6 +573,32 @@ export const en = {
 			note: "EDE per B.I.G.-EU layout 2.3, semicolon, UTF-8; agree with the recipient before import. Notification classes, COV thresholds and instance numbers are suggestions: the owner requirements and the planner's data point list are binding."
 		},
 
+		edePruefer: {
+			name: 'EDE Checker',
+			short: "Check a contractor's EDE file against the KBOB BACnet requirements"
+		},
+
+		edeUi: {
+			intro:
+				'Choose the EDE file (B.I.G.-EU, CSV) and optionally the StateTexts file. Checks cover uniqueness, lengths, ranges, missing state texts and units, notification classes and object names per labelling scheme. The files are read only in this browser and uploaded nowhere.',
+			edeFile: 'EDE file',
+			stateFile: 'StateTexts file (optional)',
+			checkAks: 'Check object names per labelling scheme',
+			descLimit: 'Description at most',
+			project: 'Project',
+			objects: 'Objects',
+			inDevices: '{n, plural, one {in # device} other {in # devices}}',
+			findings: 'Errors / warnings / notes',
+			f_alle: 'All',
+			f_fehler: 'Errors',
+			f_warnung: 'Warnings',
+			f_hinweis: 'Notes',
+			line: 'Line',
+			finding: 'Finding',
+			noFindings: 'No findings in this selection',
+			note: 'What the EDE file cannot show, such as priorities, trend settings or acknowledgement patterns, is checked by the functional test per KBOB C2.'
+		},
+
 		aks: {
 			name: 'Plant Labelling Generator',
 			short: 'Create and decode KBOB plant labels and BACnet object names'

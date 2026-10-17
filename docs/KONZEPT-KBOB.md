@@ -50,7 +50,7 @@ Quellenangabe übernommen, Strukturen und Prüfpunkte als Daten.
 
 ### Ideen darüber hinaus
 
-- **EDE-Prüfer**: Eine EDE-Datei eines Unternehmers im Browser laden und gegen die KBOB-Regeln prüfen: Namen eindeutig und nach AKS, Längen, Einheiten, Meldeklassen gesetzt, Zustandstexte vorhanden. Bleibt lokal, nichts geht an den Server.
+- **EDE-Prüfer** (erledigt, v0.25.0): Eine EDE-Datei eines Unternehmers im Browser laden und gegen die KBOB-Regeln prüfen: Namen eindeutig und nach AKS, Längen, Einheiten, Meldeklassen gesetzt, Zustandstexte vorhanden. Bleibt lokal, nichts geht an den Server.
 - **Bauherrenvorgaben-Assistent** nach Entscheidungsmatrix E1: Fragen durchgehen, am Ende eine Zusammenfassung der projektspezifischen BACnet-Vorgaben.
 - Generatoren an **Objekte** anbinden, damit Listen pro Gebäude gespeichert und abgeglichen werden.
 
