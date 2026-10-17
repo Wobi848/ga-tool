@@ -101,7 +101,7 @@ function felder(zeile: string, trenner: string): string[] {
 }
 
 function zeilenVon(text: string): string[] {
-	return text.replace(/^﻿/, '').split(/\r?\n/);
+	return text.replace(/^\uFEFF/, '').split(/\r?\n/);
 }
 
 /** Kopfzeile der Datenpunkte: enthält keyname und object-name. */
