@@ -44,7 +44,9 @@
 		schemaDIPreview,
 		dupAddressesInSegment,
 		dupDeviceInstances as computeDupDIs,
-		hasAnyConflicts
+		hasAnyConflicts,
+		diOutOfRange,
+		DI_MAX
 	} from '$lib/bus-ibn/logic';
 	import { DEVICE_LIBRARY_RAW } from '$lib/bus-ibn/library';
 	import { randomUUID } from '$lib/uuid';
@@ -955,7 +957,7 @@
 					{#if seg.diAuto}
 						<label class="di-label">
 							<input type="checkbox" bind:checked={seg.diSchema} />
-							Schema SS·BB·MMM
+							<span title={$_('busIbn.diSchemaHint')}>Schema SS·BB·MMM</span>
 						</label>
 						{#if seg.diSchema}
 							<div class="di-offset-wrap">
@@ -980,6 +982,11 @@
 								<span class="di-offset-hint"
 									>→ {schemaDIPreview(seg, 1)} … {schemaDIPreview(seg, 127)}</span
 								>
+								{#if Number(schemaDIPreview(seg, 127)) > DI_MAX}
+									<span class="di-offset-hint di-too-high"
+										>⚠ {$_('busIbn.diTooHigh', { values: { max: DI_MAX } })}</span
+									>
+								{/if}
 							</div>
 						{:else}
 							<div class="di-offset-wrap">
@@ -1305,7 +1312,8 @@
 												{#if diIsAuto(seg, dev)}
 													<span
 														class="tbl-di-auto"
-														class:tbl-conflict={dupDeviceInstances.has(effectiveDI(seg, dev))}
+														class:tbl-conflict={dupDeviceInstances.has(effectiveDI(seg, dev)) ||
+															diOutOfRange(effectiveDI(seg, dev))}
 														title={$_('busIbn.autoComputed')
 															.replace('{offset}', String(seg.diOffset))
 															.replace('{addr}', String(dev.address))
@@ -2809,5 +2817,8 @@
 		.bulk-panel {
 			display: none;
 		}
+	}
+	.di-too-high {
+		color: #dc2626;
 	}
 </style>

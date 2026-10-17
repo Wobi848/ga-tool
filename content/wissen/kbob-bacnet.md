@@ -24,7 +24,16 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, it]
-related: [bacnet, kbob, alarmmanagement, trending-historisierung, datenpunktliste, netzwerk-ga]
+related:
+  [
+    bacnet,
+    kbob,
+    alarmmanagement,
+    trending-historisierung,
+    datenpunktliste,
+    netzwerk-ga,
+    anlagenkennzeichnung
+  ]
 norm: [KBOB-Empfehlung BACnet 2021, ISO 16484-5, ASHRAE 135]
 rechner: [aks, bacnet-dpl]
 updated: 2026-10-17
@@ -101,7 +110,7 @@ Der Leitfaden schlägt vor, den Objektnamen aus der Anlagenkennzeichnung des BBL
 
 Ergibt `2104_HG2_L13_M100_S1`: Schaltbefehl 1 des Motors M100 in Lüftungsanlage 13, Gebäude HG, 2. Untergeschoss. Für die BACnet-eigenen Objekte erweitert der Leitfaden die Funktionsarten um **T** Trend Log, **U** Schedule, **K** Calendar, **R** Loop und **N** Notification Class. Die übrigen Arten: Z Zählwert, Y Stellbefehl, H virtuell digital, W virtuell analog.
 
-Das gilt auch für den Object_Name des Device-Objekts. Die Weisung des BBL ist nur eine Empfehlung, der Bauherr bestimmt die definitive Vorgabe.
+Das gilt auch für den Object_Name des Device-Objekts. Die Weisung des BBL ist nur eine Empfehlung, der Bauherr bestimmt die definitive Vorgabe. Alle Kennbuchstaben und Nummernbereiche: [Anlagenkennzeichnung (AKS)](/wissen/anlagenkennzeichnung).
 
 ### Device-ID
 
@@ -363,7 +372,7 @@ The guideline suggests building the object name from the BBL plant labelling if 
 
 This gives `2104_HG2_L13_M100_S1`: switching command 1 of motor M100 in ventilation system 13, building HG, 2nd basement. For the BACnet-specific objects the guideline adds the function types **T** trend log, **U** schedule, **K** calendar, **R** loop and **N** notification class. The other types: Z meter value, Y positioning command, H virtual digital, W virtual analog.
 
-This also applies to the Object_Name of the device object. The BBL directive is only a recommendation; the owner decides the final scheme.
+This also applies to the Object_Name of the device object. The BBL directive is only a recommendation; the owner decides the final scheme. All code letters and number ranges: [Plant Labelling (AKS)](/wissen/anlagenkennzeichnung).
 
 ### Device ID
 

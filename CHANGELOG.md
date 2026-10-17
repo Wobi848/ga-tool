@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.23.0 — 2026-10-17
+
+### KBOB: IKT-Sicherheit und Anlagenkennzeichnung
+
+- **Neuer Artikel Anlagenkennzeichnung (AKS):** Aufbau +ORT =BTA -APPARAT
+  :FUNKTION nach KBOB MSRL-Technik, alle Anlagen- und Apparatearten,
+  Nummernbereiche nach Anhang B, Beschriftung von Schaltschrank, Apparaten
+  und Kabeln, Datenpunktadresse und BACnet-Objektname
+- **Cybersecurity OT:** KBOB-Empfehlung IKT-Sicherheit 2025 eingearbeitet:
+  BACnet/IP ohne Benutzer, Schutzbedarf normal/erhöht nach IEC 62443-3-3,
+  Zonen mit DMZ, IDS statt IPS, Patch-Pflichten im Wartungsvertrag,
+  Prioritäten fürs Monitoring, Reifegrad, Rollen, Meldepflicht nach ISG
+- **Neue Checkliste IKT-Sicherheit GA (KBOB)**
+- **Hand-0-Auto:** Bedienung nach KBOB: Hand-, Not-, Vorortbedienung und
+  Sicherheitsschalter, Anlageschalter AUT-AUS-EIN, BACnet-Prioritäten 7/8/14
+- **Bus-IBN-Konfigurator:** Device Instances über 4 194 302 werden als
+  Konflikt markiert; das Schema SS·BB·MMM entspricht Beispiel 1 im
+  KBOB-Leitfaden und warnt bei zu grossem SS
+
 ## v0.22.0 — 2026-10-17
 
 ### Neu: BACnet-Datenpunktliste nach KBOB

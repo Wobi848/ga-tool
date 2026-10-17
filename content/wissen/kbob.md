@@ -20,7 +20,15 @@ tags:
 difficulty: grundlagen
 area: [ga, normen]
 related:
-  [kbob-bacnet, sia386, swki-richtlinien, cybersecurity-ot, funktionsbeschreibung, glt-uebergabe]
+  [
+    kbob-bacnet,
+    sia386,
+    swki-richtlinien,
+    cybersecurity-ot,
+    funktionsbeschreibung,
+    glt-uebergabe,
+    anlagenkennzeichnung
+  ]
 norm: [KBOB-Empfehlung Gebäudetechnik 2026, KBOB-Empfehlung BACnet 2021]
 updated: 2026-10-17
 lang: de

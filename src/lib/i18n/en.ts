@@ -1379,6 +1379,9 @@ export const en = {
 
 		// Conflict toast
 		conflictDetected: 'Address conflict detected — duplicate addresses are highlighted in red.',
+		diTooHigh: 'Device instance above {max}: choose a smaller SS (at most 41)',
+		diSchemaHint:
+			'Building · floor/network · sequence, as example 1 in the KBOB BACnet guideline (e.g. 3017021)',
 
 		// Library drawer
 		libraryTitle: 'Device Library',

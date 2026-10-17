@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import {
+	invalidDeviceInstances,
+	diOutOfRange,
+	DI_MAX,
 	isBacnet,
 	defaultSettings,
 	normalizeDevice,
@@ -322,5 +325,24 @@ describe('hasAnyConflicts', () => {
 			segment({ id: 's2', diOffset: 100000, devices: [device({ id: 'd2', address: 1 })] })
 		];
 		expect(hasAnyConflicts(project(segs))).toBe(true);
+	});
+});
+
+describe('Device-Instance-Bereich', () => {
+	it('Schema SS·BB·MMM über 4194302 wird als Konflikt erkannt', () => {
+		const ok = segment({
+			type: 'bacnet-mstp',
+			diAuto: true,
+			diSchema: true,
+			diSS: 30,
+			diBB: 17,
+			devices: [device({ address: 21 })]
+		});
+		expect(effectiveDI(ok, ok.devices[0])).toBe(3017021); // Beispiel KBOB-Leitfaden
+		expect(invalidDeviceInstances([ok]).size).toBe(0);
+		const zuHoch = { ...ok, diSS: 50 };
+		expect(invalidDeviceInstances([zuHoch])).toEqual(new Set([5017021]));
+		expect(diOutOfRange(DI_MAX)).toBe(false);
+		expect(diOutOfRange(DI_MAX + 1)).toBe(true);
 	});
 });

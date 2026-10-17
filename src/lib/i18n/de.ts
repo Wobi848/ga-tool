@@ -1384,6 +1384,9 @@ export const de = {
 
 		// Conflict toast
 		conflictDetected: 'Adresskonflikt erkannt — doppelte Adressen sind rot markiert.',
+		diTooHigh: 'Device Instance über {max}: SS kleiner wählen (höchstens 41)',
+		diSchemaHint:
+			'Gebäude · Stockwerk/Netz · Laufnummer, wie Beispiel 1 im KBOB-Leitfaden BACnet (z.B. 3017021)',
 
 		// Library drawer
 		libraryTitle: 'Geräte-Bibliothek',

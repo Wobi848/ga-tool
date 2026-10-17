@@ -153,6 +153,26 @@ export function dupAddressesInSegment(seg: BusSegment): Set<number> {
 	return dups;
 }
 
+/** Groesste gueltige Device Instance; 4194303 ist in BACnet als Platzhalter reserviert. */
+export const DI_MAX = 4194302;
+
+export function diOutOfRange(di: number): boolean {
+	return di < 0 || di > DI_MAX;
+}
+
+/** Device-Instances ausserhalb 0…4194302, z.B. aus dem Schema SS·BB·MMM mit SS > 41. */
+export function invalidDeviceInstances(segments: BusSegment[]): Set<number> {
+	const out = new Set<number>();
+	for (const seg of segments) {
+		if (!isBacnet(seg.type)) continue;
+		for (const dev of seg.devices) {
+			const di = effectiveDI(seg, dev);
+			if (diOutOfRange(di)) out.add(di);
+		}
+	}
+	return out;
+}
+
 /** Doppelte Device-Instances ueber alle BACnet-Segmente eines Projekts. */
 export function dupDeviceInstances(segments: BusSegment[]): Set<number> {
 	const seen = new Map<number, number>();
@@ -171,6 +191,7 @@ export function dupDeviceInstances(segments: BusSegment[]): Set<number> {
 
 export function hasAnyConflicts(project: BusProject): boolean {
 	if (dupDeviceInstances(project.segments).size > 0) return true;
+	if (invalidDeviceInstances(project.segments).size > 0) return true;
 	for (const seg of project.segments) if (dupAddressesInSegment(seg).size > 0) return true;
 	return false;
 }
