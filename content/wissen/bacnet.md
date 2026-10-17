@@ -24,7 +24,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, it]
-related: [modbus, knx, opc-ua, iec61850]
+related: [modbus, knx, opc-ua, iec61850, kbob-bacnet]
 norm: [ASHRAE 135, ISO 16484-5, EN ISO 16484-5]
 updated: 2026-10-16
 lang: de
@@ -180,6 +180,7 @@ Ohne BBMD: Broadcasts (Who-Is) kommen nicht ins andere Subnetz.
 - **ASHRAE 135** — die BACnet-Bibel (kostenpflichtig)
 - **ISO 16484-5** — internationale Fassung
 - **BACnet Testing Laboratories (BTL)** — Konformitätsprüfung, Interoperabilitätsliste
+- **Schweiz:** Die [KBOB-Empfehlung BACnet Anwendung](/wissen/kbob-bacnet) legt Profile, Meldeklassen, Prioritäten und Trends für öffentliche Bauten fest
 - **Literatur:** O. Steiger, _Gebäudeautomation – effizient vernetzen_, Faktor Verlag, Zürich 2026, Kapitel 10 «Bussysteme»
 
 <!-- EN -->
@@ -332,4 +333,5 @@ Without BBMD: broadcasts (Who-Is) do not reach the other subnet.
 - **ASHRAE 135** — the BACnet bible (paid)
 - **ISO 16484-5** — international version
 - **BACnet Testing Laboratories (BTL)** — conformance testing, interoperability list
+- **Switzerland:** the [KBOB recommendation BACnet application](/wissen/kbob-bacnet) sets profiles, notification classes, priorities and trends for public buildings
 - **Further reading:** O. Steiger, _Gebäudeautomation – effizient vernetzen_ (in German), Faktor Verlag, Zurich 2026, chapter 10 "Bussysteme"

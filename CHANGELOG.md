@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.20.0 — 2026-10-17
+
+### BACnet nach KBOB
+
+Die KBOB-Empfehlung BACnet Anwendung 2021 mit Leitfaden und den Beilagen T1,
+T2, C1 und C2 ist eingearbeitet. Grundlage für die geplanten Generatoren
+(AKS, Datenpunktliste, Alarmliste), siehe `docs/KONZEPT-KBOB.md`.
+
+- **Neue Artikel:** KBOB-Empfehlungen (Überblick, Empfehlung Gebäudetechnik
+  2026 Teil GA) und KBOB BACnet-Vorgaben (Profile, Objektnamen, Device-ID,
+  Meldeklassen, Prioritäten, Trends, Kalender, GA-Funktionen, Watchdog,
+  Netzwerk, B-PAT)
+- **Neue Referenztabellen:** Meldeklassen NC1–NC225, Prioritätsliste,
+  COV-Schwellen, Zustandstexte (T1), Eventmeldetexte (T2), Profile MBE-CH und
+  AS-CH mit BIBBs
+- **Neue Checklisten:** BACnet-Vorgaben kontrollieren (C1), BACnet-Funktionstest (C2)
+- **Abkürzungen:** KBOB, BBL, BBMD, BIBB, PICS, BTL, EDE, B-PAT
+- **Korrektur:** Die Abkürzung BACnet verlinkte auf den Modbus-Artikel
+
 ## v0.19.0 — 2026-10-17
 
 ### Abgleich mit der Siemens-Schulungsreihe abgeschlossen

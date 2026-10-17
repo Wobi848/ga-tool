@@ -847,8 +847,91 @@ export const abbreviations: Abbreviation[] = [
 		description: 'Hersteller-übergreifendes GA-Protokoll. Varianten: BACnet/IP, MS/TP (RS-485).',
 		descriptionEn: 'Multi-vendor BA protocol. Variants: BACnet/IP, MS/TP (RS-485).',
 		areas: ['ga', 'it'],
-		related: ['Modbus', 'KNX'],
-		wissenSlug: 'modbus'
+		related: ['Modbus', 'KNX', 'KBOB', 'BBMD'],
+		wissenSlug: 'bacnet'
+	},
+	{
+		short: 'KBOB',
+		long: 'Koordinationskonferenz der Bau- und Liegenschaftsorgane der öffentlichen Bauherren',
+		description:
+			'Gibt Empfehlungen für Bauten der öffentlichen Hand heraus, u.a. zu Gebäudetechnik, BACnet und IKT-Sicherheit in der GA.',
+		descriptionEn:
+			'Swiss coordination conference of public sector clients. Publishes recommendations, e.g. on building services, BACnet and ICT security in BA.',
+		areas: ['ga', 'normen'],
+		related: ['BBL', 'BACnet', 'SIA'],
+		wissenSlug: 'kbob'
+	},
+	{
+		short: 'BBL',
+		long: 'Bundesamt für Bauten und Logistik',
+		description:
+			'Bauherr des Bundes und Sitz der KBOB-Geschäftsstelle. Seine Kennzeichnungsweisung ist Grundlage vieler AKS.',
+		descriptionEn:
+			'Swiss Federal Office for Buildings and Logistics; hosts the KBOB office. Its labelling directive is the basis of many plant labelling schemes.',
+		areas: ['normen'],
+		related: ['KBOB']
+	},
+	{
+		short: 'BBMD',
+		long: 'BACnet Broadcast Management Device',
+		description:
+			'Leitet BACnet-Broadcasts wie Who-Is über IP-Subnetzgrenzen weiter. Ein BBMD pro Subnetz, verknüpft über die Broadcast Distribution Table.',
+		descriptionEn:
+			'Forwards BACnet broadcasts such as Who-Is across IP subnet boundaries. One BBMD per subnet, linked via the broadcast distribution table.',
+		areas: ['ga', 'it'],
+		related: ['BACnet'],
+		wissenSlug: 'bacnet'
+	},
+	{
+		short: 'BIBB',
+		long: 'BACnet Interoperability Building Block',
+		description:
+			'Baustein, der eine BACnet-Funktion beschreibt, z.B. DS-RP-B (Property lesen, Server). A = Client, B = Server.',
+		descriptionEn:
+			'Building block describing a BACnet function, e.g. DS-RP-B (read property, server). A = client, B = server.',
+		areas: ['ga'],
+		related: ['BACnet', 'PICS'],
+		wissenSlug: 'kbob-bacnet'
+	},
+	{
+		short: 'PICS',
+		long: 'Protocol Implementation Conformance Statement',
+		description:
+			'Herstellererklärung, welche BACnet-Objekte, Properties und BIBBs ein Gerät unterstützt.',
+		descriptionEn:
+			'Vendor statement of which BACnet objects, properties and BIBBs a device supports.',
+		areas: ['ga'],
+		related: ['BACnet', 'BIBB', 'BTL']
+	},
+	{
+		short: 'BTL',
+		long: 'BACnet Testing Laboratories',
+		description:
+			'Prüft und zertifiziert BACnet-Geräte. Die KBOB lässt nur zertifizierte Geräte zu.',
+		descriptionEn: 'Tests and certifies BACnet devices. KBOB only allows certified devices.',
+		areas: ['ga'],
+		related: ['BACnet', 'PICS']
+	},
+	{
+		short: 'EDE',
+		long: 'Engineering Data Exchange',
+		description:
+			'Tabellenformat der BIG-EU zum Austausch von BACnet-Objektlisten (Gerät, Objekt, Name, Einheit, Texte).',
+		descriptionEn:
+			'BIG-EU table format for exchanging BACnet object lists (device, object, name, unit, texts).',
+		areas: ['ga'],
+		related: ['BACnet', 'B-PAT']
+	},
+	{
+		short: 'B-PAT',
+		long: 'BACnet Project Address Table',
+		description:
+			'Tabelle der BIG-EU mit allen Adressdaten eines BACnet-Projekts: Netzwerknummern, IP, Ports, BBMD, Device-IDs.',
+		descriptionEn:
+			'BIG-EU table with all address data of a BACnet project: network numbers, IP, ports, BBMD, device IDs.',
+		areas: ['ga', 'it'],
+		related: ['BACnet', 'EDE', 'BBMD'],
+		wissenSlug: 'kbob-bacnet'
 	},
 	{
 		short: 'Modbus',
