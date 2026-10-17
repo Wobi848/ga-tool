@@ -1,5 +1,17 @@
 # Changelog
 
+## v0.18.2 — 2026-10-17
+
+Abgleich mit Siemens «Regeln und Steuern von Lüftungs-/Klimaanlagen» (BT_0096).
+
+- **Neuer Artikel Regelung von Lüftungs- und Klimaanlagen:** Zuluft-, Raum-,
+  Abluft- und Kaskadenregelung, Sequenz und Totzone, Sommerkompensation,
+  Minimalbegrenzung, Feuchteregelung, Luftqualität, Frostschutz,
+  Filterüberwachung, Elektro-Lufterwärmer, Nachtlüftung, Brandfall
+- **Wärmerückgewinnung:** Regelung als erste Sequenz, Umkehr des Wärmeflusses,
+  Rotor-Mindestdrehzahl, KVS im Kühlbetrieb, Grenzwert Vereisungsschutz
+- **Taupunkt:** vier Strategien für Kühldecken
+
 ## v0.18.1 — 2026-10-17
 
 Abgleich mit Siemens «Regeln und Steuern von Heizungsanlagen» (BT_0094).

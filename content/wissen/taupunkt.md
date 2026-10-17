@@ -22,7 +22,7 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related: [pid-regler, heizkurve, luftfeuchtigkeit, klimasysteme]
 norm: [EN ISO 13788, DIN 4108-3, SIA 180]
-updated: 2026-05-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -111,6 +111,17 @@ Ein **Taupunktwächter** misst Lufttemperatur und Luftfeuchte und berechnet den 
 - Liegt der Vorlauf darunter: Kühlventil schliessen oder Vorlauf anheben, Alarm.
 
 **Sicherheitsabstand:** mindestens **+2 K** über Taupunkttemperatur, bei hoher Trägheit der Anlage **+3–5 K**.
+
+### Vier Strategien bei Kühldecken
+
+| Strategie                                   | Wie                                                                                  | Vor- und Nachteil                                             |
+| ------------------------------------------- | ------------------------------------------------------------------------------------ | ------------------------------------------------------------- |
+| **Vorlauf nach Aussenluft-Taupunkt**        | zentraler Kühlvorlauf folgt dem Taupunkt aussen, der Abluft oder eines Referenzraums | günstig, aber grosse Sicherheitsreserve, weniger Kühlleistung |
+| **Kondensationswächter pro Raum (Ein/Aus)** | Wächter am kältesten Punkt, beim Kaltwassereintritt, sperrt die Decke                | günstig, aber der Raum wird dann gar nicht mehr gekühlt       |
+| **Zentral nach dem kritischen Raum**        | der Raum mit dem höchsten Taupunkt bestimmt den zentralen Vorlauf                    | gut, braucht eine Beimisch- oder Einspritzschaltung           |
+| **Lokal pro Raum**                          | jeder Raum hebt seinen Vorlauf selbst über seinen Taupunkt                           | beste Kühlleistung, aufwendigste Hydraulik                    |
+
+Bei Decken mit feuchteempfindlicher Oberfläche reicht ein reiner Ein/Aus-Wächter nicht. Mehr zu den Systemen in [Klimasysteme](/wissen/klimasysteme).
 
 ## Bauteilkondensation (Bauhülle)
 
@@ -252,6 +263,17 @@ A **dew point monitor** measures air temperature and humidity and calculates the
 - If the flow is below that: close the cooling valve or raise the flow temperature, alarm.
 
 **Safety margin:** at least **+2 K** above dew point temperature; with high system inertia **+3–5 K**.
+
+### Four Strategies for Chilled Ceilings
+
+| Strategy                                   | How                                                                                              | Pros and cons                                         |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------ | ----------------------------------------------------- |
+| **Flow by outdoor dew point**              | central chilled water flow follows the dew point outdoors, of the extract or of a reference room | cheap, but a large safety margin, less cooling output |
+| **Condensation monitor per room (on/off)** | monitor at the coldest point, at the chilled water inlet, blocks the ceiling                     | cheap, but the room is then not cooled at all         |
+| **Central by the critical room**           | the room with the highest dew point sets the central flow                                        | good, needs a mixing or injection circuit             |
+| **Local per room**                         | each room raises its own flow above its dew point                                                | best cooling output, most complex hydraulics          |
+
+For ceilings with a moisture-sensitive surface a pure on/off monitor is not enough. More on the systems in [Air-Conditioning Systems](/wissen/klimasysteme).
 
 ## Building Fabric Condensation
 

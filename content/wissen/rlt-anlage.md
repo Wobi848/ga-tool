@@ -27,9 +27,19 @@ tags:
   ]
 difficulty: grundlagen
 area: [hlk, ga]
-related: [vav-cav, klimasysteme, vdi6022, frequenzumrichter, kaelteanlagen, waermepumpe, pid-regler]
+related:
+  [
+    vav-cav,
+    klimasysteme,
+    rlt-regelung,
+    vdi6022,
+    frequenzumrichter,
+    kaelteanlagen,
+    waermepumpe,
+    pid-regler
+  ]
 norm: [EN 16798-3, VDI 6022, SIA 382/1, EN 13053]
-updated: 2026-05-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -133,6 +143,8 @@ Erhitzer, Wärmerückgewinnung und Kühler werden in **Sequenz** geregelt. Mit e
 Ein Zuluftregler (PI) gibt eine Stellgrösse aus, die nacheinander die Stellglieder durchfährt: zuerst die **Wärmerückgewinnung**, dann den **Erhitzer** auf der einen Seite und den **Kühler** auf der anderen. Dazwischen liegt ein **Totband** von etwa ±1 K, in dem weder geheizt noch gekühlt wird.
 
 **Wichtig:** Zum Temperieren nie gleichzeitig heizen und kühlen, die Sequenz verhindert das. Die Ausnahme ist das **Entfeuchten**: Dann kühlt der Kühler die Luft unter ihren Taupunkt, und der Erhitzer heizt sie danach wieder auf.
+
+Mehr zu Regelgrössen, Feuchteregelung, Frostschutz und Begrenzungen in [Regelung von Lüftungs- und Klimaanlagen](/wissen/rlt-regelung).
 
 ### Gleitende Zulufttemperatur
 
@@ -288,6 +300,8 @@ Heater, heat recovery and cooler are controlled **in sequence**. This has nothin
 A supply air controller (PI) produces one output that drives the actuators one after another: first **heat recovery**, then the **heater** on one side and the **cooler** on the other. In between lies a **dead band** of about ±1 K in which neither heating nor cooling takes place.
 
 **Important:** never heat and cool at the same time to control temperature; the sequence prevents it. The exception is **dehumidification**: the cooler then cools the air below its dew point and the heater reheats it afterwards.
+
+More on controlled variables, humidity control, frost protection and limits in [Controlling Ventilation and Air-Conditioning Units](/wissen/rlt-regelung).
 
 ### Sliding Supply Air Temperature
 

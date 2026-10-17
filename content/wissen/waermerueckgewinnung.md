@@ -26,7 +26,7 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related: [rlt-anlage, vdi6022, frequenzumrichter, kaelteanlagen]
 norm: [EN 13053, EN 308, SIA 382/1, VDI 3803-5]
-updated: 2026-10-16
+updated: 2026-10-17
 lang: de
 ---
 
@@ -134,7 +134,18 @@ Umluftbeimischung spart zwar Energie, gilt nach VDI 3803 Blatt 5 aber nicht als 
 | **Glykol-Wasser**      | Kreislaufverbund | Tiefere Einfrierpunkt-Temperatur                |
 | **Vorlauf begrenzen**  | Kreislaufverbund | Dreiwegventil hält das Abluftregister über 0 °C |
 
-**Wann Frostgefahr besteht:** Kühlt die Abluft im Tauscher unter ihren Taupunkt, entsteht Kondensat, und unter 0 °C gefriert es. Bei Plattentauschern beginnt das je nach Abluftfeuchte schon bei Aussentemperaturen um −3 bis −10 °C. Am gefährdetsten sind Plattentauscher und Kreislaufverbund: Das Glykol schützt nur den Kreislauf, nicht das Abluftregister, an dem das Kondensat gefriert. Rotoren werden erst bei sehr tiefen Aussentemperaturen kritisch. Überwacht wird die **Fortlufttemperatur** (nicht unter etwa +1 bis +2 °C) oder der **Druckverlust** über dem Tauscher.
+**Wann Frostgefahr besteht:** Kühlt die Abluft im Tauscher unter ihren Taupunkt, entsteht Kondensat, und unter 0 °C gefriert es. Bei Plattentauschern beginnt das je nach Abluftfeuchte schon bei Aussentemperaturen um −3 bis −10 °C. Am gefährdetsten sind Plattentauscher und Kreislaufverbund: Das Glykol schützt nur den Kreislauf, nicht das Abluftregister, an dem das Kondensat gefriert. Rotoren werden erst bei sehr tiefen Aussentemperaturen kritisch. Überwacht wird die **Fortlufttemperatur**, typisch nicht unter etwa +1 bis +3 °C, oder der **Druckverlust** über dem Tauscher. Den Grenzwert gibt der Hersteller des Tauschers an. Zu hoch eingestellt, drosselt der Vereisungsschutz die WRG unnötig früh, und der Erhitzer muss mehr leisten. Eine Überwachung über den Druckverlust lässt eine beginnende Vereisung bewusst zu, bevor sie eingreift.
+
+**Erhitzer mitdenken:** Während der Vereisungsschutz die WRG drosselt, muss der Nachwärmer die fehlende Leistung liefern. Das ist bei der Auslegung des Erhitzers zu berücksichtigen.
+
+## Regelung der WRG
+
+- **Als erste Stufe in der Sequenz**, vor Erhitzer und Kühler, nicht mit einem eigenen Regelkreis. Ein eigener Regler auf die Temperatur nach der WRG würde sich mit der Zuluftregelung gegenseitig stören. Siehe [Regelung von Lüftungsanlagen](/wissen/rlt-regelung).
+- **Umkehr des Wärmeflusses:** Ist die Aussenluft wärmer als die Abluft, fährt die WRG auf Maximum, denn dann kühlt sie. Je nach WRG und Befeuchtung wird dafür die Temperatur- oder die Enthalpiedifferenz verglichen.
+- **Teillast ist häufig:** Laut Siemens-Unterlage muss eine WRG während 20 bis 40 % ihrer Betriebszeit gedrosselt werden, weil sonst mehr Wärme käme als gebraucht.
+- **Plattentauscher** werden über eine Umgehungsklappe geregelt, gegenläufige Lamellen regeln am besten.
+- **Rotor** über die Drehzahl, typisch bis etwa 10 bis 15 U/min. Bei sehr kleiner Drehzahl hält der Regler eine Mindestdrehzahl oder schaltet ab und lässt den Rotor in Abständen kurz drehen, damit er sauber bleibt.
+- **Kreislaufverbund im Kühlbetrieb:** Die Pumpe läuft dann meist auf voller Drehzahl. Bei langen Leitungen und grossen Pumpen frisst der Pumpenstrom den Nutzen auf, dann lohnt es sich nicht, den KVS zum Kühlen zu betreiben.
 
 ---
 
@@ -273,7 +284,18 @@ Mixing in recirculated air saves energy but does not count as heat recovery unde
 | **Glycol-water**          | Run-around | Lower freezing point temperature                  |
 | **Limit supply temp.**    | Run-around | Three-way valve keeps the extract coil above 0 °C |
 
-**When there is a frost risk:** if the extract air cools below its dew point in the exchanger, condensate forms, and below 0 °C it freezes. With plate exchangers this starts, depending on extract humidity, at outdoor temperatures of about −3 to −10 °C. Plate exchangers and run-around coils are most at risk: the glycol protects only the loop, not the extract coil on which the condensate freezes. Rotary wheels only become critical at very low outdoor temperatures. What is monitored is the **exhaust air temperature** (not below about +1 to +2 °C) or the **pressure drop** across the exchanger.
+**When there is a frost risk:** if the extract air cools below its dew point in the exchanger, condensate forms, and below 0 °C it freezes. With plate exchangers this starts, depending on extract humidity, at outdoor temperatures of about −3 to −10 °C. Plate exchangers and run-around coils are most at risk: the glycol protects only the loop, not the extract coil on which the condensate freezes. Rotary wheels only become critical at very low outdoor temperatures. What is monitored is the **exhaust air temperature**, typically not below about +1 to +3 °C, or the **pressure drop** across the exchanger. The limit comes from the exchanger manufacturer. Set too high, the frost protection throttles heat recovery unnecessarily early and the heater must deliver more. Monitoring via pressure drop deliberately allows incipient icing before it acts.
+
+**Consider the heater:** while frost protection throttles heat recovery, the reheater must supply the missing output. This must be considered when sizing the heater.
+
+## Heat Recovery Control
+
+- **As the first stage in the sequence**, before heater and cooler, not with a control loop of its own. A separate controller on the temperature after heat recovery would interfere with supply air control. See [Controlling Ventilation Units](/wissen/rlt-regelung).
+- **Reversal of heat flow:** if the outdoor air is warmer than the extract air, heat recovery runs at maximum, because it then cools. Depending on heat recovery type and humidification, the temperature or the enthalpy difference is compared for this.
+- **Part load is common:** according to the Siemens document a heat recovery unit has to be throttled for 20 to 40 % of its operating time, otherwise more heat would arrive than needed.
+- **Plate exchangers** are controlled via a bypass damper; opposed-blade dampers control best.
+- **Rotary wheel** via speed, typically up to about 10 to 15 rpm. At very low speed the controller holds a minimum speed or switches off and turns the wheel briefly at intervals so that it stays clean.
+- **Run-around coil in cooling mode:** the pump then usually runs at full speed. With long pipes and large pumps, the pump power eats up the benefit; then it does not pay to run the coil for cooling.
 
 ---
 
