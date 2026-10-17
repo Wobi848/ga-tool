@@ -6,9 +6,6 @@ export const KVS_OPTIONS = [
 	0.16, 0.25, 0.4, 0.63, 1.0, 1.6, 2.5, 4.0, 6.3, 10, 16, 25, 40, 63, 100
 ];
 
-/** Sicherheitsfaktor fuer Kvs-Auswahl ueber Kv hinaus. */
-export const KVS_RESERVE_FACTOR = 1.3;
-
 export interface AuthorityInput {
 	/** Druckverlust Ventil bei 100 % Hub [Pa] */
 	dpv100: number;
@@ -43,20 +40,37 @@ export interface KvSelectInput {
 export interface KvSelectResult {
 	/** Erforderlicher Kv-Wert bei Auslegung [m³/h] */
 	kv: number;
-	/** Empfohlener Standard-Kvs */
+	/** Gewählter Standard-Kvs */
 	kvs: number;
-	/** Faktor Kvs/Kv (sollte ≥ Reserve sein) */
+	/** Faktor Kvs/Kv */
 	kvsFactor: number;
+	/** Tatsächlicher Druckverlust des gewählten Ventils bei Auslegungsdurchfluss [Pa] */
+	dpEffective: number;
 }
 
+/** Kvs-Wahl nach Siemens BT_0100: der berechnete Kv ist der ideale Kvs.
+ *  Gewählt wird die nächstliegende Normgrösse (auf logarithmischer Skala),
+ *  bei Gleichstand die kleinere, weil ein kleineres Ventil die Autorität
+ *  erhöht. Beispiel aus der Unterlage: Kv 26 → Kvs 25, nicht 30.
+ *
+ *  Bis 0.18.6 stand hier "nächstgrösser mit Faktor 1.3". Damit sank der
+ *  Druckverlust am Ventil auf etwa 60 % des Auslegungswerts, die Autorität
+ *  entsprechend, und das Ventil war systematisch überdimensioniert. */
 export function selectKvs(input: KvSelectInput): KvSelectResult {
 	const { flow, dpv100 } = input;
 	const dpBar = dpv100 / 100000;
 	const kv = dpBar > 0 ? flow / Math.sqrt(dpBar) : 0;
-	const kvMin = kv * KVS_RESERVE_FACTOR;
-	const kvs = KVS_OPTIONS.find((v) => v >= kvMin) ?? KVS_OPTIONS[KVS_OPTIONS.length - 1];
+	let kvs = KVS_OPTIONS[KVS_OPTIONS.length - 1];
+	if (kv <= KVS_OPTIONS[0]) kvs = KVS_OPTIONS[0];
+	else if (kv < kvs) {
+		const upper = KVS_OPTIONS.findIndex((v) => v >= kv);
+		const hi = KVS_OPTIONS[upper];
+		const lo = KVS_OPTIONS[upper - 1];
+		kvs = Math.log(hi / kv) < Math.log(kv / lo) ? hi : lo;
+	}
 	const kvsFactor = kv > 0 ? kvs / kv : 0;
-	return { kv, kvs, kvsFactor };
+	const dpEffective = kvs > 0 ? Math.pow(flow / kvs, 2) * 100000 : 0;
+	return { kv, kvs, kvsFactor, dpEffective };
 }
 
 /** Linearventil-Kennlinie unter Autoritaet α:

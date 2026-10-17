@@ -547,14 +547,15 @@ export const en = {
 
 		ventilautoritaetUi: {
 			formulaNote:
-				'Kv = Q / √(ΔpV) with ΔpV in bar, Q in m³/h — per EN 60534. Select Kvs ≥ Kv × 1.3 (control range + reserve).',
+				'Kv = Q / √(ΔpV) with ΔpV in bar, Q in m³/h. The calculated Kv is the ideal Kvs. Choose the nearest standard size, if in doubt the smaller one: this raises valve authority (Siemens BT_0100). Then check authority with the actual Δp.',
 			tabAuthority: 'Valve authority α',
 			tabKvs: 'Kvs selection',
 			pressures: 'Pressure distribution',
 			dpValve100: 'Δp valve at 100% stroke (ΔpV,100)',
 			dpValve100Hint: 'Pressure loss fully open valve',
 			dpSystem: 'Δp remaining circuit (ΔpSystem)',
-			dpSystemHint: 'Heat exchanger + pipework without valve',
+			dpSystemHint:
+				'only the variable-flow part: pipes and components whose flow the valve changes, without the valve',
 			authority: 'Valve authority α',
 			rating: 'Rating',
 			ratingVG: 'Very good (α ≥ 0.5)',
@@ -568,7 +569,8 @@ export const en = {
 			dpAtDesign: 'Δp valve at design flow',
 			dpAtDesignHint: 'Set differential pressure at valve',
 			calcKv: 'Calculated Kv',
-			recommendedKvs: 'Recommended Kvs (× 1.3 safety)',
+			recommendedKvs: 'Selected Kvs (nearest standard size)',
+			dpEffective: 'Δp valve with selected Kvs',
 			kvsOverKv: 'Kvs / Kv',
 			kvsStandard: 'Standard Kvs series',
 			curveNote: 'Grey = ideal line (α = 1). The smaller α, the more the effective curve deviates.',
@@ -1058,7 +1060,7 @@ export const en = {
 			volumeFlow: 'Volume flow V̇',
 			pressureDiff: 'Pressure difference Δp',
 			kvValue: 'Kv value',
-			recommendedKvs: 'Recommended Kvs (standard size)',
+			recommendedKvs: 'Kvs (nearest standard size, if in doubt smaller)',
 			warnLowAuthority:
 				'Very small pressure drop across the valve ({a} kPa). This points to an oversized valve and poor valve authority — check it with the system pressure drop in the "Valve authority" calculator.',
 			formulaNote: 'Formula: Kv = V̇ × √(1 / Δp), water at 20 °C.',

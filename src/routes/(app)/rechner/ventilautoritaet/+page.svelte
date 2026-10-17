@@ -34,7 +34,7 @@
 		ratingColor: ratingLabels[authority.rating].color
 	});
 
-	const kvResult = $derived(selectKvs({ flow, dpv100 }));
+	const kvResult = $derived(selectKvs({ flow, dpv100: dp100 * 100000 }));
 
 	const curve = $derived(linearValveCurve(authority.alpha));
 </script>
@@ -225,17 +225,19 @@
 				<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.kvsOverKv')}</span>
 				<span class="calc-result-value">{fmt(kvResult.kvsFactor, 2)}</span>
 			</div>
+			<div class="calc-result">
+				<span class="calc-result-label">{$_('rechner.ventilautoritaetUi.dpEffective')}</span>
+				<span class="calc-result-value"
+					>{fmt(kvResult.dpEffective / 1000, 1)}<span class="calc-result-unit">kPa</span></span
+				>
+			</div>
 		</div>
 
 		<div class="calc-section">
 			<h2 class="calc-section-title">{$_('rechner.ventilautoritaetUi.kvsStandard')}</h2>
 			<div class="kvs-grid">
 				{#each kvsOptions as v (v)}
-					<div
-						class="kvs-chip"
-						class:kvs-selected={v === kvResult.kvs}
-						class:kvs-too-small={v < kvResult.kv * 1.3}
-					>
+					<div class="kvs-chip" class:kvs-selected={v === kvResult.kvs}>
 						{v}
 					</div>
 				{/each}
@@ -369,10 +371,5 @@
 		background: color-mix(in srgb, var(--color-primary) 12%, transparent);
 		color: var(--primary-text);
 		font-weight: 700;
-	}
-
-	.kvs-too-small {
-		opacity: 0.35;
-		text-decoration: line-through;
 	}
 </style>

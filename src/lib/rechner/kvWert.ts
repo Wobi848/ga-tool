@@ -36,10 +36,18 @@ export function computeKv(input: KvInput): KvResult {
 	return { kv, q: qCalc, dp };
 }
 
-/** Naechstgroesserer Standard-Kvs-Wert mit 10 % Reserve */
-export function recommendKvs(targetKv: number, reserveFactor = 1.1): number {
-	const target = targetKv * reserveFactor;
-	return STANDARD_KVS.find((k) => k >= target) ?? STANDARD_KVS[STANDARD_KVS.length - 1];
+/** Nächstliegender Standard-Kvs (logarithmisch), bei Gleichstand der
+ *  kleinere, wie in ventilautoritaet.ts und nach Siemens BT_0100. Ein
+ *  kleineres Ventil erhöht die Autorität; eine Reserve obendrauf macht das
+ *  Ventil systematisch zu gross. Bis 0.18.6: nächstgrösser mit 10 % Reserve. */
+export function recommendKvs(targetKv: number): number {
+	const last = STANDARD_KVS[STANDARD_KVS.length - 1];
+	if (targetKv >= last) return last;
+	if (targetKv <= STANDARD_KVS[0]) return STANDARD_KVS[0];
+	const i = STANDARD_KVS.findIndex((k) => k >= targetKv);
+	const hi = STANDARD_KVS[i];
+	const lo = STANDARD_KVS[i - 1];
+	return Math.log(hi / targetKv) < Math.log(targetKv / lo) ? hi : lo;
 }
 
 /** Grobe Schwelle fuer die Warnung im Kv-Rechner: Δp_Ventil / 0.5 bar.

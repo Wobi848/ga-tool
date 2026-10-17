@@ -1,11 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-	valveAuthority,
-	selectKvs,
-	linearValveCurve,
-	KVS_OPTIONS,
-	KVS_RESERVE_FACTOR
-} from './ventilautoritaet';
+import { valveAuthority, selectKvs, linearValveCurve, KVS_OPTIONS } from './ventilautoritaet';
 
 describe('valveAuthority', () => {
 	it('α = ΔpV / (ΔpV + ΔpSystem)', () => {
@@ -37,16 +31,27 @@ describe('selectKvs', () => {
 		expect(r.kv).toBeCloseTo(1.0, 5);
 	});
 
-	it('empfiehlt naechstgroesseren Standard-Kvs mit Reserve-Faktor', () => {
-		const r = selectKvs({ flow: 1.0, dpv100: 100000 });
-		// Kv=1.0, Kvs >= 1.3 -> 1.6
-		expect(r.kvs).toBe(1.6);
-		expect(r.kvsFactor).toBeCloseTo(1.6 / 1.0, 3);
+	it('waehlt die naechstliegende Normgroesse, bei Gleichstand die kleinere', () => {
+		// Kv = 1.0 liegt genau auf der Reihe
+		expect(selectKvs({ flow: 1.0, dpv100: 100000 }).kvs).toBe(1.0);
+		// Kv ≈ 1.2: 1.0 liegt naeher als 1.6
+		expect(selectKvs({ flow: 1.2, dpv100: 100000 }).kvs).toBe(1.0);
+		// Kv ≈ 1.4: 1.6 liegt naeher
+		expect(selectKvs({ flow: 1.4, dpv100: 100000 }).kvs).toBe(1.6);
 	});
 
-	it('Reserve-Faktor sorgt fuer min ' + KVS_RESERVE_FACTOR + 'x Kvs/Kv', () => {
-		const r = selectKvs({ flow: 2.5, dpv100: 100000 });
-		expect(r.kvsFactor).toBeGreaterThanOrEqual(KVS_RESERVE_FACTOR);
+	it('Siemens-Beispiel BT_0100: Kv 26 ergibt Kvs 25, nicht 40', () => {
+		// 4.5 m³/h bei 3 kPa → Kv ≈ 26
+		const r = selectKvs({ flow: 4.5, dpv100: 3000 });
+		expect(r.kv).toBeCloseTo(26, 0);
+		expect(r.kvs).toBe(25);
+		// tatsaechlicher Druckverlust etwas hoeher als geplant, rund 3.2 kPa
+		expect(r.dpEffective).toBeCloseTo(3240, -1);
+	});
+
+	it('dpEffective = (Q / Kvs)² in Pa', () => {
+		const r = selectKvs({ flow: 2.0, dpv100: 40000 });
+		expect(r.dpEffective).toBeCloseTo(Math.pow(2.0 / r.kvs, 2) * 100000, 3);
 	});
 
 	it('saturiert auf groessten Kvs bei sehr hohem Bedarf', () => {

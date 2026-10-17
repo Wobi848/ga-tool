@@ -550,14 +550,15 @@ export const de = {
 
 		ventilautoritaetUi: {
 			formulaNote:
-				'Kv = Q / √(ΔpV) bei ΔpV in bar, Q in m³/h — nach EN 60534. Kvs nächste Normgrösse ≥ Kv × 1.3 wählen (Regelbereich + Reserve).',
+				'Kv = Q / √(ΔpV) bei ΔpV in bar, Q in m³/h. Der berechnete Kv ist der ideale Kvs. Gewählt wird die nächstliegende Normgrösse, im Zweifel die kleinere: Das erhöht die Ventilautorität (Siemens BT_0100). Danach die Autorität mit dem tatsächlichen Δp prüfen.',
 			tabAuthority: 'Ventilautorität α',
 			tabKvs: 'Kvs-Auswahl',
 			pressures: 'Druckverhältnisse',
 			dpValve100: 'Δp Ventil bei 100% Hub (ΔpV,100)',
 			dpValve100Hint: 'Druckverlust vollgeöffnetes Ventil',
 			dpSystem: 'Δp restlicher Kreis (ΔpSystem)',
-			dpSystemHint: 'Wärmetauscher + Rohrnetz ohne Ventil',
+			dpSystemHint:
+				'nur der mengenvariable Teil: Leitungen und Bauteile, deren Durchfluss das Ventil verändert, ohne Ventil',
 			authority: 'Ventilautorität α',
 			rating: 'Bewertung',
 			ratingVG: 'Sehr gut (α ≥ 0.5)',
@@ -571,7 +572,8 @@ export const de = {
 			dpAtDesign: 'Δp Ventil bei Auslegungsdurchfluss',
 			dpAtDesignHint: 'Eingestellter Differenzdruck am Ventil',
 			calcKv: 'Berechneter Kv',
-			recommendedKvs: 'Empfohlenes Kvs (× 1.3 Sicherheit)',
+			recommendedKvs: 'Gewähltes Kvs (nächste Normgrösse)',
+			dpEffective: 'Δp Ventil mit gewähltem Kvs',
 			kvsOverKv: 'Kvs / Kv',
 			kvsStandard: 'Standardreihe Kvs',
 			curveNote:
@@ -1064,7 +1066,7 @@ export const de = {
 			volumeFlow: 'Volumenstrom V̇',
 			pressureDiff: 'Druckdifferenz Δp',
 			kvValue: 'Kv-Wert',
-			recommendedKvs: 'Empfohlene Kvs (nächste Norm)',
+			recommendedKvs: 'Kvs (nächste Normgrösse, im Zweifel kleiner)',
 			warnLowAuthority:
 				'Sehr kleiner Druckverlust am Ventil ({a} kPa). Das deutet auf ein zu grosses Ventil und eine schlechte Ventilautorität hin — mit dem Druckverlust der Anlage im Rechner «Ventilautorität» prüfen.',
 			formulaNote: 'Formel: Kv = V̇ × √(1 / Δp), Wasser bei 20 °C.',

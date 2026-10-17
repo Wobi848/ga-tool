@@ -59,18 +59,15 @@ describe('computeKv', () => {
 });
 
 describe('recommendKvs', () => {
-	it('picks next-larger standard value with default 10 % reserve', () => {
-		// target × 1.1 must be <= recommended
-		expect(recommendKvs(1.0)).toBe(1.6); // 1.0 × 1.1 = 1.1, next = 1.6
-		expect(recommendKvs(2.5)).toBe(4.0); // 2.5 × 1.1 = 2.75, next = 4.0
-		expect(recommendKvs(0.3)).toBe(0.4);
+	it('waehlt die naechstliegende Normgroesse, bei Gleichstand die kleinere', () => {
+		expect(recommendKvs(1.0)).toBe(1.0);
+		expect(recommendKvs(1.2)).toBe(1.0);
+		expect(recommendKvs(1.4)).toBe(1.6);
+		expect(recommendKvs(26)).toBe(25);
 	});
-	it('without reserve, picks next >= target', () => {
-		expect(recommendKvs(1.0, 1.0)).toBe(1.0);
-		expect(recommendKvs(1.01, 1.0)).toBe(1.6);
-	});
-	it('saturates to largest standard value when target exceeds series', () => {
+	it('saturates at the ends of the series', () => {
 		expect(recommendKvs(500)).toBe(STANDARD_KVS[STANDARD_KVS.length - 1]);
+		expect(recommendKvs(0.1)).toBe(STANDARD_KVS[0]);
 	});
 });
 

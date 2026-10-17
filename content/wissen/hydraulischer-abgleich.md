@@ -23,7 +23,7 @@ area: [hlk]
 related:
   [druckverlust, heizkurve, waermepumpe, ventil-schaltungen, hydraulische-schaltungen, pumpen]
 norm: [SIA 384/1, EN 14336, VDI 2073]
-updated: 2026-10-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -55,7 +55,7 @@ Bei Strängen und grösseren Anlagen wird gemessen: An Strangregulierventilen mi
 
 ### Druckunabhängige Ventile
 
-Druckunabhängige Regelventile (PICV) haben einen Differenzdruckregler eingebaut. Man stellt den maximalen Volumenstrom direkt ein, und er bleibt erhalten, egal was der Rest der Anlage tut. Der Abgleich ist damit Teil des Ventils.
+Druckunabhängige Regelventile (PICV) haben einen Differenzdruckregler eingebaut. Man stellt den maximalen Volumenstrom direkt ein, und er bleibt erhalten, egal was der Rest der Anlage tut. Der Abgleich ist damit Teil des Ventils. Man unterscheidet zwei Arten: Der **statische Abgleich** stellt bei der Inbetriebnahme die Nennvolumenströme ein, mit Strangregulierventilen oder der Voreinstellung. Er gilt aber nur bei Volllast, bei Teillast verschieben sich die Drücke wieder. Der **dynamische Abgleich** hält die Verhältnisse auch im Betrieb stabil, mit Differenzdruckreglern oder PICVs. Ein PICV braucht dafür einen Mindestdifferenzdruck von der Pumpe.
 
 ## Die Armaturen
 
@@ -143,7 +143,7 @@ For branches and larger systems you measure: at balancing valves with test point
 
 ### Pressure-Independent Valves
 
-Pressure-independent control valves (PICV) have a built-in differential pressure controller. You set the maximum flow directly and it is maintained whatever the rest of the system does. Balancing becomes part of the valve.
+Pressure-independent control valves (PICV) have a built-in differential pressure controller. You set the maximum flow directly and it is maintained whatever the rest of the system does. Balancing becomes part of the valve. Two kinds are distinguished: **static balancing** sets the design flows at commissioning, with balancing valves or presetting. It only holds at full load, though; at part load the pressures shift again. **Dynamic balancing** keeps conditions stable in operation too, with differential pressure controllers or PICVs. A PICV needs a minimum differential pressure from the pump for this.
 
 ## The Valves
 

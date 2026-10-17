@@ -34,7 +34,7 @@ related:
   ]
 rechner: [hydraulik-simulator]
 norm: [EN 12828, SIA 384/1, VDI 3814]
-updated: 2026-10-16
+updated: 2026-10-17
 lang: de
 ---
 
@@ -154,6 +154,12 @@ Ein ungemischter Kreis kann nur so warm sein wie der Erzeuger. Deshalb hängt am
 | Einspritzung, Durchgang   | Durchgang  | beide Kreise     | variabel              | konstant                 | tief                  | ✓         |
 | Ungemischt                | keines     | Verbraucherkreis | —                     | konstant                 | wie Verbraucher       | —         |
 
+**Für Neuanlagen** gelten die Umlenkschaltung und die Einspritzschaltung mit Dreiwegventil heute als veraltet. Siemens bezeichnet sie in der Ausgabe 2026 seiner Hydraulik-Schulung so, ebenso den Verteiler mit konstantem Volumenstrom. Der Grund ist die Energie: Die Hauptpumpe fördert dauernd den vollen Volumenstrom, und der Rücklauf kommt bei Teillast warm zurück. Bevorzugt werden Schaltungen mit variablem Volumenstrom auf der Erzeugerseite, also Drossel- und Einspritzschaltung mit Durchgangsventil, oft mit druckunabhängigem Ventil (PICV). Im Bestand bleiben die alten Schaltungen natürlich in Betrieb.
+
+### Mit druckunabhängigem Ventil (PICV)
+
+Drossel- und Einspritzschaltung lassen sich statt mit einem normalen Durchgangsventil mit einem **PICV** bauen. Es hält den Volumenstrom unabhängig von Druckschwankungen im Netz, begrenzt ihn auf den eingestellten Höchstwert und ersetzt so die Abgleichdrossel. Die Pumpe muss den Mindestdifferenzdruck des PICV liefern. Für Luftkühler und -erwärmer braucht es einen Antrieb mit gleichprozentigem Stellverhalten, siehe [Ventilautorität](/wissen/ventilautoritaet).
+
 ## Welche Schaltung an welchen Verteiler
 
 Der Verteiler und die Gruppen daran müssen zusammenpassen. **Am selben Verteiler nur Gruppen mit gleichem Verhalten**, also nicht mengenvariable und mengenkonstante Gruppen durcheinander.
@@ -184,6 +190,7 @@ Ventile sind meist als **Mischventil** gebaut. Wer mit einem Dreiwegventil verte
 - Siemens Building Technologies: «Hydraulik in der Gebäudetechnik», Grundlagendokumentation
 - Belimo: Auswahltabelle hydraulische Grundschaltungen
 - Siemens Schweiz AG: «Einführung in die HLK- und Gebäudetechnik», Schulungsunterlage BT_0093, 2019, Kap. 5
+- Siemens Schweiz AG: «Hydraulik in der Gebäudetechnik», Schulungsunterlage BT_0100, 2026
 
 <!-- EN -->
 
@@ -301,6 +308,12 @@ An unmixed circuit can only be as warm as the generator. That is why, on the sam
 | Injection, two-way   | two-way   | both circuits     | variable       | constant      | low                 | ✓                |
 | Unmixed              | none      | consumer circuit  | —              | constant      | as consumer         | —                |
 
+**For new installations**, the diverting circuit and the injection circuit with three-way valve are today considered outdated. Siemens labels them so in the 2026 edition of its hydraulics training, as well as the constant-flow header. The reason is energy: the main pump moves the full flow all the time, and at part load the return comes back warm. Circuits with variable flow on the generator side are preferred, i.e. throttling and injection circuits with two-way valve, often with a pressure-independent valve (PICV). In existing plants the old circuits naturally stay in operation.
+
+### With Pressure-Independent Valve (PICV)
+
+Throttling and injection circuits can be built with a **PICV** instead of a normal two-way valve. It keeps the flow independent of pressure fluctuations in the network, limits it to the set maximum and so replaces the balancing valve. The pump must provide the PICV's minimum differential pressure. Air coolers and heaters need an actuator with equal-percentage behaviour, see [Valve Authority](/wissen/ventilautoritaet).
+
 ## Which Circuit on Which Header
 
 The header and the groups on it must match. **Only groups with the same behaviour on one header**, i.e. do not mix variable-volume and constant-volume groups.
@@ -331,3 +344,4 @@ Valves are usually built as **mixing valves**. Anyone diverting with a three-way
 - Siemens Building Technologies: "Hydraulik in der Gebäudetechnik", fundamentals documentation
 - Belimo: selection table of basic hydraulic circuits
 - Siemens Schweiz AG: "Einführung in die HLK- und Gebäudetechnik", training document BT_0093, 2019, ch. 5
+- Siemens Schweiz AG: "Hydraulik in der Gebäudetechnik", training document BT_0100, 2026

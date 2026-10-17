@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.18.7 — 2026-10-17
+
+Abgleich mit Siemens «Hydraulik in der Gebäudetechnik» (BT_0100, Ausgabe 2026).
+
+- **Ventilautoritäts-Rechner:** Kvs-Wahl ohne Zuschlag ×1.3, sondern
+  nächstliegende Normgrösse, im Zweifel die kleinere; zeigt den tatsächlichen
+  Druckverlust. Fehler behoben: Das Feld «Δp bei Auslegung» im Tab
+  Kvs-Auswahl hatte keine Wirkung.
+- **Kv-Rechner:** gleiche Kvs-Wahl, ohne 10 % Reserve
+- **Ventilautorität:** mengenvariabler Teil je Schaltung, Vorgehen mit
+  Siemens-Beispiel, a-Wert, Leistungssprung, PICV und elektronische PICV
+- **Hydraulische Grundschaltungen:** Umlenk- und Einspritzschaltung mit
+  Dreiwegventil gelten für Neuanlagen als veraltet; Varianten mit PICV
+- **Hydraulischer Abgleich:** statisch und dynamisch
+
 ## v0.18.6 — 2026-10-17
 
 Abgleich mit Siemens «Messtechnik» (BT_0097).
