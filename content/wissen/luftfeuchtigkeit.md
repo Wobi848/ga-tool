@@ -32,7 +32,7 @@ related:
 
 rechner: [psychrometrie, taupunkt]
 norm: [DIN EN 13779, DIN EN 16798-1, DIN ISO 7730, SIA 382/1]
-updated: 2026-05-24
+updated: 2026-10-17
 lang: de
 ---
 
@@ -95,6 +95,18 @@ Im englischen Sprachraum ist das **Carrier-Diagramm** (Psychrometric Chart) verb
 | **Wärmerückgewinnung enthalpisch** (Rotor)        | T und x werden zwischen Zu- und Abluft getauscht                   |
 
 > Im **[Psychrometrie-Rechner](/rechner/psychrometrie)** ist ein interaktives h-x-Diagramm eingebaut. Du gibst T + rF (oder x, Taupunkt, h) ein und siehst deinen Arbeitspunkt live im Carrier-Diagramm zusammen mit den rF-Kurven (20/40/60/80/100 %) und dem Taupunkt-Marker auf der Sättigungslinie.
+
+### Rechnen mit dem Diagramm
+
+- **Leistung = Luftmasse × Enthalpiedifferenz:** Φ = q<sub>m</sub> · (h<sub>2</sub> − h<sub>1</sub>). Beispiel aus der Siemens-Unterlage: 1 kg/s Luft von 5 °C / 60 % auf 25 °C braucht 33.3 − 13 = 20.3 kJ/kg, also 20.3 kW.
+- **Volumen in Masse umrechnen:** q<sub>m</sub> = q<sub>V</sub> · ρ. Bei 20 °C auf Meereshöhe ist ρ rund 1.2 kg/m³, in der Höhe und bei Wärme weniger.
+- **Mischen:** Der Mischpunkt liegt auf der Verbindungslinie, näher beim grösseren Luftstrom. Temperatur und Wassergehalt mitteln sich nach den Massenströmen: 1500 kg/h Aussenluft mit 5 °C und 2500 kg/h Umluft mit 20 °C ergeben (5 · 1500 + 20 · 2500) / 4000 = 14.4 °C. Mischt man im Winter kalte Aussenluft mit feuchter, warmer Umluft, etwa im Hallenbad, kann der Mischpunkt unter der Sättigungslinie liegen: Es bildet sich Nebel. Der Erhitzer danach verdampft ihn wieder.
+- **Kühlen mit oder ohne Entfeuchten:** Entscheidend ist die **mittlere Kühlflächentemperatur**, etwa der Mittelwert von Kaltwasser-Vor- und -Rücklauf plus 1 bis 2 K. Liegt sie über dem Taupunkt der Luft, bleibt x gleich. Liegt sie darunter, scheidet der Kühler Wasser aus. Ein Kaltwasser von 15/19 °C entfeuchtet deshalb kaum, eines von 6/12 °C deutlich.
+- **Bypass-Effekt:** Nicht die ganze Luft berührt die Lamellen. Die austretende Luft ist eine Mischung aus gekühlter, gesättigter und praktisch unveränderter Luft. Deshalb verläuft die Linie im Diagramm gekrümmt, und die Luft erreicht die Kühlflächentemperatur nie ganz.
+
+### Höhenlage
+
+Jedes h,x-Diagramm gilt für einen bestimmten Luftdruck, Lehrbuchdiagramme meist für Meereshöhe (1013 mbar). In der Schweiz liegt fast jedes Gebäude höher. Auf 1000 m ü. M. beträgt der mittlere Luftdruck rund 899 mbar. Bei gleicher Temperatur und gleichem Wassergehalt ist die relative Feuchte dort um den Faktor 899 / 1013 ≈ 0.89 tiefer, und die Luft ist entsprechend leichter. Für Auslegungen in den Bergen braucht es ein Diagramm für die richtige Höhe oder eine Berechnung mit dem richtigen Druck. Der Psychrometrie-Rechner hat dafür ein Feld für die Höhe über Meer.
 
 ## Behaglichkeitsbereich
 
@@ -251,6 +263,18 @@ The English-speaking world uses the **Carrier chart** (psychrometric chart). It 
 | **Enthalpy heat recovery** (rotary wheel)    | both T and x are exchanged between supply and extract air |
 
 > The **[psychrometry calculator](/rechner/psychrometrie)** has an interactive chart built in. Enter T + RH (or x, dew point, h) and you see your operating point live in the Carrier chart, together with the RH curves (20/40/60/80/100 %) and the dew point marker on the saturation line.
+
+### Calculating with the Chart
+
+- **Output = air mass × enthalpy difference:** Φ = q<sub>m</sub> · (h<sub>2</sub> − h<sub>1</sub>). Example from the Siemens document: 1 kg/s of air from 5 °C / 60 % to 25 °C needs 33.3 − 13 = 20.3 kJ/kg, i.e. 20.3 kW.
+- **Converting volume to mass:** q<sub>m</sub> = q<sub>V</sub> · ρ. At 20 °C at sea level ρ is about 1.2 kg/m³, less at altitude and when warm.
+- **Mixing:** the mixing point lies on the connecting line, closer to the larger air stream. Temperature and moisture content average by mass flow: 1500 kg/h of outdoor air at 5 °C and 2500 kg/h of recirculated air at 20 °C give (5 · 1500 + 20 · 2500) / 4000 = 14.4 °C. If cold outdoor air is mixed in winter with humid, warm recirculated air, for instance in an indoor pool, the mixing point can lie below the saturation line: fog forms. The heater downstream evaporates it again.
+- **Cooling with or without dehumidification:** what matters is the **mean coil surface temperature**, about the mean of chilled water flow and return plus 1 to 2 K. If it is above the dew point of the air, x stays the same. If it is below, the coil removes water. Chilled water at 15/19 °C therefore hardly dehumidifies, at 6/12 °C clearly.
+- **Bypass effect:** not all the air touches the fins. The leaving air is a mixture of cooled, saturated air and practically unchanged air. That is why the line in the chart is curved and the air never quite reaches the coil surface temperature.
+
+### Altitude
+
+Every psychrometric chart applies to a specific air pressure, textbook charts usually to sea level (1013 mbar). In Switzerland almost every building is higher. At 1000 m above sea level the mean air pressure is about 899 mbar. At the same temperature and moisture content, relative humidity there is lower by the factor 899 / 1013 ≈ 0.89, and the air is correspondingly lighter. Designs in the mountains need a chart for the right altitude or a calculation with the right pressure. The psychrometry calculator has a field for the altitude above sea level.
 
 ## Comfort Range
 

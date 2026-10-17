@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { psychroState, wetBulb, STD_PRESSURE } from './psychrometrie';
+import { psychroState, wetBulb, STD_PRESSURE, pressureFromAltitude } from './psychrometrie';
 
 describe('wetBulb (Newton-Iteration)', () => {
 	it('Bei 100 % rH: Feuchtkugel = Trockenkugel', () => {
@@ -91,5 +91,25 @@ describe('psychroState — Vollstaendigkeit', () => {
 		const lo = psychroState({ mode: 't-rh', t: 22, rh: 50, pressure: 80000 });
 		const hi = psychroState({ mode: 't-rh', t: 22, rh: 50, pressure: STD_PRESSURE });
 		expect(lo.rho).toBeLessThan(hi.rho);
+	});
+});
+
+describe('pressureFromAltitude', () => {
+	it('Meereshöhe ergibt Normdruck', () => {
+		expect(pressureFromAltitude(0)).toBeCloseTo(101325, 0);
+	});
+	it('1000 m ü. M. ergibt rund 899 hPa (Siemens BT_0095)', () => {
+		expect(pressureFromAltitude(1000) / 100).toBeCloseTo(898.7, 0);
+	});
+	it('höher heisst weniger Druck und bei gleichem rF mehr Wasser pro kg Luft', () => {
+		const tief = psychroState({ mode: 't-rh', t: 20, rh: 50 });
+		const hoch = psychroState({
+			mode: 't-rh',
+			t: 20,
+			rh: 50,
+			pressure: pressureFromAltitude(1600)
+		});
+		expect(hoch.x).toBeGreaterThan(tief.x);
+		expect(hoch.rho).toBeLessThan(tief.rho);
 	});
 });

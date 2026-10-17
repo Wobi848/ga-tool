@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.18.5 — 2026-10-17
+
+Abgleich mit Siemens «Das h,x-Diagramm» (BT_0095).
+
+- **Psychrometrie-Rechner:** neues Feld «Höhe über Meer», setzt den Luftdruck
+  nach Standardatmosphäre (Zürich 408 m, 1000 m → 899 hPa)
+- **Luftfeuchtigkeit:** Rechnen mit dem Diagramm (Leistung, Mischen, Kühlen mit
+  und ohne Entfeuchten, Bypass-Effekt) und Einfluss der Höhenlage
+
 ## v0.18.4 — 2026-10-17
 
 Abgleich mit Siemens «Kältetechnik» (BT_0099).

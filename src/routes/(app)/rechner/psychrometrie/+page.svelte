@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fmt, absHumidity } from '$lib/rechner/_shared';
-	import { psychroState, type PsychroMode } from '$lib/rechner/psychrometrie';
+	import { psychroState, pressureFromAltitude, type PsychroMode } from '$lib/rechner/psychrometrie';
 	import FavButton from '$lib/components/FavButton.svelte';
 	import { _ } from 'svelte-i18n';
 
@@ -11,6 +11,13 @@
 	let tdp = $state(11.1); // °C
 	let h = $state(43); // kJ/kg
 	let pressure = $state(101325); // Pa
+	let altitude = $state(0); // m ü. M.
+
+	// Höhe setzt den Druck nach Standardatmosphäre; der Druck bleibt danach frei editierbar.
+	function setAltitude(m: number) {
+		altitude = m;
+		pressure = Math.round(pressureFromAltitude(m));
+	}
 
 	const result = $derived(psychroState({ mode, t: temperature, rh, x, tdp, h, pressure }));
 	const saturated = $derived(result.rh > 100);
@@ -152,6 +159,23 @@
 				</div>
 			</div>
 		{/if}
+		<div class="calc-field">
+			<label class="calc-field-label" for="alt-in">
+				{$_('rechner.psychrometrieUi.altitude')}
+				<span class="calc-field-hint">{$_('rechner.psychrometrieUi.altitudeHint')}</span>
+			</label>
+			<div class="calc-input-wrap">
+				<input
+					id="alt-in"
+					type="number"
+					step="50"
+					value={altitude}
+					oninput={(e) => setAltitude(Number((e.currentTarget as HTMLInputElement).value) || 0)}
+					class="calc-input"
+				/>
+				<span class="calc-input-unit">m</span>
+			</div>
+		</div>
 		<div class="calc-field">
 			<label class="calc-field-label" for="p-in">
 				{$_('rechner.psychrometrieUi.pressure')}

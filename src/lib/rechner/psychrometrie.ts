@@ -7,6 +7,13 @@ import { pSat, dewPoint, enthalpy, airDensity, absHumidity } from './_shared';
 export type PsychroMode = 't-rh' | 't-x' | 't-tdp' | 't-h';
 export const STD_PRESSURE = 101325;
 
+/** Mittlerer Luftdruck [Pa] auf einer Höhe über Meer [m], nach der
+ *  internationalen Standardatmosphäre. 1000 m ü. M. ergeben rund 899 hPa,
+ *  wie in Siemens BT_0095 angegeben. Für Zürich (408 m) etwa 966 hPa. */
+export function pressureFromAltitude(altitudeM: number): number {
+	return STD_PRESSURE * Math.pow(1 - 2.25577e-5 * altitudeM, 5.25588);
+}
+
 export interface PsychroInput {
 	mode: PsychroMode;
 	/** Trockenkugel-Temperatur [°C] */

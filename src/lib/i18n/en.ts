@@ -689,6 +689,8 @@ export const en = {
 			enthalpy: 'Enthalpy',
 			pressure: 'Air pressure',
 			stdPressure: 'Standard 101 325 Pa',
+			altitude: 'Altitude above sea level',
+			altitudeHint: 'sets the air pressure, e.g. Zurich 408 m',
 			tempT: 'Temperature T',
 			relHumPhi: 'Relative humidity φ',
 			absHumX: 'Absolute humidity x',

@@ -695,6 +695,8 @@ export const de = {
 			enthalpy: 'Enthalpie',
 			pressure: 'Luftdruck',
 			stdPressure: 'Standard 101 325 Pa',
+			altitude: 'Höhe über Meer',
+			altitudeHint: 'setzt den Luftdruck, z.B. Zürich 408 m',
 			tempT: 'Temperatur T',
 			relHumPhi: 'Relative Feuchte φ',
 			absHumX: 'Absolute Feuchte x',
