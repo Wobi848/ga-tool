@@ -211,6 +211,16 @@ export const rechner: RechnerMeta[] = [
 		icon: 'wind',
 		color: '#0d9488',
 		updated: '2026-05-24'
+	},
+	{
+		slug: 'aks',
+		name: 'AKS-Generator',
+		name_en: 'Plant Labelling Generator',
+		short: 'Anlagenkennzeichen und BACnet-Objektname nach KBOB erzeugen und zerlegen',
+		short_en: 'Create and decode KBOB plant labels and BACnet object names',
+		icon: 'tag',
+		color: '#0891b2',
+		updated: '2026-10-17'
 	}
 ];
 

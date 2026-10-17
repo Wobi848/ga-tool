@@ -533,6 +533,44 @@ export const en = {
 			massFlow: 'Mass flow ṁ'
 		},
 
+		aks: {
+			name: 'Plant Labelling Generator',
+			short: 'Create and decode KBOB plant labels and BACnet object names'
+		},
+
+		aksUi: {
+			tabBuild: 'Create',
+			tabParse: 'Decode',
+			kennzeichen: 'Label',
+			objektname: 'BACnet object name',
+			copy: 'Copy to clipboard',
+			copied: 'copied',
+			blockOrt: 'Location',
+			blockBta: 'Technical system (BTA)',
+			blockApparat: 'Device',
+			blockFunktion: 'Function',
+			feld: 'in the field (process)',
+			schaltschrank: 'in the panel',
+			nrHint: 'Range per MSRL technology annex B',
+			parseInput: 'Label or object name',
+			parseHint: 'e.g. +3022 HZ1 = L13 - M100 : S0, =L13-Q100 or 3022_HZ1_L13_M100_S0',
+			unrecognized: 'Not recognised',
+			takeOver: 'Load into the generator',
+			note: "Labelling per KBOB recommendation MSRL technology (2000), object name and function types T, U, K, R, N per KBOB BACnet guideline (2021). The device number ranges are a recommendation; the owner's labelling scheme is binding.",
+			moreLink: 'More on the KBOB requirements',
+			f: {
+				anlage: 'Site no.',
+				objekt: 'Object',
+				ebene: 'Level',
+				btaArt: 'System type',
+				btaNr: 'System no.',
+				apparatArt: 'Device type',
+				apparatNr: 'Device no.',
+				funktionArt: 'Function type',
+				funktionNr: 'Function no.'
+			}
+		},
+
 		taupunktUi: {
 			formulaNote:
 				'Calculated using Magnus formula (constants a = 17.62, b = 243.12 °C). Valid in range −45 … +60 °C over water.',

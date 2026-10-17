@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.21.0 — 2026-10-17
+
+### Neu: AKS-Generator
+
+Erster Generator aus dem KBOB-Plan (Rechner → AKS-Generator).
+
+- **Erzeugen:** Ort, Anlage, Apparat und Funktion wählen, daraus entstehen das
+  Kennzeichen (+3022 HZ1 =L13 -M100 :S0) und der BACnet-Objektname nach
+  KBOB-Leitfaden (3022_HZ1_L13_M100_S0), mit Prüfung jeder Stelle und Hinweis,
+  wofür die Apparatenummer nach MSRL-Technik Anhang B vorgesehen ist.
+- **Zerlegen:** Kennzeichen, Teilkennzeichen wie =L13-Q100 oder Objektnamen
+  eingeben und die Bedeutung jeder Stelle sehen; übernehmen in den Generator.
+
 ## v0.20.0 — 2026-10-17
 
 ### BACnet nach KBOB

@@ -536,6 +536,44 @@ export const de = {
 			massFlow: 'Massenstrom ṁ'
 		},
 
+		aks: {
+			name: 'AKS-Generator',
+			short: 'Anlagenkennzeichen und BACnet-Objektname nach KBOB erzeugen und zerlegen'
+		},
+
+		aksUi: {
+			tabBuild: 'Erzeugen',
+			tabParse: 'Zerlegen',
+			kennzeichen: 'Kennzeichen',
+			objektname: 'BACnet-Objektname',
+			copy: 'In die Zwischenablage kopieren',
+			copied: 'kopiert',
+			blockOrt: 'Ort',
+			blockBta: 'Betriebstechnische Anlage (BTA)',
+			blockApparat: 'Apparat',
+			blockFunktion: 'Funktion',
+			feld: 'im Feld (Prozess)',
+			schaltschrank: 'im Schaltschrank',
+			nrHint: 'Bereich nach MSRL-Technik Anhang B',
+			parseInput: 'Kennzeichen oder Objektname',
+			parseHint: 'z.B. +3022 HZ1 = L13 - M100 : S0, =L13-Q100 oder 3022_HZ1_L13_M100_S0',
+			unrecognized: 'Nicht erkannt',
+			takeOver: 'In den Generator übernehmen',
+			note: 'Kennzeichnung nach KBOB-Empfehlung MSRL-Technik (2000), Objektname und Funktionsarten T, U, K, R, N nach KBOB-Leitfaden BACnet (2021). Die Nummernbereiche der Apparate sind eine Empfehlung; massgebend ist das Kennzeichnungskonzept des Bauherrn.',
+			moreLink: 'Mehr zu den KBOB-Vorgaben',
+			f: {
+				anlage: 'Anlage-Nr.',
+				objekt: 'Objekt',
+				ebene: 'Ebene',
+				btaArt: 'Anlagenart',
+				btaNr: 'Anlagen-Nr.',
+				apparatArt: 'Apparateart',
+				apparatNr: 'Apparate-Nr.',
+				funktionArt: 'Funktionsart',
+				funktionNr: 'Funktions-Nr.'
+			}
+		},
+
 		taupunktUi: {
 			formulaNote:
 				'Berechnet nach Magnus-Formel (Konstanten a = 17.62, b = 243.12 °C). Gültig im Bereich −45 … +60 °C über Wasser.',
