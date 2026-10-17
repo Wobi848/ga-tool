@@ -34,3 +34,4 @@ src/lib/checklisten/checklisten.generated.json
 src/lib/search/corpus.generated.json
 docs/*.pdf
 docs/siemens/
+docs/kbob/
