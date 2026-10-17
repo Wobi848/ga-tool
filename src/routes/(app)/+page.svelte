@@ -7,7 +7,8 @@
 	import { abbreviations } from '$lib/abkuerzungen/data';
 	import { referenceTables, referenceMap } from '$lib/referenz';
 	import { checklists } from '$lib/checklisten';
-	import { favorites, favTypeColor, favTypeHref } from '$lib/stores/favorites';
+	import { favorites, favTypeHref } from '$lib/stores/favorites';
+	import { openSearch } from '$lib/stores/search';
 
 	let { data } = $props();
 
@@ -19,15 +20,14 @@
 		referenz: '/referenz',
 		abkuerzungen: '/abkuerzungen'
 	};
-	// Kräftige Töne für Akzente. Als Schrift werden sie mit --text gemischt:
-	// im Hellen dunkler, im Dunkeln heller, sonst reicht der Kontrast nicht.
-	const moduleColor: Record<string, string> = {
-		konverter: '#ea580c',
-		rechner: '#0d9488',
-		wissen: '#2563eb',
-		checkliste: '#7c3aed',
-		referenz: '#0891b2',
-		abkuerzungen: '#65a30d'
+	// Kürzel wie in der Seitenleiste, für die Typ-Spalte der Listen.
+	const moduleCode: Record<string, string> = {
+		konverter: 'KO',
+		rechner: 'RE',
+		wissen: 'WI',
+		checkliste: 'CL',
+		referenz: 'RF',
+		abkuerzungen: 'AB'
 	};
 
 	const moduleLabel: Record<string, string> = $derived({
@@ -184,14 +184,23 @@
 			href: '/rechner',
 			icon: 'calculator',
 			key: 'rechner',
+			code: 'RE',
 			color: '#0d9488',
 			count: rechner.length
 		},
-		{ href: '/wissen', icon: 'book-open', key: 'wissen', color: '#2563eb', count: articles.length },
+		{
+			href: '/wissen',
+			icon: 'book-open',
+			key: 'wissen',
+			code: 'WI',
+			color: '#2563eb',
+			count: articles.length
+		},
 		{
 			href: '/konverter',
 			icon: 'refresh-cw',
 			key: 'konverter',
+			code: 'KO',
 			color: '#ea580c',
 			count: converters.length
 		},
@@ -199,6 +208,7 @@
 			href: '/checklisten',
 			icon: 'clipboard-list',
 			key: 'checklisten',
+			code: 'CL',
 			color: '#7c3aed',
 			count: checklists.length
 		},
@@ -206,6 +216,7 @@
 			href: '/referenz',
 			icon: 'table',
 			key: 'referenz',
+			code: 'RF',
 			color: '#0891b2',
 			count: referenceTables.length
 		},
@@ -213,6 +224,7 @@
 			href: '/abkuerzungen',
 			icon: 'type',
 			key: 'abkuerzungen',
+			code: 'AB',
 			color: '#65a30d',
 			count: abbreviations.length
 		}
@@ -224,36 +236,35 @@
 </svelte:head>
 
 <div class="dashboard">
-	<header class="dashboard-header">
-		<h1>{$_('dashboard.title')}</h1>
-		<p>{$_('dashboard.tagline')}</p>
+	<header class="hero">
+		<p class="eyebrow">{$_('dashboard.eyebrow')}</p>
+		<h1>{$_('dashboard.tagline')}</h1>
+		<button type="button" class="hero-search" onclick={openSearch}>
+			<svg
+				width="20"
+				height="20"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				aria-hidden="true"
+			>
+				<circle cx="11" cy="11" r="7" />
+				<line x1="21" y1="21" x2="16.5" y2="16.5" />
+			</svg>
+			<span class="hero-search-text">{$_('dashboard.searchHint')}</span>
+			<kbd>⌘K</kbd>
+		</button>
 	</header>
 
 	{#if $favorites.length > 0}
-		<section class="section">
-			<h2 class="section-title">
-				<svg
-					width="13"
-					height="13"
-					viewBox="0 0 24 24"
-					fill="currentColor"
-					stroke="none"
-					class="section-icon"
-					style="color: var(--fav)"
-				>
-					<polygon
-						points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
-					/>
-				</svg>
-				{$_('dashboard.favorites')}
-			</h2>
+		<section class="section" aria-labelledby="dash-fav">
+			<h2 class="section-title" id="dash-fav">{$_('dashboard.favorites')}</h2>
 			<div class="fav-strip">
 				{#each $favorites.slice().reverse() as fav, _fav_i (_fav_i)}
 					<a href="{favTypeHref[fav.type]}/{fav.slug}" class="fav-pill">
-						<span class="fav-pill-dot" style="background:{favTypeColor[fav.type]}"></span>
-						<span class="fav-pill-type" style="color:{favTypeColor[fav.type]}"
-							>{$_('common.type.' + fav.type)}</span
-						>
+						<span class="fav-pill-type">{$_('common.type.' + fav.type)}</span>
 						<span class="fav-pill-title">{resolveFavTitle(fav.type, fav.slug, fav.title)}</span>
 						<button
 							type="button"
@@ -272,6 +283,7 @@
 								fill="none"
 								stroke="currentColor"
 								stroke-width="2.5"
+								aria-hidden="true"
 								><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg
 							>
 						</button>
@@ -281,259 +293,214 @@
 		</section>
 	{/if}
 
-	{#if recentEntries.length > 0}
-		<section class="section">
-			<h2 class="section-title">
-				<svg
-					width="13"
-					height="13"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2.5"
-					class="section-icon"
-					style="color:var(--color-secondary)"
-				>
-					<circle cx="12" cy="12" r="9" />
-					<polyline points="12 7 12 12 15 14" />
-				</svg>
-				{$_('dashboard.recentEntries')}
-			</h2>
-			<div class="top-list">
-				{#each recentEntries as item (item.type + '/' + item.slug)}
-					<a href="{moduleHref[item.type]}/{item.slug}" class="top-item">
-						<span class="top-accent" style="background:{moduleColor[item.type]}"></span>
-						<span
-							class="top-badge"
-							style:color="color-mix(in srgb, {moduleColor[item.type]} 55%, var(--text))"
-							style:background="{moduleColor[item.type]}18"
-						>
-							{moduleLabel[item.type] ?? item.type}
-						</span>
-						<span class="top-title">{item.title}</span>
-						<span class="top-cnt">{formatRelative(item.updated)}</span>
-					</a>
-				{/each}
-			</div>
-		</section>
-	{/if}
-
-	{#if data.topItems.length > 0}
-		<section class="section">
-			<h2 class="section-title">
-				<svg
-					width="13"
-					height="13"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2.5"
-					class="section-icon"
-					style="color:var(--color-primary)"
-				>
-					<polyline points="23 6 13.5 15.5 8.5 10.5 1 18" /><polyline points="17 6 23 6 23 12" />
-				</svg>
-				{$_('dashboard.recentlyUsed')}
-			</h2>
-			<div class="top-list">
-				{#each data.topItems as item, i (i)}
-					{#if moduleHref[item.module]}
-						<a href="{moduleHref[item.module]}/{item.slug}" class="top-item">
-							<span class="top-accent" style="background:{moduleColor[item.module]}"></span>
-							<span class="top-rank">{i + 1}</span>
-							<span
-								class="top-badge"
-								style:color="color-mix(in srgb, {moduleColor[item.module]} 55%, var(--text))"
-								style:background="{moduleColor[item.module]}18"
-							>
-								{moduleLabel[item.module] ?? item.module}
-							</span>
-							<span class="top-title">{resolveTitle(item.module, item.slug ?? '')}</span>
-							<span class="top-cnt">{item.cnt}×</span>
-						</a>
-					{/if}
-				{/each}
-			</div>
-		</section>
-	{/if}
-
-	<section class="section">
-		<h2 class="section-title">{$_('dashboard.quickAccess')}</h2>
+	<section class="section" aria-labelledby="dash-mods">
+		<h2 class="section-title" id="dash-mods">{$_('dashboard.quickAccess')}</h2>
 		<div class="module-grid">
 			{#each moduleKeys as mod, _mod_i (_mod_i)}
-				<a href={mod.href} class="module-card" style="--mod-color:{mod.color}">
-					<div class="module-icon" style="background:{mod.color}18; color:{mod.color}">
-						{@render ModuleIcon({ name: mod.icon })}
-					</div>
-					<div class="module-info">
-						<span class="module-label">{$_(`dashboard.modules.${mod.key}.name`)}</span>
-						<span class="module-desc">{mod.count} {$_(`dashboard.modules.${mod.key}.desc`)}</span>
-					</div>
-					<svg
-						class="module-arrow"
-						width="15"
-						height="15"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="currentColor"
-						stroke-width="2"
-					>
-						<polyline points="9 18 15 12 9 6" />
-					</svg>
+				<a href={mod.href} class="module-card">
+					<span class="module-top">
+						<span class="module-code">{mod.code}</span>
+						<span class="module-count">{mod.count}</span>
+					</span>
+					<span class="module-label">{$_(`dashboard.modules.${mod.key}.name`)}</span>
+					<span class="module-desc">{$_(`dashboard.modules.${mod.key}.desc`)}</span>
 				</a>
 			{/each}
 		</div>
 	</section>
-</div>
 
-{#snippet ModuleIcon({ name }: { name: string })}
-	<svg
-		width="20"
-		height="20"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-	>
-		{#if name === 'refresh-cw'}
-			<polyline points="23 4 23 10 17 10" /><polyline points="1 20 1 14 7 14" />
-			<path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-		{:else if name === 'calculator'}
-			<rect x="4" y="2" width="16" height="20" rx="2" />
-			<line x1="8" y1="6" x2="16" y2="6" />
-			<line x1="8" y1="10" x2="8" y2="10" stroke-width="3" /><line
-				x1="12"
-				y1="10"
-				x2="12"
-				y2="10"
-				stroke-width="3"
-			/><line x1="16" y1="10" x2="16" y2="10" stroke-width="3" />
-			<line x1="8" y1="14" x2="8" y2="14" stroke-width="3" /><line
-				x1="12"
-				y1="14"
-				x2="12"
-				y2="14"
-				stroke-width="3"
-			/><line x1="16" y1="14" x2="16" y2="14" stroke-width="3" />
-			<line x1="8" y1="18" x2="16" y2="18" stroke-width="3" />
-		{:else if name === 'book-open'}
-			<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path
-				d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"
-			/>
-		{:else if name === 'clipboard-list'}
-			<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect
-				x="8"
-				y="2"
-				width="8"
-				height="4"
-				rx="1"
-			/><line x1="9" y1="12" x2="15" y2="12" /><line x1="9" y1="16" x2="13" y2="16" />
-		{:else if name === 'table'}
-			<rect x="3" y="3" width="18" height="18" rx="2" /><line x1="3" y1="9" x2="21" y2="9" /><line
-				x1="3"
-				y1="15"
-				x2="21"
-				y2="15"
-			/><line x1="9" y1="3" x2="9" y2="21" />
-		{:else if name === 'type'}
-			<polyline points="4 7 4 4 20 4 20 7" /><line x1="9" y1="20" x2="15" y2="20" /><line
-				x1="12"
-				y1="4"
-				x2="12"
-				y2="20"
-			/>
+	<div class="lists">
+		{#if recentEntries.length > 0}
+			<section class="section" aria-labelledby="dash-new">
+				<div class="section-head">
+					<h2 class="section-title" id="dash-new">{$_('dashboard.recentEntries')}</h2>
+					<a href="/changelog" class="section-link">{$_('nav.changelog')} →</a>
+				</div>
+				<div class="top-list">
+					{#each recentEntries as item (item.type + '/' + item.slug)}
+						<a href="{moduleHref[item.type]}/{item.slug}" class="top-item">
+							<span class="top-badge" title={moduleLabel[item.type] ?? item.type}>
+								{moduleCode[item.type] ?? ''} · {moduleLabel[item.type] ?? item.type}
+							</span>
+							<span class="top-title">{item.title}</span>
+							<span class="top-cnt">{formatRelative(item.updated)}</span>
+						</a>
+					{/each}
+				</div>
+			</section>
 		{/if}
-	</svg>
-{/snippet}
+
+		{#if data.topItems.length > 0}
+			<section class="section" aria-labelledby="dash-top">
+				<div class="section-head">
+					<h2 class="section-title" id="dash-top">{$_('dashboard.recentlyUsed')}</h2>
+				</div>
+				<div class="top-list">
+					{#each data.topItems as item, i (i)}
+						{#if moduleHref[item.module]}
+							<a href="{moduleHref[item.module]}/{item.slug}" class="top-item">
+								<span class="top-badge">
+									<span class="top-rank">{String(i + 1).padStart(2, '0')}</span>
+									{moduleCode[item.module] ?? ''}
+								</span>
+								<span class="top-title">{resolveTitle(item.module, item.slug ?? '')}</span>
+								<span class="top-cnt">{item.cnt}×</span>
+							</a>
+						{/if}
+					{/each}
+				</div>
+			</section>
+		{/if}
+	</div>
+</div>
 
 <style>
 	.dashboard {
-		max-width: 800px;
+		max-width: 1080px;
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
 	}
 
-	/* ── Header ─────────────────────────────────────── */
-	.dashboard-header {
-		margin-bottom: 2.25rem;
-		padding-bottom: 1.5rem;
-		border-bottom: 1px solid var(--border);
+	/* ── Hero ───────────────────────────────────────── */
+	.hero {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		padding-top: 0.5rem;
 	}
 
-	.dashboard-header h1 {
-		font-family: var(--font-display);
-		font-size: 2.5rem;
-		font-weight: 400;
-		letter-spacing: 0.03em;
-		color: var(--text);
-		margin: 0 0 0.3rem;
-		line-height: 1;
-	}
-
-	.dashboard-header p {
-		color: var(--muted);
+	.eyebrow {
 		margin: 0;
-		font-size: 0.9375rem;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--primary-text);
+	}
+
+	.hero h1 {
+		font-family: var(--font-display);
+		font-size: clamp(2.25rem, 5vw, 3.75rem);
+		font-weight: 800;
+		letter-spacing: -0.025em;
+		line-height: 1.02;
+		color: var(--text);
+		margin: 0;
+		max-width: 16ch;
+		overflow-wrap: anywhere;
+		hyphens: auto;
+	}
+
+	.hero-search {
+		display: flex;
+		align-items: center;
+		gap: 0.875rem;
+		width: 100%;
+		max-width: 760px;
+		min-height: 3.5rem;
+		padding: 0 0.5rem 0 1.25rem;
+		background: var(--surface);
+		border: 1.5px solid var(--ink);
+		border-radius: 0.625rem;
+		color: var(--text);
+		font-family: var(--font-sans);
+		font-size: 1.0625rem;
+		text-align: left;
+		cursor: text;
+	}
+
+	.hero-search-text {
+		flex: 1;
+		min-width: 0;
+		color: var(--muted);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+
+	.hero-search kbd {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		border: 1px solid var(--border);
+		border-radius: 0.375rem;
+		padding: 0.375rem 0.625rem;
+		color: var(--muted);
+	}
+
+	@media (hover: none) {
+		.hero-search kbd {
+			display: none;
+		}
 	}
 
 	/* ── Sections ────────────────────────────────────── */
 	.section {
-		margin-bottom: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.875rem;
+		min-width: 0;
+	}
+
+	.section-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 1rem;
 	}
 
 	.section-title {
-		display: flex;
-		align-items: center;
-		gap: 0.4rem;
-		font-size: 0.7rem;
-		font-weight: 700;
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 500;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 		color: var(--muted);
-		margin: 0 0 0.875rem;
+		margin: 0;
+	}
+
+	.section-link {
+		font-size: 0.8125rem;
+		font-weight: 600;
+		color: var(--primary-text);
+		text-decoration: none;
+	}
+
+	.section-link:hover {
+		text-decoration: underline;
 	}
 
 	/* ── Favourites ──────────────────────────────────── */
 	.fav-strip {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.4rem;
+		gap: 0.5rem;
 	}
 
 	.fav-pill {
 		display: inline-flex;
 		align-items: center;
-		gap: 0.45rem;
-		padding: 0.35rem 0.65rem 0.35rem 0.5rem;
+		gap: 0.5rem;
+		min-height: 2.5rem;
+		padding: 0 0.75rem;
 		background: var(--surface);
 		border: 1px solid var(--border);
-		border-radius: 2rem;
+		border-radius: 999px;
 		text-decoration: none;
 		color: var(--text);
-		font-size: 0.8125rem;
-		transition:
-			border-color 0.15s,
-			background 0.15s;
-		max-width: 220px;
+		font-size: 0.875rem;
+		max-width: 260px;
 	}
 
 	.fav-pill:hover {
-		border-color: var(--fav);
-		background: color-mix(in srgb, var(--fav) 6%, var(--surface));
-	}
-
-	.fav-pill-dot {
-		width: 6px;
-		height: 6px;
-		border-radius: 50%;
-		flex-shrink: 0;
+		border-color: var(--ink);
 	}
 
 	.fav-pill-type {
-		font-size: 0.6rem;
-		font-weight: 700;
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		color: var(--primary-text);
 		flex-shrink: 0;
 	}
 
@@ -541,7 +508,7 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
-		font-weight: 500;
+		font-weight: 600;
 	}
 
 	.fav-pill-remove {
@@ -549,7 +516,7 @@
 		border: none;
 		color: var(--muted);
 		cursor: pointer;
-		padding: 0;
+		padding: 0.25rem;
 		display: flex;
 		align-items: center;
 		flex-shrink: 0;
@@ -557,178 +524,169 @@
 		transition:
 			opacity 0.15s,
 			color 0.15s;
-		margin-left: 0.1rem;
 	}
 
-	.fav-pill:hover .fav-pill-remove {
+	.fav-pill:hover .fav-pill-remove,
+	.fav-pill-remove:focus-visible {
 		opacity: 1;
 	}
+
+	@media (hover: none) {
+		.fav-pill-remove {
+			opacity: 1;
+		}
+	}
+
 	.fav-pill-remove:hover {
-		color: #dc2626;
-	}
-
-	/* ── Recently Used ───────────────────────────────── */
-	.top-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.3rem;
-	}
-
-	.top-item {
-		display: flex;
-		align-items: center;
-		gap: 0.625rem;
-		padding: 0.55rem 0.875rem 0.55rem 0;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 0.625rem;
-		text-decoration: none;
-		color: var(--text);
-		font-size: 0.875rem;
-		transition:
-			border-color 0.15s,
-			box-shadow 0.15s;
-		overflow: hidden;
-	}
-
-	.top-item:hover {
-		border-color: var(--color-primary);
-		box-shadow: 0 1px 6px color-mix(in srgb, var(--color-primary) 12%, transparent);
-	}
-
-	.top-accent {
-		width: 3px;
-		align-self: stretch;
-		flex-shrink: 0;
-		border-radius: 0 2px 2px 0;
-	}
-
-	.top-rank {
-		font-size: 0.7rem;
-		font-weight: 700;
-		color: var(--muted);
-		width: 1rem;
-		text-align: center;
-		flex-shrink: 0;
-	}
-
-	.top-badge {
-		font-size: 0.6rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
-		padding: 0.15rem 0.4rem;
-		border-radius: 0.25rem;
-		flex-shrink: 0;
-	}
-
-	.top-title {
-		flex: 1;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		font-weight: 500;
-	}
-
-	.top-cnt {
-		font-size: 0.7rem;
-		color: var(--muted);
-		flex-shrink: 0;
-		font-variant-numeric: tabular-nums;
+		color: var(--primary-text);
 	}
 
 	/* ── Module Grid ─────────────────────────────────── */
+	/* Sechs Module: 3, 2 oder 1 Spalte, damit nie eine Zelle leer bleibt. */
 	.module-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-		gap: 0.625rem;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1px;
+		background: var(--border);
+		border: 1px solid var(--border);
+		border-radius: 0.75rem;
+		overflow: hidden;
+	}
+
+	@media (max-width: 900px) {
+		.module-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 520px) {
+		.module-grid {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 
 	.module-card {
 		display: flex;
-		align-items: center;
-		gap: 0.875rem;
-		padding: 0.875rem 1rem;
-		background: var(--surface);
-		border: 1px solid var(--border);
-		border-radius: 0.875rem;
-		text-decoration: none;
-		transition:
-			border-color 0.15s,
-			box-shadow 0.15s,
-			background 0.15s,
-			transform 0.15s;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.module-card::before {
-		content: '';
-		position: absolute;
-		inset: 0 auto 0 0;
-		width: 3px;
-		background: var(--mod-color);
-		opacity: 0;
-		transition: opacity 0.15s;
-	}
-
-	.module-card:hover {
-		border-color: var(--mod-color);
-		box-shadow: 0 2px 12px color-mix(in srgb, var(--mod-color) 15%, transparent);
-		background: color-mix(in srgb, var(--mod-color) 3%, var(--surface));
-	}
-
-	.module-card:hover::before {
-		opacity: 1;
-	}
-
-	.module-icon {
-		width: 2.5rem;
-		height: 2.5rem;
-		border-radius: 0.625rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-		transition: transform 0.15s;
-	}
-
-	.module-card:hover .module-icon {
-		transform: scale(1.08);
-	}
-
-	.module-info {
-		flex: 1;
-		display: flex;
 		flex-direction: column;
-		gap: 2px;
-		min-width: 0;
-	}
-
-	.module-label {
-		font-size: 0.9375rem;
-		font-weight: 600;
+		gap: 0.75rem;
+		padding: 1.375rem 1.5rem;
+		min-height: 10rem;
+		background: var(--surface);
+		text-decoration: none;
 		color: var(--text);
 	}
 
+	/* Im Raster liegen die Karten Kante an Kante: kein Anheben, nur Farbe. */
+	.module-card:hover {
+		background: var(--surface-hover);
+		transform: none !important;
+		box-shadow: none !important;
+	}
+
+	.module-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+
+	.module-code {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--primary-text);
+	}
+
+	.module-count {
+		font-family: var(--font-mono);
+		font-variant-numeric: tabular-nums;
+		font-size: 2rem;
+		font-weight: 500;
+		letter-spacing: -0.02em;
+		line-height: 1;
+	}
+
+	.module-label {
+		font-size: 1.25rem;
+		font-weight: 700;
+		letter-spacing: -0.01em;
+	}
+
 	.module-desc {
-		font-size: 0.78rem;
+		font-size: 0.875rem;
+		line-height: 1.45;
+		color: var(--muted);
+	}
+
+	/* ── Lists ───────────────────────────────────────── */
+	.lists {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+		gap: 2.5rem;
+	}
+
+	.top-list {
+		display: flex;
+		flex-direction: column;
+		border-top: 1.5px solid var(--ink);
+	}
+
+	.top-item {
+		display: grid;
+		grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 1rem;
+		min-height: 3.25rem;
+		padding: 0 0.25rem;
+		border-bottom: 1px solid var(--border);
+		text-decoration: none;
+		color: var(--text);
+		font-size: 0.9375rem;
+	}
+
+	.top-item:hover {
+		background: var(--surface);
+		transform: none !important;
+		box-shadow: none !important;
+	}
+
+	.top-item:hover .top-title {
+		color: var(--primary-text);
+	}
+
+	.top-badge {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		text-transform: uppercase;
 		color: var(--muted);
 		overflow: hidden;
 		text-overflow: ellipsis;
 		white-space: nowrap;
 	}
 
-	.module-arrow {
-		color: var(--muted);
-		flex-shrink: 0;
-		transition:
-			transform 0.15s,
-			color 0.15s;
+	.top-rank {
+		color: var(--text);
+		font-weight: 600;
+		margin-right: 0.5rem;
 	}
 
-	.module-card:hover .module-arrow {
-		transform: translateX(2px);
-		color: var(--mod-color);
+	.top-title {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-weight: 600;
+	}
+
+	.top-cnt {
+		font-family: var(--font-mono);
+		font-size: 0.75rem;
+		color: var(--muted);
+		font-variant-numeric: tabular-nums;
+	}
+
+	@media (max-width: 480px) {
+		.top-item {
+			grid-template-columns: 4.5rem minmax(0, 1fr) auto;
+			gap: 0.75rem;
+		}
 	}
 </style>

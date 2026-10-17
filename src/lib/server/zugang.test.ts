@@ -38,7 +38,7 @@ describe('immerErlaubt', () => {
 			'/login',
 			'/api/auth/sign-in/email',
 			'/_app/immutable/entry/app.js',
-			'/fonts/rubik-variabel-latin.woff2',
+			'/fonts/archivo-variabel-latin.woff2',
 			'/manifest.webmanifest',
 			'/sw.js',
 			'/offline.html',

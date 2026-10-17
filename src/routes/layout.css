@@ -6,30 +6,30 @@
  * im kritischen Pfad einer App, die im Technikraum ohne Empfang funktionieren
  * soll, und die IP jedes Nutzers ging bei jedem Seitenaufruf an Google.
  *
- * Rubik als variable Schrift: eine Datei statt vier Schnitten, 400 bis 700.
- * Nur latin und latin-ext — kyrillisch und die uebrigen Subsets braucht hier
- * niemand. Zusammen 76 KB statt 236 KB.
+ * Archivo als variable Schrift fuer Text und Titel, 400 bis 800 in einer
+ * Datei. IBM Plex Mono fuer Messwerte, Einheiten und Modul-Kuerzel. Nur latin
+ * und latin-ext — kyrillisch und die uebrigen Subsets braucht hier niemand.
  *
- * Erzeugt aus der Antwort von fonts.googleapis.com/css2 am 13.09.2026.
+ * Erzeugt aus der Antwort von fonts.googleapis.com/css2 am 17.10.2026.
  */
 
 @font-face {
-	font-family: 'Bebas Neue';
+	font-family: 'Archivo';
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 400 800;
 	font-display: swap;
-	src: url('/fonts/bebas-neue-400-latin.woff2') format('woff2');
+	src: url('/fonts/archivo-variabel-latin.woff2') format('woff2');
 	unicode-range:
 		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
 		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-	font-family: 'Bebas Neue';
+	font-family: 'Archivo';
 	font-style: normal;
-	font-weight: 400;
+	font-weight: 400 800;
 	font-display: swap;
-	src: url('/fonts/bebas-neue-400-latin-ext.woff2') format('woff2');
+	src: url('/fonts/archivo-variabel-latin-ext.woff2') format('woff2');
 	unicode-range:
 		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
 		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
@@ -37,36 +37,86 @@
 }
 
 @font-face {
-	font-family: 'Rubik';
+	font-family: 'IBM Plex Mono';
 	font-style: normal;
-	font-weight: 400 700;
+	font-weight: 400;
 	font-display: swap;
-	src: url('/fonts/rubik-variabel-latin.woff2') format('woff2');
+	src: url('/fonts/plex-mono-400-latin.woff2') format('woff2');
 	unicode-range:
 		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
 		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
-	font-family: 'Rubik';
+	font-family: 'IBM Plex Mono';
 	font-style: normal;
-	font-weight: 400 700;
+	font-weight: 400;
 	font-display: swap;
-	src: url('/fonts/rubik-variabel-latin-ext.woff2') format('woff2');
+	src: url('/fonts/plex-mono-400-latin-ext.woff2') format('woff2');
 	unicode-range:
 		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
 		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
 		U+A720-A7FF;
 }
 
-/* Static design tokens */
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url('/fonts/plex-mono-500-latin.woff2') format('woff2');
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: url('/fonts/plex-mono-500-latin-ext.woff2') format('woff2');
+	unicode-range:
+		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+		U+A720-A7FF;
+}
+
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('/fonts/plex-mono-600-latin.woff2') format('woff2');
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'IBM Plex Mono';
+	font-style: normal;
+	font-weight: 600;
+	font-display: swap;
+	src: url('/fonts/plex-mono-600-latin-ext.woff2') format('woff2');
+	unicode-range:
+		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+		U+A720-A7FF;
+}
+
+/* Static design tokens
+ *
+ * Ein Akzent statt einer Farbe pro Modul: Signal-Orange fuer Aktion und
+ * Hervorhebung, sonst Graphit auf warmem Papier. Teal bleibt fuer «ok». */
 @theme {
-	--font-sans: 'Rubik', system-ui, sans-serif;
-	--font-display: 'Bebas Neue', 'Rubik', sans-serif;
-	--color-primary: #ea580c;
-	--color-primary-hover: #c2410c;
-	--color-secondary: #0d9488;
-	--color-secondary-hover: #0f766e;
+	--font-sans: 'Archivo', system-ui, sans-serif;
+	--font-display: 'Archivo', system-ui, sans-serif;
+	--font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+	--color-primary: #c2410c;
+	--color-primary-hover: #9a3412;
+	--color-secondary: #0b6e69;
+	--color-secondary-hover: #08534f;
 }
 
 /* ── Global Mobile-Fixes ─────────────────────────
@@ -108,8 +158,15 @@ select optgroup {
 /* Display utility — for big headings & logo */
 .display {
 	font-family: var(--font-display);
-	letter-spacing: 0.02em;
-	font-weight: 400;
+	letter-spacing: -0.02em;
+	font-weight: 800;
+}
+
+/* Messwerte, Einheiten, Kuerzel: gleich breite Ziffern, damit Zahlen beim
+   Tippen nicht springen und Spalten untereinander stehen. */
+.mono {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
 }
 
 /* Apply display font to common page-title patterns across all modules */
@@ -118,10 +175,10 @@ select optgroup {
 .calc-title,
 .profile-header h1 {
 	font-family: var(--font-display);
-	font-weight: 400;
-	letter-spacing: 0.03em;
+	font-weight: 800;
+	letter-spacing: -0.02em;
 	line-height: 1.05;
-	font-size: 2rem;
+	font-size: 2.25rem;
 	min-width: 0;
 	overflow-wrap: anywhere;
 	word-break: break-word;
@@ -134,8 +191,8 @@ select optgroup {
 	.article-header h1,
 	.calc-title,
 	.profile-header h1 {
-		font-size: 1.5rem;
-		letter-spacing: 0.02em;
+		font-size: 1.75rem;
+		letter-spacing: -0.015em;
 	}
 }
 
@@ -143,15 +200,17 @@ select optgroup {
 :root,
 [data-theme='light'],
 [data-theme='auto'] {
-	--bg: #f8fafc;
+	--bg: #f4f2ec;
 	--surface: #ffffff;
-	--surface-hover: #f1f5f9;
-	--border: #e2e8f0;
-	--text: #0f172a;
-	--muted: #64748b;
-	--sidebar-bg: #ffffff;
-	--sidebar-border: #e2e8f0;
-	--primary-text: #c2410c;
+	--surface-hover: #ece9e1;
+	--border: #dad6cc;
+	--text: #1b1d1f;
+	--muted: #5c5f63;
+	--ink: #1b1d1f;
+	--on-ink: #f4f2ec;
+	--sidebar-bg: #f4f2ec;
+	--sidebar-border: #dad6cc;
+	--primary-text: #b23a0b;
 	--fav: #a16207;
 	/* Hydraulikschemas: Vorlauf, Rücklauf, gemischter Vorlauf */
 	--hyd-vl: #dc2626;
@@ -162,15 +221,17 @@ select optgroup {
 
 /* ── Dark ────────────────────────────────────────── */
 [data-theme='dark'] {
-	--bg: #0f172a;
-	--surface: #1e293b;
-	--surface-hover: #273549;
-	--border: #334155;
-	--text: #f1f5f9;
-	--muted: #94a3b8;
-	--sidebar-bg: #1e293b;
-	--sidebar-border: #334155;
-	--primary-text: #fb923c;
+	--bg: #151618;
+	--surface: #1e2023;
+	--surface-hover: #282a2e;
+	--border: #33363b;
+	--text: #ecebe6;
+	--muted: #a2a5aa;
+	--ink: #ecebe6;
+	--on-ink: #151618;
+	--sidebar-bg: #151618;
+	--sidebar-border: #33363b;
+	--primary-text: #f2925e;
 	--fav: #eab308;
 	--hyd-vl: #f87171;
 	--hyd-rl: #60a5fa;
@@ -181,14 +242,16 @@ select optgroup {
 /* ── OLED ────────────────────────────────────────── */
 [data-theme='oled'] {
 	--bg: #000000;
-	--surface: #0a0a0a;
-	--surface-hover: #141414;
-	--border: #1c1c1c;
-	--text: #f1f5f9;
-	--muted: #94a3b8;
+	--surface: #0b0b0c;
+	--surface-hover: #161618;
+	--border: #222326;
+	--text: #ecebe6;
+	--muted: #a2a5aa;
+	--ink: #ecebe6;
+	--on-ink: #000000;
 	--sidebar-bg: #000000;
-	--sidebar-border: #1c1c1c;
-	--primary-text: #fb923c;
+	--sidebar-border: #222326;
+	--primary-text: #f2925e;
 	--fav: #eab308;
 	--hyd-vl: #f87171;
 	--hyd-rl: #60a5fa;
@@ -199,15 +262,17 @@ select optgroup {
 /* ── Auto → Dark wenn System dunkel ─────────────── */
 @media (prefers-color-scheme: dark) {
 	[data-theme='auto'] {
-		--bg: #0f172a;
-		--surface: #1e293b;
-		--surface-hover: #273549;
-		--border: #334155;
-		--text: #f1f5f9;
-		--muted: #94a3b8;
-		--sidebar-bg: #1e293b;
-		--sidebar-border: #334155;
-		--primary-text: #fb923c;
+		--bg: #151618;
+		--surface: #1e2023;
+		--surface-hover: #282a2e;
+		--border: #33363b;
+		--text: #ecebe6;
+		--muted: #a2a5aa;
+		--ink: #ecebe6;
+		--on-ink: #151618;
+		--sidebar-bg: #151618;
+		--sidebar-border: #33363b;
+		--primary-text: #f2925e;
 		--fav: #eab308;
 		--hyd-vl: #f87171;
 		--hyd-rl: #60a5fa;
@@ -421,7 +486,8 @@ select optgroup {
 	padding: 0.375rem 0.5rem;
 	font-size: 0.9375rem;
 	color: var(--text);
-	font-family: inherit;
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
 }
 
 .calc-input:focus {
@@ -476,8 +542,10 @@ select optgroup {
 }
 
 .calc-result-value {
+	font-family: var(--font-mono);
+	font-variant-numeric: tabular-nums;
 	font-size: 1.25rem;
-	font-weight: 600;
+	font-weight: 500;
 	color: var(--text);
 	flex-shrink: 0;
 }

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { searchRequest } from '$lib/stores/search';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { _ } from 'svelte-i18n';
@@ -74,6 +75,13 @@
 		}
 	}
 
+	$effect(() => {
+		if ($searchRequest) {
+			searchOpen = true;
+			searchRequest.set(false);
+		}
+	});
+
 	onMount(() => {
 		window.addEventListener('keydown', handleGlobalKey);
 		return () => window.removeEventListener('keydown', handleGlobalKey);
@@ -121,24 +129,56 @@
 	});
 
 	const navItems = [
-		{ href: '/', label: () => $_('nav.home'), icon: 'home', key: 'home' },
-		{ href: '/konverter', label: () => $_('nav.converter'), icon: 'refresh-cw', key: 'konverter' },
-		{ href: '/rechner', label: () => $_('nav.calculator'), icon: 'calculator', key: 'rechner' },
-		{ href: '/wissen', label: () => $_('nav.knowledge'), icon: 'book-open', key: 'wissen' },
+		{ href: '/', label: () => $_('nav.home'), icon: 'home', key: 'home', code: '00' },
+		{
+			href: '/konverter',
+			label: () => $_('nav.converter'),
+			icon: 'refresh-cw',
+			key: 'konverter',
+			code: 'KO'
+		},
+		{
+			href: '/rechner',
+			label: () => $_('nav.calculator'),
+			icon: 'calculator',
+			key: 'rechner',
+			code: 'RE'
+		},
+		{
+			href: '/wissen',
+			label: () => $_('nav.knowledge'),
+			icon: 'book-open',
+			key: 'wissen',
+			code: 'WI'
+		},
 		{
 			href: '/checklisten',
 			label: () => $_('nav.checklists'),
 			icon: 'clipboard-list',
-			key: 'checklisten'
+			key: 'checklisten',
+			code: 'CL'
 		},
-		{ href: '/referenz', label: () => $_('nav.reference'), icon: 'table', key: 'referenz' },
+		{
+			href: '/referenz',
+			label: () => $_('nav.reference'),
+			icon: 'table',
+			key: 'referenz',
+			code: 'RF'
+		},
 		{
 			href: '/abkuerzungen',
 			label: () => $_('nav.abbreviations'),
 			icon: 'type',
-			key: 'abkuerzungen'
+			key: 'abkuerzungen',
+			code: 'AB'
 		},
-		{ href: '/objekte', label: () => $_('nav.objects'), icon: 'building', key: 'objekte' }
+		{
+			href: '/objekte',
+			label: () => $_('nav.objects'),
+			icon: 'building',
+			key: 'objekte',
+			code: 'OB'
+		}
 	];
 
 	// Auf dem Handy passen fünf Einträge in die Leiste. Objekte gehört hinein,
@@ -175,19 +215,7 @@
 	<aside class="sidebar">
 		<div class="sidebar-header">
 			<a href="/" class="logo-link">
-				<div class="logo-icon">
-					<svg
-						width="20"
-						height="20"
-						viewBox="0 0 24 24"
-						fill="none"
-						stroke="white"
-						stroke-width="2.5"
-					>
-						<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-						<polyline points="9 22 9 12 15 12 15 22" />
-					</svg>
-				</div>
+				<div class="logo-icon" aria-hidden="true">GA</div>
 				<span class="logo-text">GA Tool</span>
 			</a>
 		</div>
@@ -200,7 +228,7 @@
 					class:active={isActive(item.href)}
 					aria-label={item.label()}
 				>
-					{@render Icon({ name: item.icon, size: 18 })}
+					<span class="nav-code" aria-hidden="true">{item.code}</span>
 					<span>{item.label()}</span>
 				</a>
 			{/each}
@@ -522,7 +550,11 @@
 		width: 2rem;
 		height: 2rem;
 		border-radius: 0.5rem;
-		background-color: var(--color-primary);
+		background-color: var(--ink);
+		color: var(--on-ink);
+		font-family: var(--font-mono);
+		font-size: 0.8125rem;
+		font-weight: 600;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -531,9 +563,9 @@
 
 	.logo-text {
 		font-family: var(--font-display);
-		font-weight: 400;
-		font-size: 1.4rem;
-		letter-spacing: 0.04em;
+		font-weight: 800;
+		font-size: 1.125rem;
+		letter-spacing: -0.01em;
 		color: var(--text);
 	}
 
@@ -581,8 +613,25 @@
 	}
 
 	.nav-item.active {
-		background-color: color-mix(in srgb, var(--color-primary) 12%, transparent);
-		color: var(--primary-text);
+		background-color: var(--ink);
+		color: var(--on-ink);
+		font-weight: 600;
+	}
+
+	/* Modul-Kuerzel wie auf einem Anlagenschild: RE, WI, CL … */
+	.nav-code {
+		font-family: var(--font-mono);
+		font-size: 0.6875rem;
+		font-weight: 500;
+		width: 1.375rem;
+		flex-shrink: 0;
+		color: var(--muted);
+		opacity: 0.8;
+	}
+
+	.nav-item.active .nav-code {
+		color: color-mix(in srgb, var(--color-primary) 55%, var(--on-ink));
+		opacity: 1;
 	}
 
 	.nav-item--btn {
@@ -709,7 +758,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 1.5rem;
-		background-color: var(--surface);
+		background-color: var(--bg);
 		border-bottom: 1px solid var(--border);
 		position: sticky;
 		top: 0;

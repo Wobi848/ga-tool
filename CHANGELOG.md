@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.27.0 — 2026-10-17
+
+### Neues Erscheinungsbild
+
+Ruhiger und technischer: warmes Papier-Weiss und Graphit statt Schiefergrau,
+nur noch ein Akzent in Signal-Orange statt einer Farbe pro Modul.
+
+- **Schriften:** Archivo für Text und Titel, IBM Plex Mono für Messwerte,
+  Einheiten und Kürzel; wie bisher im Haus, ohne Google
+- **Seitenleiste:** Modul-Kürzel wie auf einem Anlagenschild (RE, WI, CL …),
+  der aktive Eintrag in Graphit
+- **Startseite:** grosser Suchschlitz, Module als Raster mit Anzahl, neueste
+  und meistgenutzte Einträge als Listen nebeneinander
+- **Rechner:** Ergebnisse und Eingaben in Festbreitenschrift, damit Ziffern
+  beim Tippen nicht springen
+- Dunkel und OLED in denselben Tönen
+
 ## v0.26.0 — 2026-10-17
 
 ### Neu: Checkliste BACnet-Bauherrenvorgaben (KBOB E1)

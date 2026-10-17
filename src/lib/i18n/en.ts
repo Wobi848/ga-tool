@@ -36,6 +36,8 @@ export const en = {
 		title: 'Dashboard',
 		welcome: 'Welcome to GA Tool',
 		tagline: 'The everyday BA reference',
+		eyebrow: 'Building automation · HVAC · BACnet · KNX · Modbus · DALI',
+		searchHint: 'Kv value, dew point, BACnet MSTP, EN 16798 …',
 		quickAccess: 'Quick Access',
 		favorites: 'Favourites',
 		recentlyUsed: 'Most Visited',

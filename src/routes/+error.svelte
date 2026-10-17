@@ -48,9 +48,9 @@
 <style>
 	:global(body) {
 		margin: 0;
-		background: var(--bg, #f8fafc);
-		color: var(--text, #0f172a);
-		font-family: 'Rubik', system-ui, sans-serif;
+		background: var(--bg, #f4f2ec);
+		color: var(--text, #1b1d1f);
+		font-family: 'Archivo', system-ui, sans-serif;
 		min-height: 100vh;
 	}
 
@@ -70,26 +70,27 @@
 	}
 
 	.error-code {
-		font-family: 'Bebas Neue', 'Rubik', sans-serif;
-		font-size: 7rem;
+		font-family: 'IBM Plex Mono', ui-monospace, monospace;
+		font-size: 6rem;
+		font-weight: 500;
 		line-height: 1;
-		color: var(--color-primary, #ea580c);
-		letter-spacing: 0.02em;
+		color: var(--primary-text, #b23a0b);
+		letter-spacing: -0.04em;
 		margin-bottom: 0.5rem;
 		opacity: 0.9;
 	}
 
 	.error-title {
-		font-family: 'Bebas Neue', 'Rubik', sans-serif;
+		font-family: 'Archivo', system-ui, sans-serif;
 		font-size: 1.75rem;
-		font-weight: 400;
-		letter-spacing: 0.04em;
+		font-weight: 800;
+		letter-spacing: -0.02em;
 		margin: 0 0 0.75rem;
 		color: var(--text);
 	}
 
 	.error-desc {
-		color: var(--muted, #64748b);
+		color: var(--muted, #5c5f63);
 		font-size: 0.9375rem;
 		margin: 0 0 0.5rem;
 		line-height: 1.5;
@@ -134,7 +135,7 @@
 
 	.btn-ghost {
 		background: transparent;
-		color: var(--muted, #64748b);
+		color: var(--muted, #5c5f63);
 		border: 1px solid var(--border, #e2e8f0);
 		border-radius: 0.5rem;
 		padding: 0.625rem 1.25rem;
@@ -149,6 +150,6 @@
 
 	.btn-ghost:hover {
 		background: var(--surface-hover, #f1f5f9);
-		color: var(--text, #0f172a);
+		color: var(--text, #1b1d1f);
 	}
 </style>

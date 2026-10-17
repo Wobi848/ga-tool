@@ -36,6 +36,8 @@ export const de = {
 		title: 'Dashboard',
 		welcome: 'Willkommen im GA Tool',
 		tagline: 'Die GA-Referenz für den Alltag',
+		eyebrow: 'Gebäudeautomation · HLK · BACnet · KNX · Modbus · DALI',
+		searchHint: 'Kv-Wert, Taupunkt, BACnet MSTP, EN 16798 …',
 		quickAccess: 'Schnellzugriff',
 		favorites: 'Favoriten',
 		recentlyUsed: 'Meist aufgerufen',

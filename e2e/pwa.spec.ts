@@ -146,7 +146,7 @@ test.describe('Service Worker', () => {
 				body: getComputedStyle(document.body).fontFamily
 			};
 		});
-		expect(befund.geladen, 'Rubik wurde nicht geladen').toContain('Rubik');
-		expect(befund.body).toContain('Rubik');
+		expect(befund.geladen, 'Archivo wurde nicht geladen').toContain('Archivo');
+		expect(befund.body).toContain('Archivo');
 	});
 });
