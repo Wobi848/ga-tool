@@ -22,7 +22,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, hlk, elektro]
-related: [sensoren, signaltypen, polynom-approximation]
+related: [sensoren, signaltypen, polynom-approximation, fuehlerplatzierung]
 
 rechner: [polynom-fit]
 norm: [IEC 60751, DIN EN 60751, DIN 43760]

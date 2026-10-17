@@ -127,7 +127,7 @@ Ein Gebäude folgt der Aussentemperatur gedämpft und verzögert. Gute Regler re
 
 Richtwerte für die **Gebäudezeitkonstante** laut Siemens-Unterlage: leichte Bauweise etwa 10 h, mittlere etwa 25 h, schwere etwa 50 h. Je nach Regler werden auch andere Werte vorgeschlagen, die Einstellung erfolgt am Objekt.
 
-**Wohin mit dem Aussenfühler?** An die Nord- oder Nordwestfassade, geschützt vor Sonne, nicht über Fenstern, Lüftungsauslässen oder Kaminen. Ein besonnter Fühler meldet zu warm, und die Heizung liefert zu wenig.
+**Wohin mit dem Aussenfühler?** Dorthin, wo er für das Gebäude oder die Zone repräsentativ ist, die er führt. Ohne klare Zonenzuordnung meist an die Nord- oder Nordostfassade, geschützt vor Sonne, nicht über Fenstern, Fortluftöffnungen oder unter Balkonen. Ein besonnter Fühler meldet zu warm, und die Heizung liefert zu wenig. Mehr in [Fühlerplatzierung](/wissen/fuehlerplatzierung).
 
 ## Zusatzfunktionen
 
@@ -280,7 +280,7 @@ A building follows the outdoor temperature damped and delayed. Good controllers 
 
 Guide values for the **building time constant** according to the Siemens document: light construction about 10 h, medium about 25 h, heavy about 50 h. Depending on the controller other values are suggested; it is set on site.
 
-**Where to put the outdoor sensor?** On the north or north-west façade, protected from sun, not above windows, ventilation outlets or chimneys. A sunlit sensor reads too warm, and the heating supplies too little.
+**Where to put the outdoor sensor?** Where it is representative of the building or zone it controls. Without a clear zone assignment, usually on the north or north-east façade, protected from sun, not above windows, exhaust openings or under balconies. A sunlit sensor reads too warm, and the heating supplies too little. More in [Sensor Placement](/wissen/fuehlerplatzierung).
 
 ## Additional Functions
 

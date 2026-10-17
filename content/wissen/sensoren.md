@@ -28,6 +28,7 @@ area: [ga, hlk, elektro]
 related:
   [
     signaltypen,
+    fuehlerplatzierung,
     mbus,
     alarmmanagement,
     vdi6022,

@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.18.6 — 2026-10-17
+
+Abgleich mit Siemens «Messtechnik» (BT_0097).
+
+- **Neuer Artikel Fühlerplatzierung:** Zeitkonstanten und Tauchhülsen,
+  Schichtung im Kanal, Mittelwertfühler, Raum- und Aussenfühler,
+  Beruhigungsstrecken, Druckfühlermontage, Messkonzept
+- **Heizkurve:** Platzierung des Aussenfühlers präzisiert
+
 ## v0.18.5 — 2026-10-17
 
 Abgleich mit Siemens «Das h,x-Diagramm» (BT_0095).

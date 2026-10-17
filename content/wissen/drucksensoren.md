@@ -24,7 +24,8 @@ tags:
   ]
 difficulty: grundlagen
 area: [ga, hlk]
-related: [sensoren, signaltypen, zonendruckhaltung, druckverlust, pumpen, rlt-anlage]
+related:
+  [sensoren, signaltypen, zonendruckhaltung, druckverlust, pumpen, rlt-anlage, fuehlerplatzierung]
 rechner: []
 norm: [EN 837, IEC 61298, VDMA 24007]
 updated: 2026-05-15
