@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.18.1 — 2026-10-17
+
+Abgleich mit Siemens «Regeln und Steuern von Heizungsanlagen» (BT_0094).
+
+- **Heizkurve:** Artikel neu, mit Steilheit nach Siemens-Definition,
+  Parallelverschiebung (1 + s), gedämpfter und gemischter Aussentemperatur,
+  Heizgrenzen-Automatik, Optimierung, Schnellaufheizung, adaptiver und
+  prädiktiver Regelung, Raumeinfluss und Frostschutz
+- **Heizkurve-Rechner:** Siemens-Kurve rechnet die Steilheit jetzt wie Siemens
+  über den Bereich +20 bis 0 °C aussen, unabhängig von der Normaussentemperatur
+- **Neuer Artikel TABS:** Kennwerte, Selbstregeleffekt, Heiz- und Kühlkurve
+  nach 24-h-Mittel, Sequenz, Taktbetrieb
+- **Pumpen:** Differenzdruck am Schlechtpunkt, Führung nach Ventilstellung,
+  Nachlauf, Pumpen-Kick
+- **Kesselregelung:** Rücklaufhochhaltung, Stufenschaltung mit K·min,
+  Zuschaltkriterien und Laufzeitstrategien
+- **Wärmepumpe:** monovalent bis bivalent-teilparallel samt Hydraulik,
+  Betriebsgrenzen, Starts pro Stunde, JAZ, Speicherladung
+- **Fernwärme:** DRT-Begrenzung, Schleichmengen-Unterdrückung, Volumenstrombegrenzung
+
 ## v0.18.0 — 2026-10-16
 
 ### Vier neue Wissensartikel zu Erzeugern

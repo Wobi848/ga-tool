@@ -28,7 +28,7 @@ related:
   [hydraulische-schaltungen, hydraulischer-abgleich, ec-motoren, frequenzumrichter, pid-regler]
 
 norm: [EN ISO 9906, ErP 2012/622/EU]
-updated: 2026-05-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -80,6 +80,27 @@ Bei vollem Volumenstrom liefert die Pumpe den eingestellten Differenzdruck, gege
 ### Kennlinienregelung nach Temperatur
 
 Manche EC-Pumpen regeln ihre Drehzahl direkt nach der Systemtemperatur (kälter = kleiner Wärmeabnahme = weniger Drehzahl). Vereinfachte Variante für einfache Anlagen.
+
+### Differenzdruck am Schlechtpunkt
+
+Statt über der Pumpe wird der Differenzdruck am **ungünstigsten Verbraucher** gemessen, meist am Ende des Netzes, und dort konstant gehalten. Bei Teillast sinken die Druckverluste in den Leitungen quadratisch, die Pumpe muss nur noch den Schlechtpunkt versorgen und kann weit herunterfahren. Das spart mehr als die Proportionaldruckregelung in der Pumpe, die diesen Zusammenhang nur annähert. Es braucht dafür einen Differenzdruckfühler im Netz und eine Leitung oder einen Bus zur Pumpe.
+
+### Führung nach Ventilstellung
+
+Noch weiter geht es, wenn die GA die **Stellungen aller Verbraucherventile** kennt. Sie senkt den Pumpensollwert so lange, bis das am weitesten offene Ventil bei etwa 90 % steht. Damit bekommt jeder Verbraucher gerade genug Druck, und die Pumpe läuft mit der kleinstmöglichen Förderhöhe. Voraussetzung: Die Ventilstellungen kommen zuverlässig über den Bus, und ein Verbraucher mit klemmendem Ventil darf nicht das ganze Netz hochtreiben. Dafür eignet sich ein Ausschluss einzelner Verbraucher oder ein Mittel über die zwei, drei offensten Ventile.
+
+| Regelung                       | Energiebedarf bei Teillast |
+| ------------------------------ | -------------------------- |
+| ungeregelt, feste Drehzahl     | am höchsten                |
+| Konstantdruck über der Pumpe   | hoch                       |
+| Proportionaldruck in der Pumpe | mittel                     |
+| Konstantdruck am Schlechtpunkt | tief                       |
+| Führung nach Ventilstellung    | am tiefsten                |
+
+### Nachlauf und Pumpen-Kick
+
+- **Nachlauf:** Schaltet der Brenner ab oder schliesst das Ventil, läuft die Pumpe noch einige Minuten weiter, z.B. 5 min. So wird die Restwärme aus Kessel oder Wärmetauscher abgeführt, es gibt keinen Wärmestau.
+- **Pumpen-Kick:** Steht eine Pumpe lange still, etwa im Sommer, lässt sie der Regler in Abständen kurz laufen, z.B. alle 150 h für 30 s. Sonst kann sie festsitzen. Dasselbe gilt für Ventile, die einmal ganz auf- und zugefahren werden.
 
 ---
 
@@ -197,6 +218,27 @@ At full flow the pump delivers the set differential pressure; towards zero it dr
 ### Curve control based on temperature
 
 Some EC pumps regulate their speed directly based on system temperature (colder = lower heat extraction = lower speed). Simplified variant for simple systems.
+
+### Differential Pressure at the Index Circuit
+
+Instead of across the pump, the differential pressure is measured at the **least favourable consumer**, usually at the end of the network, and held constant there. At part load the pressure losses in the pipes drop with the square of the flow; the pump only needs to supply the index circuit and can slow down a lot. This saves more than proportional pressure control inside the pump, which only approximates this relationship. It requires a differential pressure sensor in the network and a cable or bus to the pump.
+
+### Valve Position Reset
+
+It goes further still when BA knows the **positions of all consumer valves**. It lowers the pump setpoint until the most open valve is at about 90 %. Every consumer then gets just enough pressure, and the pump runs at the lowest possible head. Prerequisite: the valve positions arrive reliably via the bus, and one consumer with a sticking valve must not drive up the whole network. Excluding individual consumers or averaging the two or three most open valves helps.
+
+| Control                            | Energy use at part load |
+| ---------------------------------- | ----------------------- |
+| uncontrolled, fixed speed          | highest                 |
+| constant pressure across the pump  | high                    |
+| proportional pressure in the pump  | medium                  |
+| constant pressure at index circuit | low                     |
+| valve position reset               | lowest                  |
+
+### Run-On and Pump Exercise
+
+- **Run-on:** when the burner switches off or the valve closes, the pump keeps running for a few minutes, e.g. 5 min. This removes residual heat from the boiler or heat exchanger and prevents heat build-up.
+- **Pump exercise:** if a pump stands still for a long time, e.g. in summer, the controller runs it briefly at intervals, e.g. every 150 h for 30 s. Otherwise it can seize. The same applies to valves, which are driven fully open and closed once.
 
 ---
 

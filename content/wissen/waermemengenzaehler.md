@@ -25,7 +25,7 @@ difficulty: fortgeschritten
 area: [hlk, ga]
 related: [mbus, sensoren, ems-lastmanagement, hydraulischer-abgleich, fernwaerme]
 norm: [EN 1434, MID (2014/32/EU), WELMEC 7.2]
-updated: 2026-10-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -85,7 +85,7 @@ Die MID gilt für Wasser. **Kältezähler mit Glykol** brauchen ein Rechenwerk, 
 
 ## Einbau
 
-- **Einbauort:** Die meisten Zähler sitzen im **Rücklauf**, weil die tiefere Temperatur den Durchflusssensor schont. Der Einbauort muss im Rechenwerk eingestellt sein, sonst stimmt die Dichtekorrektur nicht.
+- **Einbauort:** Die meisten Zähler sitzen im **Rücklauf**. Der wichtigste Grund ist die Rechnung: Der Zähler misst Volumen, die Wärme hängt aber an der Masse. Das Rechenwerk rechnet die Dichte mit der Temperatur am Einbauort um, ab Werk mit der Rücklauftemperatur. Ein Rücklaufzähler im Vorlauf misst deshalb falsch. Soll er in den Vorlauf, muss er dafür programmiert und gekennzeichnet sein, damit auch das Ersatzgerät später richtig eingestellt wird. Nebenbei schont die tiefere Temperatur den Durchflusssensor.
 - **Beruhigungsstrecken** nach Herstellerangabe. Viele Ultraschallzähler brauchen keine; Flügelradzähler und grosse Nennweiten oft schon.
 - **Absperrungen** vor und nach dem Zähler, damit er sich ohne Entleeren der Anlage tauschen lässt.
 - **Fühlerpaar:** Die beiden Fühler sind als Paar abgeglichen und dürfen nicht einzeln getauscht oder die Kabel gekürzt werden. Bei kleinen Nennweiten tauchen sie direkt ins Wasser ein, etwa über einen Kugelhahn mit Fühleranschluss.
@@ -175,7 +175,7 @@ The MID applies to water. **Cooling meters with glycol** need a calculator that 
 
 ## Installation
 
-- **Location:** most meters sit in the **return**, because the lower temperature is easier on the flow sensor. The location must be set in the calculator, otherwise the density correction is wrong.
+- **Location:** most meters sit in the **return**. The main reason is the calculation: the meter measures volume, but heat depends on mass. The calculator converts the density using the temperature at the installation point, by default the return temperature. A return meter installed in the flow therefore measures wrongly. If it is to go in the flow, it must be programmed and labelled for it, so that the replacement unit is set correctly later too. Incidentally, the lower temperature is easier on the flow sensor.
 - **Straight runs** as specified by the manufacturer. Many ultrasonic meters need none; vane wheel meters and large sizes often do.
 - **Isolating valves** before and after the meter, so it can be replaced without draining the system.
 - **Sensor pair:** the two sensors are matched as a pair and must not be replaced individually or have their cables shortened. In small sizes they are immersed directly in the water, for example via a ball valve with sensor port.

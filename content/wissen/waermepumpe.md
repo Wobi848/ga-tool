@@ -28,7 +28,7 @@ related:
   [heizkurve, druckverlust, hydraulischer-abgleich, sg-ready, pv-integration, ems-lastmanagement]
 
 norm: [EN 14511, EN 14825, VDI 4645]
-updated: 2026-05-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -82,6 +82,12 @@ Typische SCOP-Werte:
 - L/W-WP mit Niedertemperatur-Heizkreis: **3,0–4,5**
 - Sole/W-WP: **4,0–5,5**
 
+### Jahresarbeitszahl (JAZ)
+
+COP und SCOP beschreiben die Maschine, die **JAZ** die ganze Anlage im Betrieb: gemessene Wärme eines Jahres geteilt durch den gemessenen Strom. Was dabei mitgezählt wird, muss man festlegen: nur Verdichter und Steuerung, dazu Sole- oder Brunnenpumpe beziehungsweise Ventilator, dazu der Heizstab, dazu die Ladepumpen. Je mehr mitgezählt wird, desto tiefer die Zahl. Wer eine JAZ angibt, sollte die Bilanzgrenze dazuschreiben.
+
+Die Siemens-Unterlage nennt als Praxiswerte etwa **2.9 für Luft/Wasser** und **3.9 für Sole/Wasser**. Gute neue Anlagen mit Bodenheizung liegen deutlich darüber, schlecht eingestellte Anlagen darunter. Für die Messung braucht es einen Wärmezähler nach der Wärmepumpe und einen Stromzähler, der die Hilfsantriebe einschliesst. Das gehört ins Messkonzept, schon in der Planung.
+
 ## Betriebsarten
 
 | Betriebsart      | Beschreibung                                                                                       |
@@ -103,6 +109,42 @@ Typische SCOP-Werte:
 - **Hydraulische Weiche / Puffer:** Bei mehreren Heizkreisen mit verschiedenen Temperaturniveaus
 
 > ⚠️ **Kurzzyklen** (< 3 min) schaden dem Verdichter massiv. Pufferspeicher dimensionieren!
+
+## Monovalent oder bivalent
+
+| Betriebsweise             | Wer deckt die Last                                                        | Hydraulik der Zusatzheizung                        |
+| ------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------- |
+| **Monovalent**            | die Wärmepumpe allein, auch am kältesten Tag                              | keine                                              |
+| **Monoenergetisch**       | Wärmepumpe, an wenigen kalten Tagen ein elektrischer Heizstab dazu        | Heizstab im Speicher oder Vorlauf                  |
+| **Bivalent-alternativ**   | bis zum Bivalenzpunkt die Wärmepumpe, darunter nur noch die Zusatzheizung | **parallel**, kein Wasser durch den Kondensator    |
+| **Bivalent-parallel**     | bis zum Bivalenzpunkt die Wärmepumpe, darunter beide gemeinsam            | **in Reihe**, die Zusatzheizung wärmt nach         |
+| **Bivalent-teilparallel** | erst die Wärmepumpe, dann beide, bei grosser Kälte nur die Zusatzheizung  | beides möglich, je nach Betriebszustand umschalten |
+
+Monovalent passt vor allem zu Erdsonden und Grundwasser, weil deren Temperatur im Winter kaum sinkt. Luft/Wasser-Wärmepumpen laufen oft monoenergetisch. Bei mehr als etwa vier Erdsonden oder grosser Leistung lohnt sich eine Simulation, damit das Erdreich über die Jahre nicht auskühlt. Im Sommer kann man es mit der Abwärme aus der Kühlung wieder laden.
+
+Der Grund für die Hydraulik ist immer derselbe: Die Wärmepumpe hat eine **maximale Kondensator-Eintrittstemperatur**. Im alternativen Betrieb fährt der Kessel heisser, als die Wärmepumpe verträgt, darum darf kein Wasser mehr durch sie fliessen. Im parallelen Betrieb bekommt sie den kühlen Rücklauf und der Kessel heizt danach nach.
+
+## Ein/Aus-Regelung und Betriebsgrenzen
+
+Viele Wärmepumpen bis etwa 40 kW laufen nur **Ein/Aus**. Eingeschaltet wird nach der Temperatur im Puffer oder, ohne Puffer, nach dem Rücklauf. Ausgeschaltet wird, wenn der Rücklauf zum Kondensator die Betriebsgrenze erreicht. Beide Sollwerte sollten witterungsgeführt sein.
+
+- **Starts begrenzen:** Jeder Start belastet Verdichter und Netz. Üblich sind höchstens etwa drei Starts pro Stunde, oft schreibt das Elektrizitätswerk die Zahl vor. Eine Mindestlaufzeit und eine Mindest-Stillstandszeit helfen.
+- **Sperrzeiten des Elektrizitätswerks:** Während einer Sperre muss der Puffer das Gebäude versorgen. Er muss entsprechend gross sein und vor der Sperre geladen werden.
+- **Leistungsregelung:** Ein Verdichter mit Drehzahlregelung (Inverter) arbeitet bei Teillast fast ohne Verluste. Heissgas-Bypass oder Saugdrossel reduzieren die Leistung, aber kaum den Strom. Sie ergeben schlechte Jahresarbeitszahlen.
+
+**Betriebsgrenzen** schützen den Kältekreis:
+
+- **Niederdruck:** Ist die Quelle zu kalt oder fliesst zu wenig Sole oder Grundwasser, fällt der Verdampfungsdruck und der Niederdruckwächter schaltet ab. Ursachen sind zu knappe Erdsonden, eine zu kleine Quellenpumpe, Kältemittelmangel oder ein vereister Verdampfer.
+- **Hochdruck:** Wird die Wärme nicht abgenommen, steigt der Kondensationsdruck. Der Hochdruckwächter sitzt knapp unter der zulässigen Grenze, im Normalbetrieb sollte der Druck etwa 2 bar darunter bleiben. Ursachen sind ein zu warmer Rücklauf, eine zu kleine Heizungspumpe, geschlossene Thermostatventile oder eine falsch ausgelegte Warmwasserbereitung.
+
+Die erreichbare Vorlauftemperatur liegt je nach Kondensator etwa 2 bis 5 K unter der Kondensationstemperatur des Kältemittels.
+
+## Speicherladung
+
+- **Schichtladung:** Der Speicher wird in einem Durchgang mit konstanter, hoher Vorlauftemperatur geladen. Ein schnelles Mischventil hält dazu den Kondensationsdruck knapp unter der Grenze. Ergibt eine saubere Schichtung und nutzt den Speicher voll aus.
+- **Stufenladung:** Das Wasser läuft mehrmals durch, die Temperatur steigt jedes Mal um die Spreizung über den Kondensator. Einfacher, nur für kleine Anlagen mit einem Heizkreis.
+
+**Ohne Pufferspeicher** geht es nur, wenn die Wärmepumpe annähernd konstante Leistung hat, das Abgabesystem viel Masse besitzt, etwa eine Bodenheizung, kaum Thermostatventile drosseln und die Anlage sauber abgeglichen ist. In den meisten Fällen ist ein kleiner Puffer die sicherere Lösung.
 
 ## Regelung & GA-Integration
 
@@ -167,8 +209,9 @@ Bei Verdampfertemperaturen ≤ 0 °C bildet sich Reif. Die WP erkennt Abtaubedar
 | Druckfehler Niederdruck         | Verdampfer vereist (Abtaufehler), Kältemittelmangel              |
 | Keine Kälteleistung im Sommer   | Betriebsart Kühlen nicht aktiviert, Hydraulik nicht umgeschaltet |
 
-## Normen
+## Normen und Quellen
 
+- Siemens Schweiz AG: «Regeln und Steuern von Heizungsanlagen», Schulungsunterlage BT_0094, 2023, Kap. 7
 - **EN 14511** — Prüfnormen, Prüfpunkte für Wärmepumpen
 - **EN 14825** — SCOP-Berechnung (saisonale Effizienz)
 - **VDI 4645** — Planung und Dimensionierung von WP-Anlagen
@@ -224,6 +267,12 @@ Typical SCOP values:
 - Air/water HP with low-temperature circuit: **3.0–4.5**
 - Brine/water HP: **4.0–5.5**
 
+### Seasonal Performance Factor (SPF)
+
+COP and SCOP describe the machine; the **SPF** (Swiss JAZ) describes the whole plant in operation: measured heat over a year divided by measured electricity. What is included must be defined: only compressor and controls, plus brine or well pump or fan, plus the immersion heater, plus the charging pumps. The more is included, the lower the figure. Anyone quoting an SPF should state the system boundary.
+
+The Siemens document gives practical values of about **2.9 for air/water** and **3.9 for brine/water**. Good new systems with underfloor heating are well above that, poorly adjusted systems below. Measuring requires a heat meter after the heat pump and an electricity meter that includes the auxiliary drives. This belongs in the metering concept, already at the design stage.
+
 ## Operating Modes
 
 | Mode            | Description                                                                                          |
@@ -245,6 +294,42 @@ Typical SCOP values:
 - **Hydraulic separator / buffer:** For multiple heating circuits at different temperature levels
 
 > ⚠️ **Short-cycling** (< 3 min) severely damages the compressor. Size the buffer correctly!
+
+## Monovalent or Bivalent
+
+| Mode                         | Who covers the load                                                    | Hydraulics of the backup heater              |
+| ---------------------------- | ---------------------------------------------------------------------- | -------------------------------------------- |
+| **Monovalent**               | the heat pump alone, even on the coldest day                           | none                                         |
+| **Mono-energetic**           | heat pump, plus an electric heater on a few cold days                  | immersion heater in tank or flow             |
+| **Bivalent-alternative**     | heat pump down to the bivalence point, below it only the backup heater | **parallel**, no water through the condenser |
+| **Bivalent-parallel**        | heat pump down to the bivalence point, below it both together          | **in series**, the backup heater tops up     |
+| **Bivalent-partly parallel** | first the heat pump, then both, in severe cold only the backup heater  | both possible, switched by operating state   |
+
+Monovalent suits ground probes and groundwater above all, because their temperature hardly drops in winter. Air/water heat pumps often run mono-energetically. With more than about four ground probes or a large output, a simulation is worthwhile so that the ground does not cool down over the years. In summer it can be recharged with the waste heat from cooling.
+
+The reason for the hydraulics is always the same: the heat pump has a **maximum condenser inlet temperature**. In alternative mode the boiler runs hotter than the heat pump can tolerate, so no water may flow through it any more. In parallel mode it receives the cool return and the boiler tops up afterwards.
+
+## On/Off Control and Operating Limits
+
+Many heat pumps up to about 40 kW run **on/off** only. They are switched on according to the buffer temperature or, without a buffer, according to the return. They are switched off when the return to the condenser reaches the operating limit. Both setpoints should be weather-compensated.
+
+- **Limit starts:** every start stresses the compressor and the grid. At most about three starts per hour is common; often the utility prescribes the number. A minimum run time and a minimum off time help.
+- **Utility blocking periods:** during a block the buffer must supply the building. It must be large enough and charged before the block.
+- **Capacity control:** a variable-speed compressor (inverter) works at part load with almost no losses. Hot-gas bypass or suction throttling reduce the output but hardly the power consumption. They give poor seasonal performance.
+
+**Operating limits** protect the refrigerant circuit:
+
+- **Low pressure:** if the source is too cold or too little brine or groundwater flows, the evaporating pressure drops and the low-pressure switch trips. Causes are undersized ground probes, too small a source pump, refrigerant shortage or an iced evaporator.
+- **High pressure:** if the heat is not taken away, the condensing pressure rises. The high-pressure switch sits just below the permissible limit; in normal operation the pressure should stay about 2 bar below it. Causes are too warm a return, too small a heating pump, closed thermostatic valves or an incorrectly designed hot water system.
+
+The achievable flow temperature is about 2 to 5 K below the refrigerant's condensing temperature, depending on the condenser.
+
+## Storage Charging
+
+- **Stratified charging:** the tank is charged in one pass at a constant, high flow temperature. A fast mixing valve keeps the condensing pressure just below the limit. Gives clean stratification and uses the tank fully.
+- **Stepped charging:** the water passes through several times, the temperature rising each time by the spread across the condenser. Simpler, only for small systems with one heating circuit.
+
+**Without a buffer tank** it only works if the heat pump has an almost constant output, the emitter system has a lot of mass, such as underfloor heating, hardly any thermostatic valves throttle and the system is properly balanced. In most cases a small buffer is the safer solution.
 
 ## Control and BA Integration
 
@@ -309,8 +394,9 @@ At evaporator temperatures ≤ 0 °C, frost forms. The HP detects defrost demand
 | Low-pressure fault          | Evaporator iced (defrost fault); refrigerant shortage    |
 | No cooling in summer        | Cooling mode not activated; hydraulics not switched      |
 
-## Standards
+## Standards and Sources
 
+- Siemens Schweiz AG: "Regeln und Steuern von Heizungsanlagen", training document BT_0094, 2023, ch. 7
 - **EN 14511** — Test standards, test points for heat pumps
 - **EN 14825** — SCOP calculation (seasonal efficiency)
 - **VDI 4645** — Planning and sizing of heat pump systems

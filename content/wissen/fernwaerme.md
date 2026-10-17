@@ -33,7 +33,7 @@ related:
     hydraulischer-abgleich
   ]
 norm: [TAB des Versorgers, EN 14336, SIA 384/1]
-updated: 2026-10-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -78,6 +78,13 @@ Manche Versorger rechnen deshalb einen Malus für zu warmen Rücklauf ab. Für d
 Die GA regelt die **Vorlauftemperatur auf der Hausseite** über das Regelventil auf der Netzseite. Der Sollwert kommt aus der [Heizkurve](/wissen/heizkurve) oder als höchste Anforderung der Heizkreise.
 
 Dazu kommt die **Rücklaufbegrenzung** als zweiter Regler: Steigt der Rücklauf auf der Netzseite über den Grenzwert, begrenzt sie das Ventil, auch wenn der Vorlauf dann etwas unter Soll fällt. Umgesetzt als Minimalauswahl der beiden Stellgrössen.
+
+Weitere Begrenzungen, die Versorger häufig verlangen:
+
+- **Vorlauf-Maximalbegrenzung sekundär:** Das Netz ist meist heisser, als die Hausanlage verträgt. Die Begrenzung hält den Vorlauf auf der Hausseite unter dem Maximum. Sie ist eine Regelfunktion, **kein Sicherheitsorgan**. Wo Übertemperatur Schaden anrichtet, etwa bei Bodenheizungen, braucht es zusätzlich einen Sicherheitstemperaturwächter.
+- **Rücklauf-Differenzbegrenzung (DRT):** Beim Anfahren am Morgen kommt der Rücklauf der Hausanlage sehr kalt zurück, der Wärmetauscher überträgt dann weit mehr als seine Nennleistung. Stationen nahe der Zentrale ziehen so viel Wärme, dass die entfernten unterversorgt sind. Die DRT-Begrenzung schliesst das Ventil, bis der Netzrücklauf höchstens einen eingestellten Wert über dem Hausrücklauf liegt.
+- **Volumenstrombegrenzung:** Ein Differenzdruckregler hält den Druck über dem Regelventil konstant, eine Hubbegrenzung am Ventil begrenzt dann den maximalen Durchfluss. Der Versorger plombiert sie oft. Kombiventile mit eingebautem Differenzdruckregler heissen PICV.
+- **Schleichmengen-Unterdrückung:** Unter etwa 10 % des Nenndurchflusses misst ein Wärmezähler ungenau, ein Flügelradzähler bleibt sogar stehen. Fällt die Stellgrösse unter etwa 10 %, schliesst der Regler das Ventil deshalb ganz.
 
 Eine Besonderheit: Es gibt kein «Heizen ein/aus» wie beim Kessel. Das Netz liefert jederzeit Wärme, die Station bestimmt nur, wie viel sie abnimmt.
 
@@ -149,6 +156,13 @@ Some utilities therefore charge a penalty for too warm a return. For the BA this
 The BA controls the **flow temperature on the building side** through the control valve on the network side. The setpoint comes from the [heating curve](/wissen/heizkurve) or as the highest demand of the heating circuits.
 
 The **return limitation** acts as a second controller: if the network-side return rises above the limit, it limits the valve, even if the flow then drops slightly below setpoint. Implemented as a minimum selection of the two control signals.
+
+Further limitations that suppliers often require:
+
+- **Secondary flow maximum limit:** the network is usually hotter than the building system can tolerate. The limitation keeps the building-side flow below the maximum. It is a control function, **not a safety device**. Where overtemperature causes damage, for example with underfloor heating, a safety temperature monitor is needed as well.
+- **Return differential limitation (DRT):** at morning start-up the building return comes back very cold, and the heat exchanger then transfers far more than its rated output. Substations close to the plant draw so much heat that distant ones are undersupplied. The DRT limitation closes the valve until the network return is at most a set value above the building return.
+- **Flow limitation:** a differential pressure controller keeps the pressure across the control valve constant; a stroke limiter on the valve then limits the maximum flow. The supplier often seals it. Combination valves with a built-in differential pressure controller are called PICVs.
+- **Low-flow suppression:** below about 10 % of nominal flow a heat meter measures inaccurately, and a vane meter even stops. If the control signal drops below about 10 %, the controller therefore closes the valve completely.
 
 One peculiarity: there is no "heating on/off" as with a boiler. The network supplies heat at all times; the substation only decides how much it takes.
 

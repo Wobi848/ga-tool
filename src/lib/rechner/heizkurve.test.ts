@@ -27,10 +27,17 @@ describe('generic curve (linear)', () => {
 });
 
 describe('siemens / viessmann / buderus curves (radiator exponent ~1.3)', () => {
-	it('siemens: TV at norm point equals roomTemp + slope·(TR − normOutdoor)', () => {
-		// At ta = normOutdoor, ratio = 1, dTV = slope × dTNorm
+	it('siemens: Steilheit gilt zwischen +20 und 0 °C aussen (BT_0094)', () => {
+		// TR 20 °C, TA 0 °C: Vorlauf = TR + 20·s, unabhängig von der Normaussentemperatur
+		const p: CurveParams = { ...defaults, manufacturer: 'siemens', slope: 1.5 };
+		expect(calculateFlowTemp(0, p)).toBeCloseTo(50, 5);
+		expect(calculateFlowTemp(0, { ...p, normOutdoor: -20 })).toBeCloseTo(50, 5);
+	});
+	it('siemens: Kurve wird bei tiefer Aussentemperatur flacher', () => {
 		const p: CurveParams = { ...defaults, manufacturer: 'siemens', slope: 1.0 };
-		expect(calculateFlowTemp(-10, p)).toBeCloseTo(50, 5);
+		const ersteZehn = calculateFlowTemp(10, p) - calculateFlowTemp(20, p);
+		const letzteZehn = calculateFlowTemp(-10, p) - calculateFlowTemp(0, p);
+		expect(letzteZehn).toBeLessThan(ersteZehn);
 	});
 	it('siemens: monotonically increases as TA drops', () => {
 		const p: CurveParams = { ...defaults, manufacturer: 'siemens', slope: 1.0 };

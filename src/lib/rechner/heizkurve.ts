@@ -36,19 +36,18 @@ function genericCurve(ta: number, p: CurveParams): number {
 }
 
 /**
- * Siemens RVS/Albatros formula (approximation of their internal curve)
- * Used in DESIGO RXB/RXC and Albatros 2 controllers
+ * Siemens — Steilheit nach Siemens-Definition (BT_0094, Kap. 3.1): die
+ * Steilheit s ist der Anstieg des Vorlaufsollwerts pro Kelvin, wenn die
+ * Aussentemperatur von +20 °C auf 0 °C fällt. Bei TR = 20 °C und TA = 0 °C
+ * liegt der Vorlauf also bei TR + 20·s, unabhängig von der Normaussentemperatur.
+ * Die Krümmung kommt vom Heizkörperexponenten; die exakte Kurvenform im
+ * Regler veröffentlicht Siemens nicht.
  */
 function siemensCurve(ta: number, p: CurveParams): number {
 	const dT = p.roomTemp - ta;
 	if (dT <= 0) return p.roomTemp;
-	// Siemens slope acts on a radiator characteristic with exponent ~1.3
 	const n = p.systemType === 'floor' ? 1.1 : 1.3;
-	// Reference: at TA = normOutdoor, TV_design = TR + slope × (TR - normOutdoor)
-	// Use exponent for non-linearity:
-	const dTNorm = p.roomTemp - p.normOutdoor;
-	const ratio = dT / dTNorm;
-	const dTV = p.slope * dTNorm * Math.pow(ratio, 1 / n);
+	const dTV = p.slope * 20 * Math.pow(dT / 20, 1 / n);
 	return p.roomTemp + dTV + p.level;
 }
 
@@ -152,7 +151,7 @@ export const manufacturerInfo: Record<
 	},
 	siemens: {
 		label: 'Siemens DESIGO / RVS / Albatros',
-		family: 'Neigung 0.2–3.5, Niveau ± 15 K',
+		family: 'Steilheit = Vorlaufanstieg pro K zwischen +20 und 0 °C aussen',
 		slopeRange: [0.2, 3.5],
 		slopeStep: 0.05
 	},
