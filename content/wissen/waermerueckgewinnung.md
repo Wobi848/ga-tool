@@ -172,6 +172,8 @@ Wenn die Aussenluft kühler als die Abluft ist (z.B. kühle Nacht, freie Kühlun
 | Frostschutz-Alarm       | DI  | Bei Eisbildung                                  |
 | Temperaturänderungsgrad | AV  | Berechnet: (T_Zuluft − T_ODA) / (T_ETA − T_ODA) |
 
+**Wirkungsgrad überwachen:** Die GA rechnet den Temperaturänderungsgrad laufend aus und meldet, wenn er nach einer Beruhigungszeit unter einem auf die WRG abgestimmten Grenzwert bleibt. So fallen ein stehender Rotor, eine klemmende Bypassklappe oder ein verschmutzter Tauscher früh auf. Bei ungleichen Zu- und Abluftmengen oder bei Kondensation führt der Temperaturänderungsgrad in die Irre, dann ist der Enthalpieänderungsgrad nötig, der zusätzlich Feuchtefühler braucht.
+
 ## Normen
 
 - **EN 13053** — Lüftung von Gebäuden, Zentrale Lüftungsgeräte
@@ -321,6 +323,8 @@ When outdoor air is cooler than extract air (e.g. cool night, free cooling) → 
 | Rotor speed            | AO   | 0–10 V (rotary type)                             |
 | Frost protection alarm | DI   | On ice formation                                 |
 | Temperature efficiency | AV   | Calculated: (T_supply − T_ODA) / (T_ETA − T_ODA) |
+
+**Monitoring the efficiency:** BA calculates the temperature efficiency continuously and raises an alarm if, after a settling time, it stays below a limit matched to the heat recovery unit. This detects a stopped rotor, a stuck bypass damper or a fouled exchanger early. With different supply and extract airflows or with condensation, the temperature efficiency is misleading; then the enthalpy efficiency must be used, which needs humidity sensors as well.
 
 ## Standards
 

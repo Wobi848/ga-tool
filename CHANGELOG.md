@@ -1,5 +1,18 @@
 # Changelog
 
+## v0.19.0 — 2026-10-17
+
+### Abgleich mit der Siemens-Schulungsreihe abgeschlossen
+
+Alle zehn Schulungsunterlagen von Siemens Schweiz (BT_0001, BT_0093 bis
+BT_0100, BT_0127) sind gegen die Wissensbasis und die Rechner geprüft. Seit
+v0.18.0 sind dabei zwölf Artikel neu dazugekommen, zwei Rechnerfehler sind
+behoben und eine falsche Normnummer ist korrigiert. Details in den Einträgen
+0.18.1 bis 0.18.9 und in `docs/FACHPRUEFUNG.md`.
+
+- **Regelung von Lüftungsanlagen:** Bedarfsmeldungen aus den Räumen
+- **Wärmerückgewinnung:** Überwachung des Wirkungsgrads
+
 ## v0.18.9 — 2026-10-17
 
 - **Korrektur Normnummer:** Die gültige Schweizer Ausgabe der GA-Effizienznorm

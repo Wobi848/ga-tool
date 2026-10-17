@@ -105,6 +105,16 @@ Die frühere **Taupunktregelung**, bei der ein Wäscher die Luft sättigt und ih
 
 **h,x-geführte Regelung:** Noch weiter gehen Regelungen, die den Sollwert nicht als Punkt, sondern als **Behaglichkeitsfeld** im h,x-Diagramm verstehen. Sie suchen den Punkt im Feld, der mit der Wärmerückgewinnung am wenigsten Heizen, Kühlen, Befeuchten und Entfeuchten braucht, gewichtet nach deren Kosten. Siemens nennt das Economiser tx2.
 
+## Bedarfsmeldungen aus den Räumen
+
+Am meisten spart eine Anlage, die weiss, was die Räume brauchen. Die Raumregler melden über das Netzwerk ihren Bedarf an die Zentrale: Stellung der VVS-Klappen, Luftqualität, Ventilstellungen, Raumtemperatur. Daraus bildet die Zentrale:
+
+- den kleinstmöglichen **Luftvolumenstrom** und Kanaldruck, siehe Druck-Reset in [Sollwertführung](/wissen/sollwertfuehrung)
+- die **Zulufttemperatur und -feuchte**, die der anspruchsvollste Raum gerade braucht
+- **Vorlauftemperatur und Durchfluss** der Heiz- und Kältekreise nach den Ventilstellungen der Verbraucher
+
+Das spart Ventilator- und Pumpenstrom und Wärmeverluste im Netz und ist eine Voraussetzung für die GA-Klasse A nach EN ISO 52120-1, siehe [EN 15232](/wissen/en15232). Voraussetzung ist, dass Raum- und Primärregler kommunizieren.
+
 ## Luftqualität
 
 Die Anlage läuft nur so stark, wie die Luftqualität es verlangt, gemessen mit CO₂- oder VOC-Fühlern. Zwei Grundformen:
@@ -169,6 +179,7 @@ Was bei Brandalarm geschieht, legt das Brandschutzkonzept fest. Meist schaltet d
 ## Quellen
 
 - Siemens Schweiz AG: «Regeln und Steuern von Lüftungs-/Klimaanlagen», Schulungsunterlage BT_0096, 2022
+- Siemens Schweiz AG: «Energieeffizienz in der Gebäudeautomation — Applikationshandbuch Lüftung und Klima», BT_0001, 2022
 - SIA 382/1: Lüftungs- und Klimaanlagen — Allgemeine Grundlagen und Anforderungen
 
 <!-- EN -->
@@ -234,6 +245,16 @@ The former **dew point control**, in which a washer saturates the air and its te
 
 **h,x-based control:** controls that treat the setpoint not as a point but as a **comfort zone** in the psychrometric chart go further still. They look for the point in the zone that, together with heat recovery, needs the least heating, cooling, humidifying and dehumidifying, weighted by their cost. Siemens calls this Economiser tx2.
 
+## Demand Signals from the Rooms
+
+A plant that knows what the rooms need saves the most. The room controllers report their demand to the central plant over the network: VAV damper positions, air quality, valve positions, room temperature. From this the central plant derives:
+
+- the smallest possible **airflow** and duct pressure, see pressure reset in [Setpoint Reset](/wissen/sollwertfuehrung)
+- the **supply air temperature and humidity** that the most demanding room currently needs
+- **flow temperature and flow rate** of the heating and cooling circuits from the consumers' valve positions
+
+This saves fan and pump power and heat losses in the network and is a prerequisite for BA class A per EN ISO 52120-1, see [EN 15232](/wissen/en15232). It requires room and primary controllers to communicate.
+
 ## Air Quality
 
 The unit runs only as strongly as air quality requires, measured with CO₂ or VOC sensors. Two basic forms:
@@ -298,4 +319,5 @@ What happens on fire alarm is defined by the fire protection concept. Usually th
 ## Sources
 
 - Siemens Schweiz AG: "Regeln und Steuern von Lüftungs-/Klimaanlagen", training document BT_0096, 2022
+- Siemens Schweiz AG: "Energieeffizienz in der Gebäudeautomation — Applikationshandbuch Lüftung und Klima", BT_0001, 2022
 - SIA 382/1: Ventilation and air-conditioning systems — General principles and requirements
