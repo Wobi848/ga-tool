@@ -26,7 +26,7 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, elektro]
-related: [ems-lastmanagement, waermemengenzaehler, mbus]
+related: [ems-lastmanagement, waermemengenzaehler, mbus, energie-messkonzept]
 norm: [IEC 62053, EN 50160, IEC 61000-4-30]
 updated: 2026-10-14
 lang: de
@@ -157,6 +157,8 @@ Die Netzfrequenz von 50 Hz ist die Grundschwingung. Oberschwingungen sind ganzza
 - Energiebilanz je Gewerk
 - Kostenstellen-Zuweisung
 - Verbrauchsanomalien erkennen (z.B. Lüftung 40 % Anteil → optimierbar?)
+
+Wo eine Untermessung sinnvoll ist und wie sie dokumentiert wird: [Energie-Messkonzept](/wissen/energie-messkonzept).
 
 ### Spitzenwert-Monitoring
 
@@ -301,6 +303,8 @@ The mains frequency of 50 Hz is the fundamental. Harmonics are integer multiples
 - Energy balance per trade
 - Cost centre allocation
 - Identifying consumption anomalies (e.g. ventilation 40 % share → optimisable?)
+
+Where sub-metering makes sense and how it is documented: [Energy Metering Concept](/wissen/energie-messkonzept).
 
 ### Peak Demand Monitoring
 

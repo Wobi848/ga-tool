@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.24.0 — 2026-10-17
+
+### KBOB: Messkonzept, Kabel, Netz, Labor, Übergabe
+
+Damit sind alle KBOB-Dokumente zur Gebäudetechnik eingearbeitet.
+
+- **Neuer Artikel Energie-Messkonzept:** drei Stufen, ab welcher Leistung
+  oder welchem Verbrauch eine Untermessung sinnvoll ist, Vorgaben für Zähler
+  und Impulse, Dokumentation, Auswertung mit Energiesignatur
+- **Neuer Artikel Funktionserhalt und Brandverhalten von Kabeln:** Klassen
+  B1ca bis Fca, Cca oder Dca je Gebäude, halogenfrei, P30 und P90 für
+  Sicherheitsanlagen, Kabel und Tragsystem als System, Trassen in Fluchtwegen
+- **Netzwerk GA:** universelle Kommunikationsverkabelung nach KBOB:
+  Feldbusse nicht über die UKV, Kategorie 7/6A, Klima und Abwärme der
+  Kommunikationsräume
+- **Zonendruckhaltung:** Laborbauten nach KBOB, Brandfallschaltung mit
+  Kapellenabluft
+- **Entrauchung und RWA:** Funktionserhalt P90 für Ansteuerung und Speisung
+- **GLT-Übergabe:** Vorgaben öffentlicher Bauherren (Quellcode, Mindest-
+  dokumentation, Tests, Nachinstruktion, Ersatzteile, Sicherheit)
+
 ## v0.23.0 — 2026-10-17
 
 ### KBOB: IKT-Sicherheit und Anlagenkennzeichnung

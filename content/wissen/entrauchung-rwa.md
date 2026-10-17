@@ -25,7 +25,15 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
-related: [brandschutzklappen, rlt-anlage, zonendruckhaltung, glt-grundlagen, alarmmanagement]
+related:
+  [
+    brandschutzklappen,
+    rlt-anlage,
+    zonendruckhaltung,
+    glt-grundlagen,
+    alarmmanagement,
+    funktionserhalt-kabel
+  ]
 norm: [EN 12101, VDI 6019, MBO, SIA 181, VKF]
 updated: 2026-05-15
 lang: de
@@ -141,6 +149,8 @@ Fluchtwege (Treppenhäuser) werden unter **Überdruck** gehalten, damit kein Rau
 | **VDI 6019**   | Maschinelle Entrauchung — Planung und Betrieb       |
 | **MBO § 35**   | Notwendige Treppenhäuser (Rauchschutz)              |
 | **VKF (CH)**   | Brandschutzrichtlinie Rauch- und Wärmeabzugsanlagen |
+
+Ansteuerung und Speisung von RWA und Überdruckanlagen brauchen nach KBOB Kabel mit **90 Minuten Funktionserhalt (P90)**, samt Tragsystem. Details: [Funktionserhalt von Kabeln](/wissen/funktionserhalt-kabel).
 
 ---
 
@@ -261,6 +271,8 @@ Escape routes (stairwells) are maintained at **positive pressure** to prevent sm
 | **VDI 6019**      | Mechanical smoke extraction — planning and operation     |
 | **MBO § 35** (DE) | Required stairwells (smoke protection)                   |
 | **VKF** (CH)      | Swiss fire protection guidelines — smoke extraction      |
+
+Per KBOB, control and supply of SHEV and pressurisation systems need cables with **90 minutes circuit integrity (P90)**, including the support system. Details: [Circuit Integrity of Cables](/wissen/funktionserhalt-kabel).
 
 ---
 

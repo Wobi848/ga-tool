@@ -34,7 +34,7 @@ related:
     visualisierung-hmi
   ]
 norm: [VDI 3814, SIA 118/380, SIA 118]
-updated: 2026-10-14
+updated: 2026-10-17
 lang: de
 ---
 
@@ -195,6 +195,20 @@ Empfehlung an Betreiber für Unterhalt:
   - Gewährleistungsbeginn offiziell
 
 ---
+
+## Vorgaben öffentlicher Bauherren (KBOB)
+
+Bei Bauten von Bund, Kantonen und Gemeinden kommen aus den KBOB-Empfehlungen Gebäudetechnik 2026, BACnet 2021 und IKT-Sicherheit 2025 zusätzliche Pflichten dazu:
+
+- **Software gehört dem Bauherrn.** Projektspezifische Programme werden in bearbeitbarer Form übergeben, also als Quellcode, nicht nur als ladbares Abbild.
+- **Dokumentation mindestens:** Topologie, Bedienungsanleitungen, Funktions- sowie Steuer- und Regelbeschriebe, revidierte Elektroschemata, Kontrolllisten der Datenpunkttests, Protokolle der Funktionskontrollen, Sollwertlisten nach der Inbetriebnahme. Digital, strukturiert und maschinenlesbar, mit BIM verknüpft, wenn BIM beauftragt ist.
+- **Tests belegen:** Datenpunkttest für jeden Datenpunkt bis zur Managementebene und ein End-zu-End-Signaltest, beides protokolliert. Bei BACnet zusätzlich PICS, EDE-Dateien und der Funktionstest nach Beilage C2.
+- **Abnahme nach SIA 118** mit Protokoll; der nachgeführte Steuer- und Regelbeschrieb ist Grundlage der Funktionskontrolle.
+- **Nachinstruktion** des Betriebspersonals mindestens einmal, 2–4 Monate nach Nutzungsbeginn. Dann sind die ersten echten Fragen da.
+- **Ersatzteile** mindestens 10 Jahre ab Werkvertrag verfügbar.
+- **Sicherheit:** formelle Übergabe vom Lieferanten an den Betrieb mit Protokoll, danach ein Sicherheitsaudit. Im Wartungsvertrag Sicherheitsupdates vereinbaren; der Lieferant informiert mindestens zweimal jährlich über Major-Patches.
+
+Siehe [KBOB-Empfehlungen](/wissen/kbob) und die Checklisten [BACnet-Funktionstest (KBOB C2)](/checklisten/kbob-bacnet-funktionstest) und [IKT-Sicherheit GA (KBOB)](/checklisten/kbob-ikt-sicherheit).
 
 ## Normen
 
@@ -361,6 +375,20 @@ Recommendation to operator for ongoing maintenance:
   - warranty officially starts
 
 ---
+
+## Requirements of Public Owners (KBOB)
+
+For federal, cantonal and municipal buildings the KBOB recommendations Building Services 2026, BACnet 2021 and ICT Security 2025 add further obligations:
+
+- **Software belongs to the owner.** Project-specific programs are handed over in editable form, i.e. as source code, not only as a loadable image.
+- **Documentation at least:** topology, operating instructions, functional and control descriptions, as-built wiring diagrams, data point test lists, functional check reports, setpoint lists after commissioning. Digital, structured and machine-readable, linked to BIM where BIM is commissioned.
+- **Evidence of tests:** data point test for every data point up to the management level and an end-to-end signal test, both documented. For BACnet additionally PICS, EDE files and the functional test per annex C2.
+- **Acceptance per SIA 118** with report; the updated control description is the basis of the functional check.
+- **Follow-up training** for operating staff at least once, 2–4 months after occupancy. By then the first real questions have come up.
+- **Spare parts** available for at least 10 years from contract.
+- **Security:** formal handover from vendor to operations with report, followed by a security audit. Agree security updates in the maintenance contract; the vendor reports major patches at least twice a year.
+
+See [KBOB Recommendations](/wissen/kbob) and the checklists [BACnet functional test (KBOB C2)](/checklisten/kbob-bacnet-funktionstest) and [ICT security BA (KBOB)](/checklisten/kbob-ikt-sicherheit).
 
 ## Standards
 

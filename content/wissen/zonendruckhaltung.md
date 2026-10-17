@@ -24,9 +24,9 @@ tags:
   ]
 difficulty: experte
 area: [hlk, ga]
-related: [rlt-anlage, vav-cav, entrauchung-rwa, regelkreise, pid-regler, sensoren]
-norm: [EN ISO 14644, EU GMP Annex 1, DIN 1946-4, VDI 2167, SIA 382/1]
-updated: 2026-05-15
+related: [rlt-anlage, vav-cav, entrauchung-rwa, regelkreise, pid-regler, sensoren, kbob]
+norm: [EN ISO 14644, EU GMP Annex 1, DIN 1946-4, VDI 2167, SIA 382/1, EN 14175, KBOB Laborbauten]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -101,6 +101,17 @@ Bei mehreren gekoppelten Stufen beeinflussen sich die Regelkreise gegenseitig. B
 Luftmengen, Temperaturen und Feuchten richten sich nach der Raumklasse nach DIN 1946-4 (in der Schweiz SWKI VA105-01) und dem Hygieneplan des Spitals. Raumklasse Ia hat über dem OP-Feld eine turbulenzarme Verdrängungsströmung mit entsprechend grossen Luftmengen.
 
 ---
+
+## Laborbauten nach KBOB
+
+Die KBOB-Empfehlung Laborbauten (2000) gibt für Labors mit Kapellen (Abzügen) folgende Regeln, die direkt die Regelung betreffen:
+
+- **Labor im Unterdruck,** ausgeglichener Lufthaushalt bei geschlossenen Türen und Fenstern. Zu- und Abluft werden als **Gesamtsystem** geregelt, sodass in keinem Betriebszustand unerwünschte Druckunterschiede zwischen Räumen entstehen. Jede abgesaugte Luft aus Kapellen, Chemikalienschränken und Quellenabsaugungen wird durch aufbereitete Zuluft ersetzt.
+- **Volumenstromregler** im Abluftnetz korrosionsfest, nicht verschmutzungsanfällig und periodisch gewartet. Rück- und Überströmen in andere Räume verhindern Mess- und Stellorgane im Abluftsystem.
+- **Chemikalienschränke** werden rund um die Uhr abgesaugt, meist über die Mindestluftrate der Kapellen von etwa 20 %.
+- **Luftmengen** der Empfehlung sind Obergrenzen. Kleinere nur mit Typenprüfung der Kapelle; heute nach EN 14175.
+- **Brandfall:** In Räumen mit Kapellenabluft schaltet der interne Brandalarm **nur die Zuluft** ab. Die Abluft läuft weiter und wird von der Feuerwehr am Tableau abgeschaltet. In Räumen ohne Kapellen gehen Zu- und Abluft aus. Brandschutzklappen in der Kapellenabluft möglichst vermeiden und durch geeignete Schachtmaterialien, Sprühdüsen oder eine Entlastungsöffnung am Abluftgerät ersetzen.
+- **Fortluft und Aussenluft** so anordnen, dass keine Laborabluft angesaugt wird; Hauptwindrichtung beachten. Abluftkanäle ohne PVC, nicht funkenbildend; wo nötig Gaswarnanlagen nach SUVA und EKAS.
 
 ## GA-Datenpunkte Zonendruckhaltung
 
@@ -211,6 +222,17 @@ With several coupled steps the control loops influence each other. Proven: each 
 Airflows, temperatures and humidities follow the room class per DIN 1946-4 (in Switzerland SWKI VA105-01) and the hospital's hygiene plan. Room class Ia has a low-turbulence displacement flow over the operating field with correspondingly large airflows.
 
 ---
+
+## Laboratory Buildings per KBOB
+
+The KBOB recommendation on laboratory buildings (2000) gives these rules for labs with fume cupboards that directly affect control:
+
+- **Lab under negative pressure,** balanced air with doors and windows closed. Supply and extract are controlled as **one system**, so that no unwanted pressure differences between rooms arise in any operating state. All air extracted from fume cupboards, chemical cabinets and local extraction is replaced by conditioned supply air.
+- **Airflow controllers** in the extract network corrosion-proof, not prone to fouling and maintained periodically. Measuring and control devices in the extract system prevent backflow and overflow into other rooms.
+- **Chemical cabinets** are extracted around the clock, usually via the minimum airflow of the fume cupboards of about 20 %.
+- **Airflows** in the recommendation are upper limits. Smaller ones only with type testing of the fume cupboard; today per EN 14175.
+- **Fire:** in rooms with fume cupboard extract, the internal fire alarm switches off **only the supply air**. Extract keeps running and is switched off by the fire brigade at the panel. In rooms without fume cupboards both supply and extract stop. Avoid fire dampers in fume cupboard extract where possible and use suitable shaft materials, spray nozzles in the shafts or a relief opening at the extract unit instead.
+- **Exhaust and outdoor air** arranged so that no lab exhaust is drawn in; consider the prevailing wind. Extract ducts without PVC, non-sparking; gas detection where needed per SUVA and EKAS.
 
 ## BA Data Points — Zone Pressure Control
 

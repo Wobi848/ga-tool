@@ -26,9 +26,9 @@ tags:
   ]
 difficulty: fortgeschritten
 area: [ga, it]
-related: [bacnet, opc-ua, mqtt, cybersecurity-ot, remote-zugriff]
-norm: [IEC 62443, NIST SP 800-82, VDI/VDE 2182]
-updated: 2026-10-14
+related: [bacnet, opc-ua, mqtt, cybersecurity-ot, remote-zugriff, kbob]
+norm: [IEC 62443, NIST SP 800-82, VDI/VDE 2182, EN 50173-1, KBOB UKV]
+updated: 2026-10-17
 lang: de
 ---
 
@@ -169,6 +169,18 @@ Das Default-VLAN 1 wird nicht für Nutzdaten verwendet. Ein GLT-Webinterface geh
 | Broadcast-Storm (Loop)     | Netzwerk hängt                       | STP aktivieren auf Switches           |
 | IP-Konflikt                | Gerät erreichbar aber falsch         | Statische IPs oder DHCP-Reservierung  |
 | OT-Port direkt am Internet | Sicherheitsrisiko                    | Firewall, VPN, nie direkt!            |
+
+## Verkabelung nach KBOB (UKV)
+
+Die KBOB-Empfehlung «Universelle Kommunikationsverkabelung» (Ausgabe 3, 2012) regelt die strukturierte Verkabelung öffentlicher Bauten. Für die GA wichtig:
+
+- **Die UKV ist nur für IP-Netze und Sprache da.** Die Verdrahtung der MSRL-Feldebene (Feldbusse), Storensteuerungen und konventionelles TV gehören nicht dazu und bekommen eigene Installationssysteme. Das IP-Netz der Leitebene und der Automationsstationen darf dagegen die UKV nutzen; im Mengengerüst sind die technischen IT-Anwendungen wie das Leitsystem ausdrücklich mitzuzählen.
+- **Aufbau:** Stern nach EN 50173-1. Backbone mit Glasfaser, Singlemode OS2 und Multimode mindestens OM3; Etagenverkabelung S/FTP Kategorie 7 mit geschirmten RJ45-Buchsen Kategorie 6A, Permanent Link Klasse EA. Die Kombination Kat. 7 / Kat. 6A gibt eine Systemreserve.
+- **Kommunikationsräume** getrennt und abschliessbar, nicht gemischt mit Haustechnik- oder EDV-Räumen. Nur die Leitungen, die der Raum selbst braucht.
+- **Raumklima:** 10–26 °C, 20–60 % relative Feuchte ohne Kondensation. Als Abwärme rechnet die KBOB mit 1–3 W pro Gigabit-Port mit PoE, also 100–300 W pro 100 Ports. **Ab 500 W Lüftung oder Kühlung prüfen.** Diese Kühlung und ihre Störmeldung gehören dann in die GA.
+- **Steigzonen** auf 300 % dimensionieren, also mit 200 % Reserve.
+
+Die Werte stammen von 2012. Mit PoE++ für Leuchten oder Kameras kann die Abwärme im Verteiler deutlich höher sein; nachrechnen.
 
 ## Normen
 
@@ -313,6 +325,18 @@ The default VLAN 1 is not used for payload traffic. A BMS web interface does not
 | Broadcast storm (loop)       | Network hangs                 | Enable STP on switches                |
 | IP conflict                  | Device reachable but wrong    | Static IPs or DHCP reservation        |
 | OT port directly on internet | Security risk                 | Firewall, VPN, never direct!          |
+
+## Cabling per KBOB (Universal Communication Cabling)
+
+The KBOB recommendation "Universal communication cabling" (edition 3, 2012) governs structured cabling in public buildings. Important for BA:
+
+- **Universal cabling is only for IP networks and voice.** Field-level BA wiring (field buses), blind controls and conventional TV are not part of it and get their own installation systems. The IP network of the management level and automation stations may use it; the quantity survey explicitly includes technical IT applications such as the management system.
+- **Structure:** star per EN 50173-1. Backbone in optical fibre, singlemode OS2 and multimode at least OM3; floor cabling S/FTP category 7 with shielded RJ45 outlets category 6A, permanent link class EA. The combination cat. 7 / cat. 6A provides a system reserve.
+- **Communication rooms** separate and lockable, not shared with building services or IT rooms. Only the lines the room itself needs.
+- **Room climate:** 10–26 °C, 20–60 % relative humidity without condensation. KBOB assumes 1–3 W of waste heat per gigabit port with PoE, i.e. 100–300 W per 100 ports. **From 500 W check ventilation or cooling.** This cooling and its fault alarm then belong in BA.
+- **Risers** sized to 300 %, i.e. with 200 % reserve.
+
+The values date from 2012. With PoE++ for luminaires or cameras the waste heat in the distributor can be much higher; recalculate.
 
 ## Standards
 
