@@ -1,5 +1,16 @@
 # Changelog
 
+## v0.18.8 — 2026-10-17
+
+Abgleich mit Siemens «Einführung in die HLK- und Gebäudetechnik», Ausgabe 2026.
+
+- **Neuer Artikel Komfortlüftung:** Bauarten, Wärme- und Feuchterückgewinnung,
+  Frostschutz, Filter, Einbindung in die GA
+- **Neuer Artikel Wärmeabgabesysteme:** Heizkörper mit Normleistung und
+  Umrechnung auf tiefere Vorlauftemperaturen, Fussboden-, Decken- und
+  Wandheizung, Deckenstrahlplatten
+- **Klimasysteme:** Fenster-, Truhen- und Schrankgeräte, Split und VRF
+
 ## v0.18.7 — 2026-10-17
 
 Abgleich mit Siemens «Hydraulik in der Gebäudetechnik» (BT_0100, Ausgabe 2026).

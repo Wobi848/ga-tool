@@ -35,7 +35,8 @@ related:
     fernwaerme,
     kesselregelung,
     ventil-schaltungen,
-    holzheizung
+    holzheizung,
+    waermeabgabe
   ]
 
 norm: [EN 12828, VDI 2035, SIA 384/1]

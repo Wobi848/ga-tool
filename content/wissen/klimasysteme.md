@@ -21,14 +21,16 @@ tags:
     verdrängungslüftung,
     change-over,
     vierleiter,
-    primärluft
+    primärluft,
+    split,
+    vrf
   ]
 difficulty: fortgeschritten
 area: [hlk, ga]
 related:
   [rlt-anlage, vav-cav, taupunkt, raumautomation, waermerueckgewinnung, thermische-behaglichkeit]
 norm: [SIA 382/1, EN 16798-3]
-updated: 2026-10-16
+updated: 2026-10-17
 lang: de
 ---
 
@@ -119,6 +121,21 @@ Ein Induktionsgerät hat keinen Ventilator. Die Primärluft tritt mit hohem Druc
 
 Beim Zweileiter macht die **Übergangszeit** Probleme: Die Südräume wollen kühlen, die Nordräume heizen. Die Raumregler müssen den Change-over kennen, sonst öffnen sie bei Kaltwasser das Ventil, weil der Raum zu kalt ist. Dafür gibt es einen Change-over-Fühler am Vorlauf oder ein Signal von der Zentrale. Dreileiter-Systeme werden heute kaum noch gebaut.
 
+## Kompaktgeräte, Split und VRF
+
+Neben zentralen Anlagen gibt es Geräte mit **eigener Kälteerzeugung**, also einem Kältekreis mit Verdichter, Verdampfer und Verflüssiger im Gerät. Sie kühlen vor allem sensibel, entfeuchten etwas, befeuchten nicht.
+
+| Gerät                        | Kälteleistung (Siemens) | Merkmal                                                                                                                                        |
+| ---------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Fenster- und Truhengerät** | etwa 1 – 10 kW          | alles in einem Gehäuse, Verflüssiger braucht Aussenluft                                                                                        |
+| **Schrankgerät**             | etwa 10 – 250 kW        | oft im Nebenraum mit kurzem Kanalnetz, auch zur Entfeuchtung von Hallenbädern                                                                  |
+| **Split-Gerät**              | etwa 10 – 500 kW        | Aussenteil mit Verdichter und Verflüssiger, Innenteil mit Ventilator und Verdampfer, verbunden durch Kältemittelleitungen                      |
+| **VRF / VRV (Multisplit)**   | gross, modular          | ein Aussengerät für viele Innengeräte, je nach System bis etwa 50. Mit Dreileiter-Technik können einzelne Räume heizen, während andere kühlen. |
+
+Mit einem **Vierwegeventil** im Kältekreis kehren viele Geräte den Prozess um und heizen als Wärmepumpe.
+
+**Für die GA:** Split- und VRF-Systeme haben eine eigene Steuerung des Herstellers. Die GA bindet sie über ein Gateway ein, meist BACnet, Modbus oder KNX, und gibt Betriebsart, Sollwert und Freigabe vor. Wichtig ist, dass Heizung und Split-Gerät im selben Raum nicht gegeneinander arbeiten. Bei grossen Kältemittelmengen in Räumen gelten die Vorschriften nach EN 378, etwa Leckagewarnung, siehe [Kältemittel](/wissen/kaeltemittel).
+
 ## Für die GA
 
 | System    | Raumautomation regelt             | Wichtige Datenpunkte                                   |
@@ -132,7 +149,8 @@ Bei allen wasserbasierten Systemen gilt: Heizen und Kühlen im selben Raum dürf
 
 ## Quellen
 
-- Siemens Schweiz AG: «Einführung in die HLK- und Gebäudetechnik», Schulungsunterlage BT_0093, 2019, Kap. 6.6
+- Siemens Schweiz AG: «Einführung in die HLK- und Gebäudetechnik», Schulungsunterlage BT_0093, 2019 und 2026, Kap. 6.5 bis 6.7
+- Siemens Schweiz AG: «Regeln und Steuern von Lüftungs-/Klimaanlagen», BT_0096, 2022, Kap. 8.10
 - SIA 382/1: Lüftungs- und Klimaanlagen — Allgemeine Grundlagen und Anforderungen
 
 <!-- EN -->
@@ -222,6 +240,21 @@ An induction unit has no fan. Primary air leaves nozzles at high pressure and th
 
 With two-pipe systems the **shoulder season** causes trouble: south rooms want cooling, north rooms heating. The room controllers must know the change-over state, otherwise they open the valve on chilled water because the room is too cold. A change-over sensor on the supply or a signal from the plant provides this. Three-pipe systems are hardly built any more.
 
+## Packaged Units, Split and VRF
+
+Besides central plants there are units with **their own refrigeration**, i.e. a refrigerant circuit with compressor, evaporator and condenser in the unit. They mainly cool sensibly, dehumidify somewhat, and do not humidify.
+
+| Unit                        | Cooling capacity (Siemens) | Feature                                                                                                                                           |
+| --------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Window and console unit** | about 1 – 10 kW            | everything in one casing, the condenser needs outdoor air                                                                                         |
+| **Cabinet unit**            | about 10 – 250 kW          | often in an adjacent room with a short duct network, also for dehumidifying indoor pools                                                          |
+| **Split unit**              | about 10 – 500 kW          | outdoor part with compressor and condenser, indoor part with fan and evaporator, connected by refrigerant pipes                                   |
+| **VRF / VRV (multi-split)** | large, modular             | one outdoor unit for many indoor units, up to about 50 depending on the system. With three-pipe technology some rooms can heat while others cool. |
+
+With a **four-way valve** in the refrigerant circuit many units reverse the process and heat as a heat pump.
+
+**For BA:** split and VRF systems have their own manufacturer controller. BA integrates them via a gateway, usually BACnet, Modbus or KNX, and sets operating mode, setpoint and enable. It is important that heating and split unit in the same room do not work against each other. With large refrigerant charges in rooms, the rules of EN 378 apply, such as leak detection, see [Refrigerants](/wissen/kaeltemittel).
+
 ## For BA
 
 | System          | Room automation controls              | Key data points                                        |
@@ -235,5 +268,6 @@ For all water-based systems: heating and cooling in the same room must never run
 
 ## Sources
 
-- Siemens Schweiz AG: "Einführung in die HLK- und Gebäudetechnik", training document BT_0093, 2019, ch. 6.6
+- Siemens Schweiz AG: "Einführung in die HLK- und Gebäudetechnik", training document BT_0093, 2019 and 2026, ch. 6.5 to 6.7
+- Siemens Schweiz AG: "Regeln und Steuern von Lüftungs-/Klimaanlagen", BT_0096, 2022, ch. 8.10
 - SIA 382/1: Ventilation and air-conditioning systems — General principles and requirements

@@ -32,6 +32,7 @@ related:
     vav-cav,
     klimasysteme,
     rlt-regelung,
+    komfortlueftung,
     vdi6022,
     frequenzumrichter,
     kaelteanlagen,

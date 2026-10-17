@@ -23,7 +23,15 @@ tags:
 difficulty: fortgeschritten
 area: [hlk, ga]
 related:
-  [hydraulische-schaltungen, hydraulischer-abgleich, waermepumpe, pid-regler, pufferspeicher, tabs]
+  [
+    hydraulische-schaltungen,
+    hydraulischer-abgleich,
+    waermepumpe,
+    pid-regler,
+    pufferspeicher,
+    tabs,
+    waermeabgabe
+  ]
 norm: [EN 1264, ISO 11855, SIA 384/1]
 updated: 2026-10-14
 lang: de
